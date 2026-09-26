@@ -1,0 +1,73 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+.pnpm-store/
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+
+# Local var (jobs sqlite, downloads, raw artifacts)
+var/
+var/**
+
+# Release artifacts (immutable per PRD §12.5; rebuilt via builder)
+releases/
+
+# VitePress build
+site/.vitepress/cache/
+site/.vitepress/dist/
+
+# Test / coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+*.swp
+*.swo
+
+# Env / secrets (templates only via .env.example)
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Tooling dotfiles generated locally by various agent harnesses / IDEs / skill managers.
+# These are runtime caches / installs, not project source. AGENTS.md at the repo root is
+# the only agent-rules file that is intentionally tracked.
+.agents/
+.claude/
+.codegraph/
+.kilocode/
+.mattpack/
+.omp/
+.opencode/
+.openviking/
+.pi/
+
+# SQLite transient files (PRD §12.2; only release/*.sqlite is checked in)
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+
+# Editor backup
+*~
+*.bak
+*.orig
