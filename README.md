@@ -1,6 +1,6 @@
 # agent-harness-wiki
 
-> 状态：**M0 初始化中**。首个 OpenSpec change 已实现领域 schema、虚构 fixture、数据集校验及 MCP SDK 连通验证；查询发布尚未实现。
+> 状态：**M0 初始化中**。已实现结构化校验和虚构数据的离线 KnowledgeRelease；查询入口仍在后续 change。
 > 详见 `AGENTS.md`、`docs/PRD.md`、`openspec/`。
 
 ## 项目定位
@@ -11,7 +11,7 @@
 
 ## 当前阶段
 
-已实现带精确版本和 Target 的结构化记录、两个明确虚构的 harness 数据集、YAML 与跨记录校验，以及真实 stdio 的 MCP SDK ping 测试。能力路线按 M0 → M1 → M2 推进；harness catalog 在 M1 接入首批五个 CLI，之后按 Orca、OpenSpec 官方名单分两期扩容。产品契约见 `docs/PRD.md`，实施顺序见 `docs/roadmap.md`。当前 change 见 `openspec/changes/m0-domain-and-fixtures/`。
+已实现带精确版本和 Target 的结构化记录、两个明确虚构的 harness 数据集、YAML 与跨记录校验、JSON/SQLite/Markdown 发布，以及真实 stdio 的 MCP SDK ping 测试。能力路线按 M0 → M1 → M2 推进；harness catalog 在 M1 接入首批五个 CLI，之后按 Orca、OpenSpec 官方名单分两期扩容。产品契约见 `docs/PRD.md`，实施顺序见 `docs/roadmap.md`。当前 change 见 `openspec/changes/m0-reproducible-release/`。
 
 ## 本地开发
 
@@ -20,6 +20,7 @@
 ```sh
 pnpm install --frozen-lockfile
 pnpm validate:fixtures
+pnpm fixtures:build
 pnpm schema:export
 pnpm typecheck
 pnpm build
@@ -29,9 +30,9 @@ pnpm test
 pnpm test:integration
 ```
 
-`pnpm validate:fixtures` 校验 `tests/fixtures/datasets/basic/`；其数据只用于开发和测试，不代表真实产品。`pnpm schema:export` 从 Zod schema 生成 `schemas/` 下的 JSON Schema。集成测试只检查 MCP SDK 的 stdio 客户端与测试服务端通信。
+`pnpm validate:fixtures` 校验 `tests/fixtures/datasets/basic/`；其数据只用于开发和测试，不代表真实产品。`pnpm fixtures:build` 使用固定参数创建忽略的 `releases/fixture-basic/` 并切换 `releases/current.json`；发布 ID 不可覆盖，再次构建需选新 ID 或另一个输出根目录。`pnpm schema:export` 从 Zod schema 生成 `schemas/` 下的 JSON Schema。集成测试检查发布物与 MCP SDK 的测试 stdio 连接。
 
-当前尚无可查询的 release，因此 CLI 查询、五工具 MCP 服务、SQLite 索引及文档站构建命令要在后续 M0 changes 完成；也尚未调查真实 harness。项目不提供自动配置管理、联网查询或查询时的 LLM 调用。
+当前发布物包含 SQLite 结构化表与 FTS5 候选索引，但尚无 QueryService。CLI 查询、五工具 MCP 服务及文档站构建命令要在后续 M0 changes 完成；也尚未调查真实 harness。项目不提供自动配置管理、联网查询或查询时的 LLM 调用。
 
 ## 文档
 

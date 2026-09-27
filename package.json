@@ -17,7 +17,8 @@
     "test": "vitest run tests/unit",
     "test:integration": "vitest run tests/integration",
     "schema:export": "tsx scripts/export-schemas.ts",
-    "validate:fixtures": "tsx scripts/validate-dataset.ts tests/fixtures/datasets/basic fixture"
+    "validate:fixtures": "tsx scripts/validate-dataset.ts tests/fixtures/datasets/basic fixture",
+    "fixtures:build": "tsx scripts/compile-release.ts --dataset-root tests/fixtures/datasets/basic --profile fixture --release-id fixture-basic --published-at 2026-09-27T00:00:00Z --releases-root releases"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "2.1.0",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@modelcontextprotocol/client": "2.1.0",
+    "@types/better-sqlite3": "9.6.0",
     "@types/node": "24.19.0",
     "eslint": "10.11.0",
     "prettier": "3.9.9",

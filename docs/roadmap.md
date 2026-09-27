@@ -1,6 +1,6 @@
 # agent-harness-wiki 实施路线
 
-本路线按 `docs/PRD.md` 的产品契约和 `AGENTS.md` 的工程边界，列出 M0–M2 实施顺序及 harness catalog 扩容波次。当前仓库只有工具链和文档占位；本文规划工作，不实施功能，也不把虚构数据视为真实知识。
+本路线按 `docs/PRD.md` 的产品契约和 `AGENTS.md` 的工程边界，列出 M0–M2 实施顺序及 harness catalog 扩容波次。M0 的模型、校验和虚构发布链路已落地；本文继续规划未完成的查询、MCP 与站点工作，不把虚构数据视为真实知识。
 
 ## 产品主线
 

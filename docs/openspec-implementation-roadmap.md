@@ -1,6 +1,6 @@
 # OpenSpec 实施路线
 
-本路线把 [PRD](PRD.md)和[项目实施路线](roadmap.md)中已确定的决策转成一组可逐项实施的 OpenSpec change。当前只有工具链占位和 `openspec/config.yaml`，尚无活动 change 或已落地的产品 spec。本文件是实施顺序，不代表这些 change 已创建或功能已完成。
+本路线把 [PRD](PRD.md)和[项目实施路线](roadmap.md)中已确定的决策转成一组可逐项实施的 OpenSpec change。`m0-domain-and-fixtures` 已归档；`m0-reproducible-release` 已实施并通过本 change 验收，尚未归档。本文件仍是实施顺序，未完成项不代表已有功能。
 
 ## 使用方式
 
@@ -47,4 +47,4 @@ M2 按 [PRD §21.4](PRD.md#214-m2-验收)验收。Orca 和 OpenSpec 具名 CLI �
 3. 检查 CLI、MCP、文档是否仍共享发布与 QueryService 语义；涉及它们的 change 必须实际调用对应入口。
 4. 完成实现核对后，再同步/归档 delta spec；下一 change 以归档后的主 spec 和当前代码为基线。不得仅因任务框被勾选就宣称里程碑完成。
 
-执行从 `m0-domain-and-fixtures` 开始；当前不预建后续 change 的空目录或未被真实调用的接口。
+当前按上述顺序实施；不预建后续 change 的空目录或未被真实调用的接口。

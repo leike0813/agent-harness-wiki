@@ -4,8 +4,9 @@ This directory holds ADRs that document material decisions for the
 agent-harness-wiki project.
 
 Per `AGENTS.md` §11 / PRD §23, ADRs are only created when a real choice is
-made. `0001-m0-toolchain-and-input.md` records the first implemented change.
-SQLite access, release layout and search decisions belong to later changes.
+made. `0001-m0-toolchain-and-input.md` records the first implemented change;
+`0002-local-release-publication.md` records the local release layout and SQLite index.
+Query ranking and search policy belong to later changes.
 
 Conventions when ADRs are written:
 

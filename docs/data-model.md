@@ -1,6 +1,6 @@
 # 数据模型
 
-当前事实源是 Git 中的 YAML 记录，Zod 契约位于 `src/domain/schema.ts`，JSON Schema 由 `pnpm schema:export` 生成到 `schemas/`。`loadAndValidateDataset` 位于 `src/validation/dataset.ts`，只在校验成功时返回类型化数据集。JSON、SQLite、Markdown 发布物属于后续 M0 change。
+当前事实源是 Git 中的 YAML 记录，Zod 契约位于 `src/domain/schema.ts`，JSON Schema 由 `pnpm schema:export` 生成到 `schemas/`。`loadAndValidateDataset` 位于 `src/validation/dataset.ts`，只在校验成功时返回类型化数据集。编译器据此生成固定的 JSON、SQLite 与 Markdown 发布物。
 
 ## 已实现记录
 
@@ -14,7 +14,7 @@
 | Assessment | `assessment_id` | 复核人、事实验证时间、状态、证据及理由 |
 | CoverageRecord | `coverage_id` | 某完整 Target 与主题的调查覆盖状态 |
 
-所有记录都有 `schema_version: 1` 与 `record_kind: fixture | production`，拒绝未知字段。当前另外定义了发布 manifest 和最小查询请求/结果的 schema，供后续 change 使用；尚无发布器或 QueryService。
+所有记录都有 `schema_version: 1` 与 `record_kind: fixture | production`，拒绝未知字段。`publishedKnowledgeSchema` 定义发布 JSON，manifest 记录构建器版本、输入摘要、产物 hash 和显式发布时间。QueryService 尚未实现。
 
 ## Target、版本与条件
 
@@ -29,3 +29,9 @@ Claim 的 `support.availability` 为 `supported | unsupported | not_applicable`�
 Evidence 的立场为 `supports | refutes | qualifies`，观察基础为 `documented | source_inspected | runtime_observed`。Assessment 为 `draft | accepted | disputed | rejected`。已接受的实质性 Claim 必须有匹配 Target 的证据和复核；相反证据同时存在时需要 `disputed`，不得默认选第一条。`source_fetched_at` 与 `fact_verified_at` 是不同时间。
 
 虚构数据位于 `tests/fixtures/datasets/basic/`，使用 `record_kind: fixture`；以 production profile 校验会拒绝。正式知识将放在根目录 `registry/` 与 `knowledge/`，当前还没有真实产品记录。
+
+## 发布投影
+
+编译器只把有 `accepted` 或 `disputed` Assessment 的 Claim 放入查询数据，连同对应 Assessment 所引用的 Evidence、Snapshot 和 Source 元数据。`draft`、`rejected` 的断言不进入发布事实；Coverage 全部保留，以表达尚未调查或部分调查。JSON、SQLite 与生成页面使用同一投影。有争议 Claim 保留争议状态；SQLite 的 `review_status` 不根据其支持状态推断。
+
+`releases/<release-id>/` 不可变，包含 `knowledge.json`、`knowledge.sqlite`、`docs/` 和 `manifest.json`。`releases/current.json` 只存当前 release ID。发布检验比较产物 hash、JSON 与数据库行、生成页面、SQLite 完整性和外键。发布目录可重建，不是事实真源。

@@ -226,11 +226,28 @@ export const coverageSchema = z.strictObject({
 
 export const releaseManifestSchema = z.strictObject({
   schema_version: z.literal(1),
+  builder_version: z.literal("1"),
   release_id: id,
   profile: z.enum(["fixture", "production"]),
   knowledge_published_at: z.iso.datetime(),
   input_sha256: sha256,
   artifacts: z.record(z.string(), sha256),
+});
+
+export const publishedKnowledgeSchema = z.strictObject({
+  schema_version: z.literal(1),
+  release_id: id,
+  profile: z.enum(["fixture", "production"]),
+  knowledge_published_at: z.iso.datetime(),
+  records: z.strictObject({
+    harnesses: z.array(harnessSchema),
+    sources: z.array(sourceSchema),
+    snapshots: z.array(snapshotSchema),
+    claims: z.array(claimSchema),
+    evidence: z.array(evidenceSchema),
+    assessments: z.array(assessmentSchema),
+    coverage: z.array(coverageSchema),
+  }),
 });
 
 export const queryRequestSchema = z.strictObject({
@@ -268,6 +285,7 @@ export const recordSchemas = {
   assessment: assessmentSchema,
   coverage: coverageSchema,
   release_manifest: releaseManifestSchema,
+  published_knowledge: publishedKnowledgeSchema,
   query_request: queryRequestSchema,
   query_result: queryResultSchema,
 } as const;
@@ -281,6 +299,7 @@ export type Assessment = z.infer<typeof assessmentSchema>;
 export type CoverageRecord = z.infer<typeof coverageSchema>;
 export type Target = z.infer<typeof targetSchema>;
 export type Topic = z.infer<typeof topicSchema>;
+export type PublishedKnowledge = z.infer<typeof publishedKnowledgeSchema>;
 export type Dataset = {
   harnesses: HarnessDefinition[];
   sources: SourceDefinition[];
