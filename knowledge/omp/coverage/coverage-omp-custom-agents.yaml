@@ -1,0 +1,17 @@
+schema_version: 1
+record_kind: production
+coverage_id: coverage-omp-custom-agents
+target:
+  harness_id: omp
+  surface: cli
+  distribution: npm:@oh-my-pi/pi-coding-agent:linux-x64-glibc
+  os: linux
+  arch: x64
+  execution_mode: native
+  version_identity:
+    kind: release
+    value: 18.3.4
+topic: custom_agents
+status: partial
+snapshot_refs: [snapshot-omp-npm, snapshot-omp-agent-discovery-npm, snapshot-omp-repo]
+investigation_notes: Inspected packaged src/task/discovery.ts lines 1-19 for documented roots, 49-71 for directory loading, 91-109 for user/project discovery, and 155-170 for merge order; src/task/types.ts lines 227-246 defines AgentDefinition. The 18.3.4 source has an OMP-native user-agent discovery path, but no configured agent was loaded or run.

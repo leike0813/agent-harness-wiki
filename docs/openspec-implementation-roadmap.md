@@ -1,6 +1,6 @@
 # OpenSpec 实施路线
 
-本路线把 [PRD](PRD.md)和[项目实施路线](roadmap.md)中已确定的决策转成一组可逐项实施的 OpenSpec change。M0 的四个 change 与 `m1-source-and-artifact-boundary` 已归档；`m1-five-harness-knowledge` 与提前实施的 `m2-investigation-skill` 当前仍在工作区。本文件仍是实施顺序，未完成项不代表已有功能。
+本路线把 [PRD](PRD.md)和[项目实施路线](roadmap.md)中已确定的决策转成一组可逐项实施的 OpenSpec change。M0 的四个 change、`m1-source-and-artifact-boundary` 与 `m1-five-harness-knowledge` 已归档；后续 M1 的受管启动和离线混合检索仍未完成。本文件仍是实施顺序，未完成项不代表已有功能。
 
 ## 使用方式
 
@@ -11,6 +11,7 @@
 
 ## M0：虚构数据的可运行闭环
 
+<!-- prettier-ignore -->
 | 顺序与 change 名 | 范围及主要文件 | 可独立验收的结果 |
 |---|---|---|
 | 1. `m0-domain-and-fixtures` | 固定 Node/pnpm/TS/测试工具链；在 `src/domain/`、`src/validation/`、`schemas/` 和 `tests/fixtures/datasets/` 建立精确 Target、强类型 Claim、Evidence、Assessment、Coverage、有限条件与两个明显虚构 harness；调整 `package.json`、锁文件和 Node 版本文件。 | 可安装、类型检查；schema 可导出；合法 fixture 通过校验，缺引用、重复 ID、条件错误及 fixture 混入正式数据被拒绝。 |
@@ -22,6 +23,7 @@
 
 ## M1：真实知识、受管运行与离线混合检索
 
+<!-- prettier-ignore -->
 | 顺序与 change 名 | 依赖及主要文件 | 可独立验收的结果 |
 |---|---|---|
 | 5. `m1-source-and-artifact-boundary` | 依赖 M0；扩充 `src/domain/`、`src/validation/`、`src/sources/`，建立真实 Source、Snapshot、Artifact 身份与归档引用；按需建立 `registry/`、`knowledge/<harness-id>/`、`upstream/`，修正 `.gitignore` 中 `archive/` 与旧占位布局。 | 固定来源、hash、Target 和制品身份可追溯；本地原件与临时 `var/` 分离；未经审核的材料不能进入已接受发布。 |
@@ -33,6 +35,7 @@ M1 的总验收在 **6、7、8 全部完成后**进行，并以 [PRD §21.3](PRD
 
 ## M2：手动增量维护
 
+<!-- prettier-ignore -->
 | 顺序与 change 名 | 依赖及主要文件 | 可独立验收的结果 |
 |---|---|---|
 | 9. `m2-investigation-skill` | 依赖 M1 的 Source/Evidence 定位；只跟踪 `.agents/skills/harness-investigation/`，复用现有 schema 校验入口；用户可直接指定 Target 和问题。 | 用户调用现有 agent 得到可审阅候选、证据缺口或阻塞记录；不依赖来源扫描，候选不能自行变成 accepted 或切换 release。 |

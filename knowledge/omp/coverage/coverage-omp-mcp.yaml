@@ -1,0 +1,19 @@
+schema_version: 1
+record_kind: production
+coverage_id: coverage-omp-mcp
+target:
+  harness_id: omp
+  surface: cli
+  distribution: npm:@oh-my-pi/pi-coding-agent:linux-x64-glibc
+  os: linux
+  arch: x64
+  execution_mode: native
+  version_identity:
+    kind: release
+    value: 18.3.4
+topic: mcp
+status: partial
+snapshot_refs:
+  - snapshot-omp-npm
+  - snapshot-omp-repo
+investigation_notes: Inspected the packaged src/mcp/index.ts and src/mcp/types.ts for the MCP manager boundary and the pinned source revision. Presence of code is not proof that a configured server loads or stays healthy; runtime behavior remains unverified.

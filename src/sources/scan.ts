@@ -168,6 +168,17 @@ async function priorAudits(
   }
   const audits: UpstreamAudit[] = [];
   for (const file of files.sort()) {
+    if (file.endsWith(".md")) {
+      if (
+        !file.startsWith("target-") &&
+        !files.includes(`${file.slice(0, -3)}.yaml`)
+      )
+        throw new Error(`Review report has no audit: ${file}`);
+      const report = await lstat(path.join(directory, file));
+      if (!report.isFile() || report.size > 1024 * 1024)
+        throw new Error(`Unsafe review report: ${file}`);
+      continue;
+    }
     if (!file.endsWith(".yaml"))
       throw new Error(`Unexpected audit entry: ${file}`);
     const absolute = path.join(directory, file);

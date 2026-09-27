@@ -410,7 +410,7 @@ docs/
 schemas/
 ```
 
-M0 虚构数据仍位于 `tests/fixtures/datasets/`，不进入正式 `registry/`、`knowledge/`。目录按实际接入创建，不预建空的 harness 子树。M2 项目调查 Skill 放在 `.agents/skills/`，只豁免该 Skill 的子目录。M2 手动上游检查在 `audits/<harness-id>/` 留 Git 审计记录；候选原件保留在忽略的 `archive/`，不得自动接受事实或切换发布。需要运行观察时才建立相应入口，不预建通用探针框架。
+M0 虚构数据仍位于 `tests/fixtures/datasets/`，不进入正式 `registry/`、`knowledge/`。目录按实际接入创建，不预建空的 harness 子树。M2 项目调查 Skill 放在 `.agents/skills/`，只豁免该 Skill 的子目录。M2 手动上游检查在 `audits/<harness-id>/` 留 Git 审计 YAML；需要人工复核时，同目录放同名主干的 Markdown 分析报告。候选原件保留在忽略的 `archive/`，不得自动接受事实或切换发布。需要运行观察时才建立相应入口，不预建通用探针框架。
 
 ### 7.1 Domain
 

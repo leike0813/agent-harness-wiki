@@ -1,0 +1,17 @@
+schema_version: 1
+record_kind: production
+coverage_id: coverage-omp-hooks
+target:
+  harness_id: omp
+  surface: cli
+  distribution: npm:@oh-my-pi/pi-coding-agent:linux-x64-glibc
+  os: linux
+  arch: x64
+  execution_mode: native
+  version_identity:
+    kind: release
+    value: 18.3.4
+topic: hooks
+status: partial
+snapshot_refs: [snapshot-omp-npm, snapshot-omp-repo]
+investigation_notes: Inspected packaged src/capability/hook.ts lines 1-40 and src/extensibility/hooks/loader.ts lines 187-242 for pre/post hook definitions and discovery, plus runner.ts lines 268-332 for event dispatch. No hook was installed, trusted or executed.

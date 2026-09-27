@@ -10,7 +10,7 @@ Git 中的结构化知识（fixture 与 production 分离）
   └→ 生成的 Markdown → VitePress 文档站
 ```
 
-Git 中的结构化知识是事实真源。SQLite、JSON、Markdown 和 HTML 都是可重建产物。编译器先在 staging 写入并验证 hash、JSON、数据库和页面一致性，再发布；失败不会覆盖已有 release。M0 fixture 与正式知识隔离。当前正式记录含五个精确 npm Target、来源和覆盖，以及一条经人工接受的 Pi 包内文档事实；其余主题仍以覆盖状态和证据缺口表达。忽略的原件由单独离线审计检查，不进入查询发布。
+Git 中的结构化知识是事实真源。SQLite、JSON、Markdown 和 HTML 都是可重建产物。编译器先在 staging 写入并验证 hash、JSON、数据库和页面一致性，再发布；失败不会覆盖已有 release。M0 fixture 与正式知识隔离。当前正式记录含五个精确 npm Target、来源和覆盖，以及三条经人工接受的 Pi/OMP 精确版本事实；其余问题仍以覆盖状态和证据缺口表达。忽略的原件由单独离线审计检查，不进入查询发布。
 
 依赖方向为 `domain ← validation/compiler ← query ← CLI/MCP`。`src/query/schema.ts` 承载共享查询契约，QueryService 负责版本、Target、条件、覆盖、冲突和分页语义。CLI 与 MCP 只解析输入、调用服务和呈现结果。MCP 进程启动时校验并固定一个 release；工具调用无法切换发布，也不访问网络、执行 harness 或写事实源。VitePress 从已验证发布的 Markdown 渲染事实页，站点另附一页通用状态说明；不从页面反向提取事实。
 

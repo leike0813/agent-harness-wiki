@@ -1,0 +1,17 @@
+schema_version: 1
+record_kind: production
+coverage_id: coverage-omp-custom-providers
+target:
+  harness_id: omp
+  surface: cli
+  distribution: npm:@oh-my-pi/pi-coding-agent:linux-x64-glibc
+  os: linux
+  arch: x64
+  execution_mode: native
+  version_identity:
+    kind: release
+    value: 18.3.4
+topic: custom_providers
+status: partial
+snapshot_refs: [snapshot-omp-npm, snapshot-omp-repo]
+investigation_notes: Inspected packaged src/config/models-config.ts lines 38-96 and src/config/custom-models.ts lines 66-103 for custom provider validation and model resolution. The code accepts provider and model configuration under stated fields; no endpoint or authentication was exercised.

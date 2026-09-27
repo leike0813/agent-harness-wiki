@@ -1,0 +1,20 @@
+schema_version: 1
+record_kind: production
+coverage_id: coverage-pi-mcp
+target:
+  harness_id: pi
+  surface: cli
+  distribution: npm:@mariozechner/pi-coding-agent:linux-x64-glibc
+  os: linux
+  arch: x64
+  execution_mode: native
+  version_identity:
+    kind: release
+    value: 0.73.1
+topic: mcp
+status: partial
+snapshot_refs:
+  - snapshot-pi-npm
+  - snapshot-pi-readme-npm
+  - snapshot-pi-repo
+investigation_notes: Checked package README.md lines 468-472 and docs/extensions.md for the built-in MCP boundary and extension integration route, alongside the pinned source revision. The package explicitly says no built-in MCP and suggests adding it through an extension; behavior of a particular external MCP extension remains unverified.

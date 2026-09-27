@@ -1,0 +1,17 @@
+schema_version: 1
+record_kind: production
+coverage_id: coverage-pi-custom-providers
+target:
+  harness_id: pi
+  surface: cli
+  distribution: npm:@mariozechner/pi-coding-agent:linux-x64-glibc
+  os: linux
+  arch: x64
+  execution_mode: native
+  version_identity:
+    kind: release
+    value: 0.73.1
+topic: custom_providers
+status: partial
+snapshot_refs: [snapshot-pi-npm, snapshot-pi-repo]
+investigation_notes: Checked package README.md lines 136-138 and docs/custom-provider.md lines 1-8 and 92-112 for models.json and extension registerProvider paths. Package documentation distinguishes supported-API model entries from custom API/OAuth extensions; no particular provider registration or authentication was observed.

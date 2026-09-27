@@ -19,4 +19,4 @@
 - [x] 3.1 Update PRD, roadmap, source-retention guidance, and contributor documentation; verify the documented package refresh and audit commands match implementation.
 - [x] 3.2 Run OpenSpec validation and the relevant offline verification chain; verify CLI, MCP, and docs read one consistent candidate release without claiming draft facts.
 - [x] 3.3 Present the Claim diff and source evidence for user review; after explicit semantic acceptance, record the accepted Assessment, build and verify a formal production release, and check one accepted fact through CLI and MCP.
-- [ ] 3.4 Present all 35 investigation results and any new draft Claims for user semantic review; incorporate the decision, validate the dataset, and verify CLI/MCP/site against any resulting formal release.
+- [x] 3.4 Present all 35 investigation results and any new draft Claims for user semantic review; incorporate the decision, validate the dataset, and verify CLI/MCP/site against any resulting formal release.

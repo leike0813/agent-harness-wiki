@@ -1,0 +1,17 @@
+schema_version: 1
+record_kind: production
+coverage_id: coverage-claude-code-custom-agents
+target:
+  harness_id: claude-code
+  surface: cli
+  distribution: npm:@anthropic-ai/claude-code:linux-x64-glibc
+  os: linux
+  arch: x64
+  execution_mode: native
+  version_identity:
+    kind: release
+    value: 2.1.283
+topic: custom_agents
+status: partial
+snapshot_refs: [snapshot-claude-code-npm, snapshot-claude-code-mcp-doc, snapshot-claude-code-configuration-doc]
+investigation_notes: Checked 2.1.283 npm README and captured official MCP page references to agent files and scoped servers near lines 1005-1017, plus settings page subagent-configuration anchor. These pages are unversioned relative to the package; agent definition and loading for this binary remain unverified.

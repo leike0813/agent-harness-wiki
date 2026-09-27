@@ -2,6 +2,7 @@
 
 ## Fixed Targets
 
+<!-- prettier-ignore -->
 | Harness | npm package | Version | Fixed source material |
 |---|---|---:|---|
 | Codex CLI | `@openai/codex` | `0.157.1` | Package snapshot; three captured official Markdown pages with unknown version applicability; older independent source checkout |
@@ -14,6 +15,7 @@ Each Target is CLI, Linux/x64, native execution, with a `linux-x64-glibc` npm di
 
 ## Reviewed candidate
 
+<!-- prettier-ignore -->
 | Field | Value |
 |---|---|
 | Claim | `knowledge/pi/claims/claim-pi-user-skills-path.yaml` |
@@ -25,4 +27,4 @@ Each Target is CLI, Linux/x64, native execution, with a `linux-x64-glibc` npm di
 
 The line, package version, integrity, selected file SHA-256, and excerpt passed the explicit offline source audit. The isolated pre-acceptance candidate release `var/review-current/first-wave-review-20260927/` has five harnesses and 35 Coverage records. CLI and MCP returned `partial` with zero published facts for Pi Skills, and the site built without a Pi fact page entry.
 
-The user explicitly accepted this candidate in conversation. The accepted Assessment records that decision while retaining `documented` as the evidence basis and leaving runtime observation outstanding. The immutable formal release is `releases/first-wave-pi-skills-20260927/`, with the same ID in `releases/current.json`. It publishes one accepted Pi Skills user-path Claim. CLI and a real MCP SDK client both returned that fact under the exact Target; the overall topic status remains `partial`. The site built from the formal release.
+The user explicitly accepted this candidate in conversation. The accepted Assessment records that decision while retaining `documented` as the evidence basis and leaving runtime observation outstanding. At this first review, `releases/first-wave-pi-skills-20260927/` was the current formal release. It published one accepted Pi Skills user-path Claim. CLI and a real MCP SDK client both returned that fact under the exact Target; the overall topic status remained `partial`. The site built from that release. The later five-product review and current release are recorded in [full-review.md](full-review.md).

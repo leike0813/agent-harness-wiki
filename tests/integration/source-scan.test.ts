@@ -152,6 +152,11 @@ test("records changed, unchanged and pending scans without changing knowledge", 
     )?.toString(),
   ).toContain("ready");
 
+  await writeFile(
+    path.join(root, "audits/example", `${first.audit_id}.md`),
+    "# Review\n",
+  );
+
   const second = (
     await scanHarnesses({ root, harnessIds: ["example"], fetchImpl })
   )[0]!;

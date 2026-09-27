@@ -4,6 +4,7 @@
 
 ## 已实现记录
 
+<!-- prettier-ignore -->
 | 记录 | 主键 | 作用 |
 |---|---|---|
 | HarnessDefinition | `harness_id` | 名称、别名、应用表面与来源引用 |
@@ -31,9 +32,9 @@ Claim 的 `support.availability` 为 `supported | unsupported | not_applicable`�
 
 Evidence 的立场为 `supports | refutes | qualifies`，观察基础为 `documented | source_inspected | runtime_observed`。Assessment 为 `draft | accepted | disputed | rejected`。已接受的实质性 Claim 必须有匹配 Target 的证据和复核；相反证据同时存在时需要 `disputed`，不得默认选第一条。`source_fetched_at` 与 `fact_verified_at` 是不同时间。
 
-虚构数据位于 `tests/fixtures/datasets/basic/`，使用 `record_kind: fixture`；以 production profile 校验会拒绝。五个真实 CLI 各有一个精确 npm Target、七个主题的 Coverage，共 35 条带固定来源与具体调查说明。Pi 有一条基于包内文档、经人工接受的 Skills 用户路径 Claim；其余新增实质性结论保持 draft，运行时尚未观察。文档原件保存在忽略的 `archive/`，受管包由独立 pnpm 包集管理，源码在固定 commit 的 submodule；普通校验与发布不读取这些原件，显式 `sources:audit` 才在本机检查。
+虚构数据位于 `tests/fixtures/datasets/basic/`，使用 `record_kind: fixture`；以 production profile 校验会拒绝。五个真实 CLI 各有一个精确 npm Target、七个主题的 Coverage，共 35 条带固定来源与具体调查说明。当前三条实质性 Claim 已经人工接受：Pi 的 Skills 用户路径与核心内置 MCP 边界、OMP 的原生用户 agent 发现路径；均未观察运行行为。文档原件保存在忽略的 `archive/`，受管包由独立 pnpm 包集管理，源码在固定 commit 的 submodule；普通校验与发布不读取这些原件，显式 `sources:audit` 才在本机检查。
 
-`audits/<harness-id>/<audit-id>.yaml` 是独立于 `Dataset` 和 `KnowledgeRelease` 的 Git 审计资产。`upstreamAuditSchema` 记录每次扫描的来源基线、观察身份、状态、时间、候选路径、变化文件、初步影响及待复核旧审计引用。`review_status: pending` 表示变化或阻塞仍待语义调查与人工复核；纯未变化记录为 `not_required`，但仍引用以前未完成的审计。人工标记 `reviewed` 时须写复核人和时间。审计本身不能证明某版本的能力，也不会进入发布投影。用 `pnpm sources:audit-log` 校验其结构和引用。
+`audits/<harness-id>/<audit-id>.yaml` 是独立于 `Dataset` 和 `KnowledgeRelease` 的 Git 审计资产。需要人工复核时，同目录的 `<audit-id>.md` 解释变化意义、知识影响和维护建议。`upstreamAuditSchema` 记录每次扫描的来源基线、观察身份、状态、时间、候选路径、变化文件、初步影响及待复核旧审计引用。`review_status: pending` 表示变化或阻塞仍待语义调查与人工复核；纯未变化记录为 `not_required`，但仍引用以前未完成的审计。人工标记 `reviewed` 时须写复核人和时间。审计本身不能证明某版本的能力，也不会进入发布投影。用 `pnpm sources:audit-log` 校验 YAML 结构、引用及报告文件的归属；报告内容仍由维护者语义复核。
 
 ## 发布投影
 

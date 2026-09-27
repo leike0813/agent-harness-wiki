@@ -1,0 +1,17 @@
+schema_version: 1
+record_kind: production
+coverage_id: coverage-pi-hooks
+target:
+  harness_id: pi
+  surface: cli
+  distribution: npm:@mariozechner/pi-coding-agent:linux-x64-glibc
+  os: linux
+  arch: x64
+  execution_mode: native
+  version_identity:
+    kind: release
+    value: 0.73.1
+topic: hooks
+status: partial
+snapshot_refs: [snapshot-pi-npm, snapshot-pi-repo]
+investigation_notes: Checked package docs/extensions.md lines 5-11, 64-70, 266-337 and 464-623 for extension event subscriptions and tool/agent lifecycle callbacks. The package documents pi.on event interception; event order and a specific installed extension's execution remain unobserved.

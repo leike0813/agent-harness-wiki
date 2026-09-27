@@ -1,0 +1,17 @@
+schema_version: 1
+record_kind: production
+coverage_id: coverage-pi-custom-agents
+target:
+  harness_id: pi
+  surface: cli
+  distribution: npm:@mariozechner/pi-coding-agent:linux-x64-glibc
+  os: linux
+  arch: x64
+  execution_mode: native
+  version_identity:
+    kind: release
+    value: 0.73.1
+topic: custom_agents
+status: partial
+snapshot_refs: [snapshot-pi-npm, snapshot-pi-repo]
+investigation_notes: Checked package README.md lines 468-474 and examples/extensions/subagent/README.md for the built-in sub-agent boundary and extension example. The package says there are no built-in sub-agents and describes external composition; the behavior of a particular extension and its install state were not observed.

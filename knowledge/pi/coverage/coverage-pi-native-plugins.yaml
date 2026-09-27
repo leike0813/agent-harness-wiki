@@ -1,0 +1,17 @@
+schema_version: 1
+record_kind: production
+coverage_id: coverage-pi-native-plugins
+target:
+  harness_id: pi
+  surface: cli
+  distribution: npm:@mariozechner/pi-coding-agent:linux-x64-glibc
+  os: linux
+  arch: x64
+  execution_mode: native
+  version_identity:
+    kind: release
+    value: 0.73.1
+topic: native_plugins
+status: partial
+snapshot_refs: [snapshot-pi-npm, snapshot-pi-repo]
+investigation_notes: Checked package docs/packages.md lines 3-5, 18-41 and 111-128 for pi install, package manifests and local/global scope, plus README.md lines 381-424. Pi documents a native package manager that can load external extensions, skills, prompts and themes; the loaded/active/healthy state of any installed package remains unverified.

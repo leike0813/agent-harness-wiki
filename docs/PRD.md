@@ -830,7 +830,7 @@ M1 五个对象的全部七类主题调查，分别在 CoverageRecord 中引用�
 
 M2 由用户手动调用 `.agents/skills/` 中的项目调查 Skill，不建设自动调用模型的 ResearchRunner。默认输入是 registry 中一个或多个 harness ID；Skill 从 `source_refs` 自动检查登记的上游来源，再按变化调查。也可直接指定精确 Target 和问题，沿已有固定来源调查。
 
-Skill 产生可审阅的 Claim、Evidence、Coverage 候选记录，说明调查范围、冲突、未知项与证据缺口。候选经 schema 校验和人工语义复核后才能成为正式知识；Skill 不直接将候选设为 `accepted`，也不切换 KnowledgeRelease。模型、凭据、费用和会话重试由用户启动的 agent 会话负责。
+Skill 产生可审阅的 Claim、Evidence、Coverage 候选记录，说明调查范围、冲突、未知项与证据缺口。需要人工语义复核时，每个 Harness 另按 Skill 包内的固定模板，在审计 YAML 旁写一份 Git 跟踪的 Markdown 报告。正文先解释变化的意义、对现有知识的影响、推荐的维护动作及证据边界；来源状态、逐主题结果与结构化记录放在后面的复核索引。候选经 schema 校验和人工语义复核后才能成为正式知识；Skill 不直接将候选设为 `accepted`，也不切换 KnowledgeRelease。模型、凭据、费用和会话重试由用户启动的 agent 会话负责。
 
 ### 9.3 上下文策略
 
@@ -1013,7 +1013,7 @@ M1 只准入身份、精确版本与 hash 已记录的官方发布制品，或�
 
 文档等原件放在被 Git 忽略的 `archive/<harness-id>/<artifact-id>/`，模型放在 `archive/models/<model-id>/`；记录来源、精确身份和内容 hash。官方源码优先以 `upstream/<harness-id>/` 的 Git submodule 固定 commit，不默认重复归档。已被正式证据引用的文档原件持续保留，不因 Git 忽略而自动清理。
 
-M2 的增量候选另放 `archive/<harness-id>/npm/<version>/package.tgz` 与 `archive/<harness-id>/git/<commit>/checkout`；已选定的 submodule 和受管 npm 包集保持不变。`audits/<harness-id>/` 只跟踪审计元数据，不保存原件，也不进入 KnowledgeRelease。
+M2 的增量候选另放 `archive/<harness-id>/npm/<version>/package.tgz` 与 `archive/<harness-id>/git/<commit>/checkout`；已选定的 submodule 和受管 npm 包集保持不变。`audits/<harness-id>/` 跟踪机器可校验的审计记录和同目录的人类审阅报告，不保存原件，也不进入 KnowledgeRelease。
 
 可执行 npm 包由独立的 `research/package-set/` 精确锁定，内容存于项目专属的 `archive/pnpm-store/` 与忽略的 package-set `node_modules/`。本机只保留每个 harness 最近一次人工选定的稳定版本；替换前先验证新包集，再清理旧包字节。历史 release 的包身份、完整性信息和已审核短摘录持续保留并可查询；需要重新核对旧原件时按精确版本重新取得，离线审计须如实报告本机原件缺失。
 
@@ -1544,7 +1544,7 @@ agent-harness-wiki/
 ├── upstream/
 │   └── <harness-id>/        # 可取得的官方源码 submodule
 ├── archive/                 # 本地持久原件与 models，Git 忽略
-├── audits/<harness-id>/     # M2 每次调用的 Git 审计记录
+├── audits/<harness-id>/     # M2 审计 YAML 与同名 Markdown 审阅报告
 ├── research/package-set/    # 精确 npm 包清单与独立锁文件；安装内容忽略
 ├── schemas/
 ├── src/

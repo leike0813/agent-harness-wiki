@@ -1,6 +1,6 @@
 ---
 name: harness-investigation
-description: Audit registered harness upstream changes and prepare source-traceable knowledge candidates. Use when a maintainer names harness IDs or asks to investigate a precise Target.
+description: Audit harness upstream changes and write a readable, source-traceable review report. Use when a maintainer names registered harness IDs or asks to investigate a precise Target.
 disable-model-invocation: true
 ---
 
@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 ## 目标
 
-默认接受 registry 中一个或多个 `harness_id`，逐个检查登记的上游来源，留下一份可追溯审计记录，再对变化做增量调查。也可针对明确的 Target 和问题直接调查。交付可审阅的结构化候选，或说明查了什么、为什么仍不能判断。
+默认接受 registry 中一个或多个 `harness_id`，逐个检查登记的上游来源，留下一份可追溯审计记录，再对变化做增量调查。也可针对明确的 Target 和问题直接调查。需要维护者复核时，在审计记录旁交付解释变化意义、知识影响和建议处理方式的 Markdown 报告；证据不足时说明查了什么、为什么仍不能判断。
 
 ## 非目标
 
@@ -35,11 +35,12 @@ disable-model-invocation: true
 - `knowledge/<harness-id>/artifacts/*.yaml`、`snapshots/*.yaml`：原件与固定快照身份。
 - `knowledge/<harness-id>/claims/*.yaml`、`evidence/*.yaml`、`assessments/*.yaml`：有实质性断言时的草案。
 - `knowledge/<harness-id>/coverage/*.yaml`：每个请求主题的调查范围、检查过程、结果或具体缺口。
-- `audits/<harness-id>/*.yaml`：每次扫描的基线、观察、来源错误、影响范围、待复核引用和候选 ID；这是 Git 资产，不进入发布数据。
+- `audits/<harness-id>/<audit-id>.yaml`：每次扫描的基线、观察、来源错误、影响范围、待复核引用和候选 ID。
+- `audits/<harness-id>/<audit-id>.md`：该轮需要人工复核时的中文分析报告，与机器记录同目录、同名主干。同一次调用产生多份审计时，用最后一份 `audit_id` 命名报告并链接全部相关记录。定向调查没有审计 ID 时使用唯一的 `target-<UTC 时间>.md`。审计目录是 Git 资产，不进入发布数据。
 
 所有真实记录用 `record_kind: production`。新 Assessment 只用 `status: draft`、调查者标识、实际复核时间、所据 Evidence 和理由。已接受记录保持原样；修正已有结论时提出可审阅差异，不覆盖原件。没有足够证据时只写 Coverage 与交接说明，不伪造 Claim、Evidence 或接受状态。
 
-最终向维护者交付：每个 Harness 的审计 ID、逐来源变化/失败/未变化、待处理的旧审计 ID，以及每个 Target × 主题的结果/缺口；列出候选 ID、精确证据定位、适用条件、冲突、验证命令及结果和人工判断事项。提供本地 Git diff 的查看路径或命令；**交付停在人工语义复核之前**。
+最终向维护者交付报告路径。报告先给可执行的维护建议及其证据边界，再提供每个 Harness 的审计 ID、来源状态、待处理旧审计、Target × 主题结果和候选记录的索引。维护者应能读完正文决定接受、修改或继续调查，只有核查细节时才需要打开 YAML。提供验证结果和本地 Git diff 查看方式；**交付停在人工语义复核之前**。
 
 ## 禁止事项
 
@@ -109,13 +110,17 @@ git status --short
 
 校验失败时根据诊断修正当前候选后复跑。无法修正就保留候选和错误代码、文件、字段、原因；已接受记录与当前 release 保持可用。不要靠跳过校验或删除需求得到绿色结果。
 
-### 6. 人工交接
+### 6. 写审阅报告并交接
 
-按请求清单逐项报告：`Target | topic | 候选 Claim ID 或未知/阻塞 | 证据 Snapshot 与定位 | 待审语义/缺口`。明确哪些是 `draft`、哪些是已存在的 `accepted`，附上条件和 delivery 判断。让维护者审阅本地 diff、证据短摘录和精确 Target；等待其接受、修改或拒绝。Skill 到此结束。
+凡本轮审计或待处理旧审计仍为 `pending`，或定向调查产生候选、冲突、证据缺口，先写一份 `audits/<harness-id>/*.md`，再交给维护者。批量调用每个 Harness 一份；一次调用中的多次补扫合并成一份，逐个注明原始审计状态和阻塞是否已解除。全部来源未变化且没有待处理审计时，简短交付审计 ID 即可。
+
+先完成语义判断，再读取并填充 Skill 包中的[固定报告模板](assets/review-report.md)。保留模板的章节顺序和标题；来源、Target、主题与验证记录按实际数量填写。正文必须回答：变化实际意味着什么、现有已接受知识是否需要修改、建议维护者做什么、建议所依赖的证据及其局限。对没有知识影响的变化解释原因；对仍不确定的变化指出缺少的证明和下一步。把扫描状态、hash、ID 和七主题逐项链接放在后面的复核索引，相关主题可合并分析，但每个请求的 Target × 主题仍须能逐项定位。若起草 Claim，写清 `draft`、条件、delivery、Evidence 的 Snapshot 与定位、冲突；只有 Coverage 时明确无新能力断言。不得用字段释义、逐行改写 YAML 或重复七句“未涉及”充当分析。
+
+报告是 Git 中的审阅入口，结构化知识仍是事实真源；更新调查结论时同步更新相关 YAML 与报告。报告不进入 Dataset 或 KnowledgeRelease。写完后用维护者视角复读：只看正文能否理解建议及理由；若必须先解读表格或 YAML，重写正文。检查相对链接、报告与 YAML 一致性，再运行 `pnpm sources:audit-log`、`git diff --check` 和 `git status --short --untracked-files=all`。最终答复首先给报告链接，概述需维护者判断的事项。Skill 到此结束。
 
 ## LLM 与脚本职责分工
 
-- Agent 负责理解问题、划分 Target、沿调用链调查、解释证据与冲突、起草语义断言和明确缺口；需要时向维护者说明取舍。
+- Agent 负责理解问题、划分 Target、沿调用链调查、解释证据与冲突、判断知识影响、提出维护建议，并写出面向人的分析；需要时向维护者说明取舍。
 - `sources:scan` 负责上游身份观察、候选原件保留、初步影响映射和审计落盘；`sources:audit-log` 校验审计资产；`ahw validate` 校验知识关系；`sources:audit` 核验可用本地原件身份与字节。它们不判断证据是否足以支持语义结论。
 - 本 Skill 没有模型服务或自动运行器。子代理若可用仅用于独立的只读调查；不能委托它们代替最终汇总和人工审阅；不可用时由当前 Agent 顺序完成。
 

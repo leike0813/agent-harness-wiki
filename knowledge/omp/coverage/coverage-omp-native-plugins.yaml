@@ -1,0 +1,17 @@
+schema_version: 1
+record_kind: production
+coverage_id: coverage-omp-native-plugins
+target:
+  harness_id: omp
+  surface: cli
+  distribution: npm:@oh-my-pi/pi-coding-agent:linux-x64-glibc
+  os: linux
+  arch: x64
+  execution_mode: native
+  version_identity:
+    kind: release
+    value: 18.3.4
+topic: native_plugins
+status: partial
+snapshot_refs: [snapshot-omp-npm, snapshot-omp-repo]
+investigation_notes: Inspected packaged src/commands/plugin.ts lines 1-76 for install, list, enable, doctor and scope flags, and src/extensibility/plugins/types.ts for manifest entries. A native plugin command is packaged; plugin installation, activation and health were not observed.

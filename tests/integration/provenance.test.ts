@@ -60,10 +60,19 @@ test("production metadata validates without local originals", async () => {
   expect(result.ok).toBe(true);
   if (result.ok) {
     expect(result.dataset.harnesses).toHaveLength(5);
-    expect(result.dataset.artifacts).toHaveLength(18);
-    expect(result.dataset.coverage).toHaveLength(35);
     expect(
-      result.dataset.coverage.filter(
+      new Set(
+        result.dataset.artifacts
+          .filter((item) => item.kind === "managed_package")
+          .map((item) => item.harness_id),
+      ),
+    ).toEqual(new Set(result.dataset.harnesses.map((item) => item.harness_id)));
+    const firstWaveCoverage = result.dataset.coverage.filter((item) =>
+      item.target.distribution.startsWith("npm:"),
+    );
+    expect(firstWaveCoverage).toHaveLength(35);
+    expect(
+      firstWaveCoverage.filter(
         (item) =>
           item.status === "partial" &&
           item.snapshot_refs?.length &&
@@ -73,7 +82,7 @@ test("production metadata validates without local originals", async () => {
     expect(result.dataset.claims).toHaveLength(3);
     expect(
       result.dataset.assessments.map((item) => item.status).sort(),
-    ).toEqual(["accepted", "draft", "draft"]);
+    ).toEqual(["accepted", "accepted", "accepted"]);
   }
 });
 
@@ -301,7 +310,7 @@ test("unversioned documentation cannot verify an exact fixture claim", async () 
   );
 });
 
-test("first-wave release publishes accepted Pi fact and scoped provenance", async () => {
+test("first-wave release publishes reviewed facts and scoped provenance", async () => {
   const metadata = await metadataCopy();
   const releasesRoot = await temp();
   const { releaseDir } = await compileRelease({
@@ -315,11 +324,19 @@ test("first-wave release publishes accepted Pi fact and scoped provenance", asyn
   const knowledge = JSON.parse(
     await readFile(path.join(releaseDir, "knowledge.json"), "utf8"),
   );
-  expect(knowledge.records.artifacts).toHaveLength(18);
   expect(
     knowledge.records.claims.map((item: { claim_id: string }) => item.claim_id),
-  ).toEqual(["claim-pi-user-skills-path"]);
-  expect(knowledge.records.coverage).toHaveLength(35);
+  ).toEqual([
+    "claim-omp-user-agents-path",
+    "claim-pi-core-mcp",
+    "claim-pi-user-skills-path",
+  ]);
+  expect(
+    knowledge.records.coverage.filter(
+      (item: { target: { distribution: string } }) =>
+        item.target.distribution.startsWith("npm:"),
+    ),
+  ).toHaveLength(35);
   expect(
     knowledge.records.snapshots.find(
       (item: { kind?: string }) => item.kind === "documentation",
@@ -330,7 +347,7 @@ test("first-wave release publishes accepted Pi fact and scoped provenance", asyn
   });
   try {
     expect(db.prepare("SELECT count(*) AS n FROM artifacts").get()).toEqual({
-      n: 18,
+      n: knowledge.records.artifacts.length,
     });
   } finally {
     db.close();
@@ -358,8 +375,20 @@ test("first-wave release publishes accepted Pi fact and scoped provenance", asyn
       scope: { ...scope, distribution: "source-tree" },
       version: { policy: "latest_upstream" },
     });
-    expect(sourceResult.target?.version_identity.kind).toBe("commit");
+    expect(sourceResult.status).toBe("ambiguous");
     expect(sourceResult.facts).toHaveLength(0);
+    const exactSourceResult = service.getCapability({
+      scope: { ...scope, distribution: "source-tree" },
+      version: {
+        policy: "exact",
+        identity: {
+          kind: "commit",
+          value: "67a709665ac7b50311b93e32612c9a8281684787",
+        },
+      },
+    });
+    expect(exactSourceResult.target?.version_identity.kind).toBe("commit");
+    expect(exactSourceResult.facts).toHaveLength(0);
     const piResult = service.getCapability({
       scope: {
         harness: "pi",
