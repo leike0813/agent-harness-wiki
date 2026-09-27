@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "number",
+      "const": 1
+    },
+    "record_kind": {
+      "type": "string",
+      "enum": [
+        "fixture",
+        "production"
+      ]
+    },
+    "source_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "harness_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "kind": {
+      "type": "string",
+      "const": "fixture_file"
+    },
+    "file": {
+      "type": "string",
+      "minLength": 1
+    },
+    "content_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_kind",
+    "source_id",
+    "harness_id",
+    "kind",
+    "file",
+    "content_sha256"
+  ],
+  "additionalProperties": false
+}

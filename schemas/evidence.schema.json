@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "number",
+      "const": 1
+    },
+    "record_kind": {
+      "type": "string",
+      "enum": [
+        "fixture",
+        "production"
+      ]
+    },
+    "evidence_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "claim_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "locator": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "line"
+            },
+            "start": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            },
+            "end": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "kind",
+            "start",
+            "end"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "section"
+            },
+            "heading": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "kind",
+            "heading"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "excerpt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stance": {
+      "type": "string",
+      "enum": [
+        "supports",
+        "refutes",
+        "qualifies"
+      ]
+    },
+    "basis": {
+      "type": "string",
+      "enum": [
+        "documented",
+        "source_inspected",
+        "runtime_observed"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_kind",
+    "evidence_id",
+    "claim_id",
+    "snapshot_id",
+    "locator",
+    "excerpt",
+    "stance",
+    "basis"
+  ],
+  "additionalProperties": false
+}

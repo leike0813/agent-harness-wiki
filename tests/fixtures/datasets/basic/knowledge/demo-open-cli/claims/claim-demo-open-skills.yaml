@@ -1,0 +1,15 @@
+schema_version: 1
+record_kind: fixture
+claim_id: claim-demo-open-skills
+fact_key: skills.discovery.project_path
+target: { harness_id: demo-open-cli, surface: cli, distribution: demo-package, os: linux, arch: x64, execution_mode: native }
+version_applicability: { kind: exact, versions: [{ kind: release, value: "1.4.2" }] }
+topic: skills
+assertion: { type: search_path, scope: project, path: { base: project_root, segments: [.demo, skills] } }
+conditions:
+  all_of:
+    - { type: workspace_trust, equals: trusted }
+    - { type: environment_variable, name: DEMO_SKILLS_DIR, operator: unset }
+support: { availability: supported, delivery: native }
+evidence_refs: [evidence-demo-open-skills]
+assessment_refs: [assessment-demo-open-skills]

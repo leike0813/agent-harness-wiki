@@ -4,9 +4,8 @@ This directory holds ADRs that document material decisions for the
 agent-harness-wiki project.
 
 Per `AGENTS.md` §11 / PRD §23, ADRs are only created when a real choice is
-made. The directory is intentionally empty during the M0 scaffolding phase;
-decisions will be added as features land (toolchain lock, SQLite access
-strategy, release layout, conditional expression scope, search strategy, etc.).
+made. `0001-m0-toolchain-and-input.md` records the first implemented change.
+SQLite access, release layout and search decisions belong to later changes.
 
 Conventions when ADRs are written:
 

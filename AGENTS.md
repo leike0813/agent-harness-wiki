@@ -47,6 +47,8 @@ M0 的目标不是只创建目录和接口，而是交付一条实际运行的�
 
 M0 不要求完成全部真实 harness 调查，也不要求实现自动更新 worker。
 
+后续阶段以 `docs/PRD.md` 和 `docs/roadmap.md` 为准：M1 接入五个真实 CLI、受管制品启动尝试及本地 embedding 混合检索；M2 是用户手动发起的增量维护。不要把这些能力提前塞入 M0。
+
 ### 2.1 M0 必须交付
 
 - 可安装、可构建的 TypeScript 项目。
@@ -271,7 +273,7 @@ bash-only syntax
 - 本地凭据。
 - `.env` 中的真实秘密。
 - `var/` 运行状态。
-- 下载的原始包和二进制。
+- `archive/` 中的原始资料、二进制、完整日志和本地模型。
 - 临时 SQLite/WAL 文件。
 - 文档站构建目录。
 - 可重建发布产物，除非用户明确采用该发布方式。
@@ -296,6 +298,7 @@ bash-only syntax
 ### 6.2 查询边界
 
 - 查询不调用 LLM。
+- M1 的 `search_knowledge` 可用已固定的本地 embedding 模型补充召回；不得用语义分数改变事实、证据或版本判断。
 - 查询不访问上游网络。
 - 查询不执行 shell 或 harness。
 - 查询不写入知识真源。
@@ -374,14 +377,22 @@ src/
 └── mcp/
 
 registry/
+├── harnesses/
+└── sources/
 knowledge/
-├── claims/
-├── evidence/
-├── snapshots/
-├── assessments/
-├── coverage/
-├── snippets/
-└── guides/
+└── <harness-id>/
+    ├── claims/
+    ├── evidence/
+    ├── snapshots/
+    ├── assessments/
+    ├── coverage/
+    └── guides/       # 按需
+
+upstream/<harness-id>/  # 可取得的官方源码 submodule
+archive/<harness-id>/<artifact-id>/  # Git 忽略的持久原件
+archive/models/<model-id>/  # M1 本地模型
+releases/<release-id>/  # 不可变、可重建的查询发布
+var/  # 临时状态
 
 tests/
 ├── unit/
@@ -396,7 +407,7 @@ docs/
 schemas/
 ```
 
-后续阶段才需要的 `research/`、`probes/`、`pipeline/` 可以在实际实现时创建。
+M0 虚构数据仍位于 `tests/fixtures/datasets/`，不进入正式 `registry/`、`knowledge/`。目录按实际接入创建，不预建空的 harness 子树。M2 项目调查 Skill 放在 `.agents/skills/`，只豁免该 Skill 的子目录。需要运行观察时才建立相应入口，不预建通用探针框架。
 
 ### 7.1 Domain
 
@@ -646,7 +657,7 @@ getEvidence
 4. 受控全文检索。
 5. 中文主题别名。
 
-不要为了中文搜索立即引入 embedding 服务。
+M0 不为中文搜索引入 embedding；M1 的本地模型与语义索引按 PRD §15.4 实施。
 
 对 FTS 查询语法和 SQL 参数分别处理，不能认为 SQL 参数化自动解决所有 FTS 查询问题。
 
@@ -695,6 +706,8 @@ search_knowledge
 get_evidence
 ```
 
+服务启动时用显式 release ID 或只解析一次本地当前发布指针，验证后固定一个只读 KnowledgeRelease；切换发布需重启 MCP 进程。工具输入不含 `knowledge_release`，不允许单次调用改用其他发布。每个响应标识 release ID；事实类结果保留适用的 Target、条件、覆盖及证据。
+
 要求：
 
 - 每个工具有明确输入 schema。
@@ -705,6 +718,8 @@ get_evidence
 - 设置 limit、摘录和响应大小边界。
 - 不为不同 harness 生成不同工具。
 - 不增加执行 shell、安装插件、刷新上游等写入工具。
+- 不暴露 Resources 或 Prompts；`get_evidence` 只读取发布中的可展示证据，不读取 `archive/`。
+- 分页 cursor 绑定 release、规范化查询条件和排序版本；正常 unknown、not_verified、ambiguous、conflict 不作为协议故障。
 
 使用 SDK 客户端完成完整 smoke test：
 

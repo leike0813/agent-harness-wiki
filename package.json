@@ -2,15 +2,40 @@
   "name": "agent-harness-wiki",
   "version": "0.0.0",
   "private": true,
-  "description": "Evidence-driven configuration and extension knowledge base for agent harnesses (M0 scaffolding only).",
+  "description": "Evidence-driven configuration and extension knowledge base for agent harnesses.",
   "type": "module",
   "engines": {
-    "node": ">=22.0.0",
-    "pnpm": ">=10.0.0"
+    "node": ">=24.12.0 <25",
+    "pnpm": "11.10.0"
   },
   "packageManager": "pnpm@11.10.0",
   "scripts": {
-    "_placeholder": "This package currently has no executable scripts. Functional scripts will be added as M0 features land (see AGENTS.md §10)."
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint src scripts tests",
+    "format:check": "prettier --check 'src/**/*.ts' 'scripts/**/*.ts' 'tests/**/*.ts'",
+    "test": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
+    "schema:export": "tsx scripts/export-schemas.ts",
+    "validate:fixtures": "tsx scripts/validate-dataset.ts tests/fixtures/datasets/basic fixture"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.1.0",
+    "better-sqlite3": "13.0.3",
+    "commander": "15.0.0",
+    "yaml": "2.9.1",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "2.1.0",
+    "@types/node": "24.19.0",
+    "eslint": "10.11.0",
+    "prettier": "3.9.9",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.70.1",
+    "vite": "8.3.1",
+    "vitest": "5.0.2"
   },
   "keywords": [
     "agent-harness",

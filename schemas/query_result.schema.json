@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "release_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "partial",
+        "ambiguous",
+        "not_verified",
+        "conflict",
+        "not_found"
+      ]
+    },
+    "target": {
+      "type": "object",
+      "properties": {
+        "harness_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "surface": {
+          "type": "string",
+          "enum": [
+            "cli",
+            "ide",
+            "desktop"
+          ]
+        },
+        "distribution": {
+          "type": "string",
+          "minLength": 1
+        },
+        "os": {
+          "type": "string",
+          "enum": [
+            "linux",
+            "windows",
+            "macos"
+          ]
+        },
+        "arch": {
+          "type": "string",
+          "enum": [
+            "x64",
+            "arm64"
+          ]
+        },
+        "execution_mode": {
+          "type": "string",
+          "enum": [
+            "native",
+            "wsl",
+            "container",
+            "remote"
+          ]
+        },
+        "version_identity": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "release"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "kind",
+                "value"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "commit"
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "kind",
+                "value"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "harness_id",
+        "surface",
+        "distribution",
+        "os",
+        "arch",
+        "execution_mode",
+        "version_identity"
+      ],
+      "additionalProperties": false
+    },
+    "claim_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_-]*$"
+      }
+    }
+  },
+  "required": [
+    "release_id",
+    "status",
+    "claim_ids"
+  ],
+  "additionalProperties": false
+}

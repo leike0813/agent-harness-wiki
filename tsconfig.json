@@ -1,15 +1,17 @@
 {
-  "//": "Placeholder. Strict TS configuration (per AGENTS.md §5.1) and project references will be added when the M0 source tree is introduced. Kept minimal so tooling that probes tsconfig does not error on a missing file.",
   "compilerOptions": {
     "target": "ES2023",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "types": ["node", "vitest/globals"]
   },
-  "include": [],
-  "exclude": ["node_modules", "dist", "build", "releases", "var"]
+  "include": ["src/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts"],
+  "exclude": ["node_modules", "dist", "releases", "var"]
 }
