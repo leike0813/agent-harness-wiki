@@ -1,6 +1,6 @@
 # OpenSpec 实施路线
 
-本路线把 [PRD](PRD.md)和[项目实施路线](roadmap.md)中已确定的决策转成一组可逐项实施的 OpenSpec change。`m0-domain-and-fixtures`、`m0-reproducible-release` 已归档；`m0-query-and-cli` 已实施并通过验收，尚未归档。本文件仍是实施顺序，未完成项不代表已有功能。
+本路线把 [PRD](PRD.md)和[项目实施路线](roadmap.md)中已确定的决策转成一组可逐项实施的 OpenSpec change。前三个 M0 change 已归档；`m0-mcp-site-and-verification` 已实现并通过离线验收，尚未归档。本文件仍是实施顺序，未完成项不代表已有功能。
 
 ## 使用方式
 

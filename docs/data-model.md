@@ -37,3 +37,7 @@ Evidence 的立场为 `supports | refutes | qualifies`，观察基础为 `docume
 `releases/<release-id>/` 不可变，包含 `knowledge.json`、`knowledge.sqlite`、`docs/` 和 `manifest.json`。`releases/current.json` 只存当前 release ID。发布检验比较产物 hash、JSON 与数据库行、生成页面、SQLite 完整性和外键。发布目录可重建，不是事实真源。
 
 QueryService 只读取一个经检验的发布物。精确版本不回退；`latest_verified` 从当前 scope/主题已接受的 Claim 选择一个版本，`latest_upstream` 从 Snapshot 选择一个已发现版本并给出 `source_fetched_at`。只有纯数字点分 release 可比较先后，其他多版本候选返回 ambiguous。条件缺失返回 ambiguous，完整覆盖而缺事实返回 unknown，未调查版本返回 not_verified；这些都不等于 unsupported。
+
+五类查询的共享输入与输出契约位于 `src/query/schema.ts`，CLI 和 MCP 均调用 QueryService。MCP 的 `get_capability` 可返回完整或摘要事实；摘要保留支持状态、Target、条件、复核状态和证据引用。MCP 每个响应标识固定 release，证据摘录有长度和截断标记；分页 cursor 绑定 release 与规范化查询条件。文档站的 Harness、主题、证据与发布页由同一个发布投影生成；通用状态说明独立于事实源，fixture 页明确标记为虚构。
+
+当前只使用精确版本和有限条件，不含真实 harness 知识、本地 embedding、调查 worker 或自动更新机制。

@@ -21,8 +21,12 @@
     "test": "vitest run tests/unit",
     "test:integration": "vitest run tests/integration",
     "schema:export": "tsx scripts/export-schemas.ts",
+    "schema:check": "tsx scripts/check-schemas.ts",
     "validate:fixtures": "tsx scripts/validate-dataset.ts tests/fixtures/datasets/basic fixture",
-    "fixtures:build": "tsx scripts/compile-release.ts --dataset-root tests/fixtures/datasets/basic --profile fixture --release-id fixture-query --published-at 2026-09-27T00:00:00Z --releases-root releases"
+    "fixtures:build": "tsx scripts/compile-release.ts --dataset-root tests/fixtures/datasets/basic --profile fixture --release-id fixture-query --published-at 2026-09-27T00:00:00Z --releases-root releases",
+    "docs:build": "tsx scripts/build-site.ts",
+    "mcp:smoke": "vitest run tests/integration/mcp.test.ts",
+    "verify": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm schema:check && pnpm validate:fixtures && pnpm test && pnpm test:integration && pnpm build && pnpm docs:build"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "2.1.0",

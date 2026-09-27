@@ -11,46 +11,23 @@ import {
   coverageSchema,
   evidenceSchema,
   harnessSchema,
-  queryRequestSchema,
   snapshotSchema,
   topicSchema,
-  versionIdentitySchema,
   type Claim,
   type CoverageRecord,
   type HarnessDefinition,
   type SnapshotManifest,
   type Target,
 } from "../domain/schema.js";
+import {
+  compareSchema,
+  evidenceRequestSchema,
+  listSchema,
+  queryRequestSchema,
+  searchSchema,
+} from "./schema.js";
 
 const releaseIdSchema = z.string().regex(/^[a-z][a-z0-9_-]*$/);
-const pageSchema = {
-  limit: z.int().min(1).max(100).default(20),
-  cursor: z.string().max(1024).optional(),
-};
-const listSchema = z.strictObject({
-  search: z.string().trim().max(100).optional(),
-  ...pageSchema,
-});
-const compareSchema = z.strictObject({
-  requests: z.array(queryRequestSchema).min(2).max(5),
-});
-const searchSchema = z
-  .strictObject({
-    text: z.string().trim().max(256).optional(),
-    harness: z.string().min(1).optional(),
-    topic: topicSchema.optional(),
-    os: z.enum(["linux", "windows", "macos"]).optional(),
-    version: versionIdentitySchema.optional(),
-    ...pageSchema,
-  })
-  .refine(
-    (value) =>
-      value.text || value.harness || value.topic || value.os || value.version,
-    {
-      message: "Search requires text or a structured filter.",
-    },
-  );
-const evidenceRequestSchema = z.strictObject({ evidence_id: releaseIdSchema });
 type CapabilityRequest = z.infer<typeof queryRequestSchema>;
 type Version = Target["version_identity"];
 type Fact = {

@@ -1,57 +1,43 @@
 # agent-harness-wiki
 
-> 状态：**M0 初始化中**。已实现虚构数据的离线发布、QueryService 和 CLI；正式 MCP 五工具与文档站仍待后续 change。
-> 详见 `AGENTS.md`、`docs/PRD.md`、`openspec/`。
+> M0 的虚构数据闭环已实现；当前页面和查询结果只用于验证系统，不代表真实 harness 调查结论。
 
-## 项目定位
+本项目把 agent harness 的配置与扩展能力整理为带版本、Target、条件、覆盖和证据的结构化知识，并通过离线 CLI、只读 MCP stdio 和文档站查询。产品范围见 [PRD](docs/PRD.md)，实施阶段见 [路线图](docs/roadmap.md)。
 
-面向 AI coding agent 及其他 agent harness 的、证据驱动的配置与扩展能力知识库。
-
-跟踪各 harness 的源码、发布包、二进制与官方文档，将调查结论整理为带版本、环境、条件与证据的结构化事实，通过文档站、CLI 和只读 MCP Server 提供查询。
-
-## 当前阶段
-
-已实现带精确版本和 Target 的结构化记录、两个明确虚构的 harness 数据集、YAML 与跨记录校验、JSON/SQLite/Markdown 发布、固定 release 的五类查询和 CLI，以及真实 stdio 的 MCP SDK ping 测试。能力路线按 M0 → M1 → M2 推进；harness catalog 在 M1 接入首批五个 CLI，之后按 Orca、OpenSpec 官方名单分两期扩容。产品契约见 `docs/PRD.md`，实施顺序见 `docs/roadmap.md`。当前 change 见 `openspec/changes/m0-query-and-cli/`。
-
-## 本地开发
-
-需要 Node.js 24.12.0 或同一主版本中更新的版本，以及 pnpm 11.10.0。
+需要 Node.js 24.12.0+（24.x）和 pnpm 11.10.0。安装并完整验证：
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm validate:fixtures
-pnpm fixtures:build
-pnpm schema:export
-pnpm typecheck
-pnpm build
-pnpm lint
-pnpm format:check
-pnpm test
-pnpm test:integration
+pnpm verify
 ```
 
-`pnpm validate:fixtures` 校验 `tests/fixtures/datasets/basic/`；其数据只用于开发和测试，不代表真实产品。`pnpm fixtures:build` 使用固定参数创建忽略的 `releases/fixture-query/` 并切换 `releases/current.json`；发布 ID 不可覆盖，再次构建需选新 ID 或另一个输出根目录。`pnpm schema:export` 从 Zod schema 生成 `schemas/` 下的 JSON Schema。集成测试检查发布物、CLI 与 MCP SDK 的测试 stdio 连接。
+`pnpm verify` 检查类型、lint、格式、导出 schema、fixture、单元和集成测试、编译及文档站构建。它不需要预先建立 release；文档站默认从临时 fixture release 构建，输出到 `site/.vitepress/dist/`。
 
-查询示例（首次构建 fixture release 后）：
+要手动查询虚构数据，先建立一次固定发布：
 
 ```sh
+pnpm fixtures:build
 pnpm ahw query --release-id fixture-query list --json
 pnpm ahw query --release-id fixture-query capability --harness demo-package-cli --surface cli --distribution demo-package --os windows --arch x64 --execution-mode native --policy latest_upstream --topic native_plugins --json
 pnpm ahw query --release-id fixture-query search --text 技能 --json
 pnpm ahw query --release-id fixture-query evidence --evidence-id evidence-demo-package-plugin --json
 ```
 
-`pnpm ahw validate` 和 `pnpm ahw compile` 也可用；参数见 `--help`。fixture release 必须显式指定 ID。`latest_upstream` 使用已发布快照的发现时间，不能视为能力已验证；`latest_verified` 只选一个有已接受事实的版本。列表和搜索每页默认 20 条，最多 100 条，比较最多 5 个 Target。当前尚无正式五工具 MCP 服务及文档站构建命令，也尚未调查真实 harness。项目不提供自动配置管理、联网查询或查询时的 LLM 调用。
+`pnpm fixtures:build` 使用不可覆盖的 ID；重复手动构建需另选 ID 或输出目录。`pnpm ahw validate`、`pnpm ahw compile` 和 `pnpm ahw query compare` 也可用，参数见 `--help`。精确版本不回退，`latest_upstream` 只是已发布快照中发现的版本，`latest_verified` 选择单个已复核版本。
 
-## 文档
+MCP 客户端可把以下命令作为 stdio server 启动命令：
 
-- `AGENTS.md`：工程规则与执行边界。
-- `docs/PRD.md`：产品需求与阶段验收。
-- `docs/roadmap.md`：M0–M2 实施路线与 catalog 扩容波次。
-- `docs/openspec-implementation-roadmap.md`：M0 的 OpenSpec change 划分。
-- `docs/data-model.md`、`docs/development.md`：当前已实现模型和开发命令。
-- `openspec/`：变更与 spec 跟踪。
+```sh
+pnpm ahw mcp --release-id fixture-query
+```
 
-## 许可
+服务启动时固定已校验的 release，暴露 `list_harnesses`、`get_capability`、`compare_capabilities`、`search_knowledge`、`get_evidence` 五个只读工具。可用 `pnpm mcp:smoke` 检查 SDK 客户端到服务端的实际协议通信。命令的 stdout 仅供 MCP 协议使用。
 
-待定。
+```sh
+pnpm docs:build
+pnpm docs:build --release-id fixture-query
+```
+
+默认文档构建使用临时 fixture release；第二个命令构建显式指定、已校验的 release。页面中的事实来自同一个发布物，虚构内容有醒目标记。项目不提供自动配置管理、联网查询、查询时 LLM 调用或自动调查。目前没有正式产品知识、M1 本地 embedding 和 M2 增量维护；Windows 尚未实际验证。
+
+开发步骤见 [开发指南](docs/development.md)，领域语义见 [数据模型](docs/data-model.md)，边界见 [架构](docs/architecture.md)。

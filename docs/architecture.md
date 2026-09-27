@@ -1,18 +1,17 @@
 # 架构
 
-当前 M0 已实现维护侧的结构化输入、校验和离线发布，以及查询侧的 QueryService 与 CLI：
-
 ```text
-Git 中的 registry/knowledge YAML
-  → Domain schema + 数据集校验
-  → 统一发布投影
-  → JSON / SQLite / Markdown
-  → manifest 完整性验证
-  → 不可变 releases/<id>/ + current.json
-  → 固定 release 的只读 QueryService
-  → ahw CLI
+Git 中的结构化知识（M0 位于 tests/fixtures/datasets/basic/）
+  → Domain schema + 跨记录校验
+  → 离线编译与统一发布投影
+  → knowledge.json / knowledge.sqlite / docs/ / manifest.json
+  → 完整性校验与不可变 releases/<id>/
+  ├→ 固定 release 的只读 QueryService → CLI / MCP stdio
+  └→ 生成的 Markdown → VitePress 文档站
 ```
 
-虚构输入目前隔离在 `tests/fixtures/datasets/basic/`。Git 中的结构化知识是事实真源；SQLite、JSON 和生成页面均是可重建产物。发布文件之间的 hash、行和页面一致性由编译器验证，旧发布不随新构建被覆盖。
+Git 中的结构化知识是事实真源。SQLite、JSON、Markdown 和 HTML 都是可重建产物。编译器先在 staging 写入并验证 hash、JSON、数据库和页面一致性，再发布；失败不会覆盖已有 release。当前 M0 数据明确标记为虚构，并与正式知识隔离。
 
-依赖方向为 `domain ← validation/compiler ← query ← CLI`。QueryService 启动时验证并固定一个 KnowledgeRelease，后续 CLI/MCP 均应共享其事实语义。查询不调用 LLM、网络或 harness：已审核并固定的知识必须在离线状态下可复现，查询时不能生成新的未经证实结论。正式 MCP 适配层与文档站仍待实现。
+依赖方向为 `domain ← validation/compiler ← query ← CLI/MCP`。`src/query/schema.ts` 承载共享查询契约，QueryService 负责版本、Target、条件、覆盖、冲突和分页语义。CLI 与 MCP 只解析输入、调用服务和呈现结果。MCP 进程启动时校验并固定一个 release；工具调用无法切换发布，也不访问网络、执行 harness 或写事实源。VitePress 从已验证发布的 Markdown 渲染事实页，站点另附一页通用状态说明；不从页面反向提取事实。
+
+查询不调用 LLM：已复核并发布的知识应在离线状态下可重复查询，模型生成的临时回答不能替代版本与证据判断。M1 的本地 embedding 只计划用于搜索召回，不用于改变事实状态。

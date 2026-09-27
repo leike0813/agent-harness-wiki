@@ -3,6 +3,7 @@ import { Command } from "commander";
 import { compileRelease } from "../compiler/release.js";
 import { loadAndValidateDataset } from "../validation/dataset.js";
 import { QueryService } from "../query/service.js";
+import { serveMcp } from "../mcp/server.js";
 
 const program = new Command()
   .name("ahw")
@@ -62,6 +63,24 @@ const query = program
   .option("--release-id <id>", "Required for fixture releases")
   .option("--releases-root <path>", "Release directory", "releases")
   .option("--json", "Compact JSON output");
+
+program
+  .command("mcp")
+  .description("Serve five read-only query tools over stdio")
+  .option("--release-id <id>", "Required for fixture releases")
+  .option("--releases-root <path>", "Release directory", "releases")
+  .action(async (options) => {
+    const service = await QueryService.open({
+      releasesRoot: options.releasesRoot,
+      ...(options.releaseId ? { releaseId: options.releaseId } : {}),
+    });
+    try {
+      await serveMcp(service);
+    } catch (error) {
+      service.close();
+      throw error;
+    }
+  });
 
 async function runQuery<T>(
   callback: (service: QueryService) => T,
