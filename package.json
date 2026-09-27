@@ -9,7 +9,11 @@
     "pnpm": "11.10.0"
   },
   "packageManager": "pnpm@11.10.0",
+  "bin": {
+    "ahw": "dist/cli/index.js"
+  },
   "scripts": {
+    "ahw": "tsx src/cli/index.ts",
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc -p tsconfig.json",
     "lint": "eslint src scripts tests",
@@ -18,7 +22,7 @@
     "test:integration": "vitest run tests/integration",
     "schema:export": "tsx scripts/export-schemas.ts",
     "validate:fixtures": "tsx scripts/validate-dataset.ts tests/fixtures/datasets/basic fixture",
-    "fixtures:build": "tsx scripts/compile-release.ts --dataset-root tests/fixtures/datasets/basic --profile fixture --release-id fixture-basic --published-at 2026-09-27T00:00:00Z --releases-root releases"
+    "fixtures:build": "tsx scripts/compile-release.ts --dataset-root tests/fixtures/datasets/basic --profile fixture --release-id fixture-query --published-at 2026-09-27T00:00:00Z --releases-root releases"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "2.1.0",

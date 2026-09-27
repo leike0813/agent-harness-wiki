@@ -1,6 +1,6 @@
 # agent-harness-wiki
 
-> 状态：**M0 初始化中**。已实现结构化校验和虚构数据的离线 KnowledgeRelease；查询入口仍在后续 change。
+> 状态：**M0 初始化中**。已实现虚构数据的离线发布、QueryService 和 CLI；正式 MCP 五工具与文档站仍待后续 change。
 > 详见 `AGENTS.md`、`docs/PRD.md`、`openspec/`。
 
 ## 项目定位
@@ -11,7 +11,7 @@
 
 ## 当前阶段
 
-已实现带精确版本和 Target 的结构化记录、两个明确虚构的 harness 数据集、YAML 与跨记录校验、JSON/SQLite/Markdown 发布，以及真实 stdio 的 MCP SDK ping 测试。能力路线按 M0 → M1 → M2 推进；harness catalog 在 M1 接入首批五个 CLI，之后按 Orca、OpenSpec 官方名单分两期扩容。产品契约见 `docs/PRD.md`，实施顺序见 `docs/roadmap.md`。当前 change 见 `openspec/changes/m0-reproducible-release/`。
+已实现带精确版本和 Target 的结构化记录、两个明确虚构的 harness 数据集、YAML 与跨记录校验、JSON/SQLite/Markdown 发布、固定 release 的五类查询和 CLI，以及真实 stdio 的 MCP SDK ping 测试。能力路线按 M0 → M1 → M2 推进；harness catalog 在 M1 接入首批五个 CLI，之后按 Orca、OpenSpec 官方名单分两期扩容。产品契约见 `docs/PRD.md`，实施顺序见 `docs/roadmap.md`。当前 change 见 `openspec/changes/m0-query-and-cli/`。
 
 ## 本地开发
 
@@ -30,9 +30,18 @@ pnpm test
 pnpm test:integration
 ```
 
-`pnpm validate:fixtures` 校验 `tests/fixtures/datasets/basic/`；其数据只用于开发和测试，不代表真实产品。`pnpm fixtures:build` 使用固定参数创建忽略的 `releases/fixture-basic/` 并切换 `releases/current.json`；发布 ID 不可覆盖，再次构建需选新 ID 或另一个输出根目录。`pnpm schema:export` 从 Zod schema 生成 `schemas/` 下的 JSON Schema。集成测试检查发布物与 MCP SDK 的测试 stdio 连接。
+`pnpm validate:fixtures` 校验 `tests/fixtures/datasets/basic/`；其数据只用于开发和测试，不代表真实产品。`pnpm fixtures:build` 使用固定参数创建忽略的 `releases/fixture-query/` 并切换 `releases/current.json`；发布 ID 不可覆盖，再次构建需选新 ID 或另一个输出根目录。`pnpm schema:export` 从 Zod schema 生成 `schemas/` 下的 JSON Schema。集成测试检查发布物、CLI 与 MCP SDK 的测试 stdio 连接。
 
-当前发布物包含 SQLite 结构化表与 FTS5 候选索引，但尚无 QueryService。CLI 查询、五工具 MCP 服务及文档站构建命令要在后续 M0 changes 完成；也尚未调查真实 harness。项目不提供自动配置管理、联网查询或查询时的 LLM 调用。
+查询示例（首次构建 fixture release 后）：
+
+```sh
+pnpm ahw query --release-id fixture-query list --json
+pnpm ahw query --release-id fixture-query capability --harness demo-package-cli --surface cli --distribution demo-package --os windows --arch x64 --execution-mode native --policy latest_upstream --topic native_plugins --json
+pnpm ahw query --release-id fixture-query search --text 技能 --json
+pnpm ahw query --release-id fixture-query evidence --evidence-id evidence-demo-package-plugin --json
+```
+
+`pnpm ahw validate` 和 `pnpm ahw compile` 也可用；参数见 `--help`。fixture release 必须显式指定 ID。`latest_upstream` 使用已发布快照的发现时间，不能视为能力已验证；`latest_verified` 只选一个有已接受事实的版本。列表和搜索每页默认 20 条，最多 100 条，比较最多 5 个 Target。当前尚无正式五工具 MCP 服务及文档站构建命令，也尚未调查真实 harness。项目不提供自动配置管理、联网查询或查询时的 LLM 调用。
 
 ## 文档
 

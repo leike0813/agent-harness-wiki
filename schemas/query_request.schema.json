@@ -2,9 +2,238 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {
-    "harness_id": {
+    "scope": {
+      "type": "object",
+      "properties": {
+        "surface": {
+          "type": "string",
+          "enum": [
+            "cli",
+            "ide",
+            "desktop"
+          ]
+        },
+        "distribution": {
+          "type": "string",
+          "minLength": 1
+        },
+        "os": {
+          "type": "string",
+          "enum": [
+            "linux",
+            "windows",
+            "macos"
+          ]
+        },
+        "arch": {
+          "type": "string",
+          "enum": [
+            "x64",
+            "arm64"
+          ]
+        },
+        "execution_mode": {
+          "type": "string",
+          "enum": [
+            "native",
+            "wsl",
+            "container",
+            "remote"
+          ]
+        },
+        "harness": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "surface",
+        "distribution",
+        "os",
+        "arch",
+        "execution_mode",
+        "harness"
+      ],
+      "additionalProperties": false
+    },
+    "topic": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9_-]*$"
+      "enum": [
+        "skills",
+        "mcp",
+        "custom_agents",
+        "custom_providers",
+        "hooks",
+        "native_plugins",
+        "configuration"
+      ]
+    },
+    "fact_key": {
+      "type": "string",
+      "minLength": 1
+    },
+    "conditions": {
+      "default": [],
+      "maxItems": 12,
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "workspace_trust"
+              },
+              "equals": {
+                "type": "string",
+                "enum": [
+                  "trusted",
+                  "untrusted"
+                ]
+              }
+            },
+            "required": [
+              "type",
+              "equals"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "environment_variable"
+              },
+              "name": {
+                "type": "string",
+                "pattern": "^[A-Z][A-Z0-9_]*$"
+              },
+              "operator": {
+                "type": "string",
+                "enum": [
+                  "set",
+                  "unset"
+                ]
+              }
+            },
+            "required": [
+              "type",
+              "name",
+              "operator"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "feature_flag"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "equals": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type",
+              "name",
+              "equals"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "config_value"
+              },
+              "key": {
+                "type": "string",
+                "minLength": 1
+              },
+              "equals": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "type",
+              "key",
+              "equals"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "launch_argument"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "present": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type",
+              "name",
+              "present"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "profile"
+              },
+              "equals": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "type",
+              "equals"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "extension_installed"
+              },
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "equals": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type",
+              "id",
+              "equals"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
     },
     "version": {
       "oneOf": [
@@ -92,7 +321,8 @@
     }
   },
   "required": [
-    "harness_id",
+    "scope",
+    "conditions",
     "version"
   ],
   "additionalProperties": false

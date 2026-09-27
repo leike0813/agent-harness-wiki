@@ -250,16 +250,27 @@ export const publishedKnowledgeSchema = z.strictObject({
   }),
 });
 
+export const queryScopeSchema = targetScopeSchema
+  .omit({ harness_id: true })
+  .extend({
+    harness: nonempty,
+  });
+
+export const queryVersionSchema = z.discriminatedUnion("policy", [
+  z.strictObject({
+    policy: z.literal("exact"),
+    identity: versionIdentitySchema,
+  }),
+  z.strictObject({ policy: z.literal("latest_verified") }),
+  z.strictObject({ policy: z.literal("latest_upstream") }),
+]);
+
 export const queryRequestSchema = z.strictObject({
-  harness_id: id,
-  version: z.discriminatedUnion("policy", [
-    z.strictObject({
-      policy: z.literal("exact"),
-      identity: versionIdentitySchema,
-    }),
-    z.strictObject({ policy: z.literal("latest_verified") }),
-    z.strictObject({ policy: z.literal("latest_upstream") }),
-  ]),
+  scope: queryScopeSchema,
+  topic: topicSchema.optional(),
+  fact_key: nonempty.optional(),
+  conditions: z.array(conditionSchema).max(12).default([]),
+  version: queryVersionSchema,
 });
 
 export const queryResultSchema = z.strictObject({
@@ -271,9 +282,19 @@ export const queryResultSchema = z.strictObject({
     "not_verified",
     "conflict",
     "not_found",
+    "unknown",
   ]),
+  requested_version: queryVersionSchema,
   target: targetSchema.optional(),
-  claim_ids: z.array(id),
+  source_observed_at: z.iso.datetime().optional(),
+  coverage: z.array(coverageSchema),
+  facts: z.array(
+    z.strictObject({
+      claim: claimSchema,
+      target: targetSchema,
+      review_status: z.enum(["accepted", "disputed"]),
+    }),
+  ),
 });
 
 export const recordSchemas = {

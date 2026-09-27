@@ -132,6 +132,16 @@ test("release views preserve exact scope, coverage and evidence", async () => {
   expect(knowledge.records.harnesses).toHaveLength(2);
   expect(knowledge.records.claims).toHaveLength(8);
   expect(
+    knowledge.records.snapshots.some(
+      (item) => item.target.version_identity.value === "2.0.0",
+    ),
+  ).toBe(true);
+  expect(
+    knowledge.records.claims.some(
+      (item) => item.version_applicability.versions[0].value === "2.0.0",
+    ),
+  ).toBe(false);
+  expect(
     knowledge.records.coverage.some(
       (item) =>
         item.status === "not_started" &&

@@ -14,7 +14,7 @@
 | Assessment | `assessment_id` | 复核人、事实验证时间、状态、证据及理由 |
 | CoverageRecord | `coverage_id` | 某完整 Target 与主题的调查覆盖状态 |
 
-所有记录都有 `schema_version: 1` 与 `record_kind: fixture | production`，拒绝未知字段。`publishedKnowledgeSchema` 定义发布 JSON，manifest 记录构建器版本、输入摘要、产物 hash 和显式发布时间。QueryService 尚未实现。
+所有记录都有 `schema_version: 1` 与 `record_kind: fixture | production`，拒绝未知字段。`publishedKnowledgeSchema` 定义发布 JSON，manifest 记录构建器版本、输入摘要、产物 hash 和显式发布时间。`queryRequestSchema` 定义完整 Target scope、版本策略、主题、事实键及有限条件；`queryResultSchema` 定义能力查询的状态、已选 Target、覆盖及事实。
 
 ## Target、版本与条件
 
@@ -32,6 +32,8 @@ Evidence 的立场为 `supports | refutes | qualifies`，观察基础为 `docume
 
 ## 发布投影
 
-编译器只把有 `accepted` 或 `disputed` Assessment 的 Claim 放入查询数据，连同对应 Assessment 所引用的 Evidence、Snapshot 和 Source 元数据。`draft`、`rejected` 的断言不进入发布事实；Coverage 全部保留，以表达尚未调查或部分调查。JSON、SQLite 与生成页面使用同一投影。有争议 Claim 保留争议状态；SQLite 的 `review_status` 不根据其支持状态推断。
+编译器只把有 `accepted` 或 `disputed` Assessment 的 Claim 放入查询数据，连同对应 Assessment 所引用的 Evidence。已校验的 Snapshot 和 Source 元数据全部保留，以表达发现了但尚未验证的版本；原始来源内容不发布。`draft`、`rejected` 的断言不进入发布事实；Coverage 全部保留，以表达尚未调查或部分调查。JSON、SQLite 与生成页面使用同一投影。有争议 Claim 保留争议状态；SQLite 的 `review_status` 不根据其支持状态推断。
 
 `releases/<release-id>/` 不可变，包含 `knowledge.json`、`knowledge.sqlite`、`docs/` 和 `manifest.json`。`releases/current.json` 只存当前 release ID。发布检验比较产物 hash、JSON 与数据库行、生成页面、SQLite 完整性和外键。发布目录可重建，不是事实真源。
+
+QueryService 只读取一个经检验的发布物。精确版本不回退；`latest_verified` 从当前 scope/主题已接受的 Claim 选择一个版本，`latest_upstream` 从 Snapshot 选择一个已发现版本并给出 `source_fetched_at`。只有纯数字点分 release 可比较先后，其他多版本候选返回 ambiguous。条件缺失返回 ambiguous，完整覆盖而缺事实返回 unknown，未调查版本返回 not_verified；这些都不等于 unsupported。

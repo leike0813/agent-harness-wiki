@@ -39,18 +39,10 @@ export function publishedRecords(dataset: Dataset): Dataset {
   const evidence = dataset.evidence.filter((item) =>
     evidenceIds.has(item.evidence_id),
   );
-  const snapshotIds = new Set(evidence.map((item) => item.snapshot_id));
-  const snapshots = dataset.snapshots.filter((item) =>
-    snapshotIds.has(item.snapshot_id),
-  );
-  const sourceIds = new Set(snapshots.map((item) => item.source_id));
   return {
     harnesses: by([...dataset.harnesses], (item) => item.harness_id),
-    sources: by(
-      dataset.sources.filter((item) => sourceIds.has(item.source_id)),
-      (item) => item.source_id,
-    ),
-    snapshots: by(snapshots, (item) => item.snapshot_id),
+    sources: by([...dataset.sources], (item) => item.source_id),
+    snapshots: by([...dataset.snapshots], (item) => item.snapshot_id),
     claims: by(claims, (item) => item.claim_id),
     evidence: by(evidence, (item) => item.evidence_id),
     assessments: by(includedAssessments, (item) => item.assessment_id),
