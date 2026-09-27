@@ -295,6 +295,7 @@ bash-only syntax
 - 不得反向从 Markdown 提取事实作为常规更新机制。
 - 不得只修改数据库来更新事实。
 - 官方来源元数据与已捕获原件分开；`archive/` 原件由显式离线审计核对，普通查询和构建不依赖它。
+- M1 npm 可执行包由 `research/package-set/` 精确锁定，使用项目专属 pnpm store；换版先审计新包，再清理旧包字节。历史发布的元数据和已复核短摘录持续可查询，缺失的旧包原件在审计中如实报告。文档原件和模型按各自规则保留。
 
 ### 6.2 查询边界
 
@@ -409,7 +410,7 @@ docs/
 schemas/
 ```
 
-M0 虚构数据仍位于 `tests/fixtures/datasets/`，不进入正式 `registry/`、`knowledge/`。目录按实际接入创建，不预建空的 harness 子树。M2 项目调查 Skill 放在 `.agents/skills/`，只豁免该 Skill 的子目录。需要运行观察时才建立相应入口，不预建通用探针框架。
+M0 虚构数据仍位于 `tests/fixtures/datasets/`，不进入正式 `registry/`、`knowledge/`。目录按实际接入创建，不预建空的 harness 子树。M2 项目调查 Skill 放在 `.agents/skills/`，只豁免该 Skill 的子目录。M2 手动上游检查在 `audits/<harness-id>/` 留 Git 审计记录；候选原件保留在忽略的 `archive/`，不得自动接受事实或切换发布。需要运行观察时才建立相应入口，不预建通用探针框架。
 
 ### 7.1 Domain
 

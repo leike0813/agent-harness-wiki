@@ -533,7 +533,13 @@ export async function loadAndValidateDataset(input: {
       source.harness_id !== artifact.harness_id ||
       (artifact.kind === "git_checkout" && source.kind !== "git_repository") ||
       (artifact.kind === "archived_document" &&
-        source.kind !== "official_documentation")
+        source.kind !== "official_documentation") ||
+      (artifact.kind === "managed_package" &&
+        (source.kind !== "npm_registry" ||
+          source.package_name !== artifact.package_name)) ||
+      (artifact.kind === "archived_package_file" &&
+        (source.kind !== "npm_registry" ||
+          source.package_name !== artifact.package_name))
     )
       related(
         "SOURCE_MISSING",
@@ -545,17 +551,34 @@ export async function loadAndValidateDataset(input: {
     const location =
       artifact.kind === "git_checkout"
         ? artifact.checkout_path
-        : artifact.archive_path;
+        : artifact.kind === "archived_document"
+          ? artifact.archive_path
+          : artifact.kind === "managed_package"
+            ? artifact.package_path
+            : artifact.tarball_path;
     const prefix =
       artifact.kind === "git_checkout"
         ? `upstream/${artifact.harness_id}`
-        : `archive/${artifact.harness_id}/${artifact.artifact_id}/`;
+        : artifact.kind === "archived_document"
+          ? `archive/${artifact.harness_id}/${artifact.artifact_id}/`
+          : artifact.kind === "managed_package"
+            ? `research/package-set/node_modules/${artifact.package_name}`
+            : `archive/${artifact.harness_id}/npm/${artifact.version}/`;
     if (
       !safeRelative(location) ||
-      (artifact.kind === "git_checkout"
-        ? location !== prefix
-        : !location.startsWith(prefix)) ||
-      (artifact.kind === "git_checkout" && !safeRelative(artifact.file))
+      (artifact.kind === "archived_document" ||
+      artifact.kind === "archived_package_file"
+        ? !location.startsWith(prefix)
+        : artifact.kind === "git_checkout"
+          ? location !== prefix &&
+            location !==
+              `archive/${artifact.harness_id}/git/${artifact.commit}/checkout`
+          : location !== prefix) ||
+      (artifact.kind !== "archived_document" && !safeRelative(artifact.file)) ||
+      (artifact.kind === "archived_package_file" &&
+        !artifact.file.startsWith("package/")) ||
+      (artifact.kind === "managed_package" &&
+        !safeRelative(artifact.package_name))
     )
       related(
         "PATH_INVALID",
@@ -609,7 +632,10 @@ export async function loadAndValidateDataset(input: {
         (snapshot.kind === "source_revision" &&
           artifact.kind !== "git_checkout") ||
         (snapshot.kind === "documentation" &&
-          artifact.kind !== "archived_document")
+          artifact.kind !== "archived_document") ||
+        (snapshot.kind === "npm_release" &&
+          artifact.kind !== "managed_package" &&
+          artifact.kind !== "archived_package_file")
       )
         related(
           "ARTIFACT_MISSING",
@@ -650,6 +676,34 @@ export async function loadAndValidateDataset(input: {
             "Documentation URL or content identity differs from source and artifact.",
             "Match the captured URL, extractor and hashes.",
           );
+      } else if (snapshot.kind === "npm_release") {
+        if (
+          source?.kind !== "npm_registry" ||
+          source.package_name !== snapshot.package_name ||
+          snapshot.target.version_identity.kind !== "release" ||
+          snapshot.target.version_identity.value !== snapshot.version ||
+          snapshot.target.distribution !==
+            `npm:${snapshot.package_name}:linux-x64-glibc` ||
+          snapshot.target.surface !== "cli" ||
+          snapshot.target.os !== "linux" ||
+          snapshot.target.arch !== "x64" ||
+          snapshot.target.execution_mode !== "native" ||
+          (artifact?.kind === "managed_package" &&
+            (artifact.package_name !== snapshot.package_name ||
+              artifact.version !== snapshot.version ||
+              artifact.integrity !== snapshot.integrity)) ||
+          (artifact?.kind === "archived_package_file" &&
+            (artifact.package_name !== snapshot.package_name ||
+              artifact.version !== snapshot.version ||
+              artifact.integrity !== snapshot.integrity))
+        )
+          related(
+            "TARGET_MISMATCH",
+            snapshot.snapshot_id,
+            "target",
+            "Package snapshot differs from its source, artifact, or exact Linux CLI Target.",
+            "Use the matching package name, version, integrity, and distribution.",
+          );
       }
     }
   }
@@ -673,6 +727,22 @@ export async function loadAndValidateDataset(input: {
         "Keep one coverage record per Target and topic.",
       );
     coverageKeys.add(key);
+    for (const ref of coverage.snapshot_refs ?? []) {
+      const snapshot = snapshots.get(ref);
+      const snapshotHarness =
+        snapshot &&
+        ("target" in snapshot
+          ? snapshot.target.harness_id
+          : snapshot.harness_id);
+      if (!snapshot || snapshotHarness !== coverage.target.harness_id)
+        related(
+          "SNAPSHOT_MISSING",
+          coverage.coverage_id,
+          "snapshot_refs",
+          "Investigation snapshot is missing or belongs to another harness.",
+          "Reference a fixed source snapshot for this harness.",
+        );
+    }
     if (coverage.status === "not_started" || coverage.status === "partial")
       fail({
         code: "COVERAGE_INCOMPLETE",
@@ -902,7 +972,7 @@ export async function loadAndValidateDataset(input: {
         "Claim does not reference this evidence.",
         "Add the evidence ID to the claim.",
       );
-    if (item.locator.kind === "line" && source) {
+    if (item.locator.kind === "line" && source?.kind === "fixture_file") {
       const lines = sourceText.get(source.source_id)?.split(/\r?\n/) ?? [];
       if (
         item.locator.end < item.locator.start ||

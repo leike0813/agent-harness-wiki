@@ -23,16 +23,19 @@
     "schema:export": "tsx scripts/export-schemas.ts",
     "schema:check": "tsx scripts/check-schemas.ts",
     "sources:audit": "tsx scripts/audit-sources.ts",
+    "sources:scan": "tsx scripts/scan-sources.ts",
+    "sources:audit-log": "tsx scripts/validate-audits.ts",
     "validate:fixtures": "tsx scripts/validate-dataset.ts tests/fixtures/datasets/basic fixture",
     "fixtures:build": "tsx scripts/compile-release.ts --dataset-root tests/fixtures/datasets/basic --profile fixture --release-id fixture-query --published-at 2026-09-27T00:00:00Z --releases-root releases",
     "docs:build": "tsx scripts/build-site.ts",
     "mcp:smoke": "vitest run tests/integration/mcp.test.ts",
-    "verify": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm schema:check && pnpm validate:fixtures && pnpm test && pnpm test:integration && pnpm build && pnpm docs:build"
+    "verify": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm schema:check && pnpm sources:audit-log && pnpm validate:fixtures && pnpm test && pnpm test:integration && pnpm build && pnpm docs:build"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "2.1.0",
     "better-sqlite3": "13.0.3",
     "commander": "15.0.0",
+    "tar": "7.5.22",
     "yaml": "2.9.1",
     "zod": "4.6.5"
   },

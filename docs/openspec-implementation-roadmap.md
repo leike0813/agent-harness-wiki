@@ -1,6 +1,6 @@
 # OpenSpec 实施路线
 
-本路线把 [PRD](PRD.md)和[项目实施路线](roadmap.md)中已确定的决策转成一组可逐项实施的 OpenSpec change。前三个 M0 change 已归档；`m0-mcp-site-and-verification` 已实现并通过离线验收，尚未归档。本文件仍是实施顺序，未完成项不代表已有功能。
+本路线把 [PRD](PRD.md)和[项目实施路线](roadmap.md)中已确定的决策转成一组可逐项实施的 OpenSpec change。M0 的四个 change 与 `m1-source-and-artifact-boundary` 已归档；`m1-five-harness-knowledge` 与提前实施的 `m2-investigation-skill` 当前仍在工作区。本文件仍是实施顺序，未完成项不代表已有功能。
 
 ## 使用方式
 
@@ -25,7 +25,7 @@
 | 顺序与 change 名 | 依赖及主要文件 | 可独立验收的结果 |
 |---|---|---|
 | 5. `m1-source-and-artifact-boundary` | 依赖 M0；扩充 `src/domain/`、`src/validation/`、`src/sources/`，建立真实 Source、Snapshot、Artifact 身份与归档引用；按需建立 `registry/`、`knowledge/<harness-id>/`、`upstream/`，修正 `.gitignore` 中 `archive/` 与旧占位布局。 | 固定来源、hash、Target 和制品身份可追溯；本地原件与临时 `var/` 分离；未经审核的材料不能进入已接受发布。 |
-| 6. `m1-five-harness-knowledge` | 依赖 5；接入 Codex CLI、Claude Code、OpenCode、Pi、OMP 的精确 Target、来源、六类主题与横切配置的覆盖记录；深入调查 Skills、MCP、配置优先级；扩充校验、发布及查询所需 schema。 | 每个对象有调查范围与结果或具体证据缺口；实质性接受结论有 Evidence/Assessment；人工复核后可构建正式 release；不把来源名单或未知状态当作能力证明。 |
+| 6. `m1-five-harness-knowledge` | 依赖 5；接入 Codex CLI、Claude Code、OpenCode、Pi、OMP 的精确 Target、来源、六类主题与横切配置的覆盖记录；逐项调查全部 35 个 Target × 主题并复核结果；扩充校验、发布及查询所需 schema。 | 每个对象的七类主题都有调查范围与结果或具体证据缺口；实质性接受结论有 Evidence/Assessment；人工复核后可构建正式 release；不把来源名单或未知状态当作能力证明。 |
 | 7. `m1-managed-artifact-startup` | 依赖 5、6；建立研究侧受管运行入口及必要的运行记录，涉及 `src/sources/` 或独立运行模块、`archive/` 和测试。 | 五个精确制品各有启动尝试与成功或阻塞记录；至少一个真实启动成功；运行绑定 Artifact、hash、Target 与隔离模式；查询侧永不触发执行。 |
 | 8. `m1-offline-hybrid-search` | 依赖 6；为已发布 Claim 选择并固定本地模型，在 `src/compiler/`、`src/query/` 和 SQLite 发布索引中加入向量候选，模型原件放 `archive/models/`。 | CLI/MCP 在离线环境中共用混合搜索，补足代表性词法漏检；Target/版本/条件仍硬过滤；缺模型时明确降级；旧 release 绑定其模型身份。 |
 
@@ -35,10 +35,10 @@ M1 的总验收在 **6、7、8 全部完成后**进行，并以 [PRD §21.3](PRD
 
 | 顺序与 change 名 | 依赖及主要文件 | 可独立验收的结果 |
 |---|---|---|
-| 9. `m2-manual-source-scan` | 依赖 M1 的 Source/Evidence 定位；在 `src/sources/`、CLI 和测试中增加用户手动触发的源码、官方文档与新版本变化检查。 | 变化映射到待复核 Claim/主题；扫描不移动 submodule、不改已接受事实或当前 release；新版本保持未验证。 |
-| 10. `m2-investigation-skill` | 依赖 9；只跟踪 `.agents/skills/` 中本项目专用调查 Skill，并为候选 Claim/Evidence/Coverage 提供现有 schema 校验入口。 | 用户调用现有 agent 得到可审阅候选、证据缺口或阻塞记录；候选不能自行变成 accepted 或切换 release。 |
+| 9. `m2-investigation-skill` | 依赖 M1 的 Source/Evidence 定位；只跟踪 `.agents/skills/harness-investigation/`，复用现有 schema 校验入口；用户可直接指定 Target 和问题。 | 用户调用现有 agent 得到可审阅候选、证据缺口或阻塞记录；不依赖来源扫描，候选不能自行变成 accepted 或切换 release。 |
+| 10. `m2-upstream-incremental-audit` | 依赖 9；增加 `sources:scan`、Git 审计资产、候选原件校验与 Skill 的 ID 默认入口，覆盖已登记的 npm、源码和官方文档。 | 每次调用包括未变化均留审计记录；变化映射到待复核 Claim/主题；扫描不移动 submodule、不改已接受事实或当前 release。 |
 
-M2 按 [PRD §21.4](PRD.md#214-m2-验收)验收。Orca 和 OpenSpec 具名 CLI 清单扩容是 **M1 后的两个独立 catalog change**，不并入 M2：每波开始时固定官方名单 revision、核验日期、扣除已收录对象，再依据同一 Target、证据和覆盖标准制定该波具体 tasks。
+M2 按 [PRD §21.4](PRD.md#214-m2-验收)验收。调查 Skill 默认从 harness ID 扫描，精确 Target 问题仍可直接调查。Orca 和 OpenSpec 具名 CLI 清单扩容是 **M1 后的两个独立 catalog change**，不并入 M2：每波开始时固定官方名单 revision、核验日期、扣除已收录对象，再依据同一 Target、证据和覆盖标准制定该波具体 tasks。
 
 ## 每个 change 的完成门槛
 

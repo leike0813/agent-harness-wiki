@@ -91,10 +91,15 @@ export function renderDocs(knowledge: PublishedKnowledge): Map<string, string> {
         "",
         "## Coverage",
         "",
-        ...coverage.map(
-          (item) =>
-            `- ${item.topic}: ${item.status} — ${escapeText(JSON.stringify(item.target))}`,
-        ),
+        ...coverage.flatMap((item) => [
+          `- ${item.topic}: ${item.status} — ${escapeText(JSON.stringify(item.target))}`,
+          ...(item.snapshot_refs?.length
+            ? [`  - Sources: ${item.snapshot_refs.map(escapeText).join(", ")}`]
+            : []),
+          ...(item.investigation_notes
+            ? [`  - Investigation: ${escapeText(item.investigation_notes)}`]
+            : []),
+        ]),
         "",
         "## Reviewed claims",
         "",

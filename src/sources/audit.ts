@@ -3,8 +3,10 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { lstat, readFile, realpath } from "node:fs/promises";
 import path from "node:path";
+import YAML from "yaml";
 import type { Artifact } from "../domain/schema.js";
 import { loadAndValidateDataset } from "../validation/dataset.js";
+import { readArchivedPackageFile } from "./package-archive.js";
 
 const run = promisify(execFile);
 
@@ -60,6 +62,70 @@ export async function auditArtifacts(
           artifact.archive_path,
           artifact.raw_sha256,
         );
+      } else if (artifact.kind === "archived_package_file") {
+        const bytes = await readArchivedPackageFile(
+          await localPath(originalsRoot, artifact.tarball_path),
+          artifact.integrity,
+          artifact.file,
+        );
+        if (
+          !bytes ||
+          createHash("sha256").update(bytes).digest("hex") !==
+            artifact.content_sha256
+        )
+          throw new Error("Archived package file hash mismatch.");
+      } else if (artifact.kind === "managed_package") {
+        const packageLink = path.join(originalsRoot, artifact.package_path);
+        let packageDir: string;
+        try {
+          packageDir = await realpath(packageLink);
+        } catch {
+          throw new Error(
+            `Managed package original unavailable: ${artifact.package_path}`,
+          );
+        }
+        const virtualStore = path.join(
+          await realpath(originalsRoot),
+          "research/package-set/node_modules/.pnpm",
+        );
+        if (!packageDir.startsWith(`${virtualStore}${path.sep}`))
+          throw new Error(
+            "Managed package link escapes the dedicated package set.",
+          );
+        const packageJsonFile = await localPath(packageDir, "package.json");
+        if ((await lstat(packageJsonFile)).size > 1024 * 1024)
+          throw new Error("Managed package manifest exceeds the audit limit.");
+        const packageJson = JSON.parse(
+          await readFile(packageJsonFile, "utf8"),
+        ) as { name?: unknown; version?: unknown };
+        if (packageJson.version !== artifact.version)
+          throw new Error(
+            `Managed package original unavailable: ${artifact.package_name}@${artifact.version}`,
+          );
+        if (packageJson.name !== artifact.package_name)
+          throw new Error("Managed package name differs.");
+        const lockfile = YAML.parse(
+          await readFile(
+            await localPath(originalsRoot, artifact.lockfile_path),
+            "utf8",
+          ),
+        ) as {
+          packages?: Record<string, { resolution?: { integrity?: string } }>;
+          importers?: Record<
+            string,
+            { dependencies?: Record<string, { specifier?: string }> }
+          >;
+        };
+        if (
+          lockfile.packages?.[`${artifact.package_name}@${artifact.version}`]
+            ?.resolution?.integrity !== artifact.integrity ||
+          lockfile.importers?.["."]?.dependencies?.[artifact.package_name]
+            ?.specifier !== artifact.version
+        )
+          throw new Error(
+            "Managed package differs from the fixed pnpm lockfile.",
+          );
+        await checkedHash(packageDir, artifact.file, artifact.content_sha256);
       } else {
         const checkout = await localPath(originalsRoot, artifact.checkout_path);
         if (!(await lstat(checkout)).isDirectory())
@@ -94,4 +160,50 @@ export async function auditSources(
   });
   if (!validated.ok) throw new Error("Production source metadata is invalid.");
   await auditArtifacts(validated.dataset.artifacts, originalsRoot);
+  const artifacts = new Map(
+    validated.dataset.artifacts.map((item) => [item.artifact_id, item]),
+  );
+  const snapshots = new Map(
+    validated.dataset.snapshots.map((item) => [item.snapshot_id, item]),
+  );
+  for (const evidence of validated.dataset.evidence) {
+    const snapshot = snapshots.get(evidence.snapshot_id);
+    if (!snapshot || !("kind" in snapshot) || snapshot.kind !== "npm_release")
+      continue;
+    const artifact = artifacts.get(snapshot.artifact_id);
+    if (
+      artifact?.kind !== "managed_package" &&
+      artifact?.kind !== "archived_package_file"
+    )
+      continue;
+    const source =
+      artifact.kind === "managed_package"
+        ? await readFile(
+            await localPath(
+              await realpath(path.join(originalsRoot, artifact.package_path)),
+              artifact.file,
+            ),
+            "utf8",
+          )
+        : ((
+            await readArchivedPackageFile(
+              await localPath(originalsRoot, artifact.tarball_path),
+              artifact.integrity,
+              artifact.file,
+            )
+          )?.toString("utf8") ?? "");
+    const located =
+      evidence.locator.kind === "line"
+        ? source
+            .split(/\r?\n/)
+            .slice(evidence.locator.start - 1, evidence.locator.end)
+            .join("\n")
+            .includes(evidence.excerpt)
+        : source.includes(evidence.locator.heading) &&
+          source.includes(evidence.excerpt);
+    if (!located)
+      throw new Error(
+        `Evidence ${evidence.evidence_id}: package locator differs from original.`,
+      );
+  }
 }

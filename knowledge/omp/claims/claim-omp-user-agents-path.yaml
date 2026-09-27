@@ -1,0 +1,23 @@
+schema_version: 1
+record_kind: production
+claim_id: claim-omp-user-agents-path
+fact_key: custom_agents.discovery.user_path
+target:
+  harness_id: omp
+  surface: cli
+  distribution: npm:@oh-my-pi/pi-coding-agent:linux-x64-glibc
+  os: linux
+  arch: x64
+  execution_mode: native
+version_applicability:
+  kind: exact
+  versions: [{ kind: release, value: "18.3.4" }]
+topic: custom_agents
+assertion:
+  type: discovery_rule
+  subject: agent
+  rule: User-level OMP-native agent definitions are discovered from ~/.omp/agent/agents/*.md.
+conditions: { all_of: [] }
+support: { availability: supported, delivery: native }
+evidence_refs: [evidence-omp-user-agents-path]
+assessment_refs: [assessment-omp-user-agents-path]

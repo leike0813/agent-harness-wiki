@@ -195,7 +195,7 @@ agent-harness-wiki 是一个面向 AI coding agent 及其他 agent harness 的�
 
 M0 不是生产知识发布，不得把测试数据包装成真实调查结果。
 
-M1 的首批对象为 Codex CLI、Claude Code、OpenCode、Pi、OMP。Pi 与 OMP 分别建立身份。五个对象均建立六类核心主题及横切配置的覆盖记录，深入调查 Skills、MCP 和配置优先级，并尝试在独立环境启动精确制品；证据不足的结论保留未知或阻塞状态。运行状态与知识覆盖分别记录。
+M1 的首批对象为 Codex CLI、Claude Code、OpenCode、Pi、OMP。Pi 与 OMP 分别建立身份。五个对象均建立六类核心主题及横切配置的覆盖记录，并对全部七类主题逐项调查和复核；证据不足处保留具体缺口与未知或阻塞状态。精确制品的独立环境启动尝试另行记录，运行状态与知识覆盖分别判断。
 
 Harness catalog 的第二期收录 [Orca 官方具名支持名单](https://github.com/stablyai/orca/blob/main/README.md)中可独立运行的 CLI；第三期收录 [OpenSpec 官方工具名单](https://github.com/Fission-AI/OpenSpec/blob/main/docs/supported-tools.md)中可独立运行的 CLI。各期开始时固定名单 revision 和核验日期，扣除已有对象，并沿用身份、官方来源、精确 Target 与主题覆盖齐全的收录标准。Orca 的“任何 CLI agent”承诺、IDE 专用集成和共享 `.agents` 目标不算独立 harness。名单只提供收录线索，不证明对象的具体能力。后两期独立于 M2 维护流程。
 
@@ -386,7 +386,7 @@ healthy
 | SourceDefinition | 官方仓库、文档站、包渠道等来源定义 | `registry/` |
 | Target | 产品形态、版本、平台、分发和运行方式组成的调查目标 | 知识记录及索引 |
 | SnapshotManifest | 固定输入快照的身份与元数据 | `knowledge/<harness-id>/snapshots/` |
-| Artifact | 原始文档、包、二进制、日志及需保留的提取全文 | 本地 `archive/<harness-id>/`；官方源码在 `upstream/<harness-id>/` |
+| Artifact | 原始文档、受管包、源码 checkout 等固定原件的身份与位置 | 文档在本地 `archive/<harness-id>/`，npm 包在 `research/package-set/` 与项目专属 store；官方源码在 `upstream/<harness-id>/` |
 | Claim | 带条件和适用范围的结构化断言 | `knowledge/<harness-id>/claims/` |
 | Evidence | 支持、反驳或限定断言的证据 | `knowledge/<harness-id>/evidence/` |
 | Assessment | 接受、拒绝、争议、更正、复核记录 | `knowledge/<harness-id>/assessments/` |
@@ -824,11 +824,11 @@ knowledge_published_at
 
 未调查、调查受阻或证据不足的主题应写入覆盖记录。
 
-M1 五个对象的 Skills、MCP 和配置优先级深查，分别在 CoverageRecord 中引用固定来源与简短调查记录；记录调查范围、查证过程、结果或具体证据缺口。形成实质性事实时另以 Evidence 和 Assessment 复核，不能用 `unknown` 状态代替调查记录。
+M1 五个对象的全部七类主题调查，分别在 CoverageRecord 中引用固定来源与简短调查记录；记录调查范围、查证过程、结果或具体证据缺口，并汇总供人工复核。形成实质性事实时另以 Evidence 和 Assessment 复核，不能用 `unknown` 状态代替调查记录。
 
 ### 9.2 项目调查 Skill
 
-M2 由用户手动选择问题并调用现有 agent；项目在 `.agents/skills/` 提供一个调查 Skill，不建设自动调用模型的 ResearchRunner。Skill 输入包括 harness、精确 Target、问题、既有事实与证据，以及固定源码 commit、文档或制品快照和相关变化。
+M2 由用户手动调用 `.agents/skills/` 中的项目调查 Skill，不建设自动调用模型的 ResearchRunner。默认输入是 registry 中一个或多个 harness ID；Skill 从 `source_refs` 自动检查登记的上游来源，再按变化调查。也可直接指定精确 Target 和问题，沿已有固定来源调查。
 
 Skill 产生可审阅的 Claim、Evidence、Coverage 候选记录，说明调查范围、冲突、未知项与证据缺口。候选经 schema 校验和人工语义复核后才能成为正式知识；Skill 不直接将候选设为 `accepted`，也不切换 KnowledgeRelease。模型、凭据、费用和会话重试由用户启动的 agent 会话负责。
 
@@ -870,7 +870,9 @@ Skill 产生可审阅的 Claim、Evidence、Coverage 候选记录，说明调查
 
 文档更新不依赖软件发布事件。
 
-M2 的检查由用户按需启动，首批覆盖源码 commit、官方文档内容和新发布版本；不启动定时轮询。检查只生成变化与待复核清单，不移动 submodule 指针，也不改变已接受事实或发布指针。
+M2 的检查由用户按需启动，覆盖 registry 所列 npm 最新版本与 integrity、Git 默认分支 HEAD、官方 Markdown 文档原始内容；不启动定时轮询，不爬取未登记来源。每次调用为每个选中 harness 写一份 Git 跟踪的 `audits/<harness-id>/<audit-id>.yaml`，记录基线、本次观察、时间、变化路径、来源错误、受影响主题/Claim 和待复核状态。未变化也留审计记录；某个来源失败不抹去其他来源的结果。后续扫描沿前次成功观察比较，并保留未完成的审计引用。
+
+新 npm tarball 下载到忽略的 `archive/`，校验 registry integrity，在有界 tar 读取中检查条目；不安装、不解包、不执行，也不替换人工选定的受管包。新 Git commit 在忽略的隔离 checkout 中取得，不移动 `upstream/` submodule 指针。候选原件有准确身份和文件 hash，只有经调查、复核后才可形成精确 Target 知识；扫描本身不改变已接受事实或发布指针。
 
 ### 10.2 影响分析
 
@@ -929,7 +931,7 @@ M2 的检查由用户按需启动，首批覆盖源码 commit、官方文档内�
 
 ### 10.5 候选与复核
 
-变化检查记录固定输入、受影响的 Claim/主题和未能判断的范围。调查候选与已接受知识分开保存；失败或中断时保留已有材料、错误和 `blocked` 原因。人工复核形成 Assessment 后，构建新 release；旧 release 在此之前继续可查询。新的 Target 即使来源内容未变，也须有新 Assessment 才能复用旧事实。
+变化检查记录在 `audits/` 中，独立于发布数据；调查候选与已接受知识分开保存。新 npm Target 为七个主题建立 Coverage，证据不足时保留未知或具体阻塞，不沿用旧版本的接受结论。失败或中断时保留已有材料、错误和 `blocked` 原因。人工复核形成 Assessment 后，构建新 release；旧 release 在此之前继续可查询。新的 Target 即使来源内容未变，也须有新 Assessment 才能复用旧事实。
 
 ---
 
@@ -1005,13 +1007,15 @@ M1 只准入身份、精确版本与 hash 已记录的官方发布制品，或�
 保存：
 
 - 文档快照。
-- 发布包。
-- 二进制。
 - 探针日志。
 - 调查中间产物。
 - M1 本地 embedding 模型与推理文件。
 
-原件放在被 Git 忽略的 `archive/<harness-id>/<artifact-id>/`，模型放在 `archive/models/<model-id>/`；记录来源、精确身份和内容 hash。官方源码优先以 `upstream/<harness-id>/` 的 Git submodule 固定 commit，不默认重复归档。已被正式证据引用的原件持续保留，不因 Git 忽略而自动清理。
+文档等原件放在被 Git 忽略的 `archive/<harness-id>/<artifact-id>/`，模型放在 `archive/models/<model-id>/`；记录来源、精确身份和内容 hash。官方源码优先以 `upstream/<harness-id>/` 的 Git submodule 固定 commit，不默认重复归档。已被正式证据引用的文档原件持续保留，不因 Git 忽略而自动清理。
+
+M2 的增量候选另放 `archive/<harness-id>/npm/<version>/package.tgz` 与 `archive/<harness-id>/git/<commit>/checkout`；已选定的 submodule 和受管 npm 包集保持不变。`audits/<harness-id>/` 只跟踪审计元数据，不保存原件，也不进入 KnowledgeRelease。
+
+可执行 npm 包由独立的 `research/package-set/` 精确锁定，内容存于项目专属的 `archive/pnpm-store/` 与忽略的 package-set `node_modules/`。本机只保留每个 harness 最近一次人工选定的稳定版本；替换前先验证新包集，再清理旧包字节。历史 release 的包身份、完整性信息和已审核短摘录持续保留并可查询；需要重新核对旧原件时按精确版本重新取得，离线审计须如实报告本机原件缺失。
 
 #### C. 运行状态
 
@@ -1540,6 +1544,8 @@ agent-harness-wiki/
 ├── upstream/
 │   └── <harness-id>/        # 可取得的官方源码 submodule
 ├── archive/                 # 本地持久原件与 models，Git 忽略
+├── audits/<harness-id>/     # M2 每次调用的 Git 审计记录
+├── research/package-set/    # 精确 npm 包清单与独立锁文件；安装内容忽略
 ├── schemas/
 ├── src/
 │   ├── domain/
@@ -1568,9 +1574,9 @@ agent-harness-wiki/
 └── releases/                 # 固定、可重建的本地发布
 ```
 
-M0 fixture 位于 `tests/fixtures/datasets/`，不进入正式 `registry/` 和 `knowledge/`。上游原始页面、需复核的完整提取文本、包、二进制及完整日志保存在 `archive/`；hash、定位信息和经审核的短摘录进入相应知识记录。事实页面生成到 `releases/<release-id>/docs/`，本项目手写说明保留在 `docs/`。尚未实施的目录无需创建空文件。
+M0 fixture 位于 `tests/fixtures/datasets/`，不进入正式 `registry/` 和 `knowledge/`。上游原始页面、需复核的完整提取文本及完整日志保存在 `archive/`；受管 npm 包按 §12.1 的版本保留策略存放。hash、定位信息和经审核的短摘录进入相应知识记录。事实页面生成到 `releases/<release-id>/docs/`，本项目手写说明保留在 `docs/`。尚未实施的目录无需创建空文件。
 
-`archive/`、`var/`、`releases/`、站点构建输出及本地凭据不得提交到 Git；`archive/` 是持久归档，不作自动清理。实施目录调整时更新 `.gitignore`，迁移旧的 `knowledge/{claims,evidence,...}/.gitkeep` 占位。`upstream/` 的 gitlink 与 `.gitmodules` 入 Git，原始上游源码文件不复制到本仓库历史。
+`archive/`、`var/`、`releases/`、站点构建输出及本地凭据不得提交到 Git；文档原件与模型按各自规则保留，只有项目专属受管包 store 可在新版本审计通过后清理旧包。`upstream/` 的 gitlink 与 `.gitmodules` 入 Git，原始上游源码文件不复制到本仓库历史。
 
 ---
 
@@ -1710,7 +1716,7 @@ M0 必须完成：
 除 M0 外：
 
 - Codex CLI、Claude Code、OpenCode、Pi、OMP 均完成官方身份与来源核验，固定当前平台的精确版本、分发和 Target；六类核心主题及横切配置均有覆盖记录。
-- 五个对象的 Skills、MCP、配置优先级分别留下调查范围、固定来源、查证过程与结果，或具体的证据缺口和阻塞原因。`unknown` 可保留，但仅填一个状态而没有调查记录不能算“深查完成”。
+- 五个对象的七类主题均留下调查范围、固定来源、查证过程与结果，或具体的证据缺口和阻塞原因，并形成 35 项人工复核清单。`unknown` 可保留，但仅填一个状态而没有调查记录不能算“调查完成”。
 - 至少一个精确 Target 具备可查询事实；已接受的实质性结论均可追溯到 Evidence 和 Assessment。通过本地 Git diff 完成人工语义复核并构建正式 KnowledgeRelease。
 - 五个精确制品均尝试在独立环境启动，逐个记录 Artifact、隔离模式、成功或具体阻塞原因；至少一个真实启动成功。只有完成启动的 Target 可称为“可运行”，启动 smoke 不自动证明某项配置能力。
 - 文档、CLI 与 MCP 对同一事实返回一致的版本、条件和来源；查询不依赖调查会话在线。
@@ -1718,6 +1724,7 @@ M0 必须完成：
 
 ### 21.4 M2 验收
 
+- 仅凭一个或多个 registry harness ID 可手动检查登记的上游来源；每次调用包括未变化均留 Git 审计记录。
 - 能发现至少一种源码变化和一种文档变化。
 - 能将变化映射到受影响主题。
 - 能为受影响主题列出待复核候选，由用户调用项目调查 Skill 产出 Claim、Evidence、Coverage 候选和证据缺口。

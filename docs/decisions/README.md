@@ -8,6 +8,8 @@ made. `0001-m0-toolchain-and-input.md` records the first implemented change;
 `0002-local-release-publication.md` records the local release layout and SQLite index.
 `0003-release-bound-query.md` records the offline query boundary.
 `0004-fixed-source-provenance.md` records the first real source boundary.
+`0005-first-wave-package-set.md` records the five fixed npm Targets and local package retention.
+`0006-invoked-upstream-audit.md` records the on-demand audit ledger and isolated candidate originals.
 
 Conventions when ADRs are written:
 

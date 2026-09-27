@@ -10,12 +10,14 @@ build/
 *.tsbuildinfo
 
 # Local var (jobs sqlite, downloads, raw artifacts)
-var/
-var/**
-archive/
+# Anchor these to the repo root: an unanchored `archive/` also matched
+# openspec/changes/archive/, hiding archived OpenSpec changes from git.
+/var/
+/var/**
+/archive/
 
 # Release artifacts (immutable per PRD §12.5; rebuilt via builder)
-releases/
+/releases/
 
 # VitePress build
 site/.vitepress/cache/
@@ -51,9 +53,13 @@ yarn-debug.log*
 yarn-error.log*
 
 # Tooling dotfiles generated locally by various agent harnesses / IDEs / skill managers.
-# These are runtime caches / installs, not project source. AGENTS.md at the repo root is
-# the only agent-rules file that is intentionally tracked.
-.agents/
+# These are runtime caches / installs, not project source. The project
+# investigation Skill below is the only tracked subtree under .agents/.
+.agents/*
+!.agents/skills/
+.agents/skills/*
+!.agents/skills/harness-investigation/
+!.agents/skills/harness-investigation/**
 .claude/
 .codegraph/
 .kilocode/

@@ -1,0 +1,22 @@
+schema_version: 1
+record_kind: production
+claim_id: claim-pi-core-mcp
+fact_key: mcp.core.built_in_client
+target:
+  harness_id: pi
+  surface: cli
+  distribution: npm:@mariozechner/pi-coding-agent:linux-x64-glibc
+  os: linux
+  arch: x64
+  execution_mode: native
+version_applicability:
+  kind: exact
+  versions: [{ kind: release, value: "0.73.1" }]
+topic: mcp
+assertion:
+  type: capability_support
+  capability: Built-in MCP client in Pi core
+conditions: { all_of: [] }
+support: { availability: unsupported }
+evidence_refs: [evidence-pi-core-mcp]
+assessment_refs: [assessment-pi-core-mcp]

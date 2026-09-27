@@ -1,4 +1,12 @@
-import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import {
+  cp,
+  mkdir,
+  mkdtemp,
+  readFile,
+  rm,
+  symlink,
+  writeFile,
+} from "node:fs/promises";
 import { execFile } from "node:child_process";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -32,11 +40,9 @@ async function metadataCopy(): Promise<string> {
   await cp(path.join(repository, "registry"), path.join(root, "registry"), {
     recursive: true,
   });
-  await cp(
-    path.join(repository, "knowledge/codex-cli"),
-    path.join(root, "knowledge/codex-cli"),
-    { recursive: true },
-  );
+  await cp(path.join(repository, "knowledge"), path.join(root, "knowledge"), {
+    recursive: true,
+  });
   return root;
 }
 
@@ -53,8 +59,21 @@ test("production metadata validates without local originals", async () => {
   const result = await loadAndValidateDataset({ root, profile: "production" });
   expect(result.ok).toBe(true);
   if (result.ok) {
-    expect(result.dataset.artifacts).toHaveLength(2);
-    expect(result.dataset.claims).toHaveLength(0);
+    expect(result.dataset.harnesses).toHaveLength(5);
+    expect(result.dataset.artifacts).toHaveLength(18);
+    expect(result.dataset.coverage).toHaveLength(35);
+    expect(
+      result.dataset.coverage.filter(
+        (item) =>
+          item.status === "partial" &&
+          item.snapshot_refs?.length &&
+          item.investigation_notes,
+      ),
+    ).toHaveLength(35);
+    expect(result.dataset.claims).toHaveLength(3);
+    expect(
+      result.dataset.assessments.map((item) => item.status).sort(),
+    ).toEqual(["accepted", "draft", "draft"]);
   }
 });
 
@@ -82,6 +101,18 @@ test.each([
     "distribution: source-tree",
     "distribution: packaged-cli",
     "TARGET_MISMATCH",
+  ],
+  [
+    "knowledge/pi/snapshots/snapshot-pi-npm.yaml",
+    "value: 0.73.1",
+    "value: 0.73.2",
+    "TARGET_MISMATCH",
+  ],
+  [
+    "knowledge/pi/coverage/coverage-pi-skills.yaml",
+    "snapshot-pi-npm",
+    "snapshot-omp-npm",
+    "SNAPSHOT_MISSING",
   ],
 ] as const)(
   "rejects broken provenance in %s",
@@ -171,6 +202,55 @@ test("offline audit checks local Git HEAD and selected file hash", async () => {
   );
 });
 
+test("managed package audit checks the pinned lock, bytes and missing original", async () => {
+  const root = await temp();
+  const packageDir = path.join(
+    root,
+    "research/package-set/node_modules/.pnpm/example@1.0.0/node_modules/example",
+  );
+  const link = path.join(root, "research/package-set/node_modules/example");
+  await mkdir(packageDir, { recursive: true });
+  await writeFile(
+    path.join(packageDir, "package.json"),
+    '{"name":"example","version":"1.0.0"}',
+  );
+  await writeFile(path.join(packageDir, "README.md"), "fixed package text\n");
+  await symlink(packageDir, link);
+  const lockfile = path.join(root, "research/package-set/pnpm-lock.yaml");
+  await writeFile(
+    lockfile,
+    "importers:\n  .:\n    dependencies:\n      example:\n        specifier: 1.0.0\npackages:\n  example@1.0.0:\n    resolution:\n      integrity: sha512-AAAA\n",
+  );
+  const artifact = {
+    schema_version: 1 as const,
+    record_kind: "fixture" as const,
+    kind: "managed_package" as const,
+    artifact_id: "artifact-example",
+    source_id: "source-example",
+    harness_id: "example",
+    package_name: "example",
+    version: "1.0.0",
+    integrity: "sha512-AAAA",
+    package_path: "research/package-set/node_modules/example",
+    lockfile_path: "research/package-set/pnpm-lock.yaml" as const,
+    file: "README.md",
+    content_sha256: sha256("fixed package text\n"),
+  };
+  await auditArtifacts([artifact], root);
+  await writeFile(path.join(packageDir, "README.md"), "changed\n");
+  await expect(auditArtifacts([artifact], root)).rejects.toThrow(
+    /hash mismatch/,
+  );
+  await writeFile(path.join(packageDir, "README.md"), "fixed package text\n");
+  await writeFile(
+    lockfile,
+    (await readFile(lockfile, "utf8")).replace("AAAA", "BBBB"),
+  );
+  await expect(auditArtifacts([artifact], root)).rejects.toThrow(/lockfile/);
+  await rm(link);
+  await expect(auditArtifacts([artifact], root)).rejects.toThrow(/unavailable/);
+});
+
 test("unversioned documentation cannot verify an exact fixture claim", async () => {
   const root = await temp();
   await cp(fixture, root, { recursive: true });
@@ -221,7 +301,7 @@ test("unversioned documentation cannot verify an exact fixture claim", async () 
   );
 });
 
-test("source-only release publishes metadata but no capability conclusion", async () => {
+test("first-wave release publishes accepted Pi fact and scoped provenance", async () => {
   const metadata = await metadataCopy();
   const releasesRoot = await temp();
   const { releaseDir } = await compileRelease({
@@ -235,8 +315,11 @@ test("source-only release publishes metadata but no capability conclusion", asyn
   const knowledge = JSON.parse(
     await readFile(path.join(releaseDir, "knowledge.json"), "utf8"),
   );
-  expect(knowledge.records.artifacts).toHaveLength(2);
-  expect(knowledge.records.claims).toHaveLength(0);
+  expect(knowledge.records.artifacts).toHaveLength(18);
+  expect(
+    knowledge.records.claims.map((item: { claim_id: string }) => item.claim_id),
+  ).toEqual(["claim-pi-user-skills-path"]);
+  expect(knowledge.records.coverage).toHaveLength(35);
   expect(
     knowledge.records.snapshots.find(
       (item: { kind?: string }) => item.kind === "documentation",
@@ -247,7 +330,7 @@ test("source-only release publishes metadata but no capability conclusion", asyn
   });
   try {
     expect(db.prepare("SELECT count(*) AS n FROM artifacts").get()).toEqual({
-      n: 2,
+      n: 18,
     });
   } finally {
     db.close();
@@ -257,7 +340,7 @@ test("source-only release publishes metadata but no capability conclusion", asyn
     releaseId: "codex-provenance",
   });
   try {
-    expect(service.listHarnesses().items).toHaveLength(1);
+    expect(service.listHarnesses().items).toHaveLength(5);
     const scope = {
       harness: "codex",
       surface: "cli",
@@ -277,6 +360,24 @@ test("source-only release publishes metadata but no capability conclusion", asyn
     });
     expect(sourceResult.target?.version_identity.kind).toBe("commit");
     expect(sourceResult.facts).toHaveLength(0);
+    const piResult = service.getCapability({
+      scope: {
+        harness: "pi",
+        surface: "cli",
+        distribution: "npm:@mariozechner/pi-coding-agent:linux-x64-glibc",
+        os: "linux",
+        arch: "x64",
+        execution_mode: "native",
+      },
+      topic: "skills",
+      version: {
+        policy: "exact",
+        identity: { kind: "release", value: "0.73.1" },
+      },
+    });
+    expect(piResult.facts.map((item) => item.claim.fact_key)).toEqual([
+      "skills.discovery.user_path",
+    ]);
   } finally {
     service.close();
   }

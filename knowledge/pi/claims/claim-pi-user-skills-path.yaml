@@ -1,0 +1,23 @@
+schema_version: 1
+record_kind: production
+claim_id: claim-pi-user-skills-path
+fact_key: skills.discovery.user_path
+target:
+  harness_id: pi
+  surface: cli
+  distribution: npm:@mariozechner/pi-coding-agent:linux-x64-glibc
+  os: linux
+  arch: x64
+  execution_mode: native
+version_applicability:
+  kind: exact
+  versions: [{ kind: release, value: "0.73.1" }]
+topic: skills
+assertion:
+  type: search_path
+  scope: user
+  path: { base: home, segments: [.pi, agent, skills] }
+conditions: { all_of: [] }
+support: { availability: supported, delivery: native }
+evidence_refs: [evidence-pi-user-skills-path]
+assessment_refs: [assessment-pi-user-skills-path]

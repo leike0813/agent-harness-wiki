@@ -13,8 +13,8 @@ Git 跟踪结构化知识、证据、复核与覆盖记录。离线构建器将�
 | 阶段 | 核心交付 | 完成时必须能验证 |
 |---|---|---|
 | M0 可运行初始化 | TypeScript/pnpm 工作区；两个明显虚构 harness 与六类强类型 fixture；Schema、引用与发布校验；可重复的 JSON/SQLite/Markdown 构建；共享 QueryService；五类 CLI 查询与五个只读 MCP 工具；文档站 | `pnpm verify` 串起类型、lint、测试、构建与实际 MCP stdio 客户端 smoke；fixture 无法混入正式发布；同输入规范化产物一致；未验证版本不回退，条件/未知/冲突不被抹平。 |
-| M1 真实知识 MVP、catalog 第一期 | 核验 Codex CLI、Claude Code、OpenCode、Pi、OMP 的官方来源；为当前平台各选精确版本与分发身份；Git submodule 固定官方源码 commit，其他适合公开的结构化知识和调查材料入 Git；原始包、二进制与完整日志在本地持久归档；人工复核后生成固定本地 release 与本地 embedding 索引 | 五个对象均有六类主题与横切配置的覆盖记录；Skills、MCP、配置优先级分别留下调查范围、固定来源、查证过程及结果或具体阻塞原因；事实可追到 Evidence 和 Assessment，证据不足处保持未知；文档/CLI/MCP 读取同一 release，`search_knowledge` 的混合检索在离线环境通过语义召回与边界验证；五个精确制品均尝试独立环境启动，至少一个成功，每个被称为“可运行”的目标都有实际启动记录。 |
-| M2 手动增量维护 | 用户手动发起源码 commit、官方文档、新版本检查；差异映射到待复核主题和 Claim；`.agents/skills/` 内的项目调查 Skill 供用户调用现有 agent 生成候选 Claim/Evidence/Coverage 与证据缺口；人工复核并重建固定 release | 源码和文档变化各有一次可检查的发现与影响清单；扫描不移动 submodule 指针或改动已接受事实；新版本保持未验证直到新 Assessment；未变化内容的复用留下复核记录；调查失败保留候选与阻塞原因；旧 release 可继续查询。 |
+| M1 真实知识 MVP、catalog 第一期 | 核验 Codex CLI、Claude Code、OpenCode、Pi、OMP 的官方来源；为当前平台各选精确版本与分发身份；Git submodule 固定官方源码 commit，其他适合公开的结构化知识和调查材料入 Git；文档与完整日志在本地归档，npm 可执行包用独立 pnpm 包集只保留当前选定版本；人工复核后生成固定本地 release 与本地 embedding 索引 | 五个对象均有六类主题与横切配置的覆盖记录；全部 35 个 Target × 主题分别留下调查范围、固定来源、查证过程及结果或具体阻塞原因，并供人工复核；事实可追到 Evidence 和 Assessment，证据不足处保持未知；文档/CLI/MCP 读取同一 release，`search_knowledge` 的混合检索在离线环境通过语义召回与边界验证；五个精确制品均尝试独立环境启动，至少一个成功，每个被称为“可运行”的目标都有实际启动记录。 |
+| M2 手动增量维护 | 用户以 registry harness ID 调用调查 Skill；按需检查登记的源码、文档和 npm 新版本，写 `audits/` 审计资产；差异映射到待复核主题和 Claim，生成候选与缺口；人工复核后另行发布 | 每次调用包括未变化均有审计记录；源码和文档变化各有可检查的发现与影响清单；扫描不移动 submodule 指针或改动已接受事实；新版本保持未验证直到新 Assessment；失败保留候选与阻塞原因。 |
 
 依赖顺序：M0 的事实模型与发布/查询链路先成形；M1 接入真实来源、制品与人工复核，不在各入口重建查询语义；M2 基于 M1 的 Evidence 定位与 SourceDefinition 做变化发现，不建立自动调用模型的 worker。
 
@@ -49,7 +49,10 @@ Catalog 收录与知识调查深度、制品可运行状态分别记录。各期
 | `upstream/<harness-id>/` | 可取得的官方源码仓库，以 submodule 固定 commit；来源定义记录仓库身份与路径 | 跟踪 gitlink 和 `.gitmodules` |
 | `registry/harnesses/<harness-id>.yaml`、`registry/sources/<source-id>.yaml` | 产品身份与官方来源定义 | 跟踪 |
 | `knowledge/<harness-id>/{claims,evidence,snapshots,assessments,coverage}/` | 按产品审阅的结构化事实、证据、快照元数据、复核及覆盖；每条仍带全局唯一 ID 和明确 Target | 跟踪 |
-| `archive/<harness-id>/<artifact-id>/` | 原始文档、包、二进制、可执行目录、完整日志及需保留的提取全文 | 整个目录忽略，作为持久本地归档 |
+| `audits/<harness-id>/<audit-id>.yaml` | 每次上游检查的基线、观察、影响、失败和人工待复核引用；独立于发布数据 | 跟踪 |
+| `archive/<harness-id>/<artifact-id>/` | 原始文档、完整日志及需保留的提取全文 | 整个目录忽略，作为持久本地归档 |
+| `archive/<harness-id>/{npm,git}/` | 新 npm tarball 与隔离 Git commit 候选；固定完整性与精确身份后供调查 | 忽略，不能直接发布 |
+| `research/package-set/`、`archive/pnpm-store/` | 跟踪精确 npm 包清单与锁文件；专属 store 和安装目录忽略，只保留当前选定的可执行包 | 清单与锁文件跟踪，包字节忽略 |
 | `archive/models/<model-id>/` | M1 离线 embedding 模型与推理文件，记录固定身份、hash 和许可 | 忽略，作为持久本地归档 |
 | `docs/`、`site/` | 本项目手写说明，以及文档站配置与模板 | 跟踪手写内容 |
 | `releases/<release-id>/` | 同一知识发布的 manifest、JSON、SQLite 和生成的 `docs/` | 忽略、不可变、可重建 |
@@ -57,11 +60,11 @@ Catalog 收录与知识调查深度、制品可运行状态分别记录。各期
 
 上游网页或文档的原件与需复核的完整提取文本默认留在 `archive/`；URL、抓取时间、原始及提取 hash、提取器版本与定位信息进入 `knowledge/<harness-id>/snapshots/`，经审核的短摘录进入 Evidence。确有必要且适合公开的小型文档快照可作为对应 snapshot 的附件进入同一 Git 目录。完整提取文本本身不成为已接受知识。`docs/` 保存本项目手写说明；确需编写的 harness 指南置于 `knowledge/<harness-id>/guides/` 并引用结构化事实。面向查询者的事实页面由结构化知识生成到 `releases/<release-id>/docs/`，文档站构建产物在 `site/.vitepress/dist/`。未取得官方源码仓库的产品不创建空 submodule；已有 submodule 的源码不默认重复归档。
 
-实施时把 `.gitignore` 改为单独忽略持久的 `archive/`，并将 `var/` 留给临时状态；迁移或移除当前 `knowledge/{claims,evidence,...}/.gitkeep` 占位，避免新旧布局并存。`archive/` 被 Git 忽略不等于可自动清理；备份与恢复策略在首批真实制品出现后细化。此布局已写入 PRD §6、§12、§18。
+`archive/` 中的文档原件与模型按各自规则保留；只有项目专属 pnpm store 在新包集验证后清理旧包。`var/` 留给临时状态。此布局与 PRD §6、§12、§18 一致。
 
 ## M1 二进制能力的边界
 
-二进制是辅助调查的真实可执行制品，不是展示性附件。官方发布制品与从固定官方源码构建的制品分别记录身份、版本、平台、hash、入口和运行依赖。原始包及可执行目录在仓库内的本地持久 artifact 区域，不进入公开 Git，也不覆盖系统安装。
+二进制是辅助调查的真实可执行制品。官方发布制品与从固定官方源码构建的制品分别记录身份、版本、平台、hash、入口和运行依赖。首批官方 npm 包由项目专属 pnpm 包集管理，安装脚本关闭；只保留当前选定版本的包字节，不进入公开 Git，也不覆盖系统安装。旧版本的已发布事实和来源元数据保留，旧原件需重新取得才能审计。
 
 当前 Linux 机器优先用已通过最小启动检查的 `bwrap` 做隔离：临时 HOME/配置与工作目录、只读制品、默认无外网、受控子进程及资源边界。真实 harness 上的隔离承诺仍需 M1 实测。若强隔离最终只能靠容器实现，允许明确标为较弱的环境变量隔离，不宣称它能阻止宿主文件或网络访问。
 
@@ -78,14 +81,14 @@ Catalog 收录与知识调查深度、制品可运行状态分别记录。各期
 | M0 | `src/compiler/`、`src/query/`、`src/cli/`、`src/mcp/`、`tests/` | 实现离线发布、共享查询、CLI/MCP 和必要的行为验收。 |
 | M0 | `README.md`、`docs/architecture.md`、`docs/data-model.md`、`docs/development.md`、`docs/decisions/` | 用实际命令、模型和验证结果替换占位说明。 |
 | M1 | `registry/harnesses/`、`registry/sources/`、`knowledge/<harness-id>/`、`upstream/<harness-id>/`、`.gitmodules` | 固定真实产品、来源、Target、证据、复核与覆盖；官方源码通过 submodule 固定。 |
-| M1 | `src/sources/`、受管制品与本地运行入口、`archive/<harness-id>/`、`.gitignore`、`var/` | 接入并隔离运行精确制品；长期原件与临时运行状态分开，只在 Git 中保留可公开元数据。 |
+| M1 | `src/sources/`、`research/package-set/`、受管制品与本地运行入口、`archive/`、`var/` | 接入并隔离运行精确制品；文档原件保留，当前受管 npm 包用独立 store 管理，运行临时状态另存。 |
 | M1 | `src/query/`、`src/compiler/`、`archive/models/`、`releases/<release-id>/knowledge.sqlite` | 本地模型离线建索引和查询，混合检索仍走共享 QueryService；发布绑定索引与模型身份。 |
-| M2 | 变化检查入口、`knowledge/`、`.agents/skills/<项目调查 Skill>/SKILL.md`、`.gitignore` | 手动发现变化与影响，项目 Skill 产生候选；只豁免该 Skill 子目录。 |
+| M2 | `src/sources/scan.ts`、`audits/`、`knowledge/`、`.agents/skills/harness-investigation/SKILL.md` | 手动发现变化、维护 Git 审计资产和待审候选。 |
 | 实施时 | `.gitignore`、旧 `knowledge/` 占位目录 | 忽略持久 `archive/`，只豁免本项目调查 Skill；按新布局迁移占位目录。 |
 
 ## 文档与实施交接
 
-PRD 的阶段、目录、调查、发布、MCP、检索和验收条款，以及根目录 `AGENTS.md` 的相应工程边界，已按本路线对齐。进入实现时以 PRD 的产品契约和 `AGENTS.md` 的 M0 工程验收为准；若代码要求改变版本、证据或查询语义，先更新契约。当前 `.gitignore` 和旧的 `knowledge/` 占位目录仍反映初始化布局，应在对应目录首次落地时同步调整。
+PRD 的阶段、目录、调查、发布、MCP、检索和验收条款，以及根目录 `AGENTS.md` 的相应工程边界，已按本路线对齐。进入实现时以 PRD 的产品契约和 `AGENTS.md` 的 M0 工程验收为准；若代码要求改变版本、证据或查询语义，先更新契约。
 
 ## 范围外与实施后再细化
 

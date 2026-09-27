@@ -122,6 +122,153 @@
         "extractor"
       ],
       "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "type": "number",
+          "const": 1
+        },
+        "record_kind": {
+          "type": "string",
+          "enum": [
+            "fixture",
+            "production"
+          ]
+        },
+        "source_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "harness_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "artifact_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "managed_package"
+        },
+        "package_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "integrity": {
+          "type": "string",
+          "pattern": "^sha512-[A-Za-z0-9+/]+={0,2}$"
+        },
+        "package_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lockfile_path": {
+          "type": "string",
+          "const": "research/package-set/pnpm-lock.yaml"
+        },
+        "file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "schema_version",
+        "record_kind",
+        "source_id",
+        "harness_id",
+        "artifact_id",
+        "kind",
+        "package_name",
+        "version",
+        "integrity",
+        "package_path",
+        "lockfile_path",
+        "file",
+        "content_sha256"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "type": "number",
+          "const": 1
+        },
+        "record_kind": {
+          "type": "string",
+          "enum": [
+            "fixture",
+            "production"
+          ]
+        },
+        "source_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "harness_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "artifact_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "kind": {
+          "type": "string",
+          "const": "archived_package_file"
+        },
+        "package_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "integrity": {
+          "type": "string",
+          "pattern": "^sha512-[A-Za-z0-9+/]+={0,2}$"
+        },
+        "tarball_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "schema_version",
+        "record_kind",
+        "source_id",
+        "harness_id",
+        "artifact_id",
+        "kind",
+        "package_name",
+        "version",
+        "integrity",
+        "tarball_path",
+        "file",
+        "content_sha256"
+      ],
+      "additionalProperties": false
     }
   ]
 }

@@ -166,6 +166,12 @@ export const sourceSchema = z.discriminatedUnion("kind", [
     kind: z.literal("official_documentation"),
     url: officialUrl,
   }),
+  z.strictObject({
+    ...provenance,
+    kind: z.literal("npm_registry"),
+    package_name: nonempty,
+    registry_url: z.literal("https://registry.npmjs.org"),
+  }),
 ]);
 
 const artifactBase = { ...provenance, artifact_id: id };
@@ -185,6 +191,27 @@ export const artifactSchema = z.discriminatedUnion("kind", [
     raw_sha256: sha256,
     extracted_sha256: sha256,
     extractor: z.literal("identity-markdown@1"),
+  }),
+  z.strictObject({
+    ...artifactBase,
+    kind: z.literal("managed_package"),
+    package_name: nonempty,
+    version: nonempty,
+    integrity: z.string().regex(/^sha512-[A-Za-z0-9+/]+={0,2}$/),
+    package_path: nonempty,
+    lockfile_path: z.literal("research/package-set/pnpm-lock.yaml"),
+    file: nonempty,
+    content_sha256: sha256,
+  }),
+  z.strictObject({
+    ...artifactBase,
+    kind: z.literal("archived_package_file"),
+    package_name: nonempty,
+    version: nonempty,
+    integrity: z.string().regex(/^sha512-[A-Za-z0-9+/]+={0,2}$/),
+    tarball_path: nonempty,
+    file: nonempty,
+    content_sha256: sha256,
   }),
 ]);
 
@@ -220,6 +247,15 @@ export const snapshotSchema = z.union([
     extracted_sha256: sha256,
     extractor: z.literal("identity-markdown@1"),
     version_applicability: z.strictObject({ kind: z.literal("unknown") }),
+  }),
+  z.strictObject({
+    ...snapshotBase,
+    kind: z.literal("npm_release"),
+    artifact_id: id,
+    target: targetSchema,
+    package_name: nonempty,
+    version: nonempty,
+    integrity: z.string().regex(/^sha512-[A-Za-z0-9+/]+={0,2}$/),
   }),
 ]);
 
@@ -282,6 +318,7 @@ export const coverageSchema = z.strictObject({
   topic: topicSchema,
   status: z.enum(["not_started", "partial", "complete", "blocked"]),
   investigation_notes: nonempty.optional(),
+  snapshot_refs: z.array(id).optional(),
 });
 
 export const releaseManifestSchema = z.strictObject({
@@ -309,6 +346,47 @@ export const publishedKnowledgeSchema = z.strictObject({
     assessments: z.array(assessmentSchema),
     coverage: z.array(coverageSchema),
   }),
+});
+
+export const upstreamAuditSchema = z.strictObject({
+  schema_version: z.literal(1),
+  audit_id: id,
+  harness_id: id,
+  checked_at: z.iso.datetime(),
+  previous_audit_id: id.optional(),
+  status: z.enum(["no_change", "changed", "blocked"]),
+  review_status: z.enum(["pending", "not_required", "reviewed"]),
+  reviewed_by: nonempty.optional(),
+  reviewed_at: z.iso.datetime().optional(),
+  pending_audit_refs: z.array(id),
+  checks: z.array(
+    z.strictObject({
+      source_id: id,
+      kind: z.enum([
+        "npm_registry",
+        "git_repository",
+        "official_documentation",
+      ]),
+      checked_at: z.iso.datetime(),
+      status: z.enum(["unchanged", "changed", "blocked"]),
+      baseline: nonempty.optional(),
+      observed: nonempty.optional(),
+      resolved_url: z.url().optional(),
+      remote_ref: nonempty.optional(),
+      candidate_path: nonempty.optional(),
+      changed_paths: z.array(nonempty).optional(),
+      error: nonempty.optional(),
+    }),
+  ),
+  impacts: z.array(
+    z.strictObject({
+      topic: topicSchema,
+      claim_refs: z.array(id),
+      reason: nonempty,
+    }),
+  ),
+  candidate_refs: z.array(id).default([]),
+  investigation_notes: z.array(nonempty).default([]),
 });
 
 export const queryScopeSchema = targetScopeSchema
@@ -371,6 +449,7 @@ export const recordSchemas = {
   published_knowledge: publishedKnowledgeSchema,
   query_request: queryRequestSchema,
   query_result: queryResultSchema,
+  upstream_audit: upstreamAuditSchema,
 } as const;
 
 export type HarnessDefinition = z.infer<typeof harnessSchema>;
@@ -384,6 +463,7 @@ export type CoverageRecord = z.infer<typeof coverageSchema>;
 export type Target = z.infer<typeof targetSchema>;
 export type Topic = z.infer<typeof topicSchema>;
 export type PublishedKnowledge = z.infer<typeof publishedKnowledgeSchema>;
+export type UpstreamAudit = z.infer<typeof upstreamAuditSchema>;
 export type Dataset = {
   harnesses: HarnessDefinition[];
   sources: SourceDefinition[];
