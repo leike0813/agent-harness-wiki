@@ -42,6 +42,7 @@ export function publishedRecords(dataset: Dataset): Dataset {
   return {
     harnesses: by([...dataset.harnesses], (item) => item.harness_id),
     sources: by([...dataset.sources], (item) => item.source_id),
+    artifacts: by([...dataset.artifacts], (item) => item.artifact_id),
     snapshots: by([...dataset.snapshots], (item) => item.snapshot_id),
     claims: by(claims, (item) => item.claim_id),
     evidence: by(evidence, (item) => item.evidence_id),

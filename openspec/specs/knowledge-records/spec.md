@@ -37,3 +37,10 @@ Every fictional input record SHALL be marked as a fixture. Fixture data SHALL re
 #### Scenario: Fixture presented as production
 - **WHEN** production validation receives a fictional harness or knowledge record
 - **THEN** validation rejects it as fixture contamination
+
+### Requirement: Artifact and snapshot identity
+The system SHALL give artifacts globally unique IDs and keep each artifact tied to one harness and one official source. A source revision snapshot SHALL preserve its exact source-tree Target and commit; a documentation snapshot with unspecified software version SHALL preserve that uncertainty rather than inventing an exact Target. Neither source identity nor content hash alone SHALL assert a product capability.
+
+#### Scenario: Repository commit and CLI package differ
+- **WHEN** a snapshot identifies a repository commit but has no verified association with a distributed CLI package
+- **THEN** it cannot be presented as evidence of that package's behavior

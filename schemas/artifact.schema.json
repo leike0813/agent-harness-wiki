@@ -23,9 +23,21 @@
           "type": "string",
           "pattern": "^[a-z][a-z0-9_-]*$"
         },
+        "artifact_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
         "kind": {
           "type": "string",
-          "const": "fixture_file"
+          "const": "git_checkout"
+        },
+        "checkout_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
         },
         "file": {
           "type": "string",
@@ -41,7 +53,10 @@
         "record_kind",
         "source_id",
         "harness_id",
+        "artifact_id",
         "kind",
+        "checkout_path",
+        "commit",
         "file",
         "content_sha256"
       ],
@@ -69,13 +84,29 @@
           "type": "string",
           "pattern": "^[a-z][a-z0-9_-]*$"
         },
+        "artifact_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
         "kind": {
           "type": "string",
-          "const": "git_repository"
+          "const": "archived_document"
         },
-        "repository_url": {
+        "archive_path": {
           "type": "string",
-          "format": "uri"
+          "minLength": 1
+        },
+        "raw_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "extracted_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "extractor": {
+          "type": "string",
+          "const": "identity-markdown@1"
         }
       },
       "required": [
@@ -83,49 +114,12 @@
         "record_kind",
         "source_id",
         "harness_id",
+        "artifact_id",
         "kind",
-        "repository_url"
-      ],
-      "additionalProperties": false
-    },
-    {
-      "type": "object",
-      "properties": {
-        "schema_version": {
-          "type": "number",
-          "const": 1
-        },
-        "record_kind": {
-          "type": "string",
-          "enum": [
-            "fixture",
-            "production"
-          ]
-        },
-        "source_id": {
-          "type": "string",
-          "pattern": "^[a-z][a-z0-9_-]*$"
-        },
-        "harness_id": {
-          "type": "string",
-          "pattern": "^[a-z][a-z0-9_-]*$"
-        },
-        "kind": {
-          "type": "string",
-          "const": "official_documentation"
-        },
-        "url": {
-          "type": "string",
-          "format": "uri"
-        }
-      },
-      "required": [
-        "schema_version",
-        "record_kind",
-        "source_id",
-        "harness_id",
-        "kind",
-        "url"
+        "archive_path",
+        "raw_sha256",
+        "extracted_sha256",
+        "extractor"
       ],
       "additionalProperties": false
     }

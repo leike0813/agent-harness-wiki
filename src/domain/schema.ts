@@ -145,23 +145,83 @@ export const harnessSchema = z.strictObject({
   source_refs: z.array(id).min(1),
 });
 
-export const sourceSchema = z.strictObject({
-  ...record,
-  source_id: id,
-  harness_id: id,
-  kind: z.literal("fixture_file"),
-  file: nonempty,
-  content_sha256: sha256,
-});
+const officialUrl = z.url().refine((value) => value.startsWith("https://"));
+const commit = z.string().regex(/^[a-f0-9]{40}$/);
+const provenance = { ...record, source_id: id, harness_id: id };
 
-export const snapshotSchema = z.strictObject({
+export const sourceSchema = z.discriminatedUnion("kind", [
+  z.strictObject({
+    ...provenance,
+    kind: z.literal("fixture_file"),
+    file: nonempty,
+    content_sha256: sha256,
+  }),
+  z.strictObject({
+    ...provenance,
+    kind: z.literal("git_repository"),
+    repository_url: officialUrl,
+  }),
+  z.strictObject({
+    ...provenance,
+    kind: z.literal("official_documentation"),
+    url: officialUrl,
+  }),
+]);
+
+const artifactBase = { ...provenance, artifact_id: id };
+export const artifactSchema = z.discriminatedUnion("kind", [
+  z.strictObject({
+    ...artifactBase,
+    kind: z.literal("git_checkout"),
+    checkout_path: nonempty,
+    commit,
+    file: nonempty,
+    content_sha256: sha256,
+  }),
+  z.strictObject({
+    ...artifactBase,
+    kind: z.literal("archived_document"),
+    archive_path: nonempty,
+    raw_sha256: sha256,
+    extracted_sha256: sha256,
+    extractor: z.literal("identity-markdown@1"),
+  }),
+]);
+
+const snapshotBase = {
   ...record,
   snapshot_id: id,
   source_id: id,
-  target: targetSchema,
-  content_sha256: sha256,
   source_fetched_at: z.iso.datetime(),
-});
+};
+export const snapshotSchema = z.union([
+  z.strictObject({
+    ...snapshotBase,
+    target: targetSchema,
+    content_sha256: sha256,
+  }),
+  z.strictObject({
+    ...snapshotBase,
+    kind: z.literal("source_revision"),
+    artifact_id: id,
+    target: targetSchema,
+    commit,
+    content_sha256: sha256,
+  }),
+  z.strictObject({
+    ...snapshotBase,
+    kind: z.literal("documentation"),
+    artifact_id: id,
+    harness_id: id,
+    surface: z.enum(["cli", "ide", "desktop"]),
+    requested_url: officialUrl,
+    resolved_url: officialUrl,
+    raw_sha256: sha256,
+    extracted_sha256: sha256,
+    extractor: z.literal("identity-markdown@1"),
+    version_applicability: z.strictObject({ kind: z.literal("unknown") }),
+  }),
+]);
 
 export const claimSchema = z.strictObject({
   ...record,
@@ -226,7 +286,7 @@ export const coverageSchema = z.strictObject({
 
 export const releaseManifestSchema = z.strictObject({
   schema_version: z.literal(1),
-  builder_version: z.literal("1"),
+  builder_version: z.enum(["1", "2"]),
   release_id: id,
   profile: z.enum(["fixture", "production"]),
   knowledge_published_at: z.iso.datetime(),
@@ -242,6 +302,7 @@ export const publishedKnowledgeSchema = z.strictObject({
   records: z.strictObject({
     harnesses: z.array(harnessSchema),
     sources: z.array(sourceSchema),
+    artifacts: z.array(artifactSchema).optional(),
     snapshots: z.array(snapshotSchema),
     claims: z.array(claimSchema),
     evidence: z.array(evidenceSchema),
@@ -300,6 +361,7 @@ export const queryResultSchema = z.strictObject({
 export const recordSchemas = {
   harness: harnessSchema,
   source: sourceSchema,
+  artifact: artifactSchema,
   snapshot: snapshotSchema,
   claim: claimSchema,
   evidence: evidenceSchema,
@@ -313,6 +375,7 @@ export const recordSchemas = {
 
 export type HarnessDefinition = z.infer<typeof harnessSchema>;
 export type SourceDefinition = z.infer<typeof sourceSchema>;
+export type Artifact = z.infer<typeof artifactSchema>;
 export type SnapshotManifest = z.infer<typeof snapshotSchema>;
 export type Claim = z.infer<typeof claimSchema>;
 export type Evidence = z.infer<typeof evidenceSchema>;
@@ -324,6 +387,7 @@ export type PublishedKnowledge = z.infer<typeof publishedKnowledgeSchema>;
 export type Dataset = {
   harnesses: HarnessDefinition[];
   sources: SourceDefinition[];
+  artifacts: Artifact[];
   snapshots: SnapshotManifest[];
   claims: Claim[];
   evidence: Evidence[];

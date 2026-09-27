@@ -133,7 +133,8 @@ test("release views preserve exact scope, coverage and evidence", async () => {
   expect(knowledge.records.claims).toHaveLength(8);
   expect(
     knowledge.records.snapshots.some(
-      (item) => item.target.version_identity.value === "2.0.0",
+      (item) =>
+        "target" in item && item.target.version_identity.value === "2.0.0",
     ),
   ).toBe(true);
   expect(

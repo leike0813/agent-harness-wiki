@@ -6,6 +6,7 @@ import * as z from "zod";
 import YAML from "yaml";
 import {
   assessmentSchema,
+  artifactSchema,
   claimSchema,
   coverageSchema,
   evidenceSchema,
@@ -37,6 +38,7 @@ type Kind =
   | "harness"
   | "source"
   | "snapshot"
+  | "artifact"
   | "claim"
   | "evidence"
   | "assessment"
@@ -46,6 +48,7 @@ const recordDirs: Record<Kind, string> = {
   harness: "registry/harnesses",
   source: "registry/sources",
   snapshot: "snapshots",
+  artifact: "artifacts",
   claim: "claims",
   evidence: "evidence",
   assessment: "assessments",
@@ -65,6 +68,7 @@ function emptyDataset(): Dataset {
   return {
     harnesses: [],
     sources: [],
+    artifacts: [],
     snapshots: [],
     claims: [],
     evidence: [],
@@ -102,6 +106,7 @@ function claimTarget(claim: Claim): Target {
 function safeRelative(value: string): boolean {
   return (
     !path.isAbsolute(value) &&
+    !value.includes("\0") &&
     !value.includes("\\") &&
     !/^[a-zA-Z]:/.test(value) &&
     value
@@ -195,6 +200,7 @@ export async function loadAndValidateDataset(input: {
       continue;
     }
     for (const kind of [
+      "artifact",
       "snapshot",
       "claim",
       "evidence",
@@ -285,6 +291,9 @@ export async function loadAndValidateDataset(input: {
       case "snapshot":
         addRecord(snapshotSchema, raw, file, (v) => dataset.snapshots.push(v));
         break;
+      case "artifact":
+        addRecord(artifactSchema, raw, file, (v) => dataset.artifacts.push(v));
+        break;
       case "claim":
         addRecord(claimSchema, raw, file, (v) => dataset.claims.push(v));
         break;
@@ -322,12 +331,19 @@ export async function loadAndValidateDataset(input: {
       record_kind: v.record_kind,
       harness_id: v.harness_id,
     })),
+    ...dataset.artifacts.map((v) => ({
+      kind: "artifact" as const,
+      id: v.artifact_id,
+      file: recordFiles.get(v) ?? v.artifact_id,
+      record_kind: v.record_kind,
+      harness_id: v.harness_id,
+    })),
     ...dataset.snapshots.map((v) => ({
       kind: "snapshot" as const,
       id: v.snapshot_id,
       file: recordFiles.get(v) ?? v.snapshot_id,
       record_kind: v.record_kind,
-      harness_id: v.target.harness_id,
+      harness_id: "target" in v ? v.target.harness_id : v.harness_id,
     })),
     ...dataset.claims.map((v) => ({
       kind: "claim" as const,
@@ -419,6 +435,7 @@ export async function loadAndValidateDataset(input: {
     });
   const harnesses = new Map(dataset.harnesses.map((v) => [v.harness_id, v]));
   const sources = new Map(dataset.sources.map((v) => [v.source_id, v]));
+  const artifacts = new Map(dataset.artifacts.map((v) => [v.artifact_id, v]));
   const snapshots = new Map(dataset.snapshots.map((v) => [v.snapshot_id, v]));
   const claims = new Map(dataset.claims.map((v) => [v.claim_id, v]));
   const evidence = new Map(dataset.evidence.map((v) => [v.evidence_id, v]));
@@ -447,6 +464,7 @@ export async function loadAndValidateDataset(input: {
         "Unknown harness.",
         "Define the harness first.",
       );
+    if (source.kind !== "fixture_file") continue;
     if (!safeRelative(source.file)) {
       related(
         "PATH_INVALID",
@@ -508,9 +526,61 @@ export async function loadAndValidateDataset(input: {
       );
     }
   }
+  for (const artifact of dataset.artifacts) {
+    const source = sources.get(artifact.source_id);
+    if (
+      !source ||
+      source.harness_id !== artifact.harness_id ||
+      (artifact.kind === "git_checkout" && source.kind !== "git_repository") ||
+      (artifact.kind === "archived_document" &&
+        source.kind !== "official_documentation")
+    )
+      related(
+        "SOURCE_MISSING",
+        artifact.artifact_id,
+        "source_id",
+        "Artifact source is missing, incompatible, or belongs to another harness.",
+        "Use an official source of the matching kind and harness.",
+      );
+    const location =
+      artifact.kind === "git_checkout"
+        ? artifact.checkout_path
+        : artifact.archive_path;
+    const prefix =
+      artifact.kind === "git_checkout"
+        ? `upstream/${artifact.harness_id}`
+        : `archive/${artifact.harness_id}/${artifact.artifact_id}/`;
+    if (
+      !safeRelative(location) ||
+      (artifact.kind === "git_checkout"
+        ? location !== prefix
+        : !location.startsWith(prefix)) ||
+      (artifact.kind === "git_checkout" && !safeRelative(artifact.file))
+    )
+      related(
+        "PATH_INVALID",
+        artifact.artifact_id,
+        "location",
+        "Artifact location is unsafe or outside its harness boundary.",
+        "Use the prescribed relative checkout or archive path.",
+      );
+    if (
+      artifact.kind === "archived_document" &&
+      artifact.raw_sha256 !== artifact.extracted_sha256
+    )
+      related(
+        "HASH_MISMATCH",
+        artifact.artifact_id,
+        "extracted_sha256",
+        "Identity Markdown extraction must preserve bytes.",
+        "Use the raw content hash for both identities.",
+      );
+  }
   for (const snapshot of dataset.snapshots) {
     const source = sources.get(snapshot.source_id);
-    if (!source || source.harness_id !== snapshot.target.harness_id)
+    const harnessId =
+      "target" in snapshot ? snapshot.target.harness_id : snapshot.harness_id;
+    if (!source || source.harness_id !== harnessId)
       related(
         "SOURCE_MISSING",
         snapshot.snapshot_id,
@@ -518,7 +588,11 @@ export async function loadAndValidateDataset(input: {
         "Snapshot source is missing or belongs to another harness.",
         "Use a source for the same harness.",
       );
-    else if (source.content_sha256 !== snapshot.content_sha256)
+    else if (
+      !("kind" in snapshot) &&
+      (source.kind !== "fixture_file" ||
+        source.content_sha256 !== snapshot.content_sha256)
+    )
       related(
         "HASH_MISMATCH",
         snapshot.snapshot_id,
@@ -526,6 +600,58 @@ export async function loadAndValidateDataset(input: {
         "Snapshot and source hash differ.",
         "Use the captured source content hash.",
       );
+    if ("kind" in snapshot) {
+      const artifact = artifacts.get(snapshot.artifact_id);
+      if (
+        !artifact ||
+        artifact.source_id !== snapshot.source_id ||
+        artifact.harness_id !== harnessId ||
+        (snapshot.kind === "source_revision" &&
+          artifact.kind !== "git_checkout") ||
+        (snapshot.kind === "documentation" &&
+          artifact.kind !== "archived_document")
+      )
+        related(
+          "ARTIFACT_MISSING",
+          snapshot.snapshot_id,
+          "artifact_id",
+          "Snapshot artifact is missing or belongs to a different source or harness.",
+          "Reference a matching artifact.",
+        );
+      if (snapshot.kind === "source_revision") {
+        if (
+          snapshot.target.version_identity.kind !== "commit" ||
+          snapshot.target.version_identity.value !== snapshot.commit ||
+          snapshot.target.distribution !== "source-tree" ||
+          (artifact?.kind === "git_checkout" &&
+            (artifact.commit !== snapshot.commit ||
+              artifact.content_sha256 !== snapshot.content_sha256))
+        )
+          related(
+            "TARGET_MISMATCH",
+            snapshot.snapshot_id,
+            "target",
+            "Source revision Target, commit, or file hash differs from the artifact.",
+            "Use the exact source-tree commit and selected file hash.",
+          );
+      } else if (snapshot.kind === "documentation") {
+        if (
+          source?.kind !== "official_documentation" ||
+          source.url !== snapshot.requested_url ||
+          (artifact?.kind === "archived_document" &&
+            (artifact.raw_sha256 !== snapshot.raw_sha256 ||
+              artifact.extracted_sha256 !== snapshot.extracted_sha256 ||
+              artifact.extractor !== snapshot.extractor))
+        )
+          related(
+            "HASH_MISMATCH",
+            snapshot.snapshot_id,
+            "artifact_id",
+            "Documentation URL or content identity differs from source and artifact.",
+            "Match the captured URL, extractor and hashes.",
+          );
+      }
+    }
   }
   const coverageKeys = new Set<string>();
   for (const coverage of dataset.coverage) {
@@ -657,7 +783,11 @@ export async function loadAndValidateDataset(input: {
         );
       else {
         const snapshot = snapshots.get(item.snapshot_id);
-        if (!snapshot || targetKey(snapshot.target) !== targetKey(target))
+        if (
+          !snapshot ||
+          !("target" in snapshot) ||
+          targetKey(snapshot.target) !== targetKey(target)
+        )
           related(
             "TARGET_MISMATCH",
             claim.claim_id,

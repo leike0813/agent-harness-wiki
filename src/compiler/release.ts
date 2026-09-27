@@ -95,6 +95,8 @@ export async function verifyRelease(
   const knowledge = publishedKnowledgeSchema.parse(
     JSON.parse(await readFile(path.join(releaseDir, "knowledge.json"), "utf8")),
   );
+  if (manifest.builder_version === "2" && !knowledge.records.artifacts)
+    throw new Error("Builder version 2 requires artifact metadata.");
   if (
     knowledge.release_id !== manifest.release_id ||
     knowledge.profile !== manifest.profile ||
@@ -120,6 +122,7 @@ export async function verifyRelease(
     if ((db.pragma("foreign_key_check") as unknown[]).length)
       throw new Error("SQLite foreign key check failed.");
     for (const [table, items] of Object.entries(knowledge.records)) {
+      if (items === undefined) continue;
       const payloads = db
         .prepare(`SELECT payload_json FROM ${table} ORDER BY id`)
         .all() as { payload_json: string }[];
@@ -195,7 +198,7 @@ export async function compileRelease(
       artifacts[file] = sha256(await readFile(path.join(stage, file)));
     const manifest: ReleaseManifest = {
       schema_version: 1,
-      builder_version: "1",
+      builder_version: "2",
       release_id: options.releaseId,
       profile: options.profile,
       knowledge_published_at: options.publishedAt,

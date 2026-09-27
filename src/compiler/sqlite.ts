@@ -10,7 +10,8 @@ export function writeSqlite(file: string, knowledge: PublishedKnowledge): void {
     db.exec(`
       CREATE TABLE harnesses (id TEXT PRIMARY KEY, name TEXT NOT NULL, aliases_json TEXT NOT NULL, payload_json TEXT NOT NULL);
       CREATE TABLE sources (id TEXT PRIMARY KEY, harness_id TEXT NOT NULL REFERENCES harnesses(id), payload_json TEXT NOT NULL);
-      CREATE TABLE snapshots (id TEXT PRIMARY KEY, source_id TEXT NOT NULL REFERENCES sources(id), target_key TEXT NOT NULL, payload_json TEXT NOT NULL);
+      CREATE TABLE artifacts (id TEXT PRIMARY KEY, source_id TEXT NOT NULL REFERENCES sources(id), harness_id TEXT NOT NULL REFERENCES harnesses(id), payload_json TEXT NOT NULL);
+      CREATE TABLE snapshots (id TEXT PRIMARY KEY, source_id TEXT NOT NULL REFERENCES sources(id), target_key TEXT, payload_json TEXT NOT NULL);
       CREATE TABLE claims (id TEXT PRIMARY KEY, harness_id TEXT NOT NULL REFERENCES harnesses(id), target_key TEXT NOT NULL, topic TEXT NOT NULL, fact_key TEXT NOT NULL, review_status TEXT NOT NULL, payload_json TEXT NOT NULL);
       CREATE TABLE evidence (id TEXT PRIMARY KEY, claim_id TEXT NOT NULL REFERENCES claims(id), snapshot_id TEXT NOT NULL REFERENCES snapshots(id), payload_json TEXT NOT NULL);
       CREATE TABLE assessments (id TEXT PRIMARY KEY, claim_id TEXT NOT NULL REFERENCES claims(id), status TEXT NOT NULL, payload_json TEXT NOT NULL);
@@ -22,6 +23,7 @@ export function writeSqlite(file: string, knowledge: PublishedKnowledge): void {
     const insert = {
       harness: db.prepare("INSERT INTO harnesses VALUES (?, ?, ?, ?)"),
       source: db.prepare("INSERT INTO sources VALUES (?, ?, ?)"),
+      artifact: db.prepare("INSERT INTO artifacts VALUES (?, ?, ?, ?)"),
       snapshot: db.prepare("INSERT INTO snapshots VALUES (?, ?, ?, ?)"),
       claim: db.prepare("INSERT INTO claims VALUES (?, ?, ?, ?, ?, ?, ?)"),
       evidence: db.prepare("INSERT INTO evidence VALUES (?, ?, ?, ?)"),
@@ -46,11 +48,18 @@ export function writeSqlite(file: string, knowledge: PublishedKnowledge): void {
         );
       for (const item of records.sources)
         insert.source.run(item.source_id, item.harness_id, canonical(item));
+      for (const item of records.artifacts ?? [])
+        insert.artifact.run(
+          item.artifact_id,
+          item.source_id,
+          item.harness_id,
+          canonical(item),
+        );
       for (const item of records.snapshots)
         insert.snapshot.run(
           item.snapshot_id,
           item.source_id,
-          canonical(item.target),
+          "target" in item ? canonical(item.target) : null,
           canonical(item),
         );
       for (const item of records.claims) {

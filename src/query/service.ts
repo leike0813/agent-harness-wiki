@@ -346,9 +346,11 @@ export class QueryService {
       );
     else
       version = newest(
-        this.snapshots
-          .filter((item) => inScope(item.target))
-          .map((item) => item.target.version_identity),
+        this.snapshots.flatMap((item) =>
+          "target" in item && inScope(item.target)
+            ? [item.target.version_identity]
+            : [],
+        ),
       );
     const empty = (status: Status) => ({
       release_id: this.releaseId,
@@ -383,7 +385,7 @@ export class QueryService {
       return condition !== "mismatch";
     });
     const sourceTimes = this.snapshots
-      .filter((item) => sameTarget(item.target))
+      .filter((item) => "target" in item && sameTarget(item.target))
       .map((item) => item.source_fetched_at)
       .sort();
     const status: Status = facts.some(

@@ -7,8 +7,9 @@
 | 记录 | 主键 | 作用 |
 |---|---|---|
 | HarnessDefinition | `harness_id` | 名称、别名、应用表面与来源引用 |
-| SourceDefinition | `source_id` | 数据集内来源文件及其实际 SHA-256；当前只支持 `fixture_file` |
-| SnapshotManifest | `snapshot_id` | 捕获时间、来源及完整 Target |
+| SourceDefinition | `source_id` | `fixture_file`、官方 Git 仓库或官方文档 URL；可变来源本身不带固定内容 hash |
+| Artifact | `artifact_id` | 与来源、harness 绑定的 Git checkout 或归档文档原件及内容身份 |
+| SnapshotManifest | `snapshot_id` | fixture 精确 Target、源码 commit Target，或版本适用性未知的文档快照 |
 | Claim | `claim_id` | `fact_key`、主题、强类型断言、条件、支持状态及精确版本 |
 | Evidence | `evidence_id` | Claim 与 Snapshot 引用、定位、摘录、立场和观察方式 |
 | Assessment | `assessment_id` | 复核人、事实验证时间、状态、证据及理由 |
@@ -20,6 +21,8 @@
 
 完整 Target 包括 harness、`surface`、distribution、OS、架构、执行方式及 `version_identity`。版本身份为 `release` 或 `commit`，只按精确值匹配。Claim 存 Target 的前六项和 `version_applicability: { kind: exact, versions: [一个版本] }`，不会把一个版本的结论外推到下个版本。Linux 与 Windows、CLI 与桌面、WSL 与 Windows native 分别记录。
 
+源码快照的 distribution 是 `source-tree`，版本身份是完整 commit；它不证明发行包行为。官方文档快照保留请求 URL、最终 URL、抓取时间、原始与提取 hash 和提取器身份。没有明确版本时写 `version_applicability: { kind: unknown }`，没有精确 Target，也不能作为已接受精确 Claim 的证据。
+
 条件是有限的 `all_of` 列表，包含工作区信任、环境变量、功能开关、配置值、启动参数、profile 和扩展安装状态。配置路径由语义基准与片段组成，不展开为当前机器的真实路径。
 
 ## 状态、证据与覆盖
@@ -28,16 +31,16 @@ Claim 的 `support.availability` 为 `supported | unsupported | not_applicable`�
 
 Evidence 的立场为 `supports | refutes | qualifies`，观察基础为 `documented | source_inspected | runtime_observed`。Assessment 为 `draft | accepted | disputed | rejected`。已接受的实质性 Claim 必须有匹配 Target 的证据和复核；相反证据同时存在时需要 `disputed`，不得默认选第一条。`source_fetched_at` 与 `fact_verified_at` 是不同时间。
 
-虚构数据位于 `tests/fixtures/datasets/basic/`，使用 `record_kind: fixture`；以 production profile 校验会拒绝。正式知识将放在根目录 `registry/` 与 `knowledge/`，当前还没有真实产品记录。
+虚构数据位于 `tests/fixtures/datasets/basic/`，使用 `record_kind: fixture`；以 production profile 校验会拒绝。Codex CLI 的真实来源记录位于根目录 `registry/` 与 `knowledge/codex-cli/`，目前没有真实 Claim。文档原件保存在忽略的 `archive/`，源码在固定 commit 的 submodule；普通校验与发布不读取这些原件，显式 `sources:audit` 才在本机检查。
 
 ## 发布投影
 
-编译器只把有 `accepted` 或 `disputed` Assessment 的 Claim 放入查询数据，连同对应 Assessment 所引用的 Evidence。已校验的 Snapshot 和 Source 元数据全部保留，以表达发现了但尚未验证的版本；原始来源内容不发布。`draft`、`rejected` 的断言不进入发布事实；Coverage 全部保留，以表达尚未调查或部分调查。JSON、SQLite 与生成页面使用同一投影。有争议 Claim 保留争议状态；SQLite 的 `review_status` 不根据其支持状态推断。
+编译器只把有 `accepted` 或 `disputed` Assessment 的 Claim 放入查询数据，连同对应 Assessment 所引用的 Evidence。已校验的 Snapshot、Source 和 Artifact 元数据全部保留；原始来源内容不发布。`draft`、`rejected` 的断言不进入发布事实；Coverage 全部保留，以表达尚未调查或部分调查。JSON、SQLite 与生成页面使用同一投影。有争议 Claim 保留争议状态；SQLite 的 `review_status` 不根据其支持状态推断。新版构建器版本为 2，旧版无 Artifact 的版本 1 发布仍可校验和查询。
 
 `releases/<release-id>/` 不可变，包含 `knowledge.json`、`knowledge.sqlite`、`docs/` 和 `manifest.json`。`releases/current.json` 只存当前 release ID。发布检验比较产物 hash、JSON 与数据库行、生成页面、SQLite 完整性和外键。发布目录可重建，不是事实真源。
 
-QueryService 只读取一个经检验的发布物。精确版本不回退；`latest_verified` 从当前 scope/主题已接受的 Claim 选择一个版本，`latest_upstream` 从 Snapshot 选择一个已发现版本并给出 `source_fetched_at`。只有纯数字点分 release 可比较先后，其他多版本候选返回 ambiguous。条件缺失返回 ambiguous，完整覆盖而缺事实返回 unknown，未调查版本返回 not_verified；这些都不等于 unsupported。
+QueryService 只读取一个经检验的发布物。精确版本不回退；`latest_verified` 从当前 scope/主题已接受的 Claim 选择一个版本，`latest_upstream` 从带完整 Target 的 Snapshot 选择一个已发现版本并给出 `source_fetched_at`。未注明版本的官方文档不参与版本发现。只有纯数字点分 release 可比较先后，其他多版本候选返回 ambiguous。条件缺失返回 ambiguous，完整覆盖而缺事实返回 unknown，未调查版本返回 not_verified；这些都不等于 unsupported。
 
 五类查询的共享输入与输出契约位于 `src/query/schema.ts`，CLI 和 MCP 均调用 QueryService。MCP 的 `get_capability` 可返回完整或摘要事实；摘要保留支持状态、Target、条件、复核状态和证据引用。MCP 每个响应标识固定 release，证据摘录有长度和截断标记；分页 cursor 绑定 release 与规范化查询条件。文档站的 Harness、主题、证据与发布页由同一个发布投影生成；通用状态说明独立于事实源，fixture 页明确标记为虚构。
 
-当前只使用精确版本和有限条件，不含真实 harness 知识、本地 embedding、调查 worker 或自动更新机制。
+当前只使用精确版本和有限条件；真实 harness 只登记来源，尚无已复核能力事实、本地 embedding、调查 worker 或自动更新机制。

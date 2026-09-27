@@ -6,7 +6,8 @@ agent-harness-wiki project.
 Per `AGENTS.md` §11 / PRD §23, ADRs are only created when a real choice is
 made. `0001-m0-toolchain-and-input.md` records the first implemented change;
 `0002-local-release-publication.md` records the local release layout and SQLite index.
-Query ranking and search policy belong to later changes.
+`0003-release-bound-query.md` records the offline query boundary.
+`0004-fixed-source-provenance.md` records the first real source boundary.
 
 Conventions when ADRs are written:
 
