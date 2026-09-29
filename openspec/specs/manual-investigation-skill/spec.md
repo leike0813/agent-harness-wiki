@@ -6,46 +6,20 @@ Provides a maintainer-invoked investigation workflow that turns a question about
 
 ## Requirements
 
-### Requirement: Direct and bounded investigation
-The project Skill SHALL accept a user-selected harness, exact Target, topic or question, and available fixed source identities. A source-change scan SHALL be optional input. For a multi-topic request, it SHALL account for every requested Target-topic pair in the final handoff.
+### Requirement: Direct or ID-based chapter investigation
+The project Skill SHALL accept one or more registered harness IDs for on-demand source observation, or a fixed source identity and specific question for direct investigation. It SHALL account for every requested product, topic and question, preserve source/package distinctions, and produce cited chapter updates or concrete gaps without manufacturing support.
 
-#### Scenario: Direct question before a scanner exists
-- **WHEN** a maintainer invokes the Skill with an exact existing Target and a Skills question but no change-scan output
-- **THEN** the Skill can investigate the fixed sources and return a candidate or a specific evidence gap
+#### Scenario: Direct fixed source
+- **WHEN** a maintainer asks how one Skills mechanism works at a pinned source commit
+- **THEN** the Skill can update the source-scoped chapter without requiring an npm Target or claiming package-version applicability
 
-#### Scenario: Missing Target identity
-- **WHEN** the request omits the version or distribution needed to distinguish Targets
-- **THEN** the Skill requests that identity before drafting a capability Claim
+### Requirement: Investigate, review and publish
+The Skill SHALL inspect the actual diff, validate changed inputs and sources, perform its own semantic check, obtain independent review for high-impact cases, and publish completed chapters through the normal staging and current-pointer process. It SHALL report changed chapters, unmapped versions, audit IDs, validation and publication results, and unresolved blockers. A failure SHALL preserve prior current knowledge and the work needed to resume.
 
-### Requirement: Source-bound candidates and gaps
-The Skill SHALL preserve source, artifact, snapshot, Target, condition, and evidence distinctions while preparing Claim, Evidence, Assessment, and Coverage records. A substantive new Claim SHALL remain a draft for human semantic review. Insufficient or conflicting evidence SHALL be recorded as an explicit gap or conflict, without manufacturing supported or unsupported behavior.
+#### Scenario: Valid ordinary change
+- **WHEN** a cited routine documentation update passes validation and Agent self-check
+- **THEN** the Skill creates a new local release without waiting for human Claim acceptance
 
-#### Scenario: Unversioned page beside a pinned package
-- **WHEN** an official page has unknown applicability to the selected package version
-- **THEN** the Skill records the page and version gap without treating it as exact-package proof
-
-#### Scenario: Evidence-backed candidate
-- **WHEN** a fixed package contains a directly located statement for the selected Target
-- **THEN** the Skill can create a typed draft Claim with matching Evidence and draft Assessment, while leaving the accepted publication unchanged
-
-### Requirement: Validated review handoff
-Before presenting candidate records, the Skill SHALL run the existing production dataset validator, inspect the local diff, and report every changed record, validation failure, unresolved gap, and decision required from the maintainer. A failure SHALL preserve available candidate work and its blocker. Invocation SHALL NOT accept a Claim or switch a KnowledgeRelease.
-
-#### Scenario: Candidate fails relationship validation
-- **WHEN** a drafted Evidence refers to the wrong Snapshot
-- **THEN** the Skill reports the validator diagnostic and repairs the candidate or leaves a concrete blocker; it does not publish the Claim
-
-#### Scenario: Investigation stops with unknown behavior
-- **WHEN** fixed sources do not establish a capability after the documented checks
-- **THEN** the Skill records what was inspected and the missing proof in Coverage and reports the question as unresolved
-
-### Requirement: Harness-ID incremental investigation
-The project Skill SHALL accept one or more registered harness IDs without a Target or question, run on-demand source observation, and investigate the resulting changes. It SHALL retain the precise Target and question workflow as an optional mode.
-
-#### Scenario: ID-only request
-- **WHEN** a maintainer invokes the Skill with registered harness IDs only
-- **THEN** it checks their registered upstream Sources and produces an audit record and review handoff for each harness.
-
-#### Scenario: New Target
-- **WHEN** an npm release has a new exact version
-- **THEN** investigation records coverage for all seven topics and does not carry old-version claims forward as accepted.
+#### Scenario: Incomplete review
+- **WHEN** an affected question requires independent review that has not finished
+- **THEN** it remains pending with its audit and does not enter the new release

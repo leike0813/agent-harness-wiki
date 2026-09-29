@@ -13,19 +13,17 @@ import {
 } from "node:fs/promises";
 import path from "node:path";
 import YAML from "yaml";
+import { loadAndValidateChapters } from "../validation/chapters.js";
 import {
-  topicSchema,
   upstreamAuditSchema,
   type Dataset,
   type SourceDefinition,
-  type Topic,
   type UpstreamAudit,
 } from "../domain/schema.js";
+import type { ChapterDataset } from "../domain/chapter.js";
 import { loadAndValidateDataset } from "../validation/dataset.js";
-import { readArchivedPackageFile } from "./package-archive.js";
 
 const exec = promisify(execFile);
-const topics = topicSchema.options;
 type Check = UpstreamAudit["checks"][number];
 type RemoteSource = Exclude<SourceDefinition, { kind: "fixture_file" }>;
 type GitRun = (args: string[]) => Promise<string>;
@@ -110,13 +108,11 @@ async function retainBytes(
   root: string,
   relative: string,
   bytes: Buffer,
-  verify?: (file: string) => Promise<unknown>,
 ): Promise<void> {
   const destination = await archiveLocation(root, relative);
   const temporary = `${destination}.${randomUUID()}.tmp`;
   await writeFile(temporary, bytes, { flag: "wx" });
   try {
-    if (verify) await verify(temporary);
     try {
       await link(temporary, destination);
     } catch (error) {
@@ -191,8 +187,20 @@ async function priorAudits(
     });
     if (document.errors.length || document.warnings.length)
       throw new Error(`Invalid audit YAML: ${file}`);
+    const raw = document.toJS({ maxAliasCount: 0 }) as Record<string, unknown>;
     const audit = upstreamAuditSchema.parse(
-      document.toJS({ maxAliasCount: 0 }),
+      raw.schema_version === 1
+        ? (() => {
+            const legacy = { ...raw };
+            delete legacy.candidate_refs;
+            return {
+              ...legacy,
+              schema_version: 2,
+              impacts: [],
+              pending_question_ids: [],
+            };
+          })()
+        : raw,
     );
     if (audit.harness_id !== harnessId || `${audit.audit_id}.yaml` !== file)
       throw new Error(`Audit identity differs from path: ${file}`);
@@ -271,27 +279,13 @@ async function observe(
     const details =
       dist && typeof dist === "object" ? (dist as Record<string, unknown>) : {};
     const integrity = details.integrity;
-    const tarball = details.tarball;
     if (
       typeof integrity !== "string" ||
-      !/^sha512-[A-Za-z0-9+/]+={0,2}$/.test(integrity) ||
-      typeof tarball !== "string" ||
-      new URL(tarball).origin !== source.registry_url ||
-      !tarball.startsWith("https://")
+      !/^sha512-[A-Za-z0-9+/]+={0,2}$/.test(integrity)
     )
-      throw new Error("npm release integrity or tarball URL is invalid.");
+      throw new Error("npm release integrity is invalid.");
     const observed = `${version}@${integrity}`;
-    if (observed === baseline) return { observed };
-    const { bytes: packageBytes, resolvedUrl } = await boundedFetch(
-      tarball,
-      128 * 1024 * 1024,
-      fetchImpl,
-    );
-    const candidate_path = `archive/${source.harness_id}/npm/${version}/package.tgz`;
-    await retainBytes(root, candidate_path, packageBytes, (file) =>
-      readArchivedPackageFile(file, integrity),
-    );
-    return { observed, resolved_url: resolvedUrl, candidate_path };
+    return { observed };
   }
 
   const stdout = await git([
@@ -355,83 +349,121 @@ async function observe(
   };
 }
 
-function impacts(dataset: Dataset, checks: Check[]): UpstreamAudit["impacts"] {
-  const collected = new Map<
-    Topic,
-    { claims: Set<string>; reasons: Set<string> }
-  >();
-  for (const check of checks) {
-    if (check.status !== "changed") continue;
-    const matchesSnapshot = (snapshotId: string): boolean => {
-      const snapshot = dataset.snapshots.find(
-        (record) => record.snapshot_id === snapshotId,
-      );
-      if (snapshot?.source_id !== check.source_id) return false;
-      if (!check.changed_paths || !("kind" in snapshot)) return true;
-      const artifact = dataset.artifacts.find(
-        (record) => record.artifact_id === snapshot.artifact_id,
-      );
-      return Boolean(
-        artifact &&
-        "file" in artifact &&
-        check.changed_paths.includes(artifact.file),
-      );
-    };
-    const direct = dataset.evidence
-      .filter((item) => matchesSnapshot(item.snapshot_id))
-      .map((item) =>
-        dataset.claims.find((claim) => claim.claim_id === item.claim_id),
-      )
-      .filter((claim) => claim !== undefined);
-    const covered = dataset.coverage.filter((item) =>
-      item.snapshot_refs?.some(matchesSnapshot),
+export function mapAuditImpacts(
+  dataset: ChapterDataset,
+  checks: Check[],
+): UpstreamAudit["impacts"] {
+  const result: UpstreamAudit["impacts"] = [];
+  const changed = checks.filter(
+    (check) => check.status === "changed" && check.kind !== "npm_registry",
+  );
+  const harnessIds = new Set(
+    changed.map(
+      (check) =>
+        dataset.sources.find((source) => source.source_id === check.source_id)
+          ?.harness_id,
+    ),
+  );
+  for (const chapter of dataset.chapters.filter(
+    (item) =>
+      harnessIds.has(item.harness_id) &&
+      dataset.current.some((current) => current.edition_id === item.edition_id),
+  )) {
+    const ownChanges = changed.filter((check) =>
+      dataset.sources.some(
+        (source) =>
+          source.source_id === check.source_id &&
+          source.harness_id === chapter.harness_id,
+      ),
     );
-    const knownFiles = dataset.snapshots.flatMap((snapshot) => {
-      if (snapshot.source_id !== check.source_id || !("kind" in snapshot))
-        return [];
-      const artifact = dataset.artifacts.find(
-        (item) => item.artifact_id === snapshot.artifact_id,
+    const shared = ownChanges.some(
+      (check) =>
+        check.kind === "git_repository" &&
+        (check.changed_paths === undefined ||
+          check.changed_paths.some((file) =>
+            /(^|\/)(config|configuration|build|package|feature|flags|loader)(\/|\.|$)/i.test(
+              file,
+            ),
+          )),
+    );
+    const refs = dataset.source_references.filter((ref) => {
+      if (ref.harness_id !== chapter.harness_id) return false;
+      const snapshot = dataset.snapshots.find(
+        (item) => item.snapshot_id === ref.snapshot_id,
       );
-      return artifact && "file" in artifact ? [artifact.file] : [];
+      return ownChanges.some(
+        (check) =>
+          check.source_id === snapshot?.source_id &&
+          (!check.changed_paths ||
+            !("file" in ref.locator) ||
+            check.changed_paths.includes(ref.locator.file)),
+      );
     });
-    const broad =
-      check.kind === "npm_registry" ||
-      !check.changed_paths ||
-      check.changed_paths.some(
-        (file) =>
-          /(^|\/)(config|configuration|build|package|feature|flags|loader)(\/|\.|$)/i.test(
-            file,
-          ) || !knownFiles.includes(file),
-      ) ||
-      (direct.length === 0 && covered.length === 0);
-    const affected = broad
-      ? topics
-      : [
-          ...new Set([
-            ...direct.map((claim) => claim.topic),
-            ...covered.map((item) => item.topic),
-          ]),
-        ];
-    for (const topic of affected) {
-      const item = collected.get(topic) ?? {
-        claims: new Set<string>(),
-        reasons: new Set<string>(),
-      };
-      for (const claim of direct)
-        if (claim.topic === topic) item.claims.add(claim.claim_id);
-      item.reasons.add(
-        broad
-          ? `${check.source_id}: broad review`
-          : `${check.source_id}: referenced file changed`,
+    const source_refs = refs
+      .map((ref) => ref.reference_id)
+      .filter((id) =>
+        chapter.sections.some((section) => section.source_refs.includes(id)),
       );
-      collected.set(topic, item);
-    }
+    const unbounded =
+      shared ||
+      ownChanges.some(
+        (check) =>
+          !dataset.source_references.some((ref) => {
+            const snapshot = dataset.snapshots.find(
+              (item) => item.snapshot_id === ref.snapshot_id,
+            );
+            return (
+              snapshot?.source_id === check.source_id &&
+              (!check.changed_paths ||
+                !("file" in ref.locator) ||
+                check.changed_paths.includes(ref.locator.file))
+            );
+          }),
+      );
+    if (!source_refs.length && !unbounded) continue;
+    const sections = unbounded
+      ? chapter.sections
+      : chapter.sections.filter((section) =>
+          section.source_refs.some((id) => source_refs.includes(id)),
+        );
+    const directlyCited = chapter.questions.filter((question) =>
+      question.source_refs.some((id) => source_refs.includes(id)),
+    );
+    const cross_topic_links = dataset.chapters
+      .filter(
+        (item) =>
+          item.harness_id === chapter.harness_id &&
+          item.topic !== chapter.topic &&
+          dataset.current.some(
+            (current) => current.edition_id === item.edition_id,
+          ),
+      )
+      .flatMap((item) => item.questions)
+      .filter(
+        (question) =>
+          unbounded ||
+          question.source_refs.some((id) => source_refs.includes(id)),
+      )
+      .map((question) => question.question_id);
+    result.push({
+      topic: chapter.topic,
+      question_ids: (unbounded || directlyCited.length === 0
+        ? chapter.questions
+        : directlyCited
+      )
+        .filter((question) =>
+          sections.some(
+            (section) => section.section_id === question.section_id,
+          ),
+        )
+        .map((question) => question.question_id),
+      section_ids: sections.map((section) => section.section_id),
+      source_refs,
+      cross_topic_links,
+      reason: `${ownChanges.map((check) => check.source_id).join(", ")}: ${unbounded ? "shared or unknown impact; investigate all themes" : "cited source changed"}`,
+    });
   }
-  return [...collected.entries()].map(([topic, item]) => ({
-    topic,
-    claim_refs: [...item.claims].sort(),
-    reason: [...item.reasons].sort().join("; "),
-  }));
+  return result;
 }
 
 export async function scanHarnesses(input: {
@@ -451,6 +483,18 @@ export async function scanHarnesses(input: {
       `Production dataset invalid: ${validated.diagnostics.map((item) => item.code).join(", ")}`,
     );
   const dataset = validated.dataset;
+  const chapters = await loadAndValidateChapters({
+    root,
+    profile: "production",
+  });
+  const hasChapters = await lstat(
+    path.join(root, "registry/chapter-current.yaml"),
+  ).then(
+    () => true,
+    () => false,
+  );
+  if (!chapters.ok && hasChapters)
+    throw new Error("Production chapter dataset is invalid.");
   if (input.harnessIds.length === 0)
     throw new Error("At least one harness ID is required.");
   const ids = [...new Set(input.harnessIds)];
@@ -504,7 +548,16 @@ export async function scanHarnesses(input: {
       }
     }
     const pending_audit_refs = previous
-      .filter((audit) => audit.review_status === "pending")
+      .filter(
+        (audit) =>
+          audit.review_status === "pending" &&
+          !previous.some(
+            (later) =>
+              later.checked_at > audit.checked_at &&
+              later.review_status === "reviewed" &&
+              later.pending_audit_refs.includes(audit.audit_id),
+          ),
+      )
       .map((audit) => audit.audit_id);
     const status = checks.some((item) => item.status === "blocked")
       ? "blocked"
@@ -516,8 +569,11 @@ export async function scanHarnesses(input: {
     const auditTime = new Date(
       Math.max(requestedTime, previousTime ? Date.parse(previousTime) + 1 : 0),
     );
+    const affected = chapters.ok
+      ? mapAuditImpacts(chapters.dataset, checks)
+      : [];
     const audit = upstreamAuditSchema.parse({
-      schema_version: 1,
+      schema_version: 2,
       audit_id: `audit-${harnessId}-${randomUUID()}`,
       harness_id: harnessId,
       checked_at: auditTime.toISOString(),
@@ -528,8 +584,10 @@ export async function scanHarnesses(input: {
       review_status: status === "no_change" ? "not_required" : "pending",
       pending_audit_refs,
       checks,
-      impacts: impacts(dataset, checks),
-      candidate_refs: [],
+      impacts: affected,
+      pending_question_ids: [
+        ...new Set(affected.flatMap((impact) => impact.question_ids)),
+      ],
       investigation_notes: [],
     });
     const auditRoot = path.join(root, "audits");
@@ -559,6 +617,18 @@ export async function validateAuditLedger(rootInput: string): Promise<number> {
     profile: "production",
   });
   if (!validated.ok) throw new Error("Production dataset is invalid.");
+  const chapterDataset = await loadAndValidateChapters({
+    root,
+    profile: "production",
+  });
+  const hasChapters = await lstat(
+    path.join(root, "registry/chapter-current.yaml"),
+  ).then(
+    () => true,
+    () => false,
+  );
+  if (!chapterDataset.ok && hasChapters)
+    throw new Error("Production chapter dataset is invalid.");
   let directories: string[];
   try {
     const auditRoot = path.join(root, "audits");
@@ -589,6 +659,51 @@ export async function validateAuditLedger(rootInput: string): Promise<number> {
       for (const pending of audit.pending_audit_refs)
         if (!seen.has(pending))
           throw new Error(`Missing pending audit: ${audit.audit_id}`);
+      for (const impact of audit.impacts) {
+        if (!chapterDataset.ok)
+          throw new Error(
+            `Audit impact has no chapter dataset: ${audit.audit_id}`,
+          );
+        const chapters = chapterDataset.dataset.chapters.filter(
+          (item) =>
+            item.harness_id === harnessId && item.topic === impact.topic,
+        );
+        if (
+          !chapters.length ||
+          impact.question_ids.some(
+            (id) =>
+              !chapters.some((chapter) =>
+                chapter.questions.some((q) => q.question_id === id),
+              ),
+          ) ||
+          impact.section_ids.some(
+            (id) =>
+              !chapters.some((chapter) =>
+                chapter.sections.some((section) => section.section_id === id),
+              ),
+          ) ||
+          impact.source_refs.some(
+            (id) =>
+              !chapters.some((chapter) =>
+                chapter.sections.some((section) =>
+                  section.source_refs.includes(id),
+                ),
+              ),
+          )
+        )
+          throw new Error(
+            `Audit impact differs from published chapter: ${audit.audit_id}`,
+          );
+      }
+      if (
+        audit.pending_question_ids.some(
+          (id) =>
+            !audit.impacts.some((impact) => impact.question_ids.includes(id)),
+        )
+      )
+        throw new Error(
+          `Pending question lacks audit impact: ${audit.audit_id}`,
+        );
       if (
         new Set(audit.checks.map((item) => item.source_id)).size !==
         audit.checks.length
@@ -603,7 +718,9 @@ export async function validateAuditLedger(rootInput: string): Promise<number> {
         throw new Error(`Audit status differs from checks: ${audit.audit_id}`);
       if (
         (audit.review_status === "reviewed" &&
-          (!audit.reviewed_by || !audit.reviewed_at)) ||
+          (!audit.reviewed_by ||
+            !audit.reviewed_at ||
+            audit.pending_question_ids.length > 0)) ||
         (audit.review_status === "not_required" && audit.status !== "no_change")
       )
         throw new Error(`Audit review state is incomplete: ${audit.audit_id}`);

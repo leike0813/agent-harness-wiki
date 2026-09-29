@@ -4,7 +4,7 @@
   "properties": {
     "schema_version": {
       "type": "number",
-      "const": 1
+      "const": 2
     },
     "audit_id": {
       "type": "string",
@@ -143,11 +143,32 @@
               "configuration"
             ]
           },
-          "claim_refs": {
+          "question_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+            }
+          },
+          "section_ids": {
             "type": "array",
             "items": {
               "type": "string",
               "pattern": "^[a-z][a-z0-9_-]*$"
+            }
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_-]*$"
+            }
+          },
+          "cross_topic_links": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
             }
           },
           "reason": {
@@ -157,18 +178,21 @@
         },
         "required": [
           "topic",
-          "claim_refs",
+          "question_ids",
+          "section_ids",
+          "source_refs",
+          "cross_topic_links",
           "reason"
         ],
         "additionalProperties": false
       }
     },
-    "candidate_refs": {
+    "pending_question_ids": {
       "default": [],
       "type": "array",
       "items": {
         "type": "string",
-        "pattern": "^[a-z][a-z0-9_-]*$"
+        "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
       }
     },
     "investigation_notes": {
@@ -190,7 +214,7 @@
     "pending_audit_refs",
     "checks",
     "impacts",
-    "candidate_refs",
+    "pending_question_ids",
     "investigation_notes"
   ],
   "additionalProperties": false

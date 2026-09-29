@@ -365,7 +365,7 @@ export const publishedKnowledgeSchema = z.strictObject({
 });
 
 export const upstreamAuditSchema = z.strictObject({
-  schema_version: z.literal(1),
+  schema_version: z.literal(2),
   audit_id: id,
   harness_id: id,
   checked_at: z.iso.datetime(),
@@ -397,11 +397,20 @@ export const upstreamAuditSchema = z.strictObject({
   impacts: z.array(
     z.strictObject({
       topic: topicSchema,
-      claim_refs: z.array(id),
+      question_ids: z.array(
+        z.string().regex(/^[a-z][a-z0-9_]*\.[a-z][a-z0-9_]*$/),
+      ),
+      section_ids: z.array(id),
+      source_refs: z.array(id),
+      cross_topic_links: z.array(
+        z.string().regex(/^[a-z][a-z0-9_]*\.[a-z][a-z0-9_]*$/),
+      ),
       reason: nonempty,
     }),
   ),
-  candidate_refs: z.array(id).default([]),
+  pending_question_ids: z
+    .array(z.string().regex(/^[a-z][a-z0-9_]*\.[a-z][a-z0-9_]*$/))
+    .default([]),
   investigation_notes: z.array(nonempty).default([]),
 });
 

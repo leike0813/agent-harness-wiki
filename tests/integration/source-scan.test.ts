@@ -10,17 +10,26 @@ import {
 } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import { afterEach, expect, test } from "vitest";
 import YAML from "yaml";
 import { create } from "tar";
-import { scanHarnesses, validateAuditLedger } from "../../src/sources/scan.js";
+import {
+  mapAuditImpacts,
+  scanHarnesses,
+  validateAuditLedger,
+} from "../../src/sources/scan.js";
 import { readArchivedPackageFile } from "../../src/sources/package-archive.js";
 import { auditArtifacts } from "../../src/sources/audit.js";
 import { loadAndValidateDataset } from "../../src/validation/dataset.js";
+import { loadAndValidateChapters } from "../../src/validation/chapters.js";
 
 const roots: string[] = [];
 const run = promisify(execFile);
+const chapterFixture = fileURLToPath(
+  new URL("../fixtures/datasets/chapters", import.meta.url),
+);
 afterEach(async () => {
   for (const root of roots.splice(0))
     await rm(root, { recursive: true, force: true });
@@ -103,24 +112,27 @@ function fakeFetch(
   bytes: Buffer,
   integrity: string,
   brokenDoc = false,
+  brokenNpm = false,
 ): typeof fetch {
   return (async (input: string | URL | Request) => {
     const url = String(input);
     if (url === "https://registry.npmjs.org/example-package")
-      return Response.json({
-        name: "example-package",
-        "dist-tags": { latest: "2.0.0" },
-        versions: {
-          "2.0.0": {
-            dist: {
-              integrity,
-              tarball:
-                "https://registry.npmjs.org/example-package/-/example-package-2.0.0.tgz",
+      return brokenNpm
+        ? new Response(null, { status: 503 })
+        : Response.json({
+            name: "example-package",
+            "dist-tags": { latest: "2.0.0" },
+            versions: {
+              "2.0.0": {
+                dist: {
+                  integrity,
+                  tarball:
+                    "https://registry.npmjs.org/example-package/-/example-package-2.0.0.tgz",
+                },
+              },
             },
-          },
-        },
-      });
-    if (url.endsWith(".tgz")) return new Response(new Uint8Array(bytes));
+          });
+    if (url.endsWith(".tgz")) throw new Error("Scanner fetched package bytes");
     if (url === "https://example.org/manual.md")
       return brokenDoc
         ? new Response(null, { status: 503 })
@@ -138,19 +150,13 @@ test("records changed, unchanged and pending scans without changing knowledge", 
   )[0]!;
   expect(first.status).toBe("changed");
   expect(first.review_status).toBe("pending");
-  expect(first.impacts.map((item) => item.topic)).toHaveLength(7);
+  expect(first.impacts).toEqual([]);
+  expect(
+    first.checks.find((item) => item.kind === "npm_registry")?.observed,
+  ).toBe(`2.0.0@${pkg.integrity}`);
   expect(
     first.checks.find((item) => item.kind === "npm_registry")?.candidate_path,
-  ).toBe("archive/example/npm/2.0.0/package.tgz");
-  expect(
-    (
-      await readArchivedPackageFile(
-        path.join(root, "archive/example/npm/2.0.0/package.tgz"),
-        pkg.integrity,
-        "package/index.js",
-      )
-    )?.toString(),
-  ).toContain("ready");
+  ).toBeUndefined();
 
   await writeFile(
     path.join(root, "audits/example", `${first.audit_id}.md`),
@@ -167,7 +173,49 @@ test("records changed, unchanged and pending scans without changing knowledge", 
   expect(await validateAuditLedger(root)).toBe(2);
 });
 
-test("source failures remain local and integrity failures do not become candidates", async () => {
+test("maps changed fixed sources to cited question and section IDs", async () => {
+  const result = await loadAndValidateChapters({
+    root: chapterFixture,
+    profile: "fixture",
+  });
+  expect(result.ok).toBe(true);
+  if (!result.ok) return;
+  const impacts = mapAuditImpacts(result.dataset, [
+    {
+      source_id: "source-demo-open-doc",
+      kind: "official_documentation",
+      checked_at: "2026-09-29T00:00:00Z",
+      status: "changed",
+      observed: "new-content-sha256",
+    },
+  ]);
+  expect(impacts).toEqual([
+    {
+      topic: "configuration",
+      question_ids: ["config.sources"],
+      section_ids: ["configuration-overview"],
+      source_refs: ["ref-demo-open-doc"],
+      cross_topic_links: [],
+      reason: "source-demo-open-doc: cited source changed",
+    },
+  ]);
+  const broad = mapAuditImpacts(result.dataset, [
+    {
+      source_id: "source-demo-open-doc",
+      kind: "git_repository",
+      checked_at: "2026-09-29T00:00:00Z",
+      status: "changed",
+      observed: "new-commit",
+      changed_paths: ["src/loader.ts"],
+    },
+  ]);
+  expect(broad).toHaveLength(7);
+  expect(
+    broad.every((impact) => impact.reason.includes("shared or unknown impact")),
+  ).toBe(true);
+});
+
+test("source failures retain baselines while successful observations advance", async () => {
   const root = await dataset();
   const pkg = await packageBytes(root);
   const first = (
@@ -185,21 +233,38 @@ test("source failures remain local and integrity failures do not become candidat
     first.checks.find((item) => item.kind === "official_documentation")?.status,
   ).toBe("blocked");
 
-  const invalidIntegrity = `sha512-${Buffer.alloc(64).toString("base64")}`;
   const second = (
     await scanHarnesses({
       root,
       harnessIds: ["example"],
-      fetchImpl: fakeFetch(pkg.bytes, invalidIntegrity),
+      fetchImpl: fakeFetch(pkg.bytes, pkg.integrity),
     })
   )[0]!;
   expect(
     second.checks.find((item) => item.kind === "npm_registry")?.status,
-  ).toBe("blocked");
+  ).toBe("unchanged");
   expect(
     second.checks.find((item) => item.kind === "official_documentation")
       ?.status,
   ).toBe("changed");
+  const third = (
+    await scanHarnesses({
+      root,
+      harnessIds: ["example"],
+      fetchImpl: fakeFetch(pkg.bytes, pkg.integrity, true, true),
+    })
+  )[0]!;
+  expect(
+    third.checks.find((item) => item.kind === "npm_registry")?.baseline,
+  ).toBe(`2.0.0@${pkg.integrity}`);
+  expect(
+    third.checks.find((item) => item.kind === "official_documentation")
+      ?.baseline,
+  ).toBe(
+    second.checks.find((item) => item.kind === "official_documentation")
+      ?.observed,
+  );
+  expect(await validateAuditLedger(root)).toBe(3);
 });
 
 test("does not follow a registered document to another origin", async () => {
@@ -281,6 +346,13 @@ test("archived package evidence stays bound to its exact release", async () => {
     harnessIds: ["example"],
     fetchImpl: fakeFetch(pkg.bytes, pkg.integrity),
   });
+  await mkdir(path.join(root, "archive/example/npm/2.0.0"), {
+    recursive: true,
+  });
+  await writeFile(
+    path.join(root, "archive/example/npm/2.0.0/package.tgz"),
+    pkg.bytes,
+  );
   const artifact = {
     schema_version: 1,
     record_kind: "production",

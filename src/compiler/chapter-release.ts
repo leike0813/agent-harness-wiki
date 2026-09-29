@@ -648,6 +648,14 @@ export async function compileChapterRelease(
         .map((x) => `${x.code} ${x.file}`)
         .join("; ")}`,
     );
+  return compileChapterDataset(validated.dataset, options);
+}
+
+export async function compileChapterDataset(
+  dataset: ChapterDataset,
+  input: ChapterCompileOptions,
+): Promise<{ releaseDir: string; manifest: ChapterReleaseManifest }> {
+  const options = optionsSchema.parse(input);
   const root = path.resolve(options.releasesRoot);
   await mkdir(root, { recursive: true });
   const lock = await open(path.join(root, ".publish.lock"), "wx");
@@ -681,7 +689,7 @@ export async function compileChapterRelease(
     }
     stage = await mkdtemp(path.join(root, ".staging-"));
     const knowledge = projectChapters(
-      validated.dataset,
+      dataset,
       options.releaseId,
       options.profile,
       options.publishedAt,
@@ -767,7 +775,7 @@ export async function compileChapterRelease(
       knowledge_published_at: options.publishedAt,
       input_sha256: sha256(
         canonical({
-          dataset: validated.dataset,
+          dataset,
           questions: questionsText,
           model: modelLockText ?? null,
         }),

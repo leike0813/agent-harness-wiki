@@ -14,26 +14,19 @@ The system SHALL accept one or more registered harness IDs and inspect only thei
 - **THEN** each harness receives an independent audit record covering its registered Sources.
 
 ### Requirement: Durable audit history
-The system SHALL write a schema-validated Git-tracked audit record for every invocation, including unchanged and partially failed scans. The record SHALL include the baseline and observed source identities, timestamps, status, and affected topic and Claim references. Audit records SHALL not enter KnowledgeRelease.
+The system SHALL write a schema-validated Git-tracked audit record for every manual invocation, including unchanged and partially failed scans. It SHALL retain each registered source's baseline, observed identity, time and failure independently, plus affected question IDs, section IDs, source references and pending work. Audit records SHALL not enter KnowledgeRelease. A substantive change, failed source or unresolved disagreement SHALL also have a concise Markdown report; an entirely unchanged check needs only YAML.
 
 #### Scenario: No source changed
 - **WHEN** all current observations match their baselines
-- **THEN** the invocation writes a no-change audit record and does not create knowledge candidates.
+- **THEN** the invocation writes a no-change audit record and does not create a knowledge release unless prior pending work completed
 
 #### Scenario: One source fails
 - **WHEN** one Source cannot be observed
-- **THEN** the record marks that Source blocked and retains the successful observations of other Sources.
+- **THEN** the record marks that Source blocked, retains its last successful baseline and preserves successful observations of other Sources
 
-### Requirement: Isolated candidates
-New npm package bytes SHALL be integrity-checked and stored in ignored archive space without installation, extraction, lifecycle execution, or replacement of the pinned package set. Changed Git revisions SHALL use an isolated checkout without moving submodule pointers.
+### Requirement: Metadata-first package observation
+The scanner SHALL record registered npm latest version and integrity without obtaining executable package bytes as a side effect. Fixed official documentation content and isolated Git revisions MAY be captured for knowledge comparison, without moving a pinned submodule. Package acquisition SHALL be delegated to the managed environment updater.
 
 #### Scenario: New npm release
-- **WHEN** the latest registered npm release differs from the baseline
-- **THEN** its verified tarball is retained as a candidate and no conclusion is inferred for its Target.
-
-### Requirement: Human semantic gate
-The scanner SHALL not accept assessments, change accepted claims, compile a release, or switch the current release pointer.
-
-#### Scenario: Review required
-- **WHEN** a changed source is observed
-- **THEN** the audit points to affected topics and the Skill prepares drafts or explicit gaps for human review.
+- **WHEN** latest resolves to a different exact version
+- **THEN** the audit records the version and integrity, while the scanner itself does not download a tarball or assert a chapter conclusion
