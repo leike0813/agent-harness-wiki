@@ -9,17 +9,18 @@ pnpm install --frozen-lockfile
 pnpm verify
 ```
 
-生产章节真源位于 `knowledge/<harness-id>/chapters/`，来源引用位于同产品的 `references/`。`pnpm knowledge:validate` 校验这五个产品的 35 篇当前章节；v1 仍在同一发布的历史入口可查。每次编译使用新的 release ID；发布物不可覆盖。下面的查询读取 `reader-guides-20260929-v2`：
+生产章节真源位于 `knowledge/<harness-id>/chapters/`，来源引用位于同产品的 `references/`。`pnpm knowledge:validate` 校验这五个产品的 35 篇当前章节；v1 仍在同一发布的历史入口可查。每次编译使用新的 release ID；发布物不可覆盖。下面的查询读取 `hybrid-search-20260929-v1`：
 
 ```sh
 pnpm ahw validate --dataset-root . --profile production
-pnpm ahw query --release-id reader-guides-20260929-v2 list --json
-pnpm ahw query --release-id reader-guides-20260929-v2 topic --harness pi --topic skills --json
-pnpm ahw query --release-id reader-guides-20260929-v2 topic --harness pi --topic skills --version 0.73.1 --json
-pnpm ahw query --release-id reader-guides-20260929-v2 search --topic mcp --text server --json
-pnpm ahw query --release-id reader-guides-20260929-v2 compare --topic skills --targets '[{"harness":"pi"},{"harness":"omp"}]' --json
-pnpm ahw query --release-id reader-guides-20260929-v2 source --reference-id ref-pi-skills-locations --json
-pnpm docs:build --release-id reader-guides-20260929-v2
+pnpm ahw query --release-id hybrid-search-20260929-v1 list --json
+pnpm ahw query --release-id hybrid-search-20260929-v1 topic --harness pi --topic skills --json
+pnpm ahw query --release-id hybrid-search-20260929-v1 topic --harness pi --topic skills --version 0.73.1 --json
+pnpm ahw query --release-id hybrid-search-20260929-v1 search --topic mcp --text '怎样让代理调用外部工具？' --json
+pnpm ahw query --release-id hybrid-search-20260929-v1 search --harness claude-code --topic mcp --text mcpServers --json
+pnpm ahw query --release-id hybrid-search-20260929-v1 compare --topic skills --targets '[{"harness":"pi"},{"harness":"omp"}]' --json
+pnpm ahw query --release-id hybrid-search-20260929-v1 source --reference-id ref-pi-skills-locations --json
+pnpm docs:build --release-id hybrid-search-20260929-v1
 ```
 
 要查虚构 fixture，可在独立输出目录生成一次发布：
@@ -34,12 +35,14 @@ pnpm ahw query --releases-root var/chapter-release-fixture/releases --release-id
 MCP 以 stdio 固定一个已验证发布，提供 `list_harnesses`、`get_topic`、`search_knowledge`、`compare_topics`、`get_source` 五个只读工具：
 
 ```sh
-pnpm ahw mcp --release-id reader-guides-20260929-v2
+pnpm ahw mcp --release-id hybrid-search-20260929-v1
 pnpm mcp:smoke
-pnpm docs:build --release-id reader-guides-20260929-v2
+pnpm docs:build --release-id hybrid-search-20260929-v1
 ```
 
 `pnpm docs:build` 无参数时构建临时 fixture release；显式指定 release 时先校验其完整性。站点页面、CLI 和 MCP 读取同一个不可变发布。软件版本映射只在来源证据足够时建立；`source_only` 不表示安装版本已验证。
+
+生产搜索发布使用本机 Ollama 的 `qwen3-embedding:4b`；模型 digest 固定在 `registry/search-model.json`。构建和查询不会下载模型。搜索只覆盖当前章节小节，返回命中原因、正文片段、来源范围及 `semantic_status`；本机模型不可用时显示 `semantic_unavailable` 并继续词法搜索。语义相似度只表示相关性，章节的软件版本仍由 `topic` 查询的映射决定。
 
 新增章节时按 [成稿规则](docs/topic-questions.md) 写路径、配置文件示例、处理链、检查方式与固定来源，再用 [开发指南](docs/development.md) 中的 staging 编译和发布命令；已发布的 release ID 不可重用。
 

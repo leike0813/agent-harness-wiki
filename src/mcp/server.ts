@@ -58,7 +58,7 @@ export function createMcpServer(service: QueryService): McpServer {
   server.registerTool(
     "search_knowledge",
     { inputSchema: searchSchema, annotations: readonly },
-    (input) => mcpResponse(service.searchKnowledge(input)),
+    async (input) => mcpResponse(await service.searchKnowledge(input)),
   );
   server.registerTool(
     "compare_topics",

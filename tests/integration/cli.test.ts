@@ -60,6 +60,20 @@ test("CLI chapter commands share a release and preserve uncertainty", () => {
     topic.questions.some((q: { status: string }) => q.status === "unknown"),
   ).toBe(true);
   expect(call("search", "--topic", "skills").items.length).toBeGreaterThan(0);
+  const found = call(
+    "search",
+    "--harness",
+    "demo-open-cli",
+    "--text",
+    "skills.discovery",
+  );
+  expect(found.semantic_status).toBe("semantic_unavailable");
+  expect(found.items[0]).toMatchObject({
+    section_id: "skills-overview",
+    match: "exact_question_id",
+  });
+  expect(found.items[0].preview).toContain("skills.discovery");
+  expect(found.items[0].source_scope[0].reference_id).toBe("ref-demo-open");
   expect(
     call(
       "compare",

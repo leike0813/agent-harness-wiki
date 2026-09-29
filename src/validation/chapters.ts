@@ -12,20 +12,12 @@ import {
   type ChapterDataset,
 } from "../domain/chapter.js";
 import type { Topic } from "../domain/schema.js";
+import { parseQuestionCatalog } from "../domain/question-catalog.js";
 import { loadAndValidateDataset, type Diagnostic } from "./dataset.js";
 
 const questionsFile = fileURLToPath(
   new URL("../../docs/topic-questions.md", import.meta.url),
 );
-const topicPrefix: Record<string, Topic> = {
-  skills: "skills",
-  mcp: "mcp",
-  agents: "custom_agents",
-  providers: "custom_providers",
-  hooks: "hooks",
-  plugins: "native_plugins",
-  config: "configuration",
-};
 
 export type ChapterValidationResult =
   | { ok: true; dataset: ChapterDataset; diagnostics: Diagnostic[] }
@@ -305,19 +297,13 @@ export async function loadAndValidateChapters(input: {
       "Add current selections for published chapters.",
     );
   }
-  const expected = new Map<Topic, Set<string>>();
   const questionsText = await readFile(questionsFile, "utf8");
-  for (const match of questionsText.matchAll(
-    /\| `([a-z][a-z0-9_]*\.[a-z][a-z0-9_]*)` \|/g,
-  )) {
-    const question = match[1]!;
-    const topic = topicPrefix[question.split(".")[0]!];
-    if (topic) {
-      const ids = expected.get(topic) ?? new Set<string>();
-      ids.add(question);
-      expected.set(topic, ids);
-    }
-  }
+  const expected = new Map<Topic, Set<string>>(
+    [...parseQuestionCatalog(questionsText)].map(([topic, questions]) => [
+      topic,
+      new Set(questions.keys()),
+    ]),
+  );
   const sources = new Map(dataset.sources.map((x) => [x.source_id, x]));
   const snapshots = new Map(dataset.snapshots.map((x) => [x.snapshot_id, x]));
   const refs = new Map(

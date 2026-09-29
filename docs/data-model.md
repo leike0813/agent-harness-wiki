@@ -14,6 +14,8 @@ M1 章节模型的事实源是 Git 中的完整 Markdown 章节版本、来源�
 
 ## 发布
 
-新格式 `schema_version: 2`、`builder_version: 4`。一个 `releases/<id>/` 包含 `manifest.json`、`knowledge.json`、`knowledge.sqlite`、`docs/index.md`、`docs/harnesses/`、`docs/chapters/` 和 `docs/sources/`。JSON 的 `records.current` 是当前章节索引，`records.chapters` 保留历史章节；SQLite 对章节、小节、问题、来源引用和软件版本映射建索引，并开启外键。生成 Markdown 与 JSON 同源，来源摘录作为惰性文本展示。发布先在 staging 中验证 hash、JSON、SQLite 和页面；`--stage` 保留旧当前指针，验收后 `ahw publish` 原子切换。新映射可以引用相同章节版本并复用相同 Markdown 字节。
+新建发布使用 `schema_version: 2`、`builder_version: 5`；既有第 4 版构建器发布仍可读取。一个 `releases/<id>/` 包含 `manifest.json`、`knowledge.json`、`knowledge.sqlite`、`search.json`、`docs/`；生产发布还包含 `semantic.json`。JSON 的 `records.current` 是当前章节索引，`records.chapters` 保留历史章节；`search.json` 只含当前小节、固定问法、配置键、路径和别名，SQLite 的 FTS5 与它逐项核对。`semantic.json` 把有界片段的向量绑定到小节；manifest 固定模型 digest、维度、片段数、归一化方式及索引 hash。模型原件由本机 Ollama 保管，不进入 Git 或发布。语义文件或模型缺失时词法查询仍可返回，并标明 `semantic_unavailable`。
+
+SQLite 还对章节、小节、问题、来源引用和软件版本映射建索引，并开启外键。生成 Markdown 与 JSON 同源，来源摘录作为惰性文本展示。发布先在 staging 中验证 hash、JSON、SQLite 和页面；`--stage` 保留旧当前指针，验收后 `ahw publish` 原子切换。新映射可以引用相同章节版本并复用相同 Markdown 字节。
 
 新格式 fixture 发布使用隔离的 `var/chapter-release-fixture/releases/`。旧格式 release 无新格式读取兼容承诺；公共查询、MCP 与站点使用章节发布。fixture 发布不能视为五个真实产品的内容验收。

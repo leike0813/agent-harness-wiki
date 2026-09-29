@@ -99,7 +99,7 @@ export const chapterSelectionSchema = z.strictObject({
 
 export const chapterReleaseManifestSchema = z.strictObject({
   schema_version: z.literal(2),
-  builder_version: z.literal("4"),
+  builder_version: z.enum(["4", "5"]),
   release_id: id,
   profile: z.enum(["fixture", "production"]),
   knowledge_published_at: z.iso.datetime(),
@@ -108,6 +108,17 @@ export const chapterReleaseManifestSchema = z.strictObject({
     z.strictObject({ harness_id: id, topic: topicSchema, edition_id: id }),
   ),
   history: z.array(id),
+  semantic: z
+    .strictObject({
+      model_name: z.string(),
+      model_digest: sha256,
+      model_blob_sha256: sha256,
+      dimensions: z.int().positive(),
+      passage_count: z.int().nonnegative(),
+      normalization: z.literal("l2"),
+      index_version: z.literal(1),
+    })
+    .optional(),
   artifacts: z.record(z.string(), sha256),
 });
 

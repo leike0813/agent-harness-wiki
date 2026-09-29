@@ -82,7 +82,20 @@ test("stdio exposes exactly five chapter tools and calls all five", async () => 
   expect((section.structuredContent as Record<string, unknown>).body).toContain(
     "skills.discovery",
   );
-  await call("search_knowledge", { topic: "skills" });
+  const search = await call("search_knowledge", {
+    harness: "demo-open-cli",
+    text: "skills.discovery",
+  });
+  const found = search.structuredContent as {
+    semantic_status: string;
+    items: { section_id: string; match: string; source_scope: unknown[] }[];
+  };
+  expect(found.semantic_status).toBe("semantic_unavailable");
+  expect(found.items[0]).toMatchObject({
+    section_id: "skills-overview",
+    match: "exact_question_id",
+  });
+  expect(found.items[0]?.source_scope.length).toBeGreaterThan(0);
   await call("compare_topics", {
     topic: "skills",
     targets: [{ harness: "demo-open-cli" }, { harness: "demo-package-cli" }],

@@ -160,6 +160,21 @@ test("repeat builds agree across JSON, SQLite, Markdown; mapping-only release ke
   const right = await build(dataset, rightRoot, "first");
   expect(await verifyChapterRelease(left.releaseDir)).toEqual(left.manifest);
   expect(left.manifest.history).toEqual(["demo-open-cli-skills-v0"]);
+  const search = JSON.parse(
+    await readFile(path.join(left.releaseDir, "search.json"), "utf8"),
+  ) as {
+    sections: { edition_id: string; question_wording: string[] }[];
+  };
+  expect(
+    search.sections.every(
+      (section) => section.edition_id !== "demo-open-cli-skills-v0",
+    ),
+  ).toBe(true);
+  expect(
+    search.sections.some((section) =>
+      section.question_wording.some((wording) => wording.includes("扫描")),
+    ),
+  ).toBe(true);
   expect(
     Object.entries(left.manifest.artifacts).filter(([name]) =>
       name.endsWith(".md"),

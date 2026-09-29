@@ -13,6 +13,7 @@ import {
   writeFile,
 } from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import Database from "better-sqlite3";
 import * as z from "zod";
 import {
@@ -21,6 +22,23 @@ import {
   type ChapterDataset,
   type ChapterPublishedKnowledge,
 } from "../domain/chapter.js";
+import { parseQuestionCatalog } from "../domain/question-catalog.js";
+import {
+  buildSearchSections,
+  normalizeVector,
+  searchIndexSchema,
+  searchableText,
+  semanticIndexSchema,
+  sectionText,
+  splitPassages,
+  type SearchSection,
+  type SemanticIndex,
+} from "../query/search-index.js";
+import {
+  assertLocalModel,
+  embedLocal,
+  modelLockSchema,
+} from "../query/ollama.js";
 import { loadAndValidateChapters } from "../validation/chapters.js";
 import { canonical, sha256 } from "./projection.js";
 
@@ -44,6 +62,12 @@ const textSafe = (value: string): string =>
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
+const questionsFile = fileURLToPath(
+  new URL("../../docs/topic-questions.md", import.meta.url),
+);
+const modelLockFile = fileURLToPath(
+  new URL("../../registry/search-model.json", import.meta.url),
+);
 
 export function projectChapters(
   dataset: ChapterDataset,
@@ -145,6 +169,7 @@ export function renderChapterDocs(
 function writeChapterSqlite(
   file: string,
   knowledge: ChapterPublishedKnowledge,
+  search: SearchSection[],
 ): void {
   const db = new Database(file);
   try {
@@ -164,6 +189,8 @@ function writeChapterSqlite(
       CREATE TABLE current (harness_id TEXT NOT NULL REFERENCES harnesses(id), topic TEXT NOT NULL, edition_id TEXT NOT NULL REFERENCES chapters(id), payload_json TEXT NOT NULL, PRIMARY KEY(harness_id, topic));
       CREATE INDEX chapters_scope ON chapters(harness_id, topic, is_current);
       CREATE INDEX mappings_version ON mappings(version, chapter_id);
+      CREATE TABLE search_sections (section_key TEXT PRIMARY KEY, payload_json TEXT NOT NULL);
+      CREATE VIRTUAL TABLE search_fts USING fts5(section_key UNINDEXED, content);
     `);
     const r = knowledge.records;
     db.transaction(() => {
@@ -243,6 +270,17 @@ function writeChapterSqlite(
           x.edition_id,
           canonical(x),
         );
+      const insertSection = db.prepare(
+        "INSERT INTO search_sections VALUES (?,?)",
+      );
+      const insertFts = db.prepare(
+        "INSERT INTO search_fts(section_key, content) VALUES (?,?)",
+      );
+      for (const section of search) {
+        const key = `${section.edition_id}|${section.section_id}`;
+        insertSection.run(key, canonical(section));
+        insertFts.run(key, searchableText(section));
+      }
     })();
   } finally {
     db.close();
@@ -274,16 +312,20 @@ export async function verifyChapterRelease(
   )
     throw new Error("Release directory and ID differ.");
   const inventory = (await paths(dir)).filter((x) => x !== "manifest.json");
+  const requiredInventory = Object.keys(manifest.artifacts)
+    .filter((file) => file !== "semantic.json")
+    .sort();
   if (
-    inventory.join("\n") !==
-      Object.keys(manifest.artifacts).sort().join("\n") ||
+    inventory.filter((file) => file !== "semantic.json").join("\n") !==
+      requiredInventory.join("\n") ||
     !inventory.includes("knowledge.json") ||
-    !inventory.includes("knowledge.sqlite")
+    !inventory.includes("knowledge.sqlite") ||
+    (manifest.builder_version === "5" && !inventory.includes("search.json"))
   )
     throw new Error("Release artifact inventory differs from manifest.");
   for (const file of inventory) {
     if (
-      !/^(knowledge\.(json|sqlite)|docs\/(index|chapters\/[a-z0-9_-]+|sources\/[a-z0-9_-]+|harnesses\/[a-z0-9_-]+\/(index|[a-z0-9_-]+))\.md)$/.test(
+      !/^(knowledge\.(json|sqlite)|search\.json|semantic\.json|docs\/(index|chapters\/[a-z0-9_-]+|sources\/[a-z0-9_-]+|harnesses\/[a-z0-9_-]+\/(index|[a-z0-9_-]+))\.md)$/.test(
         file,
       )
     )
@@ -296,6 +338,91 @@ export async function verifyChapterRelease(
   const knowledge = chapterPublishedKnowledgeSchema.parse(
     JSON.parse(await readFile(path.join(dir, "knowledge.json"), "utf8")),
   );
+  const search =
+    manifest.builder_version === "5"
+      ? searchIndexSchema.parse(
+          JSON.parse(await readFile(path.join(dir, "search.json"), "utf8")),
+        ).sections
+      : [];
+  if (
+    manifest.builder_version === "5" &&
+    manifest.profile === "production" &&
+    (!manifest.semantic || !manifest.artifacts["semantic.json"])
+  )
+    throw new Error("Production semantic index is missing from manifest.");
+  if (inventory.includes("semantic.json")) {
+    const semantic = semanticIndexSchema.parse(
+      JSON.parse(await readFile(path.join(dir, "semantic.json"), "utf8")),
+    );
+    if (
+      !manifest.semantic ||
+      semantic.model.digest !== manifest.semantic.model_digest ||
+      semantic.model.blob_sha256 !== manifest.semantic.model_blob_sha256 ||
+      semantic.passages.length !== manifest.semantic.passage_count ||
+      semantic.passages.some(
+        (passage) =>
+          passage.vector.length !== manifest.semantic!.dimensions ||
+          !search.some(
+            (section) =>
+              section.edition_id === passage.edition_id &&
+              section.section_id === passage.section_id,
+          ),
+      )
+    )
+      throw new Error(
+        "Semantic index differs from release selection or model.",
+      );
+  }
+  if (
+    manifest.builder_version === "5" &&
+    (search.length !==
+      knowledge.records.current.reduce(
+        (count, selection) =>
+          count +
+          knowledge.records.chapters.find(
+            (chapter) => chapter.edition_id === selection.edition_id,
+          )!.sections.length,
+        0,
+      ) ||
+      search.some(
+        (section) =>
+          !knowledge.records.current.some(
+            (selection) => selection.edition_id === section.edition_id,
+          ),
+      ))
+  )
+    throw new Error("Search corpus differs from current chapter selection.");
+  if (manifest.builder_version === "5") {
+    const keys = new Set<string>();
+    for (const section of search) {
+      const key = `${section.edition_id}|${section.section_id}`;
+      const chapter = knowledge.records.chapters.find(
+        (item) => item.edition_id === section.edition_id,
+      );
+      const metadata = chapter?.sections.find(
+        (item) => item.section_id === section.section_id,
+      );
+      if (
+        keys.has(key) ||
+        !chapter ||
+        !metadata ||
+        section.harness_id !== chapter.harness_id ||
+        section.topic !== chapter.topic ||
+        section.body !== sectionText(chapter.body, section.section_id) ||
+        canonical(section.source_refs) !== canonical(metadata.source_refs) ||
+        canonical(section.question_ids) !==
+          canonical(
+            chapter.questions
+              .filter((question) => question.section_id === section.section_id)
+              .map((question) => question.question_id),
+          )
+      )
+        throw new Error(
+          `Search section differs from published chapter: ${key}`,
+        );
+      keys.add(key);
+    }
+  }
   if (
     knowledge.release_id !== manifest.release_id ||
     knowledge.profile !== manifest.profile ||
@@ -459,6 +586,40 @@ export async function verifyChapterRelease(
     );
     if (canonical(mappingRows) !== canonical(mappingExpected))
       throw new Error("SQLite mapping sections differ from JSON.");
+    if (manifest.builder_version === "5") {
+      const rows = db
+        .prepare(
+          "SELECT payload_json FROM search_sections ORDER BY section_key",
+        )
+        .all() as { payload_json: string }[];
+      if (
+        canonical(rows.map((row) => JSON.parse(row.payload_json))) !==
+        canonical(
+          sort(
+            search,
+            (section) => `${section.edition_id}|${section.section_id}`,
+          ),
+        )
+      )
+        throw new Error("SQLite search corpus differs from JSON.");
+      const fts = db
+        .prepare(
+          "SELECT section_key, content FROM search_fts ORDER BY section_key",
+        )
+        .all() as {
+        section_key: string;
+        content: string;
+      }[];
+      const expected = sort(
+        search.map((section) => ({
+          section_key: `${section.edition_id}|${section.section_id}`,
+          content: searchableText(section),
+        })),
+        (section) => section.section_key,
+      );
+      if (canonical(fts) !== canonical(expected))
+        throw new Error("SQLite search FTS differs from current sections.");
+    }
   } finally {
     db.close();
   }
@@ -525,8 +686,56 @@ export async function compileChapterRelease(
       options.profile,
       options.publishedAt,
     );
+    const questionsText = await readFile(questionsFile, "utf8");
+    const search = buildSearchSections(
+      knowledge,
+      parseQuestionCatalog(questionsText),
+    );
+    let semantic: SemanticIndex | undefined;
+    let modelLockText: string | undefined;
+    if (options.profile === "production") {
+      modelLockText = await readFile(modelLockFile, "utf8");
+      const model = modelLockSchema.parse(JSON.parse(modelLockText));
+      await assertLocalModel(model);
+      const passages = search.flatMap((section) =>
+        splitPassages(section.body).map((text, ordinal) => ({
+          edition_id: section.edition_id,
+          section_id: section.section_id,
+          ordinal,
+          input: `${section.title}\n${text}`,
+        })),
+      );
+      const vectors: number[][] = [];
+      for (let offset = 0; offset < passages.length; offset += 8) {
+        const batch = passages.slice(offset, offset + 8);
+        vectors.push(
+          ...(
+            await embedLocal(
+              model,
+              batch.map((passage) => passage.input),
+            )
+          ).map(normalizeVector),
+        );
+      }
+      semantic = {
+        schema_version: 1,
+        model,
+        passages: passages.map((passage, i) => ({
+          edition_id: passage.edition_id,
+          section_id: passage.section_id,
+          ordinal: passage.ordinal,
+          vector: vectors[i]!,
+        })),
+      };
+    }
     await writeFile(path.join(stage, "knowledge.json"), canonical(knowledge));
-    writeChapterSqlite(path.join(stage, "knowledge.sqlite"), knowledge);
+    await writeFile(
+      path.join(stage, "search.json"),
+      canonical({ schema_version: 1, sections: search }),
+    );
+    if (semantic)
+      await writeFile(path.join(stage, "semantic.json"), canonical(semantic));
+    writeChapterSqlite(path.join(stage, "knowledge.sqlite"), knowledge, search);
     for (const [file, content] of renderChapterDocs(knowledge)) {
       const target = path.join(stage, file);
       await mkdir(path.dirname(target), { recursive: true });
@@ -552,11 +761,17 @@ export async function compileChapterRelease(
       artifacts[file] = sha256(await readFile(path.join(stage, file)));
     const manifest: ChapterReleaseManifest = {
       schema_version: 2,
-      builder_version: "4",
+      builder_version: "5",
       release_id: options.releaseId,
       profile: options.profile,
       knowledge_published_at: options.publishedAt,
-      input_sha256: sha256(canonical(validated.dataset)),
+      input_sha256: sha256(
+        canonical({
+          dataset: validated.dataset,
+          questions: questionsText,
+          model: modelLockText ?? null,
+        }),
+      ),
       current: knowledge.records.current,
       history: knowledge.records.chapters
         .filter(
@@ -566,6 +781,19 @@ export async function compileChapterRelease(
             ),
         )
         .map((x) => x.edition_id),
+      ...(semantic
+        ? {
+            semantic: {
+              model_name: semantic.model.name,
+              model_digest: semantic.model.digest,
+              model_blob_sha256: semantic.model.blob_sha256,
+              dimensions: semantic.model.dimensions,
+              passage_count: semantic.passages.length,
+              normalization: "l2" as const,
+              index_version: 1 as const,
+            },
+          }
+        : {}),
       artifacts,
     };
     await writeFile(path.join(stage, "manifest.json"), canonical(manifest));

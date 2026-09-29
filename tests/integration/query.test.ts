@@ -87,8 +87,8 @@ test("section mapping resolves exact, prefix and nearest earlier without whole-c
     expect(whole.resolution.match_kind).toBe("source_only");
 });
 
-test("current search reads back by section and cursors bind normalized query", () => {
-  const first = service.searchKnowledge({ topic: "skills", limit: 1 });
+test("current search reads back by section and cursors bind normalized query", async () => {
+  const first = await service.searchKnowledge({ topic: "skills", limit: 1 });
   expect(first.status).toBe("ok");
   if (first.status !== "ok") return;
   const item = first.items[0]!;
@@ -100,13 +100,20 @@ test("current search reads back by section and cursors bind normalized query", (
     }).status,
   ).toBe("ok");
   expect(first.next_cursor).toBeDefined();
-  expect(() =>
+  const exact = await service.searchKnowledge({
+    harness: "demo-open-cli",
+    text: "skills.discovery",
+  });
+  expect(exact.status).toBe("ok");
+  expect(exact.semantic_status).toBe("semantic_unavailable");
+  expect(exact.items[0]?.match).toBe("exact_question_id");
+  await expect(
     service.searchKnowledge({
       topic: "mcp",
       limit: 1,
       cursor: first.next_cursor,
     }),
-  ).toThrow(/Cursor/);
+  ).rejects.toThrow(/Cursor/);
   const compared = service.compareTopics({
     topic: "skills",
     targets: [{ harness: "demo-open-cli" }, { harness: "demo-package-cli" }],

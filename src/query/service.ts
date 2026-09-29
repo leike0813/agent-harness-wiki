@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import Database from "better-sqlite3";
 import * as z from "zod";
 import { verifyChapterRelease } from "../compiler/chapter-release.js";
 import { canonical } from "../compiler/projection.js";
@@ -16,8 +17,39 @@ import {
   sourceRequestSchema,
   topicRequestSchema,
 } from "./schema.js";
+import {
+  buildSearchSections,
+  normalizeVector,
+  searchIndexSchema,
+  semanticIndexSchema,
+  sectionText,
+  type SearchSection,
+  type SemanticIndex,
+} from "./search-index.js";
+import { assertLocalModel, embedLocal, OLLAMA_ENDPOINT } from "./ollama.js";
 
 type Records = ChapterPublishedKnowledge["records"];
+const searchStopwords = new Set([
+  "a",
+  "an",
+  "and",
+  "are",
+  "do",
+  "does",
+  "for",
+  "from",
+  "get",
+  "how",
+  "in",
+  "is",
+  "of",
+  "on",
+  "the",
+  "to",
+  "up",
+  "where",
+  "with",
+]);
 type Resolution = {
   requested_version: string | null;
   selected_version: string | null;
@@ -32,6 +64,7 @@ function page<T>(
   cursor: string | undefined,
   release: string,
   query: unknown,
+  order = 1,
 ) {
   const digest = createHash("sha256").update(canonical(query)).digest("hex");
   let offset = 0;
@@ -46,7 +79,7 @@ function page<T>(
       .strictObject({
         release: z.string(),
         digest: z.string(),
-        order: z.literal(1),
+        order: z.int(),
         offset: z.int().nonnegative(),
       })
       .safeParse(decoded);
@@ -54,6 +87,7 @@ function page<T>(
       !parsed.success ||
       parsed.data.release !== release ||
       parsed.data.digest !== digest ||
+      parsed.data.order !== order ||
       parsed.data.offset > items.length
     )
       throw new Error("Cursor does not match this release and query.");
@@ -65,7 +99,7 @@ function page<T>(
     ...(next < items.length
       ? {
           next_cursor: Buffer.from(
-            JSON.stringify({ release, digest, order: 1, offset: next }),
+            JSON.stringify({ release, digest, order, offset: next }),
           ).toString("base64url"),
         }
       : {}),
@@ -87,30 +121,20 @@ function compareVersions(left: string, right: string): number | undefined {
   }
   return 0;
 }
-function sectionBody(
-  chapter: ChapterEdition,
-  sectionId: string,
-): string | undefined {
-  const headings = [
-    ...chapter.body.matchAll(/^## .+ \{#([a-z][a-z0-9_-]*)\}\s*$/gm),
-  ];
-  const index = headings.findIndex((x) => x[1] === sectionId);
-  return index < 0
-    ? undefined
-    : chapter.body
-        .slice(headings[index]!.index, headings[index + 1]?.index)
-        .trim();
-}
-
 export class QueryService {
   private constructor(
     readonly releaseId: string,
     private readonly records: Records,
+    private readonly searchSections: SearchSection[],
+    private readonly searchDb: Database.Database | undefined,
+    private readonly semantic: SemanticIndex | undefined,
+    private readonly ollamaEndpoint: string,
   ) {}
 
   static async open(options: {
     releasesRoot: string;
     releaseId?: string;
+    ollamaEndpoint?: string;
   }): Promise<QueryService> {
     const releaseId =
       options.releaseId ??
@@ -131,9 +155,41 @@ export class QueryService {
     const knowledge = chapterPublishedKnowledgeSchema.parse(
       JSON.parse(await readFile(path.join(dir, "knowledge.json"), "utf8")),
     );
-    return new QueryService(releaseId, knowledge.records);
+    const searchSections =
+      manifest.builder_version === "5"
+        ? searchIndexSchema.parse(
+            JSON.parse(await readFile(path.join(dir, "search.json"), "utf8")),
+          ).sections
+        : buildSearchSections(knowledge, new Map());
+    let semantic: SemanticIndex | undefined;
+    if (manifest.semantic) {
+      try {
+        semantic = semanticIndexSchema.parse(
+          JSON.parse(await readFile(path.join(dir, "semantic.json"), "utf8")),
+        );
+      } catch (error) {
+        if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+      }
+    }
+    const db =
+      manifest.builder_version === "5"
+        ? new Database(path.join(dir, "knowledge.sqlite"), {
+            readonly: true,
+            fileMustExist: true,
+          })
+        : undefined;
+    return new QueryService(
+      releaseId,
+      knowledge.records,
+      searchSections,
+      db,
+      semantic,
+      options.ollamaEndpoint ?? OLLAMA_ENDPOINT,
+    );
   }
-  close(): void {}
+  close(): void {
+    this.searchDb?.close();
+  }
 
   private harness(name: string) {
     const found = this.records.harnesses.filter((x) =>
@@ -270,7 +326,9 @@ export class QueryService {
       topic: chapter.topic,
       edition_id: chapter.edition_id,
       title: chapter.title,
-      body: section ? sectionBody(chapter, section.section_id)! : chapter.body,
+      body: section
+        ? sectionText(chapter.body, section.section_id)!
+        : chapter.body,
       sections: (section ? [section] : chapter.sections).map((x) => ({
         section_id: x.section_id,
         question_ids: chapter.questions
@@ -351,75 +409,174 @@ export class QueryService {
       })),
     };
   }
-  searchKnowledge(input: unknown) {
+  async searchKnowledge(input: unknown) {
     const request = searchSchema.parse(input),
       harness = request.harness ? this.harness(request.harness) : undefined;
     if (harness === "ambiguous")
       return {
         release_id: this.releaseId,
         status: "ambiguous" as const,
+        semantic_status: "not_requested" as const,
         items: [],
       };
     if (request.harness && !harness)
       return {
         release_id: this.releaseId,
         status: "not_found" as const,
+        semantic_status: "not_requested" as const,
         items: [],
       };
     const needle = request.text?.toLocaleLowerCase() ?? "";
-    const items = this.records.current.flatMap((selection) => {
-      if (
-        (harness && selection.harness_id !== harness.harness_id) ||
-        (request.topic && selection.topic !== request.topic)
-      )
-        return [];
-      const chapter = this.records.chapters.find(
-        (x) => x.edition_id === selection.edition_id,
-      )!;
-      return chapter.sections.flatMap((section) => {
-        const body = sectionBody(chapter, section.section_id)!;
-        const questionIds = chapter.questions
-          .filter((q) => q.section_id === section.section_id)
-          .map((q) => q.question_id);
+    const scoped = this.searchSections.filter(
+      (section) =>
+        (!harness || section.harness_id === harness.harness_id) &&
+        (!request.topic || section.topic === request.topic),
+    );
+    const ranked = new Map<string, { score: number; reason: string }>();
+    const key = (section: SearchSection) =>
+      `${section.edition_id}|${section.section_id}`;
+    const offer = (sectionKey: string, score: number, reason: string) => {
+      const old = ranked.get(sectionKey);
+      if (!old || score > old.score) ranked.set(sectionKey, { score, reason });
+    };
+    if (needle) {
+      for (const section of scoped) {
+        const sectionKey = key(section);
         if (
-          needle &&
-          !`${chapter.title} ${section.section_id} ${questionIds.join(" ")} ${body}`
+          section.question_ids.some((id) => id.toLocaleLowerCase() === needle)
+        )
+          offer(sectionKey, 100, "exact_question_id");
+        else if (
+          section.exact_terms.some(
+            (term) => term.toLocaleLowerCase() === needle,
+          )
+        )
+          offer(sectionKey, 95, "exact_config_term");
+        else if (
+          section.question_wording.some(
+            (wording) => wording.toLocaleLowerCase() === needle,
+          )
+        )
+          offer(sectionKey, 90, "exact_question_wording");
+        else if (
+          section.aliases.some((alias) => alias.toLocaleLowerCase() === needle)
+        )
+          offer(sectionKey, 80, "alias");
+        else if (
+          `${section.title} ${section.body}`
             .toLocaleLowerCase()
             .includes(needle)
         )
-          return [];
-        return [
-          {
-            harness_id: chapter.harness_id,
-            topic: chapter.topic,
-            edition_id: chapter.edition_id,
-            section_id: section.section_id,
-            question_ids: questionIds,
-            preview: body.slice(0, 240),
-            source_refs: section.source_refs,
-            source_scope: section.source_refs.map((id) => {
-              const ref = this.records.source_references.find(
-                (x) => x.reference_id === id,
-              )!;
-              return {
-                reference_id: id,
-                snapshot_id: ref.snapshot_id,
-                official_url: ref.official_url,
-              };
-            }),
-            match: needle ? ("text" as const) : ("filter" as const),
-          },
-        ];
-      });
-    });
+          offer(sectionKey, 60, "full_text");
+      }
+      const tokens = [...new Set(needle.match(/[\p{L}\p{N}_.\/-]+/gu) ?? [])]
+        .filter((token) => token.length > 1 && !searchStopwords.has(token))
+        .slice(0, 8);
+      if (this.searchDb && tokens.length) {
+        const expression = tokens.map((token) => `"${token}"`).join(" OR ");
+        const hits = this.searchDb
+          .prepare(
+            "SELECT section_key, bm25(search_fts) AS rank FROM search_fts WHERE search_fts MATCH ? ORDER BY rank LIMIT 200",
+          )
+          .all(expression) as { section_key: string; rank: number }[];
+        for (const hit of hits)
+          offer(
+            hit.section_key,
+            50 + Math.min(9, Math.max(0, -hit.rank)),
+            "full_text",
+          );
+      }
+    } else for (const section of scoped) offer(key(section), 0, "filter");
+    let semanticStatus: "available" | "semantic_unavailable" | "not_requested" =
+      needle ? "semantic_unavailable" : "not_requested";
+    if (needle && this.semantic) {
+      let queryVector: number[] | undefined;
+      try {
+        await assertLocalModel(this.semantic.model, this.ollamaEndpoint);
+        [queryVector] = await embedLocal(
+          this.semantic.model,
+          [
+            `Instruct: Retrieve a relevant agent harness configuration guide section.\nQuery: ${request.text}`,
+          ],
+          this.ollamaEndpoint,
+        );
+      } catch {
+        // The local model can disappear without making lexical search unusable.
+      }
+      if (queryVector) {
+        const normalized = normalizeVector(queryVector!);
+        const candidates = this.semantic.passages
+          .map((passage) => ({
+            key: `${passage.edition_id}|${passage.section_id}`,
+            similarity: passage.vector.reduce(
+              (score, value, i) => score + value * normalized[i]!,
+              0,
+            ),
+          }))
+          .sort(
+            (a, b) => b.similarity - a.similarity || a.key.localeCompare(b.key),
+          );
+        const allowed = new Set(scoped.map(key));
+        const seen = new Set<string>();
+        for (const candidate of candidates) {
+          if (
+            !allowed.has(candidate.key) ||
+            candidate.similarity < 0.25 ||
+            seen.has(candidate.key)
+          )
+            continue;
+          offer(candidate.key, 65 + candidate.similarity * 10, "semantic");
+          seen.add(candidate.key);
+          if (seen.size === 40) break;
+        }
+        semanticStatus = "available";
+      }
+    }
+    const refs = new Map(
+      this.records.source_references.map((ref) => [ref.reference_id, ref]),
+    );
+    const items = scoped
+      .filter((section) => ranked.has(key(section)))
+      .sort(
+        (a, b) =>
+          ranked.get(key(b))!.score - ranked.get(key(a))!.score ||
+          key(a).localeCompare(key(b)),
+      )
+      .map((section) => ({
+        harness_id: section.harness_id,
+        topic: section.topic,
+        edition_id: section.edition_id,
+        section_id: section.section_id,
+        question_ids: section.question_ids,
+        preview: section.body.slice(0, 240),
+        source_refs: section.source_refs,
+        source_scope: section.source_refs.map((id) => {
+          const ref = refs.get(id)!;
+          return {
+            reference_id: id,
+            snapshot_id: ref.snapshot_id,
+            official_url: ref.official_url,
+          };
+        }),
+        match: ranked.get(key(section))!.reason,
+      }));
     return {
       release_id: this.releaseId,
       status: "ok" as const,
-      ...page(items, request.limit, request.cursor, this.releaseId, {
-        text: needle,
-        harness: harness?.harness_id,
-        topic: request.topic ?? null,
-      }),
+      semantic_status: semanticStatus,
+      ...page(
+        items,
+        request.limit,
+        request.cursor,
+        this.releaseId,
+        {
+          text: needle,
+          harness: harness?.harness_id,
+          topic: request.topic ?? null,
+          semantic: semanticStatus,
+        },
+        2,
+      ),
     };
   }
   getSource(input: unknown) {

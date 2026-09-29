@@ -35,6 +35,8 @@
 
 编写或修订产品 × 主题章节时，按 [固定问题与成稿规则](docs/topic-questions.md) 核对机制分节、问题索引、配置文件示例、来源和版本边界；审阅正文后再选为当前版。
 
+构建 M1 生产搜索发布前，核对 [本地搜索模型锁](registry/search-model.json) 与 [搜索 ADR](docs/decisions/0007-offline-hybrid-search.md)；词法索引只覆盖当前小节，语义模型缺失须显式降级。
+
 ---
 
 ## 2. M0 基线与后续阶段

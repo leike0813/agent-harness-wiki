@@ -80,7 +80,7 @@ program
     await serveMcp(service);
   });
 async function runQuery<T>(
-  callback: (service: QueryService) => T,
+  callback: (service: QueryService) => T | Promise<T>,
 ): Promise<void> {
   const x = query.opts();
   const service = await QueryService.open({
@@ -88,7 +88,7 @@ async function runQuery<T>(
     ...(x.releaseId ? { releaseId: x.releaseId } : {}),
   });
   try {
-    output(callback(service), Boolean(x.json));
+    output(await callback(service), Boolean(x.json));
   } finally {
     service.close();
   }

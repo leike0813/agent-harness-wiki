@@ -19,3 +19,10 @@ The CLI SHALL expose release-bound list, topic, compare, search and source reads
 #### Scenario: Approximate topic version
 - **WHEN** a CLI topic query requests an unmapped newer package version with an evidenced earlier match
 - **THEN** it exits successfully and reports the selected earlier version and requested not_verified applicability
+
+### Requirement: Hybrid search availability in CLI
+The CLI search command SHALL return the shared section ranking, match reason, source scope and semantic availability without changing topic version selection.
+
+#### Scenario: CLI and MCP consistency
+- **WHEN** CLI and MCP search the same release and normalized query
+- **THEN** they identify the same ranked section IDs and semantic availability

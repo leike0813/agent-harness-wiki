@@ -8,7 +8,10 @@
     },
     "builder_version": {
       "type": "string",
-      "const": "4"
+      "enum": [
+        "4",
+        "5"
+      ]
     },
     "release_id": {
       "type": "string",
@@ -70,6 +73,50 @@
         "type": "string",
         "pattern": "^[a-z][a-z0-9_-]*$"
       }
+    },
+    "semantic": {
+      "type": "object",
+      "properties": {
+        "model_name": {
+          "type": "string"
+        },
+        "model_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "model_blob_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "dimensions": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "passage_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "normalization": {
+          "type": "string",
+          "const": "l2"
+        },
+        "index_version": {
+          "type": "number",
+          "const": 1
+        }
+      },
+      "required": [
+        "model_name",
+        "model_digest",
+        "model_blob_sha256",
+        "dimensions",
+        "passage_count",
+        "normalization",
+        "index_version"
+      ],
+      "additionalProperties": false
     },
     "artifacts": {
       "type": "object",

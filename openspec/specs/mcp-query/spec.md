@@ -26,3 +26,10 @@ List and search SHALL default to 10 and reject limits above 20; comparison SHALL
 #### Scenario: Large chapter
 - **WHEN** a whole chapter exceeds the MCP response limit
 - **THEN** get_topic returns the section index and a caller can read each section without content truncation
+
+### Requirement: Hybrid search availability in MCP
+search_knowledge SHALL expose section-level match reasons and semantic availability from the shared query service. A missing local model SHALL be a successful degraded search response, not a false claim that hybrid recall completed.
+
+#### Scenario: Offline fallback
+- **WHEN** an MCP search runs without its release-bound model
+- **THEN** lexical section matches are returned with semantic_unavailable indicated
