@@ -39,12 +39,12 @@ An official npm package snapshot SHALL bind package name, exact version, registr
 - **WHEN** a Git tag and an npm package report the same-looking version but no verified build mapping exists
 - **THEN** the Git snapshot does not establish that package's behavior or create a software-version mapping
 
-### Requirement: Bounded local executable retention
-The managed package set SHALL keep the most recently selected stable version of each first-wave CLI in a project-owned pnpm store. Replacing that set SHALL retire older executable package bytes only after the new set is installed and audited. Historical release metadata and reviewed excerpts SHALL remain queryable; a local audit SHALL report evicted originals as unavailable.
+### Requirement: Candidate-safe executable retention
+The project-owned package set SHALL identify the selected runnable version and locked dependency set for each registered npm CLI. Candidate bytes SHALL remain separate until identity and isolated startup succeed; only then may the selected identity and package bytes change. Retiring older executable bytes SHALL NOT alter a published chapter's fixed source references or imply that another version has been checked.
 
-#### Scenario: Historical release after update
-- **WHEN** an earlier release is queried after its package bytes are retired
-- **THEN** the release remains readable and its source metadata identifies the old version, while an explicit original audit reports that package as unavailable
+#### Scenario: Failed replacement
+- **WHEN** a new candidate cannot start in the required sandbox
+- **THEN** the current package set and its runnable entry remain available
 
 ### Requirement: Published source references
 A publishable source reference SHALL resolve to one fixed official snapshot and a specific file, symbol or document location. It SHALL include an official link and a bounded displayable excerpt. Source-reference identities and excerpts SHALL be available within the release without opening original archive bytes.

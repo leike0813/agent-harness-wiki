@@ -17,3 +17,17 @@ pnpm exec tsx scripts/compile-chapters.ts --dataset-root tests/fixtures/datasets
 生产编译前确认本机 Ollama 已有 `qwen3-embedding:4b`，且 `/api/tags` 报告的 digest 与 `registry/search-model.json` 一致；编译器会再核对 GGUF blob digest，不会自动下载模型。新发布的 `search.json` 和 SQLite FTS5 收录当前小节，`semantic.json` 收录固定模型生成的有界片段向量。搜索返回命中方式、正文片段、来源范围和 `semantic_status`；模型暂时不可用时可继续词法检索，但不能据此宣称语义验收通过。模型与索引的选择依据见 [ADR 0007](decisions/0007-offline-hybrid-search.md)。
 
 修订已发布章节时新增 edition 文件，保留旧版及不可变 release；审阅完成后更新 `registry/chapter-current.yaml`。写作按 [固定问题和成稿规则](topic-questions.md)：机制分节，问题在索引中定位；配置文件按不同形态给带来源的最小完整片段，解释路径、字段、前提、结果与检查方式。校验器检查章节结构和引用关系，仍需人工按真实读者操作审阅示例与机制解释。
+
+首批五个 npm CLI 的受管启动流程见 [包集说明](../research/package-set/README.md)。`pnpm managed:packages observe` 记录官方 latest；`pnpm managed:packages check-current` 检查当前入口；`pnpm managed:packages update <harness-id>` 在忽略的候选目录安装并验证后才切换包集。网络中断后可用 `update <harness-id> <candidate-id>` 复核已完整安装的候选，仍会重新核对官方 latest、锁文件和启动。审计记录位于 `var/managed-packages/audits/`，候选和失败原因可由记录中的 `candidate` 定位。Linux bwrap 检查使用临时 HOME、配置根和工作区，候选包只读挂载、`--unshare-all` 禁网，以非 root UID 65534 运行，并限制 20 秒、64 KiB 输出缓冲、64 个进程和 128 个文件描述符；运行时可执行文件从当前 Node/Bun 安装只读绑定。`AHW_SANDBOX_TEST=1 pnpm exec vitest run tests/integration/managed-packages.test.ts` 运行本机隔离测试。该测试只覆盖当前 Linux 主机；Windows、其他架构、内核命名空间策略及进程限制的不同实现仍需分别验收。
+
+2026-09-29 在本机 Linux/x64/glibc 的 `check-current` 实测记录：
+
+| 产品 | 选中版本 | 直接入口与运行时 | 离线版本命令 |
+| --- | --- | --- | --- |
+| Codex CLI | 0.157.1 | 主包 `bin/codex.js`，Node；锁定平台包提供原生二进制 | 成功，退出 0 |
+| Claude Code | 2.1.283 | `@anthropic-ai/claude-code-linux-x64/claude`，原生 | 成功，退出 0 |
+| OpenCode | 1.18.33 | `opencode-linux-x64/bin/opencode`，原生 | 成功，退出 0 |
+| Pi | 0.73.1 | 主包 `dist/cli.js`，Node | 成功，退出 0 |
+| OMP | 18.3.4 | 主包 `dist/cli.js`，Bun；核对 `pi-natives-linux-x64` | 成功，退出 0 |
+
+OpenCode 1.18.33 曾因候选锁文件生成阶段的 registry 超时被阻塞；失败候选未切换选中环境。已完整安装的候选重新核对并通过五项启动后才晋升。以上只记录启动状态，不能推断 Skills、MCP 等主题能力。
