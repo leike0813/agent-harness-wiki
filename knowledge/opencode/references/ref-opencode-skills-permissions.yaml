@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-permissions
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/web/src/content/docs/skills.mdx
+locator:
+  kind: file_lines
+  file: packages/web/src/content/docs/skills.mdx
+  start: 125
+  end: 211
+excerpt: |-
+  Control which skills agents can access using pattern-based permissions in `opencode.json`:
+  | Permission | Behavior |
+  | `allow` | Skill loads immediately |
+  | `deny` | Skill hidden from agent, access rejected |
+  | `ask` | User prompted for approval before loading |
+  Patterns support wildcards: `internal-*` matches `internal-docs`, `internal-tools`, etc.
+  Give specific agents different permissions than the global defaults, for custom agents in agent frontmatter or for built-in agents in `opencode.json`.
+  Completely disable skills for agents that shouldn't use them: for custom agents `tools: skill: false`, for built-in agents `agent.plan.tools.skill: false`. When disabled, the available skills section is omitted entirely.

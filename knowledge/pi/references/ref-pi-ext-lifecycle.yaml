@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-ext-lifecycle
+harness_id: pi
+snapshot_id: snapshot-pi-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/extensions.md
+  start: 288
+  end: 298
+official_url: https://github.com/badlogic/pi-mono/blob/781152fc24841dc54b22284514604048ebe5e2c9/packages/coding-agent/docs/extensions.md
+excerpt: |-
+    │   ├─► turn_start                               │       │
+    │   ├─► context (can modify messages)            │       │
+    │   ├─► before_provider_request (can inspect or replace payload)
+    │   ├─► after_provider_response (status + headers, before stream consume)
+    │   │                                            │       │
+    │   │   LLM responds, may call tools:            │       │
+    │   │     ├─► tool_execution_start               │       │
+    │   │     ├─► tool_call (can block)              │       │
+    │   │     ├─► tool_execution_update              │       │
+    │   │     ├─► tool_result (can modify)           │       │
+    │   │     └─► tool_execution_end                 │       │
+

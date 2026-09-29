@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-ext-input
+harness_id: pi
+snapshot_id: snapshot-pi-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/extensions.md
+  start: 806
+  end: 815
+official_url: https://github.com/badlogic/pi-mono/blob/781152fc24841dc54b22284514604048ebe5e2c9/packages/coding-agent/docs/extensions.md
+excerpt: |-
+  #### input
+
+  Fired when user input is received, after extension commands are checked but before skill and template expansion. The event sees the raw input text, so `/skill:foo` and `/template` are not yet expanded.
+
+  **Processing order:**
+  1. Extension commands (`/cmd`) checked first - if found, handler runs and input event is skipped
+  2. `input` event fires - can intercept, transform, or handle
+  3. If not handled: skill commands (`/skill:name`) expanded to skill content
+  4. If not handled: prompt templates (`/template`) expanded to template content
+  5. Agent processing begins (`before_agent_start`, etc.)
+

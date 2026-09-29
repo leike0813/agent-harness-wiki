@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-mcp-remote
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/web/src/content/docs/mcp-servers.mdx
+locator:
+  kind: file_lines
+  file: packages/web/src/content/docs/mcp-servers.mdx
+  start: 130
+  end: 163
+excerpt: |-
+  Add remote MCP servers by setting `type` to `"remote"`.
+  "my-remote-mcp": {
+    "type": "remote",
+    "url": "https://my-mcp-server.com",
+    "enabled": true,
+    "headers": { "Authorization": "Bearer MY_API_KEY" }
+  }
+  The `url` is the URL of the remote MCP server and with the `headers` option you can pass in a list of headers.
+  | `type` | must be `"remote"`. | `url` | URL of the remote MCP server. | `enabled` | Enable or disable the MCP server on startup. | `headers` | Headers to send with the request. | `oauth` | OAuth authentication configuration. | `timeout` | Timeout in ms for fetching tools from the MCP server. Defaults to 5000 (5 seconds). |

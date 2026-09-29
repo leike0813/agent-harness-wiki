@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-models-values
+harness_id: pi
+snapshot_id: snapshot-pi-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/models.md
+  start: 162
+  end: 166
+official_url: https://github.com/badlogic/pi-mono/blob/781152fc24841dc54b22284514604048ebe5e2c9/packages/coding-agent/docs/models.md
+excerpt: |-
+  For `models.json`, shell commands are resolved at request time. pi intentionally does not apply built-in TTL, stale reuse, or recovery logic for arbitrary commands. Different commands need different caching and failure strategies, and pi cannot infer the right one.
+
+  If your command is slow, expensive, rate-limited, or should keep using a previous value on transient failures, wrap it in your own script or command that implements the caching or TTL behavior you want.
+
+  `/model` availability checks use configured auth presence and do not execute shell commands.
+

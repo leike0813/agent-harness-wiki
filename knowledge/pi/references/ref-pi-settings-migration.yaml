@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-settings-migration
+harness_id: pi
+snapshot_id: snapshot-pi-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/settings-manager.ts
+  start: 335
+  end: 345
+official_url: https://github.com/badlogic/pi-mono/blob/781152fc24841dc54b22284514604048ebe5e2c9/packages/coding-agent/src/core/settings-manager.ts
+excerpt: |-
+  		// Migrate queueMode -> steeringMode
+  		if ("queueMode" in settings && !("steeringMode" in settings)) {
+  			settings.steeringMode = settings.queueMode;
+  			delete settings.queueMode;
+  		}
+
+  		// Migrate legacy websockets boolean -> transport enum
+  		if (!("transport" in settings) && typeof settings.websockets === "boolean") {
+  			settings.transport = settings.websockets ? "websocket" : "sse";
+  			delete settings.websockets;
+  		}
+

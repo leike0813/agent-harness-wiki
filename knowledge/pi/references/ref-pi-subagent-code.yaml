@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-subagent-code
+harness_id: pi
+snapshot_id: snapshot-pi-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/examples/extensions/subagent/agents.ts
+  start: 40
+  end: 56
+official_url: https://github.com/badlogic/pi-mono/blob/781152fc24841dc54b22284514604048ebe5e2c9/packages/coding-agent/examples/extensions/subagent/agents.ts
+excerpt: |-
+  	for (const entry of entries) {
+  		if (!entry.name.endsWith(".md")) continue;
+  		if (!entry.isFile() && !entry.isSymbolicLink()) continue;
+
+  		const filePath = path.join(dir, entry.name);
+  		let content: string;
+  		try {
+  			content = fs.readFileSync(filePath, "utf-8");
+  		} catch {
+  			continue;
+  		}
+
+  		const { frontmatter, body } = parseFrontmatter<Record<string, string>>(content);
+
+  		if (!frontmatter.name || !frontmatter.description) {
+  			continue;
+  		}
+

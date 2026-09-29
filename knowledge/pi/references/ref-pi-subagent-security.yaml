@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-subagent-security
+harness_id: pi
+snapshot_id: snapshot-pi-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/examples/extensions/subagent/README.md
+  start: 55
+  end: 65
+official_url: https://github.com/badlogic/pi-mono/blob/781152fc24841dc54b22284514604048ebe5e2c9/packages/coding-agent/examples/extensions/subagent/README.md
+excerpt: |-
+  ## Security Model
+
+  This tool executes a separate `pi` subprocess with a delegated system prompt and tool/model configuration.
+
+  **Project-local agents** (`.pi/agents/*.md`) are repo-controlled prompts that can instruct the model to read files, run bash commands, etc.
+
+  **Default behavior:** Only loads **user-level agents** from `~/.pi/agent/agents`.
+
+  To enable project-local agents, pass `agentScope: "both"` (or `"project"`). Only do this for repositories you trust.
+
+  When running interactively, the tool prompts for confirmation before running project-local agents. Set `confirmProjectAgents: false` to disable.
+

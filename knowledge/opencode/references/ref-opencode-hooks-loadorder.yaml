@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-hooks-loadorder
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/web/src/content/docs/plugins.mdx
+locator:
+  kind: file_lines
+  file: packages/web/src/content/docs/plugins.mdx
+  start: 54
+  end: 63
+excerpt: |-
+  Plugins are loaded from all sources and all hooks run in sequence. The load order is:
+  1. Global config (`~/.config/opencode/opencode.json`)
+  2. Project config (`opencode.json`)
+  3. Global plugin directory (`~/.config/opencode/plugins/`)
+  4. Project plugin directory (`.opencode/plugins/`)
+  Duplicate npm packages with the same name and version are loaded once. However, a local plugin and an npm plugin with similar names are both loaded separately.

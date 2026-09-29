@@ -12,4 +12,4 @@ Git：Harness / Source / Artifact / Snapshot + 章节 Markdown / 来源引用 / 
 
 JSON、SQLite 和生成页面从同一规范化数据集生成。发布验证检查产物清单及 SHA-256、数据库完整性和外键、JSON/SQLite 行、Markdown 内容；SQLite 采用无必需 WAL 边文件的封闭文件。归档文档与 npm 原件留在 Git 忽略目录，查询发布只保留元数据和可展示短摘录。查询不联网、不执行来源或 harness，也不调用 LLM。
 
-此 change 先用独立的虚构 fixture 数据集验证新格式发布。现有 `src/query`、CLI、MCP 和 VitePress 仍读取 M0 Claim 格式；`m1-reader-guides` 负责将公共阅读接口迁往章节格式并完成真实章节。新 fixture 在隔离根目录构建，不切换生产 `releases/current.json`。旧发布格式不作为新读取契约。
+`src/query`、CLI、MCP 和 VitePress 读取同一新格式章节发布；查询服务在打开时验证 manifest、JSON、SQLite 和生成文档。fixture 在隔离根目录构建。旧发布格式不属于新读取契约。软件版本解析只依据发布中的显式映射；固定源码或网页不会自动代表安装包版本。

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-builtin
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/opencode/src/skill/index.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/skill/index.ts
+  start: 273
+  end: 287
+excerpt: |-
+  const state = yield* InstanceState.make(
+    Effect.fn("Skill.state")(function* () {
+      const s: State = { skills: {}, dirs: new Set() }
+      // Register the built-in skill BEFORE disk discovery so a user-disk
+      // skill with the same name can override it.
+      s.skills[CUSTOMIZE_OPENCODE_SKILL_NAME] = {
+        name: CUSTOMIZE_OPENCODE_SKILL_NAME,
+        description: CUSTOMIZE_OPENCODE_SKILL_DESCRIPTION,
+        location: "<built-in>",
+        content: CUSTOMIZE_OPENCODE_SKILL_BODY,
+      }
+      yield* loadSkills(s, yield* InstanceState.get(discovered), events)
+      return s
+    }),
+  )

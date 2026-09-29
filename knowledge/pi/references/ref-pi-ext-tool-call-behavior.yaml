@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-ext-tool-call-behavior
+harness_id: pi
+snapshot_id: snapshot-pi-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/extensions.md
+  start: 684
+  end: 688
+official_url: https://github.com/badlogic/pi-mono/blob/781152fc24841dc54b22284514604048ebe5e2c9/packages/coding-agent/docs/extensions.md
+excerpt: |-
+  Behavior guarantees:
+  - Mutations to `event.input` affect the actual tool execution
+  - Later `tool_call` handlers see mutations made by earlier handlers
+  - No re-validation is performed after your mutation
+  - Return values from `tool_call` only control blocking via `{ block: true, reason?: string }`
+

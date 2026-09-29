@@ -428,6 +428,40 @@ export async function loadAndValidateChapters(input: {
       );
     for (const section of chapter.sections) {
       if (
+        Buffer.byteLength(sectionBodies.get(section.section_id) ?? "", "utf8") >
+        32 * 1024
+      )
+        fail(
+          "SECTION_TOO_LARGE",
+          "publishability",
+          file,
+          "body",
+          "Section exceeds the bounded reader size.",
+          "Split this section into smaller stable sections.",
+          chapter.edition_id,
+        );
+      if (
+        Buffer.byteLength(
+          JSON.stringify({
+            section,
+            questions: chapter.questions.filter(
+              (q) => q.section_id === section.section_id,
+            ),
+          }),
+          "utf8",
+        ) >
+        8 * 1024
+      )
+        fail(
+          "SECTION_INDEX_TOO_LARGE",
+          "publishability",
+          file,
+          "sections",
+          "Section index exceeds the bounded reader size.",
+          "Reduce section references or questions.",
+          chapter.edition_id,
+        );
+      if (
         sectionIds.has(section.section_id) ||
         !sectionBodies.has(section.section_id)
       )
@@ -464,6 +498,25 @@ export async function loadAndValidateChapters(input: {
           "Add the section to frontmatter.",
           chapter.edition_id,
         );
+    if (
+      Buffer.byteLength(
+        JSON.stringify({
+          sections: chapter.sections,
+          questions: chapter.questions,
+        }),
+        "utf8",
+      ) >
+      32 * 1024
+    )
+      fail(
+        "CHAPTER_INDEX_TOO_LARGE",
+        "publishability",
+        file,
+        "sections",
+        "Chapter index exceeds the bounded reader size.",
+        "Split the chapter into fewer sections.",
+        chapter.edition_id,
+      );
     const fixed = expected.get(chapter.topic) ?? new Set<string>();
     const seenQuestions = new Set<string>();
     for (const q of chapter.questions) {

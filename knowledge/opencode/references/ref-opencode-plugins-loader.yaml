@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-plugins-loader
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/opencode/src/plugin/loader.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/plugin/loader.ts
+  start: 118
+  end: 133
+excerpt: |-
+  // npm plugins can declare which opencode versions they support; file plugins are treated
+  // as local development code and skip this compatibility gate.
+  if (base.source === "npm") {
+    try {
+      await checkPluginCompatibility(base.target, InstallationVersion, base.pkg)
+    } catch (error) {
+      return { ok: false, stage: "compatibility", error }
+    }
+  }
+  return { ok: true, value: { ...plan, source: base.source, target: base.target, entry: base.entry, pkg: base.pkg } }

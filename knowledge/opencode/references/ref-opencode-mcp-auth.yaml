@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-mcp-auth
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/web/src/content/docs/mcp-servers.mdx
+locator:
+  kind: file_lines
+  file: packages/web/src/content/docs/mcp-servers.mdx
+  start: 167
+  end: 242
+excerpt: |-
+  OpenCode automatically handles OAuth authentication for remote MCP servers. When a server requires authentication, OpenCode will:
+  1. Detect the 401 response and initiate the OAuth flow
+  2. Use Dynamic Client Registration (RFC 7591) if supported by the server
+  3. Store tokens securely for future requests
+  opencode mcp auth my-oauth-server
+  opencode mcp list
+  opencode mcp logout my-oauth-server
+  The `mcp auth` command will open your browser for authorization. After you authorize, OpenCode will store the tokens securely in `~/.local/share/opencode/mcp-auth.json`.

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-packages-dedupe
+harness_id: pi
+snapshot_id: snapshot-pi-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/packages.md
+  start: 213
+  end: 223
+official_url: https://github.com/badlogic/pi-mono/blob/781152fc24841dc54b22284514604048ebe5e2c9/packages/coding-agent/docs/packages.md
+excerpt: |-
+  ## Enable and Disable Resources
+
+  Use `pi config` to enable or disable extensions, skills, prompt templates, and themes from installed packages and local directories. Works for both global (`~/.pi/agent`) and project (`.pi/`) scopes.
+
+  ## Scope and Deduplication
+
+  Packages can appear in both global and project settings. If the same package appears in both, the project entry wins. Identity is determined by:
+
+  - npm: package name
+  - git: repository URL without ref
+  - local: resolved absolute path
+

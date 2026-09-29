@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-models-config
+harness_id: pi
+snapshot_id: snapshot-pi-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/models.md
+  start: 187
+  end: 198
+official_url: https://github.com/badlogic/pi-mono/blob/781152fc24841dc54b22284514604048ebe5e2c9/packages/coding-agent/docs/models.md
+excerpt: |-
+  ## Model Configuration
+
+  | Field | Required | Default | Description |
+  |-------|----------|---------|-------------|
+  | `id` | Yes | — | Model identifier (passed to the API) |
+  | `name` | No | `id` | Human-readable model label. Used for matching (`--model` patterns) and shown in model details/status text. |
+  | `api` | No | provider's `api` | Override provider's API for this model |
+  | `reasoning` | No | `false` | Supports extended thinking |
+  | `thinkingLevelMap` | No | omitted | Maps pi thinking levels to provider values and marks unsupported levels (see below) |
+  | `input` | No | `["text"]` | Input types: `["text"]` or `["text", "image"]` |
+  | `contextWindow` | No | `128000` | Context window size in tokens |
+  | `maxTokens` | No | `16384` | Maximum output tokens |
+

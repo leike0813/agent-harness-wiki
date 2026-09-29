@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-code
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/opencode/src/skill/index.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/skill/index.ts
+  start: 173
+  end: 233
+excerpt: |-
+  const state: ScanState = { matches: new Set(), dirs: new Set() }
+  const externalDirs: string[] = []
+  if (!disableExternalSkills) {
+    if (!disableClaudeCodeSkills) externalDirs.push(CLAUDE_EXTERNAL_DIR)
+    externalDirs.push(AGENTS_EXTERNAL_DIR)
+    for (const dir of externalDirs) {
+      const root = path.join(global.home, dir)
+      if (!(yield* fsys.isDir(root))) continue
+      yield* scan(state, root, EXTERNAL_SKILL_PATTERN, { dot: true, scope: "global" })
+    }
+    const upDirs = yield* fsys
+      .up({ targets: externalDirs, start: directory, stop: worktree })
+      .pipe(Effect.catch(() => Effect.succeed([] as string[])))
+    for (const root of upDirs) {
+      yield* scan(state, root, EXTERNAL_SKILL_PATTERN, { dot: true, scope: "project" })
+    }
+  }

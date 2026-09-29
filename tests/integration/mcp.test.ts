@@ -5,35 +5,20 @@ import { fileURLToPath } from "node:url";
 import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
 import { afterAll, beforeAll, expect, test } from "vitest";
-import { compileRelease } from "../../src/compiler/release.js";
+import { compileChapterRelease } from "../../src/compiler/chapter-release.js";
 
 const fixture = fileURLToPath(
-  new URL("../fixtures/datasets/basic", import.meta.url),
+  new URL("../fixtures/datasets/chapters", import.meta.url),
 );
 const cli = fileURLToPath(new URL("../../src/cli/index.ts", import.meta.url));
-const scope = {
-  harness: "demo-open-cli",
-  surface: "cli",
-  distribution: "demo-package",
-  os: "linux",
-  arch: "x64",
-  execution_mode: "native",
-};
-const version = (value: string) => ({
-  policy: "exact",
-  identity: { kind: "release", value },
-});
-
-let root: string;
-let client: Client;
-let transport: StdioClientTransport;
+let root: string, client: Client, transport: StdioClientTransport;
 beforeAll(async () => {
   root = await mkdtemp(path.join(tmpdir(), "ahw-mcp-"));
-  await compileRelease({
+  await compileChapterRelease({
     datasetRoot: fixture,
     profile: "fixture",
     releaseId: "mcp-fixture",
-    publishedAt: "2026-09-27T00:00:00Z",
+    publishedAt: "2026-09-29T00:00:00Z",
     releasesRoot: root,
   });
   transport = new StdioClientTransport({
@@ -58,112 +43,65 @@ afterAll(async () => {
   await transport?.close();
   if (root) await rm(root, { recursive: true, force: true });
 });
-
 async function call(name: string, args: Record<string, unknown>) {
   const result = await client.callTool({ name, arguments: args });
   if (!result.isError) {
-    expect(result.structuredContent).toBeDefined();
-    expect(result.content[0]).toEqual({
-      type: "text",
-      text: JSON.stringify(result.structuredContent),
-    });
     expect(result.structuredContent).toHaveProperty(
       "release_id",
       "mcp-fixture",
     );
+    expect(result.content[0]).toEqual({
+      type: "text",
+      text: JSON.stringify(result.structuredContent),
+    });
   }
-  return {
-    ...result,
-    structuredContent: result.structuredContent as
-      Record<string, unknown> | undefined,
-  };
+  return result;
 }
-
-test("one pinned stdio server exposes exactly five read-only tools", async () => {
-  const tools = (await client.listTools()).tools;
-  expect(tools.map((tool) => tool.name)).toEqual([
+test("stdio exposes exactly five chapter tools and calls all five", async () => {
+  expect((await client.listTools()).tools.map((x) => x.name)).toEqual([
     "list_harnesses",
-    "get_capability",
-    "compare_capabilities",
+    "get_topic",
     "search_knowledge",
-    "get_evidence",
+    "compare_topics",
+    "get_source",
   ]);
-  expect(tools.every((tool) => tool.annotations?.readOnlyHint)).toBe(true);
-}, 20_000);
-
-test("five calls preserve business states, evidence and cursor binding", async () => {
-  const first = await call("list_harnesses", { limit: 1 });
-  expect(first.isError).not.toBe(true);
-  const cursor = first.structuredContent?.next_cursor;
-  expect(typeof cursor).toBe("string");
-  const second = await call("list_harnesses", { limit: 1, cursor });
-  expect(second.structuredContent?.items).toHaveLength(1);
-
-  const capability = await call("get_capability", {
-    scope,
-    topic: "skills",
-    version: version("1.4.2"),
-    detail_level: "summary",
-  });
-  expect(capability.isError).not.toBe(true);
-  expect(capability.structuredContent?.detail_level).toBe("summary");
-  expect(capability.structuredContent?.facts).toHaveLength(1);
-  const guided = await call("get_capability", {
-    scope,
-    topic: "custom_agents",
-    version: version("1.4.2"),
-    detail_level: "summary",
-  });
-  expect(
-    (guided.structuredContent?.guides as { body: string }[])[0]?.body,
-  ).toContain("虚构来源");
-  const unverified = await call("get_capability", {
-    scope,
-    topic: "skills",
-    version: version("9.0.0"),
-  });
-  expect(unverified.structuredContent?.status).toBe("not_verified");
-  expect(unverified.isError).not.toBe(true);
-
-  const compared = await call("compare_capabilities", {
-    requests: [
-      { scope, topic: "skills", version: version("1.4.2") },
-      { scope, topic: "skills", version: version("9.0.0") },
-    ],
-  });
-  expect(compared.isError).not.toBe(true);
-  expect(compared.structuredContent?.results).toHaveLength(2);
-
-  const searched = await call("search_knowledge", { topic: "skills" });
-  expect(searched.isError).not.toBe(true);
-  expect(
-    (searched.structuredContent?.items as unknown[]).length,
-  ).toBeGreaterThan(0);
-  const guideSearch = await call("search_knowledge", {
-    text: "虚构来源",
+  await call("list_harnesses", { limit: 1 });
+  const topic = await call("get_topic", {
     harness: "demo-open-cli",
+    topic: "skills",
+    version: "9.0.0",
   });
-  expect((guideSearch.structuredContent?.guides as unknown[]).length).toBe(1);
-
-  const evidence = await call("get_evidence", {
-    evidence_id: "evidence-demo-open-skills",
+  expect((topic.structuredContent as Record<string, unknown>).status).toBe(
+    "ok",
+  );
+  const section = await call("get_topic", {
+    harness: "demo-open-cli",
+    topic: "skills",
+    section_id: "skills-overview",
   });
-  expect(evidence.isError).not.toBe(true);
-  expect(evidence.structuredContent?.status).toBe("ok");
-  expect(evidence.structuredContent?.excerpt_truncated).toBe(false);
-}, 20_000);
-
-test("invalid parameters and unrelated cursors fail without changing release", async () => {
-  expect((await call("list_harnesses", { limit: 21 })).isError).toBe(true);
-  expect((await call("search_knowledge", {})).isError).toBe(true);
+  expect((section.structuredContent as Record<string, unknown>).body).toContain(
+    "skills.discovery",
+  );
+  await call("search_knowledge", { topic: "skills" });
+  await call("compare_topics", {
+    topic: "skills",
+    targets: [{ harness: "demo-open-cli" }, { harness: "demo-package-cli" }],
+  });
+  await call("get_source", { reference_id: "ref-demo-open" });
+  const missing = await call("get_topic", {
+    harness: "absent",
+    topic: "skills",
+  });
+  expect(missing.isError).not.toBe(true);
+  expect((missing.structuredContent as Record<string, unknown>).status).toBe(
+    "not_found",
+  );
   expect(
-    (await call("get_evidence", { evidence_id: "../archive" })).isError,
+    (
+      await client.callTool({
+        name: "get_topic",
+        arguments: { harness: "demo-open-cli", topic: "bad" },
+      })
+    ).isError,
   ).toBe(true);
-  const first = await call("list_harnesses", { limit: 1 });
-  const mismatch = await call("list_harnesses", {
-    limit: 1,
-    search: "demo",
-    cursor: first.structuredContent?.next_cursor,
-  });
-  expect(mismatch.isError).toBe(true);
 }, 20_000);

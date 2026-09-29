@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-agents-depth
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/web/src/content/docs/config.mdx
+locator:
+  kind: file_lines
+  file: packages/web/src/content/docs/config.mdx
+  start: 548
+  end: 560
+excerpt: |-
+  You can control how deeply subagents can invoke other subagents using the `subagent_depth` option.
+  {
+    "$schema": "https://opencode.ai/config.json",
+    "subagent_depth": 2
+  }
+  The default is `1`, which allows primary agents to launch subagents but prevents those subagents from launching additional subagents. Set it to `2` to allow one additional level of nested subagents, or `0` to prevent all subagent launches.

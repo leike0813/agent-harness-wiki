@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-providers-forwarding
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/web/src/content/docs/config.mdx
+locator:
+  kind: file_lines
+  file: packages/web/src/content/docs/config.mdx
+  start: 377
+  end: 399
+excerpt: |-
+  Provider options can include `timeout`, `headerTimeout`, `chunkTimeout`, and `setCacheKey`:
+  "provider": {
+    "anthropic": {
+      "options": { "timeout": 600000, "chunkTimeout": 30000, "setCacheKey": true }
+    }
+  }
+  - timeout - Request timeout in milliseconds (default: 300000). Set to `false` to disable.
+  - headerTimeout - Timeout in milliseconds to wait for response headers (default: 300000). This timer stops once headers arrive and does not limit the streamed response body.
+  - chunkTimeout - Timeout in milliseconds between streamed response chunks (default: 300000). If no chunk arrives in time, the request is aborted.
+  - setCacheKey - Ensure a cache key is always set for designated provider.

@@ -10,6 +10,6 @@
 pnpm exec tsx scripts/compile-chapters.ts --dataset-root tests/fixtures/datasets/chapters --profile fixture --release-id fixture-chapters-next --published-at 2026-09-29T00:00:00Z --releases-root var/chapter-release-fixture/releases
 ```
 
-`pnpm exec vitest run tests/integration/chapter-release.test.ts` 检查版本选择、来源和映射边界、重复构建、发布一致性及失败时指针保留。修改 schema 后运行 `pnpm schema:export`、`pnpm schema:check`、`pnpm typecheck`、`pnpm lint`、`pnpm format:check`。正式来源原件另以 `pnpm sources:audit` 显式离线核对；普通章节校验和构建不依赖忽略的原件。
+`pnpm exec vitest run tests/integration/chapter-release.test.ts tests/integration/query.test.ts tests/integration/mcp.test.ts tests/integration/site.test.ts` 检查章节发布、版本选择、来源、真实 MCP stdio 和站点。修改 schema 后运行 `pnpm schema:export`、`pnpm schema:check`、`pnpm typecheck`、`pnpm lint`、`pnpm format:check`。正式来源原件另以 `pnpm sources:audit` 显式离线核对；普通章节校验和构建不依赖忽略的原件。
 
-现有 `pnpm verify`、`pnpm fixtures:build`、公共查询、MCP 与站点仍验收 M0 Claim 读取链。新章节发布器只处理 schema 2，不适配旧 release。公共读取切换和五个真实产品的 35 篇章节属于 `m1-reader-guides`；本项不切换生产当前指针。Windows 尚未实测。
+`pnpm verify` 验证章节读取链，`pnpm fixtures:build` 生成虚构章节发布。公共查询、MCP 与站点只读取 schema 2 发布，不适配旧 release。生产章节运行 `pnpm knowledge:validate`，用 `pnpm ahw compile --dataset-root . --profile production --release-id <new-id> --published-at <fixed-time> --stage` 先构建。验收该 release 的 CLI、MCP 与站点之后，运行 `pnpm ahw publish --release-id <new-id>` 原子切换当前指针。CLI 的 `query list/topic/search/compare/source` 与 MCP 的五个工具读取同一 release；`get_topic` 用 `section_id` 定位搜索结果。Windows 尚未实测。

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-migrations-code
+harness_id: pi
+snapshot_id: snapshot-pi-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/migrations.ts
+  start: 15
+  end: 24
+official_url: https://github.com/badlogic/pi-mono/blob/781152fc24841dc54b22284514604048ebe5e2c9/packages/coding-agent/src/migrations.ts
+excerpt: |-
+  /**
+   * Migrate legacy oauth.json and settings.json apiKeys to auth.json.
+   *
+   * @returns Array of provider names that were migrated
+   */
+  export function migrateAuthToAuthJson(): string[] {
+  	const agentDir = getAgentDir();
+  	const authPath = join(agentDir, "auth.json");
+  	const oauthPath = join(agentDir, "oauth.json");
+  	const settingsPath = join(agentDir, "settings.json");
+

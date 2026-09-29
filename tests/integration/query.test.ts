@@ -1,45 +1,22 @@
-import { cp, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { afterAll, beforeAll, expect, test } from "vitest";
-import { compileRelease } from "../../src/compiler/release.js";
-import { queryResultSchema } from "../../src/domain/schema.js";
+import { compileChapterRelease } from "../../src/compiler/chapter-release.js";
 import { QueryService } from "../../src/query/service.js";
 
 const fixture = fileURLToPath(
-  new URL("../fixtures/datasets/basic", import.meta.url),
+  new URL("../fixtures/datasets/chapters", import.meta.url),
 );
-const packageScope = {
-  harness: "虚构插件命令行",
-  surface: "cli",
-  distribution: "demo-package",
-  os: "windows",
-  arch: "x64",
-  execution_mode: "native",
-};
-const openScope = {
-  harness: "demo-open-cli",
-  surface: "cli",
-  distribution: "demo-package",
-  os: "linux",
-  arch: "x64",
-  execution_mode: "native",
-};
-const exact = (value: string) => ({
-  policy: "exact",
-  identity: { kind: "release", value },
-});
-let root: string;
-let service: QueryService;
-
+let root: string, service: QueryService;
 beforeAll(async () => {
   root = await mkdtemp(path.join(tmpdir(), "ahw-query-"));
-  await compileRelease({
+  await compileChapterRelease({
     datasetRoot: fixture,
     profile: "fixture",
     releaseId: "query-fixture",
-    publishedAt: "2026-09-27T00:00:00Z",
+    publishedAt: "2026-09-29T00:00:00Z",
     releasesRoot: root,
   });
   service = await QueryService.open({
@@ -52,285 +29,88 @@ afterAll(async () => {
   if (root) await rm(root, { recursive: true, force: true });
 });
 
-test("release is fixed and fixture selection must be explicit", async () => {
-  await expect(QueryService.open({ releasesRoot: root })).rejects.toThrow(
-    /Fixture release/,
-  );
-  await expect(
-    QueryService.open({ releasesRoot: root, releaseId: "../unsafe" }),
-  ).rejects.toThrow();
-  await writeFile(
-    path.join(root, "current.json"),
-    '{"release_id":"different"}',
-  );
-  expect(service.listHarnesses().release_id).toBe("query-fixture");
-  expect(service.listHarnesses().items).toHaveLength(2);
-});
-
-test("guide retrieval and search stay on the exact Target", () => {
-  const current = service.getCapability({
-    scope: openScope,
-    topic: "custom_agents",
-    version: exact("1.4.2"),
-  });
-  expect(current.guides).toHaveLength(1);
-  expect(current.guides[0]?.body).toContain("虚构来源");
-  const otherVersion = service.getCapability({
-    scope: openScope,
-    topic: "custom_agents",
-    version: exact("9.0.0"),
-  });
-  expect(otherVersion.guides).toHaveLength(0);
-  const found = service.searchKnowledge({
+test("chapter, section, source and history preserve source-only uncertainty", () => {
+  const current = service.getTopic({
     harness: "demo-open-cli",
-    text: "虚构来源",
+    topic: "skills",
   });
-  expect(found.guides[0]?.topic).toBe("custom_agents");
-  expect(found.guides[0]?.target.version_identity.value).toBe("1.4.2");
+  expect(current.status).toBe("ok");
+  if (current.status !== "ok") return;
+  expect(current.history).toContain("demo-open-cli-skills-v0");
   expect(
-    service.searchKnowledge({
-      harness: "demo-open-cli",
-      version: { kind: "release", value: "9.0.0" },
-    }).guides,
-  ).toHaveLength(0);
-  const first = service.searchKnowledge({ harness: "demo-open-cli", limit: 1 });
-  expect(first.guides).toHaveLength(1);
-  expect(first.next_guide_cursor).toBeDefined();
-  const second = service.searchKnowledge({
-    harness: "demo-open-cli",
-    limit: 1,
-    guide_cursor: first.next_guide_cursor,
-  });
-  expect(second.guides[0]?.guide_id).not.toBe(first.guides[0]?.guide_id);
-  expect(() =>
-    service.searchKnowledge({
-      harness: "demo-open-cli",
-      topic: "mcp",
-      limit: 1,
-      guide_cursor: first.next_guide_cursor,
-    }),
-  ).toThrow(/Cursor/);
-});
-
-test("exact, upstream and verified versions remain separate", () => {
-  const request = { scope: packageScope, topic: "native_plugins" };
-  const newer = service.getCapability({ ...request, version: exact("2.0.0") });
-  expect(queryResultSchema.parse(newer).status).toBe("not_verified");
-  expect(newer.status).toBe("not_verified");
-  expect(newer.target?.version_identity.value).toBe("2.0.0");
-  expect(newer.coverage[0]?.status).toBe("not_started");
-  expect(newer.facts).toHaveLength(0);
-  const upstream = service.getCapability({
-    ...request,
-    version: { policy: "latest_upstream" },
-  });
-  expect(upstream.status).toBe("not_verified");
-  expect(upstream.target?.version_identity.value).toBe("2.0.0");
-  expect(upstream.source_observed_at).toBe("2026-02-01T00:00:00Z");
-  const verified = service.getCapability({
-    ...request,
-    version: { policy: "latest_verified" },
-    conditions: [
-      { type: "extension_installed", id: "sample-extension", equals: true },
-    ],
-  });
-  expect(verified.target?.version_identity.value).toBe("1.4.2");
-  expect(
-    verified.facts.some(
-      (item) => item.claim.support.delivery === "external_extension",
-    ),
-  ).toBe(true);
-  expect(
-    service.getCapability({ ...request, version: exact("3.0.0") }).facts,
-  ).toHaveLength(0);
-  expect(
-    service.getCapability({
-      ...request,
-      scope: { ...packageScope, os: "linux" },
-      version: exact("1.4.2"),
-    }).facts,
-  ).toHaveLength(0);
-  expect(
-    service.getCapability({
-      ...request,
-      fact_key: "plugins.uninvestigated",
-      version: exact("1.4.2"),
-    }).status,
+    current.questions.find((q) => q.question_id === "skills.roots")?.status,
   ).toBe("unknown");
+  const versioned = service.getTopic({
+    harness: "demo-open-cli",
+    topic: "skills",
+    version: "9.0.0",
+    section_id: "skills-overview",
+  });
+  expect(versioned.status).toBe("ok");
+  if (versioned.status !== "ok") return;
+  expect(versioned.resolution.match_kind).toBe("source_only");
+  expect(versioned.resolution.selected_version).toBeNull();
+  expect(versioned.body).toContain("skills.discovery");
+  const source = service.getSource({ reference_id: "ref-demo-open" });
+  expect(source.status).toBe("ok");
+  expect(
+    service.getTopic({
+      harness: "demo-open-cli",
+      topic: "skills",
+      section_id: "missing",
+    }).status,
+  ).toBe("not_found");
 });
 
-test("missing conditions and comparisons retain Target-specific meaning", () => {
-  const skills = service.getCapability({
-    scope: openScope,
-    topic: "skills",
-    version: exact("1.4.2"),
+test("section mapping resolves exact, prefix and nearest earlier without whole-chapter stitching", () => {
+  const base = {
+    harness: "demo-package-cli",
+    topic: "native_plugins" as const,
+    section_id: "plugin-behavior",
+  };
+  for (const [version, kind] of [
+    ["1.4.2", "exact"],
+    ["1.4", "prefix"],
+    ["2.0.0", "nearest_earlier"],
+  ] as const) {
+    const result = service.getTopic({ ...base, version });
+    expect(result.status).toBe("ok");
+    if (result.status === "ok") expect(result.resolution.match_kind).toBe(kind);
+  }
+  const whole = service.getTopic({
+    harness: base.harness,
+    topic: base.topic,
+    version: "1.4.2",
   });
-  expect(skills.status).toBe("ambiguous");
-  expect(skills.facts[0]?.claim.conditions.all_of).toHaveLength(2);
-  const resolved = service.getCapability({
-    scope: openScope,
-    topic: "skills",
-    version: exact("1.4.2"),
-    conditions: [
-      { type: "workspace_trust", equals: "trusted" },
-      {
-        type: "environment_variable",
-        name: "DEMO_SKILLS_DIR",
-        operator: "unset",
-      },
-    ],
-  });
-  expect(resolved.status).toBe("ok");
-  const compared = service.compareCapabilities({
-    requests: [
-      {
-        scope: packageScope,
-        topic: "native_plugins",
-        version: exact("1.4.2"),
-        conditions: [
-          { type: "extension_installed", id: "sample-extension", equals: true },
-        ],
-      },
-      { scope: packageScope, topic: "native_plugins", version: exact("2.0.0") },
-    ],
-  });
-  expect(compared.results.map((item) => item.status)).toEqual([
-    "ok",
-    "not_verified",
-  ]);
-  expect(
-    compared.results[0]?.facts.some(
-      (item) => item.claim.support.delivery === "external_extension",
-    ),
-  ).toBe(true);
-  expect(compared.results[1]?.facts).toHaveLength(0);
-  const evidence = service.getEvidence({
-    evidence_id: "evidence-demo-package-plugin",
-  });
-  expect(evidence.status).toBe("ok");
-  expect(evidence.evidence?.basis).toBe("source_inspected");
+  expect(whole.status).toBe("ok");
+  if (whole.status === "ok")
+    expect(whole.resolution.match_kind).toBe("source_only");
 });
 
-test("search uses aliases, exact keys, Chinese topics and bound cursors", () => {
+test("current search reads back by section and cursors bind normalized query", () => {
+  const first = service.searchKnowledge({ topic: "skills", limit: 1 });
+  expect(first.status).toBe("ok");
+  if (first.status !== "ok") return;
+  const item = first.items[0]!;
   expect(
-    service.searchKnowledge({ text: "虚构插件命令行" }).items[0]?.match,
-  ).toBe("alias");
-  expect(
-    service.searchKnowledge({ text: "skills.discovery.project_path" }).items[0]
-      ?.match,
-  ).toBe("exact");
-  expect(
-    service
-      .searchKnowledge({ text: "技能" })
-      .items.every((item) => item.claim.topic === "skills"),
-  ).toBe(true);
-  expect(() => service.searchKnowledge({ text: 'skills" OR *' })).not.toThrow();
-  const first = service.searchKnowledge({ text: "demo-open-cli", limit: 1 });
-  expect(first.next_cursor).toBeTruthy();
-  expect(
-    service.searchKnowledge({
-      text: "demo-open-cli",
-      limit: 1,
-      cursor: first.next_cursor,
-    }).items[0]?.claim.claim_id,
-  ).not.toBe(first.items[0]?.claim.claim_id);
+    service.getTopic({
+      harness: item.harness_id,
+      topic: item.topic,
+      section_id: item.section_id,
+    }).status,
+  ).toBe("ok");
+  expect(first.next_cursor).toBeDefined();
   expect(() =>
     service.searchKnowledge({
-      text: "demo-package-cli",
+      topic: "mcp",
+      limit: 1,
       cursor: first.next_cursor,
     }),
   ).toThrow(/Cursor/);
-  expect(() => service.listHarnesses({ limit: 101 })).toThrow();
-});
-
-test("disputed review is visible as conflict", async () => {
-  const dataset = path.join(root, "disputed-dataset");
-  await cp(fixture, dataset, { recursive: true });
-  const file = path.join(
-    dataset,
-    "knowledge/demo-open-cli/assessments/assessment-demo-open-mcp.yaml",
-  );
-  await writeFile(
-    file,
-    (await readFile(file, "utf8")).replace(
-      "status: accepted",
-      "status: disputed",
-    ),
-  );
-  const coverage = path.join(
-    dataset,
-    "knowledge/demo-open-cli/coverage/coverage-demo-open-cli-skills-1-4-2-linux.yaml",
-  );
-  await writeFile(
-    coverage,
-    (await readFile(coverage, "utf8")).replace(
-      "status: complete",
-      "status: partial",
-    ),
-  );
-  const snapshot = path.join(
-    dataset,
-    "knowledge/demo-open-cli/snapshots/snapshot-demo-open-142-linux.yaml",
-  );
-  await writeFile(
-    path.join(
-      dataset,
-      "knowledge/demo-open-cli/snapshots/snapshot-demo-open-commit-linux.yaml",
-    ),
-    (await readFile(snapshot, "utf8"))
-      .replace(
-        "snapshot-demo-open-142-linux",
-        "snapshot-demo-open-commit-linux",
-      )
-      .replace("kind: release, value: 1.4.2", "kind: commit, value: demoabc"),
-  );
-  await compileRelease({
-    datasetRoot: dataset,
-    profile: "fixture",
-    releaseId: "query-disputed",
-    publishedAt: "2026-09-27T00:00:00Z",
-    releasesRoot: root,
+  const compared = service.compareTopics({
+    topic: "skills",
+    targets: [{ harness: "demo-open-cli" }, { harness: "demo-package-cli" }],
   });
-  const disputed = await QueryService.open({
-    releasesRoot: root,
-    releaseId: "query-disputed",
-  });
-  try {
-    const result = disputed.getCapability({
-      scope: openScope,
-      topic: "mcp",
-      version: exact("1.4.2"),
-    });
-    expect(result.status).toBe("conflict");
-    expect(result.facts[0]?.claim.evidence_refs.length).toBeGreaterThan(0);
-    const partial = disputed.getCapability({
-      scope: openScope,
-      topic: "skills",
-      version: exact("1.4.2"),
-      conditions: [
-        { type: "workspace_trust", equals: "trusted" },
-        {
-          type: "environment_variable",
-          name: "DEMO_SKILLS_DIR",
-          operator: "unset",
-        },
-      ],
-    });
-    expect(partial.status).toBe("partial");
-    expect(
-      disputed.getCapability({
-        scope: openScope,
-        version: { policy: "latest_upstream" },
-      }).status,
-    ).toBe("ambiguous");
-    const cursor = service.searchKnowledge({
-      text: "demo-open-cli",
-      limit: 1,
-    }).next_cursor;
-    expect(() =>
-      disputed.searchKnowledge({ text: "demo-open-cli", limit: 1, cursor }),
-    ).toThrow(/Cursor/);
-  } finally {
-    disputed.close();
-  }
+  expect(compared.questions.length).toBeGreaterThan(0);
+  expect(compared.questions[0]?.entries).toHaveLength(2);
 });

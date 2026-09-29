@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-plugins-install
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/opencode/src/plugin/shared.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/plugin/shared.ts
+  start: 207
+  end: 214
+excerpt: |-
+  export async function resolvePluginTarget(spec: string) {
+    if (isPathPluginSpec(spec)) return resolvePathPluginTarget(spec)
+    const hit = parse(spec)
+    const pkg = hit?.name && hit.raw === hit.name ? hit.name + "@latest" : spec
+    const result = await Npm.add(pkg)
+    return result.directory
+  }

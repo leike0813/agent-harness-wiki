@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-hooks-runner-code
+harness_id: omp
+snapshot_id: snapshot-omp-npm
+locator:
+  kind: file_lines
+  file: src/extensibility/hooks/runner.ts
+  start: 284
+  end: 296
+official_url: https://www.npmjs.com/package/@oh-my-pi/pi-coding-agent/v/18.3.4
+excerpt: |
+  		for (const hook of this.hooks) {
+  			const handlers = hook.handlers.get(event.type);
+  			if (!handlers || handlers.length === 0) continue;
+
+  			for (const handler of handlers) {
+  				try {
+  					const handlerResult = await handler(event, ctx);
+
+  					// For session before_* events, capture the result (for cancellation)
+  					if (this.#isSessionBeforeEvent(event.type) && handlerResult) {
+  						result = handlerResult as SessionBeforeCompactResult | SessionBeforeTreeResult;
+  						// If cancelled, stop processing further hooks
+  						if (result.cancel) {

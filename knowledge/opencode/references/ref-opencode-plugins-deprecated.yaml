@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-plugins-deprecated
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/opencode/src/plugin/shared.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/plugin/shared.ts
+  start: 9
+  end: 14
+excerpt: |-
+  // Old npm package names for plugins that are now built-in
+  export const DEPRECATED_PLUGIN_PACKAGES = ["opencode-openai-codex-auth", "opencode-copilot-auth"]
+  export function isDeprecatedPlugin(spec: string) {
+    return DEPRECATED_PLUGIN_PACKAGES.some((pkg) => spec.includes(pkg))
+  }

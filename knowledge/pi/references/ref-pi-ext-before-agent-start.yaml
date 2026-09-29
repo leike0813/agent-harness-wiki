@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-ext-before-agent-start
+harness_id: pi
+snapshot_id: snapshot-pi-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/extensions.md
+  start: 466
+  end: 478
+official_url: https://github.com/badlogic/pi-mono/blob/781152fc24841dc54b22284514604048ebe5e2c9/packages/coding-agent/docs/extensions.md
+excerpt: |-
+  #### before_agent_start
+
+  Fired after user submits prompt, before agent loop. Can inject a message and/or modify the system prompt.
+
+  ```typescript
+  pi.on("before_agent_start", async (event, ctx) => {
+    // event.prompt - user's prompt text
+    // event.images - attached images (if any)
+    // event.systemPrompt - current chained system prompt for this handler
+    //   (includes changes from earlier before_agent_start handlers)
+    // event.systemPromptOptions - structured options used to build the system prompt
+    //   .customPrompt - any custom system prompt (from --system-prompt, SYSTEM.md, or custom templates)
+    //   .selectedTools - tools currently active in the prompt
+

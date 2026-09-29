@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-diagnostics
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/opencode/src/cli/cmd/debug/skill.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/cli/cmd/debug/skill.ts
+  start: 6
+  end: 14
+excerpt: |-
+  export const SkillCommand = effectCmd({
+    command: "skill",
+    describe: "list all available skills",
+    builder: (yargs) => yargs,
+    handler: Effect.fn("Cli.debug.skill")(function* () {
+      const skill = yield* Skill.Service
+      const skills = yield* skill.all()
+      process.stdout.write(JSON.stringify(skills, null, 2) + EOL)
+    }),

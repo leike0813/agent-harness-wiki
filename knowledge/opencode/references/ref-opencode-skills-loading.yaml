@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-loading
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/opencode/src/tool/skill.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/tool/skill.ts
+  start: 27
+  end: 56
+excerpt: |-
+  yield* ctx.ask({
+    permission: "skill",
+    patterns: [params.name],
+    always: [params.name],
+    metadata: {},
+  })
+  const dir = path.dirname(info.location)
+  const base = dir
+  const files = yield* ripgrep.find({
+    cwd: dir,
+    pattern: "!**/SKILL.md",
+    hidden: true,
+    follow: false,
+    signal: ctx.abort,
+    limit: 10,
+  })
+  Relative paths in this skill (e.g., scripts/, reference/) are relative to this base directory.
+  Note: file list is sampled.

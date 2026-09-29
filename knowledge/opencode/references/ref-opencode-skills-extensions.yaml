@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-extensions
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/opencode/src/skill/index.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/skill/index.ts
+  start: 210
+  end: 227
+excerpt: |-
+  const cfg = yield* config.get()
+  for (const item of cfg.skills?.paths ?? []) {
+    const expanded = item.startsWith("~/") ? path.join(global.home, item.slice(2)) : item
+    const dir = path.isAbsolute(expanded) ? expanded : path.join(directory, expanded)
+    if (!(yield* fsys.isDir(dir))) {
+      yield* Effect.logWarning("skill path not found", { path: dir })
+      continue
+    }
+    yield* scan(state, dir, SKILL_PATTERN)
+  }
+  for (const url of cfg.skills?.urls ?? []) {
+    const pulledDirs = yield* discovery.pull(url)
+    for (const dir of pulledDirs) {
+      yield* scan(state, dir, SKILL_PATTERN)
+    }
+  }

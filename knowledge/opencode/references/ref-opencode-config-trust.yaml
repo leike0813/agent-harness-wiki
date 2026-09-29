@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-trust
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/web/src/content/docs/config.mdx
+locator:
+  kind: file_lines
+  file: packages/web/src/content/docs/config.mdx
+  start: 154
+  end: 180
+excerpt: |-
+  Organizations can enforce configuration that users cannot override. Managed settings are loaded at the highest priority tier.
+  Drop an `opencode.json` or `opencode.jsonc` file in the system managed config directory:
+  macOS: `/Library/Application Support/opencode/`; Linux: `/etc/opencode/`; Windows: `%ProgramData%\opencode`
+  These directories require admin/root access to write, so users cannot modify them.
+  On macOS, OpenCode reads managed preferences from the `ai.opencode.managed` preference domain. Deploy a `.mobileconfig` via MDM (Jamf, Kandji, FleetDM) and the settings are enforced automatically.

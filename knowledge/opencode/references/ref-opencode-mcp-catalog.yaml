@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-mcp-catalog
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/opencode/src/mcp/catalog.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/mcp/catalog.ts
+  start: 121
+  end: 143
+excerpt: |-
+  export function prompts(client: Client, timeout?: number) {
+    if (!client.getServerCapabilities()?.prompts) return Promise.resolve([])
+    return paginate(
+      (cursor) => client.listPrompts(cursor === undefined ? undefined : { cursor }, { timeout }),
+      (result) => result.prompts,
+    )
+  }
+  export function resources(client: Client, timeout?: number) {
+    if (!client.getServerCapabilities()?.resources) return Promise.resolve([])
+    return paginate(
+      (cursor) => client.listResources(cursor === undefined ? undefined : { cursor }, { timeout }),
+      (result) => result.resources,
+    )
+  }

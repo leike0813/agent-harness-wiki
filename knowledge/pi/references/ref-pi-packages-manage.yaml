@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-packages-manage
+harness_id: pi
+snapshot_id: snapshot-pi-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/packages.md
+  start: 22
+  end: 37
+official_url: https://github.com/badlogic/pi-mono/blob/781152fc24841dc54b22284514604048ebe5e2c9/packages/coding-agent/docs/packages.md
+excerpt: |-
+  ```bash
+  pi install npm:@foo/bar@1.0.0
+  pi install git:github.com/user/repo@v1
+  pi install https://github.com/user/repo  # raw URLs work too
+  pi install /absolute/path/to/package
+  pi install ./relative/path/to/package
+
+  pi remove npm:@foo/bar
+  pi list                     # show installed packages from settings
+  pi update                   # update pi and all non-pinned packages
+  pi update --extensions      # update all non-pinned packages only
+  pi update --self            # update pi only
+  pi update --self --force    # reinstall pi even if current
+  pi update npm:@foo/bar      # update one package
+  pi update --extension npm:@foo/bar
+  ```
+

@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-cp-quick
+harness_id: pi
+snapshot_id: snapshot-pi-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/custom-provider.md
+  start: 32
+  end: 58
+official_url: https://github.com/badlogic/pi-mono/blob/781152fc24841dc54b22284514604048ebe5e2c9/packages/coding-agent/docs/custom-provider.md
+excerpt: |-
+  ```typescript
+  import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+
+  export default function (pi: ExtensionAPI) {
+    // Override baseUrl for existing provider
+    pi.registerProvider("anthropic", {
+      baseUrl: "https://proxy.example.com"
+    });
+
+    // Register new provider with models
+    pi.registerProvider("my-provider", {
+      name: "My Provider",
+      baseUrl: "https://api.example.com",
+      apiKey: "MY_API_KEY",
+      api: "openai-completions",
+      models: [
+        {
+          id: "my-model",
+          name: "My Model",
+          reasoning: false,
+          input: ["text", "image"],
+          cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+          contextWindow: 128000,
+          maxTokens: 4096
+        }
+      ]
+    });
+

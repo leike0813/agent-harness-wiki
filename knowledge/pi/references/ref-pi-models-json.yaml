@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-models-json
+harness_id: pi
+snapshot_id: snapshot-pi-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/models.md
+  start: 17
+  end: 39
+official_url: https://github.com/badlogic/pi-mono/blob/781152fc24841dc54b22284514604048ebe5e2c9/packages/coding-agent/docs/models.md
+excerpt: |-
+  ## Minimal Example
+
+  For local models (Ollama, LM Studio, vLLM), only `id` is required per model:
+
+  ```json
+  {
+    "providers": {
+      "ollama": {
+        "baseUrl": "http://localhost:11434/v1",
+        "api": "openai-completions",
+        "apiKey": "ollama",
+        "models": [
+          { "id": "llama3.1:8b" },
+          { "id": "qwen2.5-coder:7b" }
+        ]
+      }
+    }
+  }
+  ```
+
+  The `apiKey` is required but Ollama ignores it, so any value works.
+
+  Some OpenAI-compatible servers do not understand the `developer` role used for reasoning-capable models. For those providers, set `compat.supportsDeveloperRole` to `false` so pi sends the system prompt as a `system` message instead. If the server also does not support `reasoning_effort`, set `compat.supportsReasoningEffort` to `false` too.
+

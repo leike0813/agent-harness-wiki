@@ -30,8 +30,9 @@ const optionsSchema = z.strictObject({
   releaseId: z.string().regex(/^[a-z][a-z0-9_-]*$/),
   publishedAt: z.iso.datetime(),
   releasesRoot: z.string().min(1),
+  publishCurrent: z.boolean().default(true),
 });
-export type ChapterCompileOptions = z.infer<typeof optionsSchema>;
+export type ChapterCompileOptions = z.input<typeof optionsSchema>;
 export type ChapterReleaseManifest = z.infer<
   typeof chapterReleaseManifestSchema
 >;
@@ -77,7 +78,7 @@ export function renderChapterDocs(
     knowledge.profile === "fixture" ? "> Fictional fixture data.\n\n" : "";
   pages.set(
     "docs/index.md",
-    `# Knowledge release ${knowledge.release_id}\n\n${fixture}${knowledge.records.current.map((x) => `- [${x.harness_id} / ${x.topic}](chapters/${x.edition_id}.md)`).join("\n")}\n\n## Historical editions\n\n${knowledge.records.chapters
+    `# Knowledge release ${knowledge.release_id}\n\n${fixture}${knowledge.records.harnesses.map((x) => `- [${textSafe(x.name)}](harnesses/${x.harness_id}/index.md)`).join("\n")}\n\n${knowledge.records.current.map((x) => `- [${x.harness_id} / ${x.topic}](harnesses/${x.harness_id}/${x.topic}.md)`).join("\n")}\n\n## Historical editions\n\n${knowledge.records.chapters
       .filter(
         (x) =>
           !knowledge.records.current.some((y) => y.edition_id === x.edition_id),
@@ -93,6 +94,35 @@ export function renderChapterDocs(
       `docs/chapters/${chapter.edition_id}.md`,
       `# ${textSafe(chapter.title)}\n\n${fixture}${chapter.body}\n`,
     );
+  for (const harness of knowledge.records.harnesses) {
+    const selections = knowledge.records.current.filter(
+      (x) => x.harness_id === harness.harness_id,
+    );
+    pages.set(
+      `docs/harnesses/${harness.harness_id}/index.md`,
+      `# ${textSafe(harness.name)}\n\n${fixture}本页列出当前发布的七个主题。章节引用固定来源；软件版本适用性以章节映射为准。\n\n${selections.map((x) => `- [${x.topic}](./${x.topic}.md)`).join("\n")}\n`,
+    );
+    for (const selection of selections) {
+      const chapter = knowledge.records.chapters.find(
+        (x) => x.edition_id === selection.edition_id,
+      )!;
+      const refs = [...new Set(chapter.sections.flatMap((x) => x.source_refs))];
+      const body = textSafe(chapter.body).replace(
+        /\[@([a-z][a-z0-9_-]*)\]/g,
+        (_match, id: string) => `[[${id}](../../sources/${id}.md)]`,
+      );
+      const history = knowledge.records.chapters.filter(
+        (x) =>
+          x.harness_id === harness.harness_id &&
+          x.topic === selection.topic &&
+          x.edition_id !== chapter.edition_id,
+      );
+      pages.set(
+        `docs/harnesses/${harness.harness_id}/${selection.topic}.md`,
+        `# ${textSafe(chapter.title)}\n\n${fixture}当前调查版：${chapter.edition_id}。以下为固定来源知识；未列明软件版本映射时，不代表已验证的安装版本。\n\n${body}\n\n## 来源\n\n${refs.map((id) => `- [${id}](../../sources/${id}.md)`).join("\n")}\n\n## 历史章节\n\n${history.map((x) => `- [${x.edition_id}](../../chapters/${x.edition_id}.md)`).join("\n")}\n`,
+      );
+    }
+  }
   for (const ref of knowledge.records.source_references)
     pages.set(
       `docs/sources/${ref.reference_id}.md`,
@@ -245,7 +275,7 @@ export async function verifyChapterRelease(
     throw new Error("Release artifact inventory differs from manifest.");
   for (const file of inventory) {
     if (
-      !/^(knowledge\.(json|sqlite)|docs\/(index|chapters\/[a-z0-9_-]+|sources\/[a-z0-9_-]+)\.md)$/.test(
+      !/^(knowledge\.(json|sqlite)|docs\/(index|chapters\/[a-z0-9_-]+|sources\/[a-z0-9_-]+|harnesses\/[a-z0-9_-]+\/(index|[a-z0-9_-]+))\.md)$/.test(
         file,
       )
     )
@@ -288,6 +318,12 @@ export async function verifyChapterRelease(
   }
   const pagePaths = [
     "docs/index.md",
+    ...knowledge.records.harnesses.map(
+      (x) => `docs/harnesses/${x.harness_id}/index.md`,
+    ),
+    ...knowledge.records.current.map(
+      (x) => `docs/harnesses/${x.harness_id}/${x.topic}.md`,
+    ),
     ...knowledge.records.chapters.map(
       (x) => `docs/chapters/${x.edition_id}.md`,
     ),
@@ -302,7 +338,7 @@ export async function verifyChapterRelease(
     throw new Error("Markdown inventory differs from JSON.");
   const index = await readFile(path.join(dir, "docs/index.md"), "utf8");
   for (const item of knowledge.records.current)
-    if (!index.includes(`chapters/${item.edition_id}.md`))
+    if (!index.includes(`harnesses/${item.harness_id}/${item.topic}.md`))
       throw new Error("Current chapter missing from Markdown index.");
   for (const chapter of knowledge.records.chapters)
     if (
@@ -465,7 +501,16 @@ export async function compileChapterRelease(
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
     }
-    if (previous) await verifyChapterRelease(path.join(root, previous));
+    if (previous) {
+      const legacy = JSON.parse(
+        await readFile(path.join(root, previous, "manifest.json"), "utf8"),
+      ) as { schema_version?: number };
+      if (legacy.schema_version === 1) {
+        const { verifyRelease } = await import("./release.js");
+        await verifyRelease(path.join(root, previous));
+        previous = undefined;
+      } else await verifyChapterRelease(path.join(root, previous));
+    }
     stage = await mkdtemp(path.join(root, ".staging-"));
     const knowledge = projectChapters(
       validated.dataset,
@@ -520,14 +565,63 @@ export async function compileChapterRelease(
     await verifyChapterRelease(stage);
     await rename(stage, releaseDir);
     stage = undefined;
-    pointerTemp = path.join(root, `.current-${randomUUID()}.json`);
-    await writeFile(pointerTemp, canonical({ release_id: options.releaseId }));
-    await rename(pointerTemp, pointer);
-    pointerTemp = undefined;
+    if (options.publishCurrent) {
+      pointerTemp = path.join(root, `.current-${randomUUID()}.json`);
+      await writeFile(
+        pointerTemp,
+        canonical({ release_id: options.releaseId }),
+      );
+      await rename(pointerTemp, pointer);
+      pointerTemp = undefined;
+    }
     return { releaseDir, manifest };
   } finally {
     if (stage) await rm(stage, { recursive: true, force: true });
     if (pointerTemp) await unlink(pointerTemp);
+    await lock.close();
+    await unlink(path.join(root, ".publish.lock"));
+  }
+}
+
+export async function selectChapterRelease(
+  releasesRoot: string,
+  releaseId: string,
+): Promise<void> {
+  if (!/^[a-z][a-z0-9_-]*$/.test(releaseId))
+    throw new Error("Invalid release ID.");
+  const root = path.resolve(releasesRoot);
+  const manifest = await verifyChapterRelease(path.join(root, releaseId));
+  if (manifest.profile !== "production")
+    throw new Error("Current release must be production.");
+  const lock = await open(path.join(root, ".publish.lock"), "wx");
+  const temporary = path.join(root, `.current-${randomUUID()}.json`);
+  try {
+    let old: string | undefined;
+    try {
+      old = (
+        JSON.parse(await readFile(path.join(root, "current.json"), "utf8")) as {
+          release_id: string;
+        }
+      ).release_id;
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+    }
+    if (old) {
+      if (!/^[a-z][a-z0-9_-]*$/.test(old))
+        throw new Error("Invalid current release ID.");
+      const oldDir = path.join(root, old);
+      const oldManifest = JSON.parse(
+        await readFile(path.join(oldDir, "manifest.json"), "utf8"),
+      ) as { schema_version?: number };
+      if (oldManifest.schema_version === 1) {
+        const { verifyRelease } = await import("./release.js");
+        await verifyRelease(oldDir);
+      } else await verifyChapterRelease(oldDir);
+    }
+    await writeFile(temporary, canonical({ release_id: releaseId }));
+    await rename(temporary, path.join(root, "current.json"));
+  } finally {
+    await rm(temporary, { force: true });
     await lock.close();
     await unlink(path.join(root, ".publish.lock"));
   }

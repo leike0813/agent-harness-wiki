@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-skills-discovery-doc
+harness_id: omp
+snapshot_id: snapshot-omp-repo
+locator:
+  kind: document_section
+  heading: Discovery pipeline
+official_url: https://github.com/can1357/oh-my-pi/blob/dff728c572a8c4c29016549b6e407c4550fcdac6/docs/skills.md
+excerpt: |
+  1. **Capability providers** via `loadCapability("skills")` (the managed/auto-learn provider's skills are skipped here and handled in pass 3)
+  2. **Custom directories** via `scanSkillsFromDir(..., { requireDescription: true })` (one-level directory enumeration). A custom-directory skill overrides a same-named default provider skill; duplicate custom-directory names remain first-wins.
+  3. **Managed (auto-learn) skills** (`omp-managed` provider) resolved dead-last, so any same-named enabled authored skill from a provider or custom directory takes precedence

@@ -20,7 +20,6 @@ import {
   type ReleaseManifest,
 } from "../../src/compiler/release.js";
 import { canonical, sha256 } from "../../src/compiler/projection.js";
-import { QueryService } from "../../src/query/service.js";
 import { auditArtifacts } from "../../src/sources/audit.js";
 import { loadAndValidateDataset } from "../../src/validation/dataset.js";
 
@@ -352,67 +351,10 @@ test("first-wave release publishes reviewed facts and scoped provenance", async 
   } finally {
     db.close();
   }
-  const service = await QueryService.open({
-    releasesRoot,
-    releaseId: "codex-provenance",
-  });
-  try {
-    expect(service.listHarnesses().items).toHaveLength(5);
-    const scope = {
-      harness: "codex",
-      surface: "cli",
-      os: "linux",
-      arch: "x64",
-      execution_mode: "native",
-    };
-    const packageResult = service.getCapability({
-      scope: { ...scope, distribution: "packaged-cli" },
-      version: { policy: "latest_upstream" },
-    });
-    expect(packageResult.status).toBe("not_verified");
-    expect(packageResult.target).toBeUndefined();
-    const sourceResult = service.getCapability({
-      scope: { ...scope, distribution: "source-tree" },
-      version: { policy: "latest_upstream" },
-    });
-    expect(sourceResult.status).toBe("ambiguous");
-    expect(sourceResult.facts).toHaveLength(0);
-    const exactSourceResult = service.getCapability({
-      scope: { ...scope, distribution: "source-tree" },
-      version: {
-        policy: "exact",
-        identity: {
-          kind: "commit",
-          value: "67a709665ac7b50311b93e32612c9a8281684787",
-        },
-      },
-    });
-    expect(exactSourceResult.target?.version_identity.kind).toBe("commit");
-    expect(exactSourceResult.facts).toHaveLength(0);
-    const piResult = service.getCapability({
-      scope: {
-        harness: "pi",
-        surface: "cli",
-        distribution: "npm:@mariozechner/pi-coding-agent:linux-x64-glibc",
-        os: "linux",
-        arch: "x64",
-        execution_mode: "native",
-      },
-      topic: "skills",
-      version: {
-        policy: "exact",
-        identity: { kind: "release", value: "0.73.1" },
-      },
-    });
-    expect(piResult.facts.map((item) => item.claim.fact_key)).toEqual([
-      "skills.discovery.user_path",
-    ]);
-  } finally {
-    service.close();
-  }
+  expect(knowledge.records.harnesses).toHaveLength(5);
 });
 
-test("version 1 release without artifact metadata still verifies and opens", async () => {
+test("version 1 release without artifact metadata still verifies", async () => {
   const releasesRoot = await temp();
   const { releaseDir } = await compileRelease({
     datasetRoot: fixture,
@@ -441,13 +383,4 @@ test("version 1 release without artifact metadata still verifies and opens", asy
   manifest.artifacts["knowledge.sqlite"] = sha256(await readFile(sqliteFile));
   await writeFile(manifestFile, canonical(manifest));
   expect((await verifyRelease(releaseDir)).builder_version).toBe("1");
-  const service = await QueryService.open({
-    releasesRoot,
-    releaseId: "old-fixture",
-  });
-  try {
-    expect(service.listHarnesses().items).toHaveLength(2);
-  } finally {
-    service.close();
-  }
 });

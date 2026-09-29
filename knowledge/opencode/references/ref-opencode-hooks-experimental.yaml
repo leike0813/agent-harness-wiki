@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-hooks-experimental
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/plugin/src/index.ts
+locator:
+  kind: file_lines
+  file: packages/plugin/src/index.ts
+  start: 298
+  end: 335
+excerpt: |-
+  "experimental.provider.small_model"?: (input: { provider: ProviderV2 }, output: { model?: ModelV2 }) => Promise<void>
+  "experimental.session.compacting"?: (
+    input: { sessionID: string },
+    output: { context: string[]; prompt?: string },
+  ) => Promise<void>
+  "experimental.compaction.autocontinue"?: (
+    input: { sessionID: string; agent: string; model: Model; provider: ProviderContext; message: UserMessage; overflow: boolean },
+    output: { enabled: boolean },
+  ) => Promise<void>
+  "experimental.text.complete"?: (
+    input: { sessionID: string; messageID: string; partID: string },
+    output: { text: string },
+  ) => Promise<void>
+  "tool.definition"?: (input: { toolID: string }, output: { description: string; parameters: any }) => Promise<void>

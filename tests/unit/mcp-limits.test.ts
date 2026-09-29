@@ -1,16 +1,17 @@
 import { expect, test } from "vitest";
-import { clipExcerpt, mcpResponse } from "../../src/mcp/server.js";
+import { mcpResponse } from "../../src/mcp/server.js";
 
-test("MCP bounds Unicode excerpts and rejects oversized responses explicitly", () => {
-  const clipped = clipExcerpt("🔎".repeat(2001));
-  expect(Array.from(clipped.excerpt)).toHaveLength(2000);
-  expect(clipped.excerpt_truncated).toBe(true);
-  expect(clipExcerpt("short").excerpt_truncated).toBe(false);
-  const large = mcpResponse({
+test("oversized whole chapter gives a bounded section index", () => {
+  const result = mcpResponse({
     release_id: "fixture",
-    data: "x".repeat(70 * 1024),
+    status: "ok",
+    body: "x".repeat(70 * 1024),
+    sections: [{ section_id: "first" }],
+    resolution: { match_kind: "source_only" },
   });
-  expect(large.isError).toBe(true);
-  expect(large.structuredContent.code).toBe("response_too_large");
-  expect(large.content[0].text).toBe(JSON.stringify(large.structuredContent));
+  expect(result.structuredContent.status).toBe("response_too_large");
+  expect(result.structuredContent.sections).toEqual([{ section_id: "first" }]);
+  expect(Buffer.byteLength(JSON.stringify(result), "utf8")).toBeLessThanOrEqual(
+    128 * 1024,
+  );
 });

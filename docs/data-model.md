@@ -1,6 +1,6 @@
 # 数据模型
 
-M1 章节模型的事实源是 Git 中的完整 Markdown 章节版本、来源引用 YAML、软件版本映射 YAML 和当前章节选择 YAML。固定问题清单见 [topic-questions.md](topic-questions.md)。Zod 定义在 `src/domain/chapter.ts`；`pnpm schema:check` 检查导出的 JSON Schema。现有 Claim/Coverage 代码属于 M0 读取链，待 `m1-reader-guides` 迁移，不是新发布的知识输入。
+M1 章节模型的事实源是 Git 中的完整 Markdown 章节版本、来源引用 YAML、软件版本映射 YAML 和当前章节选择 YAML。固定问题清单见 [topic-questions.md](topic-questions.md)。Zod 定义在 `src/domain/chapter.ts`；`pnpm schema:check` 检查导出的 JSON Schema。现有 Claim/Coverage 记录保留为历史调查材料，不是新发布的知识输入。
 
 ## 输入
 
@@ -14,6 +14,6 @@ M1 章节模型的事实源是 Git 中的完整 Markdown 章节版本、来源�
 
 ## 发布
 
-新格式 `schema_version: 2`、`builder_version: 4`。一个 `releases/<id>/` 包含 `manifest.json`、`knowledge.json`、`knowledge.sqlite`、`docs/index.md`、`docs/chapters/` 和 `docs/sources/`。JSON 的 `records.current` 是当前章节索引，`records.chapters` 保留历史章节；SQLite 对章节、小节、问题、来源引用和软件版本映射建索引，并开启外键。生成 Markdown 与 JSON 同源，来源摘录作为惰性文本展示。发布先在 staging 中验证 hash、JSON、SQLite 和页面，再原子切换该发布根目录的 `current.json`。新映射可以引用相同章节版本并复用相同 Markdown 字节。
+新格式 `schema_version: 2`、`builder_version: 4`。一个 `releases/<id>/` 包含 `manifest.json`、`knowledge.json`、`knowledge.sqlite`、`docs/index.md`、`docs/harnesses/`、`docs/chapters/` 和 `docs/sources/`。JSON 的 `records.current` 是当前章节索引，`records.chapters` 保留历史章节；SQLite 对章节、小节、问题、来源引用和软件版本映射建索引，并开启外键。生成 Markdown 与 JSON 同源，来源摘录作为惰性文本展示。发布先在 staging 中验证 hash、JSON、SQLite 和页面；`--stage` 保留旧当前指针，验收后 `ahw publish` 原子切换。新映射可以引用相同章节版本并复用相同 Markdown 字节。
 
-本 change 的新格式 fixture 发布使用隔离的 `var/chapter-release-fixture/releases/`。旧格式 release 无新格式读取兼容承诺；公共查询、MCP 与站点阅读接口在后续 `m1-reader-guides` 切换。不能将此 fixture 发布视为五个真实产品的 M1 内容验收。
+新格式 fixture 发布使用隔离的 `var/chapter-release-fixture/releases/`。旧格式 release 无新格式读取兼容承诺；公共查询、MCP 与站点使用章节发布。fixture 发布不能视为五个真实产品的内容验收。

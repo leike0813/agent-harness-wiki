@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-mcp-lifecycle
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/opencode/src/mcp/index.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/mcp/index.ts
+  start: 442
+  end: 455
+excerpt: |-
+  function watch(s: State, name: string, client: MCPClient, bridge: EffectBridge.Shape, timeout?: number) {
+    client.onclose = () => {
+      if (s.clients[name] !== client) return
+      delete s.clients[name]
+      delete s.defs[name]
+      delete s.instructions[name]
+      s.status[name] = { status: "failed", error: "Connection closed" }
+      bridge.fork(
+        Effect.logWarning("MCP connection closed", { server: name }).pipe(
+          Effect.andThen(events.publish(ToolsChanged, { server: name })),
+          Effect.ignore,
+        ),
+      )
+    }
+  }

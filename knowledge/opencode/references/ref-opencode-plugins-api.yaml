@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-plugins-api
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/web/src/content/docs/plugins.mdx
+locator:
+  kind: file_lines
+  file: packages/web/src/content/docs/plugins.mdx
+  start: 278
+  end: 314
+excerpt: |-
+  Plugins can also add custom tools to opencode:
+  import { type Plugin, tool } from "@opencode-ai/plugin"
+  export const CustomToolsPlugin: Plugin = async (ctx) => {
+    return {
+      tool: {
+        mytool: tool({
+          description: "This is a custom tool",
+          args: { foo: tool.schema.string() },
+          async execute(args, context) {
+            const { directory, worktree } = context
+            return "Hello " + args.foo + " from " + directory
+          },
+        }),
+      },
+    }
+  }
+  The `tool` helper creates a custom tool that opencode can call.
+  If a plugin tool uses the same name as a built-in tool, the plugin tool takes precedence.

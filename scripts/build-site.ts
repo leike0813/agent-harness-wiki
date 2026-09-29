@@ -2,14 +2,16 @@ import { spawnSync } from "node:child_process";
 import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { Command } from "commander";
-import { compileRelease, verifyRelease } from "../src/compiler/release.js";
+import {
+  compileChapterRelease,
+  verifyChapterRelease,
+} from "../src/compiler/chapter-release.js";
 
 const options = new Command()
-  .option("--release-id <id>", "Build a selected verified release")
+  .option("--release-id <id>")
   .option("--releases-root <path>", "Release directory", "releases")
   .parse()
   .opts<{ releaseId?: string; releasesRoot: string }>();
-
 let temporaryRoot: string | undefined;
 let temporarySource: string | undefined;
 try {
@@ -22,16 +24,16 @@ try {
     await mkdir("var", { recursive: true });
     temporaryRoot = await mkdtemp(path.resolve("var/ahw-site-"));
     releaseDir = (
-      await compileRelease({
-        datasetRoot: "tests/fixtures/datasets/basic",
+      await compileChapterRelease({
+        datasetRoot: "tests/fixtures/datasets/chapters",
         profile: "fixture",
         releaseId: "fixture-site",
-        publishedAt: "2026-09-27T00:00:00Z",
+        publishedAt: "2026-09-29T00:00:00Z",
         releasesRoot: temporaryRoot,
       })
     ).releaseDir;
   }
-  const manifest = await verifyRelease(releaseDir);
+  const manifest = await verifyChapterRelease(releaseDir);
   await mkdir("var", { recursive: true });
   temporarySource = await mkdtemp(path.resolve("var/ahw-site-source-"));
   const docsDir = path.join(temporarySource, "docs");

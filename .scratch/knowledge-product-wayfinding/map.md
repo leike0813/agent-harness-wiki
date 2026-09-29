@@ -10,9 +10,9 @@ Label: wayfinder:map
 
 - 这是对[原项目规划地图](../project-wayfinding/map.md)的产品方向复议；旧地图保留决策历史，旧格式 release 无向后兼容要求，旧决策不自动约束新契约。
 - 讨论时使用 `grilling` 与 `domain-modeling`；涉及页面或接口形态时给出具体样例供用户判断。
-- 目前的 `m1-reader-guides` 尚未完成内容验收，工作区已有未提交改动；规划阶段不改动或丢弃它们。
+- `reader-guides-20260929` 的大章节结构和问题覆盖已获用户认可；具体表述风格、章节细分与内容深度仍待讨论。工作区已有未提交改动；规划阶段不改动或丢弃它们。
 - 议题记录决策，产品规格与代码修改在地图完成后另行实施。
-- 所有议题已解决；本地图的产品契约已足以开始修订 PRD 与 OpenSpec，实施和新发布仍属后续工作。
+- 产品契约已用于修订 PRD 与 OpenSpec；补充的成稿尺度决定见下方索引，供后续章节修订采用。
 
 ## Decisions so far
 
@@ -27,6 +27,7 @@ Label: wayfinder:map
 - [确定结构化知识的最小模型](issues/10-knowledge-model.md)：不可变主题章节 Markdown 与问题索引为主稿；独立来源引用及版本映射，发布清单索引当前和历史章节，Agent 审计取代逐条接受门禁。
 - [确定搜索与本地 embedding 的定位](issues/11-search-policy.md)：M1 必须提供最新章节小节的离线混合检索；精确与全文入口优先，语义片段归并到小节，结果保留来源边界与降级状态。
 - [确定现有实现迁移与 OpenSpec 修订边界](issues/09-migration-handoff.md)：改写现有 `m1-reader-guides`，五项 change 分阶段验收；旧格式 release 不做兼容，新发布内保留历史章节索引。
+- [确定知识章节的表述风格与细分尺度](issues/12-chapter-writing-granularity.md)：按读者机制分节；配置文件及适用的目录、命令、Hook 和优先级规则给有来源、带解释的实例。
 
 ## Not yet specified
 

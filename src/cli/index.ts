@@ -1,214 +1,166 @@
 #!/usr/bin/env node
 import { Command } from "commander";
-import { compileRelease } from "../compiler/release.js";
-import { loadAndValidateDataset } from "../validation/dataset.js";
+import {
+  compileChapterRelease,
+  selectChapterRelease,
+} from "../compiler/chapter-release.js";
+import { loadAndValidateChapters } from "../validation/chapters.js";
 import { QueryService } from "../query/service.js";
 import { serveMcp } from "../mcp/server.js";
 
 const program = new Command()
   .name("ahw")
-  .description("Offline agent harness knowledge queries");
+  .description("Offline chapter knowledge queries");
 const output = (value: unknown, json: boolean) =>
   process.stdout.write(`${JSON.stringify(value, null, json ? 0 : 2)}\n`);
 const parseJson = (value: string): unknown => JSON.parse(value) as unknown;
-
 program
   .command("validate")
-  .description("Validate an explicit structured dataset")
   .requiredOption("--dataset-root <path>")
-  .requiredOption("--profile <profile>", "fixture or production")
-  .action(async (options) => {
-    if (options.profile !== "fixture" && options.profile !== "production")
-      throw new Error("Profile must be fixture or production.");
-    const result = await loadAndValidateDataset({
-      root: options.datasetRoot,
-      profile: options.profile,
+  .requiredOption("--profile <profile>")
+  .action(async (x) => {
+    if (x.profile !== "fixture" && x.profile !== "production")
+      throw new Error("Invalid profile.");
+    const result = await loadAndValidateChapters({
+      root: x.datasetRoot,
+      profile: x.profile,
     });
     for (const item of result.diagnostics)
       process.stderr.write(
-        `${item.severity} ${item.code} ${item.file}${item.path}: ${item.reason} ${item.hint}\n`,
+        `${item.severity} ${item.code} ${item.file}${item.path}: ${item.reason}\n`,
       );
-    if (!result.ok) {
-      process.exitCode = 1;
-      return;
-    }
-    output({ valid: true, claims: result.dataset.claims.length }, true);
+    if (!result.ok) process.exitCode = 1;
+    else
+      output({ valid: true, chapters: result.dataset.chapters.length }, true);
   });
-
 program
   .command("compile")
-  .description("Compile an immutable offline release")
   .requiredOption("--dataset-root <path>")
-  .requiredOption("--profile <profile>", "fixture or production")
+  .requiredOption("--profile <profile>")
   .requiredOption("--release-id <id>")
   .requiredOption("--published-at <timestamp>")
   .option("--releases-root <path>", "Release directory", "releases")
-  .action(async (options) => {
-    const result = await compileRelease({
-      datasetRoot: options.datasetRoot,
-      profile: options.profile,
-      releaseId: options.releaseId,
-      publishedAt: options.publishedAt,
-      releasesRoot: options.releasesRoot,
+  .option("--stage", "Build without switching current")
+  .action(async (x) => {
+    const result = await compileChapterRelease({
+      datasetRoot: x.datasetRoot,
+      profile: x.profile,
+      releaseId: x.releaseId,
+      publishedAt: x.publishedAt,
+      releasesRoot: x.releasesRoot,
+      publishCurrent: !x.stage,
     });
     output(
       { release_id: result.manifest.release_id, directory: result.releaseDir },
       true,
     );
   });
-
+program
+  .command("publish")
+  .requiredOption("--release-id <id>")
+  .option("--releases-root <path>", "Release directory", "releases")
+  .action(async (x) => {
+    await selectChapterRelease(x.releasesRoot, x.releaseId);
+    output({ release_id: x.releaseId, current: true }, true);
+  });
 const query = program
   .command("query")
-  .description("Read one verified local release")
-  .option("--release-id <id>", "Required for fixture releases")
+  .option("--release-id <id>")
   .option("--releases-root <path>", "Release directory", "releases")
-  .option("--json", "Compact JSON output");
-
+  .option("--json");
 program
   .command("mcp")
-  .description("Serve five read-only query tools over stdio")
-  .option("--release-id <id>", "Required for fixture releases")
+  .option("--release-id <id>")
   .option("--releases-root <path>", "Release directory", "releases")
-  .action(async (options) => {
+  .action(async (x) => {
     const service = await QueryService.open({
-      releasesRoot: options.releasesRoot,
-      ...(options.releaseId ? { releaseId: options.releaseId } : {}),
+      releasesRoot: x.releasesRoot,
+      ...(x.releaseId ? { releaseId: x.releaseId } : {}),
     });
-    try {
-      await serveMcp(service);
-    } catch (error) {
-      service.close();
-      throw error;
-    }
+    await serveMcp(service);
   });
-
 async function runQuery<T>(
   callback: (service: QueryService) => T,
 ): Promise<void> {
-  const options = query.opts();
+  const x = query.opts();
   const service = await QueryService.open({
-    releasesRoot: options.releasesRoot,
-    ...(options.releaseId ? { releaseId: options.releaseId } : {}),
+    releasesRoot: x.releasesRoot,
+    ...(x.releaseId ? { releaseId: x.releaseId } : {}),
   });
   try {
-    output(callback(service), Boolean(options.json));
+    output(callback(service), Boolean(x.json));
   } finally {
     service.close();
   }
 }
-
 query
   .command("list")
-  .description("List published harnesses")
-  .option("--search <text>")
+  .option("--query <text>")
   .option("--limit <number>")
   .option("--cursor <cursor>")
-  .action(async (options) =>
-    runQuery((service) =>
-      service.listHarnesses({
-        ...(options.search ? { search: options.search } : {}),
-        ...(options.limit ? { limit: Number(options.limit) } : {}),
-        ...(options.cursor ? { cursor: options.cursor } : {}),
+  .action(async (x) =>
+    runQuery((s) =>
+      s.listHarnesses({
+        ...(x.query ? { query: x.query } : {}),
+        ...(x.limit ? { limit: Number(x.limit) } : {}),
+        ...(x.cursor ? { cursor: x.cursor } : {}),
       }),
     ),
   );
-
 query
-  .command("capability")
-  .description("Read one Target's capability facts and coverage")
+  .command("topic")
   .requiredOption("--harness <name>")
-  .requiredOption("--surface <surface>")
-  .requiredOption("--distribution <name>")
-  .requiredOption("--os <os>")
-  .requiredOption("--arch <arch>")
-  .requiredOption("--execution-mode <mode>")
-  .requiredOption(
-    "--policy <policy>",
-    "exact, latest_verified or latest_upstream",
-  )
-  .option("--version <value>", "Required for exact policy")
-  .option("--version-kind <kind>", "release or commit", "release")
-  .option("--topic <topic>")
-  .option("--fact-key <key>")
-  .option("--conditions <json>", "JSON array of condition predicates", "[]")
-  .action(async (options) => {
-    if (options.policy === "exact" && !options.version)
-      throw new Error("Exact policy requires --version.");
-    if (
-      options.policy !== "exact" &&
-      (options.version || options.versionKind !== "release")
-    )
-      throw new Error("Version options require exact policy.");
-    return runQuery((service) =>
-      service.getCapability({
-        scope: {
-          harness: options.harness,
-          surface: options.surface,
-          distribution: options.distribution,
-          os: options.os,
-          arch: options.arch,
-          execution_mode: options.executionMode,
-        },
-        version:
-          options.policy === "exact"
-            ? {
-                policy: "exact",
-                identity: { kind: options.versionKind, value: options.version },
-              }
-            : { policy: options.policy },
-        ...(options.topic ? { topic: options.topic } : {}),
-        ...(options.factKey ? { fact_key: options.factKey } : {}),
-        conditions: parseJson(options.conditions),
+  .requiredOption("--topic <topic>")
+  .option("--section-id <id>")
+  .option("--version <version>")
+  .action(async (x) =>
+    runQuery((s) =>
+      s.getTopic({
+        harness: x.harness,
+        topic: x.topic,
+        ...(x.sectionId ? { section_id: x.sectionId } : {}),
+        ...(x.version ? { version: x.version } : {}),
       }),
-    );
-  });
-
+    ),
+  );
 query
   .command("compare")
-  .description("Compare two to five complete capability requests")
-  .requiredOption("--requests <json>", "JSON array of capability requests")
-  .action(async (options) =>
-    runQuery((service) =>
-      service.compareCapabilities({ requests: parseJson(options.requests) }),
+  .requiredOption("--topic <topic>")
+  .requiredOption("--targets <json>", "Two to five product/version targets")
+  .option("--question-ids <json>")
+  .action(async (x) =>
+    runQuery((s) =>
+      s.compareTopics({
+        topic: x.topic,
+        targets: parseJson(x.targets),
+        ...(x.questionIds ? { question_ids: parseJson(x.questionIds) } : {}),
+      }),
     ),
   );
-
 query
   .command("search")
-  .description("Search published facts by text or structured filter")
   .option("--text <text>")
   .option("--harness <name>")
   .option("--topic <topic>")
-  .option("--os <os>")
-  .option("--version <value>", "Exact release version filter")
   .option("--limit <number>")
   .option("--cursor <cursor>")
-  .action(async (options) =>
-    runQuery((service) =>
-      service.searchKnowledge({
-        ...(options.text ? { text: options.text } : {}),
-        ...(options.harness ? { harness: options.harness } : {}),
-        ...(options.topic ? { topic: options.topic } : {}),
-        ...(options.os ? { os: options.os } : {}),
-        ...(options.version
-          ? { version: { kind: "release", value: options.version } }
-          : {}),
-        ...(options.limit ? { limit: Number(options.limit) } : {}),
-        ...(options.cursor ? { cursor: options.cursor } : {}),
+  .action(async (x) =>
+    runQuery((s) =>
+      s.searchKnowledge({
+        ...(x.text ? { text: x.text } : {}),
+        ...(x.harness ? { harness: x.harness } : {}),
+        ...(x.topic ? { topic: x.topic } : {}),
+        ...(x.limit ? { limit: Number(x.limit) } : {}),
+        ...(x.cursor ? { cursor: x.cursor } : {}),
       }),
     ),
   );
-
 query
-  .command("evidence")
-  .description("Read one published evidence record")
-  .requiredOption("--evidence-id <id>")
-  .action(async (options) =>
-    runQuery((service) =>
-      service.getEvidence({ evidence_id: options.evidenceId }),
-    ),
+  .command("source")
+  .requiredOption("--reference-id <id>")
+  .action(async (x) =>
+    runQuery((s) => s.getSource({ reference_id: x.referenceId })),
   );
-
 try {
   await program.parseAsync(process.argv);
 } catch (error) {

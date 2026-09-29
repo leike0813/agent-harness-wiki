@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-skills-loading
+harness_id: pi
+snapshot_id: snapshot-pi-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/skills.md
+  start: 64
+  end: 71
+official_url: https://github.com/badlogic/pi-mono/blob/781152fc24841dc54b22284514604048ebe5e2c9/packages/coding-agent/docs/skills.md
+excerpt: |-
+  ## How Skills Work
+
+  1. At startup, pi scans skill locations and extracts names and descriptions
+  2. The system prompt includes available skills in XML format per the [specification](https://agentskills.io/integrate-skills)
+  3. When a task matches, the agent uses `read` to load the full SKILL.md (models don't always do this; use prompting or `/skill:name` to force it)
+  4. The agent follows the instructions, using relative paths to reference scripts and assets
+
+  This is progressive disclosure: only descriptions are always in context, full instructions load on-demand.
+

@@ -27,11 +27,12 @@
     "sources:audit-log": "tsx scripts/validate-audits.ts",
     "validate:fixtures": "tsx scripts/validate-dataset.ts tests/fixtures/datasets/basic fixture",
     "chapters:validate": "tsx scripts/validate-chapters.ts tests/fixtures/datasets/chapters fixture",
+    "knowledge:validate": "tsx scripts/validate-chapters.ts . production",
     "chapters:build": "tsx scripts/compile-chapters.ts --dataset-root tests/fixtures/datasets/chapters --profile fixture --release-id fixture-chapters --published-at 2026-09-29T00:00:00Z --releases-root var/chapter-release-fixture/releases",
-    "fixtures:build": "tsx scripts/compile-release.ts --dataset-root tests/fixtures/datasets/basic --profile fixture --release-id fixture-query --published-at 2026-09-27T00:00:00Z --releases-root releases",
+    "fixtures:build": "tsx scripts/compile-chapters.ts --dataset-root tests/fixtures/datasets/chapters --profile fixture --release-id fixture-chapters --published-at 2026-09-29T00:00:00Z --releases-root var/chapter-release-fixture/releases",
     "docs:build": "tsx scripts/build-site.ts",
     "mcp:smoke": "vitest run tests/integration/mcp.test.ts",
-    "verify": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm schema:check && pnpm sources:audit-log && pnpm validate:fixtures && pnpm test && pnpm test:integration && pnpm build && pnpm docs:build"
+    "verify": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm schema:check && pnpm sources:audit-log && pnpm chapters:validate && pnpm knowledge:validate && pnpm test && pnpm test:integration && pnpm build && pnpm docs:build"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "2.1.0",

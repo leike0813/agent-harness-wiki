@@ -248,3 +248,22 @@ test("invalid input and corrupt output leave current pointer unchanged", async (
   );
   expect(await readFile(path.join(root, "current.json"), "utf8")).toBe(pointer);
 });
+
+test("staged chapter build leaves current pointer for later acceptance", async () => {
+  const dataset = await copy(),
+    root = await temp();
+  await build(dataset, root, "first");
+  const pointer = await readFile(path.join(root, "current.json"), "utf8");
+  const staged = await compileChapterRelease({
+    datasetRoot: dataset,
+    releasesRoot: root,
+    releaseId: "staged",
+    profile: "fixture",
+    publishedAt: "2026-09-29T00:00:00Z",
+    publishCurrent: false,
+  });
+  expect((await verifyChapterRelease(staged.releaseDir)).release_id).toBe(
+    "staged",
+  );
+  expect(await readFile(path.join(root, "current.json"), "utf8")).toBe(pointer);
+});

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-plugins-package
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/opencode/src/plugin/shared.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/plugin/shared.ts
+  start: 153
+  end: 181
+excerpt: |-
+  const value = mod.default
+  if (!isRecord(value)) {
+    if (mode === "detect") return
+    throw new TypeError("Plugin must default export an object with " + kind + "()")
+  }
+  if (mode === "detect" && !("id" in value) && !("server" in value) && !("tui" in value)) return
+  const server = "server" in value ? value.server : undefined
+  const tui = "tui" in value ? value.tui : undefined
+  if (server !== undefined && typeof server !== "function") {
+    throw new TypeError("Plugin has invalid server export")
+  }
+  if (tui !== undefined && typeof tui !== "function") {
+    throw new TypeError("Plugin has invalid tui export")
+  }

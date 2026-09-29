@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-hooks-toolhooks
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo
+official_url: https://github.com/anomalyco/opencode/blob/545f51d26cc39a907d2867492d498d9607ea5fa4/packages/plugin/src/index.ts
+locator:
+  kind: file_lines
+  file: packages/plugin/src/index.ts
+  start: 262
+  end: 281
+excerpt: |-
+  "command.execute.before"?: (
+    input: { command: string; sessionID: string; arguments: string },
+    output: { parts: Part[] },
+  ) => Promise<void>
+  "tool.execute.before"?: (
+    input: { tool: string; sessionID: string; callID: string },
+    output: { args: any },
+  ) => Promise<void>
+  "shell.env"?: (
+    input: { cwd: string; sessionID?: string; callID?: string },
+    output: { env: Record<string, string> },
+  ) => Promise<void>
+  "tool.execute.after"?: (
+    input: { tool: string; sessionID: string; callID: string; args: any },
+    output: {
+      title: string
+      output: string
+      metadata: any
+    },
+  ) => Promise<void>
