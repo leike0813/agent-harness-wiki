@@ -1,0 +1,1494 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "number",
+      "const": 2
+    },
+    "release_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "profile": {
+      "type": "string",
+      "enum": [
+        "fixture",
+        "production"
+      ]
+    },
+    "knowledge_published_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+    },
+    "records": {
+      "type": "object",
+      "properties": {
+        "harnesses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "schema_version": {
+                "type": "number",
+                "const": 1
+              },
+              "record_kind": {
+                "type": "string",
+                "enum": [
+                  "fixture",
+                  "production"
+                ]
+              },
+              "harness_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "aliases": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "surfaces": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "cli",
+                    "ide",
+                    "desktop"
+                  ]
+                }
+              },
+              "source_refs": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]*$"
+                }
+              }
+            },
+            "required": [
+              "schema_version",
+              "record_kind",
+              "harness_id",
+              "name",
+              "aliases",
+              "surfaces",
+              "source_refs"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "schema_version": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "record_kind": {
+                    "type": "string",
+                    "enum": [
+                      "fixture",
+                      "production"
+                    ]
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "harness_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "const": "fixture_file"
+                  },
+                  "file": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "content_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "record_kind",
+                  "source_id",
+                  "harness_id",
+                  "kind",
+                  "file",
+                  "content_sha256"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "schema_version": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "record_kind": {
+                    "type": "string",
+                    "enum": [
+                      "fixture",
+                      "production"
+                    ]
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "harness_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "const": "git_repository"
+                  },
+                  "repository_url": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "record_kind",
+                  "source_id",
+                  "harness_id",
+                  "kind",
+                  "repository_url"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "schema_version": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "record_kind": {
+                    "type": "string",
+                    "enum": [
+                      "fixture",
+                      "production"
+                    ]
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "harness_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "const": "official_documentation"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "record_kind",
+                  "source_id",
+                  "harness_id",
+                  "kind",
+                  "url"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "schema_version": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "record_kind": {
+                    "type": "string",
+                    "enum": [
+                      "fixture",
+                      "production"
+                    ]
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "harness_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "const": "npm_registry"
+                  },
+                  "package_name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "registry_url": {
+                    "type": "string",
+                    "const": "https://registry.npmjs.org"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "record_kind",
+                  "source_id",
+                  "harness_id",
+                  "kind",
+                  "package_name",
+                  "registry_url"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "schema_version": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "record_kind": {
+                    "type": "string",
+                    "enum": [
+                      "fixture",
+                      "production"
+                    ]
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "harness_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "artifact_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "const": "git_checkout"
+                  },
+                  "checkout_path": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "commit": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{40}$"
+                  },
+                  "file": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "content_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "record_kind",
+                  "source_id",
+                  "harness_id",
+                  "artifact_id",
+                  "kind",
+                  "checkout_path",
+                  "commit",
+                  "file",
+                  "content_sha256"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "schema_version": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "record_kind": {
+                    "type": "string",
+                    "enum": [
+                      "fixture",
+                      "production"
+                    ]
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "harness_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "artifact_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "const": "archived_document"
+                  },
+                  "archive_path": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "raw_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "extracted_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "extractor": {
+                    "type": "string",
+                    "const": "identity-markdown@1"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "record_kind",
+                  "source_id",
+                  "harness_id",
+                  "artifact_id",
+                  "kind",
+                  "archive_path",
+                  "raw_sha256",
+                  "extracted_sha256",
+                  "extractor"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "schema_version": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "record_kind": {
+                    "type": "string",
+                    "enum": [
+                      "fixture",
+                      "production"
+                    ]
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "harness_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "artifact_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "const": "managed_package"
+                  },
+                  "package_name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "version": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "integrity": {
+                    "type": "string",
+                    "pattern": "^sha512-[A-Za-z0-9+/]+={0,2}$"
+                  },
+                  "package_path": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "lockfile_path": {
+                    "type": "string",
+                    "const": "research/package-set/pnpm-lock.yaml"
+                  },
+                  "file": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "content_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "record_kind",
+                  "source_id",
+                  "harness_id",
+                  "artifact_id",
+                  "kind",
+                  "package_name",
+                  "version",
+                  "integrity",
+                  "package_path",
+                  "lockfile_path",
+                  "file",
+                  "content_sha256"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "schema_version": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "record_kind": {
+                    "type": "string",
+                    "enum": [
+                      "fixture",
+                      "production"
+                    ]
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "harness_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "artifact_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "const": "archived_package_file"
+                  },
+                  "package_name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "version": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "integrity": {
+                    "type": "string",
+                    "pattern": "^sha512-[A-Za-z0-9+/]+={0,2}$"
+                  },
+                  "tarball_path": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "file": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "content_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "record_kind",
+                  "source_id",
+                  "harness_id",
+                  "artifact_id",
+                  "kind",
+                  "package_name",
+                  "version",
+                  "integrity",
+                  "tarball_path",
+                  "file",
+                  "content_sha256"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "snapshots": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "schema_version": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "record_kind": {
+                    "type": "string",
+                    "enum": [
+                      "fixture",
+                      "production"
+                    ]
+                  },
+                  "snapshot_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "source_fetched_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                  },
+                  "target": {
+                    "type": "object",
+                    "properties": {
+                      "harness_id": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_-]*$"
+                      },
+                      "surface": {
+                        "type": "string",
+                        "enum": [
+                          "cli",
+                          "ide",
+                          "desktop"
+                        ]
+                      },
+                      "distribution": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "os": {
+                        "type": "string",
+                        "enum": [
+                          "linux",
+                          "windows",
+                          "macos"
+                        ]
+                      },
+                      "arch": {
+                        "type": "string",
+                        "enum": [
+                          "x64",
+                          "arm64"
+                        ]
+                      },
+                      "execution_mode": {
+                        "type": "string",
+                        "enum": [
+                          "native",
+                          "wsl",
+                          "container",
+                          "remote"
+                        ]
+                      },
+                      "version_identity": {
+                        "oneOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "const": "release"
+                              },
+                              "value": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "value"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "const": "commit"
+                              },
+                              "value": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "value"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "harness_id",
+                      "surface",
+                      "distribution",
+                      "os",
+                      "arch",
+                      "execution_mode",
+                      "version_identity"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "content_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "record_kind",
+                  "snapshot_id",
+                  "source_id",
+                  "source_fetched_at",
+                  "target",
+                  "content_sha256"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "schema_version": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "record_kind": {
+                    "type": "string",
+                    "enum": [
+                      "fixture",
+                      "production"
+                    ]
+                  },
+                  "snapshot_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "source_fetched_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "const": "source_revision"
+                  },
+                  "artifact_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "target": {
+                    "type": "object",
+                    "properties": {
+                      "harness_id": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_-]*$"
+                      },
+                      "surface": {
+                        "type": "string",
+                        "enum": [
+                          "cli",
+                          "ide",
+                          "desktop"
+                        ]
+                      },
+                      "distribution": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "os": {
+                        "type": "string",
+                        "enum": [
+                          "linux",
+                          "windows",
+                          "macos"
+                        ]
+                      },
+                      "arch": {
+                        "type": "string",
+                        "enum": [
+                          "x64",
+                          "arm64"
+                        ]
+                      },
+                      "execution_mode": {
+                        "type": "string",
+                        "enum": [
+                          "native",
+                          "wsl",
+                          "container",
+                          "remote"
+                        ]
+                      },
+                      "version_identity": {
+                        "oneOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "const": "release"
+                              },
+                              "value": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "value"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "const": "commit"
+                              },
+                              "value": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "value"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "harness_id",
+                      "surface",
+                      "distribution",
+                      "os",
+                      "arch",
+                      "execution_mode",
+                      "version_identity"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "commit": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{40}$"
+                  },
+                  "content_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "record_kind",
+                  "snapshot_id",
+                  "source_id",
+                  "source_fetched_at",
+                  "kind",
+                  "artifact_id",
+                  "target",
+                  "commit",
+                  "content_sha256"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "schema_version": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "record_kind": {
+                    "type": "string",
+                    "enum": [
+                      "fixture",
+                      "production"
+                    ]
+                  },
+                  "snapshot_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "source_fetched_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "const": "documentation"
+                  },
+                  "artifact_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "harness_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "surface": {
+                    "type": "string",
+                    "enum": [
+                      "cli",
+                      "ide",
+                      "desktop"
+                    ]
+                  },
+                  "requested_url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "resolved_url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "raw_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "extracted_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "extractor": {
+                    "type": "string",
+                    "const": "identity-markdown@1"
+                  },
+                  "version_applicability": {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "const": "unknown"
+                      }
+                    },
+                    "required": [
+                      "kind"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "record_kind",
+                  "snapshot_id",
+                  "source_id",
+                  "source_fetched_at",
+                  "kind",
+                  "artifact_id",
+                  "harness_id",
+                  "surface",
+                  "requested_url",
+                  "resolved_url",
+                  "raw_sha256",
+                  "extracted_sha256",
+                  "extractor",
+                  "version_applicability"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "schema_version": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "record_kind": {
+                    "type": "string",
+                    "enum": [
+                      "fixture",
+                      "production"
+                    ]
+                  },
+                  "snapshot_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "source_fetched_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "const": "npm_release"
+                  },
+                  "artifact_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "target": {
+                    "type": "object",
+                    "properties": {
+                      "harness_id": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_-]*$"
+                      },
+                      "surface": {
+                        "type": "string",
+                        "enum": [
+                          "cli",
+                          "ide",
+                          "desktop"
+                        ]
+                      },
+                      "distribution": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "os": {
+                        "type": "string",
+                        "enum": [
+                          "linux",
+                          "windows",
+                          "macos"
+                        ]
+                      },
+                      "arch": {
+                        "type": "string",
+                        "enum": [
+                          "x64",
+                          "arm64"
+                        ]
+                      },
+                      "execution_mode": {
+                        "type": "string",
+                        "enum": [
+                          "native",
+                          "wsl",
+                          "container",
+                          "remote"
+                        ]
+                      },
+                      "version_identity": {
+                        "oneOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "const": "release"
+                              },
+                              "value": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "value"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "const": "commit"
+                              },
+                              "value": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "value"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "harness_id",
+                      "surface",
+                      "distribution",
+                      "os",
+                      "arch",
+                      "execution_mode",
+                      "version_identity"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "package_name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "version": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "integrity": {
+                    "type": "string",
+                    "pattern": "^sha512-[A-Za-z0-9+/]+={0,2}$"
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "record_kind",
+                  "snapshot_id",
+                  "source_id",
+                  "source_fetched_at",
+                  "kind",
+                  "artifact_id",
+                  "target",
+                  "package_name",
+                  "version",
+                  "integrity"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "source_references": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "schema_version": {
+                "type": "number",
+                "const": 2
+              },
+              "record_kind": {
+                "type": "string",
+                "enum": [
+                  "fixture",
+                  "production"
+                ]
+              },
+              "reference_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "harness_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "snapshot_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "locator": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "const": "file_lines"
+                      },
+                      "file": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "start": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "end": {
+                        "type": "integer",
+                        "exclusiveMinimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "file",
+                      "start",
+                      "end"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "const": "symbol"
+                      },
+                      "file": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "symbol": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "file",
+                      "symbol"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "const": "document_section"
+                      },
+                      "heading": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "heading"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "official_url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "excerpt": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 800
+              }
+            },
+            "required": [
+              "schema_version",
+              "record_kind",
+              "reference_id",
+              "harness_id",
+              "snapshot_id",
+              "locator",
+              "official_url",
+              "excerpt"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "chapters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "schema_version": {
+                "type": "number",
+                "const": 2
+              },
+              "record_kind": {
+                "type": "string",
+                "enum": [
+                  "fixture",
+                  "production"
+                ]
+              },
+              "edition_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "harness_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "topic": {
+                "type": "string",
+                "enum": [
+                  "skills",
+                  "mcp",
+                  "custom_agents",
+                  "custom_providers",
+                  "hooks",
+                  "native_plugins",
+                  "configuration"
+                ]
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 120
+              },
+              "sections": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "section_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "source_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_-]*$"
+                      }
+                    }
+                  },
+                  "required": [
+                    "section_id",
+                    "source_refs"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "questions": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "question_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+                    },
+                    "section_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "answered",
+                        "partial",
+                        "unknown",
+                        "not_applicable",
+                        "conflict"
+                      ]
+                    },
+                    "source_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_-]*$"
+                      }
+                    }
+                  },
+                  "required": [
+                    "question_id",
+                    "section_id",
+                    "status",
+                    "source_refs"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "body": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100000
+              }
+            },
+            "required": [
+              "schema_version",
+              "record_kind",
+              "edition_id",
+              "harness_id",
+              "topic",
+              "title",
+              "sections",
+              "questions",
+              "body"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "mappings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "schema_version": {
+                "type": "number",
+                "const": 2
+              },
+              "record_kind": {
+                "type": "string",
+                "enum": [
+                  "fixture",
+                  "production"
+                ]
+              },
+              "mapping_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "edition_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "harness_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "software_version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "package_snapshot_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "scope": {
+                "type": "string",
+                "enum": [
+                  "section",
+                  "chapter"
+                ]
+              },
+              "sections": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "section_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "evidence_ref": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    }
+                  },
+                  "required": [
+                    "section_id",
+                    "evidence_ref"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "schema_version",
+              "record_kind",
+              "mapping_id",
+              "edition_id",
+              "harness_id",
+              "software_version",
+              "package_snapshot_id",
+              "scope",
+              "sections"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "current": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "harness_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "topic": {
+                "type": "string",
+                "enum": [
+                  "skills",
+                  "mcp",
+                  "custom_agents",
+                  "custom_providers",
+                  "hooks",
+                  "native_plugins",
+                  "configuration"
+                ]
+              },
+              "edition_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              }
+            },
+            "required": [
+              "harness_id",
+              "topic",
+              "edition_id"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "harnesses",
+        "sources",
+        "artifacts",
+        "snapshots",
+        "source_references",
+        "chapters",
+        "mappings",
+        "current"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "release_id",
+    "profile",
+    "knowledge_published_at",
+    "records"
+  ],
+  "additionalProperties": false
+}

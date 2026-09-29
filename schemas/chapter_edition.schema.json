@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "number",
+      "const": 2
+    },
+    "record_kind": {
+      "type": "string",
+      "enum": [
+        "fixture",
+        "production"
+      ]
+    },
+    "edition_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "harness_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "topic": {
+      "type": "string",
+      "enum": [
+        "skills",
+        "mcp",
+        "custom_agents",
+        "custom_providers",
+        "hooks",
+        "native_plugins",
+        "configuration"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "sections": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "section_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_-]*$"
+            }
+          }
+        },
+        "required": [
+          "section_id",
+          "source_refs"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "questions": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+          },
+          "section_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "answered",
+              "partial",
+              "unknown",
+              "not_applicable",
+              "conflict"
+            ]
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_-]*$"
+            }
+          }
+        },
+        "required": [
+          "question_id",
+          "section_id",
+          "status",
+          "source_refs"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100000
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_kind",
+    "edition_id",
+    "harness_id",
+    "topic",
+    "title",
+    "sections",
+    "questions",
+    "body"
+  ],
+  "additionalProperties": false
+}

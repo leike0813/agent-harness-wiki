@@ -14,30 +14,30 @@ The system SHALL identify an official Git repository or official documentation U
 - **THEN** its snapshot remains unversioned and does not discover or verify a CLI release
 
 ### Requirement: Persistent original boundary
-Each captured original SHALL have a stable artifact ID, source reference, kind, safe location, and content identity. Archived document and npm package bytes SHALL remain outside Git and query releases. Pinned official source checkouts SHALL use Git submodules; candidate revisions MAY use isolated archive checkouts without moving those submodules. The system SHALL support an explicit offline audit of local archive bytes and checkout identity without fetching or executing sources. Validation SHALL bind archived package files and isolated Git files to their Source, exact version or commit, safe harness-local location, and selected file hash.
+Each captured original SHALL have a stable artifact ID, official source identity, kind, safe location and content identity. Archived document and npm package bytes SHALL remain outside Git and query releases. Pinned official source checkouts SHALL use Git submodules; candidate revisions MAY use isolated archive checkouts without moving those submodules. An explicit offline audit SHALL verify available original bytes and checkout identity without fetching or executing sources. Ordinary chapter validation and query SHALL use tracked metadata and published source references without requiring ignored originals.
 
 #### Scenario: Archived document differs from metadata
 - **WHEN** a local archived document's bytes differ from its recorded hash
-- **THEN** the source audit fails and identifies the artifact
+- **THEN** the explicit source audit fails and identifies the artifact
 
 #### Scenario: Original absent on a query machine
-- **WHEN** a verified release is opened without the local source archive
-- **THEN** published metadata and reviewed facts remain queryable without reading or recreating that archive
+- **WHEN** a verified new-format release is opened without the local source archive
+- **THEN** its chapter and source-reference metadata remain queryable without reading or recreating that archive
 
 #### Scenario: Package file candidate
-- **WHEN** a draft Evidence cites a new npm release
-- **THEN** its Snapshot may reference an archived package file whose integrity, version, and file hash are checked against the retained original.
+- **WHEN** a chapter source reference cites text from an exact npm package file
+- **THEN** its fixed snapshot identifies that package and the explicit local audit can check the retained original when available
 
 #### Scenario: Git candidate
-- **WHEN** a draft Evidence cites a new source commit
-- **THEN** its Snapshot may reference a file in an isolated checkout at that exact commit without changing the pinned submodule.
+- **WHEN** a chapter source reference cites a new source commit
+- **THEN** its snapshot can identify a file in an isolated checkout at that commit without changing the pinned submodule
 
 ### Requirement: Exact npm release provenance
-An official npm package snapshot SHALL bind package name, exact version, registry integrity, distribution Target, capture time, and one managed package artifact. Package provenance SHALL remain separate from Git source commits and unversioned documentation.
+An official npm package snapshot SHALL bind package name, exact version, registry integrity, distribution identity, capture time, and one managed package artifact. Package provenance SHALL remain separate from Git source commits and unversioned documentation. A chapter or section SHALL be mapped to that package release only when the cited mapping evidence establishes the association.
 
 #### Scenario: Repository tag and package version
 - **WHEN** a Git tag and an npm package report the same-looking version but no verified build mapping exists
-- **THEN** the Git snapshot does not establish package behavior; an exact package Claim needs evidence tied to the package snapshot
+- **THEN** the Git snapshot does not establish that package's behavior or create a software-version mapping
 
 ### Requirement: Bounded local executable retention
 The managed package set SHALL keep the most recently selected stable version of each first-wave CLI in a project-owned pnpm store. Replacing that set SHALL retire older executable package bytes only after the new set is installed and audited. Historical release metadata and reviewed excerpts SHALL remain queryable; a local audit SHALL report evicted originals as unavailable.
@@ -45,3 +45,10 @@ The managed package set SHALL keep the most recently selected stable version of 
 #### Scenario: Historical release after update
 - **WHEN** an earlier release is queried after its package bytes are retired
 - **THEN** the release remains readable and its source metadata identifies the old version, while an explicit original audit reports that package as unavailable
+
+### Requirement: Published source references
+A publishable source reference SHALL resolve to one fixed official snapshot and a specific file, symbol or document location. It SHALL include an official link and a bounded displayable excerpt. Source-reference identities and excerpts SHALL be available within the release without opening original archive bytes.
+
+#### Scenario: Read without original
+- **WHEN** a query machine has the release but lacks its source archive
+- **THEN** it can still return the citation's snapshot identity, locator, link and excerpt

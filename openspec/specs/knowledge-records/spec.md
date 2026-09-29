@@ -6,31 +6,6 @@ Defines the structured records that make a harness configuration fact traceable 
 
 ## Requirements
 
-### Requirement: Explicit identity and scope
-The system SHALL identify each harness, source, snapshot, claim, evidence, assessment, and coverage record by a unique ID. Every claim and coverage record SHALL identify a harness, product surface, distribution, operating system, architecture, execution mode, and exact version identity. A version verified on one Target MUST NOT imply validity on another.
-
-#### Scenario: Two versions of one harness
-- **WHEN** records describe two exact versions of the same fictional harness
-- **THEN** the records retain distinct version identities and neither record silently applies to the other version
-
-### Requirement: Typed assertions and conditions
-The system SHALL represent configuration and extension assertions as a discriminated union rather than an unrestricted value. It SHALL support distinct assertion records for Skills, MCP, custom agents, custom providers, Hooks, native plugins, and configuration precedence. It SHALL represent conditions as a finite, declarative set of predicates and paths as semantic bases with safe segments.
-
-#### Scenario: Conditional skill location
-- **WHEN** a fictional skill path applies only in a trusted workspace and a specified environment-variable state
-- **THEN** the claim retains those conditions and its semantic path without resolving the server's home or environment
-
-### Requirement: Separate evidence, review, and coverage states
-The system SHALL keep availability, delivery method, evidence basis, assessment status, and investigation coverage as independent dimensions. A substantive accepted claim SHALL reference evidence and an accepting assessment. An unknown coverage record SHALL NOT be treated as an unsupported claim.
-
-#### Scenario: Uninvestigated plugin behavior
-- **WHEN** a Target has plugin coverage marked not_started and no accepted plugin claim
-- **THEN** the dataset represents unknown coverage without manufacturing an unsupported assertion
-
-#### Scenario: External extension
-- **WHEN** a supported capability is delivered by an external extension
-- **THEN** its delivery remains external_extension and is not relabeled native
-
 ### Requirement: Fixture identity
 Every fictional input record SHALL be marked as a fixture. Fixture data SHALL remain under the fixture dataset root and SHALL NOT be accepted by the production validation profile.
 
@@ -45,9 +20,9 @@ The system SHALL give artifacts globally unique IDs and keep each artifact tied 
 - **WHEN** a snapshot identifies a repository commit but has no verified association with a distributed CLI package
 - **THEN** it cannot be presented as evidence of that package's behavior
 
-### Requirement: Package snapshot and investigation links
-The record model SHALL represent an exact official package snapshot and managed package artifact without implying that installation proves runtime behavior. A Coverage record SHALL be able to reference the fixed snapshots used in its investigation.
+### Requirement: Chapter and source identities
+Harnesses, snapshots, chapter editions, section IDs, question IDs, source references and version mappings SHALL have unambiguous identities. A chapter's product and topic identity SHALL agree with every referenced source's product, while a snapshot's source identity SHALL remain distinct from software-version applicability.
 
-#### Scenario: Package-specific Skills evidence
-- **WHEN** a Skills candidate cites text shipped in one exact npm package
-- **THEN** its Evidence resolves to that package snapshot and its Claim retains the matching exact Target
+#### Scenario: Wrong product source
+- **WHEN** a Pi question cites an OMP-only source reference
+- **THEN** the dataset rejects the cross-product link rather than publishing a Pi conclusion

@@ -1,17 +1,15 @@
 # 架构
 
 ```text
-Git 中的结构化知识（fixture 与 production 分离）
-  → Domain schema + 跨记录校验
-  → 离线编译与统一发布投影
-  → knowledge.json / knowledge.sqlite / docs/ / manifest.json
-  → 完整性校验与不可变 releases/<id>/
-  ├→ 固定 release 的只读 QueryService → CLI / MCP stdio
-  └→ 生成的 Markdown → VitePress 文档站
+Git：Harness / Source / Artifact / Snapshot + 章节 Markdown / 来源引用 / 版本映射 / 当前选择
+  → 领域 schema 与跨记录校验
+  → 单一规范化章节投影
+  → knowledge.json + knowledge.sqlite + docs/ + manifest.json
+  → staging 完整性验证 → 不可变 release → 当前指针
 ```
 
-Git 中的结构化知识是事实真源。SQLite、JSON、Markdown 和 HTML 都是可重建产物。编译器先在 staging 写入并验证 hash、JSON、数据库和页面一致性，再发布；失败不会覆盖已有 release。M0 fixture 与正式知识隔离。当前正式记录含五个精确 npm Target、来源和覆盖，以及三条经人工接受的 Pi/OMP 精确版本事实；其余问题仍以覆盖状态和证据缺口表达。忽略的原件由单独离线审计检查，不进入查询发布。
+新章节模型在 `src/domain/chapter.ts`，输入校验在 `src/validation/chapters.ts`，离线编译和校验在 `src/compiler/chapter-release.ts`。来源与原件身份沿用现有 Harness、Source、Artifact、Snapshot。固定问题以 `docs/topic-questions.md` 为准；每章记录自己的问题状态、小节和引用。软件版本映射独立于固定来源章节，精确包版本必须有同包快照与逐小节证据。当前章节选择独立于章节文件，所以历史章节不可变，映射变化也无需重写章节。
 
-依赖方向为 `domain ← validation/compiler ← query ← CLI/MCP`。`src/query/schema.ts` 承载共享查询契约，QueryService 负责版本、Target、条件、覆盖、冲突和分页语义。CLI 与 MCP 只解析输入、调用服务和呈现结果。MCP 进程启动时校验并固定一个 release；工具调用无法切换发布，也不访问网络、执行 harness 或写事实源。VitePress 从已验证发布的 Markdown 渲染事实页，站点另附一页通用状态说明；不从页面反向提取事实。
+JSON、SQLite 和生成页面从同一规范化数据集生成。发布验证检查产物清单及 SHA-256、数据库完整性和外键、JSON/SQLite 行、Markdown 内容；SQLite 采用无必需 WAL 边文件的封闭文件。归档文档与 npm 原件留在 Git 忽略目录，查询发布只保留元数据和可展示短摘录。查询不联网、不执行来源或 harness，也不调用 LLM。
 
-查询不调用 LLM：已复核并发布的知识应在离线状态下可重复查询，模型生成的临时回答不能替代版本与证据判断。M1 的本地 embedding 只计划用于搜索召回，不用于改变事实状态。
+此 change 先用独立的虚构 fixture 数据集验证新格式发布。现有 `src/query`、CLI、MCP 和 VitePress 仍读取 M0 Claim 格式；`m1-reader-guides` 负责将公共阅读接口迁往章节格式并完成真实章节。新 fixture 在隔离根目录构建，不切换生产 `releases/current.json`。旧发布格式不作为新读取契约。

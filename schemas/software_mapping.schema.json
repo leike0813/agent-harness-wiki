@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "number",
+      "const": 2
+    },
+    "record_kind": {
+      "type": "string",
+      "enum": [
+        "fixture",
+        "production"
+      ]
+    },
+    "mapping_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "edition_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "harness_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "software_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "package_snapshot_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "scope": {
+      "type": "string",
+      "enum": [
+        "section",
+        "chapter"
+      ]
+    },
+    "sections": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "section_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "evidence_ref": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          }
+        },
+        "required": [
+          "section_id",
+          "evidence_ref"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_kind",
+    "mapping_id",
+    "edition_id",
+    "harness_id",
+    "software_version",
+    "package_snapshot_id",
+    "scope",
+    "sections"
+  ],
+  "additionalProperties": false
+}

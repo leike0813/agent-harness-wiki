@@ -13,17 +13,6 @@ The system SHALL compile an explicitly selected dataset profile, release ID, and
 - **WHEN** the same fictional dataset is compiled twice with equal release parameters into separate roots
 - **THEN** the normalized JSON, generated Markdown, manifest, and SQLite logical rows match
 
-### Requirement: Reviewed facts and visible uncertainty
-The release SHALL include accepted and disputed claims with their applicable Target, conditions, evidence, and assessment status. Draft and rejected claims SHALL NOT be exposed as published query facts. Coverage records, including incomplete coverage without claims, SHALL remain available. Generated fixture pages SHALL identify their fictional status and display disputes without asserting unconditional support.
-
-#### Scenario: Uninvestigated version
-- **WHEN** a fixture Target has `not_started` coverage and no accepted claim
-- **THEN** the release retains that coverage and does not create an unsupported fact
-
-#### Scenario: Unreviewed claim
-- **WHEN** a valid dataset contains a draft or rejected claim
-- **THEN** its assertion is absent from published query rows and generated fact pages
-
 ### Requirement: Integrity and immutable publication
 The manifest SHALL bind schema and builder versions, profile, release ID, publication time, normalized input digest, and hashes of every publishable artifact except itself. The system SHALL verify file hashes and database integrity before making a release current. A failed build or verification SHALL leave the prior current release unchanged; an existing release ID SHALL not be overwritten.
 
@@ -36,11 +25,11 @@ The manifest SHALL bind schema and builder versions, profile, release ID, public
 - **THEN** compilation fails without changing the existing directory or current pointer
 
 ### Requirement: Consistent release views
-JSON, SQLite, and generated Markdown SHALL derive from one normalized published data set. SQLite SHALL expose exact Target and topic fields, retain record relationships, enforce foreign keys, and provide an FTS5 candidate index for the later query service. The database SHALL be usable as one closed file without a required WAL sidecar. Source excerpts SHALL be rendered as inert text.
+JSON, SQLite, and generated Markdown SHALL derive from one normalized published chapter set. SQLite SHALL expose chapter editions, current and historical chapter selection, question and section indexes, source references, and software-version mappings. The database SHALL enforce foreign keys and be usable as one closed file without a required WAL sidecar. Source excerpts SHALL be rendered as inert text.
 
 #### Scenario: Cross-artifact consistency
-- **WHEN** a fixture release is verified
-- **THEN** its claim, evidence, assessment, and coverage identities agree between JSON, SQLite, and the generated pages
+- **WHEN** a new-format fixture release is verified
+- **THEN** its current and historical edition IDs, question states, source references and version mappings agree across JSON, SQLite and generated pages
 
 ### Requirement: Published discovery metadata
 The release SHALL preserve validated source and snapshot metadata for discovered versions even when no reviewed claim references them. Discovery metadata SHALL not by itself create a supported claim or imply runtime verification.
@@ -49,13 +38,16 @@ The release SHALL preserve validated source and snapshot metadata for discovered
 - **WHEN** a newer version has a validated source snapshot and only not_started coverage
 - **THEN** the release retains its version and observation time while publishing no supported fact for it
 
-### Requirement: Source metadata release without originals
-New releases SHALL include validated artifact metadata alongside source and snapshot metadata in canonical JSON and SQLite while excluding archived originals and submodule contents. A source-only release SHALL publish no capability facts without reviewed claims. Earlier M0 releases SHALL remain verifiable and queryable after this additive format change.
+### Requirement: Source metadata in chapter releases
+New releases SHALL include validated official source, snapshot, artifact and displayable source-reference metadata in canonical JSON and SQLite while excluding archived originals and submodule contents. Fixed-source chapters MAY publish without any mapped software version. The new reader and verifier SHALL operate on the new schema without a compatibility requirement for old Claim-based releases.
 
-#### Scenario: Source-only Codex release
-- **WHEN** a dataset has fixed Codex sources, snapshots, and artifacts but no reviewed claims
-- **THEN** its release retains provenance metadata and returns no supported capability fact
+#### Scenario: Source-only chapter
+- **WHEN** a chapter cites a fixed official document without a software-version mapping
+- **THEN** its release preserves source scope and prose without asserting a verified package version
 
-#### Scenario: Earlier release
-- **WHEN** a valid M0 release lacks artifact records and uses the prior builder version
-- **THEN** release verification and query opening continue to succeed
+### Requirement: Current and historical chapter index
+A new-format release SHALL explicitly select one current edition for every published harness-topic and retain referenced historical editions for version lookup. Changing only software-version mapping SHALL create a new release that can reuse the same immutable chapter edition. A failed validation or verification SHALL keep the previous current pointer unchanged.
+
+#### Scenario: Mapping-only update
+- **WHEN** a fixed source provides a new defensible mapping to an unchanged chapter edition
+- **THEN** a new release carries that mapping and references the same edition without rewriting its Markdown
