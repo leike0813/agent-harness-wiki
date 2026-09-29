@@ -48,6 +48,7 @@ export function publishedRecords(dataset: Dataset): Dataset {
     evidence: by(evidence, (item) => item.evidence_id),
     assessments: by(includedAssessments, (item) => item.assessment_id),
     coverage: by([...dataset.coverage], (item) => item.coverage_id),
+    guides: by([...dataset.guides], (item) => item.guide_id),
   };
 }
 

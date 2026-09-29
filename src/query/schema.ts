@@ -1,6 +1,7 @@
 import * as z from "zod";
 import {
   evidenceSchema,
+  resolvedGuideSchema,
   harnessSchema,
   queryRequestSchema,
   queryResultSchema,
@@ -29,6 +30,7 @@ export const searchSchema = z
     topic: topicSchema.optional(),
     os: z.enum(["linux", "windows", "macos"]).optional(),
     version: versionIdentitySchema.optional(),
+    guide_cursor: z.string().max(1024).optional(),
     ...page,
   })
   .refine(
@@ -63,6 +65,10 @@ export const searchResultSchema = z.strictObject({
     factSchema.extend({ match: z.enum(["alias", "filter", "exact", "text"]) }),
   ),
   next_cursor: z.string().optional(),
+  guides: z.array(
+    resolvedGuideSchema.omit({ body: true }).extend({ preview: z.string() }),
+  ),
+  next_guide_cursor: z.string().optional(),
 });
 export const evidenceResultSchema = z.strictObject({
   release_id: releaseId,

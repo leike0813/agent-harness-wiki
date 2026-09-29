@@ -10,12 +10,14 @@ import {
   claimSchema,
   coverageSchema,
   evidenceSchema,
+  guideSchema,
   harnessSchema,
   snapshotSchema,
   topicSchema,
   type Claim,
   type CoverageRecord,
   type HarnessDefinition,
+  type Guide,
   type SnapshotManifest,
   type Target,
 } from "../domain/schema.js";
@@ -34,6 +36,11 @@ type Fact = {
   claim: Claim;
   target: Target;
   review_status: "accepted" | "disputed";
+};
+type ResolvedGuide = Guide & {
+  target: Target;
+  topic: z.infer<typeof topicSchema>;
+  coverage_status: CoverageRecord["status"];
 };
 type Status =
   | "ok"
@@ -199,6 +206,7 @@ export class QueryService {
     private readonly claims: Fact[],
     private readonly coverage: CoverageRecord[],
     private readonly evidence: z.infer<typeof evidenceSchema>[],
+    private readonly guides: ResolvedGuide[],
   ) {}
 
   static async open(options: {
@@ -246,14 +254,37 @@ export class QueryService {
         },
         review_status: disputed.has(claim.claim_id) ? "disputed" : "accepted",
       }));
+      const coverage = rows(db, "coverage", coverageSchema);
+      const coverageById = new Map(
+        coverage.map((item) => [item.coverage_id, item]),
+      );
+      const hasGuides = db
+        .prepare(
+          "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'guides'",
+        )
+        .get();
+      const guides: ResolvedGuide[] = hasGuides
+        ? rows(db, "guides", guideSchema).map((guide) => {
+            const linked = coverageById.get(guide.coverage_ref);
+            if (!linked)
+              throw new Error(`Guide coverage missing: ${guide.guide_id}`);
+            return {
+              ...guide,
+              target: linked.target,
+              topic: linked.topic,
+              coverage_status: linked.status,
+            };
+          })
+        : [];
       return new QueryService(
         releaseId,
         db,
         harnesses,
         snapshots,
         claims,
-        rows(db, "coverage", coverageSchema),
+        coverage,
         rows(db, "evidence", evidenceSchema),
+        guides,
       );
     } catch (error) {
       db.close();
@@ -306,6 +337,7 @@ export class QueryService {
     source_observed_at?: string;
     coverage: CoverageRecord[];
     facts: Fact[];
+    guides: ResolvedGuide[];
   } {
     const request = queryRequestSchema.parse(input);
     const conditionKeys = request.conditions.map(conditionKey);
@@ -319,6 +351,7 @@ export class QueryService {
         requested_version: request.version,
         coverage: [],
         facts: [],
+        guides: [],
       };
     const { surface, distribution, os, arch, execution_mode } = request.scope;
     const scope = {
@@ -358,6 +391,7 @@ export class QueryService {
       requested_version: request.version,
       coverage: [],
       facts: [],
+      guides: [],
     });
     if (version === "ambiguous") return empty("ambiguous");
     if (!version) return empty("not_verified");
@@ -384,6 +418,13 @@ export class QueryService {
       if (condition === "missing") missing = true;
       return condition !== "mismatch";
     });
+    const guides = request.fact_key
+      ? []
+      : this.guides.filter(
+          (item) =>
+            sameTarget(item.target) &&
+            (!request.topic || item.topic === request.topic),
+        );
     const sourceTimes = this.snapshots
       .filter((item) => "target" in item && sameTarget(item.target))
       .map((item) => item.source_fetched_at)
@@ -413,6 +454,7 @@ export class QueryService {
         : {}),
       coverage,
       facts,
+      guides,
     };
   }
 
@@ -471,13 +513,15 @@ export class QueryService {
     release_id: string;
     items: (Fact & { match: "alias" | "filter" | "exact" | "text" })[];
     next_cursor?: string;
+    guides: (Omit<ResolvedGuide, "body"> & { preview: string })[];
+    next_guide_cursor?: string;
   } {
     const request = searchSchema.parse(input);
     const aliasTopic = request.text ? chineseTopics[request.text] : undefined;
     const topic = request.topic ?? aliasTopic;
     const harness = request.harness ? this.harness(request.harness) : undefined;
     if (request.harness && !harness)
-      return { release_id: this.releaseId, items: [] };
+      return { release_id: this.releaseId, items: [], guides: [] };
     const text = request.text?.toLocaleLowerCase();
     const tokens = request.text?.match(/[\p{L}\p{N}_]+/gu) ?? [];
     const ftsIds = new Set<string>();
@@ -533,6 +577,38 @@ export class QueryService {
         rank[a.match] - rank[b.match] ||
         a.claim.claim_id.localeCompare(b.claim.claim_id),
     );
+    const guideMatches = this.guides
+      .filter(
+        (guide) =>
+          (!harness || guide.target.harness_id === harness.harness_id) &&
+          (!topic || guide.topic === topic) &&
+          (!request.os || guide.target.os === request.os) &&
+          (!request.version ||
+            canonical(guide.target.version_identity) ===
+              canonical(request.version)) &&
+          (!text ||
+            aliasTopic ||
+            (harness &&
+              [harness.harness_id, harness.name, ...harness.aliases].some(
+                (alias) => alias.toLocaleLowerCase() === text,
+              )) ||
+            `${guide.title} ${guide.body}`.toLocaleLowerCase().includes(text)),
+      )
+      .map(({ body, ...guide }) => ({ ...guide, preview: body.slice(0, 240) }));
+    const guidePage = page(
+      guideMatches,
+      request.limit,
+      request.guide_cursor,
+      this.releaseId,
+      {
+        text: request.text ?? "",
+        harness: harness?.harness_id,
+        topic,
+        os: request.os,
+        version: request.version,
+        kind: "guide",
+      },
+    );
     return {
       release_id: this.releaseId,
       ...page(candidates, request.limit, request.cursor, this.releaseId, {
@@ -542,6 +618,10 @@ export class QueryService {
         os: request.os,
         version: request.version,
       }),
+      guides: guidePage.items,
+      ...(guidePage.next_cursor
+        ? { next_guide_cursor: guidePage.next_cursor }
+        : {}),
     };
   }
 }

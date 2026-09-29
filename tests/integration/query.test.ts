@@ -67,6 +67,51 @@ test("release is fixed and fixture selection must be explicit", async () => {
   expect(service.listHarnesses().items).toHaveLength(2);
 });
 
+test("guide retrieval and search stay on the exact Target", () => {
+  const current = service.getCapability({
+    scope: openScope,
+    topic: "custom_agents",
+    version: exact("1.4.2"),
+  });
+  expect(current.guides).toHaveLength(1);
+  expect(current.guides[0]?.body).toContain("虚构来源");
+  const otherVersion = service.getCapability({
+    scope: openScope,
+    topic: "custom_agents",
+    version: exact("9.0.0"),
+  });
+  expect(otherVersion.guides).toHaveLength(0);
+  const found = service.searchKnowledge({
+    harness: "demo-open-cli",
+    text: "虚构来源",
+  });
+  expect(found.guides[0]?.topic).toBe("custom_agents");
+  expect(found.guides[0]?.target.version_identity.value).toBe("1.4.2");
+  expect(
+    service.searchKnowledge({
+      harness: "demo-open-cli",
+      version: { kind: "release", value: "9.0.0" },
+    }).guides,
+  ).toHaveLength(0);
+  const first = service.searchKnowledge({ harness: "demo-open-cli", limit: 1 });
+  expect(first.guides).toHaveLength(1);
+  expect(first.next_guide_cursor).toBeDefined();
+  const second = service.searchKnowledge({
+    harness: "demo-open-cli",
+    limit: 1,
+    guide_cursor: first.next_guide_cursor,
+  });
+  expect(second.guides[0]?.guide_id).not.toBe(first.guides[0]?.guide_id);
+  expect(() =>
+    service.searchKnowledge({
+      harness: "demo-open-cli",
+      topic: "mcp",
+      limit: 1,
+      guide_cursor: first.next_guide_cursor,
+    }),
+  ).toThrow(/Cursor/);
+});
+
 test("exact, upstream and verified versions remain separate", () => {
   const request = { scope: packageScope, topic: "native_plugins" };
   const newer = service.getCapability({ ...request, version: exact("2.0.0") });

@@ -37,6 +37,37 @@ afterEach(async () => {
 const openClaim = "knowledge/demo-open-cli/claims/claim-demo-open-skills.yaml";
 const openEvidence =
   "knowledge/demo-open-cli/evidence/evidence-demo-open-skills.yaml";
+const agentGuide = "knowledge/demo-open-cli/guides/custom_agents.md";
+
+test("guides accept honest coverage-only prose and reject unreviewed facts", async () => {
+  const root = await copyDataset();
+  await edit(root, agentGuide, (text) =>
+    text.replace("claim_refs: [claim-demo-open-agents]", "claim_refs: []"),
+  );
+  expect((await loadAndValidateDataset({ root, profile: "fixture" })).ok).toBe(
+    true,
+  );
+  await edit(root, agentGuide, (text) =>
+    text.replace("claim_refs: []", "claim_refs: [missing-claim]"),
+  );
+  const invalid = await loadAndValidateDataset({ root, profile: "fixture" });
+  expect(invalid.ok).toBe(false);
+  expect(
+    invalid.diagnostics.some(
+      (item) =>
+        item.code === "GUIDE_CLAIM_UNREVIEWED" && item.file === agentGuide,
+    ),
+  ).toBe(true);
+  await edit(root, agentGuide, (text) =>
+    text
+      .replace("claim_refs: [missing-claim]", "claim_refs: []")
+      .concat("\n<script>alert(1)</script>\n"),
+  );
+  const unsafe = await loadAndValidateDataset({ root, profile: "fixture" });
+  expect(
+    unsafe.diagnostics.some((item) => item.code === "GUIDE_UNSAFE_MARKUP"),
+  ).toBe(true);
+});
 
 test("basic fixture keeps exact scope, coverage and delivery distinctions", async () => {
   const result = await loadAndValidateDataset({

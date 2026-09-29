@@ -320,7 +320,7 @@ test("first-wave release publishes reviewed facts and scoped provenance", async 
     publishedAt: "2026-09-27T09:44:48Z",
     releasesRoot,
   });
-  expect((await verifyRelease(releaseDir)).builder_version).toBe("2");
+  expect((await verifyRelease(releaseDir)).builder_version).toBe("3");
   const knowledge = JSON.parse(
     await readFile(path.join(releaseDir, "knowledge.json"), "utf8"),
   );

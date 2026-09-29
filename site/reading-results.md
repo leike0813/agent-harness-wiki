@@ -1,13 +1,13 @@
-# Reading results
+# 如何理解调查结果
 
-A fact applies only to its stated Target, version and conditions. Evidence links identify supporting published records.
+先核对页面顶部的分发包、精确版本和运行环境。一个版本的结论不能自动用于另一个版本；页面中的已复核事实还有各自的条件和证据。调查章节会解释尚未解决的问题，不能代替已接受的事实。
 
-- `ok`: reviewed facts match the requested Target and conditions.
-- `partial`: investigation coverage is incomplete; listed facts remain conditional.
-- `unknown`: a completed investigation did not establish the requested fact. It does not mean unsupported.
-- `not_verified`: the requested version or Target has no verified conclusion. Exact versions do not fall back.
-- `ambiguous`: required conditions are missing or the latest version cannot be selected uniquely.
-- `conflict`: disputed evidence or assessments remain visible for review.
-- `not_found`: the requested harness or evidence is absent from this release.
+- `ok`：有已复核事实与所请求的 Target、条件匹配。
+- `partial`：该主题的调查仍有缺口；若页面列出事实，仍须看事实的限定范围。
+- `unknown`：调查完成，但没有形成所问事实；不表示功能不支持。
+- `not_verified`：所请求版本或 Target 尚无已验证结论；精确版本不会回退。
+- `ambiguous`：缺必要条件，或无法唯一选择版本。
+- `conflict`：证据或复核结果仍有争议。
+- `not_found`：本发布没有相应产品或证据。
 
-Source observation time (`source_fetched_at`), fact verification time (`fact_verified_at`) and knowledge publication time describe separate events. A newer upstream version does not inherit facts from an older version.
+来源采集时间 `source_fetched_at`、事实复核时间 `fact_verified_at` 和知识发布时间是三件事。上游出现新版本，也不会让旧版本事实自动延续。

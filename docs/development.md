@@ -18,4 +18,10 @@
 
 手动发布用 `pnpm fixtures:build`，固定 ID 为 `fixture-query`，不可覆盖。查询时显式传 `--release-id fixture-query`；MCP 用 `pnpm ahw mcp --release-id fixture-query`。`query capability` 需完整 Target scope；`--conditions` 接受 JSON 数组，`query compare --requests` 接受 2–5 个请求。CLI 列表和搜索每页最多 100 条；MCP 同类工具最多 20 条，证据摘录最多 2000 个 Unicode 字符，单响应最多 128 KiB。
 
-`pnpm docs:build` 自建临时 fixture release；`pnpm docs:build --release-id five-harness-reviewed-20260928` 使用正式 release。构建产物位于 `site/.vitepress/dist/`。归档后的规格可用 `openspec validate --specs` 检查。默认测试不访问网络、不读取真实用户 harness 配置；Windows 尚未运行验证。
+`pnpm docs:build` 自建临时 fixture release；`pnpm docs:build --release-id <id>` 使用选定的正式 release。构建产物位于 `site/.vitepress/dist/`。归档后的规格可用 `openspec validate --specs` 检查。默认测试不访问网络、不读取真实用户 harness 配置；Windows 尚未运行验证。
+
+## 读者指南
+
+每个精确 Target/主题一份，位于 `knowledge/<harness-id>/guides/<topic>.md`。YAML frontmatter 写 `schema_version`、`record_kind`、唯一 `guide_id`、同产品同主题的 `coverage_ref`、已接受且同 Target 的 `claim_refs` 和 `title`；正文是中文 Markdown。说明已查结果、证据缺口和下一步，具体配置事实由发布页根据 Claim 展示。没有已接受事实时 `claim_refs: []` 有效，不能把调查线索写成已支持。先运行 production 校验；构建新 release 后，用 `pnpm docs:build --release-id <id>` 检查页面，再用同一 release 查询 MCP 的 `get_capability` 和 `search_knowledge`。旧发布不会因修改指南而变化。
+
+内容验收须逐篇阅读生成页，而非只数文件或看测试通过。每篇应说明**具体**资料或源码位置、它实际讲了什么、这个结论适用哪个身份，以及哪一个证据缺口阻止给出配置配方。只有“尚待验证”而没有来源内容、机制解释或可执行核验步骤的段落，不能算完成。涉及配置位置、字段、优先级和支持状态时，区分“某份未标版本网页如此描述”与“对精确 Target 已接受”；后一种事实需 Claim、Evidence 和 Assessment。没有足够已接受事实的章节应如实标成调查解读，继续补证后再宣称完整使用指南。

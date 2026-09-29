@@ -16,6 +16,7 @@ export function writeSqlite(file: string, knowledge: PublishedKnowledge): void {
       CREATE TABLE evidence (id TEXT PRIMARY KEY, claim_id TEXT NOT NULL REFERENCES claims(id), snapshot_id TEXT NOT NULL REFERENCES snapshots(id), payload_json TEXT NOT NULL);
       CREATE TABLE assessments (id TEXT PRIMARY KEY, claim_id TEXT NOT NULL REFERENCES claims(id), status TEXT NOT NULL, payload_json TEXT NOT NULL);
       CREATE TABLE coverage (id TEXT PRIMARY KEY, harness_id TEXT NOT NULL REFERENCES harnesses(id), target_key TEXT NOT NULL, topic TEXT NOT NULL, status TEXT NOT NULL, payload_json TEXT NOT NULL);
+      CREATE TABLE guides (id TEXT PRIMARY KEY, coverage_id TEXT NOT NULL REFERENCES coverage(id), payload_json TEXT NOT NULL);
       CREATE VIRTUAL TABLE claims_fts USING fts5(claim_id UNINDEXED, body);
       CREATE INDEX claims_scope ON claims(harness_id, target_key, topic, fact_key);
       CREATE INDEX coverage_scope ON coverage(harness_id, target_key, topic);
@@ -29,6 +30,7 @@ export function writeSqlite(file: string, knowledge: PublishedKnowledge): void {
       evidence: db.prepare("INSERT INTO evidence VALUES (?, ?, ?, ?)"),
       assessment: db.prepare("INSERT INTO assessments VALUES (?, ?, ?, ?)"),
       coverage: db.prepare("INSERT INTO coverage VALUES (?, ?, ?, ?, ?, ?)"),
+      guide: db.prepare("INSERT INTO guides VALUES (?, ?, ?)"),
       fts: db.prepare("INSERT INTO claims_fts(claim_id, body) VALUES (?, ?)"),
     };
     const records = knowledge.records;
@@ -114,6 +116,8 @@ export function writeSqlite(file: string, knowledge: PublishedKnowledge): void {
           item.status,
           canonical(item),
         );
+      for (const item of records.guides ?? [])
+        insert.guide.run(item.guide_id, item.coverage_ref, canonical(item));
     })();
   } finally {
     db.close();

@@ -108,6 +108,15 @@ test("five calls preserve business states, evidence and cursor binding", async (
   expect(capability.isError).not.toBe(true);
   expect(capability.structuredContent?.detail_level).toBe("summary");
   expect(capability.structuredContent?.facts).toHaveLength(1);
+  const guided = await call("get_capability", {
+    scope,
+    topic: "custom_agents",
+    version: version("1.4.2"),
+    detail_level: "summary",
+  });
+  expect(
+    (guided.structuredContent?.guides as { body: string }[])[0]?.body,
+  ).toContain("虚构来源");
   const unverified = await call("get_capability", {
     scope,
     topic: "skills",
@@ -130,6 +139,11 @@ test("five calls preserve business states, evidence and cursor binding", async (
   expect(
     (searched.structuredContent?.items as unknown[]).length,
   ).toBeGreaterThan(0);
+  const guideSearch = await call("search_knowledge", {
+    text: "虚构来源",
+    harness: "demo-open-cli",
+  });
+  expect((guideSearch.structuredContent?.guides as unknown[]).length).toBe(1);
 
   const evidence = await call("get_evidence", {
     evidence_id: "evidence-demo-open-skills",

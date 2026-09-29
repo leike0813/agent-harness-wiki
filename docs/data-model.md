@@ -15,6 +15,7 @@
 | Evidence | `evidence_id` | Claim 与 Snapshot 引用、定位、摘录、立场和观察方式 |
 | Assessment | `assessment_id` | 复核人、事实验证时间、状态、证据及理由 |
 | CoverageRecord | `coverage_id` | 某完整 Target 与主题的调查覆盖状态，可引用固定来源快照 |
+| Guide | `guide_id` | 人工撰写的主题解释，引用 Coverage 和同一精确 Target 的已接受 Claim |
 
 所有记录都有 `schema_version: 1` 与 `record_kind: fixture | production`，拒绝未知字段。`publishedKnowledgeSchema` 定义发布 JSON，manifest 记录构建器版本、输入摘要、产物 hash 和显式发布时间。`queryRequestSchema` 定义完整 Target scope、版本策略、主题、事实键及有限条件；`queryResultSchema` 定义能力查询的状态、已选 Target、覆盖及事实。
 
@@ -36,14 +37,16 @@ Evidence 的立场为 `supports | refutes | qualifies`，观察基础为 `docume
 
 `audits/<harness-id>/<audit-id>.yaml` 是独立于 `Dataset` 和 `KnowledgeRelease` 的 Git 审计资产。需要人工复核时，同目录的 `<audit-id>.md` 解释变化意义、知识影响和维护建议。`upstreamAuditSchema` 记录每次扫描的来源基线、观察身份、状态、时间、候选路径、变化文件、初步影响及待复核旧审计引用。`review_status: pending` 表示变化或阻塞仍待语义调查与人工复核；纯未变化记录为 `not_required`，但仍引用以前未完成的审计。人工标记 `reviewed` 时须写复核人和时间。审计本身不能证明某版本的能力，也不会进入发布投影。用 `pnpm sources:audit-log` 校验 YAML 结构、引用及报告文件的归属；报告内容仍由维护者语义复核。
 
+`knowledge/<harness-id>/guides/<topic>.md` 的 YAML frontmatter 保存 `coverage_ref`、`claim_refs`、标题和记录身份，正文保存中文解释。Coverage 决定该指南的完整 Target 和主题；校验拒绝跨版本、跨产品、缺失、未接受或争议 Claim 引用，也拒绝活动 HTML。零 Claim 指南仍须说明已查线索和具体缺口。自动校验不能代替维护者对自然语言结论的审阅。
+
 ## 发布投影
 
-编译器只把有 `accepted` 或 `disputed` Assessment 的 Claim 放入查询数据，连同对应 Assessment 所引用的 Evidence。已校验的 Snapshot、Source 和 Artifact 元数据全部保留；原始来源内容不发布。`draft`、`rejected` 的断言不进入发布事实；Coverage 全部保留，以表达尚未调查或部分调查。JSON、SQLite 与生成页面使用同一投影。有争议 Claim 保留争议状态；SQLite 的 `review_status` 不根据其支持状态推断。新版构建器版本为 2，旧版无 Artifact 的版本 1 发布仍可校验和查询。
+编译器只把有 `accepted` 或 `disputed` Assessment 的 Claim 放入查询数据，连同对应 Assessment 所引用的 Evidence。已校验的 Snapshot、Source 和 Artifact 元数据全部保留；原始来源内容不发布。`draft`、`rejected` 的断言不进入发布事实；Coverage 全部保留，以表达尚未调查或部分调查。JSON、SQLite 与生成页面使用同一投影。有争议 Claim 保留争议状态；SQLite 的 `review_status` 不根据其支持状态推断。带指南的构建器版本为 3；旧版无指南的发布仍可校验和查询。
 
 `releases/<release-id>/` 不可变，包含 `knowledge.json`、`knowledge.sqlite`、`docs/` 和 `manifest.json`。`releases/current.json` 只存当前 release ID。发布检验比较产物 hash、JSON 与数据库行、生成页面、SQLite 完整性和外键。发布目录可重建，不是事实真源。
 
 QueryService 只读取一个经检验的发布物。精确版本不回退；`latest_verified` 从当前 scope/主题已接受的 Claim 选择一个版本，`latest_upstream` 从带完整 Target 的 Snapshot 选择一个已发现版本并给出 `source_fetched_at`。未注明版本的官方文档不参与版本发现。只有纯数字点分 release 可比较先后，其他多版本候选返回 ambiguous。条件缺失返回 ambiguous，完整覆盖而缺事实返回 unknown，未调查版本返回 not_verified；这些都不等于 unsupported。
 
-五类查询的共享输入与输出契约位于 `src/query/schema.ts`，CLI 和 MCP 均调用 QueryService。MCP 的 `get_capability` 可返回完整或摘要事实；摘要保留支持状态、Target、条件、复核状态和证据引用。MCP 每个响应标识固定 release，证据摘录有长度和截断标记；分页 cursor 绑定 release 与规范化查询条件。文档站的 Harness、主题、证据与发布页由同一个发布投影生成；通用状态说明独立于事实源，fixture 页明确标记为虚构。
+五类查询的共享输入与输出契约位于 `src/query/schema.ts`，CLI 和 MCP 均调用 QueryService。`get_capability` 只附与已解析精确 Target/主题相符的完整指南；`search_knowledge` 另以有界摘要和独立游标发现指南，不用指南改变业务状态。MCP 的事实摘要保留支持状态、Target、条件、复核状态和证据引用。每个响应标识固定 release，证据摘录有长度和截断标记；分页 cursor 绑定 release 与规范化查询条件。文档站的 Harness、主题、证据与发布页由同一个发布投影生成；通用状态说明独立于事实源，fixture 页明确标记为虚构。
 
 当前只使用精确版本和有限条件；真实 harness 有来源、覆盖及一条已接受能力事实，尚无本地 embedding 或调查 worker。上游检查仅在维护者显式调用时运行。

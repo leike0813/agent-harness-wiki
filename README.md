@@ -1,6 +1,6 @@
 # agent-harness-wiki
 
-> M0 的虚构数据闭环已实现。M1 已固定五个真实 CLI 的 Linux/x64/glibc npm 包，并调查各自七类主题；当前有三条经人工接受的精确版本事实。
+> M0 的虚构数据闭环已实现。M1 已固定五个真实 CLI 的 Linux/x64/glibc npm 包，并调查各自七类主题；当前有三条经人工接受的精确版本事实和 35 篇仍待内容验收的主题调查章节。
 
 本项目把 agent harness 的配置与扩展能力整理为带版本、Target、条件、覆盖和证据的结构化知识，并通过离线 CLI、只读 MCP stdio 和文档站查询。想先理解调查、人工复核与发布的关系，可读[知识如何流转](docs/knowledge-workflow.md)；产品范围见 [PRD](docs/PRD.md)，实施阶段见 [路线图](docs/roadmap.md)。
 
@@ -32,12 +32,12 @@ pnpm sources:audit
 
 ```sh
 pnpm ahw validate --dataset-root . --profile production
-pnpm ahw compile --dataset-root . --profile production --release-id five-harness-reviewed-20260928 --published-at 2026-09-27T16:26:16Z
-pnpm ahw query --release-id five-harness-reviewed-20260928 list --json
-pnpm ahw query --release-id five-harness-reviewed-20260928 capability --harness pi --surface cli --distribution npm:@mariozechner/pi-coding-agent:linux-x64-glibc --os linux --arch x64 --execution-mode native --policy exact --version 0.73.1 --topic mcp --json
+pnpm ahw compile --dataset-root . --profile production --release-id five-harness-guides-20260928-r6 --published-at 2026-09-27T17:50:53Z
+pnpm ahw query --release-id five-harness-guides-20260928-r6 list --json
+pnpm ahw query --release-id five-harness-guides-20260928-r6 capability --harness pi --surface cli --distribution npm:@mariozechner/pi-coding-agent:linux-x64-glibc --os linux --arch x64 --execution-mode native --policy exact --version 0.73.1 --topic mcp --json
 ```
 
-该 release 含五个 Target、35 条首轮覆盖与来源元数据，以及三条经人工复核的窄事实：Pi Skills 用户目录、Pi 核心内置 MCP client 的缺失、OMP 原生用户 agent 的发现目录。证据来自精确版本包内文档或源码，尚无运行观察。35 项调查结论及剩余缺口见[完整复核清单](openspec/changes/archive/2026-09-28-m1-five-harness-knowledge/full-review.md)。官方网页文档快照未注明精确 CLI 包版本，不能据此推断安装包能力。
+该 release 含五个精确 npm Target、35 条首轮覆盖、35 篇主题调查章节，以及三条经人工复核的窄事实：Pi Skills 用户目录、Pi 核心内置 MCP client 的缺失、OMP 原生用户 agent 的发现目录。章节现在列出具体的包内文件、网页线索及尚缺的验证步骤；**内容验收尚未完成**，多数主题仍没有可直接照做的精确版本配置配方。35 项调查结论及剩余缺口见[完整复核清单](openspec/changes/archive/2026-09-28-m1-five-harness-knowledge/full-review.md)。官方网页文档快照未注明精确 CLI 包版本，不能据此推断安装包能力。
 
 继续调查时可在支持项目 Skill 的 agent 中调用 `$harness-investigation codex-cli pi`（换成任意一个或多个 registry harness ID）。Skill 按登记来源扫描 npm、Git 和官方 Markdown，逐 harness 写入 `audits/`；未变化也留记录。新 npm tarball 和 Git commit 在忽略的 `archive/` 中只读调查，不安装或执行。也可指定完整精确 Target 和问题直接调查。新结论留作待审候选或写明证据缺口，人工复核后才由维护者另行发布。直接运行扫描与检查：`pnpm sources:scan codex-cli pi`、`pnpm sources:audit-log`。
 
@@ -56,14 +56,14 @@ pnpm ahw query --release-id fixture-query evidence --evidence-id evidence-demo-p
 MCP 客户端可把以下命令作为 stdio server 启动命令：
 
 ```sh
-pnpm ahw mcp --release-id five-harness-reviewed-20260928
+pnpm ahw mcp --release-id five-harness-guides-20260928-r6
 ```
 
-服务启动时固定已校验的 release，暴露 `list_harnesses`、`get_capability`、`compare_capabilities`、`search_knowledge`、`get_evidence` 五个只读工具。可用 `pnpm mcp:smoke` 检查 SDK 客户端到服务端的实际协议通信。命令的 stdout 仅供 MCP 协议使用。
+服务启动时固定已校验的 release，暴露 `list_harnesses`、`get_capability`、`compare_capabilities`、`search_knowledge`、`get_evidence` 五个只读工具。`get_capability` 返回匹配精确 Target 的完整主题指南和结构化事实；`search_knowledge` 可发现指南摘要。可用 `pnpm mcp:smoke` 检查 SDK 客户端到服务端的实际协议通信。命令的 stdout 仅供 MCP 协议使用。
 
 ```sh
 pnpm docs:build
-pnpm docs:build --release-id five-harness-reviewed-20260928
+pnpm docs:build --release-id five-harness-guides-20260928-r6
 ```
 
 默认文档构建使用临时 fixture release；第二个命令构建显式指定、已校验的 release。页面中的事实来自同一个发布物，虚构内容有醒目标记。项目不提供自动配置管理、联网查询、查询时 LLM 调用或后台调查。目前没有真实制品启动记录和 M1 本地 embedding；Windows 尚未实际验证。`sources:scan` 是维护者显式调用的联网维护命令，不影响离线查询与构建。

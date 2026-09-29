@@ -27,6 +27,12 @@
 
 产品需求以 `docs/PRD.md` 为准。
 
+### 当前迁移边界
+
+`docs/PRD.md` 0.3 描述目标契约；当前代码和本文件下方的 Claim、Coverage、Assessment、精确 Target 查询及旧五工具清单记录 M0 实现基线。实施新契约时，先读 [OpenSpec 实施路线](docs/openspec-implementation-roadmap.md)及当前 change 的 delta spec，再按 PRD 判断产品语义；以实际代码和验证结果报告已完成能力。
+
+新知识主稿是带逐题状态和固定来源的产品 × 主题章节；新 MCP 五工具为 `list_harnesses`、`get_topic`、`search_knowledge`、`compare_topics`、`get_source`。普通更新由 Agent 自检后可发布，指定高影响情况由另一 Agent 复核；M1 的本地离线混合检索是交付门槛。受管二进制启动与知识发布分别验收。旧格式 release 无兼容义务，新发布内的历史章节仍须可查。
+
 ---
 
 ## 2. M0 基线与后续阶段
@@ -347,6 +353,7 @@ not_started / partial / complete / blocked
 ### 6.6 证据边界
 
 - 已接受实质性断言需要证据和复核记录。
+- 面向读者的指南引用同一精确 Target/主题的 Coverage；配置事实只引用已接受 Claim。没有 Claim 时说明调查线索与缺口，不把线索写成可用配置。
 - unknown 可以由覆盖记录产生。
 - 找到一个链接不等于证明了结论。
 - 探针失败不自动证明一般性的“不支持”。

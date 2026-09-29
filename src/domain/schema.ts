@@ -321,9 +321,24 @@ export const coverageSchema = z.strictObject({
   snapshot_refs: z.array(id).optional(),
 });
 
+export const guideSchema = z.strictObject({
+  ...record,
+  guide_id: id,
+  coverage_ref: id,
+  claim_refs: z.array(id),
+  title: nonempty.max(120),
+  body: nonempty.max(6000),
+});
+
+export const resolvedGuideSchema = guideSchema.safeExtend({
+  target: targetSchema,
+  topic: topicSchema,
+  coverage_status: coverageSchema.shape.status,
+});
+
 export const releaseManifestSchema = z.strictObject({
   schema_version: z.literal(1),
-  builder_version: z.enum(["1", "2"]),
+  builder_version: z.enum(["1", "2", "3"]),
   release_id: id,
   profile: z.enum(["fixture", "production"]),
   knowledge_published_at: z.iso.datetime(),
@@ -345,6 +360,7 @@ export const publishedKnowledgeSchema = z.strictObject({
     evidence: z.array(evidenceSchema),
     assessments: z.array(assessmentSchema),
     coverage: z.array(coverageSchema),
+    guides: z.array(guideSchema).optional(),
   }),
 });
 
@@ -434,6 +450,7 @@ export const queryResultSchema = z.strictObject({
       review_status: z.enum(["accepted", "disputed"]),
     }),
   ),
+  guides: z.array(resolvedGuideSchema),
 });
 
 export const recordSchemas = {
@@ -445,6 +462,7 @@ export const recordSchemas = {
   evidence: evidenceSchema,
   assessment: assessmentSchema,
   coverage: coverageSchema,
+  guide: guideSchema,
   release_manifest: releaseManifestSchema,
   published_knowledge: publishedKnowledgeSchema,
   query_request: queryRequestSchema,
@@ -460,6 +478,7 @@ export type Claim = z.infer<typeof claimSchema>;
 export type Evidence = z.infer<typeof evidenceSchema>;
 export type Assessment = z.infer<typeof assessmentSchema>;
 export type CoverageRecord = z.infer<typeof coverageSchema>;
+export type Guide = z.infer<typeof guideSchema>;
 export type Target = z.infer<typeof targetSchema>;
 export type Topic = z.infer<typeof topicSchema>;
 export type PublishedKnowledge = z.infer<typeof publishedKnowledgeSchema>;
@@ -473,4 +492,5 @@ export type Dataset = {
   evidence: Evidence[];
   assessments: Assessment[];
   coverage: CoverageRecord[];
+  guides: Guide[];
 };

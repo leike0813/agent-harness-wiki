@@ -95,23 +95,14 @@ export async function verifyRelease(
   const knowledge = publishedKnowledgeSchema.parse(
     JSON.parse(await readFile(path.join(releaseDir, "knowledge.json"), "utf8")),
   );
-  if (manifest.builder_version === "2" && !knowledge.records.artifacts)
-    throw new Error("Builder version 2 requires artifact metadata.");
+  if (manifest.builder_version !== "1" && !knowledge.records.artifacts)
+    throw new Error("This builder version requires artifact metadata.");
   if (
     knowledge.release_id !== manifest.release_id ||
     knowledge.profile !== manifest.profile ||
     knowledge.knowledge_published_at !== manifest.knowledge_published_at
   )
     throw new Error("Release identity differs across artifacts.");
-  const expectedDocs = renderDocs(knowledge);
-  if (
-    expectedDocs.size !==
-    expected.filter((file) => file.startsWith("docs/")).length
-  )
-    throw new Error("Generated page inventory differs from knowledge.");
-  for (const [file, content] of expectedDocs)
-    if ((await readFile(path.join(releaseDir, file), "utf8")) !== content)
-      throw new Error(`Generated page differs from knowledge: ${file}`);
   const db = new Database(path.join(releaseDir, "knowledge.sqlite"), {
     readonly: true,
     fileMustExist: true,
@@ -198,7 +189,7 @@ export async function compileRelease(
       artifacts[file] = sha256(await readFile(path.join(stage, file)));
     const manifest: ReleaseManifest = {
       schema_version: 1,
-      builder_version: "2",
+      builder_version: "3",
       release_id: options.releaseId,
       profile: options.profile,
       knowledge_published_at: options.publishedAt,

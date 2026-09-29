@@ -10,6 +10,7 @@ import {
   claimSchema,
   coverageSchema,
   evidenceSchema,
+  guideSchema,
   harnessSchema,
   snapshotSchema,
   sourceSchema,
@@ -42,7 +43,8 @@ type Kind =
   | "claim"
   | "evidence"
   | "assessment"
-  | "coverage";
+  | "coverage"
+  | "guide";
 type RecordMeta = { file: string; kind: Kind };
 const recordDirs: Record<Kind, string> = {
   harness: "registry/harnesses",
@@ -53,6 +55,7 @@ const recordDirs: Record<Kind, string> = {
   evidence: "evidence",
   assessment: "assessments",
   coverage: "coverage",
+  guide: "guides",
 };
 const topicType: Record<Topic, string[]> = {
   skills: ["search_path", "capability_support"],
@@ -74,6 +77,7 @@ function emptyDataset(): Dataset {
     evidence: [],
     assessments: [],
     coverage: [],
+    guides: [],
   };
 }
 
@@ -129,7 +133,10 @@ export async function loadAndValidateDataset(input: {
     diagnostics.push(diagnostic);
   };
 
-  async function filesIn(relativeDir: string): Promise<string[]> {
+  async function filesIn(
+    relativeDir: string,
+    extension = /\.ya?ml$/i,
+  ): Promise<string[]> {
     const dir = path.join(root, relativeDir);
     let children;
     try {
@@ -153,14 +160,14 @@ export async function loadAndValidateDataset(input: {
     const files: string[] = [];
     for (const child of children) {
       const relative = path.posix.join(relativeDir, child.name);
-      if (!child.isFile() || !/\.ya?ml$/i.test(child.name)) {
+      if (!child.isFile() || !extension.test(child.name)) {
         fail({
           code: "INVALID_DATASET_ENTRY",
           severity: "error",
           category: "schema",
           file: relative,
           path: "/",
-          reason: "Record directories may contain only YAML files.",
+          reason: "Record directory contains an unexpected file type.",
           hint: "Move source material outside record directories.",
         });
       } else files.push(relative);
@@ -206,9 +213,14 @@ export async function loadAndValidateDataset(input: {
       "evidence",
       "assessment",
       "coverage",
+      "guide",
     ] as const) {
       const dir = `knowledge/${harnessDir.name}/${recordDirs[kind]}`;
-      for (const file of await filesIn(dir)) paths.push({ kind, file });
+      for (const file of await filesIn(
+        dir,
+        kind === "guide" ? /\.md$/i : /\.ya?ml$/i,
+      ))
+        paths.push({ kind, file });
     }
   }
 
@@ -258,7 +270,13 @@ export async function loadAndValidateDataset(input: {
     const text = await readFile(absolute, "utf8");
     let raw: unknown;
     try {
-      const document = YAML.parseDocument(text, {
+      const frontmatter =
+        kind === "guide"
+          ? /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]+)$/.exec(text)
+          : undefined;
+      if (kind === "guide" && !frontmatter)
+        throw new Error("Guide requires YAML frontmatter and body.");
+      const document = YAML.parseDocument(frontmatter?.[1] ?? text, {
         uniqueKeys: true,
         customTags: [],
       });
@@ -268,7 +286,11 @@ export async function loadAndValidateDataset(input: {
             .map((error) => error.message)
             .join("; "),
         );
-      raw = document.toJS({ maxAliasCount: 0 });
+      const metadata: unknown = document.toJS({ maxAliasCount: 0 });
+      raw =
+        kind === "guide" && metadata !== null && typeof metadata === "object"
+          ? { ...metadata, body: frontmatter![2]!.trim() }
+          : metadata;
     } catch (error) {
       fail({
         code: "YAML_INVALID",
@@ -308,9 +330,13 @@ export async function loadAndValidateDataset(input: {
       case "coverage":
         addRecord(coverageSchema, raw, file, (v) => dataset.coverage.push(v));
         break;
+      case "guide":
+        addRecord(guideSchema, raw, file, (v) => dataset.guides.push(v));
+        break;
     }
   }
 
+  const coverageById = new Map(dataset.coverage.map((v) => [v.coverage_id, v]));
   const all: {
     kind: Kind;
     id: string;
@@ -370,6 +396,15 @@ export async function loadAndValidateDataset(input: {
       file: recordFiles.get(v) ?? v.coverage_id,
       record_kind: v.record_kind,
       harness_id: v.target.harness_id,
+    })),
+    ...dataset.guides.map((v) => ({
+      kind: "guide" as const,
+      id: v.guide_id,
+      file: recordFiles.get(v) ?? v.guide_id,
+      record_kind: v.record_kind,
+      ...(coverageById.get(v.coverage_ref)?.target.harness_id
+        ? { harness_id: coverageById.get(v.coverage_ref)!.target.harness_id }
+        : {}),
     })),
   ];
   for (const item of all) {
@@ -442,6 +477,69 @@ export async function loadAndValidateDataset(input: {
   const assessments = new Map(
     dataset.assessments.map((v) => [v.assessment_id, v]),
   );
+  const seenGuideCoverage = new Set<string>();
+  for (const guide of dataset.guides) {
+    const coverage = coverageById.get(guide.coverage_ref);
+    const file = fileOf(guide.guide_id);
+    const expectedDirectory = coverage?.target.harness_id;
+    if (!coverage || !file.startsWith(`knowledge/${expectedDirectory}/guides/`))
+      related(
+        "GUIDE_COVERAGE_MISMATCH",
+        guide.guide_id,
+        "coverage_ref",
+        "Guide coverage is missing or belongs to another harness.",
+        "Reference coverage for this harness and exact Target.",
+      );
+    if (coverage && path.basename(file) !== `${coverage.topic}.md`)
+      related(
+        "GUIDE_TOPIC_MISMATCH",
+        guide.guide_id,
+        "coverage_ref",
+        "Guide filename must match its coverage topic.",
+        "Rename the guide to the topic name.",
+      );
+    if (seenGuideCoverage.has(guide.coverage_ref))
+      related(
+        "GUIDE_DUPLICATE_COVERAGE",
+        guide.guide_id,
+        "coverage_ref",
+        "More than one guide refers to this Coverage record.",
+        "Keep one chapter per Target/topic.",
+      );
+    seenGuideCoverage.add(guide.coverage_ref);
+    if (/<\/?[a-z][^>]*>|<script|javascript:|data:/i.test(guide.body))
+      related(
+        "GUIDE_UNSAFE_MARKUP",
+        guide.guide_id,
+        "body",
+        "Guide contains active or raw HTML markup.",
+        "Use ordinary Markdown and code spans.",
+        "publishability",
+      );
+    for (const ref of guide.claim_refs) {
+      const claim = claims.get(ref);
+      if (
+        !claim ||
+        !coverage ||
+        claim.topic !== coverage.topic ||
+        targetKey(claimTarget(claim)) !== targetKey(coverage.target) ||
+        !claim.assessment_refs.some(
+          (id) => assessments.get(id)?.status === "accepted",
+        ) ||
+        claim.assessment_refs.some(
+          (id) => assessments.get(id)?.status === "disputed",
+        )
+      )
+        related(
+          "GUIDE_CLAIM_UNREVIEWED",
+          guide.guide_id,
+          "claim_refs",
+          "Guide claim is missing, unaccepted, disputed, or outside its Target/topic.",
+          "Cite an accepted Claim for this exact Target and topic.",
+          "publishability",
+        );
+    }
+  }
 
   for (const harness of dataset.harnesses)
     for (const ref of harness.source_refs) {

@@ -1074,6 +1074,179 @@
         ],
         "additionalProperties": false
       }
+    },
+    "guides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "schema_version": {
+            "type": "number",
+            "const": 1
+          },
+          "record_kind": {
+            "type": "string",
+            "enum": [
+              "fixture",
+              "production"
+            ]
+          },
+          "guide_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "coverage_ref": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "claim_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_-]*$"
+            }
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "body": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "target": {
+            "type": "object",
+            "properties": {
+              "harness_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "surface": {
+                "type": "string",
+                "enum": [
+                  "cli",
+                  "ide",
+                  "desktop"
+                ]
+              },
+              "distribution": {
+                "type": "string",
+                "minLength": 1
+              },
+              "os": {
+                "type": "string",
+                "enum": [
+                  "linux",
+                  "windows",
+                  "macos"
+                ]
+              },
+              "arch": {
+                "type": "string",
+                "enum": [
+                  "x64",
+                  "arm64"
+                ]
+              },
+              "execution_mode": {
+                "type": "string",
+                "enum": [
+                  "native",
+                  "wsl",
+                  "container",
+                  "remote"
+                ]
+              },
+              "version_identity": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "const": "release"
+                      },
+                      "value": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string",
+                        "const": "commit"
+                      },
+                      "value": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              }
+            },
+            "required": [
+              "harness_id",
+              "surface",
+              "distribution",
+              "os",
+              "arch",
+              "execution_mode",
+              "version_identity"
+            ],
+            "additionalProperties": false
+          },
+          "topic": {
+            "type": "string",
+            "enum": [
+              "skills",
+              "mcp",
+              "custom_agents",
+              "custom_providers",
+              "hooks",
+              "native_plugins",
+              "configuration"
+            ]
+          },
+          "coverage_status": {
+            "type": "string",
+            "enum": [
+              "not_started",
+              "partial",
+              "complete",
+              "blocked"
+            ]
+          }
+        },
+        "required": [
+          "schema_version",
+          "record_kind",
+          "guide_id",
+          "coverage_ref",
+          "claim_refs",
+          "title",
+          "body",
+          "target",
+          "topic",
+          "coverage_status"
+        ],
+        "additionalProperties": false
+      }
     }
   },
   "required": [
@@ -1081,7 +1254,8 @@
     "status",
     "requested_version",
     "coverage",
-    "facts"
+    "facts",
+    "guides"
   ],
   "additionalProperties": false
 }

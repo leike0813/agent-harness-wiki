@@ -85,6 +85,9 @@ test("VitePress builds verified release pages without changing the release", asy
   expect(guide).toContain("not_verified");
   expect(guide).toContain("conflict");
   expect(guide).toContain("partial");
+  expect(
+    await readFile(path.join(output, "harnesses/demo-open-cli.html"), "utf8"),
+  ).toContain("虚构代理配置调查");
   expect(guide).toContain("fact_verified_at");
 }, 40_000);
 
