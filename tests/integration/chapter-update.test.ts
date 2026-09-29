@@ -4,6 +4,7 @@ import {
   mkdir,
   mkdtemp,
   readFile,
+  readdir,
   rm,
   writeFile,
 } from "node:fs/promises";
@@ -42,24 +43,6 @@ const mappingYaml = [
   "    evidence_ref: ref-demo-package-npm",
   "",
 ].join("\n");
-const auditYaml = (auditId: string): string =>
-  [
-    "schema_version: 2",
-    `audit_id: ${auditId}`,
-    "harness_id: codex-cli",
-    "checked_at: 2026-09-29T00:00:00Z",
-    "status: changed",
-    "review_status: pending",
-    "pending_audit_refs: []",
-    "checks:",
-    "  - source_id: source-codex-cli-npm",
-    "    kind: npm_registry",
-    "    checked_at: 2026-09-29T00:00:00Z",
-    "    status: changed",
-    "    observed: 0.158.0@sha512-abc",
-    "impacts: []",
-    "",
-  ].join("\n");
 const roots: string[] = [];
 async function temp(): Promise<string> {
   const root = await mkdtemp(path.join(tmpdir(), "ahw-chapter-update-"));
@@ -150,7 +133,6 @@ test("no reader-visible change is audit-only and leaves the pointer", async () =
     profile: "fixture",
     publishedAt,
     publishCurrent: false,
-    skipManaged: true,
   });
   expect(result).toMatchObject({
     status: "audit_only",
@@ -188,7 +170,6 @@ test("unreferenced new metadata does not force a release", async () => {
     profile: "fixture",
     publishedAt,
     publishCurrent: false,
-    skipManaged: true,
   });
   expect(result.status).toBe("audit_only");
   expect(await pointerText(root)).toBe(pointer);
@@ -226,7 +207,6 @@ test("ordinary source-scoped edition update stages a readable chapter", async ()
     profile: "fixture",
     publishedAt,
     publishCurrent: false,
-    skipManaged: true,
   });
   expect(result.status).toBe("staged");
   await expect(
@@ -270,6 +250,95 @@ test("ordinary source-scoped edition update stages a readable chapter", async ()
   }
 });
 
+test("a new fictional CLI stages only after its seven current chapters exist", async () => {
+  const dataset = await copy(),
+    releasesRoot = await temp();
+  await build(dataset, releasesRoot, "first");
+  const oldId = "demo-open-cli";
+  const newId = "demo-new-cli";
+  const rewrite = (value: string) =>
+    value
+      .replaceAll("demo-open", "demo-new")
+      .replaceAll("Demo Open", "Demo New")
+      .replaceAll("虚构开放命令行", "虚构新命令行");
+  for (const [directory, files] of [
+    ["registry/harnesses", [`${oldId}.yaml`]],
+    [
+      "registry/sources",
+      ["source-demo-open.yaml", "source-demo-open-doc.yaml"],
+    ],
+  ] as const) {
+    for (const file of files) {
+      const source = path.join(dataset, directory, file);
+      await writeFile(
+        path.join(dataset, directory, rewrite(file)),
+        rewrite(await readFile(source, "utf8")),
+      );
+    }
+  }
+  const oldKnowledge = path.join(dataset, "knowledge", oldId);
+  const newKnowledge = path.join(dataset, "knowledge", newId);
+  for (const directory of [
+    "artifacts",
+    "snapshots",
+    "references",
+    "chapters",
+  ]) {
+    await mkdir(path.join(newKnowledge, directory), { recursive: true });
+    for (const file of await readdir(path.join(oldKnowledge, directory))) {
+      await writeFile(
+        path.join(newKnowledge, directory, rewrite(file)),
+        rewrite(
+          await readFile(path.join(oldKnowledge, directory, file), "utf8"),
+        ),
+      );
+    }
+  }
+  await cp(
+    path.join(dataset, "materials/demo-open-cli.txt"),
+    path.join(dataset, "materials/demo-new-cli.txt"),
+  );
+  const currentFile = path.join(dataset, "registry/chapter-current.yaml");
+  const current = YAML.parse(await readFile(currentFile, "utf8")) as {
+    selections: { harness_id: string; topic: string; edition_id: string }[];
+  };
+  current.selections.push(
+    ...current.selections
+      .filter((x) => x.harness_id === oldId)
+      .map((x) => ({
+        ...x,
+        harness_id: newId,
+        edition_id: rewrite(x.edition_id),
+      })),
+  );
+  await writeFile(currentFile, YAML.stringify(current));
+
+  const result = await publishChapterUpdate({
+    datasetRoot: dataset,
+    releasesRoot,
+    releaseId: "onboarded",
+    profile: "fixture",
+    publishedAt,
+    blocked: [],
+    publishCurrent: false,
+  });
+  expect(result).toMatchObject({ status: "staged", retained: [] });
+  const service = await QueryService.open({
+    releasesRoot,
+    releaseId: "onboarded",
+  });
+  try {
+    for (const selection of current.selections.filter(
+      (x) => x.harness_id === newId,
+    ))
+      expect(
+        service.getTopic({ harness: newId, topic: selection.topic }),
+      ).toMatchObject({ status: "ok", edition_id: selection.edition_id });
+  } finally {
+    service.close();
+  }
+});
+
 test("mixed completed and blocked run stages only completed content", async () => {
   const dataset = await copy(),
     root = await temp();
@@ -303,7 +372,6 @@ test("mixed completed and blocked run stages only completed content", async () =
     publishedAt,
     publishCurrent: false,
     blocked: [{ harness_id: "demo-package-cli", topic: "native_plugins" }],
-    skipManaged: true,
   });
   expect(result).toMatchObject({
     status: "staged",
@@ -350,7 +418,6 @@ test("mapping-only change stages without changing chapter bytes", async () => {
     profile: "fixture",
     publishedAt,
     publishCurrent: false,
-    skipManaged: true,
   });
   expect(result.status).toBe("staged");
   expect(await readFile(path.join(result.release_dir!, chapterFile))).toEqual(
@@ -386,7 +453,6 @@ test("chapter failure reports knowledge_error and leaves current unchanged", asy
     profile: "fixture",
     publishedAt,
     publishCurrent: false,
-    skipManaged: true,
   });
   expect(result.status).toBe("blocked");
   expect(result.knowledge_error).toMatch(/Immutable chapter edition changed/);
@@ -414,7 +480,6 @@ test("an in-place edit of a released reference blocks a blocked topic", async ()
     publishedAt,
     publishCurrent: false,
     blocked: [{ harness_id: "demo-open-cli", topic: "skills" }],
-    skipManaged: true,
   });
   expect(result.status).toBe("blocked");
   expect(result.knowledge_error).toMatch(
@@ -442,122 +507,11 @@ test("removing a released version mapping blocks the release", async () => {
     profile: "fixture",
     publishedAt,
     publishCurrent: false,
-    skipManaged: true,
   });
   expect(result.status).toBe("blocked");
   expect(result.knowledge_error).toMatch(
     /Released software mapping is missing: mapping-demo-package-plugin-142/,
   );
-  expect(await pointerText(root)).toBe(pointer);
-  await expect(lstat(path.join(root, "second"))).rejects.toThrow();
-});
-
-test("current audits drive the managed lane and never veto knowledge", async () => {
-  const dataset = await copy(),
-    root = await temp();
-  await build(dataset, root, "first");
-  const auditDir = path.join(root, "audits/codex-cli");
-  await mkdir(auditDir, { recursive: true });
-  const audit = path.join(auditDir, "audit-codex-cli-current.yaml");
-  await writeFile(audit, auditYaml("audit-codex-cli-current"));
-  const calls: string[] = [];
-  const refresh = async (id: string) => {
-    calls.push(id);
-    return { id, status: "blocked", reason: "bwrap unavailable" };
-  };
-
-  const ignored = await publishChapterUpdate(
-    {
-      datasetRoot: dataset,
-      releasesRoot: root,
-      releaseId: "second",
-      profile: "fixture",
-      publishedAt,
-      publishCurrent: false,
-      managedAudits: [],
-    },
-    { refresh },
-  );
-  expect(calls).toEqual([]);
-  expect(ignored.status).toBe("audit_only");
-  expect(ignored.managed_outcomes).toEqual([]);
-
-  const triggered = await publishChapterUpdate(
-    {
-      datasetRoot: dataset,
-      releasesRoot: root,
-      releaseId: "second",
-      profile: "fixture",
-      publishedAt,
-      publishCurrent: false,
-      managedAudits: [audit],
-    },
-    { refresh },
-  );
-  expect(calls).toEqual(["codex-cli"]);
-  expect(triggered.status).toBe("audit_only");
-  expect(triggered.managed_outcomes).toEqual([
-    { id: "codex-cli", status: "blocked", reason: "bwrap unavailable" },
-  ]);
-
-  await writeFile(path.join(dataset, mappingPath), mappingYaml);
-  const broken = path.join(auditDir, "audit-broken.yaml");
-  await writeFile(broken, "harness_id: codex-cli\nchecks: []\n");
-  calls.length = 0;
-  const mixed = await publishChapterUpdate(
-    {
-      datasetRoot: dataset,
-      releasesRoot: root,
-      releaseId: "third",
-      profile: "fixture",
-      publishedAt,
-      publishCurrent: false,
-      managedAudits: [audit, broken],
-    },
-    { refresh },
-  );
-  expect(mixed.status).toBe("staged");
-  expect(calls).toEqual(["codex-cli"]);
-  expect(
-    mixed.managed_outcomes.some(
-      (x) => x.id === "audit-broken.yaml" && x.status === "blocked",
-    ),
-  ).toBe(true);
-});
-
-test("a blocked chapter release still runs and reports the managed lane", async () => {
-  const dataset = await copy(),
-    root = await temp();
-  await build(dataset, root, "first");
-  const pointer = await pointerText(root);
-  await edit(dataset, skillsPath, (text) => `${text}\nBroken in place.\n`);
-  const auditDir = path.join(root, "audits/codex-cli");
-  await mkdir(auditDir, { recursive: true });
-  const audit = path.join(auditDir, "audit-codex-cli-current.yaml");
-  await writeFile(audit, auditYaml("audit-codex-cli-current"));
-  const calls: string[] = [];
-  const refresh = async (id: string) => {
-    calls.push(id);
-    return { id, status: "promoted" };
-  };
-  const result = await publishChapterUpdate(
-    {
-      datasetRoot: dataset,
-      releasesRoot: root,
-      releaseId: "second",
-      profile: "fixture",
-      publishedAt,
-      publishCurrent: false,
-      managedAudits: [audit],
-    },
-    { refresh },
-  );
-  expect(result.status).toBe("blocked");
-  expect(result.knowledge_error).toMatch(/Immutable chapter edition changed/);
-  expect(calls).toEqual(["codex-cli"]);
-  expect(result.managed_outcomes).toEqual([
-    { id: "codex-cli", status: "promoted" },
-  ]);
   expect(await pointerText(root)).toBe(pointer);
   await expect(lstat(path.join(root, "second"))).rejects.toThrow();
 });

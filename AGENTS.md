@@ -31,7 +31,7 @@
 
 `docs/PRD.md` 0.3 描述目标契约；当前代码和本文件下方的 Claim、Coverage、Assessment、精确 Target 查询及旧五工具清单记录 M0 实现基线。实施新契约时，先读 [OpenSpec 实施路线](docs/openspec-implementation-roadmap.md)及当前 change 的 delta spec，再按 PRD 判断产品语义；以实际代码和验证结果报告已完成能力。
 
-新知识主稿是带逐题状态和固定来源的产品 × 主题章节；新 MCP 五工具为 `list_harnesses`、`get_topic`、`search_knowledge`、`compare_topics`、`get_source`。普通更新由 Agent 自检后可发布，指定高影响情况由另一 Agent 复核；M1 的本地离线混合检索是交付门槛。受管二进制启动与知识发布分别验收。旧格式 release 无兼容义务，新发布内的历史章节仍须可查。
+新知识主稿是带逐题状态和固定来源的产品 × 主题章节；新 MCP 五工具为 `list_harnesses`、`get_topic`、`search_knowledge`、`compare_topics`、`get_source`。普通更新由 Agent 自检后可发布，指定高影响情况由另一 Agent 复核；M1 的本地离线混合检索是交付门槛。受管二进制启动与知识发布分别验收：新 CLI 由 `harness-investigation` 接入七章知识、`harness-maintenance` 维护上游变化、`harness-binary` 接入受管二进制。旧格式 release 无兼容义务，新发布内的历史章节仍须可查。
 
 编写或修订产品 × 主题章节时，按 [固定问题与成稿规则](docs/topic-questions.md) 核对机制分节、问题索引、配置文件示例、来源和版本边界；审阅正文后再选为当前版。
 
@@ -421,7 +421,7 @@ docs/
 schemas/
 ```
 
-M0 虚构数据仍位于 `tests/fixtures/datasets/`，不进入正式 `registry/`、`knowledge/`。目录按实际接入创建，不预建空的 harness 子树。M2 项目调查 Skill 放在 `.agents/skills/`，只豁免该 Skill 的子目录。M2 手动上游检查在 `audits/<harness-id>/` 留 Git 审计 YAML；有实质变化、来源失败或未解决分歧时，同目录放同名主干的简短 Markdown 报告。候选原件保留在忽略的 `archive/`。调查 Agent 自检普通章节更新，高影响情形由另一 Agent 复核；完成内容经 staged 校验后可切换本地发布，受管二进制刷新单独记录结果。需要运行观察时才建立相应入口，不预建通用探针框架。
+M0 虚构数据仍位于 `tests/fixtures/datasets/`，不进入正式 `registry/`、`knowledge/`。目录按实际接入创建，不预建空的 harness 子树。项目 Skill 放在 `.agents/skills/`，只豁免这些 Skill 的子目录：`harness-investigation` 为新 CLI 登记来源、采写七章并分段发布知识，`harness-maintenance` 维护已收录产品的上游变化，`harness-binary` 完成受管二进制的首次接入与最新更新。M2 手动上游检查在 `audits/<harness-id>/` 留 Git 审计 YAML；有实质变化、来源失败或未解决分歧时，同目录放同名主干的简短 Markdown 报告。候选原件保留在忽略的 `archive/`。调查 Agent 自检普通章节更新，高影响情形由另一 Agent 复核；完成内容经 staged 校验后可用 `ahw publish` 切换本地发布，受管二进制由 `harness-binary` 单独记录结果，不进知识发布。需要运行观察时才建立相应入口，不预建通用探针框架。
 
 ### 7.1 Domain
 

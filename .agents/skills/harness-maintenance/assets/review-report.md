@@ -17,7 +17,7 @@
 | --- | --- | --- | --- |
 | <topic> | <edition_id> | <问题 ID：answered/partial/unknown/not_applicable/conflict> | <已进入新发布 / 保留旧版本及原因> |
 
-**发布：**<新 release ID、staging 构建与验收结果、切换结果；无读者可见变化时写“仅结案审计”。> **受管刷新：**<observe/update 结果、候选路径；未触发或失败原因。>
+**发布：**<新 release ID、staging 构建与验收结果、切换结果；无读者可见变化时写“仅结案审计”。> **受管二进制：**<harness-binary 首次接入/更新结果、候选路径；未触发或失败原因。>
 
 ## 待处理与独立复核
 

@@ -8,9 +8,13 @@
 
 章节默认说明固定来源中发现的机制。源码提交和未标软件版本的网页不能自动证明某个 npm 版本。只有 `mappings/` 中有对应包快照及逐小节证据时，查询才选出映射版本；无映射时返回 `source_only`，请求版本仍为 `not_verified`。前缀或最近较早版本匹配也不把请求版本变成已验证版本。
 
+## 新收录产品
+
+新 CLI 由维护者调用 `$harness-investigation <harness-id>` 接入：登记产品与官方来源、固定来源身份、按 53 个固定问题采写七章、自检（高影响时另请 Agent 复核）后分段发布知识。知识发布成功后，由维护者决定是否继续调用 `harness-binary` 接入受管二进制；二进制不进入知识发布。
+
 ## 手动观察与审计
 
-用户手动调用项目调查 Skill（默认 `$harness-investigation <harness-id>...`）时先运行 `pnpm sources:scan <harness-id>...`，逐个观察登记来源。扫描是元数据优先的：Git 源用 `ls-remote` 取精确 HEAD 和默认分支 ref；官方文档取固定字节并算 sha256；npm 源只读 registry 元数据里的 `dist-tags.latest` 与对应版本 integrity，不下载包字节。三类身份各自与上次基线比对，互不证明：新包版本只是线索，不能说明章节改变，也不能说明某个源码提交对应到这个包。Git 提交和文档变化可把候选原件留在忽略的 `archive/` 供调查；包字节由受管环境流程另行获取。
+用户手动调用维护 Skill（默认 `$harness-maintenance <harness-id>...`）时先运行 `pnpm sources:scan <harness-id>...`，逐个观察登记来源。扫描是元数据优先的：Git 源用 `ls-remote` 取精确 HEAD 和默认分支 ref；官方文档取固定字节并算 sha256；npm 源只读 registry 元数据里的 `dist-tags.latest` 与对应版本 integrity，不下载包字节。三类身份各自与上次基线比对，互不证明：新包版本只是线索，不能说明章节改变，也不能说明某个源码提交对应到这个包。Git 提交和文档变化可把候选原件留在忽略的 `archive/` 供调查；包字节由受管环境流程另行获取。ID 模式每一轮还会另行调用 `harness-binary` 核对受管二进制最新版本；定向模式只在维护者明确要求时核对。
 
 每次调用为每个 Harness 写一份 Git 跟踪的审计 YAML `audits/<harness-id>/<audit-id>.yaml`，未变化和失败来源一并记录。`checks` 逐来源给出 `baseline`、`observed`、`status`（`unchanged`、`changed`、`blocked`）和错误；扫描把引用落在受影响小节的当前章节映射成 `impacts` 的 `question_ids`、`section_ids`、`source_refs` 与 `cross_topic_links`，npm 版本变化不进章节影响。`pnpm sources:audit-log` 校验审计资产、来源种类与当前章节一致。
 
@@ -55,7 +59,7 @@ pending_question_ids:
 investigation_notes: []
 ```
 
-`question_ids`、`section_ids` 与 `source_refs` 的取值必须能在 `registry/chapter-current.yaml` 选中的章节里找到；`pnpm sources:audit-log` 会拒绝与已发布章节不符的影响映射。有实质变化、来源失败或未解决分歧时，同目录另写简短 Markdown 报告（[报告模板](../.agents/skills/harness-investigation/assets/review-report.md)）；完全未变化只需 YAML。
+`question_ids`、`section_ids` 与 `source_refs` 的取值必须能在 `registry/chapter-current.yaml` 选中的章节里找到；`pnpm sources:audit-log` 会拒绝与已发布章节不符的影响映射。有实质变化、来源失败或未解决分歧时，同目录另写简短 Markdown 报告（[报告模板](../.agents/skills/harness-maintenance/assets/review-report.md)）；完全未变化只需 YAML。
 
 ## 从编辑到发布
 

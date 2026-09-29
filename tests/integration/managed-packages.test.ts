@@ -15,6 +15,7 @@ import {
   observeManaged,
   promoteCandidate,
   sandboxStartup,
+  updateManaged,
 } from "../../src/sources/managed.js";
 
 const roots: string[] = [];
@@ -66,6 +67,148 @@ test.each([
       JSON.parse(await readFile(path.join(dir, "package.json"), "utf8"))
         .dependencies["@openai/codex"],
     ).toBe("1.0.0");
+  },
+);
+
+test("an unselected registered package is a first-admission candidate", async () => {
+  const root = await temporary();
+  const dir = path.join(root, "research/package-set");
+  await mkdir(dir, { recursive: true });
+  await writeFile(
+    path.join(dir, "package.json"),
+    JSON.stringify({ dependencies: {} }),
+  );
+  await writeFile(path.join(dir, "pnpm-lock.yaml"), "packages: {}\n");
+  const fetchImpl = (async () =>
+    Response.json({
+      name: "@openai/codex",
+      version: "1.0.0",
+      dist: { integrity: "sha512-AAAA" },
+    })) as typeof fetch;
+  const result = await observeManaged(root, "codex-cli", fetchImpl);
+  expect(result).toMatchObject({
+    selected: null,
+    observed: "1.0.0",
+    status: "candidate",
+  });
+  const current = await checkCurrentManaged(root, "codex-cli");
+  expect(current).toMatchObject({ status: "blocked" });
+  expect(current.reason).toContain("Package not selected");
+});
+
+test("a failed first admission keeps the selected package set intact", async () => {
+  const root = await temporary();
+  const selected = path.join(root, "research/package-set");
+  const candidateId = "00000000-0000-0000-0000-000000000001";
+  const candidate = path.join(
+    root,
+    "var/managed-packages/candidates",
+    candidateId,
+  );
+  await mkdir(selected, { recursive: true });
+  await mkdir(candidate, { recursive: true });
+  await writeFile(
+    path.join(selected, "package.json"),
+    JSON.stringify({ dependencies: {} }),
+  );
+  await writeFile(path.join(selected, "pnpm-lock.yaml"), "packages: {}\n");
+  await writeFile(
+    path.join(candidate, "package.json"),
+    JSON.stringify({ dependencies: { "@openai/codex": "1.0.0" } }),
+  );
+  await writeFile(
+    path.join(candidate, "pnpm-lock.yaml"),
+    "packages:\n  '@openai/codex@1.0.0':\n    resolution:\n      integrity: sha512-AAAA\nimporters:\n  .:\n    dependencies:\n      '@openai/codex':\n        specifier: 1.0.0\n",
+  );
+  const fetchImpl = (async () =>
+    Response.json({
+      name: "@openai/codex",
+      version: "1.0.0",
+      dist: { integrity: "sha512-AAAA" },
+    })) as typeof fetch;
+  const result = await updateManaged(root, "codex-cli", fetchImpl, candidateId);
+  expect(result.status).toBe("blocked");
+  expect(
+    JSON.parse(await readFile(path.join(selected, "package.json"), "utf8")),
+  ).toEqual({ dependencies: {} });
+});
+
+test.skipIf(process.env.AHW_SANDBOX_TEST !== "1")(
+  "first admission and later update promote only after isolated startup",
+  async () => {
+    const root = await temporary();
+    const selected = path.join(root, "research/package-set");
+    const name = "@mariozechner/pi-coding-agent";
+    const candidateId = "00000000-0000-0000-0000-000000000001";
+    await mkdir(path.join(selected, "node_modules"), { recursive: true });
+    await writeFile(
+      path.join(selected, "package.json"),
+      JSON.stringify({ dependencies: {} }),
+    );
+    await writeFile(path.join(selected, "pnpm-lock.yaml"), "packages: {}\n");
+
+    async function candidate(version: string): Promise<void> {
+      const dir = path.join(
+        root,
+        "var/managed-packages/candidates",
+        candidateId,
+      );
+      const nodeModules = path.join(dir, "node_modules");
+      const packageDir = path.join(
+        nodeModules,
+        `.pnpm/@mariozechner+pi-coding-agent@${version}/node_modules/@mariozechner/pi-coding-agent`,
+      );
+      await mkdir(path.join(packageDir, "dist"), { recursive: true });
+      await mkdir(path.join(nodeModules, "@mariozechner"), {
+        recursive: true,
+      });
+      await symlink(
+        `../.pnpm/@mariozechner+pi-coding-agent@${version}/node_modules/@mariozechner/pi-coding-agent`,
+        path.join(nodeModules, name),
+      );
+      await writeFile(
+        path.join(packageDir, "package.json"),
+        JSON.stringify({ name, version }),
+      );
+      await writeFile(
+        path.join(packageDir, "dist/cli.js"),
+        `console.log(${JSON.stringify(version)});\n`,
+      );
+      await writeFile(
+        path.join(dir, "package.json"),
+        JSON.stringify({ dependencies: { [name]: version } }),
+      );
+      await writeFile(
+        path.join(dir, "pnpm-lock.yaml"),
+        `packages:\n  '${name}@${version}':\n    resolution:\n      integrity: sha512-AAAA\nimporters:\n  .:\n    dependencies:\n      '${name}':\n        specifier: ${version}\n`,
+      );
+    }
+
+    for (const [version, previous] of [
+      ["1.0.0", null],
+      ["1.0.1", "1.0.0"],
+    ] as const) {
+      await candidate(version);
+      const fetchImpl = (async () =>
+        Response.json({
+          name,
+          version,
+          dist: { integrity: "sha512-AAAA" },
+        })) as typeof fetch;
+      const result = await updateManaged(root, "pi", fetchImpl, candidateId);
+      expect(result).toMatchObject({
+        status: "promoted",
+        selected: previous,
+        observed: version,
+        entry: expect.stringContaining("dist/cli.js"),
+        runtime: "node",
+        exit_code: 0,
+      });
+      expect(
+        JSON.parse(await readFile(path.join(selected, "package.json"), "utf8"))
+          .dependencies[name],
+      ).toBe(version);
+    }
   },
 );
 

@@ -1,10 +1,6 @@
-# manual-investigation-skill Specification
+# Spec Delta
 
-## Purpose
-
-Provides a maintainer-invoked investigation workflow that turns a question about a fixed harness Target into source-traceable review candidates or an explicit evidence gap without changing published knowledge.
-
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Direct or ID-based chapter investigation
 The project maintenance Skill SHALL accept one or more registered harness IDs for on-demand source observation, or a fixed source identity and specific question for direct investigation. It SHALL account for every requested product, topic and question, preserve source/package distinctions, and produce cited chapter updates or concrete gaps without manufacturing support. In ID mode it SHALL apply the managed-binary Skill once per requested ID on every invocation, even when registered sources are unchanged; in direct mode it SHALL verify the managed binary only when the maintainer explicitly requests it.

@@ -93,6 +93,25 @@ test("fixture chapters parse, preserve uncertainty, and reject malformed IDs", a
   ).toBe(false);
 });
 
+test("every registered harness needs one current chapter per topic", async () => {
+  const root = await copy();
+  expect((await loadAndValidateChapters({ root, profile: "fixture" })).ok).toBe(
+    true,
+  );
+  await writeFile(
+    path.join(root, "registry/harnesses/demo-new-cli.yaml"),
+    "schema_version: 1\nrecord_kind: fixture\nharness_id: demo-new-cli\nname: Demo New CLI (fictional)\naliases: [虚构新命令行]\nsurfaces: [cli]\nsource_refs: [source-demo-new]\n",
+  );
+  await writeFile(
+    path.join(root, "registry/sources/source-demo-new.yaml"),
+    "schema_version: 1\nrecord_kind: fixture\nsource_id: source-demo-new\nharness_id: demo-new-cli\nkind: official_documentation\nurl: https://example.com/demo-new-cli\n",
+  );
+  const result = await loadAndValidateChapters({ root, profile: "fixture" });
+  expect(result.ok).toBe(false);
+  if (result.ok) return;
+  expect(result.diagnostics.map((x) => x.code)).toContain("CURRENT_MISSING");
+});
+
 test.each([
   [
     "missing citation",

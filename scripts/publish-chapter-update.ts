@@ -8,18 +8,10 @@ const options = new Command()
   .requiredOption("--published-at <timestamp>")
   .option("--releases-root <path>", "Release directory", "releases")
   .option(
-    "--managed-audits <json>",
-    "JSON array of current-invocation audit YAML paths",
-    "[]",
-  )
-  .option("--managed-root <path>", "Managed package root", ".")
-  .option("--managed-candidates <json>", "JSON array of managed IDs", "[]")
-  .option(
     "--blocked <json>",
     "JSON array of {harness_id,topic} to retain",
     "[]",
   )
-  .option("--no-managed", "Skip the managed refresh lane")
   .option("--stage", "Build without switching current")
   .parse()
   .opts();
@@ -30,11 +22,7 @@ try {
     releaseId: options.releaseId,
     publishedAt: options.publishedAt,
     releasesRoot: options.releasesRoot,
-    managedAudits: JSON.parse(options.managedAudits),
-    managedRoot: options.managedRoot,
-    managedCandidates: JSON.parse(options.managedCandidates),
     blocked: JSON.parse(options.blocked),
-    skipManaged: !options.managed,
     publishCurrent: !options.stage,
   });
   process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);

@@ -88,7 +88,7 @@ type Metadata = { name: string; version: string; dist: { integrity: string } };
 type Result = {
   id: ManagedId;
   package: string;
-  selected: string;
+  selected: string | null;
   observed: string;
   integrity: string;
   channel: "latest" | "selected";
@@ -210,13 +210,14 @@ export async function observeManaged(
 ): Promise<Result> {
   const item = managedPackages[id];
   const { manifest, lock } = await readSelection(root);
-  const selected = manifest.dependencies[item.name];
-  if (!selected) throw new Error(`Package not selected: ${item.name}`);
+  const selected = manifest.dependencies[item.name] ?? null;
   const observed_at = new Date().toISOString();
   try {
     const latest = await metadata(item.name, "latest", fetchImpl);
-    const order = compareVersions(latest.version, selected);
-    const previous = integrity(lock, item.name, selected);
+    const order = selected ? compareVersions(latest.version, selected) : 1;
+    const previous = selected
+      ? integrity(lock, item.name, selected)
+      : undefined;
     const reason =
       order === undefined
         ? "Incomparable version"
@@ -504,19 +505,19 @@ export async function checkCurrentManaged(
 ): Promise<Result> {
   const { manifest, lock } = await readSelection(root);
   const name = managedPackages[id].name;
-  const version = manifest.dependencies[name];
-  if (!version) throw new Error(`Package not selected: ${name}`);
+  const version = manifest.dependencies[name] ?? null;
   const result: Result = {
     id,
     package: name,
     selected: version,
-    observed: version,
-    integrity: integrity(lock, name, version) ?? "",
+    observed: version ?? "",
+    integrity: version ? (integrity(lock, name, version) ?? "") : "",
     channel: "selected",
     observed_at: new Date().toISOString(),
     status: "blocked",
   };
   try {
+    if (!version) throw new Error(`Package not selected: ${name}`);
     if (!result.integrity)
       throw new Error("Selected package absent from lockfile");
     const { entry, runtime } = await installedEntry(
@@ -631,8 +632,12 @@ export async function updateManaged(
     for (const current of Object.keys(managedPackages) as ManagedId[]) {
       const currentName = managedPackages[current].name;
       const currentVersion = manifest.dependencies[currentName];
-      if (!currentVersion)
-        throw new Error(`Package not selected: ${currentName}`);
+      // A registered CLI can remain unselected after a failed first admission.
+      if (!currentVersion) {
+        if (current === id)
+          throw new Error(`Package not selected: ${currentName}`);
+        continue;
+      }
       const { entry, runtime } = await installedEntry(
         candidate,
         current,

@@ -11,7 +11,7 @@ import {
   sourceReferenceSchema,
   type ChapterDataset,
 } from "../domain/chapter.js";
-import type { Topic } from "../domain/schema.js";
+import { topicSchema, type Topic } from "../domain/schema.js";
 import { parseQuestionCatalog } from "../domain/question-catalog.js";
 import { loadAndValidateDataset, type Diagnostic } from "./dataset.js";
 
@@ -576,17 +576,17 @@ export async function loadAndValidateChapters(input: {
           chapter.edition_id,
         );
   }
-  for (const chapter of dataset.chapters)
-    if (!current.has(`${chapter.harness_id}|${chapter.topic}`))
-      fail(
-        "CURRENT_MISSING",
-        "publishability",
-        selectionFile,
-        "selections",
-        "No current edition for this product-topic.",
-        "Select one current edition.",
-        chapter.edition_id,
-      );
+  for (const harness of dataset.harnesses)
+    for (const topic of topicSchema.options)
+      if (!current.has(`${harness.harness_id}|${topic}`))
+        fail(
+          "CURRENT_MISSING",
+          "publishability",
+          selectionFile,
+          "selections",
+          `No current ${topic} edition for ${harness.harness_id}.`,
+          "Publish one current edition for every registered topic.",
+        );
   for (const item of dataset.current)
     if (
       chapters.get(item.edition_id)?.harness_id !== item.harness_id ||

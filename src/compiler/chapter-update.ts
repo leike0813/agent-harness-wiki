@@ -1,22 +1,12 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import * as z from "zod";
-import YAML from "yaml";
 import {
   chapterPublishedKnowledgeSchema,
   type ChapterDataset,
   type ChapterPublishedKnowledge,
 } from "../domain/chapter.js";
-import {
-  topicSchema,
-  upstreamAuditSchema,
-  type Topic,
-} from "../domain/schema.js";
-import {
-  managedPackages,
-  updateManaged,
-  type ManagedId,
-} from "../sources/managed.js";
+import { topicSchema, type Topic } from "../domain/schema.js";
 import { QueryService } from "../query/service.js";
 import { loadAndValidateChapters } from "../validation/chapters.js";
 import {
@@ -35,19 +25,9 @@ const optionsSchema = z.strictObject({
   blocked: z
     .array(z.strictObject({ harness_id: id, topic: topicSchema }))
     .default([]),
-  managedAudits: z.array(z.string()).default([]),
-  managedRoot: z.string().min(1).default("."),
-  managedCandidates: z.array(z.string()).default([]),
-  skipManaged: z.boolean().default(false),
   publishCurrent: z.boolean().default(true),
 });
 export type ChapterUpdateOptions = z.input<typeof optionsSchema>;
-
-export type ManagedOutcome = {
-  id: string;
-  status: string;
-  reason?: string;
-};
 
 export type ChapterUpdateResult = {
   status: "published" | "staged" | "audit_only" | "blocked";
@@ -55,11 +35,8 @@ export type ChapterUpdateResult = {
   release_id: string | null;
   release_dir: string | null;
   retained: { harness_id: string; topic: Topic; edition_id: string }[];
-  managed_outcomes: ManagedOutcome[];
   knowledge_error: string | null;
 };
-
-export type ManagedRefresh = (id: ManagedId) => Promise<ManagedOutcome>;
 
 async function readPointer(root: string): Promise<string | null> {
   try {
@@ -293,68 +270,6 @@ function readerVisible(dataset: ChapterDataset): unknown {
   };
 }
 
-// Candidates come only from the explicit current-invocation audits (or an
-// explicit list), never from the whole audit history, so an already-handled
-// observation cannot re-trigger the updater on every run.
-async function auditCandidates(
-  audits: string[],
-  outcomes: ManagedOutcome[],
-): Promise<ManagedId[]> {
-  const ids = new Set<ManagedId>();
-  for (const file of audits) {
-    try {
-      const document = YAML.parseDocument(await readFile(file, "utf8"), {
-        uniqueKeys: true,
-        customTags: [],
-      });
-      if (document.errors.length || document.warnings.length)
-        throw new Error("Invalid audit YAML");
-      const audit = upstreamAuditSchema.parse(
-        document.toJS({ maxAliasCount: 0 }),
-      );
-      if (!(audit.harness_id in managedPackages)) continue;
-      if (
-        audit.checks.some(
-          (check) =>
-            check.kind === "npm_registry" && check.status === "changed",
-        )
-      )
-        ids.add(audit.harness_id as ManagedId);
-    } catch (error) {
-      outcomes.push({
-        id: path.basename(file),
-        status: "blocked",
-        reason: `Unreadable current audit: ${String(error)}`,
-      });
-    }
-  }
-  return [...ids];
-}
-
-async function refreshManaged(
-  candidates: ManagedId[],
-  refresh: ManagedRefresh,
-): Promise<ManagedOutcome[]> {
-  const outcomes: ManagedOutcome[] = [];
-  for (const candidate of candidates) {
-    try {
-      const outcome = await refresh(candidate);
-      outcomes.push({
-        id: outcome.id,
-        status: outcome.status,
-        ...(outcome.reason ? { reason: outcome.reason } : {}),
-      });
-    } catch (error) {
-      outcomes.push({
-        id: candidate,
-        status: "blocked",
-        reason: String(error),
-      });
-    }
-  }
-  return outcomes;
-}
-
 // The staged release must answer through the same surface the CLI and MCP use,
 // not just pass artifact hashing.
 async function assertReadable(
@@ -381,7 +296,6 @@ async function assertReadable(
 
 export async function publishChapterUpdate(
   input: ChapterUpdateOptions,
-  deps: { refresh?: ManagedRefresh } = {},
 ): Promise<ChapterUpdateResult> {
   const options = optionsSchema.parse(input);
   if (options.profile !== "production" && options.publishCurrent)
@@ -442,33 +356,12 @@ export async function publishChapterUpdate(
     releaseId = null;
     releaseDir = null;
   }
-  const managed_outcomes: ManagedOutcome[] = [];
-  if (!options.skipManaged) {
-    const candidates = [
-      ...new Set<ManagedId>([
-        ...options.managedCandidates.filter(
-          (x): x is ManagedId => x in managedPackages,
-        ),
-        ...(await auditCandidates(options.managedAudits, managed_outcomes)),
-      ]),
-    ];
-    if (candidates.length)
-      managed_outcomes.push(
-        ...(await refreshManaged(
-          candidates,
-          deps.refresh ??
-            ((managedId) =>
-              updateManaged(path.resolve(options.managedRoot), managedId)),
-        )),
-      );
-  }
   return {
     status,
     previous_release_id: previousId,
     release_id: releaseId,
     release_dir: releaseDir,
     retained,
-    managed_outcomes,
     knowledge_error: knowledgeError,
   };
 }

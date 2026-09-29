@@ -1,6 +1,6 @@
 # agent-harness-wiki
 
-本项目把五个 agent CLI 的配置和扩展机制整理为有固定来源、逐题状态和版本边界的离线 Wiki。产品语义见 [PRD](docs/PRD.md)，实施路线见 [OpenSpec 路线](docs/openspec-implementation-roadmap.md)。查询不会联网、运行 harness 或调用 LLM。
+本项目把当前收录的 agent CLI 的配置和扩展机制整理为有固定来源、逐题状态和版本边界的离线 Wiki。产品语义见 [PRD](docs/PRD.md)，实施路线见 [OpenSpec 路线](docs/openspec-implementation-roadmap.md)。查询不会联网、运行 harness 或调用 LLM。
 
 使用 Node.js 24.12.0+（24.x）、pnpm 11.10.0：
 
