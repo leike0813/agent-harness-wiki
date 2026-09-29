@@ -535,18 +535,8 @@ export async function loadAndValidateChapters(input: {
         (x) => x.section_id === q.section_id,
       );
       const body = sectionBodies.get(q.section_id) ?? "";
-      const questionStart = body.indexOf(`**${q.question_id}**`);
-      const nextQuestion =
-        questionStart < 0 ? -1 : body.indexOf("\n**", questionStart + 2);
-      const questionBody =
-        questionStart < 0
-          ? ""
-          : body.slice(
-              questionStart,
-              nextQuestion < 0 ? undefined : nextQuestion,
-            );
-      const explanation = questionBody
-        .replace(/^\*\*[a-z][a-z0-9_]*\.[a-z][a-z0-9_]*\*\*[:：]?/, "")
+      const explanation = body
+        .replace(/^## .+ \{#[a-z][a-z0-9_-]*\}\s*/, "")
         .replace(/\[@[a-z][a-z0-9_-]*\]/g, "")
         .trim();
       if (!section || !explanation)
@@ -555,8 +545,8 @@ export async function loadAndValidateChapters(input: {
           "publishability",
           file,
           `questions/${q.question_id}`,
-          "Question or explanation is absent from its section.",
-          "Put the question ID and explanation in its located section.",
+          "Located section has no explanation.",
+          "Add mechanism prose to the located section.",
           chapter.edition_id,
         );
       if (
@@ -576,7 +566,7 @@ export async function loadAndValidateChapters(input: {
         if (
           refs.get(refId)?.harness_id !== chapter.harness_id ||
           !section?.source_refs.includes(refId) ||
-          !questionBody.includes(`[@${refId}]`)
+          !body.includes(`[@${refId}]`)
         )
           fail(
             "QUESTION_SOURCE_MISSING",

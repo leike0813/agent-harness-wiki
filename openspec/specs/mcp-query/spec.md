@@ -6,35 +6,23 @@ Exposes reviewed local knowledge through five stable MCP stdio tools that retain
 
 ## Requirements
 
-### Requirement: Fixed read-only tool surface
-The server SHALL expose exactly `list_harnesses`, `get_capability`, `compare_capabilities`, `search_knowledge`, and `get_evidence` over local stdio. It SHALL bind one verified release at startup and SHALL NOT accept per-call release selection, arbitrary paths or SQL, network access, write tools, Resources, or Prompts. Fixture releases MUST be selected explicitly.
+### Requirement: Five fixed read-only chapter tools
+The stdio MCP server SHALL expose exactly `list_harnesses`, `get_topic`, `search_knowledge`, `compare_topics` and `get_source`, all backed by one verified release fixed at process start. It SHALL reject per-call release selection, arbitrary paths or SQL and SHALL expose no write tool, Resources or Prompts. Every successful structured result and equivalent text rendering SHALL identify the fixed release.
 
-#### Scenario: Startup and listing
-- **WHEN** an SDK client connects to a server started with an explicit fixture release
-- **THEN** the tool list contains exactly the five named tools and every successful response identifies that release
+#### Scenario: SDK tool listing
+- **WHEN** an SDK client connects to a server started with a new-format fixture release
+- **THEN** it sees exactly the five chapter tools and each successful call identifies that release
 
-#### Scenario: Pointer changes during a session
-- **WHEN** the current release pointer changes after a server starts
-- **THEN** later calls remain bound to the originally verified release
+### Requirement: Chapter response meaning
+get_topic SHALL return whole chapter or stable section Markdown, question status and source indexes, and explicit software-version resolution. compare_topics SHALL align common questions only; search_knowledge SHALL return readable section locators; get_source SHALL read only published snapshot locator, official link and bounded excerpt. Partial, unknown, conflict, source_only, approximate, not_found and ambiguous SHALL be business outcomes, while invalid input SHALL be an error.
 
-### Requirement: Shared query meaning and structured results
-Tool inputs SHALL have strict schemas and route through the shared query service. Successful results SHALL provide structured content and a text rendering of the same content. Capability queries SHALL accept complete Target scope, topic or fact key, version policy, conditions, and optional summary or full detail. Summary detail SHALL retain Target, conditions, support, coverage, review status, and evidence references. Business outcomes including unknown, not_verified, ambiguous, partial, and conflict SHALL NOT be protocol failures.
+#### Scenario: Source-only package request
+- **WHEN** an installed version is requested but only a fixed unversioned document chapter exists
+- **THEN** get_topic returns source_only with selected software version null and not_verified applicability
 
-#### Scenario: Unverified exact version
-- **WHEN** an SDK client requests a discovered version without a reviewed capability claim
-- **THEN** the capability tool returns not_verified with the requested Target and coverage as a successful result
+### Requirement: Bounded section reading
+List and search SHALL default to 10 and reject limits above 20; comparison SHALL accept two to five targets. Source excerpts SHALL be at most 2000 characters, and response content SHALL not exceed 128 KiB. An oversized whole chapter SHALL return response_too_large with its section index instead of a truncated body; every published section SHALL be individually readable. Cursors SHALL bind release, normalized query and order.
 
-#### Scenario: Malformed input
-- **WHEN** a client submits an invalid Target or a per-call release selector
-- **THEN** the call fails input validation without returning a false capability fact
-
-### Requirement: Bounded MCP responses
-List and search SHALL default to 20 results and reject limits above 20; comparisons SHALL retain the existing two-to-five Target bound. Evidence excerpts SHALL be limited to 2000 characters with truncation made visible. A response exceeding 128 KiB SHALL fail clearly rather than silently omitting facts. Pagination cursors SHALL retain the query service's release, normalized query, and order binding.
-
-#### Scenario: Oversize response
-- **WHEN** a result cannot fit the response limit
-- **THEN** the tool returns a technical size error and asks the caller to narrow the query
-
-#### Scenario: Cursor mismatch
-- **WHEN** a cursor is reused with a different query or release
-- **THEN** the continuation fails instead of returning a mixed page
+#### Scenario: Large chapter
+- **WHEN** a whole chapter exceeds the MCP response limit
+- **THEN** get_topic returns the section index and a caller can read each section without content truncation

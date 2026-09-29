@@ -23,6 +23,7 @@ The document build command SHALL work from a fresh installed checkout without re
 
 ### Requirement: Product-topic Wiki pages
 The site SHALL build from one verified new-format release and provide product overviews with seven independent theme pages per first-wave product. Each topic page SHALL present mechanism prose with stable section anchors, a brief fixed-source scope, inline citations, optional useful Q&A after the body and before source links, local gaps and conflicts, and access to retained historical editions. Generated source text SHALL remain inert, and fixture pages SHALL identify fictional data.
+Each current topic page SHALL show a question index linking fixed question IDs and their states to the stable sections that answer them.
 
 #### Scenario: First-wave navigation
 - **WHEN** the first-wave release is built into the site

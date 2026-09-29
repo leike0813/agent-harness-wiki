@@ -13,13 +13,9 @@ Makes local dataset validation, release compilation, and all five release-bound 
 - **WHEN** validation encounters a broken reference
 - **THEN** the command exits nonzero and identifies the diagnostic
 
-### Requirement: Shared query commands
-`ahw query list`, `capability`, `compare`, `search`, and `evidence` SHALL call the shared query service with explicit release selection support. JSON output SHALL preserve the service's structured status, release ID, Target, conditions, coverage, and evidence fields. Normal uncertainty SHALL be a successful business response; invalid arguments or technical failures SHALL exit nonzero.
+### Requirement: Shared chapter query commands
+The CLI SHALL expose release-bound list, topic, compare, search and source reads using the same inputs and business results as the shared query service. JSON output SHALL preserve release ID, source scope, version resolution and question status. Normal uncertainty SHALL exit successfully; invalid arguments and technical failures SHALL exit nonzero.
 
-#### Scenario: Unverified version
-- **WHEN** capability queries a discovered but unverified version
-- **THEN** the command exits successfully and reports not_verified in JSON
-
-#### Scenario: Invalid argument
-- **WHEN** a query receives malformed Target input
-- **THEN** the command exits nonzero without a false success message
+#### Scenario: Approximate topic version
+- **WHEN** a CLI topic query requests an unmapped newer package version with an evidenced earlier match
+- **THEN** it exits successfully and reports the selected earlier version and requested not_verified applicability

@@ -17,50 +17,31 @@ The query service SHALL verify and bind one local release at opening, use only i
 - **WHEN** the current pointer selects a fixture release without an explicit release ID
 - **THEN** opening the service fails
 
-### Requirement: Version and Target resolution
-Queries SHALL match the complete Target scope. Exact versions SHALL NOT fall back. `latest_verified` SHALL select one version with accepted claims in the requested scope and topic; `latest_upstream` SHALL select from published discovery snapshots and expose its observation time without treating discovery as verification. Versions without a defensible order SHALL return ambiguous rather than being combined.
+### Requirement: Chapter and section version selection
+A query without software version SHALL read the current investigated chapter of its fixed release. An explicit version SHALL select an evidenced exact mapping, otherwise latest evidenced matching prefix, otherwise a nearest earlier comparable version; where no mapping exists it SHALL return a fixed-source chapter as source_only. Results SHALL include requested version, selected version or null, match kind, requested applicability and source scope. Whole chapters SHALL NOT combine sections from different editions; a section-specific mapping MAY support a section read when a whole-chapter mapping does not.
 
-#### Scenario: Exact newer version
-- **WHEN** the requested exact version has only not_started coverage
-- **THEN** the result identifies that version as not_verified and preserves its coverage
+#### Scenario: Newer package than mapped knowledge
+- **WHEN** a request names version 2.0 and the nearest evidenced chapter mapping is 1.9
+- **THEN** the result returns the 1.9 chapter as approximate and marks version 2.0 not_verified
 
-#### Scenario: Newer discovery
-- **WHEN** a snapshot discovers a newer version that has no accepted claim
-- **THEN** latest_upstream identifies the newer version and returns not_verified
+#### Scenario: Unversioned official page
+- **WHEN** no software-version mapping is defensible but a current fixed-source chapter exists
+- **THEN** the result returns source_only with selected software version null and the source scope
 
-#### Scenario: Latest verified
-- **WHEN** an older exact version has accepted topic claims and a newer discovered version does not
-- **THEN** latest_verified resolves only the older version
+### Requirement: Five chapter query operations
+The shared release-bound service SHALL list harnesses, get a whole topic or stable section, compare two to five product/version targets by common question IDs, search current sections and get a published source reference. A found chapter SHALL retain question-level answered, partial, unknown, not_applicable and conflict independently of the top-level selection status. Missing IDs and ambiguous aliases SHALL be normal business outcomes; malformed input and broken releases SHALL be technical errors.
 
-### Requirement: Facts, conditions, and uncertainty
-Capability results SHALL retain each published claim's Target, fact key, support availability, delivery method, conditions, evidence references, and assessment state. Missing required conditions SHALL produce ambiguous results. Disputed claims SHALL produce conflict; coverage without a claim SHALL remain unknown or partial and SHALL NOT become unsupported.
+#### Scenario: Section read
+- **WHEN** getTopic requests a valid section ID
+- **THEN** it returns that section's complete Markdown, question IDs, source references, release ID and version resolution
 
-#### Scenario: Conditional path
-- **WHEN** a path claim requires a condition the caller has not specified
-- **THEN** the result shows the conditional claim and marks the answer ambiguous
+#### Scenario: Comparison
+- **WHEN** two products answer the same question differently
+- **THEN** compareTopics returns each product's own status, section locator, source references and version resolution without a synthesized verdict
 
-#### Scenario: Disputed claim
-- **WHEN** a Target has a disputed reviewed claim
-- **THEN** the result reports conflict and retains the claim and its evidence
+### Requirement: Section discovery and pagination
+Search SHALL return bounded current-edition section matches with a body preview and source scope; it SHALL NOT accept a software-version filter or fill results with historical editions. List and search cursors SHALL bind release, normalized query and order. A search result SHALL provide a section ID that getTopic can read back.
 
-### Requirement: Five query operations
-The service SHALL list harnesses, get capabilities, compare capabilities by shared fact key and topic, search published knowledge, and get published evidence by ID. Comparisons SHALL keep each Target's conditions and statuses separate. Evidence lookup SHALL NOT access source archives.
-
-#### Scenario: Cross-Target comparison
-- **WHEN** two Targets have different delivery methods or coverage
-- **THEN** the comparison returns each Target's own result without merging its facts
-
-#### Scenario: Evidence lookup
-- **WHEN** a caller requests a published evidence ID
-- **THEN** the response contains its recorded locator, basis, excerpt, and release ID
-
-### Requirement: Bounded search and pagination
-Search SHALL prioritize harness aliases, structured filters and exact keys or semantic paths before literal FTS5 candidates, including fixed Chinese topic aliases. List and search SHALL have bounded limits and opaque cursors bound to release, normalized query, and ordering. Invalid cursors and malformed FTS input SHALL be rejected without executing arbitrary SQL or changing the search contract.
-
-#### Scenario: Literal FTS punctuation
-- **WHEN** search text contains FTS syntax punctuation
-- **THEN** the text is treated as literal search terms and cannot alter the FTS expression
-
-#### Scenario: Cursor from another query
-- **WHEN** a cursor is reused with another filter or release
-- **THEN** it is rejected rather than returning an inconsistent page
+#### Scenario: Historical edition
+- **WHEN** a topic has current and historical editions with the same phrase
+- **THEN** search returns the current section once while getTopic can still retrieve the historical edition through an evidenced version mapping

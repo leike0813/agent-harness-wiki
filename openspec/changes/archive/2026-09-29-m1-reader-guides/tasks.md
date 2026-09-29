@@ -17,3 +17,10 @@
 - [x] 3.1 Render product overviews and independent theme Wiki pages with stable anchors, optional Q&A, source links and history from the release; verify site build and navigation for all five products, including inert source text.
 - [x] 3.2 Update README, site guidance and docs/development.md for the new commands and reading behavior; verify every documented CLI/MCP example against a staged new-format release.
 - [x] 3.3 Validate production data and openspec validate m1-reader-guides --strict, run relevant integration checks, compile an immutable production release and inspect all five products in site and MCP before switching current; record actual content and protocol results rather than reusing old task checkmarks.
+
+## 4. Revised writing contract and second edition
+
+- [x] 4.1 Record the agreed section, prose, index and explained-example rules in change artifacts and author guidance; keep the 35 v1 editions and previous release intact.
+- [x] 4.2 Let validation locate question citations within natural prose sections, expose the question-to-section index on topic pages, and verify those stable behaviors with focused integration checks.
+- [x] 4.3 Write and review 35 v2 chapters against fixed sources: independently usable sections, complete first-party inventories, explained examples for applicable file shapes and other reader actions, local gaps, citations and source-only version limits. Point current selections to v2 only when all 35 pass content review.
+- [x] 4.4 Validate production data and OpenSpec, run focused/full offline checks, compile and inspect a new immutable release in site and real MCP before switching the current pointer; record actual results.

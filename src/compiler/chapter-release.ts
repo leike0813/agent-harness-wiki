@@ -74,6 +74,11 @@ export function renderChapterDocs(
   knowledge: ChapterPublishedKnowledge,
 ): Map<string, string> {
   const pages = new Map<string, string>();
+  const linkedBody = (body: string, sourcesPath: string) =>
+    textSafe(body).replace(
+      /\[@([a-z][a-z0-9_-]*)\]/g,
+      (_match, id: string) => `[[${id}](${sourcesPath}/${id}.md)]`,
+    );
   const fixture =
     knowledge.profile === "fixture" ? "> Fictional fixture data.\n\n" : "";
   pages.set(
@@ -107,19 +112,22 @@ export function renderChapterDocs(
         (x) => x.edition_id === selection.edition_id,
       )!;
       const refs = [...new Set(chapter.sections.flatMap((x) => x.source_refs))];
-      const body = textSafe(chapter.body).replace(
-        /\[@([a-z][a-z0-9_-]*)\]/g,
-        (_match, id: string) => `[[${id}](../../sources/${id}.md)]`,
-      );
+      const body = linkedBody(chapter.body, "../../sources");
       const history = knowledge.records.chapters.filter(
         (x) =>
           x.harness_id === harness.harness_id &&
           x.topic === selection.topic &&
           x.edition_id !== chapter.edition_id,
       );
+      const questionIndex = chapter.questions
+        .map(
+          (q) =>
+            `| \`${q.question_id}\` | ${q.status} | [${q.section_id}](#${q.section_id}) |`,
+        )
+        .join("\n");
       pages.set(
         `docs/harnesses/${harness.harness_id}/${selection.topic}.md`,
-        `# ${textSafe(chapter.title)}\n\n${fixture}当前调查版：${chapter.edition_id}。以下为固定来源知识；未列明软件版本映射时，不代表已验证的安装版本。\n\n${body}\n\n## 来源\n\n${refs.map((id) => `- [${id}](../../sources/${id}.md)`).join("\n")}\n\n## 历史章节\n\n${history.map((x) => `- [${x.edition_id}](../../chapters/${x.edition_id}.md)`).join("\n")}\n`,
+        `# ${textSafe(chapter.title)}\n\n${fixture}当前调查版：${chapter.edition_id}。以下为固定来源知识；未列明软件版本映射时，不代表已验证的安装版本。\n\n${body}\n\n## 问题索引\n\n| 问题 | 状态 | 对应小节 |\n|---|---|---|\n${questionIndex}\n\n## 来源\n\n${refs.map((id) => `- [${id}](../../sources/${id}.md)`).join("\n")}\n\n## 历史章节\n\n${history.map((x) => `- [${x.edition_id}](../../chapters/${x.edition_id}.md)`).join("\n")}\n`,
       );
     }
   }
@@ -340,18 +348,17 @@ export async function verifyChapterRelease(
   for (const item of knowledge.records.current)
     if (!index.includes(`harnesses/${item.harness_id}/${item.topic}.md`))
       throw new Error("Current chapter missing from Markdown index.");
-  for (const chapter of knowledge.records.chapters)
+  const expectedPages = renderChapterDocs(knowledge);
+  for (const chapter of knowledge.records.chapters) {
+    const relative = `docs/chapters/${chapter.edition_id}.md`;
     if (
-      !(
-        await readFile(
-          path.join(dir, `docs/chapters/${chapter.edition_id}.md`),
-          "utf8",
-        )
-      ).includes(chapter.body)
+      (await readFile(path.join(dir, relative), "utf8")) !==
+      expectedPages.get(relative)
     )
       throw new Error(
         `Chapter Markdown differs from JSON: ${chapter.edition_id}`,
       );
+  }
   for (const ref of knowledge.records.source_references) {
     const page = await readFile(
       path.join(dir, `docs/sources/${ref.reference_id}.md`),

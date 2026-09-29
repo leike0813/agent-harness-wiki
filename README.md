@@ -9,19 +9,17 @@ pnpm install --frozen-lockfile
 pnpm verify
 ```
 
-生产章节真源位于 `knowledge/<harness-id>/chapters/`，来源引用位于同产品的 `references/`。`pnpm knowledge:validate` 校验这五个产品的 35 篇当前章节。每次编译使用新的 release ID；发布物不可覆盖：
+生产章节真源位于 `knowledge/<harness-id>/chapters/`，来源引用位于同产品的 `references/`。`pnpm knowledge:validate` 校验这五个产品的 35 篇当前章节；v1 仍在同一发布的历史入口可查。每次编译使用新的 release ID；发布物不可覆盖。下面的查询读取 `reader-guides-20260929-v2`：
 
 ```sh
 pnpm ahw validate --dataset-root . --profile production
-pnpm ahw compile --dataset-root . --profile production --release-id reader-guides-20260929 --published-at 2026-09-29T00:00:00Z --stage
-pnpm ahw query --release-id reader-guides-20260929 list --json
-pnpm ahw query --release-id reader-guides-20260929 topic --harness pi --topic skills --json
-pnpm ahw query --release-id reader-guides-20260929 topic --harness pi --topic skills --version 0.73.1 --json
-pnpm ahw query --release-id reader-guides-20260929 search --topic mcp --text server --json
-pnpm ahw query --release-id reader-guides-20260929 compare --topic skills --targets '[{"harness":"pi"},{"harness":"omp"}]' --json
-pnpm ahw query --release-id reader-guides-20260929 source --reference-id ref-pi-skills-locations --json
-pnpm docs:build --release-id reader-guides-20260929
-pnpm ahw publish --release-id reader-guides-20260929
+pnpm ahw query --release-id reader-guides-20260929-v2 list --json
+pnpm ahw query --release-id reader-guides-20260929-v2 topic --harness pi --topic skills --json
+pnpm ahw query --release-id reader-guides-20260929-v2 topic --harness pi --topic skills --version 0.73.1 --json
+pnpm ahw query --release-id reader-guides-20260929-v2 search --topic mcp --text server --json
+pnpm ahw query --release-id reader-guides-20260929-v2 compare --topic skills --targets '[{"harness":"pi"},{"harness":"omp"}]' --json
+pnpm ahw query --release-id reader-guides-20260929-v2 source --reference-id ref-pi-skills-locations --json
+pnpm docs:build --release-id reader-guides-20260929-v2
 ```
 
 要查虚构 fixture，可在独立输出目录生成一次发布：
@@ -36,11 +34,13 @@ pnpm ahw query --releases-root var/chapter-release-fixture/releases --release-id
 MCP 以 stdio 固定一个已验证发布，提供 `list_harnesses`、`get_topic`、`search_knowledge`、`compare_topics`、`get_source` 五个只读工具：
 
 ```sh
-pnpm ahw mcp --release-id reader-guides-20260929
+pnpm ahw mcp --release-id reader-guides-20260929-v2
 pnpm mcp:smoke
-pnpm docs:build --release-id reader-guides-20260929
+pnpm docs:build --release-id reader-guides-20260929-v2
 ```
 
 `pnpm docs:build` 无参数时构建临时 fixture release；显式指定 release 时先校验其完整性。站点页面、CLI 和 MCP 读取同一个不可变发布。软件版本映射只在来源证据足够时建立；`source_only` 不表示安装版本已验证。
+
+新增章节时按 [成稿规则](docs/topic-questions.md) 写路径、配置文件示例、处理链、检查方式与固定来源，再用 [开发指南](docs/development.md) 中的 staging 编译和发布命令；已发布的 release ID 不可重用。
 
 项目不提供自动配置管理、查询时生成答案或后台调查。真实产品的源码、文档及 npm 包版本可能不同步。开发流程见 [开发指南](docs/development.md)。

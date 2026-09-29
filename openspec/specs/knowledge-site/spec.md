@@ -6,19 +6,8 @@ Builds a navigable offline website from one verified KnowledgeRelease and provid
 
 ## Requirements
 
-### Requirement: Published knowledge site
-The site SHALL build from the generated Markdown of one verified release without maintaining a second copy of configuration facts. It SHALL contain an entry page, harness index and fixture harness pages, the six core topics, evidence pages, release information, and explanations of unknown, partial coverage, conflict, and distinct observation and verification times. Fixture pages SHALL visibly identify fictional data; source excerpts SHALL remain inert.
-
-#### Scenario: Fixture site build
-- **WHEN** a validated fixture release is built into the site
-- **THEN** the resulting pages include both fictional harnesses, six topic pages, evidence, release identity, and a prominent fixture notice
-
-#### Scenario: Untrusted source text
-- **WHEN** an evidence excerpt contains active markup
-- **THEN** the rendered site displays it as inert text
-
 ### Requirement: Repeatable offline build and acceptance
-The document build command SHALL work from a fresh installed checkout without relying on an existing ignored release directory. It SHALL also accept an explicitly selected existing release, verify it, and leave its immutable files unchanged. The full verification command SHALL run schema/data checks, typecheck, lint, formatting, tests, program build, MCP protocol coverage, and site build with no upstream network or real harness execution.
+The document build command SHALL work from a fresh installed checkout without relying on an existing ignored release directory. It SHALL also accept an explicitly selected new-format release, verify it, and leave its immutable files unchanged. The full verification command SHALL run relevant schema/data checks, typecheck, lint, formatting, tests, program build, new five-tool MCP protocol coverage, and site build without upstream network or real harness execution.
 
 #### Scenario: Repeated verification
 - **WHEN** a contributor runs the full verification command twice after installation
@@ -27,3 +16,11 @@ The document build command SHALL work from a fresh installed checkout without re
 #### Scenario: Damaged selected release
 - **WHEN** an explicitly selected release fails integrity verification
 - **THEN** the site build fails without presenting that release as successfully built
+
+### Requirement: Product-topic Wiki pages
+The site SHALL build from one verified new-format release and provide product overviews with seven independent theme pages per first-wave product. Each topic page SHALL present mechanism prose with stable section anchors, a brief fixed-source scope, inline citations, optional useful Q&A after the body and before source links, local gaps and conflicts, and access to retained historical editions. Generated source text SHALL remain inert, and fixture pages SHALL identify fictional data.
+Each current topic page SHALL show a question index linking fixed question IDs and their states to the stable sections that answer them.
+
+#### Scenario: First-wave navigation
+- **WHEN** the first-wave release is built into the site
+- **THEN** a reader can open any of the 35 topic pages, follow section and source links, and distinguish a fixed source revision from a verified installed version

@@ -101,16 +101,6 @@ test.each([
     "QUESTION_SOURCE_MISSING",
   ],
   [
-    "citation inherited from another question in one section",
-    chapterPath,
-    (s: string) =>
-      s.replace(
-        "question_id: skills.roots\n    section_id: skills-overview\n    status: unknown\n    source_refs: []",
-        "question_id: skills.roots\n    section_id: skills-overview\n    status: unknown\n    source_refs: [ref-demo-open]",
-      ),
-    "QUESTION_SOURCE_MISSING",
-  ],
-  [
     "cross-product citation",
     chapterPath,
     (s: string) => s.replace("ref-demo-open", "ref-demo-package"),
@@ -150,6 +140,18 @@ test.each([
   expect(result.diagnostics.map((x) => x.code)).toContain(code);
 });
 
+test("natural prose can answer an indexed question without a paragraph label", async () => {
+  const root = await copy();
+  await edit(root, chapterPath, (s) =>
+    s.replace(
+      "**skills.discovery**：虚构来源描述了项目 Skill 的发现路径。",
+      "项目 Skill 的发现路径由虚构来源描述。",
+    ),
+  );
+  const result = await loadAndValidateChapters({ root, profile: "fixture" });
+  expect(result.ok).toBe(true);
+});
+
 test("repeat builds agree across JSON, SQLite, Markdown; mapping-only release keeps chapter bytes", async () => {
   const dataset = await copy();
   const leftRoot = await temp(),
@@ -176,6 +178,14 @@ test("repeat builds agree across JSON, SQLite, Markdown; mapping-only release ke
   expect(knowledge.records.current).toHaveLength(14);
   expect(knowledge.records.chapters).toHaveLength(15);
   expect(knowledge.records.mappings[0].scope).toBe("section");
+  expect(
+    await readFile(
+      path.join(left.releaseDir, "docs/harnesses/demo-open-cli/skills.md"),
+      "utf8",
+    ),
+  ).toContain(
+    "| `skills.discovery` | answered | [skills-overview](#skills-overview) |",
+  );
   const db = new Database(path.join(left.releaseDir, "knowledge.sqlite"), {
     readonly: true,
   });

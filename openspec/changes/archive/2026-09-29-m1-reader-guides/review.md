@@ -31,3 +31,13 @@
 执行结果：`pnpm verify` 通过，含 16 项单元测试、42 项集成测试、类型检查、lint、格式与 schema 检查、生产校验、程序和默认站点构建；`openspec validate m1-reader-guides --strict` 通过。正式发布先用 `ahw compile --stage` 编译，确认旧 `current` 指针未改变。生产站点显式选择该 release 构建成功；五个产品的 35 个主题 HTML 页均存在，产品页可导航到各主题，主题页有稳定锚点及来源链接。真实 MCP SDK stdio 客户端看到且只看到 `list_harnesses`、`get_topic`、`search_knowledge`、`compare_topics`、`get_source`，逐一调用五工具，并读取五产品全部 35 个主题；搜索结果可按 `section_id` 回读完整小节，比较返回共同问题，来源可读。最后运行 `ahw publish`，默认 CLI 查询确认当前指针为 `reader-guides-20260929`，对未映射的 OpenCode 1.18.32 请求明确返回 `source_only/not_verified`。
 
 本次交付的是固定来源的读者章节和词法读取接口；本地 embedding 混合检索、包版本映射及受管制品启动分别由后续 change 验收。现有旧 Claim/Coverage 文件保留作历史调查材料，不再由新查询接口读取。
+
+## 2026-09-29 成稿标准修订与第二版验收
+
+根据[章节写作票据](../../../.scratch/knowledge-product-wayfinding/issues/12-chapter-writing-granularity.md)，本 change 增补按独立机制分节、问题编号留在索引、配置文件按不同形态给准确路径和最小完整块，并解释字段、前提、结果与检查方式的要求。35 篇 v1 原件和 `reader-guides-20260929` 不变；新稿为五产品七主题的 35 篇 v2，当前选择各指向 v2，原 v1 进入历史。每产品仍覆盖 53 个问题，共 265 个逐题状态；新发布包含 293 条固定来源引用与 0 条软件版本映射。各章保留未取证处的局部缺口，不将文档或源码提交推断成已验证 npm 版本。
+
+内容审阅覆盖七类主题的代表页：Codex CLI Skills/MCP/Provider 的文件形状与条件、Claude Code 配置与 Hook 的来源边界、OpenCode Skills/MCP/配置的示例及优先级、Pi Agent/Hook/配置的示例和核心 MCP 缺失、OMP MCP/插件/配置的传输、安装与合并解释。逐页发现并修正 Markdown 围栏、示意 URL 或包名未标注、非最小配置块、缺少文件路径和检查方法等问题。新增 `ref-pi-providers-auth-file`，使 Pi `auth.json` 权限和 key 写法能定位到实际行段；已核对其摘录位于固定源码行内。全量检查确认 35 篇无问题编号段首标签，代码围栏配平，66 个 JSON/YAML 示例块及 7 个 Markdown frontmatter 示例的语法通过相应解析或边界检查。自然语言结论仍由读者任务抽查，结构校验不替代语义判断。
+
+`pnpm knowledge:validate` 通过，校验 70 个章节版本（35 当前、35 历史）；`pnpm sources:audit` 确认本地固定原件与登记元数据一致；`openspec validate m1-reader-guides --strict` 通过。`pnpm verify` 通过：类型检查、lint、格式、schema、审计日志、fixture 与生产校验、16 项单元测试、42 项集成测试、程序与默认站点构建。首次 staging 尝试因修改历史章节 Markdown 呈现而触发不可变版本检查；已保留 v1 产物原样，重试成功。`reader-guides-20260929-v2` staging 编译后输入摘要与当前真源一致，旧 current 指针未动。
+
+显式用新 release 构建生产站点成功，35 个主题 HTML 页均存在；Codex CLI MCP 页的稳定锚点、TOML 代码块、问题索引、来源链接与 v1 历史入口可在 HTML 中定位。真实 SDK stdio 客户端只列出新五工具，读取全部 35 个当前主题及各一个完整小节，调用搜索、比较和新增来源引用均成功；指定 Codex CLI 0.157.1 返回 `source_only`、`selected_version: null`。最后运行 `ahw publish` 将本地 current 指针切为 `reader-guides-20260929-v2`，默认 CLI 查询返回 `pi-skills-v2`，随后用该发布再次构建站点成功。未运行真实 harness 配置、MCP server、Hook 或插件；示例只代表固定来源支持的语法与处理链，软件版本适用性仍须独立映射。

@@ -33,6 +33,8 @@
 
 新知识主稿是带逐题状态和固定来源的产品 × 主题章节；新 MCP 五工具为 `list_harnesses`、`get_topic`、`search_knowledge`、`compare_topics`、`get_source`。普通更新由 Agent 自检后可发布，指定高影响情况由另一 Agent 复核；M1 的本地离线混合检索是交付门槛。受管二进制启动与知识发布分别验收。旧格式 release 无兼容义务，新发布内的历史章节仍须可查。
 
+编写或修订产品 × 主题章节时，按 [固定问题与成稿规则](docs/topic-questions.md) 核对机制分节、问题索引、配置文件示例、来源和版本边界；审阅正文后再选为当前版。
+
 ---
 
 ## 2. M0 基线与后续阶段
