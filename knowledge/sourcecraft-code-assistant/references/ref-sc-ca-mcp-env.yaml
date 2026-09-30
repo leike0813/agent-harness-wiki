@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-sc-ca-mcp-env
+harness_id: sourcecraft-code-assistant
+snapshot_id: snapshot-sc-ca-mcp-plugin
+locator:
+  kind: document_section
+  heading: "Using system environment variables in arguments {#environment-variables}"
+official_url: "https://sourcecraft.dev/portal/docs/en/code-assistant/operations/agent/mcp/using-mcp-in-ca.md"
+excerpt: |-
+  You can reference system environment variables in the `args` array using the `${env:VARIABLE_NAME}` syntax. This allows you to provide sensitive information, such as API keys or tokens, from the system environment without explicitly mentioning them in the configuration:
+  ```json
+  {
+    "mcpServers": {
+      "github": {
+        "command": "docker",
+        "args": [
+          "run",
+          "-i",
+          "--rm",
+          "-e",
+          "GITHUB_PERSONAL_ACCESS_TOKEN=${env:GITHUB_PERSONAL_ACCESS_TOKEN}",
+          "ghcr.io/github/github-mcp-server"
+        ],
+        "alwaysAllow": [
+          "get_pull_request"
+        ]
+      }
+    }
+  }
+  ```
+  In this example, `${env:GITHUB_PERSONAL_ACCESS_TOKEN}` will be replaced with the value of the `GITHUB_PERSONAL_ACCESS_TOKEN` environment variable from your system.

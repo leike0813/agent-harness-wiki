@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-sc-ca-skills-notloading
+harness_id: sourcecraft-code-assistant
+snapshot_id: snapshot-sc-ca-agent-skills
+locator:
+  kind: document_section
+  heading: "Code Assistant fails to use the skill even when the request matches the description {#skill-not-loading}"
+official_url: "https://sourcecraft.dev/portal/docs/en/code-assistant/operations/agent/skills.md"
+excerpt: |-
+  1. The `name` metadata field must exactly match the directory name:
+     ```markdown
+     # Incorrect: the directory name is `pdf-processing`
+     ---
+     name: pdf_processing
+     ---
+     # Correct
+     ---
+     name: pdf-processing
+     ---
+     ```
+  1. The `name` and `description` metadata fields are required.
+  1. If a skill is in `skills-code/` but you are working in `Architect` mode, it will not load. Place the skill in `skills/` for all modes or create mode-specific copies.
+  1. Write effective precise descriptions for Code Assistant to match them to your requests:
+      ```markdown
+      # Too broad
+      description: Handle files
+      # Precise
+      description: Extract text and tables from PDF files using Python libraries
+      ```

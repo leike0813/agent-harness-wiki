@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-sc-ca-mcp-runtimes
+harness_id: sourcecraft-code-assistant
+snapshot_id: snapshot-sc-ca-mcp-plugin
+locator:
+  kind: document_section
+  heading: "Configuration using runtime version managers {#configuration-with-runtime-version-managers}"
+official_url: "https://sourcecraft.dev/portal/docs/en/code-assistant/operations/agent/mcp/using-mcp-in-ca.md"
+excerpt: |-
+  When working with multiple language or runtime versions, you can use version managers such as [asdf](https://asdf-vm.com/) or [mise](https://mise.jdx.dev/) (formerly rtx). These tools help manage multiple versions of runtime environments on a single system. Here is how to configure MCP servers to work with these version managers:
+  {% list tabs %}
+  - mise
+    [mise](https://mise.jdx.dev/) is a fast and up-to-date runtime version manager that you can use to specify the version of Node.js, Python, or other runtimes for your MCP server:
+    ```json
+    {
+      "mcpServers": {
+        "mcp-batchit": {
+          "command": "mise",
+          "args": [
+            "x",
+            "--",
+            "node",
+            "/Users/myself/workspace/mcp-batchit/build/index.js"
+          ],
+          "disabled": false,

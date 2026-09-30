@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-sc-ca-transport-sse
+harness_id: sourcecraft-code-assistant
+snapshot_id: snapshot-sc-ca-mcp-transports
+locator:
+  kind: document_section
+  heading: "SSE Transport (legacy) {#sse-transport}"
+official_url: "https://sourcecraft.dev/portal/docs/en/code-assistant/operations/agent/mcp/server-transports.md"
+excerpt: |-
+  Server-Sent Events (SSE) is a legacy method for remote communication over HTTP/HTTPS. For new implementations, **we recommend using Streamable HTTP**. SSE remains available only for compatibility with older MCP servers.
+  ### How SSE works {#how-sse-works}
+  1. The client (Code Assistant) connects to the server's SSE endpoint via an HTTP GET request.
+  1. A persistent connection is established, allowing the server to send events to the client.
+  1. For client-to-server communication, the client sends HTTP POST requests to a separate endpoint.
+  1. The communication takes place over two channels:
+      * Event stream (GET) for server-to-client updates.
+      * Message endpoint (POST) for client-to-server requests.
+  ### SSE implementation example {#sse-http-example}
+  ```typescript

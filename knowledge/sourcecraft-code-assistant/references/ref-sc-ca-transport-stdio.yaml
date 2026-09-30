@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-sc-ca-transport-stdio
+harness_id: sourcecraft-code-assistant
+snapshot_id: snapshot-sc-ca-mcp-transports
+locator:
+  kind: document_section
+  heading: "STDIO transport {#stdio}"
+official_url: "https://sourcecraft.dev/portal/docs/en/code-assistant/operations/agent/mcp/server-transports.md"
+excerpt: |-
+  The STDIO transport runs locally on your machine and uses standard input and output streams.
+  ### How STDIO works {#how-stdio-works}
+  1. The client (Code Assistant) starts the MCP server as a child process.
+  1. The communication takes place through process streams: the client writes to the server's STDIN, and the server responds via STDOUT.
+  1. Each message is separated by a newline character.
+  1. Messages are formatted as JSON-RPC 2.0.
+  ```text
+  Client                    Server
+     |                         |
+     |---- JSON message ---->| (via STDIN)
+     |                         | (processes the request)
+     |<---- JSON message ----| (via STDOUT)
+     |                         |
+  ```
+  ### STDIO features {#stdio-characteristics}
+  * Locality: Runs on the same machine as Code Assistant.

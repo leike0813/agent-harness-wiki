@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-sc-ca-term-status
+harness_id: sourcecraft-code-assistant
+snapshot_id: snapshot-sc-ca-terminal
+locator:
+  kind: document_section
+  heading: "Checking shell integration status {#check-the-status-of-the-shell-integration}"
+official_url: "https://sourcecraft.dev/portal/docs/en/code-assistant/operations/agent/shell-integration.md"
+excerpt: |-
+  Make sure shell integration is active with the help of these commands:
+  {% list tabs %}
+  - Bash (`~/.bashrc`)
+    ```bash
+    set | grep -i '[16]33;'
+    echo "$PROMPT_COMMAND" | grep vsc
+    trap -p DEBUG | grep vsc
+    ```
+  - Zsh (`~/.zshrc`)
+    ```zsh
+    functions | grep -i vsc
+    typeset -p precmd_functions preexec_functions
+    ```
+  - PowerShell (`$Profile`)
+    ```powershell
+    Get-Command -Name "*VSC*" -CommandType Function
+    Get-Content Function:\Prompt | Select-String "VSCode"
+    ```
+  - Fish (`~/.config/fish/config.fish`)
+    ```fish
+    functions | grep -i vsc
+    functions fish_prompt | grep -i vsc
+    ```
+  {% endlist %}
+  Visual indicators of the active shell integration:
+  1. Shell integration indicator in the terminal header.
+  1. Command detection highlights.
+  1.

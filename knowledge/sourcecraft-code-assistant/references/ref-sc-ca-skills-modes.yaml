@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-sc-ca-skills-modes
+harness_id: sourcecraft-code-assistant
+snapshot_id: snapshot-sc-ca-agent-skills
+locator:
+  kind: document_section
+  heading: "Mode-specific skills {#mode-specific-skills}"
+official_url: "https://sourcecraft.dev/portal/docs/en/code-assistant/operations/agent/skills.md"
+excerpt: |-
+  Create skills that only activate in specific modes:
+  ```text
+  ~/.codeassistant/skills-code/     # Code mode only (global)
+  └── refactoring-patterns/
+      └── SKILL.md
+  .codeassistant/skills-architect/  # Architect mode only (project)
+  └── system-design-templates/
+      └── SKILL.md
+  ~/.agents/skills-code/            # Code mode only (cross-agent, global)
+  └── shared-code-skill/
+      └── SKILL.md
+  .agents/skills-{modeSlug}/        # For a specific mode, cross-agent, project
+  ```
+  Examples of using mode-specific skills:
+  * Code refactoring patterns are only available in `Code` mode.
+  * System design patterns are only available in `Architect` mode.

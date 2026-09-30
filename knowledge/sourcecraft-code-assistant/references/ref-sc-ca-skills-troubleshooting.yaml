@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-sc-ca-skills-troubleshooting
+harness_id: sourcecraft-code-assistant
+snapshot_id: snapshot-sc-ca-agent-skills
+locator:
+  kind: document_section
+  heading: "Troubleshooting {#troubleshooting}"
+official_url: "https://sourcecraft.dev/portal/docs/en/code-assistant/operations/agent/skills.md"
+excerpt: |-
+  * [Code Assistant fails to use the skill even when the request matches the description](#skill-not-loading)
+  * [Code Assistant reads the skill but does not follow the instructions](#skill-not-helpful)
+  * [It is unclear which skill Code Assistant uses when multiple skills may be suitable](#skill-conflict)
+  * [I need everyone in the team to use the same skills](#team-sharing)
+  #### Code Assistant fails to use the skill even when the request matches the description {#skill-not-loading}
+  1. The `name` metadata field must exactly match the directory name:
+     ```markdown
+     # Incorrect: the directory name is `pdf-processing`
+     ---
+     name: pdf_processing
+     ---
+     # Correct
+     ---
+     name: pdf-processing
+     ---
+     ```
+  1. The `name` and `description` metadata fields are required.
+  1.

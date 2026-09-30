@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-sc-ca-mcp-examples
+harness_id: sourcecraft-code-assistant
+snapshot_id: snapshot-sc-ca-mcp-plugin
+locator:
+  kind: document_section
+  heading: "MCP configuration examples for different platforms {#examples-of-mcp-configuration-for-different-platforms}"
+official_url: "https://sourcecraft.dev/portal/docs/en/code-assistant/operations/agent/mcp/using-mcp-in-ca.md"
+excerpt: |-
+  {% list tabs %}
+  - macOS/Linux
+    When setting up MCP servers on macOS or Linux, you can use a simpler configuration since no Windows shell is required. Here is an example of setting up a Puppeteer MCP server on macOS or Linux:
+    ```json
+    {
+      "mcpServers": {
+        "puppeteer": {
+          "command": "npx",
+          "args": [
+            "-y",
+            "@modelcontextprotocol/server-puppeteer"
+          ]
+        }
+      }
+    }
+    ```
+    This configuration:
+    * Directly uses `npx` without the need for a shell.
+    * Employs the `-y` flag to automatically answer `yes` to any requests during installation.
+    * Runs the `@modelcontextprotocol/server-puppeteer` package, which provides browser automation capabilities.

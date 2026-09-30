@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-sc-ca-term-manual
+harness_id: sourcecraft-code-assistant
+snapshot_id: snapshot-sc-ca-terminal
+locator:
+  kind: document_section
+  heading: "Setting up shell integration manually {#manual-installation-of-the-shell-integration}"
+official_url: "https://sourcecraft.dev/portal/docs/en/code-assistant/operations/agent/shell-integration.md"
+excerpt: |-
+  If automatic integration fails, add the relevant line to your shell configuration:
+  {% list tabs %}
+  - Bash (~/.bashrc)
+    ```bash
+    [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path bash)"
+    ```
+  - Zsh (~/.zshrc)
+    ```bash
+    [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"
+    ```
+  - PowerShell ($Profile)
+    ```powershell
+    if ($env:TERM_PROGRAM -eq "vscode") { . "$(code --locate-shell-integration-path pwsh)" }
+    ```
+  - Fish (~/.config/fish/config.fish)
+    ```fish
+    string match -q "$TERM_PROGRAM" "vscode"; and . (code --locate-shell-integration-path fish)
+    ```
+  {% endlist %}

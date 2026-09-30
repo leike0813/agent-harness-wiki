@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-sc-ca-skills-how
+harness_id: sourcecraft-code-assistant
+snapshot_id: snapshot-sc-ca-agent-skills
+locator:
+  kind: document_section
+  heading: "How skills work {#how-skills-work}"
+official_url: "https://sourcecraft.dev/portal/docs/en/code-assistant/operations/agent/skills.md"
+excerpt: |-
+  Skills use progressive disclosure to efficiently load content only when relevant:
+  1. **Discovery**
+      Code Assistant reads each `SKILL.md` file and retrieves the `name` and `description` values from its metadata. Only this metadata is cached in memory: the full content is not loaded until the skill triggers.
+  1. **Instructions**
+      When your request matches a skill’s description, Code Assistant loads the full `SKILL.md` instructions into the context.
+  1. **Resources**
+      A prompt informs Code Assistant of available associated files, such as scripts, templates, and reference materials stored in the skill’s directory. There is no separate resource manifest; Code Assistant discovers these files on demand when they are mentioned in the instructions.

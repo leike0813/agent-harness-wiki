@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-sc-ca-cli-install
+harness_id: sourcecraft-code-assistant
+snapshot_id: snapshot-sc-ca-src-cli
+locator:
+  kind: document_section
+  heading: "Install the SourceCraft CLI {#install}"
+official_url: "https://sourcecraft.dev/portal/docs/en/code-assistant/operations/src-cli.md"
+excerpt: |-
+  The SourceCraft CLI is installed via a script that:
+  1. Identifies your OS and architecture.
+  1. Downloads the executable with the latest stable CLI version for your environment.
+  1. Performs a health check.
+  1. Adds the CLI to the `PATH` environment variable.
+  1. Generates autocompletion settings.
+  {% list tabs group=operating_system %}
+  - macOS/Linux {#linux-macos}
+    {% note warning %}
+    Supported macOS versions: 12 [Monterey](https://en.wikipedia.org/wiki/MacOS_Monterey) or higher.
+    {% endnote %}
+    1. In the terminal, run this command:
+        ```bash
+        curl -fsSL https://s3.yandexcloud.net/sourcecraft-cli/install.sh | sh
+        ```
+    1. After the installation is complete, restart the terminal:
+        ```bash
+        exec -l $SHELL
+        ```
+  - Windows {#windows}
+    1. In PowerShell, run:

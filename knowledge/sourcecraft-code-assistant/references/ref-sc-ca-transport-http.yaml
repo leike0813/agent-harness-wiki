@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-sc-ca-transport-http
+harness_id: sourcecraft-code-assistant
+snapshot_id: snapshot-sc-ca-mcp-transports
+locator:
+  kind: document_section
+  heading: "Streamable HTTP transport {#streamable-http}"
+official_url: "https://sourcecraft.dev/portal/docs/en/code-assistant/operations/agent/mcp/server-transports.md"
+excerpt: |-
+  Streamable HTTP is the modern standard for remote MCP server communication, replacing the legacy HTTP+SSE transport. Operating over HTTP/HTTPS, it enables more flexible server implementations.
+  ### How Streamable HTTP works {#how-streamable-http-works}
+  1. The server provides a single HTTP endpoint (the MCP endpoint) that supports POST and GET methods.
+  1. The client (Code Assistant) sends requests to this endpoint using HTTP POST.
+  1. The server processes the request and sends a response.
+  1. Optionally, the server may use Server-Sent Events (SSE) to stream multiple messages or notifications to the client.
+  ```text
+  Client                             Server
+     |                                  |
+     |---- HTTP POST /mcp_endpoint ---->| (client request)

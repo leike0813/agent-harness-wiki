@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-sc-ca-aa-retry
+harness_id: sourcecraft-code-assistant
+snapshot_id: snapshot-sc-ca-auto-approve
+locator:
+  kind: document_section
+  heading: "Retry {#retry}"
+official_url: "https://sourcecraft.dev/portal/docs/en/code-assistant/operations/agent/auto-approving-actions.md"
+excerpt: |-
+  When enabled, Code Assistant automatically retries failed API requests without prompting you to click **Approve** if the server returns an error. _Risk: low._
+  The additional **Delay before retrying the request** option sets the wait time before a retry attempt. The default value is 10 seconds.
+  The retry mechanism uses exponential backoff:
+  * The **Delay before retrying the request** value is the initial delay.
+  * Subsequent delays follow this formula: `min(baseDelay * 2^retryAttempt, 600)`.
+  * The maximum delay is 600 seconds.
+  > Here is an example retry sequence with an initial delay of ten seconds:
+  > * Retry 1: 10 seconds
+  > * Retry 2: 20 seconds
+  > * Retry 3: 40 seconds
+  > * Retry 4: 80 seconds
+  > * Retry 5: 160 seconds
+  > * Retry 6: 320 seconds
+  > * Retry 7 and subsequent retries: 600 seconds
