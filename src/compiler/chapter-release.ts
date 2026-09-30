@@ -68,6 +68,10 @@ const textSafe = (value: string): string =>
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
+// Every generated page is compiled as a Vue SFC template, so `{{` inside fixed
+// source text (for example Go templates in a prompt excerpt) would be evaluated
+// as interpolation. Keep reader-facing text inert while printing it verbatim.
+const vueSafe = (value: string): string => value.replaceAll("{{", "{{ '{{' }}");
 const questionsFile = fileURLToPath(
   new URL("../../docs/topic-questions.md", import.meta.url),
 );
@@ -108,7 +112,7 @@ export function renderChapterDocs(
   const fixture =
     knowledge.profile === "fixture" ? "> Fictional fixture data.\n\n" : "";
   const linkedBody = (body: string, sourcesPath: string) =>
-    textSafe(body).replace(
+    vueSafe(textSafe(body)).replace(
       /\[@([a-z][a-z0-9_-]*)\]/g,
       (_match, id: string) => `[[${id}](${sourcesPath}/${id}.md)]`,
     );
@@ -247,7 +251,9 @@ export function renderChapterDocs(
   for (const ref of knowledge.records.source_references)
     pages.set(
       `docs/sources/${ref.reference_id}.md`,
-      `# ${ref.reference_id}\n\n${fixture}Snapshot: ${ref.snapshot_id}\n\nLocation: ${textSafe(JSON.stringify(ref.locator))}\n\nOfficial link: ${ref.official_url}\n\n### Excerpt\n\n${ref.excerpt
+      `# ${ref.reference_id}\n\n${fixture}Snapshot: ${ref.snapshot_id}\n\nLocation: ${textSafe(JSON.stringify(ref.locator))}\n\nOfficial link: ${ref.official_url}\n\n### Excerpt\n\n${vueSafe(
+        ref.excerpt,
+      )
         .split("\n")
         .map((line) => `    ${line}`)
         .join("\n")}\n`,
@@ -255,7 +261,9 @@ export function renderChapterDocs(
   for (const ref of catalog.references)
     pages.set(
       `docs/sources/${ref.reference_id}.md`,
-      `# ${ref.reference_id}\n\n${fixture}Snapshot: ${ref.snapshot.sha256}\n\nLocation: ${textSafe(JSON.stringify(ref.locator))}\n\nOfficial link: ${ref.official_url}\n\n### Excerpt\n\n${ref.excerpt
+      `# ${ref.reference_id}\n\n${fixture}Snapshot: ${ref.snapshot.sha256}\n\nLocation: ${textSafe(JSON.stringify(ref.locator))}\n\nOfficial link: ${ref.official_url}\n\n### Excerpt\n\n${vueSafe(
+        ref.excerpt,
+      )
         .split("\n")
         .map((line) => `    ${line}`)
         .join("\n")}\n`,
