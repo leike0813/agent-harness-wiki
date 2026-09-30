@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-src-dispatch
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/mod.rs
+  start: 295
+  end: 325
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn install_from_checkout_at_root(
+      source: &str,
+      checkout_dir: &Path,
+      install_root: &Path,
+      options: &PluginInstallOptions,
+      last_update_check: Option<DateTime<Utc>>,
+  ) -> Result<PluginInstall> {
+      match formats::open_plugins::try_install_from_manifest_at_root(
+          source,
+          checkout_dir,
+          install_root,
+          options,
+          last_update_check,
+      ) {
+          Ok(install) => return Ok(install),
+          Err(err) if err.is::<FormatNotSupported>() => {}
+          Err(err) => return Err(err),
+      }
+      match formats::gemini::try_install_from_manifest_at_root(
+          source,
+          checkout_dir,
+          install_root,
+          options,
+          last_update_check,
+      ) {
+          Ok(install) => Ok(install),

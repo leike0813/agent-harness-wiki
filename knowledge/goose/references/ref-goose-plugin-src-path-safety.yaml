@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-src-path-safety
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/formats/open_plugins.rs
+  start: 391
+  end: 411
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub(in crate::plugins) fn validate_relative_plugin_path(path: &str) -> Result<PathBuf> {
+      if !path.starts_with("./") {
+          bail!(
+              "Open Plugins component paths must start with './': {}",
+              path
+          );
+      }
+      let path = Path::new(path);
+      if path.is_absolute()
+          || path
+              .components()
+              .any(|component| matches!(component, Component::ParentDir))
+      {
+          bail!(
+              "Open Plugins component paths must stay within the plugin: {}",
+              path.display()
+          );
+      }
+      Ok(path.to_path_buf())

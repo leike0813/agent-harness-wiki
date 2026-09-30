@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-errors
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/declarative_providers.rs
+  start: 382
+  end: 405
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub fn load_provider(id: &str) -> Result<LoadedProvider> {
+      let custom_file_path = custom_provider_file_path(id)?;
+      if custom_file_path.exists() {
+          let content = std::fs::read_to_string(&custom_file_path)?;
+          let config = deserialize_provider_config(&content)?;
+          return Ok(LoadedProvider {
+              config,
+              is_editable: true,
+          });
+      }
+      if let Some(config) = fixed_provider_configs()?
+          .into_iter()
+          .find(|config| config.name == id)
+      {
+          return Ok(LoadedProvider {
+              config,
+              is_editable: false,
+          });
+      }
+      Err(anyhow::anyhow!("Provider not found: {}", id))
+  }

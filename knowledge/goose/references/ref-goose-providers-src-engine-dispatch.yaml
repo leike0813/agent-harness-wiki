@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-engine-dispatch
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/declarative_providers.rs
+  start: 462
+  end: 470
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  ProviderEngine::OpenAI => {
+              let captured = config.clone();
+              let identity_config = config.clone();
+              if HuggingFaceProvider::matches_declarative_config(&config) {
+                  let inventory_configured_config = config.clone();
+                  registry
+                      .register_with_name_and_inventory_configured::<HuggingFaceProvider, _, _, _>(
+                          &config,
+                          provider_type,

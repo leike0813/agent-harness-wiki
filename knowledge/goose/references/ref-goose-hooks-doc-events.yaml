@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-doc-events
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Supported Events
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  | Event | When it runs | Matcher target |
+  |---|---|---|
+  | `SessionStart` | A session starts | None |
+  | `SessionEnd` | A session ends | None |
+  | `Stop` | goose finishes a turn or receives a stop event | None |
+  | `UserPromptSubmit` | The user submits a prompt | Prompt text |
+  | `PreToolUse` | Before goose runs a tool | Tool name |
+  | `PreToolUseResult` | After the `PreToolUse` chain resolves, for allowed and denied calls alike, before the tool runs or the denial is returned. Observation only | Tool name |
+  | `PostToolUse` | After a tool succeeds | Tool name |
+  | `PostToolUseFailure` | After a tool fails | Tool name |
+  | `BeforeReadFile` | Before goose reads a file | File path |
+  | `AfterFileEdit` | After goose successfully edits a file | File path |

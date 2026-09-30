@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-doc-formats
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Plugin Formats
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  goose supports these plugin formats:
+  | Format | Common files | Notes |
+  |---|---|---|
+  | Open Plugins | `plugin.json`, `.plugin/plugin.json`, `.goose-plugin/plugin.json`, `skills/`, `hooks/hooks.json` | Supports Open Plugins skills and hooks. |
+  | Gemini extensions | `gemini-extension.json`, `skills/` | Supports skills from Gemini-style extension repositories. |
+  For Open Plugins, imported skill names are namespaced with the plugin name, such as `my-plugin:review`. Use that full name when explicitly loading a plugin-provided skill. Gemini extension skills keep the skill name from `SKILL.md`; goose does not prefix them with the extension name.
+  Open Plugins can use `plugin.json` at the plugin root, `.plugin/plugin.json`, or `.goose-plugin/plugin.json`.

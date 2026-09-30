@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-set
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/base.rs
+  start: 850
+  end: 895
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  /// - There is an error reading or writing the config file
+      /// - There is an error serializing the value
+      pub fn set_param<V: Serialize>(&self, key: &str, value: V) -> Result<(), ConfigError> {
+          let _guard = self.guard.lock().unwrap();
+          let mut values = self.load_write_config()?;
+          values.insert(serde_yaml::to_value(key)?, serde_yaml::to_value(value)?);
+          self.save_values(&values)
+      }
+      /// Set multiple configuration values in the config file with one read and one write.
+      pub fn set_param_values(&self, updates: &[(String, Value)]) -> Result<(), ConfigError> {
+          if updates.is_empty() {
+              return Ok(());
+          }
+          let _guard = self.guard.lock().unwrap();
+          let mut values = self.load_write_config()?;

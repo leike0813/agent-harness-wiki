@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-doc-where
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Where Hooks Live
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  A hook belongs to a [plugin](/docs/guides/context-engineering/plugins) directory. goose discovers plugins from these locations:
+  | Scope | Location |
+  |---|---|
+  | User | `~/.agents/plugins/<plugin-name>/` |
+  | Project | `<project>/.agents/plugins/<plugin-name>/` |
+  | Installed plugin | goose's plugin install directory |
+  Each plugin that defines hooks must include a `hooks/hooks.json` file:
+  ```text
+  my-plugin/
+  ├── plugin.json
+  ├── hooks/
+  │   └── hooks.json
+  └── scripts/
+      └── notify.sh
+  ```
+  Project plugins are loaded when goose is started from that project. User plugins are available across projects.

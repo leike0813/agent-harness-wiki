@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-doc-recipe-settings
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Settings
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  The `settings` field allows you to configure the AI model and provider settings for the recipe. This overrides the default configuration when the recipe is executed.
+  #### Settings Schema
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | `goose_provider` | String | - | The AI provider to use (e.g., "anthropic", "openai") |
+  | `goose_model` | String | - | The specific model name to use |
+  | `temperature` | Number | - | The temperature setting for the model (typically 0.0-1.0) |
+  | `max_turns` | Number | - | Maximum number of turns for subagent tasks created by this recipe |
+  #### Understanding max_turns
+  The `max_turns` setting controls how many iterations an agent can perform before stopping.

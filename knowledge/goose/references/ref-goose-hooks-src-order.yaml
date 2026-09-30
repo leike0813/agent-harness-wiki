@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-order
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 573
+  end: 611
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  for rule in rules {
+              if let Some(matcher) = &rule.matcher {
+                  let target = matcher_context.unwrap_or("");
+                  if !matcher.is_match(target) {
+                      continue;
+                  }
+              }
+              for action in &rule.actions {
+                  let LoadedAction::Command {
+                      command, timeout, ..
+                  } = action;
+                  debug!(
+                      plugin = %rule.plugin_name,
+                      event = %event,
+                      command = %command,
+                      "Running plugin hook",
+                  );
+                  let res = self
+                      .run_action(event, session_id, rule, command, payload, *timeout)
+                      .await
+                      .and_then(|run| {

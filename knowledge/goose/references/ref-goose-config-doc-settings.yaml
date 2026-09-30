@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-doc-settings
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Global Settings
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  The following settings can be configured at the root level of your config.yaml file:
+  | Setting | Purpose | Values | Default | Required |
+  |---------|---------|---------|---------|-----------|
+  | `GOOSE_TEMPERATURE` | Model response randomness | Float between 0.0 and 1.0 | Model-specific | No |
+  | `GOOSE_MAX_TOKENS` | Maximum number of tokens for each model response (truncates longer responses) | Positive integer | Model-specific | No |
+  | `GOOSE_CACHE_TTL` | Anthropic prompt-cache TTL; `1h` keeps the cached prefix alive across idle gaps at a higher cache-write rate. Headless runs always use `5m` | "5m", "1h" | "5m" | No |
+  | `GOOSE_MODE` | [Tool execution behavior](/docs/guides/managing-tools/goose-permissions) | "auto", "approve", "chat", "smart_approve" | "auto" | No |

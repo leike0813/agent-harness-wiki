@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-first-deny
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 707
+  end: 800
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub(crate) async fn emit_blocking_with_outcome(
+          &self,
+          event: HookEvent,
+          ctx: HookContext,
+      ) -> HookChainOutcome {
+          let matched = self.matching_actions(event, &ctx);
+          if matched.is_empty() {
+              return HookChainOutcome::allow(false);
+          }
+          let payload = match serde_json::to_string(&ctx) {
+              Ok(payload) => payload,
+              Err(err) => {
+                  warn!(event = %event, error = %err, "Failed to serialize hook context");
+                  return serialization_failure_outcome(&matched, event);
+              }
+          };
+          let mut policy_evaluated = false;
+          let mut failed = false;
+          for (rule, action) in matched {
+              let LoadedAction::Command {
+                  command,

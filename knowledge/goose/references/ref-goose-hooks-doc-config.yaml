@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-doc-config
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Hook Configuration
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  `hooks.json` has a top-level `hooks` object. Each key is an event name, and each event contains one or more rules:
+  ```json
+  {
+    "hooks": {
+      "PostToolUse": [
+        {
+          "matcher": "^(shell|edit)$",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "${PLUGIN_ROOT}/scripts/log-tool.sh",
+              "timeout": 10
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```
+  | Field | Required | Description |
+  |---|---:|---|
+  | `matcher` | No | Regular expression (not a glob) used to decide whether the rule runs for the event. If omitted, the rule runs for every event of that type. |
+  | `hooks` | Yes | Actions to run when the event and matcher apply. |
+  | `type` | No | Action type. goose currently supports `command`. If omitted, `command` is used. |

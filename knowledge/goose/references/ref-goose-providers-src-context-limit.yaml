@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-context-limit
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/providers/init.rs
+  start: 480
+  end: 490
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  .expect("custom_zero entry should exist");
+          let zero_provider = zero_entry
+              .create(vec![])
+              .await
+              .expect("custom_zero provider should be created");
+          assert_eq!(
+              zero_provider.get_context_limit("zero-model", None).await,
+              goose_providers::model::DEFAULT_CONTEXT_LIMIT
+          );
+          std::env::remove_var("GOOSE_PATH_ROOT");

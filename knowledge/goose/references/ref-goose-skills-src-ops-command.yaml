@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-ops-command
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/state_machine/ops_skills.rs
+  start: 236
+  end: 282
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  async fn run_command(
+          &self,
+          command: &SlashCommand<'_>,
+          session: &Session,
+          conversation: &Conversation,
+          emit: &Emitter,
+      ) -> Result<OperationResult<GooseEffect>> {
+          if command.command == "skills" {
+              return Self::command_response(
+                  conversation,
+                  crate::slash_commands::skill_slash_command::format_installed_skills(Some(
+                      &session.working_dir,
+                  )),
+                  emit,
+              )
+              .await;
+          }
+          let prompt = match crate::slash_commands::skill_slash_command::resolve_command(
+              command.command,
+              command.params_str,
+              Some(&session.working_dir),
+          ) {
+              Ok(Some(prompt)) => prompt,

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-loaded
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/skills/mod.rs
+  start: 125
+  end: 170
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn loaded_skill_context(skill: &SourceEntry, content: &str) -> Result<String> {
+      let docs_root = Config::global()
+          .get_goose_docs_root()?
+          .unwrap_or_else(|| DEFAULT_GOOSE_DOCS_ROOT.to_string());
+      let content = resolve_docs_root_placeholder(skill, content, &docs_root);
+      let title = format!("{} ({})", skill.name, skill.source_type);
+      let mut output = format!(
+          "# Loaded Skill: {title}\n\n{}\n\n## Content\n\n{}\n",
+          skill.description, content
+      );
+      if !skill.supporting_files.is_empty() {
+          let skill_dir = Path::new(&skill.path);
+          output.push_str(&format!(
+              "\n## Supporting Files\n\nSkill directory: {}\n\n\
+               Relative paths in this skill resolve from the skill directory. \

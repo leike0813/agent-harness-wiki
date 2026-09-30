@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-matcher-invalid
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 998
+  end: 1012
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  let matcher = match raw.matcher.as_deref().filter(|s| !s.is_empty()) {
+                  Some(pattern) => match Regex::new(pattern) {
+                      Ok(re) => Some(re),
+                      Err(err) => {
+                          warn!(
+                              plugin = plugin_name,
+                              pattern,
+                              error = %err,
+                              "Invalid hook matcher regex; skipping rule",
+                          );
+                          continue;
+                      }
+                  },
+                  None => None,
+              };

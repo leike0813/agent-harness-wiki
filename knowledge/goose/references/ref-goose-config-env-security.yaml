@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-env-security
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Security and Privacy
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  These variables control security features, credential storage, and anonymous usage data collection.
+  | Variable | Purpose | Values | Default |
+  |----------|---------|---------|---------|
+  | `GOOSE_ALLOWLIST` | Controls which extensions can be loaded | URL for [allowed extensions](/docs/guides/allowlist) list | Unset |
+  | `GOOSE_DISABLE_KEYRING` | Disables the system keyring for secret storage | Set to any value (e.g., "1", "true", "yes") to disable. The actual value doesn't matter, only whether the variable is set. | Unset (keyring enabled) |
+  | `SECURITY_PROMPT_ENABLED` | Enable [prompt injection detection](/docs/guides/security/prompt-injection-detection) to identify potentially harmful commands | true/false | false |

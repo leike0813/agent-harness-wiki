@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-src-staging
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/formats/open_plugins.rs
+  start: 95
+  end: 117
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  let staging_dir = tempfile::tempdir_in(install_root)?;
+      let staged_destination = staging_dir.path().join(&plugin_name);
+      copy_dir_all(checkout_dir, &staged_destination)?;
+      let mut imported_skills = Vec::new();
+      for skill in skills {
+          let namespaced_name = namespaced_component_name(&plugin_name, &skill.name);
+          let staged_skill_dir = staged_destination.join(&skill.relative_directory);
+          rewrite_skill_name(&staged_skill_dir.join("SKILL.md"), &namespaced_name)?;
+          imported_skills.push(ImportedSkill {
+              name: namespaced_name,
+              directory: destination.join(&skill.relative_directory),
+          });
+      }
+      write_install_metadata(
+          &staged_destination,
+          source,
+          FORMAT,
+          options.auto_update,

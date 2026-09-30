@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-onfailure-scope
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 1014
+  end: 1026
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  let mut actions = Vec::new();
+              for action in selected {
+                  let timeout =
+                      Duration::from_secs(action.timeout.unwrap_or(DEFAULT_HOOK_TIMEOUT_SECS));
+                  let on_failure = if event == HookEvent::PreToolUse {
+                      match action.on_failure {
+                          None => OnFailure::Allow,
+                          Some(value) => serde_json::from_value::<OnFailure>(value)
+                              .with_context(|| format!("reading on_failure in {}", path.display()))?,
+                      }
+                  } else {
+                      OnFailure::Allow
+                  };

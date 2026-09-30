@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-discover
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/skills/mod.rs
+  start: 609
+  end: 656
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub fn discover_skills(working_dir: Option<&Path>) -> Vec<SourceEntry> {
+      discover_skills_with_config(working_dir, Config::global())
+  }
+  fn discover_skills_with_config(working_dir: Option<&Path>, config: &Config) -> Vec<SourceEntry> {
+      let mut sources: Vec<SourceEntry> = Vec::new();
+      let mut seen = HashSet::new();
+      for dir in all_skill_dirs_with_config(working_dir, config) {
+          for source in scan_skills_from_dir(
+              &dir.path,
+              dir.is_global,
+              dir.writable,
+              dir.preserve_path,
+              &mut seen,
+          ) {
+              sources.push(source);
+          }
+      }
+      for content in builtin::get_all() {
+          if let Some(source) = parse_skill_content(content, &PathBuf::new(), true, true) {
+              if !seen.contains(&source.name) {

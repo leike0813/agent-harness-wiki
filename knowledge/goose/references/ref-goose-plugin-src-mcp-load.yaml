@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-src-mcp-load
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/mcp_servers.rs
+  start: 32
+  end: 46
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub fn enabled_plugin_mcp_servers(project_root: Option<&Path>) -> Vec<ExtensionConfig> {
+      let mut configs = Vec::new();
+      for plugin in discover_enabled_plugins(project_root) {
+          match plugin_mcp_servers(&plugin.name, &plugin.root) {
+              Ok(plugin_configs) => configs.extend(plugin_configs),
+              Err(err) => warn!(
+                  plugin = %plugin.name,
+                  root = %plugin.root.display(),
+                  error = %err,
+                  "Failed to load plugin MCP servers; skipping",
+              ),
+          }
+      }
+      configs
+  }

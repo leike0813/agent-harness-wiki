@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-doc-auth-command
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Command-Based Authentication
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  Instead of a static `api_key_env`, a custom provider can be configured to run a command to obtain its credential. This is useful for short-lived credentials issued by an IdP or key vault: goose re-runs the command to refresh the credential instead of requiring a restart when it expires.
+  Add an `auth` object to the provider's JSON configuration in place of `api_key_env` (the two are mutually exclusive):
+  ```json
+  {
+    "name": "custom_corp_api",
+    "engine": "openai",
+    "display_name": "Corporate API",
+    "base_url": "https://api.company.com/v1/chat/completions",
+    "models": [{ "name": "gpt-4o", "context_limit": 128000 }],
+    "requires_auth": true,
+    "auth": {
+      "command": "/path/to/get-token.sh",
+      "args": [],
+      "refresh_interval": 3600,
+      "timeout_seconds": 10
+    }
+  }
+  ```

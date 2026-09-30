@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-src-precedence
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/discovery.rs
+  start: 154
+  end: 179
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn is_enabled(plugin_name: &str, scoped_settings: &[(SettingsScope, PluginSettings)]) -> bool {
+      for scope in [
+          SettingsScope::Local,
+          SettingsScope::Project,
+          SettingsScope::User,
+      ] {
+          let Some(settings) = scoped_settings
+              .iter()
+              .find_map(|(s, settings)| (*s == scope).then_some(settings))
+          else {
+              continue;
+          };
+          let listed_disabled = settings.disabled.iter().any(|n| n == plugin_name);
+          let listed_enabled = settings.enabled.iter().any(|n| n == plugin_name);
+          if listed_disabled {
+              return false;
+          }
+          if listed_enabled {
+              return true;
+          }
+      }
+      true
+  }

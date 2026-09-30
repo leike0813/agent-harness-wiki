@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-policy-evaluated
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 725
+  end: 767
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  let mut policy_evaluated = false;
+          let mut failed = false;
+          for (rule, action) in matched {
+              let LoadedAction::Command {
+                  command,
+                  timeout,
+                  on_failure,
+              } = action;
+              let (verdict, evaluated, already_logged) = match self
+                  .run_action(event, &ctx.session_id, rule, command, &payload, *timeout)
+                  .await
+              {
+                  Ok(run) => {
+                      let verdict = classify_run(&run);
+                      let evaluated = run.output.status.success()
+                          || matches!(verdict, HookVerdict::PolicyDeny { .. });
+                      (verdict, evaluated, false)
+                  }
+                  Err(err) => {
+                      warn!(

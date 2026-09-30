@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-src-autoupdate-trigger
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/mod.rs
+  start: 126
+  end: 139
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub(crate) fn enabled_plugin_skill_dirs_with_config(
+      project_root: Option<&Path>,
+      config: &Config,
+  ) -> Vec<(PathBuf, PluginScope)> {
+      let plugins_dir = plugin_install_dir();
+      for update in auto_update_plugins_at_root(Utc::now(), &plugins_dir) {
+          if let Err(err) = update.result {
+              warn!(
+                  "Failed to auto-update plugin '{}': {}. Using currently installed version.",
+                  update.name, err
+              );
+          }
+      }

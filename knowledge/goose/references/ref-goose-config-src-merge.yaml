@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-merge
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/base.rs
+  start: 309
+  end: 368
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn keyring_disabled_value(value: &serde_yaml::Value) -> bool {
+      value.as_bool().unwrap_or(false) || value.as_str().is_some_and(|s| s == "true" || s == "1")
+  }
+  const EXTENSIONS_KEY: &str = "extensions";
+  const PROVIDERS_KEY: &str = "providers";
+  pub fn merge_config_values(base: &mut Mapping, overlay: Mapping) {
+      let extensions_key = serde_yaml::Value::String(EXTENSIONS_KEY.to_string());
+      let providers_key = serde_yaml::Value::String(PROVIDERS_KEY.to_string());
+      for (key, overlay_value) in overlay {
+          if key == extensions_key {
+              let base_ext = base
+                  .entry(key.clone())
+                  .or_insert_with(|| serde_yaml::Value::Mapping(Mapping::new()));
+              if let (Some(base_map), Some(overlay_map)) =

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-getparam
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/base.rs
+  start: 763
+  end: 784
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  /// - The value cannot be deserialized into the requested type
+      /// - There is an error reading the config file
+      pub fn get_param<T: for<'de> Deserialize<'de>>(&self, key: &str) -> Result<T, ConfigError> {
+          let env_key = key.to_uppercase();
+          if let Ok(val) = env::var(&env_key) {
+              let value = Self::parse_env_value(&val)?;
+              return Ok(serde_json::from_value(value)?);
+          }
+          let values = self.load()?;
+          let value = values
+              .get(key)
+              .ok_or_else(|| ConfigError::NotFound(key.to_string()))?;
+          match serde_yaml::from_value(value.clone()) {
+              Ok(value) => Ok(value),
+              Err(yaml_err) => {
+                  let Some(string_value) = value.as_str() else {

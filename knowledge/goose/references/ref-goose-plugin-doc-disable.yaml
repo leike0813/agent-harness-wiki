@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-doc-disable
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Disable a Plugin
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  To disable a plugin globally, add its name to `disabledPlugins` in your user goose settings file:
+  ```json title="~/.config/goose/settings.json"
+  {
+    "disabledPlugins": ["my-plugin"]
+  }
+  ```
+  For project-specific settings, use:
+  ```text
+  <project>/.config/goose/settings.json
+  ```
+  For local-only project settings that should not be shared with teammates, use:
+  ```text
+  <project>/.config/goose/settings.local.json
+  ```
+  A disabled plugin is skipped during plugin discovery, so its skills are not loaded and its hooks do not run.

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-config-keys
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/providers/provider_registry.rs
+  start: 240
+  end: 263
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  let mut config_keys = if provider_type == ProviderType::Declarative {
+              if !config.api_key_env.is_empty() {
+                  vec![ConfigKey::new(
+                      &config.api_key_env,
+                      config.requires_auth,
+                      true,
+                      None,
+                      true,
+                  )]
+              } else {
+                  Vec::new()
+              }
+          } else {
+              let mut config_keys = base_metadata.config_keys.clone();
+              if let Some(api_key_index) = config_keys.iter().position(|key| key.secret) {
+                  if !config.requires_auth || config.auth.is_some() {
+                      config_keys.remove(api_key_index);
+                  } else if !config.api_key_env.is_empty() {

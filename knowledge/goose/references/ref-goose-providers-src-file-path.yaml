@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-file-path
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/declarative_providers.rs
+  start: 117
+  end: 130
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub(crate) fn custom_provider_file_path(id: &str) -> Result<PathBuf> {
+      if id.is_empty()
+          || id
+              .chars()
+              .any(|ch| ch == '/' || ch == '\\' || ch.is_control())
+      {
+          return Err(anyhow::anyhow!(
+              "Invalid provider id: {}",
+              if id.is_empty() { "<empty>" } else { id }
+          ));
+      }
+      Ok(custom_providers_dir().join(format!("{}.json", id)))
+  }

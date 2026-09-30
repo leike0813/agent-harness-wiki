@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-args
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/skills/arguments.rs
+  start: 6
+  end: 52
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  static PLACEHOLDER_RE: LazyLock<Regex> = LazyLock::new(|| {
+      Regex::new(
+          r"\$ARGUMENTS\[(?P<idx>\d+)\]|\$ARGUMENTS\b|\$(?P<pos>\d+)|\$(?P<name>[A-Za-z_][A-Za-z0-9_-]*)",
+      )
+      .expect("skill argument regex should compile")
+  });
+  fn is_resolvable(caps: &Captures<'_>, names: &[String]) -> bool {
+      caps.name("name")
+          .map(|m| names.iter().any(|n| n == m.as_str()))
+          .unwrap_or(true)
+  }
+  pub(super) fn apply_skill_arguments(
+      content: &str,
+      raw_args: &str,
+      argument_names: &[String],
+  ) -> Result<String> {
+      if !PLACEHOLDER_RE
+          .captures_iter(content)
+          .any(|caps| is_resolvable(&caps, argument_names))
+      {
+          return Ok(format!("{content}\n\nARGUMENTS: {raw_args}"));
+      }
+      let tokens = split_command_args(raw_args)?;

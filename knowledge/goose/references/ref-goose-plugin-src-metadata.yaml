@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-src-metadata
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/mod.rs
+  start: 74
+  end: 84
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  #[derive(Debug, Deserialize, Serialize)]
+  struct InstallMetadata {
+      source: String,
+      source_type: String,
+      #[allow(dead_code)]
+      format: String,
+      #[serde(default)]
+      auto_update: bool,
+      #[serde(default)]
+      last_update_check: Option<DateTime<Utc>>,
+  }

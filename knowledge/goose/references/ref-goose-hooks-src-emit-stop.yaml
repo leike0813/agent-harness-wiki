@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-emit-stop
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/state_machine/ops_stop_hook.rs
+  start: 88
+  end: 98
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  return not_applicable();
+          }
+          let last_assistant_text = Self::trailing_assistant_text(messages);
+          let context = HookContext::new(HookEvent::Stop, &session.id)
+              .with_last_assistant_message(last_assistant_text)
+              .with_working_dir(session.working_dir.to_string_lossy().into_owned());
+          match self
+              .hook_manager
+              .emit_blocking(HookEvent::Stop, context)
+              .await

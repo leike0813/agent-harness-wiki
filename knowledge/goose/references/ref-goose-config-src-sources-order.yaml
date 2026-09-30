@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-sources-order
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/base.rs
+  start: 198
+  end: 206
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  impl Default for Config {
+      fn default() -> Self {
+          let config_dir = Paths::config_dir();
+          let user_config_path = config_dir.join(CONFIG_YAML_NAME);
+          let mut config_paths = vec![system_config_path()];
+          config_paths.extend(additional_config_paths_from_env());
+          config_paths.push(user_config_path.clone());

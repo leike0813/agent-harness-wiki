@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-src-manifest-fields
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/formats/open_plugins.rs
+  start: 23
+  end: 33
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  #[derive(Debug, Deserialize)]
+  pub struct OpenPluginsManifest {
+      #[serde(default)]
+      pub name: Option<String>,
+      #[serde(default)]
+      pub version: Option<String>,
+      #[serde(default)]
+      pub skills: Option<serde_json::Value>,
+      #[serde(default, rename = "mcpServers")]
+      pub mcp_servers: Option<serde_json::Value>,
+  }

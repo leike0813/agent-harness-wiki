@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-src-name-infer
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/formats/open_plugins.rs
+  start: 155
+  end: 204
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub(in crate::plugins) fn read_manifest(
+      plugin_dir: &Path,
+      source: &str,
+  ) -> Result<OpenPluginsManifest> {
+      let mut manifest = match manifest_path(plugin_dir) {
+          Some(manifest_path) => {
+              serde_json::from_str::<OpenPluginsManifest>(&fs::read_to_string(&manifest_path)?)
+                  .with_context(|| format!("Failed to parse {}", manifest_path.display()))?
+          }
+          None => OpenPluginsManifest {
+              name: None,
+              version: None,
+              skills: None,
+              mcp_servers: None,
+          },
+      };
+      if manifest.name.as_deref().map(str::is_empty).unwrap_or(true) {
+          manifest.name = Some(infer_name(plugin_dir, source));
+      }
+      Ok(manifest)
+  }
+  fn manifest_path(plugin_dir: &Path) -> Option<PathBuf> {
+      MANIFESTS

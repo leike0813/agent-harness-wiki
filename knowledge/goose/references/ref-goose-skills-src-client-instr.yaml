@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-client-instr
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/skills/client.rs
+  start: 248
+  end: 269
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn get_instructions(&self) -> Option<String> {
+          let sources = self.discover_skills();
+          let mut skills: Vec<&SourceEntry> = sources
+              .iter()
+              .filter(|s| {
+                  s.source_type == SourceType::Skill || s.source_type == SourceType::BuiltinSkill
+              })
+              .collect();
+          skills.sort_by(|a, b| (&a.name, &a.path).cmp(&(&b.name, &b.path)));
+          if skills.is_empty() {
+              return None;
+          }
+          let mut instructions = String::from(
+              "\n\nYou have these skills at your disposal, when it is clear they can help you solve a problem or you are asked to use them:",
+          );
+          for skill in &skills {
+              instructions.push_str(&format!("\n• {} - {}", skill.name, skill.description));
+          }

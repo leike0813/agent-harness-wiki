@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-mcp-doc-oauth-client
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Remote extensions with a pre-registered OAuth client
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  Remote (`streamable_http`) extensions that require OAuth normally obtain a
+  client ID automatically, using Client ID Metadata Documents or Dynamic Client
+  Registration. Some authorization servers support neither and instead require a
+  client that was registered out of band. For those servers, set `client_id` —
+  and, for confidential clients, `client_secret_key` — on the extension:
+  ```yaml
+  extensions:
+    remote-example:
+      name: Remote Example
+      type: streamable_http
+      uri: https://example.com/mcp
+      client_id: <YOUR_REGISTERED_CLIENT_ID>
+      client_secret_key: REMOTE_EXAMPLE_OAUTH_SECRET
+      scopes:
+        - example.readonly
+      enabled: true
+      timeout: 300
+  ```
+  - `client_id`: the OAuth client ID registered with the server's authorization
+    server.

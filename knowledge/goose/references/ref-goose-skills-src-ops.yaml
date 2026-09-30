@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-ops
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/state_machine/ops_skills.rs
+  start: 59
+  end: 82
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn skill_instructions(working_dir: &Path) -> Option<String> {
+      let sources = crate::skills::discover_skills(Some(working_dir));
+      let mut skills: Vec<&SourceEntry> = sources
+          .iter()
+          .filter(|source| {
+              matches!(
+                  source.source_type,
+                  SourceType::Skill | SourceType::BuiltinSkill
+              )
+          })
+          .collect();
+      skills.sort_by(|a, b| (&a.name, &a.path).cmp(&(&b.name, &b.path)));
+      if skills.is_empty() {
+          return None;
+      }
+      let mut instructions = String::from(
+          "# Skills\n\nYou have these skills at your disposal. Load one when it can help with the task or when the user asks for it:",
+      );
+      for skill in skills {

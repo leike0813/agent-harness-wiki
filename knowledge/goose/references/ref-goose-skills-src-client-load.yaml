@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-client-load
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/skills/client.rs
+  start: 140
+  end: 160
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  .as_ref()
+              .and_then(|args| args.get("args"))
+              .and_then(|v| v.as_str());
+          let skills = self.discover_skills();
+          if let Some(skill) = skills.iter().find(|s| s.name == skill_name) {
+              return match loaded_skill_context_with_args(skill, args) {
+                  Ok(rendered) => Ok(CallToolResult::success(vec![ContentBlock::text(rendered)])),
+                  Err(e) => Ok(CallToolResult::error(vec![ContentBlock::text(format!(
+                      "Failed to parse skill arguments: {}",
+                      e
+                  ))])),
+              };
+          }
+          if let Some((parent_skill_name, raw_relative_path)) = skill_name.split_once('/') {
+              let relative_path = raw_relative_path.replace('\\', "/");

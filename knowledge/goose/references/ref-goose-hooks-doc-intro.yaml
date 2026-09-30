@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-doc-intro
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: documentation/docs/guides/context-engineering/hooks.md
+  start: 9
+  end: 14
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  Hooks let you run your own scripts when key events happen during a goose session. Use hooks to log activity, send notifications, format files after edits, run checks after shell commands, or integrate goose with local workflows without writing a custom extension.
+  goose follows the [Open Plugins hooks specification](https://open-plugins.com/agent-builders/components/hooks). Hooks are discovered from [plugins](/docs/guides/context-engineering/plugins) on disk and run as shell commands when matching lifecycle events fire.
+  :::warning Run trusted hooks only
+  Hooks execute local commands on your machine. Only install or create hooks from sources you trust, and review hook scripts before enabling them.

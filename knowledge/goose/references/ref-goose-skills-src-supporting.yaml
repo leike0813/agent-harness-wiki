@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-supporting
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/skills/supporting_files.rs
+  start: 1
+  end: 52
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  use std::fs;
+  use std::io::{self, Read, Write};
+  use std::path::{Component, Path};
+  const LOADED_FILE_PREFIX: &str = "# Loaded: ";
+  const LOADED_FILE_SEPARATOR: &str = "\n\n";
+  const LOADED_FILE_SUFFIX: &str = "\n\n---\nFile loaded into context.";
+  const MAX_SOURCE_FILE_BYTES: usize = crate::scheduler::MAX_SCHEDULE_RECIPE_BYTES as usize;
+  #[derive(Clone, Copy)]
+  enum ReadLimit {
+      Characters(usize),
+      Bytes(usize),
+  }
+  pub(crate) fn load_supporting_file(
+      skill_dir: &Path,
+      relative: &Path,
+      skill_name: &str,
+  ) -> io::Result<String> {
+      load_supporting_file_with_limit(
+          skill_dir,
+          relative,
+          skill_name,
+          crate::agents::max_tool_response_size(),
+      )
+  }
+  fn load_supporting_file_with_limit(
+      skill_dir: &Path,
+      relative: &Path,
+      skill_name: &str,

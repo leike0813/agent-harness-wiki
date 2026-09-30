@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-select-action
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 142
+  end: 174
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn select_action(action: &Value, plugin_name: &str, path: &Path) -> Result<ActionSelection> {
+      let Some(obj) = action.as_object() else {
+          anyhow::bail!("hook action in {} must be an object", path.display());
+      };
+      match obj.get("type") {
+          None | Some(Value::Null) => {}
+          Some(Value::String(action_type)) if action_type == "command" => {}
+          Some(Value::String(action_type)) => {
+              debug!(
+                  plugin = plugin_name,
+                  action_type = %action_type,
+                  "Ignoring unsupported hook action type",
+              );
+              return Ok(ActionSelection::Ignored);
+          }
+          Some(_) => anyhow::bail!("hook action `type` in {} must be a string", path.display()),
+      }
+      match obj.get("command") {

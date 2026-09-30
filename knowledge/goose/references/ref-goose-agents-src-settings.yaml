@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-settings
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/recipe/mod.rs
+  start: 99
+  end: 113
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub struct Settings {
+      #[serde(skip_serializing_if = "Option::is_none")]
+      pub goose_provider: Option<String>,
+      #[serde(skip_serializing_if = "Option::is_none")]
+      pub goose_model: Option<String>,
+      #[serde(skip_serializing_if = "Option::is_none")]
+      pub temperature: Option<f32>,
+      #[serde(skip_serializing_if = "Option::is_none")]
+      pub max_turns: Option<usize>,
+  }
+  #[derive(Serialize, Deserialize, Debug, Clone)]

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-serialization
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 822
+  end: 845
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn serialization_failure_outcome(
+      matched: &[(&LoadedRule, &LoadedAction)],
+      event: HookEvent,
+  ) -> HookChainOutcome {
+      let reason = SERIALIZATION_FAILED_REASON.to_string();
+      let blocker = matched
+          .iter()
+          .find(|(_, action)| action.on_failure() == OnFailure::Block);
+      match blocker {
+          Some((rule, _)) if event == HookEvent::PreToolUse => HookChainOutcome {
+              decision: HookDecision::Deny {
+                  reason,
+                  plugin: rule.plugin_name.clone(),
+              },
+              policy_evaluated: false,
+              cause: Some(HookOutcomeCause::HookFailure),
+          },
+          _ => HookChainOutcome {
+              decision: HookDecision::Allow,
+              policy_evaluated: false,
+              cause: Some(HookOutcomeCause::HookFailure),

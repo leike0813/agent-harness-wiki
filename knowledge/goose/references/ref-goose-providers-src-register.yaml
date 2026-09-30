@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-register
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/declarative_providers.rs
+  start: 407
+  end: 421
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub fn register_declarative_providers(
+      registry: &mut crate::providers::provider_registry::ProviderRegistry,
+  ) -> Result<()> {
+      let dir = custom_providers_dir();
+      let custom_providers = load_custom_providers(&dir)?;
+      let fixed_providers = fixed_provider_configs()?;
+      for config in fixed_providers {
+          register_declarative_provider(registry, config, ProviderType::Declarative);
+      }
+      for config in custom_providers {
+          register_declarative_provider(registry, config, ProviderType::Custom);
+      }
+      Ok(())

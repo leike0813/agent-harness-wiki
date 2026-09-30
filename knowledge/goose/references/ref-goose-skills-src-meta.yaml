@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-meta
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/skills/mod.rs
+  start: 172
+  end: 195
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub fn skill_argument_hint(skill: &SourceEntry) -> Option<String> {
+      skill
+          .properties
+          .get("argument-hint")
+          .and_then(|value| value.as_str())
+          .filter(|hint| !hint.is_empty())
+          .map(str::to_string)
+  }
+  pub fn skill_argument_names(skill: &SourceEntry) -> Vec<String> {
+      skill
+          .properties
+          .get("arguments")
+          .and_then(|value| value.as_array())
+          .map(|items| {
+              items
+                  .iter()
+                  .filter_map(|item| item.as_str())
+                  .filter(|name| !name.is_empty())
+                  .map(str::to_string)
+                  .collect()
+          })
+          .unwrap_or_default()
+  }

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-migration-platform
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/migrations.rs
+  start: 32
+  end: 115
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn migrate_platform_extensions(config: &mut Mapping) -> bool {
+      let extensions_key = serde_yaml::Value::String(EXTENSIONS_CONFIG_KEY.to_string());
+      let extensions_value = config
+          .get(&extensions_key)
+          .cloned()
+          .unwrap_or(serde_yaml::Value::Mapping(Mapping::new()));
+      let mut extensions_map: Mapping = match extensions_value {
+          serde_yaml::Value::Mapping(m) => m,
+          _ => Mapping::new(),
+      };
+      let mut needs_save = false;
+      for (name, def) in PLATFORM_EXTENSIONS.iter() {
+          let ext_key = serde_yaml::Value::String(name.to_string());
+          let existing = extensions_map.get(&ext_key);
+          let needs_migration = match existing {
+              None => true,

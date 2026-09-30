@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-events
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 55
+  end: 103
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub enum HookEvent {
+      PreToolUse,
+      PreToolUseResult,
+      PostToolUse,
+      PostToolUseFailure,
+      SessionStart,
+      SessionEnd,
+      UserPromptSubmit,
+      BeforeReadFile,
+      AfterFileEdit,
+      BeforeShellExecution,
+      AfterShellExecution,
+      Stop,
+  }
+  impl HookEvent {
+      fn name(&self) -> &'static str {
+          match self {
+              HookEvent::PreToolUse => "PreToolUse",
+              HookEvent::PreToolUseResult => "PreToolUseResult",
+              HookEvent::PostToolUse => "PostToolUse",
+              HookEvent::PostToolUseFailure => "PostToolUseFailure",
+              HookEvent::SessionStart => "SessionStart",
+              HookEvent::SessionEnd => "SessionEnd",
+              HookEvent::UserPromptSubmit => "UserPromptSubmit",
+              HookEvent::BeforeReadFile => "BeforeReadFile",

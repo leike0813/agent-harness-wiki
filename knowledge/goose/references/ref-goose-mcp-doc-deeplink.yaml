@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-mcp-doc-deeplink
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Deeplinks
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  Extensions can be installed using goose's deep link protocol. The URL format varies based on the extension type:
+  <Tabs groupId="interface">
+    <TabItem value="stdio" label="StandardIO" default>
+  ```
+  goose://extension?cmd=<command>&arg=<argument>&id=<id>&name=<name>&description=<description>
+  ```
+  Required parameters:
+  - `cmd`: The base command to run, one of `jbang`, `npx`, `uvx`, `goosed`, or `docker`
+  - `arg`: (cmd only) Command arguments (can be repeated for multiple arguments: `&arg=...&arg=...`)
+  - `timeout`: Maximum time (in seconds) to wait for extension responses
+  - `id`: Unique identifier for the extension
+  - `name`: Display name for the extension
+  - `description`: Brief description of the extension's functionality

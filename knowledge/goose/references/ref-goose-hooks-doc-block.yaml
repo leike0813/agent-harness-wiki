@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-doc-block
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Blocking a Tool Call
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  Most events are observation-only: goose runs the hook, logs the result, and continues regardless of what the hook returns. Two events are different—**`PreToolUse` and `Stop` can block**. A hook on any other event (including `UserPromptSubmit`, `PostToolUse`, and the `Before*`/`After*` events) cannot stop anything; a block decision from those events is ignored.
+  A `PreToolUse` hook denies the tool call with either of two signals:
+  - **Exit code `2`** — goose blocks and takes the reason from **stderr**.
+  - **`{"decision":"block","reason":"..."}` on stdout** — goose blocks and takes the reason from the `reason` field. goose checks stdout whenever the exit code is not `2`, so this signal is honored regardless of whether the hook exits `0` or non-zero.

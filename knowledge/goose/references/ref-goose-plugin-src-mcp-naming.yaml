@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-src-mcp-naming
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/mcp_servers.rs
+  start: 134
+  end: 169
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn server_to_extension_config(
+      plugin_name: &str,
+      plugin_root: &Path,
+      server_name: String,
+      server: McpServerConfig,
+  ) -> ExtensionConfig {
+      let root = plugin_root.to_string_lossy();
+      let mut env = HashMap::from([("PLUGIN_ROOT".to_string(), root.to_string())]);
+      env.extend(
+          server
+              .env
+              .into_iter()
+              .map(|(key, value)| (key, expand_plugin_root(&value, &root))),
+      );
+      ExtensionConfig::Stdio {
+          name: format!("{plugin_name}:{server_name}"),
+          description: DEFAULT_EXTENSION_DESCRIPTION.to_string(),
+          cmd: expand_plugin_root(&server.command, &root),
+          args: server
+              .args
+              .into_iter()
+              .map(|arg| expand_plugin_root(&arg, &root))
+              .collect(),

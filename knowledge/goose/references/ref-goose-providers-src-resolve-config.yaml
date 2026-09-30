@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-resolve-config
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/declarative_providers.rs
+  start: 427
+  end: 450
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn resolve_config(config: &mut DeclarativeProviderConfig) -> Result<()> {
+      if let Some(ref env_vars) = config.env_vars {
+          config.base_url = expand_env_vars(&config.base_url, env_vars)?;
+          // Check for streaming override via env_vars.
+          // Config/env may store the value as a string ("true") or a native bool,
+          // so try String first, then fall back to bool.
+          let global_config = Config::global();
+          for var in env_vars {
+              if var.name.ends_with("_STREAMING") {
+                  let val: Option<bool> = global_config
+                      .get_param::<String>(&var.name)
+                      .ok()
+                      .map(|s| s.to_lowercase() == "true")
+                      .or_else(|| global_config.get_param::<bool>(&var.name).ok())

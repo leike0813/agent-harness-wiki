@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-src-update-flow
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/mod.rs
+  start: 241
+  end: 293
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn update_plugin_at_root(
+      now: DateTime<Utc>,
+      install_root: &Path,
+      name: &str,
+  ) -> Result<PluginInstall> {
+      if name.trim().is_empty() {
+          bail!("Plugin name must not be empty");
+      }
+      let current_install_dir = install_root.join(name);
+      if !current_install_dir.is_dir() {
+          bail!("Plugin '{}' is not installed", name);
+      }
+      let metadata = read_install_metadata(&current_install_dir)?;
+      if metadata.source_type != "git" {
+          bail!(
+              "Plugin '{}' was installed from '{}' and cannot be updated with this command",
+              name,
+              metadata.source_type
+          );
+      }
+      fs::create_dir_all(install_root)?;
+      let temp_dir = tempfile::tempdir_in(install_root)?;
+      let checkout_dir = temp_dir.path().join("checkout");

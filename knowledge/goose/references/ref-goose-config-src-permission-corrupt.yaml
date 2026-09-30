@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-permission-corrupt
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/permission.rs
+  start: 228
+  end: 250
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  tracing::error!(
+                  "Failed to parse {}: {}. Refusing to start with corrupted permission config.",
+                  config_path.display(),
+                  error,
+              );
+              panic!(
+                  "Corrupted permission config at {}. Fix or remove the file to continue.",
+                  config_path.display(),
+              );
+          })
+      }
+      fn permission_storage_path(config_path: &Path) -> PathBuf {
+          match fs::symlink_metadata(config_path) {
+              Ok(metadata) if metadata.file_type().is_symlink() => {
+                  let target =
+                      fs::read_link(config_path).expect("Failed to resolve permission.yaml symlink");
+                  if target.is_absolute() {
+                      target
+                  } else {

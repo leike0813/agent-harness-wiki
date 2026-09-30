@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-schema
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/declarative_providers.rs
+  start: 218
+  end: 243
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  let provider_config = DeclarativeProviderConfig {
+          name: id.clone(),
+          engine,
+          display_name: params.display_name.clone(),
+          description: Some(format!("Custom {} provider", params.display_name)),
+          api_key_env,
+          base_url: params.api_url,
+          models: model_infos,
+          headers: params.headers,
+          session_id_header_override: None,
+          timeout_seconds: None,
+          supports_streaming: params.supports_streaming,
+          requires_auth: params.requires_auth,
+          catalog_provider_id: params.catalog_provider_id,
+          base_path: params.base_path,
+          env_vars: None,
+          auth: params.auth,
+          dynamic_models: None,
+          skip_canonical_filtering: false,
+          model_doc_link: None,
+          setup_steps: vec![],

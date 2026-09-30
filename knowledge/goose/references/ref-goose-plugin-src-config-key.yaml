@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-src-config-key
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/discovery.rs
+  start: 9
+  end: 30
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub(in crate::plugins) const PLUGINS_CONFIG_KEY: &str = "plugins";
+  /// Per-plugin entry stored under the `plugins` map in `config.yaml`, keyed by
+  /// the plugin's filesystem path.
+  #[derive(Debug, Clone, Serialize, Deserialize)]
+  pub(in crate::plugins) struct PluginConfigEntry {
+      pub enabled: bool,
+  }
+  /// A plugin found on disk and not disabled by any settings file.
+  #[derive(Debug, Clone)]
+  pub struct DiscoveredPlugin {
+      pub name: String,
+      pub root: PathBuf,
+      pub scope: PluginScope,
+  }
+  #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+  pub enum PluginScope {
+      User,
+      Project,
+  }

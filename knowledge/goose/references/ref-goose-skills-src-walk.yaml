@@ -1,0 +1,42 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-walk
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/skills/mod.rs
+  start: 489
+  end: 529
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn should_skip_dir(path: &Path) -> bool {
+      matches!(
+          path.file_name().and_then(|name| name.to_str()),
+          Some(".git") | Some(".hg") | Some(".svn")
+      )
+  }
+  fn walk_files_recursively<F, G>(
+      dir: &Path,
+      visited_dirs: &mut HashSet<PathBuf>,
+      should_descend: &mut G,
+      visit_file: &mut F,
+  ) where
+      F: FnMut(&Path),
+      G: FnMut(&Path) -> bool,
+  {
+      let canonical_dir = match std::fs::canonicalize(dir) {
+          Ok(path) => path,
+          Err(_) => return,
+      };
+      if !visited_dirs.insert(canonical_dir) {
+          return;
+      }
+      let entries = match std::fs::read_dir(dir) {
+          Ok(e) => e,
+          Err(_) => return,
+      };
+      for entry in entries.flatten() {
+          let path = entry.path();
+          if path.is_dir() {
+              if should_descend(&path) {

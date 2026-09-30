@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-doc-retries
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Provider Retries
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  Configurable retry parameters for LLM providers.
+  #### AWS Bedrock
+  | Variable | Purpose | Default |
+  |---------------------|-------------|---------|
+  | `BEDROCK_MAX_RETRIES` | The max number of retry attempts before giving up | 6 |
+  | `BEDROCK_INITIAL_RETRY_INTERVAL_MS` | How long to wait (in milliseconds) before the first retry | 2000 |
+  | `BEDROCK_BACKOFF_MULTIPLIER` | The factor by which the retry interval increases after each attempt | 2 (doubles every time) |
+  | `BEDROCK_MAX_RETRY_INTERVAL_MS` | The cap on the retry interval in milliseconds |  120000 |
+  **Examples**
+  ```bash
+  export BEDROCK_MAX_RETRIES=10                    # 10 retry attempts
+  export BEDROCK_INITIAL_RETRY_INTERVAL_MS=1000    # start with 1 second before first retry

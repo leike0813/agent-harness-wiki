@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-mcp-src-entry
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/extensions.rs
+  start: 14
+  end: 20
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  #[derive(Debug, Deserialize, Serialize, Clone)]
+  pub struct ExtensionEntry {
+      pub enabled: bool,
+      #[serde(flatten)]
+      pub config: ExtensionConfig,
+  }

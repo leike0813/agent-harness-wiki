@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-roots
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/skills/mod.rs
+  start: 371
+  end: 443
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn all_skill_dirs_with_config(working_dir: Option<&Path>, config: &Config) -> Vec<SkillDirectory> {
+      let mut dirs = Vec::new();
+      let plugin_dirs = enabled_plugin_skill_dirs_with_config(working_dir, config);
+      if let Some(wd) = working_dir {
+          for path in [
+              wd.join(".agents").join("skills"),
+              wd.join(".goose").join("skills"),
+              wd.join(".claude").join("skills"),
+          ] {
+              dirs.push(SkillDirectory {
+                  path,
+                  is_global: false,
+                  writable: true,
+                  preserve_path: false,
+              });
+          }
+      }
+      dirs.extend(
+          plugin_dirs
+              .iter()
+              .filter(|(_, scope)| *scope == PluginScope::Project)
+              .map(|(path, _)| SkillDirectory {

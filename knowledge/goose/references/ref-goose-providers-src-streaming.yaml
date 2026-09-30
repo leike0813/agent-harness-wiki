@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-streaming
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/declarative_providers.rs
+  start: 435
+  end: 449
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  for var in env_vars {
+              if var.name.ends_with("_STREAMING") {
+                  let val: Option<bool> = global_config
+                      .get_param::<String>(&var.name)
+                      .ok()
+                      .map(|s| s.to_lowercase() == "true")
+                      .or_else(|| global_config.get_param::<bool>(&var.name).ok())
+                      .or_else(|| var.default.as_deref().map(|d| d.to_lowercase() == "true"));
+                  if let Some(v) = val {
+                      config.supports_streaming = Some(v);
+                  }
+              }
+          }
+      }
+      Ok(())

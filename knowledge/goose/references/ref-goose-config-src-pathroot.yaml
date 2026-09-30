@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-pathroot
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/paths.rs
+  start: 40
+  end: 46
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub(crate) fn path_root() -> Option<PathBuf> {
+          Self::validated_path_root(std::env::var_os("GOOSE_PATH_ROOT"))
+      }
+      fn validated_path_root(value: Option<OsString>) -> Option<PathBuf> {
+          value.map(PathBuf::from).filter(|path| path.is_absolute())
+      }

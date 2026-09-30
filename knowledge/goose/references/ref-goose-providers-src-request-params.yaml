@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-request-params
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/declarative_providers.rs
+  start: 310
+  end: 316
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  model.reasoning |= existing.reasoning;
+                      model.thinking_preservation_format = model
+                          .thinking_preservation_format
+                          .or(existing.thinking_preservation_format);
+                      model.request_params = model.request_params.or(existing.request_params.clone());
+                  }
+                  model

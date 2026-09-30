@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-src-autoupdate-select
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/mod.rs
+  start: 194
+  end: 234
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn auto_update_plugins_at_root(
+      now: DateTime<Utc>,
+      plugins_dir: &Path,
+  ) -> Vec<PluginAutoUpdateResult> {
+      let entries = match fs::read_dir(plugins_dir) {
+          Ok(entries) => entries,
+          Err(_) => return Vec::new(),
+      };
+      entries
+          .flatten()
+          .filter_map(|entry| {
+              let plugin_dir = entry.path();
+              if !plugin_dir.is_dir() {
+                  return None;
+              }
+              let name = entry.file_name().to_string_lossy().into_owned();
+              let metadata = match read_install_metadata(&plugin_dir) {
+                  Ok(metadata) => metadata,
+                  Err(_) => return None,
+              };
+              if !metadata.auto_update || metadata.source_type != "git" {
+                  return None;
+              }

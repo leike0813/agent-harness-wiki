@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-migrations
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/base.rs
+  start: 499
+  end: 519
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn load_write_config(&self) -> Result<Mapping, ConfigError> {
+          if !self.write_path().exists() {
+              return Ok(Mapping::new());
+          }
+          let content = std::fs::read_to_string(self.write_path())?;
+          let mut values = parse_yaml_content(&content).unwrap_or_else(|e| {
+              tracing::warn!(
+                  "Config file {:?} is corrupt: {}. Starting fresh.",
+                  self.write_path(),
+                  e
+              );
+              Mapping::new()
+          });
+          if crate::config::migrations::run_migrations(&mut values) {
+              if let Err(e) = self.save_values(&values) {
+                  tracing::warn!("Failed to save migrated config: {}", e);
+              }
+          }
+          Ok(values)

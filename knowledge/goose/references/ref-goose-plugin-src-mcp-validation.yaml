@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-src-mcp-validation
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/mcp_servers.rs
+  start: 171
+  end: 191
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub fn validate_mcp_servers_manifest_value(value: &serde_json::Value) -> Result<()> {
+      if is_inline_config(value) {
+          validate_servers(parse_inline_servers(value)?)?;
+          return Ok(());
+      }
+      open_plugins::parse_component_paths(value)?;
+      Ok(())
+  }
+  pub fn validate_mcp_server_document(value: &serde_json::Value) -> Result<()> {
+      let document = serde_json::from_value::<McpServersDocument>(value.clone())?;
+      validate_servers(document.mcp_servers)
+  }
+  fn validate_servers(servers: HashMap<String, McpServerConfig>) -> Result<()> {
+      for (name, server) in servers {
+          if server.command.trim().is_empty() {
+              bail!(
+                  "Open Plugins MCP server '{}' command must not be empty",
+                  name

@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-auth-switch
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/declarative_providers.rs
+  start: 265
+  end: 268
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  let api_key_env = if params.auth.is_some() {
+          if existing_config.api_key_env == generate_api_key_name(&params.id) {
+              config.delete_secret(&existing_config.api_key_env)?;
+          }

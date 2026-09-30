@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-doc-create
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Create an Agent File
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  Agents are stored as Markdown files with YAML frontmatter. You can create or edit these files directly in your editor.
+  Global agents are available across goose sessions:
+  ```text
+  ~/.agents/agents/
+  ```
+  Project agents are available when goose is working in that project:
+  ```text
+  <project>/.agents/agents/
+  ```
+  :::note Compatibility paths
+  goose also discovers agents from `.goose/agents/`, `.claude/agents/`, `~/.goose/agents/`, `~/.claude/agents/`, goose's platform-specific config agents directory, and project-local `.agents/agents/`. New shared agents should use `.agents/agents/` for project agents or `~/.agents/agents/` for global agents.
+  :::
+  Create the directory if it does not already exist, then add a Markdown file for your agent:
+  ```markdown title="~/.agents/agents/code-reviewer.md"
+  ---

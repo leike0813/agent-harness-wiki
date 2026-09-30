@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-denial-wording
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 379
+  end: 410
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  impl HookChainOutcome {
+      pub(crate) fn allow(policy_evaluated: bool) -> Self {
+          Self {
+              decision: HookDecision::Allow,
+              policy_evaluated,
+              cause: None,
+          }
+      }
+      pub(crate) fn denial(&self) -> Option<HookDenial> {
+          let HookDecision::Deny { reason, plugin } = &self.decision else {
+              return None;
+          };
+          Some(match self.cause {
+              Some(HookOutcomeCause::HookFailure) => HookDenial {
+                  message: format!(
+                      "Tool call blocked because policy hook `{plugin}` could not complete: \
+                       {reason}. That hook is configured to block on failure."
+                  ),
+                  error_type: "hook_failed",
+              },
+              _ => HookDenial {

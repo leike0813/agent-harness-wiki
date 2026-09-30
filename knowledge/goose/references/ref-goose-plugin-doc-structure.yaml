@@ -1,0 +1,41 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-doc-structure
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Plugin Structure
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  A plugin is a directory with a plugin manifest and optional component directories. A plugin that includes both skills and hooks can look like this:
+  ```text
+  my-plugin/
+  ├── plugin.json
+  ├── skills/
+  │   └── review/
+  │       └── SKILL.md
+  ├── hooks/
+  │   └── hooks.json
+  └── scripts/
+      └── notify.sh
+  ```
+  The plugin manifest identifies the plugin:
+  ```json title="plugin.json"
+  {
+    "name": "my-plugin",
+    "version": "1.0.0",
+    "description": "Reusable skills and hooks for my team"
+  }
+  ```
+  ### Add a Skill to a Plugin
+  To add a skill to a plugin, place a skill directory under the plugin's `skills/` directory. Each skill directory contains a `SKILL.md` file:
+  ```text
+  my-plugin/
+  └── skills/
+      └── review/
+          └── SKILL.md
+  ```
+  ```markdown title="skills/review/SKILL.md"
+  ---
+  name: review

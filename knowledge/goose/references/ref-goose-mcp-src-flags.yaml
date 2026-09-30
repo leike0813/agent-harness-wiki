@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-mcp-src-flags
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/cli.rs
+  start: 181
+  end: 217
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  /// Extension configuration options shared between Session and Run commands
+  #[derive(Args, Debug, Clone, Default)]
+  pub struct ExtensionOptions {
+      #[arg(
+          long = "with-extension",
+          value_name = "COMMAND",
+          help = "Add stdio extensions (can be specified multiple times)",
+          long_help = "Add stdio extensions from full commands with environment variables. Can be specified multiple times. Format: '[name:]ENV1=val1 ENV2=val2 command args...'. Without the optional name, the extension is named after the command, which is the launcher for anything started through one ('npx', 'python', 'uvx', ...); extensions that would end up sharing a name are instead named after their full command line.",
+          action = clap::ArgAction::Append
+      )]

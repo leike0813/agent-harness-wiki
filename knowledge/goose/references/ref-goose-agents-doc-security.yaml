@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-doc-security
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Security Constraints
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  Subagents operate with restricted tool access to ensure safe execution and prevent interference with the main session.
+  ### Allowed Operations
+  Subagents have access to these safe operations:
+  - **Extension discovery**: Search for available extensions to understand what tools are available
+  - **Resource access**: Read and list resources from enabled extensions for context
+  - **Extension tools**: Use tools from extensions specified in recipes or inherited from the parent session
+  ### Restricted Operations
+  The following operations are blocked to ensure subagents remain focused on their assigned tasks without affecting the broader system state:
+  - **Subagent spawning**: Cannot create additional subagents to prevent infinite recursion

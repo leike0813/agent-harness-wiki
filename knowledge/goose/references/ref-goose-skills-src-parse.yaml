@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-parse
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/skills/mod.rs
+  start: 445
+  end: 487
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn parse_skill_content(
+      content: &str,
+      path: &Path,
+      global: bool,
+      writable: bool,
+  ) -> Option<SourceEntry> {
+      let (metadata, body): (SkillFrontmatter, String) = match parse_frontmatter(content) {
+          Ok(Some(parsed)) => parsed,
+          Ok(None) => return None,
+          Err(e) => {
+              warn!("Failed to parse skill frontmatter: {}", e);
+              return None;
+          }
+      };
+      let name = match metadata.name.filter(|n| !n.is_empty()) {
+          Some(n) => n,
+          None => {
+              warn!(
+                  "Skill at '{}' is missing a required 'name' in frontmatter, skipping",
+                  path.display()
+              );
+              return None;
+          }
+      };
+      if name.contains('/') {
+          warn!("Skill name '{}' contains '/', skipping", name);

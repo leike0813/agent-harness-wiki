@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-payload
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 225
+  end: 268
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub struct HookContext {
+      pub event: String,
+      pub session_id: String,
+      pub matcher_context: Option<String>,
+      /// Stable identifier for one tool call, the same value goose records as
+      /// `gen_ai.tool.call.id`. Correlates the pre and post events of a single
+      /// call, which tool name plus input cannot do when a call repeats.
+      #[serde(skip_serializing_if = "Option::is_none")]
+      pub tool_call_id: Option<String>,
+      #[serde(skip_serializing_if = "Option::is_none")]
+      pub tool_name: Option<String>,
+      #[serde(skip_serializing_if = "Option::is_none")]
+      pub tool_input: Option<Value>,
+      #[serde(skip_serializing_if = "Option::is_none")]
+      pub tool_output: Option<Value>,
+      #[serde(skip_serializing_if = "Option::is_none")]
+      pub message: Option<String>,

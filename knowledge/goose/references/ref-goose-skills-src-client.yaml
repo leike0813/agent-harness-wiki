@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-client
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/skills/client.rs
+  start: 18
+  end: 68
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub static EXTENSION_NAME: &str = "skills";
+  pub struct SkillsClient {
+      info: InitializeResult,
+      working_dir: RwLock<PathBuf>,
+      exclude_builtin_skills: bool,
+      config: &'static Config,
+  }
+  impl SkillsClient {
+      pub fn new(context: PlatformExtensionContext) -> anyhow::Result<Self> {
+          let working_dir = context
+              .session
+              .as_ref()
+              .map(|s| s.working_dir.clone())
+              .unwrap_or_else(|| std::env::current_dir().unwrap_or_default());
+          let info = InitializeResult::new(ServerCapabilities::builder().enable_tools().build())
+              .with_server_info(Implementation::new(EXTENSION_NAME, "1.0.0").with_title("Skills"));
+          Ok(Self {
+              info,
+              working_dir: RwLock::new(working_dir),

@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-emit-fire-and-forget
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 521
+  end: 621
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub async fn emit(&self, event: HookEvent, ctx: HookContext) {
+          if !self.has_hooks(event) {
+              return;
+          }
+          let payload = match serde_json::to_string(&ctx) {
+              Ok(s) => s,
+              Err(err) => {
+                  warn!(event = %event, error = %err, "Failed to serialize hook context");
+                  return;
+              }
+          };
+          self.emit_serialized(
+              event,
+              ctx.matcher_context.as_deref(),
+              &ctx.session_id,
+              &payload,
+          )
+          .await;
+      }
+      pub(crate) async fn emit_pre_tool_use_result(&self, payload: PreToolUseResultPayload) {
+          let event = HookEvent::PreToolUseResult;
+          if !self.has_hooks(event) {
+              return;
+          }

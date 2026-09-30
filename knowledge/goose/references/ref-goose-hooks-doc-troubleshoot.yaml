@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-doc-troubleshoot
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: My Hook Did Not Run
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  Check the following:
+  - The plugin directory is under `~/.agents/plugins/<name>/` or `<project>/.agents/plugins/<name>/`.
+  - The hook config is at `hooks/hooks.json` inside the plugin directory.
+  - The event name matches one of the [supported events](#supported-events).
+  - The `matcher` regular expression matches the event's matcher target.
+  - The command path is correct. Use `${PLUGIN_ROOT}` for scripts inside the plugin.
+  - The script is executable if you call it directly.
+  - The plugin is not listed in `disabledPlugins`.
+  - The event is not a subagent lifecycle event. `SubagentStart` and `SubagentStop` are not currently emitted by goose, so hooks registered for them will never run.

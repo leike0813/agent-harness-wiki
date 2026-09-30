@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-mcp-src-stdio-fields
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/mcp_servers.rs
+  start: 149
+  end: 162
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  ExtensionConfig::Stdio {
+          name: format!("{plugin_name}:{server_name}"),
+          description: DEFAULT_EXTENSION_DESCRIPTION.to_string(),
+          cmd: expand_plugin_root(&server.command, &root),
+          args: server
+              .args
+              .into_iter()
+              .map(|arg| expand_plugin_root(&arg, &root))
+              .collect(),
+          envs: Envs::new(env),
+          env_keys: Vec::new(),
+          timeout: Some(DEFAULT_EXTENSION_TIMEOUT),
+          cwd: server.cwd.map(|cwd| expand_plugin_root(&cwd, &root)),
+          bundled: Some(false),

@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-init
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/providers/init.rs
+  start: 227
+  end: 235
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  if let Err(e) = load_custom_providers_into_registry(&mut registry) {
+          tracing::warn!("Failed to load custom providers: {}", e);
+      }
+      RwLock::new(registry)
+  }
+  fn load_custom_providers_into_registry(registry: &mut ProviderRegistry) -> Result<()> {
+      register_declarative_providers(registry)
+  }

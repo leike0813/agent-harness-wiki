@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-stdin
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 1081
+  end: 1099
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  process
+          .stdin(Stdio::piped())
+          .stdout(Stdio::piped())
+          .stderr(Stdio::piped())
+          .kill_on_drop(true);
+      let mut child = process
+          .spawn()
+          .with_context(|| format!("spawning hook `{command}`"))?;
+      let mut stdin_delivered = true;
+      if let Some(mut stdin) = child.stdin.take() {
+          if let Err(err) = stdin.write_all(payload.as_bytes()).await {
+              stdin_delivered = false;
+              warn!(command = %command, error = %err, "Could not deliver the hook payload");
+          } else if let Err(err) = stdin.shutdown().await {
+              stdin_delivered = false;
+              warn!(command = %command, error = %err, "Could not close the hook stdin pipe");
+          }
+      }

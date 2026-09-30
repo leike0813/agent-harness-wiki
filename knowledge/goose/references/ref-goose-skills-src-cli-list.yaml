@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-cli-list
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/commands/skills.rs
+  start: 7
+  end: 58
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  const DESCRIPTION_PREVIEW_CHARS: usize = 50;
+  const SEPARATOR: &str = " | ";
+  const MIN_DESCRIPTION_WIDTH: usize = 4;
+  const MIN_LOCATION_WIDTH: usize = 4;
+  const NAME_HEADER: &str = "Name";
+  const DESCRIPTION_HEADER: &str = "Description";
+  const DESCRIPTION_TOKENS_HEADER: &str = "Description tokens";
+  const CONTENT_TOKENS_HEADER: &str = "Content tokens";
+  const LOCATION_HEADER: &str = "Location";
+  struct SkillRow {
+      name: String,
+      description: String,
+      description_tokens: String,
+      content_tokens: String,
+      location: String,
+  }
+  struct ColumnWidths {
+      name: usize,
+      description: usize,
+      description_tokens: usize,
+      content_tokens: usize,
+      location: usize,
+  }
+  pub async fn handle_skills_list() -> Result<()> {
+      let cwd = std::env::current_dir()?;

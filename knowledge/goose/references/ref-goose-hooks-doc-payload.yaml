@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-doc-payload
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Hook Payload
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  When a hook runs, goose writes a JSON payload to the command's stdin. Every payload includes the event name and session ID. The remaining fields are only present when they apply to the event, so a hook should treat them as optional.
+  | Field | Description |
+  |---|---|
+  | `event` | Name of the event that fired, such as `PostToolUse` or `UserPromptSubmit`. |
+  | `session_id` | ID of the current goose session. |
+  | `matcher_context` | String the rule's `matcher` is tested against (for example, the tool name on tool events or the prompt text on `UserPromptSubmit`). |
+  | `tool_name` | Name of the tool, on tool events. |
+  | `tool_input` | Input arguments passed to the tool, on tool events. |
+  | `message` | Prompt text the user submitted, on `UserPromptSubmit`. |

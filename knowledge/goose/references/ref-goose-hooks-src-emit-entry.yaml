@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-emit-entry
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/state_machine/ops_entry_hook.rs
+  start: 40
+  end: 72
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  }) {
+              return not_applicable();
+          }
+          let messages_before_kickoff =
+              &conversation.messages()[..conversation.len() - messages.len()];
+          if !messages_before_kickoff.iter().any(|message| {
+              message.role == rmcp::model::Role::User
+                  && message.is_user_visible()
+                  && !message.is_tool_response()
+          }) {
+              self.hook_manager
+                  .emit(
+                      HookEvent::SessionStart,
+                      HookContext::new(HookEvent::SessionStart, &session.id)
+                          .with_working_dir(session.working_dir.to_string_lossy().to_string()),
+                  )
+                  .await;
+          }
+          let prompt = messages
+              .first()
+              .map(Message::as_concat_text)

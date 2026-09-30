@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-doc-tool-keys
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Tool Input Keys
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  `tool_name` is the name goose sends to the model, and `tool_input` holds that tool's own arguments. Most extensions namespace their tools as `{extension}__{tool}`, for example `todo__todo_write`. The `developer`, `analyze`, `summon` and `code_execution` extensions are exposed without that prefix, so their tools arrive under their bare name: the shell tool is `shell`, not `developer__shell`. The keys are the tool's schema, so they vary by tool—a hook that inspects a file path must read the right field for the tool it matched. The keys for goose's built-in `developer` tools are:
+  | `tool_name` | `tool_input` keys |
+  |---|---|
+  | `shell` | `command`, `timeout_secs` (optional) |
+  | `write` | `path`, `content` |
+  | `edit` | `path`, `before`, `after` |
+  | `tree` | `path`, `depth` |

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-mcp-doc-config-entry
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Config Entry
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  For advanced users, you can also directly edit the config file (`~/.config/goose/config.yaml`) to add, remove, or update an extension:
+  ```yaml
+  extensions:
+    github:
+      name: GitHub
+      cmd: npx
+      args: [-y @modelcontextprotocol/server-github]
+      enabled: true
+      envs: { "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>" }
+      type: stdio
+      timeout: 300
+  ```
+  #### Remote extensions with a pre-registered OAuth client
+  Remote (`streamable_http`) extensions that require OAuth normally obtain a
+  client ID automatically, using Client ID Metadata Documents or Dynamic Client
+  Registration. Some authorization servers support neither and instead require a
+  client that was registered out of band. For those servers, set `client_id` —
+  and, for confidential clients, `client_secret_key` — on the extension:

@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-mcp-src-env-alias
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/extensions.rs
+  start: 644
+  end: 672
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  #[test]
+      fn test_stdio_env_alias_accepted() {
+          let (config, _config_file, _secrets_file) = test_config(
+              r#"
+  extensions:
+    brave-search:
+      enabled: true
+      type: stdio
+      name: brave-search
+      cmd: npx
+      args: ["-y", "@modelcontextprotocol/server-brave-search"]
+      env:
+        BRAVE_API_KEY: test-key
+  "#,
+          );
+          let extensions = get_extensions_map_with_config(&config);
+          let entry = extensions
+              .get("brave-search")
+              .expect("brave-search extension should parse");
+          match &entry.config {
+              ExtensionConfig::Stdio { envs, .. } => {
+                  assert_eq!(
+                      envs.get_env().get("BRAVE_API_KEY"),
+                      Some(&"test-key".to_string())
+                  );
+              }

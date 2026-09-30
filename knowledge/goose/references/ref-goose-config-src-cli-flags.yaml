@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-cli-flags
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/cli.rs
+  start: 120
+  end: 147
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  long_help = "When enabled, shows complete tool responses without truncation and full paths."
+      )]
+      pub debug: bool,
+      #[arg(
+          long = "max-tool-repetitions",
+          value_name = "NUMBER",
+          help = "Maximum number of consecutive identical tool calls allowed",
+          long_help = "Set a limit on how many times the same tool can be called consecutively with identical parameters. Helps prevent infinite loops."
+      )]
+      pub max_tool_repetitions: Option<u32>,
+      #[arg(
+          long = "max-turns",
+          value_name = "NUMBER",
+          help = "Maximum number of turns allowed without user input (default: 1000)",
+          long_help = "Set a limit on how many turns (iterations) the agent can take without asking for user input to continue."
+      )]

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-system
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/base.rs
+  start: 154
+  end: 177
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn system_config_path() -> PathBuf {
+      #[cfg(test)]
+      if let Some(path) = env::var_os(TEST_SYSTEM_CONFIG_PATH_ENV) {
+          return path.into();
+      }
+      #[cfg(unix)]
+      {
+          PathBuf::from("/etc/goose/config.yaml")
+      }
+      #[cfg(windows)]
+      {
+          env::var("PROGRAMDATA")
+              .map(|d| PathBuf::from(d).join("goose").join("config.yaml"))
+              .unwrap_or_else(|_| PathBuf::from(r"C:\ProgramData\goose\config.yaml"))
+      }
+  }
+  fn additional_config_paths_from_env() -> Vec<PathBuf> {
+      env::var_os("GOOSE_ADDITIONAL_CONFIG_FILES")
+          .map(|value| env::split_paths(&value).collect())
+          .unwrap_or_default()
+  }

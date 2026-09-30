@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-cli-serve
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/cli.rs
+  start: 1838
+  end: 1851
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  let env_secret = std::env::var(GOOSE_SERVER_SECRET_KEY_ENV)
+          .ok()
+          .map(|secret| secret.trim().to_string())
+          .filter(|secret| !secret.is_empty());
+      let require_token = env_secret.is_some();
+      if !require_token && !dangerously_unauthenticated {
+          anyhow::bail!(
+              "{GOOSE_SERVER_SECRET_KEY_ENV} must be set to start `goose serve`; pass --dangerously-unauthenticated to run without ACP authentication"
+          );
+      }
+      if dangerously_unauthenticated && !require_token {
+          warn!(
+              "{GOOSE_SERVER_SECRET_KEY_ENV} is not set and --dangerously-unauthenticated was passed; the ACP endpoint will accept unauthenticated connections"
+          );

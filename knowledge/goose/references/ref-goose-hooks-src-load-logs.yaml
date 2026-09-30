@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-load-logs
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 451
+  end: 465
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  Err(err) => warn!(
+                      plugin = %plugin.name,
+                      path = %hooks_path.display(),
+                      error = %err,
+                      "Failed to load plugin hooks; skipping",
+                  ),
+              }
+          }
+          if total > 0 {
+              info!(
+                  rule_count = total,
+                  events = ?rules.keys().map(|e| e.name()).collect::<Vec<_>>(),
+                  "Loaded plugin hooks",
+              );

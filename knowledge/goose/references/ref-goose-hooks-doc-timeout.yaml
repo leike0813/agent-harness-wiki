@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-doc-timeout
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: My Hook Timed Out or Failed
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  Hook failures are logged but do not crash goose or the tool that triggered the hook. By default, a hook that fails to run, exceeds its timeout, never receives its payload, or exits without a decision goose recognizes is logged and the tool call proceeds. To intentionally stop a tool call, a `PreToolUse` hook must emit a clean block signal, not just exit non-zero.
+  Two cases look like a failure but are not what people expect:
+  - **The hook printed a log line to stdout.** goose reads stdout as the decision channel, so `echo "checking policy"` makes an otherwise healthy hook read as no decision. Send diagnostics to stderr instead.
+  - **The hook printed `{"decision":"allow"}` and then exited non-zero.** The exit status contradicts the decision, so goose treats it as no decision.

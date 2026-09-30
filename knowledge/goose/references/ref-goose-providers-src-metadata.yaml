@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-metadata
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/providers/provider_registry.rs
+  start: 281
+  end: 295
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  let custom_metadata = ProviderMetadata {
+              name: config.name.clone(),
+              display_name: config.display_name.clone(),
+              description,
+              default_model,
+              known_models,
+              model_doc_link: config
+                  .model_doc_link
+                  .clone()
+                  .unwrap_or(base_metadata.model_doc_link),
+              config_keys,
+              setup_steps: config.setup_steps.clone(),
+              setup: config.setup.clone(),
+              deprecated: None,
+          };

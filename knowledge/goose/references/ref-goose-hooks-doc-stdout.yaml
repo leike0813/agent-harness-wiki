@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-doc-stdout
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: stdout Is the Decision Channel
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  For a blocking event, goose reads a decision out of the hook's exit status and stdout, in this order:
+  1. Exit `2` denies, with the reason from stderr.
+  2. `{"decision":"block"}` on stdout denies, whatever the exit status.
+  3. Exit `0` with empty stdout allows.
+  4. Exit `0` with `{"decision":"allow"}` on stdout allows.
+  5. Anything else means the hook returned no decision.
+  Rule 5 covers more than a crash. A stray log line on stdout, truncated or malformed JSON, a JSON array, `{}` with no `decision`, an unrecognized `decision` value, allow JSON printed alongside a non-zero exit, an unexpected exit status, and termination by a signal all read as no decision, as do a spawn error and a timeout. Write logs and diagnostics to stderr and keep stdout for the decision.

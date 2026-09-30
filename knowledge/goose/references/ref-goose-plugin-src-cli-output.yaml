@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-src-cli-output
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/commands/plugin.rs
+  start: 10
+  end: 48
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  println!(
+          "{} Installed {} plugin '{}' ({})",
+          style("✓").green(),
+          install.format,
+          style(&install.name).bold(),
+          install.version
+      );
+      print_plugin_install(&install);
+      Ok(())
+  }
+  pub fn handle_plugin_update(name: &str) -> Result<()> {
+      let install = goose::plugins::update_plugin(name)?;
+      println!(
+          "{} Updated {} plugin '{}' ({})",
+          style("✓").green(),
+          install.format,
+          style(&install.name).bold(),
+          install.version
+      );
+      print_plugin_install(&install);
+      Ok(())
+  }
+  fn print_plugin_install(install: &goose::plugins::PluginInstall) {
+      println!("  Source: {}", install.source);
+      println!("  Location: {}", install.directory.display());
+      if install.skills.is_empty() {

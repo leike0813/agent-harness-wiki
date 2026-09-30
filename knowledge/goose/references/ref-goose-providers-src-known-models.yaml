@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-known-models
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/providers/provider_registry.rs
+  start: 222
+  end: 237
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  .description
+              .clone()
+              .unwrap_or_else(|| format!("Custom {} provider", config.display_name));
+          let default_model = config
+              .models
+              .first()
+              .map(|m| m.name.clone())
+              .unwrap_or_default();
+          let known_models: Vec<ModelInfo> = config
+              .models
+              .iter()
+              .map(|m| ModelInfo {
+                  resolved_model: None,
+                  supports_cache_control: Some(m.supports_cache_control.unwrap_or(false)),
+                  ..m.clone()
+              })

@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-file-shape
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 113
+  end: 134
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  #[derive(Debug, Default, Deserialize)]
+  struct HooksFile {
+      #[serde(default)]
+      hooks: HashMap<String, Value>,
+  }
+  #[derive(Debug, Deserialize)]
+  struct RawHookRule {
+      #[serde(default)]
+      matcher: Option<String>,
+      #[serde(default)]
+      hooks: Vec<Value>,
+  }
+  #[derive(Debug, Deserialize)]
+  struct RawCommandAction {
+      command: String,
+      #[serde(default)]
+      timeout: Option<u64>,
+      #[serde(default, deserialize_with = "deserialize_present_on_failure")]
+      on_failure: Option<Value>,
+  }

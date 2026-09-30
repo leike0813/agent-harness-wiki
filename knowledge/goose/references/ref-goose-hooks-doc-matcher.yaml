@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-doc-matcher
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: documentation/docs/guides/context-engineering/hooks.md
+  start: 148
+  end: 152
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  The matcher is a regular expression matched against the most relevant string for the event. For example, use `"\\.rs$"` to match Rust files on `AfterFileEdit`, or `"^(cargo test|pnpm test)"` to match test commands on `AfterShellExecution`. The match is unanchored, so `"shell"` also matches another extension's `"remote__shell_exec"`; anchor with `^`/`$` when you need an exact match.
+  :::warning Use `.*`, not `*`, to match everything
+  The matcher is a regular expression, not a glob. A bare `"*"` is an invalid regex, so the whole rule is **silently skipped** (goose logs a warning and moves on). To run a rule for every event, either omit `matcher` entirely or use `".*"`.
+  :::

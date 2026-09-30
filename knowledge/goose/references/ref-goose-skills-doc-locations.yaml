@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-doc-locations
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Skill Locations
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  Skills can be stored globally, per-project, or in installed plugins:
+  1. `~/.agents/skills/` — Global skills, available in all sessions
+  2. `.agents/skills/` — Project-level skills, scoped to the current project
+  3. `~/.agents/plugins/<plugin-name>/` — Skills provided by installed [plugins](/docs/guides/context-engineering/plugins)
+  Place a `SKILL.md` file inside a named subdirectory. For example, a global skill called
+  `code-review` goes in `~/.agents/skills/code-review/SKILL.md`.
+  > **Backward compatibility:** goose also discovers skills from `.goose/skills/`,
+  > `.claude/skills/`, `~/.claude/skills/`, and platform-specific config directories,
+  > but `agents/skills/` is the recommended standard.

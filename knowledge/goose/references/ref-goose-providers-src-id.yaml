@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-id
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/declarative_providers.rs
+  start: 68
+  end: 114
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub fn generate_id(display_name: &str) -> String {
+      let _guard = ID_GENERATION_LOCK.lock().unwrap();
+      let normalized = display_name
+          .to_lowercase()
+          .chars()
+          .map(|ch| {
+              if ch.is_ascii_lowercase() || ch.is_ascii_digit() || ch == '_' || ch == '-' {
+                  ch
+              } else {
+                  '_'
+              }
+          })
+          .collect::<String>()
+          .trim_matches('_')
+          .to_string();
+      let base_id = format!("custom_{}", normalized);
+      let custom_dir = custom_providers_dir();
+      let mut candidate_id = base_id.clone();
+      let mut counter = 1;
+      while custom_dir.join(format!("{}.json", candidate_id)).exists() {
+          candidate_id = format!("{}_{}", base_id, counter);
+          counter += 1;
+      }
+      candidate_id
+  }

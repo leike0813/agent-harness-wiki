@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-chat
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/state_machine/ops_skills.rs
+  start: 321
+  end: 327
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  let result: std::result::Result<CallToolResult, ErrorData> = match disposition {
+                  ToolDisposition::Execute if session.goose_mode == GooseMode::Chat => {
+                      // Nothing executes in chat mode, so no tool lifecycle runs.
+                      Ok(CallToolResult::success(vec![ContentBlock::text(
+                          CHAT_MODE_TOOL_SKIPPED_RESPONSE,
+                      )]))
+                  }

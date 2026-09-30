@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-plugin-dirs
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/formats/open_plugins.rs
+  start: 131
+  end: 153
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub(in crate::plugins) fn installed_skill_dirs(plugin_dir: &Path) -> Vec<PathBuf> {
+      let manifest = match read_manifest(plugin_dir, "") {
+          Ok(manifest) => manifest,
+          Err(_) => return Vec::new(),
+      };
+      let mut dirs = Vec::new();
+      if !plugin_dir.join("skills").is_dir()
+          && manifest.skills.is_none()
+          && plugin_dir.join("SKILL.md").is_file()
+      {
+          dirs.push(plugin_dir.to_path_buf());
+      }
+      dirs.extend(
+          skill_root_directories(plugin_dir, manifest.skills.as_ref())
+              .unwrap_or_default()
+              .into_iter()
+              .filter(|path| path.is_dir()),
+      );
+      dedupe_paths(dirs)
+  }

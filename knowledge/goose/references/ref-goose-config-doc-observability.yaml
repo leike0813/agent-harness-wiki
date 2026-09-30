@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-doc-observability
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Observability Configuration
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  Configure goose to export telemetry to [OpenTelemetry](https://opentelemetry.io/docs/) compatible platforms. Environment variables override these settings and support additional options like per-signal configuration. See the [environment variables guide](/docs/guides/environment-variables#observability-configuration) for details.
+  | Setting | Purpose | Values | Default |
+  |---------|---------|--------|---------|
+  | `otel_exporter_otlp_endpoint` | OTLP endpoint URL | URL (e.g., `http://localhost:4318`) | None |
+  | `otel_exporter_otlp_timeout` | Export timeout in milliseconds | Integer (ms) | 10000 |
+  ```yaml
+  otel_exporter_otlp_endpoint: "http://localhost:4318"
+  otel_exporter_otlp_timeout: 20000
+  ```

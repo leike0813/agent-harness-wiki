@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-plugin-config-map
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/discovery.rs
+  start: 123
+  end: 152
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn filter_by_config(plugins: Vec<DiscoveredPlugin>, config: &Config) -> Vec<DiscoveredPlugin> {
+      let mut entries: HashMap<String, PluginConfigEntry> =
+          config.get_param(PLUGINS_CONFIG_KEY).unwrap_or_default();
+      let mut dirty = false;
+      let mut enabled = Vec::new();
+      for plugin in plugins {
+          let key = plugin.root.to_string_lossy().to_string();
+          match entries.get(&key) {
+              Some(entry) => {
+                  if entry.enabled {
+                      enabled.push(plugin);
+                  }
+              }
+              None => {
+                  entries.insert(key, PluginConfigEntry { enabled: true });
+                  dirty = true;
+                  enabled.push(plugin);
+              }
+          }
+      }
+      if dirty {

@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-envvars
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/declarative_providers.rs
+  start: 29
+  end: 58
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub fn expand_env_vars(template: &str, env_vars: &[EnvVarConfig]) -> Result<String> {
+      let config = Config::global();
+      let mut result = template.to_string();
+      for var in env_vars {
+          let placeholder = format!("${{{}}}", var.name);
+          if !result.contains(&placeholder) {
+              continue;
+          }
+          let value = if var.secret {
+              config.get_secret::<String>(&var.name).ok()
+          } else {
+              config.get_param::<String>(&var.name).ok()
+          };
+          let value = match value {
+              Some(v) => v,
+              None => match &var.default {
+                  Some(d) => d.clone(),
+                  None if var.required => {
+                      return Err(anyhow::anyhow!(
+                          "Required environment variable {} is not set",

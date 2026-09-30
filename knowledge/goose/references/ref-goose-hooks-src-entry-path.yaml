@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-entry-path
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 425
+  end: 452
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub fn load(project_root: Option<&Path>, use_login_shell_path: bool) -> Self {
+          let plugins = discover_enabled_plugins(project_root);
+          Self::from_plugins(plugins, use_login_shell_path)
+      }
+      #[cfg(test)]
+      pub(crate) fn from_plugins_for_test(plugins: Vec<DiscoveredPlugin>) -> Self {
+          Self::from_plugins(plugins, false)
+      }
+      fn from_plugins(plugins: Vec<DiscoveredPlugin>, use_login_shell_path: bool) -> Self {
+          let mut rules: HashMap<HookEvent, Vec<LoadedRule>> = HashMap::new();
+          let mut total = 0usize;
+          for plugin in plugins {
+              let hooks_path = plugin.root.join("hooks").join("hooks.json");
+              if !hooks_path.is_file() {
+                  continue;
+              }

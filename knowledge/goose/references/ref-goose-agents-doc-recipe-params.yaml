@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-doc-recipe-params
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Parameters
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  The `parameters` field allows you to create dynamic, reusable recipes that can be customized for different contexts. Parameters define placeholders that users fill in when running the recipe, making the recipe more flexible and adaptable.
+  Parameter substitution uses Jinja-style template syntax with `{{ parameter_name }}` placeholders. Each parameter in the `parameters` array has the following schema:
+  #### Parameter Schema
+  | Field | Type | Required | Description |
+  |-------|------|----------|-------------|
+  | `key` | String | ✅ | Unique identifier for the parameter |
+  | `input_type` | String | ✅ | Type of input: `"string"` (default), `"number"`, `"boolean"`, `"date"`, `"file"`, or `"select"` |
+  | `requirement` | String | ✅ | One of: "required", "optional", or "user_prompt" |

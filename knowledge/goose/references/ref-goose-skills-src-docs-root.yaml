@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-docs-root
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/skills/mod.rs
+  start: 110
+  end: 123
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  const DEFAULT_GOOSE_DOCS_ROOT: &str = "https://goose-docs.ai";
+  const GOOSE_DOCS_ROOT_PLACEHOLDER: &str = "{{GOOSE_DOCS_ROOT}}";
+  /// Substitute the `{{GOOSE_DOCS_ROOT}}` placeholder in the builtin
+  /// `goose-doc-guide` skill with the resolved docs root. Resolution is
+  /// deterministic: the configured `GOOSE_DOCS_ROOT` if set, otherwise the
+  /// canonical online docs root.
+  fn resolve_docs_root_placeholder(skill: &SourceEntry, content: &str, docs_root: &str) -> String {
+      if skill.name != "goose-doc-guide" || skill.source_type != SourceType::BuiltinSkill {
+          return content.to_string();
+      }
+      content.replace(GOOSE_DOCS_ROOT_PLACEHOLDER, docs_root)
+  }

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-apply-verdict
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 872
+  end: 889
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn apply_verdict(verdict: HookVerdict, on_failure: OnFailure, event: HookEvent) -> ChainStep {
+      match verdict {
+          HookVerdict::Allow => ChainStep::Allowed,
+          HookVerdict::PolicyDeny { reason } => ChainStep::Denied {
+              reason,
+              cause: HookOutcomeCause::PolicyDenial,
+          },
+          HookVerdict::HookFailure { reason } => {
+              if on_failure == OnFailure::Block && event == HookEvent::PreToolUse {
+                  ChainStep::Denied {
+                      reason,
+                      cause: HookOutcomeCause::HookFailure,
+                  }
+              } else {
+                  ChainStep::FailedOpen { reason }
+              }
+          }
+      }

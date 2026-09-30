@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-doc-onfailure
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Choose What Happens When a Hook Fails
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  A hook allows cleanly only when goose delivered the payload and the process exited 0 with either empty stdout or a valid allow decision. A failed delivery, output goose cannot use, or a non-zero exit without a denial is a hook failure, not an allow.
+  **By default a hook failure is logged and the tool call proceeds.** That is the historical behavior and it stays the default, so a broken hook never wedges a session.
+  For a policy you actually depend on, set `on_failure` to `block` on the action. goose then denies the tool call when that hook fails:
+  ```json title="hooks/hooks.json"
+  {
+    "hooks": {
+      "PreToolUse": [
+        {
+          "matcher": "^shell$",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "${PLUGIN_ROOT}/scripts/block-sudo.sh",

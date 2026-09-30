@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-doc-pretool-result
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: "What `PreToolUseResult` Reports"
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  `PreToolUseResult` carries the outcome of the `PreToolUse` chain. Its fields are defined once in [Hook Payload](#hook-payload); this section covers only what `on_failure` changes.
+  `decision` is the result actually applied to the tool call, so under `on_failure: block` a hook failure shows as `deny`. `cause` is how a subscriber tells the two kinds of denial apart: `policy_denial` when a hook explicitly blocked, `hook_failure` when a hook could not be executed, did not receive its payload, produced output goose could not decode, or answered nothing the decision protocol recognizes.
+  `policy_evaluated` answers a different question from `cause` and the two move independently.

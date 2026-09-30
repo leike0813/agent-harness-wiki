@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-frontmatter
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/skills/mod.rs
+  start: 32
+  end: 44
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  #[derive(Debug, Deserialize)]
+  pub struct SkillFrontmatter {
+      #[serde(default)]
+      pub name: Option<String>,
+      #[serde(default)]
+      pub description: String,
+      /// Free-form bag for caller-defined fields. Per the agentskills.io spec
+      /// (<https://agentskills.io/specification#frontmatter>), arbitrary
+      /// metadata lives in this nested mapping so it doesn't collide with
+      /// reserved frontmatter fields.
+      #[serde(default)]
+      pub metadata: HashMap<String, Value>,
+  }

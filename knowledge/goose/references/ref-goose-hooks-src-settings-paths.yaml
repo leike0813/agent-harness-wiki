@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-settings-paths
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/discovery.rs
+  start: 203
+  end: 249
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn load_all_settings(project_root: Option<&Path>) -> Vec<(SettingsScope, PluginSettings)> {
+      let mut paths: Vec<(SettingsScope, PathBuf)> = Vec::new();
+      if let Some(path) = user_settings_path() {
+          paths.push((SettingsScope::User, path));
+      }
+      if let Some(root) = project_root {
+          paths.push((SettingsScope::Project, project_settings_path(root, false)));
+          paths.push((SettingsScope::Local, project_settings_path(root, true)));
+      }
+      paths
+          .into_iter()
+          .filter_map(|(scope, path)| match read_settings(&path) {
+              Ok(Some(s)) => Some((scope, s)),
+              Ok(None) => None,
+              Err(e) => {
+                  tracing::warn!(path = %path.display(), error = %e, "Failed to read plugin settings");
+                  None
+              }

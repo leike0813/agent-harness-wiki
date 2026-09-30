@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-auth-exclusive
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/declarative_providers.rs
+  start: 186
+  end: 193
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  if params.auth.is_some()
+          && params
+              .api_key
+              .as_deref()
+              .is_some_and(|key| !key.trim().is_empty())
+      {
+          anyhow::bail!("cannot set both apiKey and auth.command");
+      }

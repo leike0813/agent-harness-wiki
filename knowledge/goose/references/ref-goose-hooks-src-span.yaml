@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-span
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 488
+  end: 512
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  let span = tracing::info_span!(
+              target: "goose::hooks",
+              "execute_hook",
+              "gen_ai.operation.name" = "execute_hook",
+              "goose.hook.event" = %event,
+              "goose.hook.plugin" = %rule.plugin_name,
+              "error.type" = tracing::field::Empty,
+              session.id = %session_id,
+          );
+          let result = run_command_hook(
+              command,
+              &rule.plugin_root,
+              payload,
+              timeout,
+              self.use_login_shell_path,
+          )
+          .instrument(span.clone())
+          .await;
+          match &result {
+              Ok(run) if !run.output.status.success() => {
+                  span.record("error.type", "hook_exit");
+              }
+              Err(_) => {

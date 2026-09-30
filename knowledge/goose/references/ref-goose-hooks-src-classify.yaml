@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-classify
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 906
+  end: 962
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn classify_run(run: &HookRun) -> HookVerdict {
+      let verdict = classify_output(&run.output);
+      if run.stdin_delivered || matches!(verdict, HookVerdict::PolicyDeny { .. }) {
+          return verdict;
+      }
+      HookVerdict::HookFailure {
+          reason: STDIN_DELIVERY_FAILED_REASON.to_string(),
+      }
+  }
+  fn classify_output(output: &std::process::Output) -> HookVerdict {
+      const DEFAULT_DENY: &str = "denied by plugin hook";
+      let non_empty = |s: String| if s.is_empty() { DEFAULT_DENY.into() } else { s };
+      if output.status.code() == Some(2) {
+          let stderr = String::from_utf8_lossy(&output.stderr).trim().to_string();
+          return HookVerdict::PolicyDeny {
+              reason: non_empty(stderr),
+          };
+      }
+      #[derive(Deserialize)]
+      struct Resp {

@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-pretool-result
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/hooks/mod.rs
+  start: 321
+  end: 347
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub(crate) fn with_pre_tool_use_outcome(
+          mut self,
+          outcome: &HookChainOutcome,
+      ) -> PreToolUseResultPayload {
+          self.policy_evaluated = Some(outcome.policy_evaluated);
+          match &outcome.decision {
+              HookDecision::Allow => self.decision = Some("allow".to_string()),
+              HookDecision::Deny { reason, plugin } => {
+                  self.decision = Some("deny".to_string());
+                  self.blocked_by = Some(plugin.clone());
+                  self.reason = Some(reason.clone());
+              }
+          }
+          PreToolUseResultPayload {
+              context: self,
+              cause: outcome.cause.map(|cause| cause.as_str().to_string()),
+          }
+      }
+  }
+  #[derive(Debug, Serialize)]
+  pub(crate) struct PreToolUseResultPayload {
+      #[serde(flatten)]

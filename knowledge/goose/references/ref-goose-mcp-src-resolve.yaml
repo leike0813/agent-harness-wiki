@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-mcp-src-resolve
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/extensions.rs
+  start: 301
+  end: 315
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub fn resolve_extensions_for_new_session(
+      recipe_extensions: Option<&[ExtensionConfig]>,
+      override_extensions: Option<Vec<ExtensionConfig>>,
+  ) -> Vec<ExtensionConfig> {
+      let extensions = if let Some(exts) = recipe_extensions {
+          exts.to_vec()
+      } else if let Some(exts) = override_extensions {
+          exts
+      } else {
+          get_enabled_extensions()
+      };
+      extensions
+          .into_iter()
+          .filter(is_extension_available)

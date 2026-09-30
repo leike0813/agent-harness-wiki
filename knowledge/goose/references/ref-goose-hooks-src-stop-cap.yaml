@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-hooks-src-stop-cap
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/state_machine/ops_stop_hook.rs
+  start: 100
+  end: 115
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  HookDecision::Allow => yielded(),
+              HookDecision::Deny { reason, plugin } => {
+                  let blocks = messages
+                      .iter()
+                      .filter(|message| self.message_meta(message, DENIED).is_some())
+                      .count() as u32
+                      + 1;
+                  if blocks > self.block_cap {
+                      let warning = block_cap_warning(&plugin, self.block_cap);
+                      let warning = emit.message(warning).await;
+                      yielded_with([warning.into()])
+                  } else {
+                      let mut denial = denial_context_message(&plugin, &reason);
+                      self.set_message_meta(&mut denial, DENIED, serde_json::json!(true));
+                      emit.message(denial_notification(&plugin)).await;

@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-plugin-src-name-rules
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/plugins/formats/open_plugins.rs
+  start: 206
+  end: 247
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn validate_plugin_name(name: &str) -> Result<()> {
+      if name.is_empty() || name.len() > 64 {
+          bail!(
+              "Invalid Open Plugins name '{}'. Names must be 1-64 characters",
+              name
+          );
+      }
+      if !name
+          .chars()
+          .all(|ch| ch.is_ascii_lowercase() || ch.is_ascii_digit() || ch == '-' || ch == '.')
+      {
+          bail!(
+              "Invalid Open Plugins name '{}'. Names may only contain lowercase letters, numbers, dashes, and periods",
+              name
+          );
+      }
+      if !name
+          .chars()
+          .next()
+          .is_some_and(|ch| ch.is_ascii_lowercase() || ch.is_ascii_digit())
+          || !name
+              .chars()
+              .last()
+              .is_some_and(|ch| ch.is_ascii_lowercase() || ch.is_ascii_digit())
+      {
+          bail!(

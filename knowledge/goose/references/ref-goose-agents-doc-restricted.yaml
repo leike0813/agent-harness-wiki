@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-doc-restricted
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: document_section
+  heading: Restricted Operations
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  The following operations are blocked to ensure subagents remain focused on their assigned tasks without affecting the broader system state:
+  - **Subagent spawning**: Cannot create additional subagents to prevent infinite recursion
+  - **Extension management**: Cannot enable, disable, or modify extensions to avoid conflicts with the main session
+  - **Schedule management**: Cannot create, modify, or delete scheduled tasks to prevent interference with parent workflows
+  :::info
+  Subagents can browse extensions for suggestions but cannot enable them to avoid modifying the parent session.
+  :::

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-cli-model
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/cli.rs
+  start: 334
+  end: 353
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  #[derive(Args, Debug, Clone, Default)]
+  pub struct ModelOptions {
+      /// Provider to use for this run (overrides environment variable)
+      #[arg(
+          long = "provider",
+          value_name = "PROVIDER",
+          help = "Specify the LLM provider to use (e.g., 'openai', 'anthropic')",
+          long_help = "Override the GOOSE_PROVIDER environment variable for this run. Available providers include openai, anthropic, ollama, databricks, gemini-cli, claude-code, and others."
+      )]
+      pub provider: Option<String>,
+      /// Model to use for this run (overrides environment variable)
+      #[arg(
+          long = "model",
+          value_name = "MODEL",
+          help = "Specify the model to use (e.g., 'gpt-4o', 'claude-sonnet-4-20250514')",

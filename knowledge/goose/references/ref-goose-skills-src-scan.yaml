@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-skills-src-scan
+harness_id: goose
+snapshot_id: snapshot-goose-repo
+locator:
+  kind: file_lines
+  file: crates/goose/src/skills/mod.rs
+  start: 531
+  end: 607
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn scan_skills_from_dir(
+      dir: &Path,
+      global: bool,
+      writable: bool,
+      preserve_path: bool,
+      seen: &mut HashSet<String>,
+  ) -> Vec<SourceEntry> {
+      let mut skill_files = Vec::new();
+      let mut visited_dirs = HashSet::new();
+      walk_files_recursively(
+          dir,
+          &mut visited_dirs,
+          &mut |path| !should_skip_dir(path),
+          &mut |path| {
+              if path.file_name().and_then(|name| name.to_str()) == Some("SKILL.md") {
+                  skill_files.push(path.to_path_buf());
+              }
+          },
+      );
+      let mut sources = Vec::new();
+      for skill_file in skill_files {
+          let Some(skill_dir) = skill_file.parent() else {
+              continue;
+          };
+          let registered_skill_dir = if preserve_path {
+              skill_dir.to_path_buf()
