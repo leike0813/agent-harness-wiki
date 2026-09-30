@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-junie-hooks-config
+harness_id: junie
+snapshot_id: snapshot-junie-docs-hooks
+locator:
+  kind: document_section
+  heading: Configure a hook
+official_url: "https://junie.jetbrains.com/docs/junie-cli-hooks.html"
+excerpt: |-
+  ## Configure a hook
+  Add a `hooks` object to your user `~/.junie/config.json` or to a file passed with `--config-location`:
+  { "hooks": { "SessionStart": [ { "matcher": "startup", "hooks": [ { "type": "command", "command": "aws sso login --profile dev", "timeout": 30 } ] } ] } }
+  Each entry has a `matcher` and a list of `hooks` to run when the matcher matches.
+  Project-local hooks from `<project-root>/.junie/config.json` are ignored by default for safety.

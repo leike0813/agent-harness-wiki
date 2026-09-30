@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-junie-repo-channels
+harness_id: junie
+snapshot_id: snapshot-junie-repo
+locator:
+  kind: file_lines
+  file: README.md
+  start: 46
+  end: 68
+official_url: "https://github.com/JetBrains/junie"
+excerpt: |-
+  ### 🔀 Try another update channel
+  If Junie is already installed, you can run the latest build of a different channel
+  **for a single launch** without changing your installed default. The shim fetches
+  and installs that channel's latest build (if not already present), then launches it:
+  ```bash
+  junie --eap            # run the latest EAP build, just this once
+  junie --nightly        # latest nightly
+  junie --experimental   # latest experimental
+  junie --release        # latest stable release
+  junie --channel=eap    # equivalent explicit form
+  ```
+  Pin a specific build of a channel with `--use-version`:
+  ```bash
+  junie --eap --use-version=122.1          # run EAP build 122.1
+  junie --channel=nightly --use-version=1998.1
+  ```

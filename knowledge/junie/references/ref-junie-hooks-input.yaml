@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-junie-hooks-input
+harness_id: junie
+snapshot_id: snapshot-junie-docs-hooks
+locator:
+  kind: document_section
+  heading: Hook input
+official_url: "https://junie.jetbrains.com/docs/junie-cli-hooks.html"
+excerpt: |-
+  ## Hook input
+  Each hook receives a single line of JSON on standard input.
+  {"hook_event_name":"SessionStart","session_id":"…","cwd":"/path/to/working/dir","project_path":"/path/to/project","source":"startup"}
+  For `PreToolUse`, the payload carries the tool name and its full input:
+  {"hook_event_name":"PreToolUse","tool_name":"Bash","tool_input":{"command":"sleep 60","run_in_background":false,"timeout":30}}

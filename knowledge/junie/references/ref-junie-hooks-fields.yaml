@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-junie-hooks-fields
+harness_id: junie
+snapshot_id: snapshot-junie-docs-hooks
+locator:
+  kind: document_section
+  heading: Hook command fields
+official_url: "https://junie.jetbrains.com/docs/junie-cli-hooks.html"
+excerpt: |-
+  ### Hook command fields
+  | `type` | Required | The hook type. Only `command` is currently supported. |
+  | `command` | Required | The shell command to run. Executed via `sh -c` on macOS/Linux and `cmd /c` on Windows. |
+  | `timeout` | No | Maximum execution time in seconds. Defaults to 10 for `SessionStart`, `UserPromptSubmit`, and `PermissionRequest`; 600 for `Stop`, 60 for `StopFailure`, and 2 for `SessionEnd`. |
+  | `blockOnError` | No | `Stop` hooks only. |
+  | `async` | No | When `true`, the hook runs in the background and cannot block or affect the triggering action. |

@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-junie-agents-format
+harness_id: junie
+snapshot_id: snapshot-junie-docs-subagents
+locator:
+  kind: document_section
+  heading: Frontmatter fields
+official_url: "https://junie.jetbrains.com/docs/junie-cli-subagents.html"
+excerpt: |-
+  #### Frontmatter fields
+  | Field | Type | Required |
+  | `name` | String | no | The subagent name. If missing, the file name (without extension) is used. Must match: `[a-z][a-z0-9_-]*`. |
+  | `description` | String | yes | Used by the main agent to decide when to delegate. |
+  | `tools` | List<String> | no | An allowlist of tool groups. |
+  | `disallowedTools` | List<String> | no | A denylist of tool groups. |
+  | `mcpServers` | List<String> | no | An allowlist of MCP server names. |
+  | `model` | String | no | Default model for this subagent. |
+  | `permissionMode` | String | no | `default`, `acceptEdits`, `dontAsk`, `bypassPermissions`, `plan`. |
+  | `reasoningLevel` | String | no | Optional reasoning override; `effort` is accepted as an alias. |

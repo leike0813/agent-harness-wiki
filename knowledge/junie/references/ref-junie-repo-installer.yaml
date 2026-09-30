@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-junie-repo-installer
+harness_id: junie
+snapshot_id: snapshot-junie-repo
+locator:
+  kind: file_lines
+  file: install.sh
+  start: 1
+  end: 22
+official_url: "https://github.com/JetBrains/junie"
+excerpt: |-
+  #!/bin/bash
+  # DO NOT EDIT — generated from templates/install.sh.template by templates/generate.sh
+  #
+  # Junie CLI Installer
+  # Usage: curl -fsSL https://junie.jetbrains.com/install.sh | bash
+  #
+  # To install a specific version:
+  #   curl -fsSL https://junie.jetbrains.com/install.sh | JUNIE_VERSION=656.1 bash
+  #
+  # To also set up the local model after installing Junie:
+  #   curl -fsSL https://junie.jetbrains.com/install.sh | bash -s -- --local-model
+  #
+  set -euo pipefail
+  CHANNEL="release"
+  UPDATE_INFO_URL="https://raw.githubusercontent.com/jetbrains-junie/junie/main/update-info.jsonl"
+  INSTALL_TAG="<install_tag>"
+  GITHUB_RELEASES="https://github.com/jetbrains-junie/junie/releases"
+  JUNIE_BIN="$HOME/.local/bin"
+  JUNIE_DATA="$HOME/.local/share/junie"

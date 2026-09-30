@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-junie-hooks-limits
+harness_id: junie
+snapshot_id: snapshot-junie-docs-hooks
+locator:
+  kind: document_section
+  heading: Limitations
+official_url: "https://junie.jetbrains.com/docs/junie-cli-hooks.html"
+excerpt: |-
+  ## Limitations
+  - The supported events are `SessionStart`, `UserPromptSubmit`, `PreToolUse`, `Stop`, `StopFailure`, `PermissionRequest`, and `SessionEnd`.
+  - `UserPromptSubmit` is currently triggered only from the interactive TUI.
+  - Only `type: "command"` hooks are supported.
+  - Hooks within a single entry run sequentially. Parallel execution is not supported.
+  - `SessionEnd` hooks cannot block session termination. `SessionEnd` dispatch has a total budget of 10 seconds across all matched entries combined.
+  - `Stop` hooks do not run for chat-type tasks.

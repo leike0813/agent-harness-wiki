@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-junie-hooks-pretooluse
+harness_id: junie
+snapshot_id: snapshot-junie-docs-hooks
+locator:
+  kind: document_section
+  heading: PreToolUse
+official_url: "https://junie.jetbrains.com/docs/junie-cli-hooks.html"
+excerpt: |-
+  ### PreToolUse
+  Junie fires `PreToolUse` before each tool call, after the action request is parsed but before the tool executes. The hook can inspect or modify the tool input, add context for the model, request user confirmation, or block the tool entirely.
+  {"decision":"allow","reason":"...","updatedInput": { "command": "ls -la" },"additionalContext":"..."}
+  allow (or omitted) / ask / block or deny. If the hook exits with code `2`, the tool is blocked regardless of any output.

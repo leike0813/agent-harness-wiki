@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-junie-hooks-retries
+harness_id: junie
+snapshot_id: snapshot-junie-docs-hooks
+locator:
+  kind: document_section
+  heading: Stop hook blocking and retries
+official_url: "https://junie.jetbrains.com/docs/junie-cli-hooks.html"
+excerpt: |-
+  ## Stop hook blocking and retries
+  A `Stop` hook can request the agent to retry submission by:
+  - Exiting with status code `2`. The command's stderr is fed back to the agent as the block reason.
+  - Printing `{"decision":"block","reason":"…"}` to stdout on a successful exit.
+  - Setting `blockOnError: true` on the hook command and exiting with any non-zero exit code.
+  To guard against infinite block loops, the agent stops dispatching the Stop hook after 8 consecutive blocks within the same task. Override the limit with the `JUNIE_STOP_HOOK_BLOCK_CAP` environment variable.

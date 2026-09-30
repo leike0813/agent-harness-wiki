@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-junie-hooks-failure
+harness_id: junie
+snapshot_id: snapshot-junie-docs-hooks
+locator:
+  kind: document_section
+  heading: Failure handling
+official_url: "https://junie.jetbrains.com/docs/junie-cli-hooks.html"
+excerpt: |-
+  ## Failure handling
+  Hook output and exit status do not block Junie startup:
+  - Standard output and standard error are captured and logged at debug level.
+  - A non-zero exit code is logged as a warning and shown as a TUI error message. Junie continues to start.
+  - If the command exceeds its `timeout`, it is force-killed, logged as a warning, and shown as a TUI error message.
+  - Invalid hook configuration, such as an unsupported `type`, invalid `matcher`, or non-positive `timeout`, is shown as a TUI error message.

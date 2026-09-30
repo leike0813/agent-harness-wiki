@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-junie-hooks-stopfailure
+harness_id: junie
+snapshot_id: snapshot-junie-docs-hooks
+locator:
+  kind: document_section
+  heading: StopFailure
+official_url: "https://junie.jetbrains.com/docs/junie-cli-hooks.html"
+excerpt: |-
+  ### StopFailure
+  Junie fires `StopFailure` once per agent turn when the LLM/API call backing that turn ends in a documented failure (rate limit, billing error, authentication failure, model refusal, etc.).
+  `StopFailure` is observability-only: it has no decision control. The field names follow Claude Code's `StopFailure` wire protocol so a Claude-style hook script can be reused. The 9 `error` values: `rate_limit` (HTTP 429), `authentication_failed`, `billing_error`, `invalid_request`, `server_error`, `max_output_tokens`, `unknown`, `model_refused`, `country_forbidden`.

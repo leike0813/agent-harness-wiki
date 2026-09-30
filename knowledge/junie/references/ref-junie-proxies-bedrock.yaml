@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-junie-proxies-bedrock
+harness_id: junie
+snapshot_id: snapshot-junie-docs-proxies
+locator:
+  kind: document_section
+  heading: Bedrock proxies
+official_url: "https://junie.jetbrains.com/docs/custom-proxies.html"
+excerpt: |-
+  ## Bedrock proxies
+  A `Bedrock` proxy routes Anthropic models through an AWS Bedrock-compatible gateway. Requests are sent to `<api-url>/model/<wire-name>/invoke`.
+  | `available-models` | Yes | JetBrains model ids this proxy exposes (for example, `anthropic-claude-4-6-sonnet`). At least one is required. |
+  If the proxy's `headers` include an `Authorization` header, it is used as-is; otherwise Junie falls back to the JetBrains Account token.
