@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qoder-ide-mcp-trouble-npx
+harness_id: qoder
+snapshot_id: snapshot-qoder-docs-ide-mcp-troubleshoot
+locator:
+  kind: document_section
+  heading: "Issue: NPX environment missing"
+official_url: "https://docs.qoder.com/troubleshooting/mcp-common-issue.md"
+excerpt: |-
+  #### **Error message**
+  `failed to start command: exec: "npx": executable file not found in $PATH`
+  #### **Cause**
+  The `npx` command-line tool, part of the Node.js ecosystem, is not installed or not accessible in your system’s `PATH`.
+  #### **Solution**
+  Install [Node.js](https://nodejs.org/) V18 or later (which includes NPM V8+ ). Earlier versions may cause tool failures.
+  #### **Installation steps**
+  - Windows
+  Install [nvm-windows](https://github.com/coreybutler/nvm-windows) to manage multiple versions:
+  ```shellscript
+  nvm install 22.14.0  # Install a specified version.
+  nvm use 22.14.0
+  ```
+  Verify the installation.
+  ```shellscript
+  node -v
+  npx -v
+  ```
+  Then, the terminal will display the installed Node.js version number.
+  - **macOS**
+  Use Homebrew (install first if needed).
+  ```shellscript
+   # 1.

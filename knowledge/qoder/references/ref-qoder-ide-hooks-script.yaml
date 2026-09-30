@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qoder-ide-hooks-script
+harness_id: qoder
+snapshot_id: snapshot-qoder-docs-ide-hooks
+locator:
+  kind: document_section
+  heading: "2. Write the Hook Script"
+official_url: "https://docs.qoder.com/extensions/hooks.md"
+excerpt: |-
+  A hook script is a standard shell script that follows this protocol:
+  **Input**: JSON event context delivered via `stdin`.
+  **Output**: Determined by the exit code.
+  ```plaintext
+  exit 0   →  Allow (continue execution)
+  exit 2   →  Block (stop the action; stderr is injected into the conversation)
+  other    →  Error (continue execution; stderr is shown to the user)
+  ```
+  **Script template:**
+  ```bash
+  #!/bin/bash

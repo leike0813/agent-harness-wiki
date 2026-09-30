@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qoder-cli-mcp-fields
+harness_id: qoder
+snapshot_id: snapshot-qoder-docs-cli-mcp-reference
+locator:
+  kind: document_section
+  heading: Configuration Fields
+official_url: "https://docs.qoder.com/cli/mcp-reference.md"
+excerpt: |-
+  MCP servers are configured under the `mcpServers` field in `settings.json`, where each key represents a server name:
+  ```json
+  {
+    "mcpServers": {
+      "my-server": {
+        "command": "node",
+        "args": ["./mcp-server.js"],
+        "env": { "API_KEY": "..." },
+        "cwd": "/path/to/dir"
+      }
+    }
+  }
+  ```
+  ### stdio Type
+  | Field     | Type      | Description                                     |
+  | --------- | --------- | ----------------------------------------------- |
+  | `command` | string    | The command to start the server.                |
+  | `args`    | string\[] | Arguments passed to the command.                |
+  | `env`     | object    | Environment variables passed to the subprocess. |
+  | `cwd`     | string    | The working directory for the subprocess.       |
+  ### sse Type

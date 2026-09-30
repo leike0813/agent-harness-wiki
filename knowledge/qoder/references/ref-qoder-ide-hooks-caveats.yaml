@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qoder-ide-hooks-caveats
+harness_id: qoder
+snapshot_id: snapshot-qoder-docs-ide-hooks
+locator:
+  kind: document_section
+  heading: Things to Keep in Mind
+official_url: "https://docs.qoder.com/extensions/hooks.md"
+excerpt: |-
+  - **Timeout handling:** Hook scripts have a default timeout of 30 seconds, configurable per hook with the `timeout` field. If a script times out, it is killed and treated as an allow (proceed).
+  - **Error handling:** If a script exits with an unexpected code (anything other than 0 or 2), the error message is shown to the user but the Agent continues without interruption.
+  - **Script permissions:** Make sure your scripts are executable (`chmod +x`).
+  - **Config merging:** When the same event has hooks defined at multiple config levels, they execute in order from lowest to highest priority. If any hook blocks (exit 2), the remaining hooks for that event are skipped.
+  - **jq dependency:** The example scripts rely on `jq` to parse JSON.

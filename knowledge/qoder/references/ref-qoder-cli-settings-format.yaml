@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qoder-cli-settings-format
+harness_id: qoder
+snapshot_id: snapshot-qoder-docs-cli-settings
+locator:
+  kind: document_section
+  heading: File Format
+official_url: "https://docs.qoder.com/cli/settings.md"
+excerpt: |-
+  Configuration files are in JSON format (supporting `//` comments, see below). The top level is an object, and most configuration items are nested by group, with a few items located directly at the top level (such as `outputStyle`, `language`, and `agent`). For example:
+  ```json
+  {
+    "outputStyle": "concise",
+    "ui": {
+      "theme": "Tokyo Night",
+      "autoThemeSwitching": true,
+      "maxTurns": 2000
+    },
+    "model": {
+      "name": "auto"
+    },
+    "tools": {
+      "useRipgrep": true
+    }
+  }
+  ```
+  Notes:
+  - Configuration files can contain comments (ignored during parsing), making it easy to add explanations for team conventions.
+  - Environment variables can be referenced in values and will be resolved and replaced at runtime.

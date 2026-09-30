@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qoder-ide-agents-manual
+harness_id: qoder
+snapshot_id: snapshot-qoder-docs-ide-agents
+locator:
+  kind: document_section
+  heading: "Method 2: Manual Creation"
+official_url: "https://docs.qoder.com/extensions/subagent.md"
+excerpt: |-
+  You can also manually create a `.md` file in one of the following locations:
+  | Scope         | Path                                      | Availability         |
+  | ------------- | ----------------------------------------- | -------------------- |
+  | User-level    | `~/.qoder/agents/<agentName>.md`          | All projects         |
+  | Project-level | `${project}/.qoder/agents/<agentName>.md` | Current project only |
+  The file should contain a frontmatter block defining basic information, followed by the system prompt content:
+  ```markdown
+  ---
+  name: code-review
+  description: Code review expert, checks code quality and security
+  tools: Read, Grep, Glob, Bash
+  model: "[ModelName](modelId)"
+  skills:
+   - {skillName1}
+   - {skillName2}
+  mcpServers:
+   - {mcpServerName1}
+   - {mcpServerName2}
+  ---

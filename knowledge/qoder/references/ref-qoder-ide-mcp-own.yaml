@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qoder-ide-mcp-own
+harness_id: qoder
+snapshot_id: snapshot-qoder-docs-ide-mcp
+locator:
+  kind: document_section
+  heading: "Option 1: Connect your own MCP server"
+official_url: "https://docs.qoder.com/user-guide/chat/model-context-protocol.md"
+excerpt: |-
+  1. On the **My Servers** tab, click **+ Add** in the upper-right corner.
+  2. In the JSON file that appears, add your server details:
+     - Name
+     - Transport type (STDIO, SSE)
+     - Command and arguments (for STDIO)
+     - Endpoint URL (for SSE or Streamable HTTP)
+     > **Note:** for Streamable HTTP, configure the endpoint the same way as SSE and Qoder IDE will automatically detect and use it
+     Example:
+     ```json
+     {
+       "mcpServers": {
+         "github": {
+           "command": "npx",
+           "args": [
+             "-y",
+             "@modelcontextprotocol/server-github"
+           ],
+           "env": {
+             "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
+           }
+         }
+       }
+     }
+     ```
+  3. Close the file and click **Save** when prompted.

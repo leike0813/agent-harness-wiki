@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qoder-ide-hooks-how
+harness_id: qoder
+snapshot_id: snapshot-qoder-docs-ide-hooks
+locator:
+  kind: document_section
+  heading: How It Works
+official_url: "https://docs.qoder.com/extensions/hooks.md"
+excerpt: |-
+  The hook lifecycle comes down to three steps: **write a script, register it in config, and it takes effect automatically**.
+  When the Agent reaches a lifecycle event (such as "before a tool call"), the plugin checks whether any hooks are registered for it:
+  1. The plugin loads all hook configurations at startup.
+  2. During Agent execution, the plugin encounters a lifecycle event (e.g. `PreToolUse`).
+  3. The plugin iterates through every hook group registered for that event and evaluates the `matcher` against the current context.
+  4. Hooks with a matching matcher run their shell scripts in order.
+  5. Each script receives event context as JSON via `stdin` and returns a decision through its exit code and `stdout`.
+  6. The plugin reads the result and decides what to do next — proceed or block.

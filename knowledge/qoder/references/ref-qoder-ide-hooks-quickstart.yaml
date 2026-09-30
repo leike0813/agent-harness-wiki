@@ -1,0 +1,41 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qoder-ide-hooks-quickstart
+harness_id: qoder
+snapshot_id: snapshot-qoder-docs-ide-hooks
+locator:
+  kind: document_section
+  heading: Quick Start
+official_url: "https://docs.qoder.com/extensions/hooks.md"
+excerpt: |-
+  Here is an example that blocks `rm -rf` commands:
+  <Steps>
+    <Step title="Create the script">
+      ```bash
+      mkdir -p ~/.qoder/hooks
+      cat > ~/.qoder/hooks/block-rm.sh << 'EOF'
+      #!/bin/bash
+      input=$(cat)
+      command=$(echo "$input" | jq -r '.tool_input.command')
+      if echo "$command" | grep -q 'rm -rf'; then
+        echo "Dangerous command blocked: $command" >&2
+        exit 2
+      fi
+      exit 0
+      EOF
+      chmod +x ~/.qoder/hooks/block-rm.sh
+      ```
+    </Step>
+    <Step title="Add the config">
+      Add the following to `~/.qoder/settings.json`:
+      ```json
+      {
+        "hooks": {
+          "PreToolUse": [
+            {
+              "matcher": "Bash",
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "~/.qoder/hooks/block-rm.sh"
+                }

@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qoder-cli-settings-merge
+harness_id: qoder
+snapshot_id: snapshot-qoder-docs-cli-settings
+locator:
+  kind: document_section
+  heading: Merge Behavior
+official_url: "https://docs.qoder.com/cli/settings.md"
+excerpt: |-
+  Configurations use deep merge rather than wholesale replacement:
+  - **Objects**: Recursively merged field by field; only present fields are overridden, while the rest retain lower-precedence values.
+  - **Single values (strings, numbers, booleans)**: Directly overridden by higher precedence.
+  - **Arrays**: Some configuration items (such as disable lists and exclude lists) use "union merge" to combine and deduplicate values across levels; other arrays are overridden by default.
+  Therefore, at the Project-Level, you only need to specify the fields you want to override, without copying the entire user configuration.
