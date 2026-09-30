@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-plugin-uninstall-cleanup
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/plugin-uninstall.ts
+  start: 405
+  end: 422
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  const stats = statSync(candidate.installPath, { throwIfNoEntry: false });
+  	if (!stats) {
+  		throw new Error(
+  			`Plugin install path does not exist: ${candidate.installPath}`,
+  		);
+  	}
+  	removePluginMcpServersFromSettings({
+  		pluginPaths: [candidate.installPath, ...candidate.entryPaths],
+  		pluginNames: candidate.names,
+  	});
+  	rmSync(candidate.installPath, {
+  		recursive: stats.isDirectory(),
+  		force: true,
+  	});
+  	cleanupDisabledPluginPaths(candidate);
+  	if (candidate.installed) {
+  		cleanupEmptyInstallParents(candidate.installPath);
+  	}

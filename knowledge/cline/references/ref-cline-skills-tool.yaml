@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-tool
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/tools/definitions.ts
+  start: 761
+  end: 790
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  export function createSkillsTool(
+  	executor: SkillsExecutorWithMetadata,
+  	config: Pick<DefaultToolsConfig, "skillsTimeoutMs"> = {},
+  ): AgentTool<SkillsInput, string> {
+  	const timeoutMs = config.skillsTimeoutMs ?? 15000;
+  	const baseDescription =
+  		"Execute a skill within the main conversation. " +
+  		"When users ask you to perform tasks, check if any available skills match. " +
+  		"When users reference a slash command, invoke it with this tool. " +
+  		'Input: `skill` (required) and optional `args`. Example: `skill: "pdf"`, `skill: "commit", args: "-m \\"Fix bug\\""`, `skill: "review-pr", args: "123"`, `skill: "ms-office-suite:pdf"`. ' +
+  		"When a skill matches the user's request, invoking this tool is a blocking requirement before any other response. " +

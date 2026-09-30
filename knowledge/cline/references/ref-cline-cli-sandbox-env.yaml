@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-sandbox-env
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/utils/helpers.ts
+  start: 580
+  end: 606
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  return resolve(cwd, baseDir);
+  }
+  export function configureSandboxEnvironment(options: {
+  	enabled: boolean;
+  	cwd: string;
+  	explicitDir?: string;
+  }): string | undefined {
+  	if (!options.enabled) {
+  		return undefined;
+  	}
+  	const dataDir = resolveSandboxDataDir(options.cwd, options.explicitDir);
+  	process.env.CLINE_SANDBOX = "1";
+  	process.env.CLINE_SANDBOX_DATA_DIR = dataDir;
+  	process.env.CLINE_DATA_DIR = dataDir;
+  	process.env.CLINE_DB_DATA_DIR = join(dataDir, "db");
+  	process.env.CLINE_SESSION_DATA_DIR = join(dataDir, "sessions");
+  	process.env.CLINE_TEAM_DATA_DIR = join(dataDir, "teams");
+  	process.env.CLINE_PROVIDER_SETTINGS_PATH = join(
+  		dataDir,
+  		"settings",
+  		"providers.json",
+  	);
+  	process.env.CLINE_HOOKS_LOG_PATH = join(dataDir, "logs", "hooks.jsonl");
+  	return dataDir;
+  }

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-paths-agent-plugins
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/shared/src/storage/paths.ts
+  start: 620
+  end: 632
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  /**
+   * Root searched for Agent Plugins (agent-plugins.org). Kept separate from
+   * {@link resolvePluginConfigSearchPaths} so the two package lanes never share a
+   * directory: `.agents/plugins` is the vendor-neutral location, matching the
+   * `.agents/skills` convention already honored by skill discovery.
+   *
+   * Discovery roots are explicitly client-defined by the specification. Cline
+   * only auto-discovers user-installed packages from the Hub host's home so
+   * opening a repository cannot activate repository-controlled MCP servers.
+   */
+  export function resolveAgentPluginSearchPaths(): string[] {
+  	return [join(HOME_DIR, AGENTS_CONFIG_DIR, PLUGINS_DIRECTORY_NAME)];
+  }

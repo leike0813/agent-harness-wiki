@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-stored
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/types/provider-settings.ts
+  start: 30
+  end: 80
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  export type VoiceInputSettings = z.infer<typeof VoiceInputSettingsSchema>;
+  export interface StoredProviderModes {
+  	voiceInput?: VoiceInputSettings;
+  }
+  export interface StoredProviderSettingsEntry {
+  	settings: ProviderSettings;
+  	updatedAt: string;
+  	tokenSource: ProviderTokenSource;
+  }
+  /**
+   * One-shot repairs the legacy migration has already applied to this file.
+   * A repair reads legacy state that stays on disk forever, so without a marker
+   * it would re-apply on every launch and fight a user who undoes it.
+   */
+  export interface StoredProviderRepairs {
+  	/** Restored a bare legacy `awsProfile` onto an already-migrated entry. */
+  	bedrockProfile?: boolean;
+  }
+  export interface StoredProviderSettings {
+  	version: 1;
+  	lastUsedProvider?: string;
+  	modes: StoredProviderModes;

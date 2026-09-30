@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-auth-save
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/commands/auth.ts
+  start: 175
+  end: 186
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  input.providerId,
+  	);
+  	const nextSettings: ProviderSettings = {
+  		...(existing ?? {
+  			provider: input.providerId as ProviderSettings["provider"],
+  		}),
+  		provider: input.providerId as ProviderSettings["provider"],
+  		apiKey: input.apikey,
+  		model: input.modelid,
+  	};
+  	if (input.baseurl?.trim()) {
+  		nextSettings.baseUrl = input.baseurl.trim();

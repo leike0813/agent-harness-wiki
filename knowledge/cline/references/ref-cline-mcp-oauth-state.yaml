@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-oauth-state
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/mcp/config-loader.ts
+  start: 44
+  end: 54
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  const oauthStateSchema = z
+  	.object({
+  		clientInformation: z.record(z.string(), z.unknown()).optional(),
+  		tokens: z.record(z.string(), z.unknown()).optional(),
+  		codeVerifier: z.string().optional(),
+  		discoveryState: z.record(z.string(), z.unknown()).optional(),
+  		redirectUrl: z.string().url().optional(),
+  		lastError: z.string().optional(),
+  		lastAuthenticatedAt: z.number().int().positive().optional(),
+  		authorizationRequired: z.boolean().optional(),
+  	})

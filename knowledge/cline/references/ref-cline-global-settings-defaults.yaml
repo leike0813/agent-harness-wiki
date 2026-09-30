@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-global-settings-defaults
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/global-settings.ts
+  start: 120
+  end: 135
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  return normalized;
+  	});
+  export type GlobalSettings = z.infer<typeof GlobalSettingsSchema>;
+  export interface WriteGlobalSettingsOptions {
+  	telemetry?: ITelemetryService;
+  }
+  function defaultGlobalSettings(): GlobalSettings {
+  	return GlobalSettingsSchema.parse({});
+  }
+  interface CachedSettings {
+  	path: string;
+  	mtimeMs: number;

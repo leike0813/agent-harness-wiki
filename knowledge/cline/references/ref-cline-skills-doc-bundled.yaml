@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-doc-bundled
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: document_section
+  heading: Bundling Supporting Files
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  Skills can include additional files that Cline accesses only when needed.
+  ```text title="Directory structure"
+  complex-skill/
+  ├── SKILL.md
+  ├── docs/
+  │   ├── setup.md
+  │   └── troubleshooting.md
+  ├── templates/
+  │   └── config.yaml
+  └── scripts/
+      └── validate.py
+  ```
+  ### docs/
+  Use docs for information that's too detailed for SKILL.md or only relevant in specific situations:
+  - Advanced configuration options
+  - Troubleshooting guides for edge cases
+  - Reference material (API schemas, database schemas)
+  - Platform-specific instructions
+  A deployment skill might have `docs/aws.md`, `docs/gcp.md`, and `docs/azure.md`. Cline loads only the relevant platform guide based on your request.
+  ### templates/
+  Use templates when your skill creates configuration files, boilerplate code, or structured documents:

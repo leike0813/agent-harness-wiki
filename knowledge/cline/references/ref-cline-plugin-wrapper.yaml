@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-plugin-wrapper
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/plugin-install.ts
+  start: 105
+  end: 120
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  "devDependencies",
+  	"optionalDependencies",
+  	"peerDependencies",
+  ] as const;
+  const WRAPPER_PACKAGE_JSON = {
+  	name: "cline-installed-plugin",
+  	private: true,
+  	cline: {
+  		plugins: [] as Array<{ paths: string[] }>,
+  	},
+  };
+  function resolveHomePath(value: string): string {
+  	if (value === "~") {
+  		return homedir();
+  	}

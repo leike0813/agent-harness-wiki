@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-global-settings-disabled
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/global-settings.ts
+  start: 496
+  end: 510
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  });
+  }
+  export function filterDisabledPluginPaths(
+  	pluginPaths: ReadonlyArray<string>,
+  	disabledPluginPaths?: ReadonlyArray<string>,
+  ): string[] {
+  	const disabled = resolveDisabledPluginPaths(disabledPluginPaths);
+  	if (disabled.size === 0) {
+  		return [...pluginPaths];
+  	}
+  	return pluginPaths.filter((pluginPath) => !disabled.has(pluginPath));
+  }
+  export function filterDisabledTools<T extends Pick<AgentTool, "name">>(

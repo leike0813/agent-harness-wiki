@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-subagents-doc-how
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: document_section
+  heading: How It Works
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  When Cline uses the `use_subagents` tool, it launches independent agents simultaneously. Each one:
+  - Gets its own prompt describing what to investigate
+  - Runs with a separate context window and token budget
+  - Can read files, search code, list directories, run read-only commands, and use skills
+  - Cannot edit files, use the browser, access MCP servers, or spawn nested subagents
+  - Returns a result focused on the most relevant file paths for the main agent to read next
+  Subagent costs (tokens and API spend) are tracked separately per subagent and rolled into the task's total cost. You can see per-subagent stats (tool calls, tokens, cost) in the chat UI as they run.

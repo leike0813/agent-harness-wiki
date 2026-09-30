@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agent-skill-name
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/agent-plugin/agent-skill.ts
+  start: 65
+  end: 100
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  function validateAgentSkillName(name: string, directoryName: string): string {
+  	const normalized = name.normalize("NFKC");
+  	if (
+  		normalized.length === 0 ||
+  		normalized.length > MAX_AGENT_SKILL_NAME_LENGTH
+  	) {
+  		throw new Error(
+  			`Skill name must be between 1 and ${MAX_AGENT_SKILL_NAME_LENGTH} characters.`,
+  		);
+  	}
+  	if (normalized !== normalized.toLowerCase()) {
+  		throw new Error(`Skill name '${normalized}' must be lowercase.`);
+  	}
+  	if (
+  		normalized.startsWith("-") ||
+  		normalized.endsWith("-") ||
+  		normalized.includes("--")
+  	) {
+  		throw new Error(
+  			`Skill name '${normalized}' cannot start or end with a hyphen or contain consecutive hyphens.`,
+  		);
+  	}
+  	for (const character of normalized) {
+  		if (character !== "-" && !/[\p{L}\p{N}]/u.test(character)) {
+  			throw new Error(

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-install-type
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/mcp-install.ts
+  start: 20
+  end: 35
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  warnings: string[];
+  }
+  function normalizeTransportType(
+  	value: string | undefined,
+  ): McpServerTransportConfig["type"] {
+  	const normalized = (value ?? "stdio").trim();
+  	if (normalized === "http" || normalized === "streamable-http") {
+  		return "streamableHttp";
+  	}
+  	if (
+  		normalized === "stdio" ||
+  		normalized === "sse" ||
+  		normalized === "streamableHttp"
+  	) {
+  		return normalized;

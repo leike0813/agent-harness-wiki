@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-enterprise-prep
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/utils/enterprise.ts
+  start: 138
+  end: 165
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  });
+  }
+  export async function prepareCliEnterpriseIntegration(
+  	input: ClineCoreStartInput,
+  ) {
+  	const workspacePath =
+  		input.config.workspaceRoot?.trim() || input.config.cwd?.trim();
+  	if (!workspacePath) {
+  		return undefined;
+  	}
+  	const bundle = await loadCliRemoteConfigBundle();
+  	if (!bundle) {
+  		return undefined;
+  	}
+  	captureRemoteConfigInitialized(bundle);
+  	return prepareRemoteConfigCoreIntegration({
+  		workspacePath,
+  		pluginName: "enterprise",
+  		controlPlane: {
+  			name: "cline-account",
+  			async fetchBundle() {
+  				return bundle;
+  			},
+  		},
+  		requireBundle: false,
+  	});
+  }

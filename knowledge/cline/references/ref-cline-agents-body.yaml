@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agents-body
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/tools/team/configured-agent-config.ts
+  start: 118
+  end: 134
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  export function parseConfiguredAgentConfig(
+  	content: string,
+  	options: { path?: string } = {},
+  ): ConfiguredAgentConfig {
+  	const { frontmatter, body } = splitFrontmatter(content);
+  	const parsedYaml = YAML.parse(frontmatter);
+  	if (
+  		!parsedYaml ||
+  		typeof parsedYaml !== "object" ||
+  		Array.isArray(parsedYaml)
+  	) {
+  		throw new Error("Agent config frontmatter must be a YAML mapping.");
+  	}
+  	const parsed = ConfiguredAgentFrontmatterSchema.parse(parsedYaml);
+  	const systemPrompt = body.trim();
+  	if (!systemPrompt) {

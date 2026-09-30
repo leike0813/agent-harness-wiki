@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-setclinedir
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/main.ts
+  start: 152
+  end: 162
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  const isFullTTY =
+  		process.stdin.isTTY === true && process.stdout.isTTY === true;
+  	const configDir = resolveConfigDirArg(cliArgs);
+  	const { setClineDir, setHomeDir } = await import("@cline/shared/storage");
+  	if (configDir) {
+  		setClineDir(configDir);
+  	}
+  	setHomeDir(homedir());
+  	// Capture activation telemetry only after config/home directory selection
+  	// has been applied, so the telemetry singleton's persisted distinct-id

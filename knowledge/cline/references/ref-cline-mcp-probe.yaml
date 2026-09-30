@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-probe
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/mcp/client.ts
+  start: 876
+  end: 900
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  * Passively verifies a configured remote MCP endpoint. This may use or refresh
+   * existing credentials, but it never starts an interactive OAuth redirect.
+   */
+  export async function probeMcpServerConnection(
+  	options: ProbeMcpServerConnectionOptions,
+  ): Promise<ProbeMcpServerConnectionResult> {
+  	const serverName = options.serverName.trim();
+  	if (!serverName) {
+  		throw new Error("MCP server name cannot be empty.");
+  	}
+  	const { getMcpServerOAuthStatus, resolveMcpServerRegistration } =
+  		await import("./config-loader");
+  	const registration = resolveMcpServerRegistration(serverName, {
+  		filePath: options.filePath,
+  	});
+  	if (!registration) {
+  		throw new Error(`MCP server "${serverName}" is not configured.`);
+  	}
+  	if (registration.transport.type === "stdio") {
+  		throw new Error(

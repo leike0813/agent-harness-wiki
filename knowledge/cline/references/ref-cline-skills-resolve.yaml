@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-resolve
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/config/user-instruction-plugin.ts
+  start: 130
+  end: 168
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  function resolveSkillRecord(
+  	watcher: UserInstructionConfigWatcher,
+  	requestedSkill: string,
+  	allowedSkillNames?: ReadonlyArray<string>,
+  ): { id: string; skill: SkillConfig } | { error: string } {
+  	const normalized = normalizeSkillToken(requestedSkill);
+  	if (!normalized) {
+  		return { error: "Missing skill name." };
+  	}
+  	const configuredSkills = getConfiguredSkillsFromWatcher(
+  		watcher,
+  		allowedSkillNames,
+  	);
+  	const exact = configuredSkills.find((entry) => entry.id === normalized);
+  	if (exact) {
+  		const { skill } = exact;
+  		if (skill.disabled === true) {
+  			return {
+  				error: `Skill "${skill.name}" is configured but disabled.`,
+  			};
+  		}
+  		return { id: exact.id, skill };
+  	}
+  	const bareName = normalized.includes(":")
+  		? (normalized.split(":").at(-1) ?? normalized)
+  		: normalized;

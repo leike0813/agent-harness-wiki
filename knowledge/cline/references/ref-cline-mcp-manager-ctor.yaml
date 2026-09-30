@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-manager-ctor
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/mcp/manager.ts
+  start: 47
+  end: 56
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  private readonly operationLocks = new Map<string, Promise<void>>();
+  	constructor(options: McpManagerOptions) {
+  		this.clientFactory = options.clientFactory;
+  		this.toolsCacheTtlMs =
+  			options.toolsCacheTtlMs ?? DEFAULT_TOOLS_CACHE_TTL_MS;
+  	}
+  	async registerServer(registration: McpServerRegistration): Promise<void> {
+  		await this.runExclusive(registration.name, async () => {

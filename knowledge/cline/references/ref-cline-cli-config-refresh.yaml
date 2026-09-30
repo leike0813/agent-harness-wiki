@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-config-refresh
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/runtime/interactive/config-data.ts
+  start: 68
+  end: 100
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  .loadCoreSettings?.(buildSettingsInput(options))
+  			.catch(() => undefined);
+  		return await buildConfigData(options, agentPluginSettings);
+  	};
+  	const refreshUserInstructionConfigs = async (): Promise<void> => {
+  		const service = input.userInstructionService;
+  		if (!service) {
+  			return;
+  		}
+  		await Promise.all([
+  			service.refreshType("workflow"),
+  			service.refreshType("rule"),
+  			service.refreshType("skill"),
+  		]);
+  	};
+  	const onToggleConfigItem = async (
+  		item: InteractiveConfigItem,
+  		options: LoadInteractiveConfigDataOptions = {},
+  	): Promise<InteractiveConfigData | undefined> => {
+  		if (!isToggleableInteractiveConfigItem(item)) {
+  			return undefined;
+  		}
+  		const settings = createCoreSettingsService();
+  		if (item.kind === "skill" && typeof item.enabled === "boolean") {

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-hook-audit
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/utils/helpers.ts
+  start: 478
+  end: 492
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  export async function appendHookAudit(event: HookEventPayload): Promise<void> {
+  	const line = `${JSON.stringify({
+  		ts: new Date().toISOString(),
+  		...event,
+  	})}\n`;
+  	const envPath = process.env.CLINE_HOOKS_LOG_PATH?.trim() || undefined;
+  	const logPath = envPath ?? join(ensureHookLogDir(), "hooks.jsonl");
+  	ensureHookLogDir(logPath);
+  	appendFileSync(logPath, line, "utf-8");
+  }
+  export async function isCliHookPayload(value: unknown): Promise<boolean> {
+  	return parseHookEventPayload(value) !== undefined;

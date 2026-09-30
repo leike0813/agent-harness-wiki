@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-spawn
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/hooks/subprocess-runner.ts
+  start: 190
+  end: 205
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  	const detached = !!options.detached;
+  	const child = spawn(command[0], command.slice(1), {
+  		cwd: options.cwd,
+  		env: withResolvedClineBuildEnv(options.env),
+  		stdio: detached ? ["pipe", "ignore", "ignore"] : ["pipe", "pipe", "pipe"],
+  		detached,
+  		// Prevent a console window from flashing on Windows (especially when
+  		// detached, which would otherwise allocate a new console).
+  		windowsHide: true,
+  	});
+  	let stdout = "";
+  	let stderr = "";
+  	let timedOut = false;
+  	let timeoutId: NodeJS.Timeout | undefined;

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-detached-const
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/hooks/subprocess-runner.ts
+  start: 5
+  end: 22
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  } from "@cline/shared";
+  /**
+   * How long to watch a detached hook before recording it as still running.
+   * Past this point the hook would already have been a serious stall had it run
+   * blocking, so the exact runtime stops mattering and the observation is
+   * censored instead.
+   */
+  const DEFAULT_DETACHED_OBSERVATION_MS = 30_000;
+  /**
+   * Grace period after a blocking hook's process exits for its remaining
+   * output to drain before the result is settled without waiting for the
+   * stdio pipes to close. A background child the hook left behind can hold
+   * those pipes open indefinitely; this bounds how long the run waits on it.
+   */
+  const EXIT_OUTPUT_GRACE_MS = 1_000;

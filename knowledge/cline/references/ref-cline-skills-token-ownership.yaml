@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-token-ownership
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/config/runtime-commands.ts
+  start: 98
+  end: 118
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  export function listAvailableRuntimeCommandsFromWatcher(
+  	watcher: UserInstructionConfigWatcher,
+  ): AvailableRuntimeCommand[] {
+  	// Workflows are effectively deprecated in favor of skills, so a skill owns
+  	// its token outright and a workflow whose normalized name collides with it
+  	// is dropped rather than renamed — renaming would silently change command
+  	// tokens users already rely on. Same-kind collisions resolve to the
+  	// first entry in the deterministic (name, id) sort from
+  	// listCommandsForKind, so ownership is stable across discovery order.
+  	const byName = new Map<string, AvailableRuntimeCommand>();
+  	for (const command of [
+  		...listCommandsForKind(watcher, "skill"),
+  		...listCommandsForKind(watcher, "workflow"),
+  	]) {
+  		if (!byName.has(command.name)) {

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agents-override
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/tools/team/configured-agent-tool.ts
+  start: 131
+  end: 146
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  function buildAgentRuntimeConfig(
+  	base: DelegatedAgentRuntimeConfig,
+  	agent: ConfiguredAgentConfig,
+  ): DelegatedAgentRuntimeConfig {
+  	return {
+  		...base,
+  		providerId: agent.providerId ?? base.providerId,
+  		modelId: agent.modelId ?? base.modelId,
+  		maxIterations: agent.maxIterations ?? base.maxIterations,
+  	};
+  }
+  export function createConfiguredAgentTools(
+  	options: ConfiguredAgentToolConfig,

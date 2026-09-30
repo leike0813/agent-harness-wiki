@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-config-skills
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/tui/interactive-config.ts
+  start: 470
+  end: 505
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  )) {
+  			const skill = record.item;
+  			const pluginOwner = findPluginSkillOwner(
+  				record.filePath,
+  				pluginSkillOwners,
+  			);
+  			skills.push({
+  				id: record.id,
+  				name: skill.name,
+  				path: record.filePath,
+  				enabled: skill.disabled !== true,
+  				kind: "skill",
+  				source:
+  					pluginOwner?.source ??
+  					detectSource(record.filePath, input.workspaceRoot),
+  				description: skill.description,
+  				pluginName: pluginOwner?.pluginName,
+  				pluginPath: pluginOwner?.pluginPath,
+  			});
+  		}
+  	}
+  	const mcpSettingsPath = resolveDefaultMcpSettingsPath();
+  	if (hasMcpSettingsFile({ filePath: mcpSettingsPath })) {
+  		try {
+  			for (const registration of resolveMcpServerRegistrations({
+  				filePath: mcpSettingsPath,
+  			})) {
+  				const pluginName =

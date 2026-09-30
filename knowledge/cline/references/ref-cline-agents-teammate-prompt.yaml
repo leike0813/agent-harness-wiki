@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agents-teammate-prompt
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/tools/team/subagent-prompts.ts
+  start: 4
+  end: 18
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  export function buildTeammateSystemPrompt(
+  	prompt: string,
+  	config: DelegatedAgentRuntimeConfig,
+  ): string {
+  	const trimmedPrompt = prompt.trim();
+  	if (config.providerId.toLowerCase() !== "cline") {
+  		return trimmedPrompt;
+  	}
+  	return buildClineSystemPrompt({
+  		ide: config.clineIdeName?.trim() || "Terminal",
+  		workspaceRoot: config.cwd?.trim() || "/",
+  		providerId: config.providerId,
+  		rules: `# Team Teammate Role\n${trimmedPrompt}`,
+  		platform: config.clinePlatform,

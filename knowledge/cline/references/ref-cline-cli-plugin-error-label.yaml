@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-plugin-error-label
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/tui/views/config-view.tsx
+  start: 376
+  end: 390
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  function getPluginLoadErrorLabel(
+  	item: InteractiveConfigItem,
+  ): string | undefined {
+  	if (!item.loadError) {
+  		return undefined;
+  	}
+  	const lines = item.loadError.split("\n");
+  	const first = lines[0] ?? item.loadError;
+  	return lines.length > 1 ? `${first} (+${lines.length - 1} more)` : first;
+  }
+  export function ConfigPanelContent(props: ConfigPanelProps) {
+  	const {

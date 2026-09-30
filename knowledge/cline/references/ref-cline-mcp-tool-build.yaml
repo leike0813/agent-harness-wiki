@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-tool-build
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/runtime/orchestration/runtime-builder.ts
+  start: 278
+  end: 306
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  const enabled = registrations.filter((r) => r.disabled !== true);
+  	const results = await Promise.allSettled(
+  		enabled.map((r) =>
+  			createMcpTools({
+  				serverName: r.name,
+  				provider: manager,
+  				// Keep the tool wrapper timeout in agreement with the MCP
+  				// request timeout: both derive from the server's registration.
+  				timeoutMs: resolveMcpTimeoutSeconds(r.timeoutSeconds) * 1000,
+  			}),
+  		),
+  	);
+  	const tools: AgentTool[] = [];
+  	for (const [i, result] of results.entries()) {
+  		if (result.status === "fulfilled") {
+  			tools.push(...result.value);
+  		} else {
+  			const message =
+  				result.reason instanceof Error
+  					? result.reason.message
+  					: String(result.reason);
+  			options.logger?.log(

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-tool-desc
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/tools/definitions.ts
+  start: 793
+  end: 808
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  },
+  	});
+  	Object.defineProperty(tool, "description", {
+  		get() {
+  			const skills = executor.configuredSkills
+  				?.filter((s) => !s.disabled)
+  				.map((s) => (s.id.includes(":") ? s.id : s.name));
+  			if (skills && skills.length > 0) {
+  				return `${baseDescription} Available skills: ${skills.join(", ")}.`;
+  			}
+  			return baseDescription;
+  		},
+  		enumerable: true,
+  		configurable: true,
+  	});

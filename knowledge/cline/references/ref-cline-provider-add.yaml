@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-add
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/providers/local-provider-service.ts
+  start: 415
+  end: 442
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  LlmsModels.unregisterProvider(providerId);
+  }
+  // --- Public API ---
+  export async function addLocalProvider(
+  	manager: ProviderSettingsManager,
+  	request: Omit<AddProviderActionRequest, "action">,
+  ): Promise<{
+  	providerId: string;
+  	settingsPath: string;
+  	modelsPath: string;
+  	modelsCount: number;
+  }> {
+  	const providerId = request.providerId.trim().toLowerCase();
+  	if (!providerId) throw new Error("providerId is required");
+  	const baseUrl = request.baseUrl.trim();
+  	const apiKey = request.apiKey?.trim() ?? "";
+  	// Compatibility path: empty baseUrl + empty apiKey is treated as a delete request.
+  	if (!baseUrl && !apiKey) {
+  		const modelsPath = resolveModelsRegistryPath(manager);
+  		const modelsState = await readModelsFile(modelsPath);
+  		if (modelsState.providers[providerId]) {

@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-managed-roots
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/config/user-instruction-config-loader.ts
+  start: 226
+  end: 250
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  async function discoverManagedPluginRoots(
+  	clineDirectoryPath: string,
+  ): Promise<string[]> {
+  	try {
+  		const entries = await readdir(clineDirectoryPath, { withFileTypes: true });
+  		const pluginRoots: string[] = [];
+  		for (const entry of entries) {
+  			if (!entry.isDirectory()) {
+  				continue;
+  			}
+  			const pluginRoot = join(clineDirectoryPath, entry.name);
+  			const manifestPath = join(pluginRoot, MANAGED_PLUGIN_MANIFEST_FILE_NAME);
+  			try {
+  				const content = await readFile(manifestPath, "utf8");
+  				const parsed = JSON.parse(content) as unknown;
+  				if (parsed && typeof parsed === "object") {
+  					pluginRoots.push(pluginRoot);
+  				}
+  			} catch (error) {
+  				if (isIgnorableDirectoryError(error)) {
+  					continue;
+  				}
+  				const nodeError = error as NodeJS.ErrnoException;

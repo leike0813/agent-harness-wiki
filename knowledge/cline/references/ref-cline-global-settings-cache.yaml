@@ -1,0 +1,42 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-global-settings-cache
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/global-settings.ts
+  start: 186
+  end: 218
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  function getCachedSettings(): CachedSettings {
+  	const filePath = resolveGlobalSettingsPath();
+  	const stats = statSync(filePath, { throwIfNoEntry: false });
+  	const mtimeMs = stats?.mtimeMs ?? 0;
+  	const size = stats?.size ?? 0;
+  	const cached = settingsCache;
+  	if (
+  		cached &&
+  		cached.path === filePath &&
+  		cached.mtimeMs === mtimeMs &&
+  		cached.size === size
+  	) {
+  		return cached;
+  	}
+  	const loaded = stats
+  		? loadSettingsFromDisk(filePath)
+  		: { value: defaultGlobalSettings(), loadFailed: false };
+  	const value = freezeSettings(loaded.value);
+  	settingsCache = {
+  		path: filePath,
+  		mtimeMs,
+  		size,
+  		value,
+  		loadFailed: loaded.loadFailed,
+  	};
+  	return settingsCache;
+  }
+  export function readGlobalSettings(): GlobalSettings {
+  	return getCachedSettings().value;
+  }

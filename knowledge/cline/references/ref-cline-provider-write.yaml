@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-write
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/storage/provider-settings-manager.ts
+  start: 184
+  end: 218
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  	write(state: StoredProviderSettings): void {
+  		const normalized = StoredProviderSettingsSchema.parse(state);
+  		const dir = dirname(this.filePath);
+  		if (!existsSync(dir)) {
+  			mkdirSync(dir, { recursive: true, mode: 0o700 });
+  		}
+  		// Stage to a pid-unique temp file and rename into place. Concurrent
+  		// Cline processes (CLI, extension, hub) share this file; a bare
+  		// writeFileSync lets readers catch a partial file, which read() treats
+  		// as empty settings — indistinguishable from being logged out.
+  		const tempPath = `${this.filePath}.${process.pid}.tmp`;
+  		try {
+  			writeFileSync(tempPath, `${JSON.stringify(normalized, null, 2)}\n`, {
+  				encoding: "utf8",
+  				mode: 0o600,
+  			});
+  			renameSync(tempPath, this.filePath);
+  		} catch (error) {
+  			rmSync(tempPath, { force: true });

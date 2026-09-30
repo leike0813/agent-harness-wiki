@@ -1,0 +1,45 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-skills-cmd
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/commands/config.ts
+  start: 150
+  end: 186
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  	>();
+  	const service = createConfigUserInstructionService(cwd);
+  	try {
+  		await service.start();
+  		for (const record of service.listRecords<SkillConfig>("skill")) {
+  			const skill = record.item;
+  			if (skill.disabled === true || skillsByName.has(skill.name)) {
+  				continue;
+  			}
+  			skillsByName.set(skill.name, {
+  				...skill,
+  				path: record.filePath,
+  			});
+  		}
+  	} catch {
+  		// Best-effort listing across config roots.
+  	} finally {
+  		service.stop();
+  	}
+  	const skills = [...skillsByName.values()].sort((a, b) =>
+  		a.name.localeCompare(b.name),
+  	);
+  	if (outputMode === "json") {
+  		process.stdout.write(JSON.stringify(skills));
+  		return 0;
+  	}
+  	if (skills.length === 0) {
+  		io.writeln("No enabled skills found.");
+  		return 0;
+  	}
+  	io.writeln("Enabled skills:");
+  	for (const skill of skills) {

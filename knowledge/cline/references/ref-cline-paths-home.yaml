@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-paths-home
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/shared/src/storage/paths.ts
+  start: 85
+  end: 103
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  const envHome = process?.env?.HOME?.trim();
+  	if (envHome && envHome !== "~") {
+  		return envHome;
+  	}
+  	const envUserProfile = process?.env?.USERPROFILE?.trim();
+  	if (envUserProfile) {
+  		return envUserProfile;
+  	}
+  	const envHomeDrive = process?.env?.HOMEDRIVE?.trim();
+  	const envHomePath = process?.env?.HOMEPATH?.trim();
+  	if (envHomeDrive && envHomePath) {
+  		return `${envHomeDrive}${envHomePath}`;
+  	}
+  	const osHomeDir = homedir().trim();
+  	if (osHomeDir && osHomeDir !== "~") {
+  		return osHomeDir;
+  	}
+  	return "~";
+  }

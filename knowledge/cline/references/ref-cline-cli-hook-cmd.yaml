@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-hook-cmd
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/commands/hook.ts
+  start: 8
+  end: 30
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  } from "../utils/helpers";
+  async function handleHookPayload(payload: HookEventPayload): Promise<unknown> {
+  	await appendHookAudit(payload);
+  	await handleSessionHookEvent(payload);
+  	switch (payload.hookName) {
+  		case "tool_call":
+  		case "tool_result":
+  		case "agent_end":
+  		case "agent_start":
+  		case "agent_resume":
+  		case "agent_abort":
+  		case "prompt_submit":
+  		case "pre_compact":
+  		case "session_shutdown":
+  			return {};
+  		default:
+  			throw new Error(
+  				`unsupported hookName: ${(payload as { hookName: string }).hookName}`,
+  			);
+  	}
+  }

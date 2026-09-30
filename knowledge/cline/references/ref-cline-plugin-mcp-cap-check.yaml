@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-plugin-mcp-cap-check
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/plugin-tools.ts
+  start: 133
+  end: 146
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  ): Promise<{
+  	tools: AgentTool[];
+  	rules: Array<Parameters<AgentExtensionApi["registerRule"]>[0]>;
+  	commands: Array<Parameters<AgentExtensionApi["registerCommand"]>[0]>;
+  	mcpServers: Array<Parameters<AgentExtensionApi["registerMcpServer"]>[0]>;
+  	providers: Array<Parameters<AgentExtensionApi["registerProvider"]>[0]>;
+  }> {
+  	if (!extension.setup) {
+  		return {
+  			tools: [],
+  			rules: [],
+  			commands: [],
+  			mcpServers: [],
+  			providers: [],

@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agents-tool
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/tools/team/configured-agent-tool.ts
+  start: 146
+  end: 175
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  options: ConfiguredAgentToolConfig,
+  ): AgentTool[] {
+  	return buildConfiguredAgentToolDescriptors(options.agents).map(
+  		({ toolName, config }) => {
+  			const tool = createTool<ConfiguredAgentInput, SpawnAgentOutput>({
+  				name: toolName,
+  				executionMode: "parallel",
+  				description: `Use the "${config.name}" subagent: ${config.description}`,
+  				inputSchema: zodToJsonSchema(ConfiguredAgentInputSchema),
+  				execute: async (input, context) => {
+  					const baseRuntimeConfig = options.configProvider.getRuntimeConfig();
+  					const configProvider = createDelegatedAgentConfigProvider(
+  						buildAgentRuntimeConfig(baseRuntimeConfig, config),
+  					);
+  					const tools = options.createSubAgentTools
+  						? await options.createSubAgentTools(config, input, context)
+  						: [];

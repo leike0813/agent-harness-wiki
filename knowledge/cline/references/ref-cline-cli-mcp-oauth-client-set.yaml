@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-mcp-oauth-client-set
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/wizards/mcp/settings.ts
+  start: 150
+  end: 172
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  if (error instanceof McpSettingsUpdateSkippedError) {
+  			return;
+  		}
+  		throw error;
+  	}
+  }
+  export function setServerOAuthClient(
+  	name: string,
+  	client: McpServerOAuthClientConfig | undefined,
+  ): void {
+  	mutateServers((servers) => {
+  		const existing = getOwnServerRecord(servers, name);
+  		if (!existing)
+  			throw new McpSettingsUpdateSkippedError(`MCP server not found: ${name}`);
+  		const previous = existing.oauthClient as
+  			| McpServerOAuthClientConfig
+  			| undefined;
+  		if (
+  			previous?.clientId !== client?.clientId ||
+  			previous?.clientSecret !== client?.clientSecret
+  		) {
+  			delete existing.oauth;

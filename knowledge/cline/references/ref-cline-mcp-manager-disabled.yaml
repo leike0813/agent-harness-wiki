@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-manager-disabled
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/mcp/manager.ts
+  start: 208
+  end: 218
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  	private async connectState(state: ManagedServerState): Promise<void> {
+  		if (state.registration.disabled) {
+  			throw new Error(
+  				`MCP server "${state.registration.name}" is disabled and cannot be connected.`,
+  			);
+  		}
+  		if (state.status === "connected" && state.client) {
+  			return;
+  		}

@@ -1,0 +1,41 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-after-run
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/hooks/subprocess.ts
+  start: 620
+  end: 655
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  };
+  			await dispatchDetached(payload, options);
+  			return;
+  		}
+  		const hookName: HookEventName =
+  			result.status === "aborted" || isAbortReason(result.error?.message)
+  				? "agent_abort"
+  				: "agent_error";
+  		const payload: AgentErrorHookPayload | AgentAbortHookPayload =
+  			hookName === "agent_error"
+  				? {
+  						...basePayload(hookName, base, options),
+  						hookName,
+  						iteration: result.iterations,
+  						error: serializeHookError(
+  							result.error ?? new Error("Agent run failed"),
+  						),
+  						taskCancel: { taskMetadata: {} },
+  					}
+  				: {
+  						...basePayload(hookName, base, options),
+  						hookName,
+  						reason: result.error?.message,
+  						taskCancel: { taskMetadata: {} },
+  					};
+  		await dispatchDetached(payload, options);
+  	};
+  	const shutdown = async ({
+  		agentId,

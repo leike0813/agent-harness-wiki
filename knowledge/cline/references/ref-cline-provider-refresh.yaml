@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-refresh
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/providers/local-provider-service.ts
+  start: 1178
+  end: 1210
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  if (merged) next[key] = merged;
+  			else delete next[key];
+  		}
+  	}
+  	manager.saveProviderSettings(next, { setLastUsed: false });
+  	return { providerId, enabled: true, settingsPath: manager.getFilePath() };
+  }
+  export async function refreshProviderModelsFromSource(
+  	manager: ProviderSettingsManager,
+  	providerId: string,
+  ): Promise<{ providerId: string; refreshed: boolean; modelsCount?: number }> {
+  	const id = providerId.trim();
+  	const settings = manager.getProviderSettings(id);
+  	const collection = LlmsModels.MODEL_COLLECTIONS_BY_PROVIDER_ID[id] as
+  		| LlmsModels.ModelCollection
+  		| undefined;
+  	const provider = collection?.provider;
+  	const baseUrl = settings?.baseUrl?.trim() || provider?.baseUrl?.trim();
+  	const modelsSourceUrl = resolveModelsSourceUrl(
+  		baseUrl,
+  		provider?.baseUrl,

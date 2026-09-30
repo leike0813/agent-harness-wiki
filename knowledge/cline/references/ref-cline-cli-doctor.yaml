@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-doctor
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/commands/doctor.ts
+  start: 826
+  end: 838
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  setExitCode: (code: number) => void,
+  	deps: DoctorCommandDeps = {},
+  ): Command {
+  	const doctor = new Command("doctor")
+  		.description("Diagnose and fix local process issues")
+  		.exitOverride()
+  		.option("--cwd <path>", "Workspace root", process.cwd())
+  		.option("--json", "Output as JSON")
+  		.option("-v, --verbose", "Show additional diagnostic details")
+  		.action(async function (this: Command) {
+  			const opts = this.opts<{
+  				cwd: string;
+  				json?: boolean;

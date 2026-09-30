@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-runtime-config
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/llms/runtime-config.ts
+  start: 1
+  end: 60
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  import { readFile } from "node:fs/promises";
+  import path from "node:path";
+  import type { LlmsConfig } from "./runtime-types";
+  export function defineLlmsConfig(config: LlmsConfig): LlmsConfig {
+  	return config;
+  }
+  export async function loadLlmsConfigFromFile(
+  	configPath: string,
+  ): Promise<LlmsConfig> {
+  	const resolvedPath = path.resolve(configPath);
+  	const raw = await readFile(resolvedPath, "utf8");
+  	let parsed: unknown;
+  	try {
+  		parsed = JSON.parse(raw);
+  	} catch (error) {
+  		const details = error instanceof Error ? error.message : String(error);
+  		throw new Error(
+  			`Failed to parse JSON config at "${resolvedPath}": ${details}`,
+  		);
+  	}
+  	return assertLlmsConfig(parsed, resolvedPath);
+  }
+  function assertLlmsConfig(value: unknown, source: string): LlmsConfig {

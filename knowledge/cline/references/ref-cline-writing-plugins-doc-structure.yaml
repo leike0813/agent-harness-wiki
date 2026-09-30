@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-writing-plugins-doc-structure
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: document_section
+  heading: "Step 1: Define the Plugin Structure"
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  ```typescript
+  // github-plugin.ts
+  import { type AgentPlugin } from "@cline/sdk"
+  import { createTool } from "@cline/sdk"
+  interface GitHubConfig {
+    token: string
+    owner: string
+    repo: string
+  }
+  export function createGitHubPlugin(config: GitHubConfig): AgentPlugin {
+    let totalTokens = 0
+    return {
+      name: "github-integration",
+      manifest: {
+        capabilities: ["tools", "hooks"],
+      },
+      setup(api, ctx) {
+        // Register tools in the setup phase
+        api.registerTool(createListIssuesTool(config))
+        api.registerTool(createCreateIssueTool(config))
+        api.registerTool(createPostCommentTool(config))
+      },
+      hooks: {
+        beforeRun() {
+          console.log(`[github] Run started`)
+        },
+        beforeTool(context) {

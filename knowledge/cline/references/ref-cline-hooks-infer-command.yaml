@@ -1,0 +1,45 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-infer-command
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/hooks/hook-file-hooks.ts
+  start: 354
+  end: 400
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  function inferHookCommand(path: string): string[] {
+  	const shebang = parseShebangCommand(path);
+  	if (shebang && shebang.length > 0) {
+  		return [...(normalizeHookInterpreter(shebang) ?? shebang), path];
+  	}
+  	const lowered = path.toLowerCase();
+  	if (
+  		lowered.endsWith(".sh") ||
+  		lowered.endsWith(".bash") ||
+  		lowered.endsWith(".zsh")
+  	) {
+  		return ["bash", path];
+  	}
+  	if (
+  		lowered.endsWith(".js") ||
+  		lowered.endsWith(".mjs") ||
+  		lowered.endsWith(".cjs")
+  	) {
+  		return augmentNodeCommandForDebug(["node", path], {
+  			debugRole: "hook",
+  		});
+  	}
+  	if (
+  		lowered.endsWith(".ts") ||
+  		lowered.endsWith(".mts") ||
+  		lowered.endsWith(".cts")
+  	) {
+  		return ["bun", "run", path];
+  	}
+  	if (lowered.endsWith(".py")) {
+  		return process.platform === "win32"
+  			? ["py", "-3", path]

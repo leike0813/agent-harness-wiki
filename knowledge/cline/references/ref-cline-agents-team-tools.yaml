@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agents-team-tools
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/tools/team/team-tools.ts
+  start: 215
+  end: 252
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  function spawnTeamTeammate(
+  	options: Omit<CreateAgentTeamsToolsOptions, "requesterId" | "allowSpawn"> & {
+  		requesterId: string;
+  		spec: TeamTeammateSpec;
+  	},
+  ): void {
+  	const teammateTools: AgentTool[] = [];
+  	if (options.createBaseTools) {
+  		teammateTools.push(...options.createBaseTools());
+  	}
+  	teammateTools.push(
+  		...createAgentTeamsTools({
+  			runtime: options.runtime,
+  			requesterId: options.spec.agentId,
+  			teammateConfigProvider: options.teammateConfigProvider,
+  			createBaseTools: options.createBaseTools,
+  			allowSpawn: false,
+  			// Spawning is lead-only; exposing the tool to teammates just
+  			// makes them burn turns on "Only the lead agent can manage
+  			// teammates." rejections.
+  			includeSpawnTool: false,
+  		}),
+  	);
+  	options.runtime.spawnTeammate({

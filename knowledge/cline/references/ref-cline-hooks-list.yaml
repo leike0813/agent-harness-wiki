@@ -1,0 +1,43 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-list
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/hooks/hook-file-config.ts
+  start: 78
+  end: 120
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  path: string;
+  }
+  export function listHookConfigFiles(
+  	workspacePath?: string,
+  ): HookConfigFileEntry[] {
+  	const entries: HookConfigFileEntry[] = [];
+  	const seen = new Set<string>();
+  	const directories = resolveHooksConfigSearchPaths(workspacePath).filter(
+  		(directory) => existsSync(directory),
+  	);
+  	for (const directory of directories) {
+  		try {
+  			for (const entry of readdirSync(directory, { withFileTypes: true })) {
+  				if (!entry.isFile()) {
+  					continue;
+  				}
+  				const fileName = toHookConfigFileName(entry.name);
+  				if (!fileName) {
+  					continue;
+  				}
+  				const path = join(directory, entry.name);
+  				if (seen.has(path)) {
+  					continue;
+  				}
+  				seen.add(path);
+  				entries.push({
+  					fileName,
+  					hookEventName: HOOK_CONFIG_FILE_EVENT_MAP[fileName],
+  					path,
+  				});
+  			}

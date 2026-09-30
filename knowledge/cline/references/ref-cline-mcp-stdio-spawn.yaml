@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-stdio-spawn
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/mcp/client.ts
+  start: 412
+  end: 426
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  windowsHide: true,
+  						shell: true,
+  					}
+  				: {};
+  		const child = spawn(transport.command, transport.args ?? [], {
+  			cwd: transport.cwd,
+  			env: {
+  				...process.env,
+  				...(transport.env ?? {}),
+  			},
+  			stdio: ["pipe", "pipe", "pipe"],
+  			...platformOptions,
+  		});
+  		this.process = child;

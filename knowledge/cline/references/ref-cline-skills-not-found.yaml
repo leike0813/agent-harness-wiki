@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-not-found
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/config/user-instruction-plugin.ts
+  start: 186
+  end: 206
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  return {
+  			error: `Skill "${requestedSkill}" is ambiguous, and all matches are disabled: ${suffixMatches.map(({ id }) => id).join(", ")}`,
+  		};
+  	}
+  	const available = listAvailableSkillNames(watcher, allowedSkillNames);
+  	return {
+  		error:
+  			available.length > 0
+  				? `Skill "${requestedSkill}" not found. Available skills: ${available.join(", ")}`
+  				: "No skills are currently available.",
+  	};
+  }
+  export function createUserInstructionSkillsExecutor(
+  	watcher: UserInstructionConfigWatcher,
+  	watcherReady: Promise<void> = Promise.resolve(),
+  	allowedSkillNames?: ReadonlyArray<string>,
+  ): SkillsExecutorWithMetadata {
+  	const runningSkills = new Set<string>();
+  	const executor: SkillsExecutorWithMetadata = (async (skillName, args) => {

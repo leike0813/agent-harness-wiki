@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-capture
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/llms/src/providers/provider-request-capture.ts
+  start: 15
+  end: 60
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  type CaptureMode = "off" | "summary" | "full";
+  type CaptureStage = "ai_sdk_prompt" | "wire_request";
+  const DEFAULT_MAX_PREVIEW_BYTES = 64 * 1024;
+  const CAPTURE_FILE_EXTENSION = ".provider-request.json";
+  const CAPTURE_TMP_EXTENSION = ".tmp";
+  const CLEANUP_TTL_MS = 24 * 60 * 60 * 1000;
+  const cleanupDirs = new Set<string>();
+  const attemptCounters = new Map<string, number>();
+  function readCaptureMode(): CaptureMode {
+  	const raw = process.env.CLINE_CAPTURE_PROVIDER_REQUEST?.trim().toLowerCase();
+  	if (raw === "summary" || raw === "full") {
+  		return raw;
+  	}
+  	return "off";
+  }
+  function isWireCaptureEnabled(): boolean {
+  	return process.env.CLINE_CAPTURE_WIRE?.trim().toLowerCase() === "true";
+  }
+  function readMaxPreviewBytes(): number {

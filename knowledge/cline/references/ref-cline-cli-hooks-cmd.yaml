@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-hooks-cmd
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/commands/config.ts
+  start: 302
+  end: 323
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  async function runHooksConfigCommand(
+  	cwd: string,
+  	outputMode: CliOutputMode,
+  	io: ConfigIo,
+  ): Promise<number> {
+  	const hooks = listHookConfigFiles(cwd);
+  	if (outputMode === "json") {
+  		process.stdout.write(JSON.stringify(hooks));
+  		return 0;
+  	}
+  	if (hooks.length === 0) {
+  		io.writeln("No hook files found.");
+  		return 0;
+  	}
+  	io.writeln("Hook files:");
+  	for (const item of hooks) {
+  		const mapped = item.hookEventName ? ` -> ${item.hookEventName}` : "";
+  		io.writeln(`  ${item.fileName}${mapped} (${item.path})`);
+  	}
+  	return 0;
+  }

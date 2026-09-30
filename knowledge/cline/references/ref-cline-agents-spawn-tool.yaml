@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agents-spawn-tool
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/tools/team/spawn-agent-tool.ts
+  start: 116
+  end: 126
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  */
+  export function createSpawnAgentTool(
+  	config: SpawnAgentToolConfig,
+  ): AgentTool<SpawnAgentInput, SpawnAgentOutput> {
+  	return createTool<SpawnAgentInput, SpawnAgentOutput>({
+  		name: "spawn_agent",
+  		executionMode: "parallel",
+  		description: `Spawn a sub-agent with custom instructions for a specialized task. Waits for the sub-agent to finish and returns its result before your next step.`,
+  		inputSchema: zodToJsonSchema(SpawnAgentInputSchema),
+  		execute: async (input, context) => {
+  			const tools = config.createSubAgentTools

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-example-yolo
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/examples/hooks/README.md
+  start: 440
+  end: 448
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  **Prefer `registerMessageBuilder()`** for normal plugin-owned provider-message rewrites because it runs in the core message pipeline before the built-in provider-safety builder. **Use `beforeModel`** when the compaction logic needs runtime hook context or needs to inspect the exact runtime request object.
+  ## Tips
+  - **Hooks are disabled in `--yolo` mode** — use `--act` or `--plan` to enable them
+  - **Use stderr for logging** — stdout is reserved for JSON output
+  - **Keep hooks fast** — they run before every tool call, so performance matters
+  - **Test with `jq`** — JSON parsing is finicky; use `jq` for safe extraction
+  - **Use multiple hooks** — different event files can coexist in `.cline/hooks/`

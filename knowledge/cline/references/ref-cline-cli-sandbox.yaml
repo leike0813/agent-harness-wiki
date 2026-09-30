@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-sandbox
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/main.ts
+  start: 866
+  end: 878
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  // Sandbox mode is enabled implicitly whenever --data-dir is provided, or
+  	// when CLINE_SANDBOX=1 is set in the environment (in which case the data
+  	// dir falls back to $CLINE_SANDBOX_DATA_DIR or /tmp/cline-sandbox).
+  	const sandboxEnabled =
+  		!!args.dataDir || process.env.CLINE_SANDBOX?.trim() === "1";
+  	const sandboxDataDir = configureSandboxEnvironment({
+  		enabled: sandboxEnabled,
+  		cwd,
+  		explicitDir: args.dataDir,
+  	});
+  	// Keep command-style subcommands on a narrow path. Runtime-only imports pull
+  	// in provider resolution, config services, and session startup wiring that

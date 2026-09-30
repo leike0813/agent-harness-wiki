@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-paths-workflows
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/shared/src/storage/paths.ts
+  start: 595
+  end: 608
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  export function resolveWorkflowsConfigSearchPaths(
+  	workspacePath?: string,
+  ): string[] {
+  	return dedupePaths([
+  		workspacePath
+  			? join(workspacePath, ".clinerules", WORKFLOWS_CONFIG_DIRECTORY_NAME)
+  			: "",
+  		resolveDocumentsExtensionPath("Workflows"),
+  		join(resolveClineDir(), WORKFLOWS_CONFIG_DIRECTORY_NAME),
+  		workspacePath
+  			? join(workspacePath, ".cline", WORKFLOWS_CONFIG_DIRECTORY_NAME)
+  			: "",
+  	]);
+  }

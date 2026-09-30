@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-config-source-rank
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/tui/views/config-view.tsx
+  start: 60
+  end: 90
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  rightLabel?: string;
+  	  }
+  	| { kind: "mcp-manager" };
+  function sourceRank(source: InteractiveConfigItem["source"]): number {
+  	switch (source) {
+  		case "builtin":
+  			return 0;
+  		case "workspace":
+  			return 1;
+  		case "workspace-plugin":
+  			return 2;
+  		case "global":
+  			return 3;
+  		case "global-plugin":
+  			return 4;
+  	}
+  }
+  function sortBySourceThenName(
+  	items: InteractiveConfigItem[],
+  ): InteractiveConfigItem[] {
+  	return [...items].sort((a, b) => {
+  		if (a.source !== b.source) {
+  			return sourceRank(a.source) - sourceRank(b.source);
+  		}
+  		return a.name.localeCompare(b.name);
+  	});
+  }
+  function isNavigable(row: ConfigRow): boolean {

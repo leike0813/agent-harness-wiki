@@ -1,0 +1,45 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-fields
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/providers/provider-config-fields.ts
+  start: 16
+  end: 60
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  | "sapDeploymentId";
+  export interface ProviderConfigFieldRequirement {
+  	defaultValue?: string;
+  	label?: string;
+  	note?: string;
+  	placeholder?: string;
+  	optional?: boolean;
+  }
+  export interface ProviderConfigFields {
+  	providerId: string;
+  	authMethod: "api-key" | "oauth" | "local";
+  	fields: Partial<
+  		Record<ProviderConfigFieldKey, ProviderConfigFieldRequirement>
+  	>;
+  	/** Optional description shown above the fields (e.g. AWS region auto-fill hint). */
+  	description?: string;
+  }
+  const FIELD_KEYS: ProviderConfigFieldKey[] = [
+  	"apiKey",
+  	"baseUrl",
+  	"azureApiVersion",
+  	"awsRegion",
+  	"awsProfile",
+  	"gcpProjectId",
+  	"gcpRegion",
+  	"sapClientId",
+  	"sapClientSecret",
+  	"sapTokenUrl",
+  	"sapResourceGroup",
+  	"sapDeploymentId",
+  ];
+  interface ProviderConfigFieldMetadata {
+  	description?: string;

@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-protocol
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/llms/provider-settings.ts
+  start: 32
+  end: 60
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  .regex(/^[a-z0-9][a-z0-9-]*$/i);
+  export const ProviderProtocolSchema = z.enum([
+  	"anthropic",
+  	"gemini",
+  	"openai-chat",
+  	"openai-responses",
+  	"openai-r1",
+  	"ai-sdk",
+  ]);
+  export const ProviderClientSchema = z.enum([
+  	"anthropic",
+  	"ai-sdk",
+  	"ai-sdk-community",
+  	"openai",
+  	"openai-compatible",
+  	"openai-r1",
+  	"gemini",
+  	"bedrock",
+  	"custom",
+  	"fetch",
+  	"vertex",
+  ]);
+  export const AuthSettingsSchema = z.object({
+  	apiKey: z.string().optional(),
+  	accessToken: z.string().optional(),
+  	refreshToken: z.string().optional(),

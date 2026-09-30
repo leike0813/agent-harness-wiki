@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-writing-plugins-doc-guidelines
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: document_section
+  heading: Plugin Design Guidelines
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  1. Use factory functions (like `createGitHubPlugin`) when the plugin needs configuration. Export the plugin object directly when it doesn't.
+  2. Keep `setup()` synchronous and fast. It runs before the first LLM call, so any async initialization delays the agent.
+  3. Register all tools in `setup()`, not in lifecycle hooks. Tools must be available before the first iteration.
+  4. Use lifecycle hooks for observation (logging, metrics, auditing), not for modifying agent behavior. If you need to modify behavior, consider using the `beforeRun` or `beforeModel` hooks to adjust the system prompt or context.
+  5. Handle errors gracefully in hooks. A thrown error in `beforeTool` will count as a tool failure. If your hook is purely observational, catch errors internally.

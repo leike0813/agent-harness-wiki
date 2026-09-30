@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-list-tools
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/mcp/manager.ts
+  start: 142
+  end: 154
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  	async listTools(serverName: string): Promise<readonly McpToolDescriptor[]> {
+  		const state = this.requireServer(serverName);
+  		const fetchedAt = state.toolCacheUpdatedAt ?? 0;
+  		if (state.toolCache && nowMs() - fetchedAt <= this.toolsCacheTtlMs) {
+  			return state.toolCache;
+  		}
+  		return this.refreshTools(serverName);
+  	}
+  	async refreshTools(
+  		serverName: string,

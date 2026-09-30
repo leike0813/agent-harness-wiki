@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-paths-agents
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/shared/src/storage/paths.ts
+  start: 476
+  end: 484
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  export function resolveAgentConfigSearchPaths(
+  	workspacePath?: string,
+  ): string[] {
+  	return dedupePaths([
+  		workspacePath
+  			? join(workspacePath, CLINE_CONFIG_DIR, AGENT_CONFIG_DIRECTORY_NAME)
+  			: "",
+  		resolveAgentsConfigDirPath(),
+  	]);

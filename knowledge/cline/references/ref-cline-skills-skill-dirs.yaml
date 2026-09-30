@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-skill-dirs
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/config/user-instruction-config-loader.ts
+  start: 157
+  end: 178
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  function resolveSkillDirectories(
+  	options?: CreateSkillsConfigDefinitionOptions,
+  ): string[] {
+  	const directories = [
+  		...(options?.directories ??
+  			resolveSkillsConfigSearchPaths(options?.workspacePath)),
+  	];
+  	if (options?.pluginSkillDirectories) {
+  		directories.push(...options.pluginSkillDirectories);
+  	} else if (options?.includePluginSkills) {
+  		directories.push(
+  			...resolveAgentPluginSkillDirectories({
+  				pluginPaths: options.pluginPaths,
+  				workspacePath: options.workspacePath,
+  				cwd: options.cwd ?? options.workspacePath,
+  			}),
+  		);
+  	}
+  	if (options?.agentPluginSkills) {
+  		directories.push(

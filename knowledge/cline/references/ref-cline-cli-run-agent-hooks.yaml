@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-run-agent-hooks
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/runtime/run-agent.ts
+  start: 160
+  end: 196
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  logCliError(config.logger, "File index prewarm failed", { error });
+  	});
+  	const isYoloMode = config.mode === "yolo";
+  	const toolExecutors = {
+  		askQuestion: askQuestionInTerminal,
+  		submit: submitAndExitInTerminal,
+  	};
+  	const sessionManager = await createCliCore({
+  		capabilities: {
+  			toolExecutors,
+  			requestToolApproval,
+  		},
+  		forceLocalBackend: isYoloMode || config.sandbox === true,
+  		logger: config.logger,
+  		cwd: config.cwd,
+  		workspaceRoot: config.workspaceRoot,
+  		toolPolicies: config.toolPolicies,
+  	});
+  	const runtimeHooks = createRuntimeHooks({
+  		verbose: config.verbose,
+  		yolo: isYoloMode,
+  		cwd: config.cwd,
+  		workspaceRoot: config.workspaceRoot,
+  		dispatchHookEvent: async (payload) => {
+  			await sessionManager.ingestHookEvent(payload);
+  		},
+  	});
+  	let reasoningChunkCount = 0;

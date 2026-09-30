@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-ambiguous
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/config/user-instruction-service.ts
+  start: 88
+  end: 122
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  const normalized = normalizeSkillToken(skillName);
+  		if (!normalized) {
+  			return "Missing skill name.";
+  		}
+  		const entries = resolveEntries();
+  		const exactMatches = entries.filter(
+  			({ metadata }) => normalizeSkillToken(metadata.id) === normalized,
+  		);
+  		const matches =
+  			exactMatches.length > 0
+  				? exactMatches
+  				: entries.filter(({ metadata }) => {
+  						const id = normalizeSkillToken(metadata.id);
+  						return (
+  							normalizeSkillToken(metadata.name) === normalized ||
+  							id.endsWith(`:${normalized}`)
+  						);
+  					});
+  		const enabled = matches.filter(({ metadata }) => !metadata.disabled);
+  		if (enabled.length === 1) {
+  			return enabled[0].executor(enabled[0].metadata.id, args, context);
+  		}
+  		if (enabled.length > 1) {
+  			return `Skill "${skillName}" is ambiguous.

@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-executor
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/config/user-instruction-plugin.ts
+  start: 198
+  end: 226
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  export function createUserInstructionSkillsExecutor(
+  	watcher: UserInstructionConfigWatcher,
+  	watcherReady: Promise<void> = Promise.resolve(),
+  	allowedSkillNames?: ReadonlyArray<string>,
+  ): SkillsExecutorWithMetadata {
+  	const runningSkills = new Set<string>();
+  	const executor: SkillsExecutorWithMetadata = (async (skillName, args) => {
+  		await watcherReady;
+  		const resolved = resolveSkillRecord(watcher, skillName, allowedSkillNames);
+  		if ("error" in resolved) {
+  			return resolved.error;
+  		}
+  		const { id, skill } = resolved;
+  		if (runningSkills.has(id)) {
+  			return `Skill "${skill.name}" is already running.`;
+  		}
+  		runningSkills.add(id);
+  		try {
+  			return formatSkillInvocation(skill, args);
+  		} finally {
+  			runningSkills.delete(id);
+  		}
+  	}) as SkillsExecutor;

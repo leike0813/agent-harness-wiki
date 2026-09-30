@@ -1,0 +1,41 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-install
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/mcp-install.ts
+  start: 145
+  end: 180
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  	}
+  	return { headers, warnings };
+  }
+  export function buildMcpInstallTransport(options: {
+  	headers?: string[];
+  	name: string;
+  	targetArgs?: string[];
+  	transport?: string;
+  }): { name: string; transport: McpServerTransportConfig; warnings: string[] } {
+  	const name = options.name.trim();
+  	if (!name) {
+  		throw new Error("MCP server name is required");
+  	}
+  	const {
+  		headers: rawHeaders,
+  		targetArgs,
+  		transport,
+  	} = splitTargetArgsAndHeaders({
+  		headers: options.headers,
+  		targetArgs: options.targetArgs,
+  		transport: options.transport,
+  	});
+  	const type = normalizeTransportType(transport);
+  	const { headers, warnings } = buildHeaders(rawHeaders);
+  	if (type === "stdio") {
+  		if (rawHeaders.length > 0) {
+  			throw new Error("Stdio MCP installs do not support request headers.");
+  		}

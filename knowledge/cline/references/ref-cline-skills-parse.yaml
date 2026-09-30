@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-parse
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/config/user-instruction-config-loader.ts
+  start: 355
+  end: 385
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  content: string,
+  	fallbackName: string,
+  ): SkillConfig {
+  	const { data, body, parseError } = parseMarkdownFrontmatter(content);
+  	if (parseError) {
+  		throw new Error(`Failed to parse YAML frontmatter: ${parseError}`);
+  	}
+  	const instructions = body.trim();
+  	if (!instructions) {
+  		throw new Error("Missing instructions body in skill file.");
+  	}
+  	const parsedName = parseStringField(data.name, "name", false);
+  	const name = parsedName ?? fallbackName.trim();
+  	if (!name) {
+  		throw new Error("Missing skill name.");
+  	}
+  	return {
+  		name,
+  		description: parseStringField(data.description, "description", false),
+  		disabled:
+  			parseBooleanField(data.disabled, "disabled") ??
+  			(parseBooleanField(data.enabled, "enabled") === false ? true : undefined),
+  		instructions,
+  		frontmatter: data,
+  	};
+  }

@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agents-load
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/tools/team/configured-agent-config.ts
+  start: 150
+  end: 205
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  export function loadConfiguredAgentConfigs(input: {
+  	workspaceRoot?: string;
+  	searchPaths?: string[];
+  }): ConfiguredAgentLoadResult {
+  	const searchPaths =
+  		input.searchPaths ?? resolveAgentConfigSearchPaths(input.workspaceRoot);
+  	const configsByName = new Map<string, ConfiguredAgentConfig>();
+  	const errors: ConfiguredAgentReadError[] = [];
+  	for (const directory of searchPaths.filter(Boolean)) {
+  		if (!existsSync(directory)) {
+  			continue;
+  		}
+  		let entries: Dirent[];
+  		try {
+  			entries = readdirSync(directory, { withFileTypes: true });
+  		} catch (error) {
+  			errors.push({
+  				path: directory,
+  				error: error instanceof Error ? error : new Error(String(error)),
+  			});
+  			continue;
+  		}
+  		for (const entry of entries) {
+  			if (!entry.isFile() || !isYamlFile(entry.name)) {
+  				continue;
+  			}

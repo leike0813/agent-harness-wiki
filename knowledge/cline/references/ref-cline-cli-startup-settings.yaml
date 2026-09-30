@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-startup-settings
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/utils/startup-settings.ts
+  start: 1
+  end: 50
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  import type { GlobalSettings } from "@cline/core";
+  import type { CliAgentMode, CliCompactionMode, ParsedArgs } from "./types";
+  /**
+   * Resolves general settings at CLI startup with the precedence
+   * explicit CLI flag -> persisted global setting -> built-in default,
+   * so choices made in the TUI /settings panel survive restarts (see
+   * https://github.com/cline/cline/issues/12158).
+   */
+  export function resolveStartupMode(
+  	args: Pick<ParsedArgs, "mode" | "modeExplicitlySet">,
+  	settings: GlobalSettings,
+  ): CliAgentMode {
+  	if (args.modeExplicitlySet) {
+  		return args.mode;
+  	}
+  	return settings.planActMode ?? args.mode;
+  }
+  export function resolveStartupToolAutoApprove(
+  	args: Pick<ParsedArgs, "autoApproveOverride">,
+  	settings: GlobalSettings,
+  	defaultToolAutoApprove: boolean,
+  ): boolean {
+  	return (

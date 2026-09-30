@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-docs-plugin-manifest
+harness_id: cline
+snapshot_id: snapshot-cline-docs-install-plugins
+locator:
+  kind: document_section
+  heading: Plugin Manifest Format
+official_url: "https://docs.cline.bot/customization/plugins.md"
+excerpt: |-
+  For a repository or npm package to be installable as a Cline plugin, its `package.json` should include a `cline` field that declares plugin entry points:
+  ```json theme={"system"}
+  {
+    "name": "my-cline-plugin",
+    "version": "1.0.0",
+    "cline": {
+      "plugins": [
+        {
+          "paths": ["./index.ts"],
+          "capabilities": ["tools", "hooks"]
+        }
+      ]
+    }
+  }
+  ```
+  The `cline.plugins` array accepts:
+  | Format | Example |
+  | - | - |
+  | Object with `paths` array | `{ "paths": ["./src/plugin.ts"], "capabilities": ["tools"] }` |
+  | Plain string | `"./index.ts"` |
+  Each path should point to a `.ts` or `.js` file that exports an `AgentPlugin` (either as the default export or a named export).

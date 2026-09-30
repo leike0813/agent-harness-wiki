@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-doc-loading
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: document_section
+  heading: How Skills Work
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  Skills use progressive loading to maximize efficiency:
+  | Level | When Loaded | Token Cost | Content |
+  |-------|-------------|------------|---------|
+  | Metadata | Always (at startup) | ~100 tokens per skill | `name` and `description` from YAML frontmatter |
+  | Instructions | When skill is triggered | Under 5k tokens | SKILL.md body with instructions and guidance |
+  | Resources | As needed | Effectively unlimited | Bundled files accessed via `read_file` or executed scripts |
+  When you send a message, Cline sees a list of available skills with their descriptions. If your request matches a skill's description, Cline activates it using the `use_skill` tool, which loads the full instructions from SKILL.md.

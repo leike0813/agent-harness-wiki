@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-plugin-skill-dirs
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/plugin/plugin-config-loader.ts
+  start: 210
+  end: 228
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  export function resolvePluginSkillDirectoriesFromPaths(
+  	pluginPaths: ReadonlyArray<string>,
+  ): string[] {
+  	const directories: string[] = [];
+  	for (const pluginPath of pluginPaths) {
+  		for (const root of collectPluginSkillRootCandidates(pluginPath)) {
+  			const skillDirectory = join(root, SKILLS_CONFIG_DIRECTORY_NAME);
+  			if (isDirectory(skillDirectory)) {
+  				directories.push(skillDirectory);
+  			}
+  		}
+  	}
+  	return dedupePaths(directories);
+  }
+  export function resolveAgentPluginSkillDirectories(
+  	options: ResolveAgentPluginPathsOptions = {},

@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-max-tokens
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/llms/src/providers/gateway.ts
+  start: 188
+  end: 215
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  });
+  	}
+  }
+  export function resolveGatewayRequestMaxTokens(input: {
+  	requestedMaxTokens?: number;
+  	model: Pick<GatewayModelDefinition, "contextWindow" | "maxOutputTokens">;
+  	estimatedInputTokens: number;
+  	defaultMaxOutputTokens?: number;
+  	outputReserveTokens?: number;
+  	reasoningBudgetTokens?: number;
+  	onContextOverflow?: (details: {
+  		contextWindow: number;
+  		estimatedInputTokens: number;
+  		reserveTokens: number;
+  	}) => void;
+  }): number | undefined {
+  	const caps: number[] = [];
+  	if (isPositiveFiniteNumber(input.requestedMaxTokens)) {
+  		caps.push(Math.floor(input.requestedMaxTokens));
+  	} else {
+  		// Providers like Anthropic require max_tokens to exceed the thinking
+  		// budget, so an explicit reasoning budget lifts the synthesized default

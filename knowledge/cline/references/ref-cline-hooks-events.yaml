@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-events
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/shared/src/hooks/events.ts
+  start: 56
+  end: 72
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  export const HookEventNameSchema = z.enum([
+  	"agent_start",
+  	"agent_resume",
+  	"agent_abort",
+  	"agent_end",
+  	"agent_error",
+  	"tool_call",
+  	"tool_result",
+  	"prompt_submit",
+  	"pre_compact",
+  	"session_shutdown",
+  ]);
+  export type HookEventName = z.infer<typeof HookEventNameSchema>;

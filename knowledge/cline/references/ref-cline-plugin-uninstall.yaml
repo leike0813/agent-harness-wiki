@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-plugin-uninstall
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/plugin-uninstall.ts
+  start: 368
+  end: 385
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  function describeCandidate(candidate: PluginUninstallCandidate): string {
+  	const primaryName = candidate.names[0] ?? basename(candidate.installPath);
+  	return `${primaryName} at ${candidate.installPath}`;
+  }
+  export async function uninstallPlugin(
+  	options: PluginUninstallOptions,
+  ): Promise<PluginUninstallResult> {
+  	const pluginRoots = getPluginRoots(options);
+  	const candidates = collectCandidates(pluginRoots);
+  	const explicitPath = options.path?.trim();
+  	const requestedName = options.name?.trim();
+  	let candidate: PluginUninstallCandidate | undefined;
+  	if (explicitPath) {
+  		candidate = findCandidateByPath(explicitPath, candidates, pluginRoots);
+  		if (!candidate) {
+  			throw new Error(`No plugin found at ${explicitPath}`);

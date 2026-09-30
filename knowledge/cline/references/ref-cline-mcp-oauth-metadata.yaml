@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-oauth-metadata
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/mcp/oauth.ts
+  start: 210
+  end: 222
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  function createOAuthClientMetadata(redirectUrl: string): OAuthClientMetadata {
+  	return {
+  		client_name: "Cline",
+  		redirect_uris: [redirectUrl],
+  		grant_types: ["authorization_code", "refresh_token"],
+  		response_types: ["code"],
+  		token_endpoint_auth_method: "none",
+  	};
+  }
+  export function createMcpOAuthClientInformation(

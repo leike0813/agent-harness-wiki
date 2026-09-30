@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-base-payload
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/hooks/hook-file-hooks.ts
+  start: 290
+  end: 305
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  function parseShebangCommand(path: string): string[] | undefined {
+  	try {
+  		const content = readFileSync(path, "utf8");
+  		const firstLine = content.split(/\r?\n/, 1)[0]?.trim();
+  		if (!firstLine?.startsWith("#!")) {
+  			return undefined;
+  		}
+  		const shebang = firstLine.slice(2).trim();
+  		if (!shebang) {
+  			return undefined;
+  		}
+  		const tokens = shebang.split(/\s+/).filter(Boolean);
+  		return tokens.length > 0 ? tokens : undefined;
+  	} catch {
+  		return undefined;
+  	}

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-sigkill
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/hooks/subprocess-runner.ts
+  start: 282
+  end: 295
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  });
+  	// Avoid an unhandled rejection from the completion observer when a detached
+  	// process reports a late spawn error after ownership has been handed off.
+  	if (detached) void completed.catch(() => undefined);
+  	if (!detached && (options.timeoutMs ?? 0) > 0) {
+  		timeoutId = setTimeout(() => {
+  			timedOut = true;
+  			child.kill("SIGKILL");
+  		}, options.timeoutMs);
+  	}
+  	// Armed before the stdin write is awaited: a hook that never reads stdin
+  	// can leave that write pending until it exits (seen on Windows), and an

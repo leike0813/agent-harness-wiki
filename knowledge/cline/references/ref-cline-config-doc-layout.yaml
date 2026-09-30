@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-config-doc-layout
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: document_section
+  heading: Configuration Directory Layout
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  Cline stores shared configuration across a few well-known locations. The primary root is `~/.cline/`, with structured app state under `~/.cline/data/`:
+  ```text
+  ~/.cline/
+    data/
+      settings/
+        providers.json           # API keys and provider configuration
+        global-settings.json     # Global settings
+        cline_mcp_settings.json  # MCP settings
+      teams/                     # Team state
+      sessions/                  # Session data
+      db/                        # SQLite databases (for example cron.db)
+      workflows/                 # Global workflows
+    rules/                       # Global rules
+    hooks/                       # Global hooks
+    skills/                      # Global skills
+    agents/                      # Global agent definitions

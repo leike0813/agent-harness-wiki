@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agent-plugin-mcp-meta
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/agent-plugin/loader.ts
+  start: 962
+  end: 985
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  } else {
+  				transport = resolveRemoteTransport(rawServer, rawServer.type);
+  			}
+  			const runtimeName = `${input.pluginName}.${serverName}`;
+  			const registration: McpServerRegistration = {
+  				name: runtimeName,
+  				transport,
+  				metadata: {
+  					source: "agent-plugin",
+  					pluginName: input.pluginName,
+  					pluginPath: input.pluginRoot,
+  					serverName,
+  					...(dataPath ? { pluginDataPath: dataPath } : {}),
+  				},
+  			};
+  			servers.push({
+  				pluginName: input.pluginName,
+  				pluginRoot: input.pluginRoot,
+  				...(dataPath ? { pluginDataPath: dataPath } : {}),
+  				serverName,
+  				registration,
+  			});
+  		} catch (error) {

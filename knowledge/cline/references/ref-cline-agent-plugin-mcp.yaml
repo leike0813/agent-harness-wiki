@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agent-plugin-mcp
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/agent-plugin/loader.ts
+  start: 832
+  end: 848
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  async function loadMcpServers(input: {
+  	pluginRoot: string;
+  	pluginName: string;
+  	pluginDataRoot: string;
+  	diagnostics: AgentPluginPackageDiagnostic[];
+  }): Promise<AgentPluginPackageMcpServer[]> {
+  	const candidatePath = join(input.pluginRoot, "mcp.json");
+  	let hasMcpLocation: boolean;
+  	try {
+  		hasMcpLocation = await pathLocationExists(candidatePath);
+  	} catch (error) {
+  		input.diagnostics.push(
+  			diagnostic({
+  				scope: "mcp",
+  				pluginPath: input.pluginRoot,

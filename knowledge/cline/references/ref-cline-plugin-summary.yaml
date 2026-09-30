@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-plugin-summary
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/plugin-tools.ts
+  start: 28
+  end: 50
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  source: "workspace-plugin" | "global-plugin";
+  	enabled: boolean;
+  	description?: string;
+  }
+  export interface ListPluginToolsResult {
+  	tools: PluginToolSummary[];
+  	plugins: PluginContributionSummary[];
+  	failures: PluginInitializationFailure[];
+  	warnings: PluginInitializationWarning[];
+  }
+  export interface PluginContributionSummary {
+  	pluginName: string;
+  	path: string;
+  	capabilities: string[];
+  	tools: string[];
+  	rules: string[];
+  	hooks: string[];
+  	commands: string[];
+  	mcpServers: string[];
+  	providers: string[];
+  }

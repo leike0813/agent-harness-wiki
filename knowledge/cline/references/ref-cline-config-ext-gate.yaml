@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-config-ext-gate
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/runtime/orchestration/runtime-builder.ts
+  start: 450
+  end: 460
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  const configuredAgentsNeedSkills = configuredAgents.configs.some(
+  			(agent) => agent.skills !== undefined,
+  		);
+  		const rulesEnabled = hasConfigExtension(configExtensions, "rules");
+  		const rootSkillsEnabled = hasConfigExtension(configExtensions, "skills");
+  		const needsSkillsConfigService =
+  			rootSkillsEnabled || configuredAgentsNeedSkills;
+  		const workflowsEnabled = hasConfigExtension(configExtensions, "workflows");
+  		const pluginsEnabled = hasConfigExtension(configExtensions, "plugins");
+  		const userInstructionsEnabled =
+  			rulesEnabled || rootSkillsEnabled || workflowsEnabled;

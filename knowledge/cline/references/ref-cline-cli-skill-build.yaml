@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-skill-build
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/commands/skill.ts
+  start: 74
+  end: 92
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  * Build the argument list passed to `npx`, injecting `--agent cline` for
+   * install-style subcommands unless the user already targeted an agent.
+   */
+  export function buildSkillsArgs(userArgs: readonly string[]): string[] {
+  	const args = [...userArgs];
+  	const subcommand = findSubcommand(args);
+  	normalizeSkillsSubcommandAliases(args);
+  	if (
+  		subcommand &&
+  		CLINE_SCOPED_SUBCOMMANDS.has(subcommand) &&
+  		!hasAgentFlag(args)
+  	) {
+  		args.push("--agent", "cline");
+  	}
+  	return ["-y", SKILLS_PACKAGE, ...args];
+  }
+  function resolveExitCode(
+  	code: number | null,

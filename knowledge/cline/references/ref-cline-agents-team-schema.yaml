@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agents-team-schema
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/shared/src/team/schema.ts
+  start: 60
+  end: 72
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  export const TeamSpawnTeammateInputSchema = z
+  	.object({
+  		agentId: z.string().min(1).describe("Teammate identifier"),
+  		rolePrompt: z
+  			.string()
+  			.min(1)
+  			.describe("System prompt describing teammate role"),
+  	})
+  	.strict();
+  export const TeamShutdownTeammateInputSchema = z.object({

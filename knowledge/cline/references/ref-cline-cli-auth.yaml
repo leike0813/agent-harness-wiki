@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-auth
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/commands/auth.ts
+  start: 82
+  end: 145
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  export function createAuthCommand(): Command {
+  	const cmd = new Command("auth")
+  		.description("Authenticate with an LLM provider")
+  		.exitOverride()
+  		.configureOutput({ writeOut: () => {}, writeErr: () => {} })
+  		.argument("[provider]", "provider id (positional shorthand for -p)")
+  		.option("-p, --provider <id>", "provider id")
+  		.option("-k, --apikey <key>", "API key")
+  		.option("-m, --modelid <id>", "model id")
+  		.option("-b, --baseurl <url>", "base URL")
+  		.option("--azure-api-version <version>", "Azure API version");
+  	return cmd;
+  }
+  export function parseAuthCommandArgs(args: string[]): ParsedAuthCommandArgs {
+  	const cmd = createAuthCommand();
+  	try {
+  		cmd.parse(args, { from: "user" });
+  	} catch {
+  		// Commander throws on --help / --version / unknown flags via exitOverride

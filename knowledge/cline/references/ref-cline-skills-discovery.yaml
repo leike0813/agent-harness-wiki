@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-discovery
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/config/user-instruction-config-loader.ts
+  start: 455
+  end: 487
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  async function discoverSkillFiles(
+  	directoryPath: string,
+  ): Promise<ReadonlyArray<UnifiedConfigFileCandidate>> {
+  	if (basename(directoryPath) === ".cline") {
+  		const pluginRoots = await discoverManagedPluginRoots(directoryPath);
+  		const nestedCandidates = await Promise.all(
+  			pluginRoots.map((pluginRoot) =>
+  				discoverSkillFiles(join(pluginRoot, SKILLS_CONFIG_DIRECTORY_NAME)),
+  			),
+  		);
+  		return nestedCandidates.flat();
+  	}
+  	try {
+  		const entries = await readdir(directoryPath, { withFileTypes: true });
+  		const candidates: UnifiedConfigFileCandidate[] = [];
+  		for (const entry of entries) {
+  			if (entry.isFile() && entry.name === SKILL_FILE_NAME) {
+  				candidates.push({
+  					directoryPath,
+  					fileName: entry.name,
+  					filePath: join(directoryPath, entry.name),
+  				});
+  				continue;

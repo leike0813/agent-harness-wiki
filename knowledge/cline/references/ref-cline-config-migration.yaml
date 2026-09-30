@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-config-migration
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/storage/provider-settings-legacy-migration.ts
+  start: 938
+  end: 1018
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  return true;
+  }
+  export function migrateLegacyProviderSettings(
+  	options: MigrateLegacyProviderSettingsOptions,
+  ): MigrateLegacyProviderSettingsResult {
+  	const existing = options.providerSettingsManager.read();
+  	const legacyStorage = resolveLegacyStorage(options);
+  	if (!legacyStorage) {
+  		return {
+  			migrated: false,
+  			providerCount: Object.keys(existing.providers).length,
+  			lastUsedProvider: existing.lastUsedProvider,
+  		};
+  	}
+  	const { globalState, secrets } = legacyStorage;
+  	const mode: LegacyMode = globalState.mode === "plan" ? "plan" : "act";
+  	const otherMode: LegacyMode = mode === "plan" ? "act" : "plan";
+  	const rawCurrentModeProvider = trimNonEmpty(
+  		mode === "plan"
+  			? globalState.planModeApiProvider
+  			: globalState.actModeApiProvider,
+  	);

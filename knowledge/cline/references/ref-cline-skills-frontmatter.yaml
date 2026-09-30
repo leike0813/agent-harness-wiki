@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-frontmatter
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/config/user-instruction-config-loader.ts
+  start: 268
+  end: 288
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  // which Node's `utf-8` decoding does not strip on its own. Without this the frontmatter
+  	// regex below never matches a file that starts with "\uFEFF---" (see cline/cline#12151).
+  	const normalizedContent = stripUtf8Bom(content);
+  	const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/;
+  	const match = normalizedContent.match(frontmatterRegex);
+  	if (!match) {
+  		return { data: {}, body: normalizedContent, hadFrontmatter: false };
+  	}
+  	const [, yamlContent, body] = match;
+  	try {
+  		const parsed = YAML.parse(yamlContent);
+  		const data =
+  			parsed && typeof parsed === "object" && !Array.isArray(parsed)
+  				? (parsed as Record<string, unknown>)
+  				: {};
+  		return { data, body, hadFrontmatter: true };
+  	} catch (error) {

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-plugin-failed-retry
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/plugin-commands.ts
+  start: 42
+  end: 56
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  shutdown?: () => Promise<void>;
+  	/** Set when this entry records a failed load; retried after a short delay. */
+  	failedAt?: number;
+  };
+  // A failed load may be transient (sandbox startup timeout, I/O hiccup), so
+  // remember it only briefly instead of until the plugin set changes.
+  const FAILED_LOAD_RETRY_MS = 30_000;
+  export function normalizePluginCommandName(name: string): string {
+  	return name.trim().replace(/^\/+/, "").toLowerCase();
+  }
+  function normalizePluginCommandResult(
+  	result: AgentExtensionCommandResult | undefined,

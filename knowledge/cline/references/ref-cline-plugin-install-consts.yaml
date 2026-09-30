@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-plugin-install-consts
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/plugin-install.ts
+  start: 95
+  end: 118
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  const INSTALLS_DIRECTORY_NAME = "_installed";
+  const PACKAGE_DIRECTORY_NAME = "package";
+  const OFFICIAL_PLUGINS_REPO = "https://github.com/cline/plugins.git";
+  const REMOTE_PLUGIN_FETCH_TIMEOUT_MS = 30_000;
+  const REMOTE_PLUGIN_MAX_BYTES = 10 * 1024 * 1024;
+  const HOST_PROVIDED_SDK_PREFIX = "@cline/";
+  const DEPENDENCY_FIELDS = [
+  	"dependencies",
+  	"devDependencies",
+  	"optionalDependencies",
+  	"peerDependencies",
+  ] as const;
+  const WRAPPER_PACKAGE_JSON = {
+  	name: "cline-installed-plugin",
+  	private: true,
+  	cline: {
+  		plugins: [] as Array<{ paths: string[] }>,
+  	},
+  };
+  function resolveHomePath(value: string): string {
+  	if (value === "~") {

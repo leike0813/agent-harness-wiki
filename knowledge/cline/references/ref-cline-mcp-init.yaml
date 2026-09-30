@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-init
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/mcp/client.ts
+  start: 240
+  end: 256
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  		if (this.registration.transport.type !== "stdio") {
+  			throw new Error(
+  				`Unsupported MCP transport for "${this.registration.name}": ${this.registration.transport.type}`,
+  			);
+  		}
+  		const initializeParams = {
+  			protocolVersion: MCP_PROTOCOL_VERSION,
+  			capabilities: {},
+  			clientInfo: { name: "@cline/core", version: "0.0.0" },
+  		};
+  		await this.ensureAgentPluginDataDirectory();
+  		this.spawnProcess("newline");
+  		try {
+  			await this.request(
+  				"initialize",

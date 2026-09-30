@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-plugin-export
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/plugin/plugin-loader.ts
+  start: 108
+  end: 120
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  ): Promise<AgentExtension> {
+  	const absolutePath = resolve(options.cwd ?? process.cwd(), pluginPath);
+  	const moduleExports = await importPluginModule(absolutePath, {
+  		useCache: options.useCache,
+  	});
+  	const exportName = options.exportName ?? "plugin";
+  	const plugin = (moduleExports.default ??
+  		moduleExports[exportName]) as unknown;
+  	validatePluginExport(plugin, absolutePath);
+  	const pluginTyped = plugin as AgentExtension;
+  	const originalSetup = pluginTyped.setup;

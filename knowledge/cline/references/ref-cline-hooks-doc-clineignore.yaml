@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-doc-clineignore
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: document_section
+  heading: Enforcing .clineignore with a Hook
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  While `.clineignore` is being phased out as a built-in feature, you can keep using the same file — and get a **stronger, enforced** restriction than the original ever provided — with a `PreToolUse` hook. The original `.clineignore` only filtered automatic context loading; the hook script below actively **blocks** the tool call whenever a file read (`read_files`), edit (`editor`, `apply_patch`), or shell command (`run_commands`) targets a file matching a `.clineignore` pattern.
+  ### Install in the VS Code extension
+  Hooks in the extension live in `.clinerules/hooks/` (workspace) or `~/Documents/Cline/Hooks/` (global), must be named exactly after their event with no file extension, and need a shebang and the executable bit:
+  ```bash
+  mkdir -p .clinerules/hooks

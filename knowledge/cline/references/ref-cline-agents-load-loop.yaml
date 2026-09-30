@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agents-load-loop
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/tools/team/configured-agent-config.ts
+  start: 183
+  end: 206
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  const raw = readFileSync(filePath, "utf8");
+  				const config = parseConfiguredAgentConfig(raw, { path: filePath });
+  				const normalizedName = normalizeAgentName(config.name);
+  				if (!configsByName.has(normalizedName)) {
+  					configsByName.set(normalizedName, config);
+  				}
+  			} catch (error) {
+  				errors.push({
+  					path: filePath,
+  					error: error instanceof Error ? error : new Error(String(error)),
+  				});
+  			}
+  		}
+  	}
+  	const configs = Array.from(configsByName.values()).sort((a, b) =>
+  		(a.path ? basename(a.path) : a.name).localeCompare(
+  			b.path ? basename(b.path) : b.name,
+  		),
+  	);
+  	return { configs, errors };
+  }

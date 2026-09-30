@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-subagents-doc-cando
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: document_section
+  heading: What Subagents Can Do
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  Subagents are read-only research agents. Here is what they have access to:
+  | Tool | Purpose |
+  |------|---------|
+  | `read_file` | Read file contents |
+  | `list_files` | List directory contents |
+  | `search_files` | Regex search across files |
+  | `list_code_definition_names` | List top-level classes, functions, and methods |
+  | `execute_command` | Run read-only commands (`ls`, `grep`, `git log`, `git diff`, etc.) |
+  | `use_skill` | Load and activate skills |
+  Subagents cannot write files, apply patches, use the browser, access MCP servers, or perform web searches. They also cannot spawn their own subagents.
+  <Note>
+    Commands run by subagents execute in the background and are restricted to read-only operations. Subagents will not run commands that modify files or system state.

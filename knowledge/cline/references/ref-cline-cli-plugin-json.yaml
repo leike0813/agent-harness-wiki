@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-plugin-json
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/commands/plugin.ts
+  start: 35
+  end: 50
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  type PluginInstallCommandOptions = PluginInstallOptions & {
+  	json?: boolean;
+  	io?: PluginInstallIo;
+  	mcpOAuth?: PluginInstallMcpOAuthOptions;
+  };
+  function serializePluginInstallResult(
+  	result: PluginInstallResult,
+  ): Omit<PluginInstallResult, "mcpOAuthCandidates"> {
+  	return {
+  		source: result.source,
+  		installPath: result.installPath,
+  		entryPaths: result.entryPaths,
+  		mcpSyncFailures: result.mcpSyncFailures,
+  	};
+  }

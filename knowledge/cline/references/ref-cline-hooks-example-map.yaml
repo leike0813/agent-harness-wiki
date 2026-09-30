@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-example-map
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/examples/hooks/README.md
+  start: 15
+  end: 30
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  ## File Hooks vs Runtime Hooks
+  | File Hook File Name | File Hook Event | Runtime Hook Backing It |
+  | ------------------- | --------------- | ----------------------- |
+  | `TaskStart` | `agent_start` | `beforeRun` |
+  | `TaskResume` | `agent_resume` | `beforeRun` with resume context |
+  | `UserPromptSubmit` | `prompt_submit` | `beforeRun` plus submitted prompt context |
+  | `PreToolUse` | `tool_call` | `beforeTool` |
+  | `PostToolUse` | `tool_result` | `afterTool` |
+  | `TaskComplete` | `agent_end` | `afterRun` when completed |
+  | `TaskError` | `agent_error` | `afterRun` when failed |
+  | `TaskCancel` | `agent_abort` | `afterRun` or session shutdown with abort/cancel reason |
+  | `SessionShutdown` | `session_shutdown` | session cleanup / runtime shutdown |

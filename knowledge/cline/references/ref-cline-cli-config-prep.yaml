@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-config-prep
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/main.ts
+  start: 96
+  end: 120
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  /**
+   * Two-pass approach for --config: a quick scan of process.argv extracts the
+   * config directory before commander parses, because setClineDir() must run
+   * before any code that reads the home/config directory.
+   *
+   * Recognizes both Commander spellings:
+   *   --config <dir>
+   *   --config=<dir>
+   *
+   * Exported for unit testing; callers in this file should use this rather
+   * than reimplementing the scan.
+   */
+  export function resolveConfigDirArg(argv: string[]): string | undefined {
+  	for (let i = 0; i < argv.length; i++) {
+  		const arg = argv[i];
+  		if (arg === "--config") {
+  			const value = argv[i + 1]?.trim();
+  			return value ? value : undefined;
+  		}
+  		if (arg?.startsWith("--config=")) {
+  			const value = arg.slice("--config=".length).trim();
+  			return value ? value : undefined;
+  		}
+  	}

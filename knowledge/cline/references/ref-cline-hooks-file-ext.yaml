@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-file-ext
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/hooks/hook-file-config.ts
+  start: 45
+  end: 72
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  const HOOK_CONFIG_FILE_LOOKUP = new Map<string, HookConfigFileName>(
+  	Object.values(HookConfigFileName).map((name) => [name.toLowerCase(), name]),
+  );
+  const SUPPORTED_HOOK_FILE_EXTENSIONS = new Set([
+  	"",
+  	".sh",
+  	".bash",
+  	".zsh",
+  	".js",
+  	".mjs",
+  	".cjs",
+  	".ts",
+  	".mts",
+  	".cts",
+  	".py",
+  	".ps1",
+  ]);
+  export function toHookConfigFileName(
+  	fileName: string,
+  ): HookConfigFileName | undefined {
+  	const extension = extname(fileName).toLowerCase();
+  	if (!SUPPORTED_HOOK_FILE_EXTENSIONS.has(extension)) {
+  		return undefined;
+  	}
+  	const key = basename(fileName, extension).trim().toLowerCase();
+  	return HOOK_CONFIG_FILE_LOOKUP.get(key);

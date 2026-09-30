@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-sdk-plugins-doc-what
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: document_section
+  heading: "What is a Plugin?"
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  A plugin is an `AgentPlugin` — an object that implements the SDK's extension interface. It can register tools, hook into agent lifecycle events, and provide configuration defaults.
+  ```typescript
+  import { type AgentPlugin } from "@cline/sdk"
+  const myPlugin: AgentPlugin = {
+    name: "my-plugin",
+    manifest: {
+      capabilities: ["tools", "hooks"],
+    },
+    setup(api, ctx) {
+      // Register tools, commands, providers via api.registerTool(), etc.
+    },
+    hooks: {
+      beforeTool(context) {
+        // Observe or audit tool calls before they execute
+      },
+      afterRun(context) {
+        // Log metrics, cleanup, notify after a run completes
+      },
+    },
+  }
+  ```
+  Hooks are defined inside the `hooks` object, not directly on the extension.

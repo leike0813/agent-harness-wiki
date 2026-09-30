@@ -1,0 +1,42 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-parse-stdout
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/hooks/subprocess-runner.ts
+  start: 66
+  end: 100
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  function parseStdout(stdout: string): {
+  	parsedJson?: unknown;
+  	parseError?: string;
+  } {
+  	const trimmed = stdout.trim();
+  	if (!trimmed) {
+  		return {};
+  	}
+  	const lines = trimmed
+  		.split("\n")
+  		.map((line) => line.trim())
+  		.filter(Boolean);
+  	const prefixed = lines
+  		.filter((line) => line.startsWith("HOOK_CONTROL\t"))
+  		.map((line) => line.slice("HOOK_CONTROL\t".length));
+  	const candidate =
+  		prefixed.length > 0 ? prefixed[prefixed.length - 1] : trimmed;
+  	try {
+  		return { parsedJson: JSON.parse(candidate) };
+  	} catch (error) {
+  		return {
+  			parseError:
+  				error instanceof Error
+  					? error.message
+  					: "Failed to parse subprocess stdout JSON",
+  		};
+  	}
+  }
+  function formatSpawnError(error: unknown, command: string[]): Error {

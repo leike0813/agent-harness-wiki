@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-sdk-plugins-doc-stages
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: document_section
+  heading: Hook Stages
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  Hook stages include:
+  ```txt
+  input
+  runtime_event
+  session_start
+  run_start
+  iteration_start
+  turn_start
+  before_agent_start
+  tool_call_before
+  tool_call_after
+  turn_end
+  stop_error
+  iteration_end
+  run_end
+  session_shutdown
+  error
+  ```
+  Common stages:
+  | Stage | Use for |
+  |-------|---------|
+  | `before_agent_start` | Inject context or modify prompt/messages |
+  | `run_start` | Logging, timers, rate limits |
+  | `tool_call_before` | Audit or block tool calls |
+  | `tool_call_after` | Log results, trigger side effects |
+  | `run_end` | Metrics, notifications, cleanup |
+  | `error` | Error reporting |

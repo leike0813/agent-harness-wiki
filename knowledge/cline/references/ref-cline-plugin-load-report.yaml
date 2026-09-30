@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-plugin-load-report
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/plugin/plugin-load-report.ts
+  start: 1
+  end: 30
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  export interface PluginInitializationFailure {
+  	pluginPath: string;
+  	pluginName?: string;
+  	phase: "load" | "setup";
+  	message: string;
+  	stack?: string;
+  }
+  export interface PluginInitializationWarning {
+  	type: "duplicate_plugin_override";
+  	pluginPath: string;
+  	pluginName: string;
+  	overriddenPluginPath: string;
+  	message: string;
+  }
+  export interface PluginLoadDiagnostics {
+  	failures: PluginInitializationFailure[];
+  	warnings: PluginInitializationWarning[];
+  }

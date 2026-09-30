@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hook-error-mode
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/shared/src/agents/types.ts
+  start: 978
+  end: 985
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  .optional(),
+  	hooks: z.custom<AgentHooks>().optional(),
+  	parentAgentId: z.string().optional(),
+  	extensions: z.array(z.custom<AgentExtension>()).optional(),
+  	hookErrorMode: z.enum(["ignore", "throw"]).default("ignore"),
+  	toolPolicies: z
+  		.record(
+  			z.string(),

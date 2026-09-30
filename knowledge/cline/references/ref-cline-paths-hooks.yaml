@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-paths-hooks
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/shared/src/storage/paths.ts
+  start: 487
+  end: 501
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  export function resolveHooksConfigSearchPaths(
+  	workspacePath?: string,
+  ): string[] {
+  	const hooks = [
+  		resolveDocumentsExtensionPath("Hooks"),
+  		join(resolveClineDir(), HOOKS_CONFIG_DIRECTORY_NAME),
+  	];
+  	if (workspacePath) {
+  		hooks.push(
+  			join(workspacePath, DEPRECATED_CONFIG_DIR, HOOKS_CONFIG_DIRECTORY_NAME),
+  			join(workspacePath, CLINE_CONFIG_DIR, HOOKS_CONFIG_DIRECTORY_NAME),
+  		);
+  	}
+  	return dedupePaths(hooks);
+  }

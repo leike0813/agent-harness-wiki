@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-runtime-load
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/runtime/orchestration/runtime-builder.ts
+  start: 585
+  end: 596
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  if (
+  				!normalized.disableMcpSettingsTools ||
+  				agentPluginMcpServers?.length
+  			) {
+  				const mcpRuntime = await loadConfiguredMcpTools({
+  					logger: config.logger,
+  					includeSettings: !normalized.disableMcpSettingsTools,
+  					agentPluginServers: agentPluginMcpServers,
+  				});
+  				tools.push(...mcpRuntime.tools);
+  				mcpShutdown = mcpRuntime.shutdown;
+  			}

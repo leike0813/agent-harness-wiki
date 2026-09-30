@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-plugin-install-force
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/plugin-install.ts
+  start: 995
+  end: 1010
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  await installPackageDependencies(packageRoot, npmCommand);
+  	return packageRoot;
+  }
+  function assertCanInstall(targetPath: string, force: boolean): void {
+  	if (existsSync(targetPath) && !force) {
+  		throw new Error(
+  			`Plugin is already installed at ${targetPath}. Use --force to replace it.`,
+  		);
+  	}
+  }
+  function replaceInstallPath(
+  	stagingRoot: string,
+  	installPath: string,
+  	force: boolean,

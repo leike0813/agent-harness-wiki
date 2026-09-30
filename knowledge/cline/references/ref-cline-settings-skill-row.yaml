@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-settings-skill-row
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/settings/settings-service.ts
+  start: 378
+  end: 400
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  toggleable: false,
+  			agentPlugin: true,
+  			pluginPath: pluginRoot,
+  			description: "Invalid portable Agent Plugin package.",
+  			loadError: joinAgentPluginDiagnostics(input.report, pluginRoot),
+  			contributions: {
+  				inspectionStatus: "failed",
+  				capabilities: [],
+  				tools: [],
+  				skills: [],
+  				rules: [],
+  				hooks: [],
+  				commands: [],
+  				mcpServers: [],
+  				providers: [],
+  			},
+  		});
+  	}
+  }
+  function resolveWorkspaceRoot(input: CoreSettingsListInput): string {
+  	return input.workspaceRoot?.trim() || input.cwd?.trim() || "";
+  }

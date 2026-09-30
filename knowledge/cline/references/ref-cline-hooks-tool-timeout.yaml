@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-tool-timeout
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/hooks/subprocess.ts
+  start: 128
+  end: 131
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  * Default timeout for blocking tool hooks (tool_call/tool_result). Without a
+   * bound, a hook command that never exits would block the agent indefinitely.
+   */
+  const DEFAULT_TOOL_HOOK_TIMEOUT_MS = 120_000;

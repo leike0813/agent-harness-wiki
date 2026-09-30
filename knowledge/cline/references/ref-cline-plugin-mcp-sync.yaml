@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-plugin-mcp-sync
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/plugin-mcp-settings.ts
+  start: 205
+  end: 225
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  cwd: dirname(input.pluginPath),
+  				}
+  			: input.registration.transport;
+  	return {
+  		transport,
+  		...(input.disabled ? { disabled: true } : {}),
+  		...existingOauth,
+  		metadata: {
+  			...(input.registration.metadata ?? {}),
+  			source: "plugin",
+  			pluginName: input.pluginName,
+  			pluginPath: input.pluginPath,
+  		},
+  	};
+  }
+  async function collectPluginMcpServers(
+  	options: SyncPluginMcpServersToSettingsOptions,
+  ): Promise<{
+  	plugins: Array<{
+  		pluginName: string;

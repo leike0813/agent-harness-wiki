@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-resolve-id
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/config/user-instruction-config-loader.ts
+  start: 648
+  end: 658
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  filePath: agentPluginSkill.filePath,
+  				},
+  			};
+  		},
+  		resolveId: (skill) =>
+  			skill.source?.type === "agent-plugin"
+  				? `${normalizeName(skill.source.pluginName)}:${normalizeName(skill.name)}`
+  				: normalizeName(skill.name),
+  	};
+  }

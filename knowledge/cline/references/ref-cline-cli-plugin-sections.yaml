@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-plugin-sections
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/tui/views/config-view-helpers.ts
+  start: 134
+  end: 158
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  export function getConfigPluginSections(
+  	items: readonly InteractiveConfigItem[],
+  ): ConfigPluginSection[] {
+  	const clinePlugins = items.filter((item) => item.agentPlugin !== true);
+  	const agentPlugins = items.filter((item) => item.agentPlugin === true);
+  	return [
+  		...(clinePlugins.length > 0
+  			? [
+  					{
+  						label: `Cline Plugins (${clinePlugins.length})`,
+  						items: clinePlugins,
+  					},
+  				]
+  			: []),
+  		...(agentPlugins.length > 0
+  			? [
+  					{
+  						label: `Agent Plugins (${agentPlugins.length})`,
+  						items: agentPlugins,
+  					},
+  				]
+  			: []),
+  	];

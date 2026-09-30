@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-event-map
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/hooks/hook-file-config.ts
+  start: 30
+  end: 43
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  export const HOOK_CONFIG_FILE_EVENT_MAP: Readonly<
+  	Record<HookConfigFileName, HookEventName | undefined>
+  > = {
+  	[HookConfigFileName.TaskStart]: "agent_start",
+  	[HookConfigFileName.TaskResume]: "agent_resume",
+  	[HookConfigFileName.TaskCancel]: "agent_abort",
+  	[HookConfigFileName.TaskComplete]: "agent_end",
+  	[HookConfigFileName.TaskError]: "agent_error",
+  	[HookConfigFileName.PreToolUse]: "tool_call",
+  	[HookConfigFileName.PostToolUse]: "tool_result",
+  	[HookConfigFileName.UserPromptSubmit]: "prompt_submit",
+  	[HookConfigFileName.PreCompact]: undefined,
+  	[HookConfigFileName.SessionShutdown]: "session_shutdown",
+  };

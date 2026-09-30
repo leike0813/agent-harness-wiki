@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agents-schema
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/tools/team/configured-agent-config.ts
+  start: 7
+  end: 30
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  const ConfiguredAgentFrontmatterSchema = z.object({
+  	name: z.string().trim().min(1),
+  	description: z.string().trim().min(1),
+  	tools: z.union([z.string(), z.array(z.string())]).optional(),
+  	skills: z.union([z.string(), z.array(z.string())]).optional(),
+  	providerId: z.string().trim().min(1).optional(),
+  	modelId: z.string().trim().min(1).optional(),
+  	maxIterations: z.number().int().positive().optional(),
+  });
+  export interface ConfiguredAgentConfig {
+  	name: string;
+  	description: string;
+  	tools?: string[];
+  	skills?: string[];
+  	providerId?: string;
+  	modelId?: string;
+  	maxIterations?: number;
+  	systemPrompt: string;
+  	path?: string;
+  }
+  export interface ConfiguredAgentReadError {

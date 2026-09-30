@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-mcp-cmd
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/commands/config.ts
+  start: 324
+  end: 362
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  async function runMcpConfigCommand(
+  	outputMode: CliOutputMode,
+  	io: ConfigIo,
+  ): Promise<number> {
+  	const settingsPath = resolveDefaultMcpSettingsPath();
+  	if (!hasMcpSettingsFile({ filePath: settingsPath })) {
+  		if (outputMode === "json") {
+  			process.stdout.write(JSON.stringify([]));
+  			return 0;
+  		}
+  		io.writeln(`No MCP settings file found at ${settingsPath}`);
+  		return 0;
+  	}
+  	try {
+  		const servers = resolveMcpServerRegistrations({ filePath: settingsPath })
+  			.map((registration) => ({
+  				name: registration.name,
+  				transportType: registration.transport.type,
+  				disabled: registration.disabled === true,
+  				path: settingsPath,
+  			}))
+  			.sort((a, b) => a.name.localeCompare(b.name));
+  		if (outputMode === "json") {
+  			process.stdout.write(JSON.stringify(servers));
+  			return 0;
+  		}

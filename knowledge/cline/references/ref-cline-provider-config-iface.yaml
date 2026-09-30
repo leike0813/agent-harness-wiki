@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-config-iface
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/llms/src/providers/config.ts
+  start: 286
+  end: 330
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  /**
+   * Unified provider configuration interface
+   *
+   * This is the single configuration interface that clients provide.
+   * All provider-specific options are grouped into logical sub-interfaces.
+   */
+  export interface ProviderConfig
+  	extends AuthConfig,
+  		EndpointConfig,
+  		ModelConfig,
+  		TokenConfig,
+  		ReasoningConfig,
+  		RegionConfig,
+  		CloudConfig,
+  		ProviderOptions {
+  	/** Client type - determines which handler to use - OpenAI-Compatible deafult */
+  	clientType?: ProviderClient;
+  	/** Provider ID */
+  	providerId: ProviderId;
+  	/**
+  	 * Optional built-in provider family to use for handler routing.
+  	 *
+  	 * This lets clients expose a custom provider ID and model catalog while
+  	 * reusing the runtime behavior of a built-in provider implementation.
+  	 */
+  	routingProviderId?: ProviderId;

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agents-yaml
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/tools/team/configured-agent-config.ts
+  start: 134
+  end: 148
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  if (!systemPrompt) {
+  		throw new Error("Missing system prompt body in agent config file.");
+  	}
+  	return {
+  		name: parsed.name,
+  		description: parsed.description,
+  		tools: parseStringList(parsed.tools),
+  		skills: parseStringList(parsed.skills),
+  		providerId: parsed.providerId,
+  		modelId: parsed.modelId,
+  		maxIterations: parsed.maxIterations,
+  		systemPrompt,
+  		path: options.path,
+  	};

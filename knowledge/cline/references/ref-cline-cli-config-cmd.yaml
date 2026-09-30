@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-config-cmd
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/commands/config.ts
+  start: 457
+  end: 490
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  getCwd: () => string,
+  	getOutputMode: () => CliOutputMode,
+  	io: ConfigIo,
+  	setExitCode: (code: number) => void,
+  	launchInteractiveConfigView: () => void,
+  ): Command {
+  	let actionExitCode: number | undefined;
+  	const config = new Command("config")
+  		.description("Show current configuration")
+  		.argument("[target]")
+  		.option("--json", "Output as JSON")
+  		.option("--config <dir>", "configuration directory")
+  		.exitOverride()
+  		.action(async (target?: string) => {
+  			if (!target) {
+  				if (getOutputMode() === "json") {
+  					process.stdout.write(
+  						`${JSON.stringify(await loadInteractiveConfigDataForCommand(getCwd()))}\n`,
+  					);
+  					actionExitCode = 0;
+  					return;
+  				}
+  				actionExitCode = undefined;
+  				launchInteractiveConfigView();
+  				return;
+  			}
+  			switch (target) {

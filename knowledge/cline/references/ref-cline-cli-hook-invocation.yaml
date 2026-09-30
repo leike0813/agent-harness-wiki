@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-hook-invocation
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/utils/hooks.ts
+  start: 30
+  end: 50
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  type: "hook_event",
+  			hookEventName: payload.hookName,
+  			agentId: payload.agent_id,
+  			taskId: payload.taskId,
+  			parentAgentId: payload.parent_agent_id,
+  		});
+  		return;
+  	}
+  	if (!options.verbose) {
+  		return;
+  	}
+  	closeInlineStreamIfNeeded();
+  	const hookName = payload.hookName;
+  	const toolName =
+  		payload.hookName === "tool_call"
+  			? payload.tool_call.name
+  			: payload.hookName === "tool_result"
+  				? payload.tool_result.name
+  				: undefined;
+  	const details = toolName ? ` ${c.cyan}${toolName}${c.reset}` : "";
+  	if (details) {

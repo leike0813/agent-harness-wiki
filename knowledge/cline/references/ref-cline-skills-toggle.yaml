@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-toggle
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/config/skill-frontmatter-toggle.ts
+  start: 50
+  end: 91
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  export function updateSkillMarkdownEnabledState(
+  	content: string,
+  	enabled: boolean,
+  ): string {
+  	const { data, body, hadFrontmatter } = parseMarkdownFrontmatter(content);
+  	if (!hadFrontmatter && enabled) {
+  		return content;
+  	}
+  	if (enabled) {
+  		delete data.disabled;
+  		if (data.enabled === false) {
+  			delete data.enabled;
+  		}
+  		if (Object.keys(data).length === 0) {
+  			return body;
+  		}
+  		return serializeMarkdownFrontmatter(data, body);
+  	}
+  	data.disabled = true;
+  	return serializeMarkdownFrontmatter(data, body);
+  }
+  export async function toggleSkillFrontmatter({
+  	filePath,
+  	enabled,
+  }: ToggleSkillFrontmatterOptions): Promise<ToggleSkillFrontmatterResult> {
+  	const content = await readFile(filePath, "utf8");
+  	const updated = updateSkillMarkdownEnabledState(content, enabled);

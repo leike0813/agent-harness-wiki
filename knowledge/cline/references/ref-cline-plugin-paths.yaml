@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-plugin-paths
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/plugin/plugin-config-loader.ts
+  start: 178
+  end: 198
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  return dedupePaths(candidates);
+  }
+  export function resolveAgentPluginPaths(
+  	options: ResolveAgentPluginPathsOptions = {},
+  ): string[] {
+  	const cwd = options.cwd ?? process.cwd();
+  	const discoveredFromSearchPaths = resolveDiscoveredPluginPaths(
+  		options.workspacePath,
+  	);
+  	const configuredPaths = resolveConfiguredPluginModulePaths(
+  		options.pluginPaths ?? [],
+  		cwd,
+  	);
+  	const paths = [...configuredPaths, ...discoveredFromSearchPaths];
+  	return options.includeDisabled ? dedupePaths(paths) : mergePluginPaths(paths);
+  }
+  function resolveAgentPluginPathsBestEffort(
+  	options: ResolveAgentPluginPathsOptions = {},

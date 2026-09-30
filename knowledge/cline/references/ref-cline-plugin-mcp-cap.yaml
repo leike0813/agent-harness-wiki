@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-plugin-mcp-cap
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/shared/src/extensions/contribution-registry.ts
+  start: 536
+  end: 556
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  normalizeAutomationEventType(eventType, extensionName),
+  					);
+  				},
+  				registerMcpServer: (server) => {
+  					if (!entry.manifest.capabilities.has("mcp")) {
+  						throw new Error(
+  							`Invalid setup for extension "${extensionName}": registerMcpServer requires the "mcp" capability`,
+  						);
+  					}
+  					pending.mcpServers.push({
+  						...server,
+  						metadata: {
+  							...(server.metadata ?? {}),
+  							source: "plugin",
+  							plugin: extensionName,
+  						},
+  					});
+  				},
+  			};
+  			const setupContext = entry.manifest.capabilities.has("automationEvents")
+  				? this.setupContext

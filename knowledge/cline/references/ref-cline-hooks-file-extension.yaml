@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-file-extension
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/local-runtime-bootstrap.ts
+  start: 418
+  end: 450
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  initError,
+  		featureFlagEnabled: true,
+  	});
+  	// Hosts with their own hook execution layer (the VS Code extension's
+  	// hooks adapter) exclude "hooks" so file hooks run exactly once.
+  	const fileHookExtension = hasConfigExtension(configExtensions, "hooks")
+  		? createHookConfigFileExtension({
+  				cwd: input.config.cwd,
+  				workspacePath,
+  				rootSessionId: sessionId,
+  				logger: localConfig?.logger,
+  				workspaceInfo,
+  				// Detached hooks are never awaited, so their runtime is
+  				// invisible today. Measuring it is what tells us whether
+  				// run-start hooks could safely become blocking.
+  				onHookRuntime: (event) =>
+  					captureDetachedHookRuntime(extensionContext.telemetry, event),
+  			})
+  		: undefined;
+  	const auditHooks = hasRuntimeHooks(localConfig?.hooks)
+  		? undefined

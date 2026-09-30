@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-paths-workspace-skills
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/shared/src/storage/paths.ts
+  start: 461
+  end: 470
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  function getWorkspaceSkillDirectories(workspacePath?: string): string[] {
+  	if (!workspacePath) {
+  		return [];
+  	}
+  	return [
+  		DEPRECATED_CONFIG_DIR,
+  		CLINE_CONFIG_DIR,
+  		LEGACY_AGENT_SKILLS_CONFIG_DIR,
+  	].map((dir) => join(workspacePath, dir, SKILLS_CONFIG_DIRECTORY_NAME));
+  }

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-global-settings-webtool
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/global-settings.ts
+  start: 366
+  end: 378
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  return (CONFIGURABLE_MODEL_TOOL_NAMES as readonly string[]).includes(value);
+  }
+  export function resolveModelToolSettings(): ModelToolSettings {
+  	const cached = getCachedSettings();
+  	return {
+  		web_search: { enabled: !cached.loadFailed },
+  		...cached.value.tools,
+  	};
+  }
+  export function isModelToolEnabledGlobally(
+  	name: ConfigurableModelToolName,

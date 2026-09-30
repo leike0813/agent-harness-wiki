@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-gateway
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/llms/src/providers/gateway.ts
+  start: 105
+  end: 132
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  return Object.values(merged).some((value) => value !== undefined)
+  		? merged
+  		: undefined;
+  }
+  export interface Gateway {
+  	registerProvider(registration: GatewayProviderRegistration): this;
+  	configureProvider(
+  		config: NonNullable<GatewayConfig["providerConfigs"]>[number],
+  	): this;
+  	listProviders(): ReturnType<GatewayRegistry["listProviders"]>;
+  	listModels(providerId?: string): ReturnType<GatewayRegistry["listModels"]>;
+  	createAgentModel(
+  		selection: GatewayModelSelection,
+  		options?: GatewayModelHandleOptions,
+  	): AgentModel;
+  	stream(
+  		request: GatewayStreamRequest,
+  	): Promise<AsyncIterable<AgentModelEvent>>;
+  }
+  class GatewayModelAdapter implements AgentModel {
+  	constructor(
+  		private readonly gateway: DefaultGateway,
+  		private readonly selection: GatewayModelSelection,

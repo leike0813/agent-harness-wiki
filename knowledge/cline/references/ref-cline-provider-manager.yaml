@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-manager
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/storage/provider-settings-manager.ts
+  start: 130
+  end: 172
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  export class ProviderSettingsManager {
+  	private readonly filePath: string;
+  	private readonly dataDir?: string;
+  	constructor(options: ProviderSettingsManagerOptions = {}) {
+  		this.filePath = options.filePath ?? resolveProviderSettingsPath();
+  		this.dataDir = options.dataDir ?? inferLegacyDataDir(this.filePath);
+  		if (this.dataDir || !options.filePath) {
+  			migrateLegacyProviderSettings({
+  				providerSettingsManager: this,
+  				dataDir: this.dataDir,
+  			});
+  		}
+  		ensureCustomProvidersLoadedSync(this);
+  		registerConfiguredProvidersFromSettings(this.read());
+  		// Harden permissions on any existing file at startup so that
+  		// pre-existing installations are also protected (best-effort; no-op on Windows).
+  		if (existsSync(this.filePath)) {
+  			try {
+  				chmodSync(this.filePath, 0o600);

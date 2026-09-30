@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-agents-cmd
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/commands/config.ts
+  start: 31
+  end: 35
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  function resolveCliAgentConfigSearchPaths(cwd: string): string[] {
+  	const clineDir = process.env.CLINE_DIR?.trim() || join(homedir(), ".cline");
+  	return [join(cwd, ".cline", "agents"), join(clineDir, "agents")];
+  }

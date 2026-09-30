@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-remote-config-schema
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/shared/src/remote-config/schema.ts
+  start: 173
+  end: 230
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  });
+  export const RemoteConfigSchema = z.object({
+  	// The version of the remote config settings, e.g. v1
+  	// This field is for internal use only, and won't be visible to the administrator in the UI.
+  	version: z.string(),
+  	// Provider specific settings
+  	providerSettings: ProviderSettingsSchema.optional(),
+  	// General settings not specific to any provider
+  	telemetryEnabled: z.boolean().optional(),
+  	kanbanEnabled: z.boolean().optional(),
+  	// MCP settings
+  	// Legacy field name. If this is false, locally configured MCP servers are blocked.
+  	mcpMarketplaceEnabled: z.boolean().optional(),
+  	// If this is configured, users only have access to these allowlisted local MCP servers.
+  	allowedMCPServers: z.array(AllowedMCPServerSchema).optional(),
+  	// A list of pre-configured remote MCP servers.

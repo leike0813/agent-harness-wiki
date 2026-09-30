@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-plugin-hooks-cap
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/shared/src/extensions/contribution-registry.ts
+  start: 390
+  end: 404
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  ) {
+  		throw new Error(
+  			`Invalid manifest for extension "${extensionName}": modelIds must be a string array when provided`,
+  		);
+  	}
+  	const hookCapabilityEnabled = capabilities.has("hooks");
+  	const extensionDefinesHooks = extension.hooks !== undefined;
+  	if (extensionDefinesHooks && !hookCapabilityEnabled) {
+  		throw new Error(
+  			`Invalid manifest for extension "${extensionName}": runtime hooks require the "hooks" capability`,
+  		);
+  	}
+  	return {
+  		capabilities,

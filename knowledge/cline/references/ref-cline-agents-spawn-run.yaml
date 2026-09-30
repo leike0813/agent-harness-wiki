@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agents-spawn-run
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/tools/team/spawn-agent-tool.ts
+  start: 134
+  end: 148
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  tools,
+  				maxIterations: config.defaultMaxIterations,
+  				parentAgentId: context.agentId,
+  				abortSignal: context.signal,
+  				onEvent: config.onSubAgentEvent,
+  				hookErrorMode: config.hookErrorMode,
+  				toolPolicies: config.toolPolicies,
+  				requestToolApproval: config.requestToolApproval,
+  			});
+  			const subAgentId = subAgent.getAgentId();
+  			const conversationId = subAgent.getConversationId();
+  			const parentAgentId = context.agentId;
+  			if (config.onSubAgentStart) {
+  				try {
+  					await config.onSubAgentStart({

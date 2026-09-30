@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-example-fields
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/examples/hooks/README.md
+  start: 280
+  end: 295
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  ### Output
+  Return a JSON object from stdout. Empty `{}` means "do nothing."
+  **Available fields:**
+  | Field | Type | Effect | Event(s) |
+  |-------|------|--------|----------|
+  | `cancel` | boolean | Cancels the pending tool call | `PreToolUse` |
+  | `review` | boolean | Pauses and prompts for user review | `PreToolUse` |
+  | `context` | string | Injects context into agent's next turn | `PreToolUse`, `PostToolUse` |
+  | `errorMessage` | string | Surfaces an error to the agent | `PreToolUse` |
+  | `overrideInput` | object | Replaces tool input before execution | `PreToolUse` |
+  ## Common Patterns

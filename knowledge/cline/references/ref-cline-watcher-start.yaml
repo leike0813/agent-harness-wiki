@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-watcher-start
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/config/unified-config-file-watcher.ts
+  start: 169
+  end: 177
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  async start(): Promise<void> {
+  		if (this.started) {
+  			return;
+  		}
+  		this.started = true;
+  		await this.refreshAll();
+  		this.startDirectoryWatchers();
+  	}

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-example-debug
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/examples/hooks/README.md
+  start: 408
+  end: 428
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  cline --verbose "your prompt"
+  ```
+  ### Test a hook manually
+  ```bash
+  echo '{"tool_call": {"name": "read_files", "input": {"filePath": "test.ts"}}}' | .cline/hooks/PreToolUse.sh
+  ```
+  ### Check hook output
+  ```bash
+  .cline/hooks/PreToolUse.sh < input.json | jq .
+  ```
+  ## Runtime Hooks: Custom Compaction
+  File hooks observe lifecycle events. For more advanced use cases like message compaction, use a TypeScript **runtime hook** plugin:
+  ```bash
+  cline plugin install https://github.com/cline/cline/blob/main/sdk/examples/hooks/custom-compaction-hook.example.ts --cwd .
+  cline -i "Search the codebase for dispatcher usage, then summarize it"

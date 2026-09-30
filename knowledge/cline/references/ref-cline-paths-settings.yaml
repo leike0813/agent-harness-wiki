@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-paths-settings
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/shared/src/storage/paths.ts
+  start: 424
+  end: 446
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  export function resolveProviderSettingsPath(): string {
+  	const explicitPath = process.env.CLINE_PROVIDER_SETTINGS_PATH?.trim();
+  	if (explicitPath) {
+  		return explicitPath;
+  	}
+  	return join(resolveClineDataDir(), "settings", "providers.json");
+  }
+  export function resolveGlobalSettingsPath(): string {
+  	const explicitPath = process.env.CLINE_GLOBAL_SETTINGS_PATH?.trim();
+  	if (explicitPath) {
+  		return explicitPath;
+  	}
+  	return join(resolveClineDataDir(), "settings", "global-settings.json");
+  }
+  export function resolveMcpSettingsPath(): string {
+  	const explicitPath = process.env.CLINE_MCP_SETTINGS_PATH?.trim();
+  	if (explicitPath) {
+  		return explicitPath;
+  	}
+  	return join(resolveClineDataDir(), "settings", CLINE_MCP_SETTINGS_FILE_NAME);
+  }

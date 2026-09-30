@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-hooks-dir
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/main.ts
+  start: 795
+  end: 802
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  `${c.dim}[warn] ignoring invalid --retries value "${args.invalidRetries}" (expected integer >= 1)${c.reset}`,
+  		);
+  	}
+  	if (args.hooksDir?.trim()) {
+  		process.env.CLINE_HOOKS_DIR = args.hooksDir.trim();
+  	}
+  	if (args.prompt && !args.interactive) {
+  		if (program.args.length > 1 || !promptArgLooksQuoted(program.args[0])) {

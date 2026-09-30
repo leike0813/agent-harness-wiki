@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-global-settings-write
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/global-settings.ts
+  start: 218
+  end: 236
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  export function writeGlobalSettings(
+  	settings: z.input<typeof GlobalSettingsSchema>,
+  	options: WriteGlobalSettingsOptions = {},
+  ): void {
+  	const filePath = resolveGlobalSettingsPath();
+  	const previous = readGlobalSettings();
+  	mkdirSync(dirname(filePath), { recursive: true });
+  	const normalized = GlobalSettingsSchema.parse(settings);
+  	if (!previous.telemetryOptOut && normalized.telemetryOptOut) {
+  		captureTelemetryOptOut(options.telemetry);
+  	}
+  	writeFileSync(filePath, `${JSON.stringify(normalized, null, 2)}\n`, "utf8");
+  	invalidateSettingsCache();
+  }
+  export function isTelemetryOptedOutGlobally(): boolean {
+  	return readGlobalSettings().telemetryOptOut;

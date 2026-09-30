@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-writing-plugins-doc-skills
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: document_section
+  heading: Bundling Skills
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  Package plugins can include skills by adding a top-level `skills/` directory next to `package.json`:
+  ```txt
+  cline-github-plugin/
+    package.json
+    github-plugin.ts
+    skills/
+      triage/
+        SKILL.md
+  ```
+  Each bundled skill follows the same directory format as any other [Cline skill](/customization/skills). When the plugin is installed or loaded through `pluginPaths`, Cline discovers those skills automatically.
+  See [Plugins](/customization/plugins) for the full manifest format, directory layout, and the [typescript-lsp-plugin](https://github.com/cline/typescript-lsp-plugin) for a complete working example.

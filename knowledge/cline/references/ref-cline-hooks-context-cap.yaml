@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-context-cap
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/hooks/subprocess.ts
+  start: 53
+  end: 66
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  * Maximum size for a hook's injected context (`contextModification`), matching
+   * the legacy extension's cap. Prevents a hook from overflowing the prompt.
+   */
+  export const MAX_HOOK_CONTEXT_SIZE = 50_000;
+  export function truncateHookContext(
+  	context: string | undefined,
+  ): string | undefined {
+  	if (context === undefined || context.length <= MAX_HOOK_CONTEXT_SIZE) {
+  		return context;
+  	}
+  	return `${context.slice(0, MAX_HOOK_CONTEXT_SIZE)}\n[hook context truncated: exceeded ${MAX_HOOK_CONTEXT_SIZE} characters]`;
+  }

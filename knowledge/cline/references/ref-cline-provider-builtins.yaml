@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-builtins
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/llms/src/providers/builtins.ts
+  start: 268
+  end: 285
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  ];
+  function defaultConfigFieldsForSpec(
+  	spec: BuiltinSpec,
+  ): readonly ProviderConfigField[] {
+  	const fields: ProviderConfigField[] = [];
+  	if (spec.apiKeyEnv?.length) {
+  		fields.push(API_KEY_FIELD);
+  	}
+  	if (spec.defaults?.baseUrl?.trim()) {
+  		fields.push(BASE_URL_FIELD);
+  	}
+  	return fields;
+  }
+  function cloneModels(
+  	models: Record<string, ModelInfo>,
+  ): Record<string, ModelInfo> {

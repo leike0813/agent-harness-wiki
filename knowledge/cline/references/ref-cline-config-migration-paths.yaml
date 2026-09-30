@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-config-migration-paths
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/storage/provider-settings-legacy-migration.ts
+  start: 280
+  end: 302
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  return undefined;
+  }
+  function resolveLegacyStorage(
+  	options: MigrateLegacyProviderSettingsOptions,
+  ): LegacyProviderStorage | undefined {
+  	const dataDir = options.dataDir ?? resolveClineDataDir();
+  	const globalStatePath =
+  		options.globalStatePath ?? join(dataDir, "globalState.json");
+  	const secretsPath = options.secretsPath ?? join(dataDir, "secrets.json");
+  	const globalState = readJsonObject<LegacyGlobalState>(globalStatePath);
+  	const secrets = readJsonObject<LegacySecrets>(secretsPath);
+  	if (!globalState && !secrets) {
+  		return undefined;
+  	}
+  	return {
+  		globalState: globalState ?? {},
+  		secrets: secrets ?? {},
+  	};
+  }
+  function resolveMigratedProviderId(providerId: string): string {
+  	// normalizeProviderId maps "openai" -> "openai-compatible" and collapses

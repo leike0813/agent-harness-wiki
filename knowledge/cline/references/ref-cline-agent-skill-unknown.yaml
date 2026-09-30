@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agent-skill-unknown
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/agent-plugin/agent-skill.ts
+  start: 152
+  end: 162
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  	const unknownFields = Object.keys(parsed)
+  		.filter((field) => !AGENT_SKILL_FIELDS.has(field))
+  		.sort();
+  	if (unknownFields.length > 0) {
+  		throw new Error(
+  			`Unexpected frontmatter field${unknownFields.length === 1 ? "" : "s"}: ${unknownFields.join(", ")}.`,
+  		);
+  	}

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-settings-plugin-inspection
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/settings/settings-service.ts
+  start: 592
+  end: 610
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  pluginReport.plugins.map((plugin) => [plugin.path, plugin]),
+  					);
+  					for (const plugin of plugins) {
+  						if (plugin.agentPlugin === true) {
+  							continue;
+  						}
+  						const contribution = contributionByPath.get(plugin.path);
+  						plugin.contributions = {
+  							inspectionStatus:
+  								plugin.enabled === false
+  									? "disabled"
+  									: contribution
+  										? "available"
+  										: "failed",
+  							capabilities: contribution?.capabilities ?? [],
+  							tools: contribution?.tools ?? [],
+  							skills: [
+  								...new Set([
+  									...listBundledPluginSkillNames(plugin.path),

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-prompt-expand
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: apps/cli/src/runtime/prompt.ts
+  start: 82
+  end: 122
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  /**
+   * Whether a typed `/skill` command must be textually expanded into the
+   * prompt. When the session registers the runtime's `skills` tool (its
+   * description requires the model to invoke it on slash-command references),
+   * the typed command passes through and the instructions arrive as a tool
+   * result — keeping the persisted transcript as what the user typed. When the
+   * tool is unavailable (yolo preset, user toggle), expansion is the only
+   * delivery path.
+   */
+  export function shouldExpandSkillSlashCommands(mode?: string): boolean {
+  	try {
+  		return !isSkillsToolAvailable({
+  			mode: mode === "plan" || mode === "yolo" ? mode : "act",
+  			disabledToolIds: new Set(readGlobalSettings().disabledTools ?? []),
+  		});
+  	} catch {
+  		return true;
+  	}
+  }
+  export async function buildUserInputMessage(

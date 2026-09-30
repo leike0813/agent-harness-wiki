@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-blocking
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/hooks/hook-file-hooks.ts
+  start: 415
+  end: 455
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  async function runBlockingHookCommands(options: {
+  	commands: string[][];
+  	payload: HookEventPayload;
+  	cwd: string;
+  	logger?: BasicLogger;
+  	timeoutMs?: number;
+  }): Promise<HookCommandControl | undefined> {
+  	let merged: HookCommandControl | undefined;
+  	for (const command of options.commands) {
+  		const commandLabel = command.join(" ");
+  		try {
+  			const result = await runHookCommand(options.payload, {
+  				command,
+  				cwd: options.cwd,
+  				env: process.env,
+  				detached: false,
+  				timeoutMs: options.timeoutMs,
+  			});
+  			if (result?.timedOut) {
+  				logHookError(options.logger, `hook command timed out: ${commandLabel}`);
+  				continue;
+  			}
+  			if (result?.parseError) {
+  				logHookError(
+  					options.logger,

@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-legacy
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/mcp/config-loader.ts
+  start: 107
+  end: 128
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  const legacyTransportTypeSchema = z
+  	.enum(["stdio", "sse", "http", "streamableHttp"])
+  	.optional();
+  const legacyRegistrationBaseSchema = z.object({
+  	type: z.enum(["stdio", "sse", "streamableHttp"]).optional(),
+  	transportType: legacyTransportTypeSchema,
+  	disabled: z.boolean().optional(),
+  	timeout: timeoutFieldSchema,
+  	metadata: metadataSchema.optional(),
+  	oauthClient: oauthClientSchema.optional(),
+  	oauth: oauthStateSchema.optional(),
+  });
+  function mapLegacyTransportType(
+  	transportType: z.infer<typeof legacyTransportTypeSchema>,
+  ): "stdio" | "sse" | "streamableHttp" | undefined {
+  	if (!transportType) {
+  		return undefined;
+  	}
+  	if (transportType === "http") {
+  		return "streamableHttp";

@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-register-tool
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/runtime/orchestration/runtime-builder.ts
+  start: 518
+  end: 545
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  }
+  		const registerSkillsTool =
+  			normalized.enableTools &&
+  			rootSkillsEnabled &&
+  			Boolean(userInstructionService) &&
+  			userInstructionService?.hasConfiguredSkills(config.skills) === true &&
+  			isSkillsToolEnabledForSession({
+  				cwd: config.cwd,
+  				providerId: config.providerId,
+  				mode: normalized.mode,
+  				modelId: config.modelId,
+  				toolRoutingRules: config.toolRoutingRules,
+  				toolPolicies: effectiveToolPolicies,
+  				toolExecutors,
+  			});
+  		const userInstructionPlugin =
+  			userInstructionService && userInstructionsEnabled
+  				? userInstructionService.createExtension({
+  						includeRules: rulesEnabled,
+  						includeSkills: rootSkillsEnabled,
+  						includeWorkflows: workflowsEnabled,
+  						registerSkillsTool,
+  						allowedSkillNames: config.skills,
+  					})
+  				: undefined;

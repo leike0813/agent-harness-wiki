@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-hooks-merge-control
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/hooks/hook-file-hooks.ts
+  start: 160
+  end: 205
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  const contexts = [current.context, next.context]
+  		.filter(
+  			(value): value is string => typeof value === "string" && value.length > 0,
+  		)
+  		.join("\n");
+  	const cancelReasons = [current.cancelReason, next.cancelReason]
+  		.filter(
+  			(value): value is string => typeof value === "string" && value.length > 0,
+  		)
+  		.join("\n");
+  	const appendMessages = [
+  		...(current.appendMessages ?? []),
+  		...(next.appendMessages ?? []),
+  	];
+  	return {
+  		cancel: current.cancel === true || next.cancel === true ? true : undefined,
+  		review: current.review === true || next.review === true ? true : undefined,
+  		context: contexts || undefined,
+  		cancelReason: cancelReasons || undefined,
+  		overrideInput:
+  			next.overrideInput !== undefined
+  				? next.overrideInput
+  				: current.overrideInput,
+  		systemPrompt:

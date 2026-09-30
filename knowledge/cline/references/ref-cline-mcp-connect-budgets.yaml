@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-connect-budgets
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/mcp/client.ts
+  start: 56
+  end: 72
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  // still fail fast through the spawn error/exit path; only an alive-but-silent
+  // server waits out this budget.
+  export const DEFAULT_MCP_CONNECT_TIMEOUT_MS = 3_000;
+  // Connect budget for remote (SSE/streamable HTTP) servers when no timeout is
+  // configured. Like the stdio initialize budget above, connect runs on the
+  // session-create critical path capped by the hub at 30s
+  // (HUB_DEFAULT_COMMAND_TIMEOUT_MS). Without its own budget an unreachable
+  // server spends the full request timeout (60s by default, with the SSE
+  // transport stuck in a reconnect loop), stalling session.create past the hub
+  // deadline and tearing the whole session down. 10s is generous for a healthy
+  // remote handshake (DNS, TLS, OAuth discovery) while staying far from the hub
+  // cap; servers connect in parallel.

@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-global-settings-load
+harness_id: cline
+snapshot_id: snapshot-cline-repo
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/global-settings.ts
+  start: 160
+  end: 190
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  if (value.disabledAgentPlugins) {
+  		Object.freeze(value.disabledAgentPlugins);
+  	}
+  	return Object.freeze(value);
+  }
+  function loadSettingsFromDisk(filePath: string): {
+  	value: GlobalSettings;
+  	loadFailed: boolean;
+  } {
+  	let raw: string;
+  	try {
+  		raw = readFileSync(filePath, "utf8");
+  	} catch {
+  		return { value: defaultGlobalSettings(), loadFailed: true };
+  	}
+  	try {
+  		const result = GlobalSettingsSchema.safeParse(JSON.parse(raw));
+  		return result.success
+  			? { value: result.data, loadFailed: false }
+  			: { value: defaultGlobalSettings(), loadFailed: true };
+  	} catch {
+  		return { value: defaultGlobalSettings(), loadFailed: true };
+  	}
+  }
+  function getCachedSettings(): CachedSettings {
+  	const filePath = resolveGlobalSettingsPath();
+  	const stats = statSync(filePath, { throwIfNoEntry: false });
