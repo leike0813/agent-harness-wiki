@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-custom_providers-bedrock-permissions
+harness_id: cursor
+snapshot_id: snapshot-cur-aws-bedrock-doc
+locator:
+  kind: document_section
+  heading: "Step 2: Attach permissions"
+official_url: https://cursor.com/docs/customizing/aws-bedrock.md
+excerpt: |-
+  Attach a policy that grants access to the Bedrock models you want to use:
+
+  ```json
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "bedrock:InvokeModel",
+          "bedrock:InvokeModelWithResponseStream"
+        ],
+        "Resource": [
+          "arn:aws:bedrock:*::foundation-model/anthropic.*",
+          "arn:aws:bedrock:*::foundation-model/us.anthropic.*"
+        ]
+      }
+    ]
+  }
+  ```
+
+  Adjust the resource ARNs to match the specific models and regions you want to allow.

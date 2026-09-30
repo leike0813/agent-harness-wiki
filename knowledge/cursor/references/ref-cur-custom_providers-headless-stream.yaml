@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-custom_providers-headless-stream
+harness_id: cursor
+snapshot_id: snapshot-cur-cli-headless-doc
+locator:
+  kind: document_section
+  heading: "Real-time progress tracking"
+official_url: https://cursor.com/docs/cli/headless.md
+excerpt: |2-
+      type=$(echo "$line" | jq -r '.type // empty')
+      subtype=$(echo "$line" | jq -r '.subtype // empty')
+      
+      case "$type" in
+        "system")
+          if [ "$subtype" = "init" ]; then
+            model=$(echo "$line" | jq -r '.model // "unknown"')
+            echo "🤖 Using model: $model"
+          fi
+          ;;
+          
+        "assistant")
+          # Only process streaming deltas (timestamp_ms present, no model_call_id).
+          # Skip buffered flushes before tool calls and at end of turn.
+          has_ts=$(echo "$line" | jq 'has("timestamp_ms")')
+          has_mc=$(echo "$line" | jq 'has("model_call_id")')
+          if [ "$has_ts" = "true" ] && [ "$has_mc" = "false" ]; then

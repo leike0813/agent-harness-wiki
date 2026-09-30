@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-custom_providers-bedrock-troubleshooting
+harness_id: cursor
+snapshot_id: snapshot-cur-aws-bedrock-doc
+locator:
+  kind: document_section
+  heading: "Troubleshooting"
+official_url: https://cursor.com/docs/customizing/aws-bedrock.md
+excerpt: |-
+  ### Validation fails with access denied
+
+  - Verify the IAM role ARN is correct
+  - Check that the trust policy includes Cursor's cross-account ARN (`arn:aws:iam::289469326074:role/roleAssumer`)
+  - Confirm the External ID matches exactly
+  - Ensure the test model is enabled in Bedrock
+
+  ### Model not found
+
+  - Enable the model in the AWS Bedrock console
+  - Verify the model ID format matches your region (some use `us.anthropic.*` prefix)
+  - Check that your IAM policy includes the model's ARN

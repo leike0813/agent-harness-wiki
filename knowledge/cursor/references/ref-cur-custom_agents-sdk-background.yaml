@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-custom_agents-sdk-background
+harness_id: cursor
+snapshot_id: snapshot-cur-sdk-typescript-doc
+locator:
+  kind: document_section
+  heading: "Background subagents"
+official_url: https://cursor.com/docs/sdk/typescript.md
+excerpt: |-
+  When the agent runs a subagent in the background, the subagent's result returns to the parent as a follow-up turn on the same run instead of being dropped when the parent turn ends. `run.stream()` keeps yielding events through those turns, and `run.wait()` resolves after them with the last turn's text as `result`. Local agents only.
+
+  ## Restricting the toolset
+
+  `tools` allowlists the built-in tools offered to the model; `disallowedTools` removes tools and keeps the rest, including tools added to the platform after your SDK version was released. Both are local agents only for now, and neither persists on the agent: pass them again on `Agent.resume()` to keep the restriction for follow-up runs.

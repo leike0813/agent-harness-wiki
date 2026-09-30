@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-custom_providers-bedrock-usage-reporting
+harness_id: cursor
+snapshot_id: snapshot-cur-aws-bedrock-doc
+locator:
+  kind: document_section
+  heading: "Usage reporting"
+official_url: https://cursor.com/docs/customizing/aws-bedrock.md
+excerpt: |-
+  Bedrock-routed requests still appear in the [dashboard usage page](https://cursor.com/docs/account/teams/dashboard.md) and the [Admin API](https://cursor.com/docs/account/teams/admin-api.md). In usage events:
+
+  - The `kind` field is set to the User API Key category, since Bedrock requests are recorded as bring-your-own-key usage.
+  - Model cost is near zero because inference is billed to your AWS account.
+  - On plans with the [Cursor Token Rate](https://cursor.com/docs/models-and-pricing.md), the rate still applies to Bedrock requests and appears in the `cursorTokenFee` field. On other plans, such as request-based enterprise accounts, `cursorTokenFee` is omitted.

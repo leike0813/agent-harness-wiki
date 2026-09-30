@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-hooks-doc-quickstart-project
+harness_id: cursor
+snapshot_id: snapshot-cur-hooks-doc
+locator:
+  kind: document_section
+  heading: "Project hooks (.cursor/)"
+official_url: https://cursor.com/docs/hooks.md
+excerpt: |2-
+  For project-level hooks that apply to a specific repository, create `<project>/.cursor/hooks.json`:
+
+  ```json
+  {
+    "version": 1,
+    "hooks": {
+      "afterFileEdit": [{ "command": ".cursor/hooks/format.sh" }]
+    }
+  }
+  ```
+
+  Note: Project hooks run from the **project root**, so use `.cursor/hooks/format.sh` (not `./hooks/format.sh`).
+
+  Create your hook script at `<project>/.cursor/hooks/format.sh`:
+
+  ```bash
+  #!/bin/bash
+  # Read input, do something, exit 0
+  cat > /dev/null
+  exit 0
+  ```
+
+  Make it executable:
+
+  ```bash
+  chmod +x .cursor/hooks/format.sh
+  ```
+
+  Cursor watches hooks config files and reloads them automatically. Your hook runs after every file edit.

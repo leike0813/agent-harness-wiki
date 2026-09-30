@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-hooks-doc-event-beforeshell-mcp
+harness_id: cursor
+snapshot_id: snapshot-cur-hooks-doc
+locator:
+  kind: document_section
+  heading: "beforeShellExecution / beforeMCPExecution"
+official_url: https://cursor.com/docs/hooks.md
+excerpt: |2-
+  Called before any shell command or MCP tool is executed. Return a permission decision.
+
+  Invalid JSON or a response that doesn't match the hook's schema blocks the action. Crashes, timeouts, and non-zero exit codes other than `2` fail open by default: Cursor logs the failure and allows the action through. Set `failClosed: true` on the hook definition to block on those failures too. This is recommended for security-critical `beforeMCPExecution` hooks.
+
+  ```json
+  // beforeShellExecution input
+  {
+    "command": "<full terminal command>",
+    "cwd": "<current working directory>",
+    "sandbox": false
+  }
+
+  // beforeMCPExecution input
+  {
+    "tool_name": "<tool name>",
+    "tool_input": "<json params>",
+    "mcp_server_name": "<server name from mcp.json>"

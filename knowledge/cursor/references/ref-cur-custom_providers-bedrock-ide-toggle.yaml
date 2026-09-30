@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-custom_providers-bedrock-ide-toggle
+harness_id: cursor
+snapshot_id: snapshot-cur-aws-bedrock-doc
+locator:
+  kind: document_section
+  heading: "Step 5: Enable Bedrock in the IDE"
+official_url: https://cursor.com/docs/customizing/aws-bedrock.md
+excerpt: |-
+  Validating the IAM role does not change routing by itself. Each user must enable Bedrock in their own Cursor client:
+
+  1. Open `Cursor Settings` > `Models`
+  2. Scroll to the **AWS Bedrock** section (it shows that your team has configured AWS Bedrock access)
+  3. Turn the toggle on. It is off by default for every user, even after the team IAM role is validated.
+
+  Once the toggle is on, Bedrock models appear in the model picker under their raw Bedrock IDs (for example, `us.anthropic.claude-sonnet-5`). Select one of these entries explicitly to route requests through Bedrock. If your team configured a non-US region, the entries use the matching prefix (`eu.`, `apac.`, or `ca.`) instead of `us.`.

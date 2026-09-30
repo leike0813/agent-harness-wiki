@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-mcp-ent-url
+harness_id: cursor
+snapshot_id: snapshot-cur-ent-model-management-doc
+locator:
+  kind: file_lines
+  file: enterprise/model-and-integration-management.md
+  start: 122
+  end: 142
+official_url: https://cursor.com/docs/enterprise/model-and-integration-management.md
+excerpt: |2-
+  For remote MCP servers configured with `url`, the allowlist matches against the URL.
+
+  Given this `mcp.json` config:
+
+  ```json
+  {
+    "mcpServers": {
+      "acme-tools": {
+        "url": "https://mcp.acme.com/sse"
+      }
+    }
+  }
+  ```
+
+  The allowlist entry matches against the full URL `https://mcp.acme.com/sse`:
+
+  | Allowlist entry            | Matches                                 |
+  | :------------------------- | :-------------------------------------- |
+  | `https://mcp.acme.com/sse` | This exact URL                          |
+  | `https://*.acme.com/*`     | Any subdomain and path under `acme.com` |
+  | `https://mcp.acme.com/*`   | Any path on this host                   |

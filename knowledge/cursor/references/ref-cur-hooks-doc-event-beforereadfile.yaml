@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-hooks-doc-event-beforereadfile
+harness_id: cursor
+snapshot_id: snapshot-cur-hooks-doc
+locator:
+  kind: document_section
+  heading: "beforeReadFile"
+official_url: https://cursor.com/docs/hooks.md
+excerpt: |2-
+  Called before Agent reads a file. Use for access control to block sensitive files from being sent to the model.
+
+  Invalid JSON or a response that doesn't match the hook's schema blocks the read. Crashes, timeouts, and non-zero exit codes other than `2` are logged and the read is allowed through by default. Set `failClosed: true` on the hook definition to block the read on those failures too.
+
+  ```json
+  // Input
+  {
+    "file_path": "<absolute path>",
+    "content": "<file contents>",
+    "attachments": [
+      {
+        "type": "file" | "rule",

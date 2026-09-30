@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-hooks-doc-event-pretooluse
+harness_id: cursor
+snapshot_id: snapshot-cur-hooks-doc
+locator:
+  kind: document_section
+  heading: "preToolUse"
+official_url: https://cursor.com/docs/hooks.md
+excerpt: |2-
+  Called before any tool execution. This is a generic hook that fires for all tool types (Shell, Read, Write, MCP, Task, etc.). Use matchers to filter by specific tools.
+
+  ```json
+  // Input
+  {
+    "tool_name": "Shell",
+    "tool_input": { "command": "npm install", "working_directory": "/project" },
+    "tool_use_id": "abc123",
+    "cwd": "/project",
+    "model": "claude-opus-4-7-thinking-max",
+    "model_id": "claude-opus-4-7",
+    "model_params": [
+      { "id": "thinking", "value": "true" },
+      { "id": "context", "value": "1m" },
+      { "id": "effort", "value": "max" }

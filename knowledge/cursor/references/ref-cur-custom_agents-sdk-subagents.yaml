@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-custom_agents-sdk-subagents
+harness_id: cursor
+snapshot_id: snapshot-cur-sdk-typescript-doc
+locator:
+  kind: document_section
+  heading: "Subagents"
+official_url: https://cursor.com/docs/sdk/typescript.md
+excerpt: |-
+  Define named subagents that the main agent spawns via the `Agent` tool. Pass them inline:
+
+  ```typescript
+  const agent = await Agent.create({
+    model: { id: "composer-2.5" },
+    apiKey: process.env.CURSOR_API_KEY!,
+    local: { cwd: process.cwd() },
+    agents: {
+      "code-reviewer": {
+        description: "Expert code reviewer for quality and security.",
+        prompt: "Review code for bugs, security issues, and proven approaches.",
+        model: "inherit",
+      },
+      "test-writer": {
+        description: "Writes tests for code changes.",
+        prompt: "Write comprehensive tests for the given code.",
+      },
+    },
+  });
+  ```

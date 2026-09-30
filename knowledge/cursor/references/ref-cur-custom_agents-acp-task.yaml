@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-custom_agents-acp-task
+harness_id: cursor
+snapshot_id: snapshot-cur-cli-acp-doc
+locator:
+  kind: document_section
+  heading: "`cursor/task`"
+official_url: https://cursor.com/docs/cli/acp.md
+excerpt: |-
+  interface CursorTaskRequest {
+    toolCallId: string;
+    description: string;
+    prompt: string;
+    subagentType:
+      | "unspecified"
+      | "computer_use"
+      | "explore"
+      | "video_review"
+      | "browser_use"
+      | "shell"
+      | "vm_setup_helper"
+      | { custom: string };
+    model?: string;
+    agentId?: string;
+    durationMs?: number;
+  }

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-hooks-doc-event-subagentstart
+harness_id: cursor
+snapshot_id: snapshot-cur-hooks-doc
+locator:
+  kind: document_section
+  heading: "subagentStart"
+official_url: https://cursor.com/docs/hooks.md
+excerpt: |2-
+  Called before spawning a subagent (Task tool). Can allow or deny subagent creation.
+
+  ```json
+  // Input
+  {
+    "subagent_id": "abc-123",
+    "subagent_type": "generalPurpose",
+    "task": "Explore the authentication flow",
+    "parent_conversation_id": "conv-456",
+    "tool_call_id": "tc-789",
+    "subagent_model": "claude-sonnet-4-20250514",
+    "is_parallel_worker": false,
+    "git_branch": "feature/auth"
+  }
+
+  // Output
+  {
+    "permission": "allow" | "deny",

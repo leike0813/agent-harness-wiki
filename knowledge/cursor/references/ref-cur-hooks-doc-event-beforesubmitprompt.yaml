@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-hooks-doc-event-beforesubmitprompt
+harness_id: cursor
+snapshot_id: snapshot-cur-hooks-doc
+locator:
+  kind: document_section
+  heading: "beforeSubmitPrompt"
+official_url: https://cursor.com/docs/hooks.md
+excerpt: |2-
+  Called right after user hits send but before backend request. Can prevent submission.
+
+  ```json
+  // Input
+  {
+    "prompt": "<user prompt text>",
+    "attachments": [
+      {
+        "type": "file" | "rule",
+        "file_path": "<absolute path>"
+      }
+    ]
+  }
+
+  // Output
+  {
+    "continue": true | false,
+    "user_message": "<message shown to user when blocked>"
+  }
+  ```
+
+  | Output Field   | Type              | Description                                          |
+  | -------------- | ----------------- | ---------------------------------------------------- |
+  | `continue`     | boolean           | Whether to allow the prompt submission to proceed    |

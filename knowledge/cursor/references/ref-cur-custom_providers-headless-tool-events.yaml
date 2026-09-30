@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-custom_providers-headless-tool-events
+harness_id: cursor
+snapshot_id: snapshot-cur-cli-headless-doc
+locator:
+  kind: file_lines
+  file: cli/headless.md
+  start: 130
+  end: 141
+official_url: https://cursor.com/docs/cli/headless.md
+excerpt: |2-
+        "tool_call")
+          if [ "$subtype" = "started" ]; then
+            tool_count=$((tool_count + 1))
+
+            # Extract tool information
+            if echo "$line" | jq -e '.tool_call.writeToolCall' > /dev/null 2>&1; then
+              path=$(echo "$line" | jq -r '.tool_call.writeToolCall.args.path // "unknown"')
+              echo -e "\n🔧 Tool #$tool_count: Creating $path"
+            elif echo "$line" | jq -e '.tool_call.readToolCall' > /dev/null 2>&1; then
+              path=$(echo "$line" | jq -r '.tool_call.readToolCall.args.path // "unknown"')
+              echo -e "\n📖 Tool #$tool_count: Reading $path"
+            fi

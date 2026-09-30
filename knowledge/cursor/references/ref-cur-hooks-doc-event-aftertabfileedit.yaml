@@ -1,0 +1,41 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-hooks-doc-event-aftertabfileedit
+harness_id: cursor
+snapshot_id: snapshot-cur-hooks-doc
+locator:
+  kind: document_section
+  heading: "afterTabFileEdit"
+official_url: https://cursor.com/docs/hooks.md
+excerpt: |2-
+  Called after Tab (inline completions) edits a file. Useful for formatters or auditing of Tab-written code.
+
+  **Key differences from `afterFileEdit`:**
+
+  - Only triggered by Tab, not Agent
+  - Includes detailed edit information: `range`, `old_line`, and `new_line` for precise edit tracking
+  - Useful for fine-grained formatting or analysis of Tab edits
+
+  ```json
+  // Input
+  {
+    "file_path": "<absolute path>",
+    "edits": [
+      {
+        "old_string": "<search>",
+        "new_string": "<replace>",
+        "range": {
+          "start_line_number": 10,
+          "start_column": 5,
+          "end_line_number": 10,
+          "end_column": 20
+        },
+        "old_line": "<line before edit>",
+        "new_line": "<line after edit>"
+      }
+    ]
+  }
+
+  // Output
+  {
+    // No output fields currently supported

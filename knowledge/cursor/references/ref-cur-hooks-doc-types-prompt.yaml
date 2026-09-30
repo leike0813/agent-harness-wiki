@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-hooks-doc-types-prompt
+harness_id: cursor
+snapshot_id: snapshot-cur-hooks-doc
+locator:
+  kind: document_section
+  heading: "Prompt-Based Hooks"
+official_url: https://cursor.com/docs/hooks.md
+excerpt: |2-
+  ### Prompt-Based Hooks
+
+  Prompt hooks use an LLM to evaluate a natural language condition. They're useful for policy enforcement without writing custom scripts.
+
+  ```json
+  {
+    "version": 1,
+    "hooks": {
+      "beforeShellExecution": [
+        {
+          "type": "prompt",
+          "prompt": "Does this command look safe to execute? Only allow read-only operations.",
+          "timeout": 10
+        }
+      ]

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-hooks-doc-example-blockgit
+harness_id: cursor
+snapshot_id: snapshot-cur-hooks-doc
+locator:
+  kind: file_lines
+  file: hooks.md
+  start: 323
+  end: 340
+official_url: https://cursor.com/docs/hooks.md
+excerpt: |2-
+  #!/bin/bash
+
+  # Hook to block git commands and redirect to gh tool usage
+  # This hook implements the beforeShellExecution hook from the Cursor Hooks Spec
+
+  # Initialize debug logging
+  echo "Hook execution started" >> /tmp/hooks.log
+
+  # Read JSON input from stdin
+  input=$(cat)
+  echo "Received input: $input" >> /tmp/hooks.log
+
+  # Parse the command from the JSON input
+  command=$(echo "$input" | jq -r '.command // empty')
+  echo "Parsed command: '$command'" >> /tmp/hooks.log
+
+  # Check if the command contains 'git' or 'gh'
+  if [[ "$command" =~ git[[:space:]] ]] || [[ "$command" == "git" ]]; then

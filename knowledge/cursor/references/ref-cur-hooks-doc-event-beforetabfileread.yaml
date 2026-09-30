@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-hooks-doc-event-beforetabfileread
+harness_id: cursor
+snapshot_id: snapshot-cur-hooks-doc
+locator:
+  kind: document_section
+  heading: "beforeTabFileRead"
+official_url: https://cursor.com/docs/hooks.md
+excerpt: |2-
+  Called before Tab (inline completions) reads a file. Enable redaction or access control before Tab accesses file contents.
+
+  **Key differences from `beforeReadFile`:**
+
+  - Only triggered by Tab, not Agent
+  - Does not include `attachments` field (Tab doesn't use prompt attachments)
+  - Useful for applying different policies to autonomous Tab operations
+
+  ```json
+  // Input
+  {
+    "file_path": "<absolute path>",
+    "content": "<file contents>"
+  }
+
+  // Output
+  {
+    "permission": "allow" | "deny"
+  }

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-configuration-hooks-config-paths
+harness_id: cursor
+snapshot_id: snapshot-cur-hooks-doc
+locator:
+  kind: document_section
+  heading: "Configuration"
+official_url: https://cursor.com/docs/hooks.md
+excerpt: |-
+  - **Enterprise** (MDM-managed, system-wide):
+    - macOS: `/Library/Application Support/Cursor/hooks.json`
+    - Linux/WSL: `/etc/cursor/hooks.json`
+    - Windows: `C:\\ProgramData\\Cursor\\hooks.json`
+  - **Team** (Cloud-distributed, enterprise only):
+    - Configured in the [web dashboard](https://cursor.com/dashboard/team-content?section=hooks) and synced to all team members automatically
+  - **Project** (Project-specific):
+    - `<project-root>/.cursor/hooks.json`
+    - Project hooks run in any trusted workspace and are checked into version control with your project
+  - **User** (User-specific):
+    - `~/.cursor/hooks.json`
+  
+  Priority order (highest to lowest): Enterprise → Team → Project → User

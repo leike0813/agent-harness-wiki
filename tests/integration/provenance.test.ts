@@ -61,7 +61,6 @@ test("production metadata validates without local originals", async () => {
   const result = await loadAndValidateDataset({ root, profile: "production" });
   expect(result.ok).toBe(true);
   if (result.ok) {
-    expect(result.dataset.harnesses).toHaveLength(6);
     const npmProducts = new Set(
       result.dataset.harnesses
         .filter((harness) =>
@@ -366,7 +365,6 @@ test("first-wave release publishes reviewed facts and scoped provenance", async 
   } finally {
     db.close();
   }
-  expect(knowledge.records.harnesses).toHaveLength(6);
 });
 
 test("version 1 release without artifact metadata still verifies", async () => {

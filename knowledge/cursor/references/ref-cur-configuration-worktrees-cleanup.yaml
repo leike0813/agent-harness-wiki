@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-configuration-worktrees-cleanup
+harness_id: cursor
+snapshot_id: snapshot-cur-worktrees-doc
+locator:
+  kind: document_section
+  heading: "Worktrees cleanup"
+official_url: https://cursor.com/docs/configuration/worktrees.md
+excerpt: |-
+  Cursor can clean up older worktrees automatically to limit disk usage. Cleanup runs on an interval and keeps the newest worktrees up to the configured machine-wide maximum count across every workspace on the device.
+  
+  ```json
+  {
+    "cursor.worktreeCleanupIntervalHours": 6,
+    "cursor.worktreeMaxCount": 25
+  }
+  ```
+  
+  Use these machine-scoped settings to control cleanup:
+  
+  - **`cursor.worktreeCleanupIntervalHours`**: how often Cursor checks for old worktrees. Cursor 3.5 catches up after restarts by scheduling a delayed cleanup if the last successful run is older than this interval.
+  - **`cursor.worktreeMaxCount`**: the maximum number of worktrees Cursor keeps before cleaning up older ones. The default cap is 25 worktrees per machine, and all workspaces contribute toward the same limit.

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-hooks-doc-event-subagentstop
+harness_id: cursor
+snapshot_id: snapshot-cur-hooks-doc
+locator:
+  kind: document_section
+  heading: "subagentStop"
+official_url: https://cursor.com/docs/hooks.md
+excerpt: |2-
+  Called when a subagent completes, errors, or is aborted. Can trigger follow-up actions.
+
+  ```json
+  // Input
+  {
+    "subagent_type": "generalPurpose",
+    "status": "completed" | "error" | "aborted",
+    "task": "Explore the authentication flow",
+    "description": "Exploring auth flow",
+    "summary": "<subagent output summary>",
+    "duration_ms": 45000,
+    "message_count": 12,
+    "tool_call_count": 8,
+    "loop_count": 0,
+    "modified_files": ["src/auth.ts"],
+    "agent_transcript_path": "/path/to/subagent/transcript.txt"
+  }

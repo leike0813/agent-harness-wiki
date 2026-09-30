@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-custom_providers-acp-request-flow
+harness_id: cursor
+snapshot_id: snapshot-cur-cli-acp-doc
+locator:
+  kind: document_section
+  heading: "Request flow"
+official_url: https://cursor.com/docs/cli/acp.md
+excerpt: |-
+  Typical ACP session flow:
+
+  1. `initialize`
+  2. `authenticate` with `methodId: "cursor_login"`
+  3. `session/new` (or `session/load`)
+  4. `session/prompt`
+  5. Handle `session/update` notifications while the model streams output
+  6. Handle `session/request_permission` by returning a decision
+  7. Optionally send `session/cancel`

@@ -1,0 +1,11 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-configuration-worktrees-discovery-flag
+harness_id: cursor
+snapshot_id: snapshot-cur-worktrees-doc
+locator:
+  kind: document_section
+  heading: "How does Cursor discover existing worktrees?"
+official_url: https://cursor.com/docs/configuration/worktrees.md
+excerpt: |-
+  Cursor 3.5 keeps a modified time checkpoint for the machine worktree root and for each workspace subdirectory. On startup, Cursor re-scans the filesystem unless those timestamps prove nothing changed since the last discovery. This avoids skipping new worktrees that were created while Cursor was closed and eliminates the older `worktree.discoveryComplete` flag.

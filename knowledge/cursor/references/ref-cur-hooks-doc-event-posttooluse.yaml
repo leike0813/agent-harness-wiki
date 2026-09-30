@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-hooks-doc-event-posttooluse
+harness_id: cursor
+snapshot_id: snapshot-cur-hooks-doc
+locator:
+  kind: document_section
+  heading: "postToolUse"
+official_url: https://cursor.com/docs/hooks.md
+excerpt: |2-
+  Called after successful tool execution. Useful for auditing, analytics, and injecting context.
+
+  ```json
+  // Input
+  {
+    "tool_name": "Shell",
+    "tool_input": { "command": "npm test" },
+    "tool_output": "{\"exitCode\":0,\"stdout\":\"All tests passed\"}",
+    "tool_use_id": "abc123",
+    "cwd": "/project",
+    "duration": 5432,
+    "model": "claude-opus-4-7-thinking-max",
+    "model_id": "claude-opus-4-7",
+    "model_params": [
+      { "id": "thinking", "value": "true" },
+      { "id": "context", "value": "1m" },
+      { "id": "effort", "value": "max" }
+    ]
+  }
+
+  // Output

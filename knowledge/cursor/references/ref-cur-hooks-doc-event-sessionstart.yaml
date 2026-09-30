@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-hooks-doc-event-sessionstart
+harness_id: cursor
+snapshot_id: snapshot-cur-hooks-doc
+locator:
+  kind: document_section
+  heading: "sessionStart"
+official_url: https://cursor.com/docs/hooks.md
+excerpt: |2-
+  Called when a new composer conversation is created. This hook runs as fire-and-forget; the agent loop does not wait for or enforce a blocking response. Use it to set up session-specific environment variables or inject additional context.
+
+  ```json
+  // Input
+  {
+    "session_id": "<unique session identifier>",
+    "is_background_agent": true | false,
+    "composer_mode": "agent" | "ask" | "edit"
+  }
+  ```
+
+  ```json
+  // Output
+  {
+    "env": { "<key>": "<value>" },
+    "additional_context": "<context to add to conversation>"
+  }

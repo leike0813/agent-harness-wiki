@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-custom_providers-cli-config-http1
+harness_id: cursor
+snapshot_id: snapshot-cur-cli-configuration-doc
+locator:
+  kind: document_section
+  heading: "HTTP/1.1 fallback"
+official_url: https://cursor.com/docs/cli/reference/configuration.md
+excerpt: |-
+  Some enterprise proxies (like Zscaler) don't support HTTP/2 bidirectional streaming. Enable HTTP/1.1 mode in your config:
+
+  ```json
+  {
+    "version": 1,
+    "editor": { "vimMode": false },
+    "permissions": { "allow": [], "deny": [] },
+    "network": {
+      "useHttp1ForAgent": true
+    }
+  }
+  ```
+
+  This switches agent connections to HTTP/1.1 with Server-Sent Events (SSE), which works with most corporate proxies.
