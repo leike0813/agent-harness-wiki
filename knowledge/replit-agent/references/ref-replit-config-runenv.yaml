@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-replit-config-runenv
+harness_id: replit-agent
+snapshot_id: snapshot-replit-app-configuration-doc
+locator:
+  kind: document_section
+  heading: Including environment variables
+official_url: "https://docs.replit.com/features/project-setup/configuration.md"
+excerpt: |-
+  To supply environment variables to your service before execution, you can expand the `run` property into a [table](https://toml.io/en/v1.0.0#table).
+  This is a more involved change, and likely requires moving where your `run = "..."` property is located inside your `.replit` file.
+  The following diff shows supplying the command by way of `[run]`'s `args`, as well as the variable `NAME` supplied in `[run.env]`:
+  ```diff theme={null}
+  -run = ["bash", "-c", "echo \"Hello, $NAME!\""]
+   modules = ["nodejs-20"]
+   hidden = [".pythonlibs"]
+  +# We need to move our new [run] down past all the
+  +# top-level properties that do not start with a `[`!
+  +[run]
+  +args = ["bash", "-c", "echo \"Hello, $NAME!\""]
+  +
+  +[run.env]
+  +NAME="Replit"
+   [nix]
+   channel = "stable-23_11"
+  ```
