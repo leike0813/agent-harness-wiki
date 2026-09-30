@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-hooks-options
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-hooks-events
+locator:
+  kind: document_section
+  heading: Definition options
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/hooks-and-events.md"
+excerpt: |-
+  Every definition accepts `description`, `enabled`, `timeout` (milliseconds, default 5000), `async`, a regex `matcher`, and a `filter` with `tool` and `path` arrays. Use them to scope a hook and to keep slow work off the agent's critical path.
+  ```json
+  {
+    "hooks": {
+      "hooks": [
+        {
+          "event": "file-modified",
+          "command": "npm test -- --findRelatedTests {{file}}",
+          "filter": {
+            "path": [
+              "src/**/*"
+            ]
+          },
+          "timeout": 30000
+        },
+        {
+          "event": "file-modified",
+          "command": "npm run build",
+          "filter": {
+            "path": [
+              "src/**/*"
+            ]
+          },
+          "async": true
+        }
+      ]
+    }
+  }
+  ```

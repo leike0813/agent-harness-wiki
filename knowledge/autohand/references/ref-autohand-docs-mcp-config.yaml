@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-mcp-config
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-mcp
+locator:
+  kind: document_section
+  heading: Configuration
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/mcp-servers.md"
+excerpt: |-
+  MCP servers are configured in `~/.autohand/config.json` under the `mcp.servers` key. You can also use project-level `.autohand/config.json` for per-project servers.
+  ### Full example
+  ```json
+  {
+    "mcp": {
+      "servers": [
+        {
+          "name": "database",
+          "transport": "stdio",
+          "command": "npx",
+          "args": ["-y", "@modelcontextprotocol/server-postgres"],
+          "env": {
+            "DATABASE_URL": "postgresql://localhost:5432/mydb"
+          },
+          "autoConnect": true
+        },
+        {
+          "name": "docs",
+          "transport": "sse",
+          "url": "https://docs-mcp.example.com/sse",
+          "autoConnect": true
+        },
+        {
+          "name": "context7",
+          "transport": "http",
+          "url": "https://mcp.context7.com/mcp",
+          "headers": {

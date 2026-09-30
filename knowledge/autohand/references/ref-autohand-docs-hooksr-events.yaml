@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-hooksr-events
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-hooks-reference
+locator:
+  kind: document_section
+  heading: Hook events
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/hooks.md"
+excerpt: |-
+  Every event below is available to config hooks, extension hooks, and the `/hooks` browser. `post-response` is a backward-compatible alias for `stop` and is listed under `stop` in `/hooks`.
+  ### Session
+  | Event | When fired | Context |
+  |---|---|---|
+  | session-start | When a session begins | session type (startup/resume/clear) |
+  | session-end | When a session ends | reason (quit/clear/exit/error), duration |
+  | pre-clear | Before memory extraction on /clear or /new | session id, cwd |
+  ### Prompt & turn
+  | Event | When fired | Context |
+  |---|---|---|
+  | pre-prompt | Before sending the instruction to the LLM | instruction, mentioned files |
+  | stop | After the agent finishes responding (turn complete) | tokens used, tool call count, duration |

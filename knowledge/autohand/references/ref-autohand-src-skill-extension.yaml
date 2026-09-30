@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-src-skill-extension
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: file_lines
+  file: src/skills/SkillsRegistry.ts
+  start: 350
+  end: 370
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  setExtensionSkills(contributions: ExtensionSkillContribution[]): void {
+      const activeNames = new Set(
+        [...this.extensionSkillNames].filter((name) => this.skills.get(name)?.isActive === true),
+      );
+      for (const name of this.extensionSkillNames) {
+        if (this.skills.get(name)?.source === 'extension') {
+          this.skills.delete(name);
+        }
+      }
+      this.extensionSkillNames.clear();
+      for (const contribution of contributions) {
+        const name = contribution.definition.name;
+        if (this.skills.has(name)) {
+          continue;
+        }
+        this.skills.set(name, {
+          ...contribution.definition,
+          isActive: activeNames.has(name),
+        });
+        this.extensionSkillNames.add(name);

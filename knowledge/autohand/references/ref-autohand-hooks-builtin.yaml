@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-hooks-builtin
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Built-in Hooks
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Autohand ships with default hooks that are installed on first run. All hooks are **disabled by default** and can be enabled via `/hooks manage` or by editing your config.
+  ### Logging Hooks
+  Simple hooks for logging events:
+  | Event | Description |
+  |-------|-------------|
+  | `session-start` | Log when session starts |
+  | `session-end` | Log when session ends with duration |
+  | `stop` | Log turn completion with token/tool stats |
+  | `file-modified` | Log file changes (filtered to `src/**/*` and `lib/**/*`) |
+  ### Sound Alert Hook
+  Plays a system sound when a task completes. Cross-platform support for macOS, Linux, and Windows.
+  ```json
+  {
+    "event": "stop",
+    "command": "~/.autohand/hooks/sound-alert.sh",
+    "description": "Play sound when task completes",
+    "enabled": true,
+    "async": true
+  }
+  ```

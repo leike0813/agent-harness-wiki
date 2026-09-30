@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-extcli-validate
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-extensions-cli
+locator:
+  kind: document_section
+  heading: Validate before installing
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/extensions/cli-extensions.md"
+excerpt: |-
+  Validation is read-only. It parses the manifest, resolves every declared path, validates each contribution, checks handler safety, and reports the package identity and contribution counts without copying or executing anything.
+  ```bash
+  autohand extensions validate ./path/to/extension
+  autohand extensions validate ./path/to/extension --json
+  ```
+  Use JSON output in CI or packaging scripts. A validation failure exits non-zero and returns an actionable reason, such as an unknown manifest field, unsafe handler, missing contribution, duplicate name, path traversal, or incompatible API version.

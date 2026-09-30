@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-providers-switching
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Switching Providers
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  ### Interactive Mode
+  Use the `/model` command to switch providers or models:
+  ```
+  /model                           # List available models
+  /model gpt-5                     # Switch to GPT-5
+  /model anthropic/claude-opus-5   # Switch OpenRouter to Claude Opus 5
+  ```
+  When you pick `openai`, Autohand now lets you choose between `API key` and `ChatGPT account` authentication.
+  ### CLI Flag
+  Override the default provider for a single session:
+  ```bash
+  autohand --model gpt-5
+  ```
+  ### Editing Config
+  Update `~/.autohand/config.json`:
+  ```json
+  {
+    "provider": "anthropic",
+    "anthropic": {
+      "apiKey": "sk-ant-your-key",
+      "model": "claude-sonnet-5"
+    }
+  }
+  ```
+  ---

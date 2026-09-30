@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-hooks-exit
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Exit Codes
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Hook exit codes have special meaning:
+  | Exit Code | Meaning |
+  |-----------|---------|
+  | 0 | Success - JSON response parsed if present |
+  | 2 | Blocking error - stops execution with stderr message |
+  | Other | Non-blocking error - logged but execution continues |
+  ### Example: Block dangerous operations
+  ```bash
+  #!/bin/bash
+  INPUT=$(cat)
+  COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // ""')

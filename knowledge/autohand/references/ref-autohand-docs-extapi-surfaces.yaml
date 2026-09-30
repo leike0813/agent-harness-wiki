@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-extapi-surfaces
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-extension-api
+locator:
+  kind: document_section
+  heading: Runtime registration surfaces
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/extensions/extension-api.md"
+excerpt: |-
+  | API | Contribution | Key constraints |
+  |---|---|---|
+  | api.commands.register | Slash commands | Lowercase command such as /deploy; built-ins cannot be replaced. |
+  | api.ui.registerView | Ink menus, dialogs, renderers, and editor-like views | Use host api.ui.React and api.ui.Ink; Autohand owns modal pause/resume and terminal cleanup. |
+  | api.ui.setStatusLine, setHelpLine | Status/help segments | Stable extension-specific ids and semantic colors. |
+  | api.keybindings.register | Keyboard shortcuts | Routes to a registered command; Escape, Enter, Ctrl+C, Ctrl+D, and Shift+Tab are reserved. |
+  | api.cli.registerFlag | Startup options | Must include a unique long --kebab-case flag and register before Commander parses input. |

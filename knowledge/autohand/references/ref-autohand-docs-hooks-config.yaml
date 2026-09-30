@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-hooks-config
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-hooks-events
+locator:
+  kind: document_section
+  heading: Configure hooks
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/hooks-and-events.md"
+excerpt: |-
+  Hooks live under the `hooks` key of `~/.autohand/config.json` (or the file passed with `--config`). Each entry in `hooks.hooks` names an event, a command, and optional filters.
+  ```json
+  {
+    "hooks": {
+      "enabled": true,
+      "hooks": [
+        {
+          "event": "file-modified",
+          "command": "eslint {{file}} --fix && prettier --write {{file}}",
+          "description": "Lint and format changed files",
+          "filter": {
+            "path": [
+              "**/*.ts",
+              "**/*.tsx"
+            ]
+          }
+        },
+        {
+          "event": "post-tool",
+          "command": "echo \"$(date -u +%FT%TZ) $HOOK_TOOL ${HOOK_DURATION}ms\" >> ~/.autohand/audit.log",
+          "description": "Audit tool calls"
+        },
+        {
+          "event": "session-end",

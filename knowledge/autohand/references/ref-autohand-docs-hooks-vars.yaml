@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-hooks-vars
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-hooks-events
+locator:
+  kind: document_section
+  heading: Template variables
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/hooks-and-events.md"
+excerpt: |-
+  Double curly braces insert event data into commands before they run. Values that are not a single plain word are single-quoted for the shell, and unknown variables become empty strings.
+  | Variable | Description | Events |
+  |---|---|---|
+  | {{file}} | Path to the affected file | file-modified, permission events |
+  | {{tool}} | Tool name | pre-tool, post-tool, permission events |
+  | {{command}} | Shell command text | pre-tool and post-tool for shell tools, permission events |
+  | {{session_id}} | Current session identifier | All events |
+  | {{duration}} | Execution time in milliseconds | post-tool, stop, session-end, subagent-stop |
+  | {{exit_code}} | 0 when the tool succeeded, 1 when it failed | post-tool |
+  | {{error}} | Error message | session-error, rate-limit, subagent-stop, review:failed |

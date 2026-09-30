@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-agents-inline
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: "Injecting Custom Agents Inline (`--agents <json>`)"
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  File-based agents (under `~/.autohand/agents/`) are ideal for agents you reuse across sessions. When you need an agent for a single run -- in CI, a shell alias, a script, or a one-off task -- you can inject custom agents non-interactively with the `--agents` flag. It accepts a JSON object in the same format as Claude Code:
+  ```bash
+  autohand --agents '{"reviewer":{"description":"Reviews code for security issues","prompt":"You are a security-focused code reviewer. Flag injection, auth, and data-exposure risks."}}'
+  ```
+  The JSON is a map of agent name to definition:
+  | Field         | Required | Description                                                                                 |

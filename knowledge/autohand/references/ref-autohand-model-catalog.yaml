@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-model-catalog
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: CLI behavior
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  At normal startup, Autohand checks for a catalog update when the last successful check is at least four hours old. A failed check enters a 15-minute retry backoff. Network, HTTP, validation, and write errors never prevent the CLI from starting.
+  The CLI resolves model definitions in this order:
+  1. `~/.autohand/models.json`, or the file selected by `AUTOHAND_MODELS_CATALOG`
+  2. the last valid downloaded catalog at `~/.autohand/model-catalog/models.json`
+  3. the catalog bundled with the installed CLI
+  Entries are merged by provider and model ID. This keeps local overrides authoritative, makes the downloaded catalog available offline after its first successful refresh, and preserves a working fallback when the public endpoint is unavailable or returns invalid data.

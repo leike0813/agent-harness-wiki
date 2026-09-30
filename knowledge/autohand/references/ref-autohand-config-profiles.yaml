@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-config-profiles
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Profiles and One-Run Overrides
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  A profile is a partial config stored under `profiles.<name>` and selected with `--profile <name>`. `--set key=value` overrides one setting with a dotted path; repeat it for several. Values are parsed as JSON when they parse (`true`, `50`, `["a","b"]`) and kept as text otherwise.
+  ```json
+  {
+    "provider": "openrouter",
+    "profiles": {
+      "review": {
+        "provider": "autohandai",
+        "autohandai": { "model": "moa" },
+        "permissions": { "mode": "restricted" },
+        "ui": { "showThinking": true }
+      }
+    }
+  }
+  ```
+  ```bash
+  autohand --profile review
+  autohand --set ui.theme=aurora --set agent.maxIterations=50
+  autohand doctor --profile review --json
+  ```
+  Precedence, lowest first: config file, workspace `.autohand` overlays, environment variables, profile, `--set`.

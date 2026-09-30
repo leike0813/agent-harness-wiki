@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-src-hook-order
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: file_lines
+  file: src/core/HookManager.ts
+  start: 1145
+  end: 1210
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  * Sync hooks are executed sequentially and block until complete.
+     * Async hooks are executed in parallel and don't block.
+     */
+    async executeHooks(
+      event: HookEvent,
+      context: Omit<HookContext, 'event' | 'workspace'>,
+      options: HookExecutionOptions = {},
+    ): Promise<HookExecutionResult[]> {
+      const alreadyAborted = options.signal?.aborted === true;
+      if (alreadyAborted && event !== 'post-tool') {
+        return [];
+      }
+      const fullContext: HookContext = {
+        ...context,
+        event,
+        workspace: this.workspaceRoot,
+      };
+      this.notifyLifecycle(fullContext);
+      if (alreadyAborted) {
+        return [];
+      }
+      if (!this.isEnabled()) {
+        return [];
+      }
+      const runtimeResults = await this.executeExtensionHooks(event, fullContext, options);

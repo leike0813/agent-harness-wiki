@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-src-config-merge
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: file_lines
+  file: src/config.ts
+  start: 550
+  end: 600
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  }
+    const normalized = normalizeConfig(parsed);
+    // Load workspace-specific overlays if workspaceRoot is provided. Two layers
+    // apply, lowest precedence first:
+    //   1. <workspace>/.autohand/config.{json,toml,yaml,yml} (shareable project config)
+    //   2. <workspace>/.autohand/settings.local.json          (personal, gitignored)
+    let projectConfig: LocalProjectSettings | null = null;
+    let workspaceSettings: LocalProjectSettings | null = null;
+    if (workspaceRoot) {
+      projectConfig = await loadProjectConfigOverlay(workspaceRoot, configPath);
+      workspaceSettings = await loadLocalProjectSettings(workspaceRoot);
+    }
+    // Project hooks and MCP servers run commands, and a cloned repository can
+    // ship them. They only apply once the user trusts this exact content.

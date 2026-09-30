@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-skills-bootstrap
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Auto-Skill Bootstrap
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  The `--auto-skill` flag analyzes your project, finds high-confidence community skills that fit the codebase, installs them into `<project>/.autohand/skills/`, and activates them for the session before the agent starts.
+  ### Usage
+  ```bash
+  autohand --auto-skill
+  ```
+  ### How It Works
+  1. **Project Analysis** - Scans for package.json, requirements.txt, Cargo.toml, go.mod
+  2. **Recommendation** - Uses the skills advisor to rank community skills for the project
+  3. **Install** - Automatically installs the strongest matches at project scope
+  4. **Activation** - Activates the installed skills so their instructions are available immediately
+  5. **Fallback** - If nothing scores highly enough, Autohand continues normally without installing skills
+  ### Detected Patterns
+  | Category | Detected Items |

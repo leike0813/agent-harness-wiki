@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-agents-models
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Model Overrides per Agent
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Different agents may benefit from different models. Simple tasks like code cleanup do not require the most capable model, while architecture review benefits from stronger reasoning.
+  Set the model in the agent's frontmatter:
+  ```markdown
+  ---
+  description: Quick code cleanup agent
+  tools: read_file, search, apply_patch
+  model: anthropic/claude-3-haiku
+  ---
+  ```
+  The `model` field overrides the global default from `~/.autohand/config.json` for that agent only. Other agents on the same team continue to use the global default unless they have their own override.
+  Guidelines for model selection:
+  - **Fast/cheap models** (e.g., `claude-3-haiku`) -- cleanup, search, simple formatting tasks.
+  - **Balanced models** (e.g., `claude-3.5-sonnet`) -- test writing, documentation, implementation.

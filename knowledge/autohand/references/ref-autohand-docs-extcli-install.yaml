@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-extcli-install
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-extensions-cli
+locator:
+  kind: document_section
+  heading: Install at user or project scope
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/extensions/cli-extensions.md"
+excerpt: |-
+  | Scope | Command | Storage | Use it when |
+  |---|---|---|---|
+  | User | autohand extensions install ./pkg | $AUTOHAND_HOME/extensions, normally ~/.autohand/extensions | The capability should follow you across workspaces |
+  | Project | autohand --path . extensions install ./pkg --scope project | .autohand/extensions in the workspace | The repository owns the capability or needs a pinned team setup |
+  A normal install copies the entire package through a staging directory, validates the staged copy, and atomically renames it into place. Reinstalling identical content is idempotent. Replacing different installed content requires `--replace`.
+  ```bash
+  autohand extensions install ./my-extension
+  autohand extensions install ./my-extension --scope project

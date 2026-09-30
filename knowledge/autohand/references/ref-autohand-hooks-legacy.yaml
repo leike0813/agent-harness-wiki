@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-hooks-legacy
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: "Legacy Event Names, Config Shape, and Template Variables"
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  The first hooks documentation described an event-keyed config shape, `on_*` /
+  `before_*` / `after_*` event names, and `{{variable}}` placeholders. All three
+  still work and are rewritten onto the lifecycle events above, so an older
+  configuration keeps firing without changes.
+  ### Legacy config shape
+  Commands may be listed directly under an event name. Each string (or object
+  with a `command`) becomes a hook definition for that event; the array form and
+  the event-keyed form can be mixed. The next time hooks are saved from `/hooks`
+  the file is written in the array form.
+  ```json
+  {
+    "hooks": {
+      "on_file_change": [
+        "eslint {{file}} --fix",
+        { "command": "prettier --write {{file}}", "async": true }
+      ],
+      "on_session_end": ["notify-send \"Autohand session finished\""]
+    }
+  }
+  ```

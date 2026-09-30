@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-agents-skills
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Skills per Agent
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Delegated agents and teammates see the same skills as the lead. An agent definition can name the skills that apply from its first request:
+  ```markdown
+  ---
+  description: Reproduces and diagnoses bugs before proposing changes
+  tools: read_file, find_grep, list_tree, run_command
+  reasoning: high
+  skills: systematic-debugging, root-cause-analysis
+  ---
+  ```
+  Declared skills are placed in the agent's system prompt in full. The remaining skills are listed by name, and the agent can activate one with the `skill` tool; the instructions come back in the tool result. Activation is private to that agent: a reviewer activating a skill changes nothing for the lead or for sibling agents. The built-in debugger, reviewer, autohand-review, and software-architect agents declare skills this way.

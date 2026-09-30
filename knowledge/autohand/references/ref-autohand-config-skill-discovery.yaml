@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-config-skill-discovery
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Skill Discovery Locations
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Skills are discovered from multiple locations, with later sources taking precedence:
+  | Location                                 | Source ID          | Description                               |
+  | ---------------------------------------- | ------------------ | ----------------------------------------- |
+  | `~/.codex/skills/**/SKILL.md`            | `codex-user`       | User-level Codex skills (recursive)       |
+  | `~/.claude/skills/*/SKILL.md`            | `claude-user`      | User-level Claude skills (one level)      |
+  | `~/.autohand/skills/**/SKILL.md`         | `autohand-user`    | User-level Autohand skills (recursive)    |
+  | `<project>/.claude/skills/*/SKILL.md`    | `claude-project`   | Project-level Claude skills (one level)   |

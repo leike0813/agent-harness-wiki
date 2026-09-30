@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-src-mcp-transports
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: file_lines
+  file: src/mcp/types.ts
+  start: 15
+  end: 36
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  * Supports stdio (spawned process), SSE, and HTTP (Streamable HTTP) transports.
+   */
+  export interface McpServerConfig {
+    /** Unique name for this server */
+    name: string;
+    /** Transport type: 'stdio' spawns a process, 'sse'/'http' connects via HTTP */
+    transport: 'stdio' | 'sse' | 'http';
+    /** Command to start the server (stdio transport) */
+    command?: string;
+    /** Arguments for the command */
+    args?: string[];
+    /** Endpoint URL (sse/http transport) */
+    url?: string;
+    /** Environment variables to pass to the server */
+    env?: Record<string, string>;
+    /** Custom HTTP headers (http/sse transport) */
+    headers?: Record<string, string>;
+    /** Whether to auto-connect on startup (default: true) */
+    autoConnect?: boolean;

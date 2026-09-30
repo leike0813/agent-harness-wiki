@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-extapi-manifest
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-extension-api
+locator:
+  kind: document_section
+  heading: Manifest
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/extensions/extension-api.md"
+excerpt: |-
+  ```json
+  {
+    "$schema": "https://raw.githubusercontent.com/autohandai/code-extensions/main/schema/autohand.extension.schema.json",
+    "schemaVersion": 1,
+    "extensionApi": 1,
+    "id": "company.release-helper",
+    "name": "Release Helper",
+    "version": "1.0.0",
+    "description": "Prepare and inspect releases.",
+    "license": "Apache-2.0",
+    "repository": "https://github.com/company/release-helper",
+    "contributes": {
+      "tools": ["tools/release-range.json"],
+      "agents": ["agents/release-planner.md"],
+      "skills": ["skills/release-workflow/SKILL.md"],
+      "runtime": ["dist/extension.mjs"]
+    }
+  }
+  ```
+  | Field | Contract |
+  |---|---|
+  | schemaVersion | Required and exactly 1 |
+  | extensionApi | Required and exactly 1 |
+  | id | Lowercase qualified id such as company.extension-name, 3–100 characters |

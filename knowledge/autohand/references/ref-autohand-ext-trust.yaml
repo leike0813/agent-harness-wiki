@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-ext-trust
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Trust and execution model
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Validation never imports runtime code. Installation of a package containing `contributes.runtime` requires explicit trust:
+  ```sh
+  autohand extensions validate ./company.release-helper
+  autohand extensions install ./company.release-helper --trust
+  ```
+  `--trust` is a code-execution decision, not a permission shortcut. A trusted runtime executes inside the Autohand process with the same operating-system access as Autohand. It is not sandboxed. Review the runtime and its bundled dependencies before trusting it.
+  Trust is stored in Autohand state outside the package, survives disable/enable, and disappears on removal. Disable and removal deactivate every registration from that extension.

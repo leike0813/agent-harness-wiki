@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-mcp-startup
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Non-Blocking Startup
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  MCP servers connect **asynchronously in the background** during startup. This means:
+  1. The prompt appears immediately -- no waiting for servers to connect
+  2. Servers connect in parallel, each independently
+  3. Tools become available as servers finish connecting
+  4. If a server fails, others continue normally (errors shown with `/mcp`)
+  5. When the LLM invokes an MCP tool, Autohand waits for connections to complete first
+  This behavior matches how Claude Code and similar tools handle MCP -- the user is never blocked by slow server startup.
+  ---

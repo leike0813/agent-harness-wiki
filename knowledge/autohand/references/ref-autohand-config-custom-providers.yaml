@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-config-custom-providers
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: customProviders
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Custom providers let users bring an OpenAI-compatible endpoint without a code change or a new bundled provider. Add the provider under `customProviders`, then select it with `provider: "custom:<id>"`. The same flow is available from `/model` with **New provider...**. During setup, Autohand verifies the base URL, authentication, and selected model through the OpenAI-compatible `/models` endpoint before saving the provider.
+  ```json
+  {
+    "provider": "custom:acme",
+    "customProviders": {
+      "acme": {
+        "id": "acme",
+        "displayName": "Acme AI",
+        "apiFormat": "openai-compatible",
+        "baseUrl": "https://api.acme.example/v1",
+        "apiKey": "acme-api-key",
+        "apiKeyRequired": true,
+        "model": "acme-code-1",
+        "contextWindow": 256000,
+        "reasoningEffort": "high",

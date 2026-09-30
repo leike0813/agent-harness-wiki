@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-hooks-control
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Control Flow Responses
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Hooks can return JSON to control agent behavior. This is useful for:
+  - Automating permission decisions
+  - Blocking dangerous operations
+  - Modifying tool inputs
+  ### Response Format
+  ```json
+  {
+    "decision": "allow",
+    "reason": "Approved by automation",
+    "continue": true,
+    "stopReason": null,
+    "updatedInput": null,
+    "additionalContext": null
+  }
+  ```
+  ### Response Fields
+  | Field | Type | Description |
+  |-------|------|-------------|
+  | `decision` | string | `allow`, `deny`, `ask`, or `block` |
+  | `reason` | string | Reason for decision (shown to agent) |
+  | `continue` | boolean | Whether to continue execution |
+  | `stopReason` | string | Message shown when continue is false |
+  | `updatedInput` | object | Modified tool input |

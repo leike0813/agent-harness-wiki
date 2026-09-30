@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-agents-monitoring
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Monitoring Agent Activity
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  ### Team Status
+  Use `/team status` to see what each agent is doing:
+  ```
+  Team: feature-auth [active]
+  Tasks [2/5 done]
+    [done] task-1: Research auth patterns          -> alice
+    [done] task-2: Write auth middleware tests     -> bob
+    [working] task-3: Implement auth middleware    -> bob
+    [pending] task-4: Write documentation          (blocked by task-3)
+    [pending] task-5: Review implementation        (blocked by task-3, task-4)
+  Teammates
+    [idle] alice (researcher)
+    [working] bob (tester)
+    [idle] carol (reviewer)
+  ```
+  The status view shows both task progress and teammate states. An idle teammate is waiting for new work or for a blocked task to become available.
+  ### Direct Messaging
+  Use `/message <name> <text>` to communicate with specific agents during execution:
+  ```

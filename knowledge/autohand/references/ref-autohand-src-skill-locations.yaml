@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-src-skill-locations
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: file_lines
+  file: src/constants.ts
+  start: 247
+  end: 275
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  /**
+   * User skill search locations in order of precedence (later wins on collision).
+   * Each entry specifies: path pattern, source type, and whether to search recursively.
+   */
+  export function getUserSkillLocations(homeDir = os.homedir(), autohandSkillsDir = AUTOHAND_PATHS.skills) {
+    return [
+      { basePath: path.join(homeDir, '.codex', 'skills'), source: 'codex-user' as const, recursive: true },
+      { basePath: path.join(homeDir, '.claude', 'skills'), source: 'claude-user' as const, recursive: false },
+      { basePath: path.join(homeDir, '.agent', 'skills'), source: 'agent-user' as const, recursive: true },
+      { basePath: path.join(homeDir, '.agents', 'skills'), source: 'agent-user' as const, recursive: true },

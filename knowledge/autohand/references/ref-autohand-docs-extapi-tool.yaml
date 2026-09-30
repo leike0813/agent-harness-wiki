@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-extapi-tool
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-extension-api
+locator:
+  kind: document_section
+  heading: Tool contribution
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/extensions/extension-api.md"
+excerpt: |-
+  ```json
+  {
+    "name": "find_todos",
+    "description": "Find TODO comments under a tracked path",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Repository-relative file or directory"
+        }
+      },
+      "required": ["path"]
+    },
+    "handler": "git grep -n TODO -- {{path}}",
+    "source": "user"
+  }
+  ```
+  Tool names use lower snake case. `parameters` must be a JSON Schema object. Every handler placeholder must be declared and required; values are shell escaped when rendered. The handler is screened for unsafe patterns at validation and still requires normal authorization when invoked.
+  **Never embed credentials.** Extension packages can be inspected and shared.

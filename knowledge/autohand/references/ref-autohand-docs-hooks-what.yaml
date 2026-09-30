@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-hooks-what
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-hooks-events
+locator:
+  kind: document_section
+  heading: What hooks and events are
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/hooks-and-events.md"
+excerpt: |-
+  Hooks are shell commands that Autohand Code runs in response to **events**. Events are discrete moments in the agent lifecycle, such as a file change, a tool call, or the end of a session.
+  You configure hooks in JSON as an array of definitions, each naming an event and a command. When an event fires, the agent selects the definitions whose `filter` or `matcher` match, substitutes template variables, sets the `$HOOK_*` environment variables, writes the event context to stdin, and runs the command. Synchronous hooks block until they finish; hooks marked `async` run in the background.

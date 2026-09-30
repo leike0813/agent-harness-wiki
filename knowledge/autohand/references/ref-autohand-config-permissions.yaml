@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-config-permissions
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Permissions Settings
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Fine-grained control over tool permissions.
+  ```json
+  {
+    "permissions": {
+      "mode": "interactive",
+      "whitelist": [
+        "run_command:npm *",
+        "run_command:bun *",
+        "run_command:git status"
+      ],
+      "blacklist": ["run_command:rm -rf *", "run_command:sudo *"],
+      "rules": [
+        {
+          "tool": "run_command",
+          "pattern": "npm test",
+          "action": "allow"
+        }
+      ],
+      "rememberSession": true
+    }
+  }
+  ```
+  ### `mode`
+  | Value            | Description                                           |
+  | ---------------- | ----------------------------------------------------- |
+  | `"interactive"`  | Prompt for approval on dangerous operations (default) |
+  | `"unrestricted"` | No prompts, allow everything                          |

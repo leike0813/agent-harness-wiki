@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-extapi-constraints
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-extension-api
+locator:
+  kind: document_section
+  heading: Path and input constraints
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/extensions/extension-api.md"
+excerpt: |-
+  -   Contribution paths use `/`, are relative to the package root, unique in their list, and no longer than 240 characters.
+  -   Absolute paths, drive-letter paths, backslashes, empty segments, `.`, `..`, NUL bytes, and path traversal are rejected.
+  -   Declared contributions must resolve to regular files inside the real package root. Contribution symlinks are rejected.
+  -   Manifests are limited to 64 KiB; each contribution is limited to 256 KiB.
+  -   Manifest and contribution text must be valid UTF-8.
+  -   A package cannot reuse a built-in, standalone, or already-active declarative or runtime identity.

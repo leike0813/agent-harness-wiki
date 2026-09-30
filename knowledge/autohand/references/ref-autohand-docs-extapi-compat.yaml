@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-extapi-compat
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-extension-api
+locator:
+  kind: document_section
+  heading: Compatibility and publishing contract
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/extensions/extension-api.md"
+excerpt: |-
+  Package against `extensionApi: 1`, validate with the oldest Autohand Code version your team supports, and test both linked and copied installation. Keep each package independently installable and include purpose, validation, installation, trust, permission behavior, daily use, and removal instructions in its README.
+  Extension API v1 installs only from a local directory. For distribution, publish an immutable tag or release, have users check out that pinned version, and install the local directory. Installing directly from an unpinned remote URL or Git branch is intentionally unsupported.
+  ```bash
+  autohand extensions validate ./company.release-helper
+  autohand extensions install ./company.release-helper --link --trust
+  autohand extensions show company.release-helper
+  autohand extensions doctor

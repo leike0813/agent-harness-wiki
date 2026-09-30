@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-providers-custom
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Custom OpenAI-Compatible Providers
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Use custom providers when a service exposes an OpenAI-compatible API but is not bundled into Autohand. This keeps the built-in provider list small while still supporting team gateways, private deployments, and new hosted providers.
+  From the TUI, run `/model`, choose **New provider...**, then enter:
+  - provider display name
+  - OpenAI-compatible base URL
+  - whether an API key is required
+  - model id
+  - optional context window and reasoning effort
+  Autohand verifies the base URL, API key, and selected model through the OpenAI-compatible `/models` endpoint before saving the provider. If `/models` returns model IDs, the selected model must be present in that list.
+  The saved config uses `provider: "custom:<id>"` and stores provider details under `customProviders`:
+  ```json
+  {

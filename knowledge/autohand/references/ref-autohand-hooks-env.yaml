@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-hooks-env
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Environment Variables
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  When your hook command executes, these environment variables are available:
+  | Variable | Description | Available In |
+  |----------|-------------|--------------|
+  | `HOOK_EVENT` | Event name (e.g., "pre-tool") | All events |
+  | `HOOK_WORKSPACE` | Workspace root path | All events |
+  | `HOOK_SESSION_ID` | Current session ID | All events |
+  | `HOOK_TOOL` | Tool name | pre-tool, post-tool, permission-request, permission-denied |
+  | `HOOK_TOOL_CALL_ID` | Unique tool call ID | pre-tool, post-tool |
+  | `HOOK_ARGS` | JSON-encoded tool arguments | pre-tool, post-tool |
+  | `HOOK_SUCCESS` | "true" or "false" | post-tool |
+  | `HOOK_OUTPUT` | Tool output/result | post-tool |
+  | `HOOK_DURATION` | Execution time in ms | post-tool, stop, session-end |

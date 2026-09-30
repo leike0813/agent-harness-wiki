@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-hooks-events
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Hook Events
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  | Event | When Fired | Context Available |
+  |-------|-----------|-------------------|
+  | `pre-tool` | Before a tool begins execution | tool name, args, toolCallId |
+  | `post-tool` | After a tool completes | tool name, success, duration, output |
+  | `file-modified` | When a file is created, modified, or deleted | file path, change type |
+  | `pre-prompt` | Before sending instruction to LLM | instruction, mentioned files |
+  | `stop` | After agent finishes responding (turn complete) | tokens used, tool calls count, duration |
+  | `post-response` | Alias for `stop` for backward compatibility | tokens used, tool calls count, duration |
+  | `session-start` | When a session begins | session type (startup/resume/clear) |
+  | `session-end` | When a session ends | reason (quit/clear/exit/error), duration |

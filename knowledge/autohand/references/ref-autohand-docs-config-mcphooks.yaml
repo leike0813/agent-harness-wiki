@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-config-mcphooks
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-configuration
+locator:
+  kind: document_section
+  heading: MCP and hooks
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/configuration.md"
+excerpt: |-
+  ### MCP servers
+  ```json
+  {
+    "mcp": {
+      "enabled": true,
+      "servers": [
+        {
+          "name": "repository-tools",
+          "transport": "stdio",
+          "command": "npx",
+          "args": ["-y", "@company/repository-mcp"],
+          "env": {
+            "LOG_LEVEL": "warn"
+          },
+          "autoConnect": true
+        },
+        {
+          "name": "remote-tools",
+          "transport": "http",
+          "url": "https://mcp.example.com/mcp",
+          "headers": {
+            "Authorization": "Bearer replace-locally"
+          },
+          "autoConnect": true
+        }
+      ]
+    }
+  }
+  ```
+  A server requires `name` and `transport`. `stdio` requires `command`; `http` and `sse` require `url`. Optional fields are `args`, `env`, `headers`, and `autoConnect`. Manage servers with `autohand mcp` or `/mcp`.

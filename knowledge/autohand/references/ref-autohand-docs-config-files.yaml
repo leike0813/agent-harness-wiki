@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-config-files
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-configuration
+locator:
+  kind: document_section
+  heading: Configuration files and lookup
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/configuration.md"
+excerpt: |-
+  Autohand selects one user configuration source in this order:
+  1.  An explicit `--config <path>`
+  2.  The `AUTOHAND_CONFIG` environment variable
+  3.  `$AUTOHAND_HOME/config.toml`
+  4.  `$AUTOHAND_HOME/config.yaml`
+  5.  `$AUTOHAND_HOME/config.yml`
+  6.  `$AUTOHAND_HOME/config.json`
+  `AUTOHAND_HOME` defaults to `~/.autohand`. Keep only one of the four standard config files in that directory; multiple formats are rejected instead of being merged. JSON is created with safe defaults on first run when no file exists.
+  ### Project-local overlay
+  When a workspace is known, Autohand also reads `.autohand/settings.local.json`. The overlay supports `provider`, `model`, `agent`, `network`, `telemetry`, and `permissions`. Those values override or merge with the user config for that workspace.
+  ```json
+  {

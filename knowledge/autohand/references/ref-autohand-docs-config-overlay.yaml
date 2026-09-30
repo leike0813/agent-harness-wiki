@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-config-overlay
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-configuration
+locator:
+  kind: document_section
+  heading: Project-local overlay
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/configuration.md"
+excerpt: |-
+  When a workspace is known, Autohand also reads `.autohand/settings.local.json`. The overlay supports `provider`, `model`, `agent`, `network`, `telemetry`, and `permissions`. Those values override or merge with the user config for that workspace.
+  ```json
+  {
+    "version": 1,
+    "provider": "openrouter",
+    "model": "anthropic/claude-sonnet-4",
+    "agent": {
+      "maxIterations": 80
+    },
+    "permissions": {
+      "allowList": ["run_command:npm test", "run_command:npm run lint"],
+      "denyList": ["run_command:npm publish"]
+    }
+  }
+  ```
+  Keep this file local when it contains personal approvals. Project-scoped extensions, agents, skills, hooks, and MCP servers have their own documented storage and lifecycle; do not place arbitrary top-level user config inside this overlay.

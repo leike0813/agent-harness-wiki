@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-ext-runtime
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Runtime entrypoint
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Export `activate(api)`, a default activation function, or a default object with `activate`. Activation may return a cleanup function. An optional exported `deactivate` function is also called when Autohand reloads, disables, or removes the extension.
+  ```js
+  export async function activate(api) {
+    // Register capabilities here.
+    return async () => {
+      // Release resources owned by the extension.
+    };
+  }
+  ```
+  The API is versioned as `api.version === 1`. TypeScript authors can import its public type and compile their source before packaging:
+  ```ts
+  import type { ExtensionRuntimeAPI } from 'autohand-cli';
+  export function activate(api: ExtensionRuntimeAPI): void {
+    // Registrations are type checked in source and emitted as JavaScript.
+  }
+  ```

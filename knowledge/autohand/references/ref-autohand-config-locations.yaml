@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-config-locations
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Configuration File Location
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Autohand looks for configuration in this order:
+  1. `AUTOHAND_CONFIG` environment variable (custom path)
+  2. `~/.autohand/config.toml`
+  3. `~/.autohand/config.yaml`
+  4. `~/.autohand/config.yml`
+  5. `~/.autohand/config.json` (default)
+  You can also override the base directory:
+  ```bash
+  export AUTOHAND_HOME=/custom/path  # Changes ~/.autohand to /custom/path
+  ```
+  ### Profiles and One-Run Overrides
+  A profile is a partial config stored under `profiles.<name>` and selected with `--profile <name>`. `--set key=value` overrides one setting with a dotted path; repeat it for several. Values are parsed as JSON when they parse (`true`, `50`, `["a","b"]`) and kept as text otherwise.
+  ```json
+  {
+    "provider": "openrouter",
+    "profiles": {
+      "review": {
+        "provider": "autohandai",

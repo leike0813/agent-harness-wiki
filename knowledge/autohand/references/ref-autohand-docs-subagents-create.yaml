@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-subagents-create
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-subagents
+locator:
+  kind: document_section
+  heading: Create a custom definition
+official_url: "https://docs.autohand.ai/docs-md/guides/teams-and-swarms/sub-agents.md"
+excerpt: |-
+  Use `/agents new` for the interactive wizard; it saves a generated Markdown file under `~/.autohand/agents/`. You can also create a Markdown definition directly. The filename becomes the agent name.
+  ```markdown
+  ---
+  description: Reviews billing changes for contract and webhook regressions
+  tools: read_file, fff_grep, fff_find
+  model: gpt-5.4
+  ---
+  You are the billing-contract reviewer for this repository.
+  For every task:
+  1. Trace the request from UI to API, provider call, webhook, and persisted state.
+  2. Treat webhook-confirmed state as authoritative where the repository does.
+  3. Report findings with file paths, line numbers, and the violated contract.
+  4. Do not edit files.
+  Return: severity, evidence, user impact, and the smallest safe correction.
+  ```

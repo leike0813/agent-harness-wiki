@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-hooks-matcher
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: "Matcher (Regex Filtering)"
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Use the `matcher` property to filter events using regex patterns:
+  ```json
+  {
+    "event": "pre-tool",
+    "command": "./log-dangerous.sh",
+    "matcher": "^(run_command|delete_path)$",
+    "description": "Log only dangerous tool calls"
+  }
+  ```
+  What the matcher matches against depends on the event type:
+  | Event | Matcher Matches Against |
+  |-------|------------------------|
+  | `pre-tool`, `post-tool` | Tool name |
+  | `permission-request` | Tool name |
+  | `notification` | Notification type |
+  | `session-start` | Session type (startup/resume/clear) |
+  | `session-end` | End reason (quit/clear/exit/error) |
+  | `subagent-start`, `subagent-progress`, `subagent-message`, `subagent-cancel-requested`, `subagent-stop` | Subagent type |
+  | `automode:*` | Event-specific auto-mode prompt, iteration, or reason |

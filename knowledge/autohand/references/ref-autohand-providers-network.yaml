@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-providers-network
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Network Configuration
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  All cloud providers support custom network settings:
+  ```json
+  {
+    "network": {
+      "maxRetries": 3,
+      "timeout": 30000,
+      "retryDelay": 1000
+    }
+  }
+  ```
+  | Setting      | Default | Description                      |
+  | ------------ | ------- | -------------------------------- |
+  | `maxRetries` | 3       | Max retry attempts (capped at 5) |
+  | `timeout`    | 30000   | Request timeout in ms            |
+  | `retryDelay` | 1000    | Base delay between retries       |
+  Retries use exponential backoff: `retryDelay * 2^attempt`

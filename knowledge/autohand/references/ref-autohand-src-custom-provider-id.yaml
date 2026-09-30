@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-src-custom-provider-id
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: file_lines
+  file: src/providers/customProviders.ts
+  start: 10
+  end: 56
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  CustomProviderSettings,
+    ProviderName,
+  } from "../types.js";
+  const CUSTOM_PROVIDER_PREFIX = "custom:";
+  export function normalizeCustomProviderId(input: string): string {
+    return input
+      .trim()
+      .toLowerCase()
+      .replace(/^custom:/i, "")
+      .replace(/[^a-z0-9._-]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+  export function toCustomProviderName(id: string): CustomProviderId {
+    return `${CUSTOM_PROVIDER_PREFIX}${normalizeCustomProviderId(id)}`;
+  }
+  export function parseCustomProviderName(provider: unknown): string | null {
+    if (typeof provider !== "string" || !provider.toLowerCase().startsWith(CUSTOM_PROVIDER_PREFIX)) {
+      return null;
+    }
+    const id = normalizeCustomProviderId(provider.slice(CUSTOM_PROVIDER_PREFIX.length));
+    return id.length > 0 ? id : null;
+  }

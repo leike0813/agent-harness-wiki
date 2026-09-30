@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-subagents-parallel
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-subagents
+locator:
+  kind: document_section
+  heading: Delegate independent tasks in parallel
+official_url: "https://docs.autohand.ai/docs-md/guides/teams-and-swarms/sub-agents.md"
+excerpt: |-
+  `delegate_parallel` accepts at most five tasks. Use it when workers do not depend on each other's output and, for write-capable workers, do not touch the same files.
+  ```text
+  Use parallel delegation for four independent, read-only reviews of the
+  current diff:
+  1. reviewer — correctness, regressions, and error handling.
+  2. security-auditor — authorization, secrets, injection, and data exposure.
+  3. accessibility-tester — keyboard, focus, semantics, contrast, and labels.
+  4. performance-engineer — avoidable I/O, rendering, queries, and hot paths.
+  Every worker must cite file and line evidence and return only actionable
+  findings. After all four return, deduplicate them, resolve disagreements,
+  and order the combined report by severity.
+  ```

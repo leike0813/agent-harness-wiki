@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-extapi-agent
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-extension-api
+locator:
+  kind: document_section
+  heading: Agent contribution
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/extensions/extension-api.md"
+excerpt: |-
+  JSON agents use the existing fields `description`, `systemPrompt`, `tools`, and optional `model`. Markdown agents use the file name as the agent name and may declare frontmatter:
+  ```markdown
+  ---
+  description: Review maintainability risks
+  tools: read_file, fff_grep, find_todos
+  ---
+  Review the requested code and return evidence-backed findings.
+  Preserve working contracts and propose the smallest safe remediation.
+  ```
+  If frontmatter omits `tools`, the definition requests all available tools. That does not grant access: Autohand resolves names against the final runtime registry, applies context filtering, and enforces permissions on every call.

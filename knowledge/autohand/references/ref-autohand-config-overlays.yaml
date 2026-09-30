@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-config-overlays
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: file_lines
+  file: docs/config-reference.md
+  start: 1425
+  end: 1432
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  - Add `.autohand/settings.local.json` to `.gitignore` to keep personal settings private
+  **Project config overlays:**
+  Both `.autohand/config.{json,toml,yaml,yml}` (shareable) and `.autohand/settings.local.json` (personal) are read at startup and layered over the global config, in that order. Only `hooks` and `mcp` are read from the shared project config file, because a repository can commit it. `settings.local.json` supports `hooks`, `mcp`, `permissions`, `agent`, `network`, `telemetry`, `provider`, and `model`. Hooks and MCP servers are appended to the global list, with a project entry replacing a global one that has the same identity (hook script name or event plus description/command; MCP server name).

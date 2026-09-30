@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-config-multiagent
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Multi-agent Session Limits
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  `features.multi_agent_v2.max_concurrent_threads_per_session` sets the total number of simultaneous threads in a session, including the main agent. The default is `9`: one main agent plus up to eight subagents. Choose an integer from `1` to `64`. Setting `1` keeps the main agent available and disables delegation.
+  Open `/settings` → **Teams** → **Session thread limit (main agent included)**, or set it directly:
+  ```text
+  /settings features.multi_agent_v2.max_concurrent_threads_per_session 4
+  /settings max_agents 4
+  ```
+  The non-interactive equivalent is `autohand config set features.multi_agent_v2.max_concurrent_threads_per_session 4`. Settings are persisted in the existing configuration format:
+  ```json
+  {
+    "features": {
+      "multi_agent_v2": {
+        "max_concurrent_threads_per_session": 4
+      }

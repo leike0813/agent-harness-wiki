@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-hooks-workspace-trust
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Workspace trust
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  A cloned repository can ship these files, so project hooks and project MCP servers only run in a workspace you trust.
+  - The first interactive launch in such a workspace lists every project hook command and how each project MCP server starts, then asks you to choose **Trust this workspace** or **Not now**.
+  - **Trust this workspace** runs them now and in later sessions. The decision is stored in `~/.autohand/trusted-workspaces.json` with a fingerprint of the declared hooks and servers.
+  - Any change to a project hook or project MCP server changes the fingerprint, so Autohand asks again. Permission approvals saved to `settings.local.json` do not.
+  - **Not now**, Escape, or Ctrl+C starts the session without them, and Autohand asks again next launch.

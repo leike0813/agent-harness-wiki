@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-extensions-install
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Install an extension
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Validate an extension before installing it:
+  ```sh
+  autohand extensions validate ./path/to/extension
+  ```
+  Install for the current user:
+  ```sh
+  autohand extensions install ./path/to/extension
+  ```
+  Install only for the current workspace:
+  ```sh
+  autohand --path . extensions install ./path/to/extension --scope project
+  ```
+  Executable runtime packages require an explicit code review and trust decision:
+  ```sh
+  autohand extensions install ./path/to/runtime-extension --trust
+  ```
+  Validation never imports runtime code. `--trust` allows declared compiled JavaScript to execute inside the Autohand process; it is not a sandbox or a permission bypass.
+  Normal installation copies the complete package atomically. Extension development can use an explicit link:
+  ```sh

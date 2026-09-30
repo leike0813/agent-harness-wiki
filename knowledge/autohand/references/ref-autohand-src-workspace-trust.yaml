@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-src-workspace-trust
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: file_lines
+  file: src/permissions/workspaceTrust.ts
+  start: 20
+  end: 70
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  /** Executable entries a workspace contributes through its project files. */
+  export interface WorkspaceTrustEntries {
+    hooks: HookDefinition[];
+    mcpServers: McpServerConfigEntry[];
+  }
+  interface TrustedWorkspaceRecord {
+    fingerprint: string;
+    trustedAt: string;
+  }
+  interface WorkspaceTrustStore {
+    version: number;
+    workspaces: Record<string, TrustedWorkspaceRecord>;
+  }
+  function isRecord(value: unknown): value is Record<string, unknown> {
+    return value !== null && typeof value === 'object' && !Array.isArray(value);
+  }
+  /** JSON with sorted object keys and undefined fields dropped, for stable comparison and hashing. */
+  export function canonicalJson(value: unknown): string {
+    return JSON.stringify(value, (_key, entry: unknown) => {
+      if (!isRecord(entry)) return entry;

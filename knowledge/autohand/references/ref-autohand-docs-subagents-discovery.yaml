@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-subagents-discovery
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-subagents
+locator:
+  kind: document_section
+  heading: Definition discovery and precedence
+official_url: "https://docs.autohand.ai/docs-md/guides/teams-and-swarms/sub-agents.md"
+excerpt: |-
+  Run `/agents definitions` to see the definitions registered for the current session. File-based definitions are loaded first-match-wins in this order:
+  1.  User definitions in `~/.autohand/agents/`.
+  2.  Configured external agent directories, in the order listed in configuration.
+  3.  Bundled Autohand definitions.
+  Session definitions passed as inline JSON through `--agents` override file-based definitions with the same name. This lets CI or a one-off run inject a narrow role without modifying a persistent user file. Autohand Code does not automatically scan project or Codex agent directories; add any shared project directory through `externalAgents.paths`.
+  **Override deliberately.** Reusing the name `reviewer` in a higher-priority location replaces the bundled reviewer for that session.

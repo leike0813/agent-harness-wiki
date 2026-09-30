@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-mcp-startup
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-mcp
+locator:
+  kind: document_section
+  heading: Non-blocking startup
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/mcp-servers.md"
+excerpt: |-
+  MCP servers connect asynchronously in the background when Autohand starts. This means the agent is ready to accept instructions immediately without waiting for all servers to finish connecting.
+  ### How it works
+  -   On startup, connection attempts for all configured servers are fired in parallel
+  -   Tools become available as each server comes online
+  -   If the agent invokes a tool before its server has finished connecting, Autohand performs a just-in-time wait for that specific server
+  -   Failed connections are logged but do not block the agent from starting
+  **Tip:** Set `"autoConnect": false` for servers you only need occasionally. Connect them manually with `/mcp connect` when needed.

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-hooksr-advanced
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-hooks-reference
+locator:
+  kind: document_section
+  heading: Advanced configuration
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/hooks.md"
+excerpt: |-
+  ### Timeouts
+  Each hook has a `timeout` in milliseconds (default 5000). Quick logging needs 1000-2000ms, network calls usually need 10000-30000ms, and anything longer should run asynchronously.
+  ```json
+  {
+    "event": "file-modified",
+    "command": "npm test -- --findRelatedTests \"$HOOK_PATH\"",
+    "timeout": 30000
+  }
+  ```
+  ### Async hooks
+  Set `async: true` to run a hook in the background without blocking the agent. Use it for logging, metrics, and notifications, not for hooks that return control-flow decisions, since their output is not waited for:
+  ```json
+  {
+    "event": "file-modified",
+    "command": "npm run build",
+    "async": true
+  }
+  ```
+  ### External scripts
+  For anything beyond a one-liner, point `command` at a script.

@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-teams-arch
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: Architecture
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Agent Teams uses a lead-managed model. A single lead process orchestrates everything: spawning teammates, assigning tasks, routing messages, and tracking progress.
+  - **Lead process** -- The interactive Autohand session you launch normally. It creates and manages the team.
+  - **Teammate processes** -- Headless child processes spawned via `autohand --mode teammate`. Each runs its own LLM loop to work on assigned tasks.
+  - **Communication** -- All inter-process communication uses JSON-RPC 2.0 over stdio, encoded as newline-delimited JSON. The `MessageRouter` class handles encoding and decoding.
+  - **Task management** -- The lead maintains a shared `TaskManager` with dependency resolution. Tasks have `blockedBy` arrays; a task only becomes available when all its dependencies are completed.

@@ -1,0 +1,41 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-config-mcp
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: MCP Settings
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Configure MCP (Model Context Protocol) servers to extend Autohand with external tools.
+  ```json
+  {
+    "mcp": {
+      "enabled": true,
+      "servers": [
+        {
+          "name": "filesystem",
+          "transport": "stdio",
+          "command": "npx",
+          "args": ["-y", "@modelcontextprotocol/server-filesystem", "/tmp"],
+          "env": {},
+          "autoConnect": true
+        },
+        {
+          "name": "context7",
+          "transport": "http",
+          "url": "https://mcp.context7.com/mcp",
+          "headers": {
+            "CONTEXT7_API_KEY": "ctx7sk-your-api-key"
+          },
+          "autoConnect": true
+        }
+      ]
+    }
+  }
+  ```
+  ### `mcp.enabled`
+  - **Type**: `boolean`
+  - **Default**: `true`
+  - **Description**: Enable or disable all MCP support.

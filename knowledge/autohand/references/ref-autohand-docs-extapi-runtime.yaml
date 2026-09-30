@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-docs-extapi-runtime
+harness_id: autohand
+snapshot_id: snapshot-autohand-docs-extension-api
+locator:
+  kind: document_section
+  heading: Trusted runtime entrypoints
+official_url: "https://docs.autohand.ai/docs-md/working-with-autohand-code/extensions/extension-api.md"
+excerpt: |-
+  A runtime path must resolve to compiled `.js`, `.mjs`, or `.cjs`. Validation checks the file and package contract without importing it. Installation requires `--trust`; trusted code then runs inside the Autohand process with the same operating-system access and is not sandboxed.
+  ```js
+  export async function activate(api) {
+    api.commands.register({
+      command: '/deploy',
+      description: 'Open the deployment workflow',
+      execute(context) {
+        return `Preparing ${context.args[0] || 'staging'}`;
+      },
+    });
+    return async () => {
+      // Release extension-owned resources.
+    };
+  }
+  export async function deactivate() {
+    // Optional cleanup on reload, disable, or removal.
+  }
+  ```
+  The module may export `activate(api)`, a default activation function, or a default object with `activate`.

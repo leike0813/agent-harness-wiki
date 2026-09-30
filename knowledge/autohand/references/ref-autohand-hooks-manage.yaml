@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-hooks-manage
+harness_id: autohand
+snapshot_id: snapshot-autohand-repo
+locator:
+  kind: document_section
+  heading: "Manual management with `/hooks manage`"
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Use `/hooks manage` for existing config hooks:
+  - View all registered hooks grouped by event
+  - Add new hooks
+  - Enable/disable individual hooks
+  - Remove hooks
+  - Test hooks with sample context
+  - Toggle hooks globally
+  ### Display Example
+  ```
+  Hooks
+  ──────────────────────────────────────────────────
+  Mode: enabled
+  pre-tool (2/2 enabled)
+    1. [enabled] echo "Running tool: $HOOK_TOOL" - Log tool usage
+    2. [enabled] ./notify.sh - Notify slack
+  post-tool (1/1 enabled)
+    1. [enabled] ./metrics.sh - Track metrics
+  stop (1/1 enabled)
+    1. [enabled] ./track-tokens.sh - Track token usage
+  session-start (1/1 enabled)
+    1. [enabled] ./log-session.sh - Log sessions
+  ──────────────────────────────────────────────────
+  Total: 5 hooks (5 enabled, 0 disabled)
+  ```
+  ---
