@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-plugins-enablement-is-enabled
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/extensions/extensionEnablement.ts
+  start: 137
+  end: 175
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  /**
+     * Determines if an extension is enabled based on its name and the current
+     * path. The last matching rule in the overrides list wins.
+     *
+     * @param extensionName The name of the extension.
+     * @param currentPath The absolute path of the current working directory.
+     * @returns True if the extension is enabled, false otherwise.
+     */
+    isEnabled(extensionName: string, currentPath: string): boolean {
+      // If we have a single override called 'none', this disables all extensions.
+      // Typically, this comes from the user passing `-e none`.
+      if (
+        this.enabledExtensionNamesOverride.length === 1 &&
+        this.enabledExtensionNamesOverride[0] === 'none'
+      ) {
+        return false;
+      }
+      // If we have explicit overrides, only enable those extensions.

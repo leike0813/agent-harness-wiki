@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-hooks-best-debug
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Debugging
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  ### The "Strict JSON" rule
+  The most common cause of hook failure is "polluting" the standard output.
+  - **stdout** is for **JSON only**.
+  - **stderr** is for **logs and text**.
+  **Good:**
+  ```bash
+  #!/bin/bash
+  echo "Starting check..." >&2  # <--- Redirect to stderr
+  echo '{"decision": "allow"}'
+  ```
+  ### Log to files
+  Since hooks run in the background, writing to a dedicated log file is often the
+  easiest way to debug complex logic.
+  ```bash
+  #!/usr/bin/env bash
+  LOG_FILE=".gemini/hooks/debug.log"

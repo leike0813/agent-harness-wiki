@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-storage-migration
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/core/src/config/storageMigration.ts
+  start: 1
+  end: 60
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  /**
+   * @license
+   * Copyright 2025 Google LLC
+   * SPDX-License-Identifier: Apache-2.0
+   */
+  import * as fs from 'node:fs';
+  import * as path from 'node:path';
+  import { debugLogger } from '../utils/debugLogger.js';
+  /**
+   * Migration utility to move data from old hash-based directories to new slug-based directories.
+   */
+  export class StorageMigration {
+    /**
+     * Migrates a directory from an old path to a new path if the old one exists and the new one doesn't.
+     * @param oldPath The old directory path (hash-based).
+     * @param newPath The new directory path (slug-based).
+     */
+    static async migrateDirectory(
+      oldPath: string,
+      newPath: string,
+    ): Promise<void> {
+      try {
+        if (!fs.existsSync(oldPath)) {
+          return;
+        }
+        if (fs.existsSync(newPath)) {

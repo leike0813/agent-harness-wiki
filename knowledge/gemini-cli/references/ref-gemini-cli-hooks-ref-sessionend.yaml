@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-hooks-ref-sessionend
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: "`SessionEnd`"
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  Fires when the CLI exits or a session is cleared. Used for cleanup or final
+  telemetry.
+  - **Input Fields**:
+    - `reason`: (`"exit" | "clear" | "logout" | "prompt_input_exit" | "other"`)
+  - **Relevant Output Fields**:
+    - `systemMessage`: Displayed to the user during shutdown.
+  - **Best Effort**: The CLI **will not wait** for this hook to complete and
+    ignores all flow-control fields (`continue`, `decision`).

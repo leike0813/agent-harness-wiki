@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-providers-auth-persist
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: docs/get-started/authentication.mdx
+  start: 361
+  end: 445
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  ## Persisting environment variables <a id="persisting-vars"></a>
+  To avoid setting environment variables for every terminal session, you can
+  persist them with the following methods:
+  1.  **Add your environment variables to your shell configuration file:** Append
+      the environment variable commands to your shell's startup file.
+      <Tabs>
+        <TabItem label="macOS/Linux">
+        (for example, `~/.bashrc`, `~/.zshrc`, or `~/.profile`):
+        ```bash
+          echo 'export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"' >> ~/.bashrc
+          source ~/.bashrc
+        ```
+        </TabItem>
+        <TabItem label="Windows (PowerShell)">
+        (for example, `$PROFILE`):
+        ```powershell
+          Add-Content -Path $PROFILE -Value '$env:GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"'
+          . $PROFILE
+        ```

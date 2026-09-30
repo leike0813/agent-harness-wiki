@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-trust-check
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settings.ts
+  start: 936
+  end: 960
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  // Support legacy theme names
+    if (userSettings.ui?.theme === 'VS') {
+      userSettings.ui.theme = DefaultLight.name;
+    } else if (userSettings.ui?.theme === 'VS2015') {
+      userSettings.ui.theme = DefaultDark.name;
+    }
+    if (workspaceSettings.ui?.theme === 'VS') {
+      workspaceSettings.ui.theme = DefaultLight.name;
+    } else if (workspaceSettings.ui?.theme === 'VS2015') {
+      workspaceSettings.ui.theme = DefaultDark.name;
+    }
+    // For the initial trust check, we can only use user and system settings.
+    const initialTrustCheckSettings = customDeepMerge(
+      getMergeStrategyForPath,
+      getDefaultsFromSchema(),
+      systemDefaultSettings,
+      userSettings,
+      systemSettings,
+    );
+    const isTrusted =
+      isWorkspaceTrusted(initialTrustCheckSettings as Settings, workspaceDir)

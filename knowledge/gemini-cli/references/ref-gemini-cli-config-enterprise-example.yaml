@@ -1,0 +1,43 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-enterprise-example
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: "Putting it all together: example system `settings.json`"
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  Here is an example of a system `settings.json` file that combines several of the
+  patterns discussed above to create a secure, controlled environment for Gemini
+  CLI.
+  ```json
+  {
+    "tools": {
+      "sandbox": "docker",
+      "core": [
+        "ReadFileTool",
+        "GlobTool",
+        "ShellTool(ls)",
+        "ShellTool(cat)",
+        "ShellTool(grep)"
+      ]
+    },
+    "mcp": {
+      "allowed": ["corp-tools"]
+    },
+    "mcpServers": {
+      "corp-tools": {
+        "command": "/opt/gemini-tools/start.sh",
+        "timeout": 5000
+      }
+    },
+    "telemetry": {
+      "enabled": true,
+      "target": "gcp",
+      "otlpEndpoint": "https://telemetry-prod.example.com:4317",
+      "logPrompts": false
+    },
+    "advanced": {
+      "bugCommand": {
+        "urlTemplate": "https://servicedesk.example.com/new-ticket?title={title}&details={info}"

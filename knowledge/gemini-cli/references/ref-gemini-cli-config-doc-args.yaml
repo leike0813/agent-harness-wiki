@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-doc-args
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Command-line arguments
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  Arguments passed directly when running the CLI can override other configurations
+  for that specific session.
+  - **`--acp`**:
+    - Starts the agent in Agent Communication Protocol (ACP) mode.
+  - **`--allowed-mcp-server-names`**:
+    - A comma-separated list of MCP server names to allow for the session.
+  - **`--allowed-tools <tool1,tool2,...>`**:
+    - A comma-separated list of tool names that will bypass the confirmation
+      dialog.
+    - Example: `gemini --allowed-tools "ShellTool(git status)"`
+  - **`--approval-mode <mode>`**:
+    - Sets the approval mode for tool calls. Available modes:
+      - `default`: Prompt for approval on each tool call (default behavior)
+      - `auto_edit`: Automatically approve edit tools (replace, write_file) while
+        prompting for others

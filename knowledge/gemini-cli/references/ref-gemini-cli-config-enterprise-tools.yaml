@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-enterprise-tools
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: "Allowlisting with `coreTools`"
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  The most secure approach is to explicitly add the tools and commands that users
+  are permitted to execute to an allowlist. This prevents the use of any tool not
+  on the approved list.
+  **Example:** Allow only safe, read-only file operations and listing files.
+  ```json
+  {
+    "tools": {
+      "core": ["ReadFileTool", "GlobTool", "ShellTool(ls)"]
+    }
+  }
+  ```

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-mcp-doc-richer
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Returning rich content from tools
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  MCP tools are not limited to returning simple text. You can return rich,
+  multi-part content, including text, images, audio, and other binary data in a
+  single tool response. This lets you build powerful tools that can provide
+  diverse information to the model in a single turn.
+  All data returned from the tool is processed and sent to the model as context
+  for its next generation, enabling it to reason about or summarize the provided
+  information.
+  ### How it works
+  To return rich content, your tool's response must adhere to the MCP
+  specification for a
+  [`CallToolResult`](https://modelcontextprotocol.io/specification/2025-06-18/server/tools#tool-result).
+  The `content` field of the result should be an array of `ContentBlock` objects.

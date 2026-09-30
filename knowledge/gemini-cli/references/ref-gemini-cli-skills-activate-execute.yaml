@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-skills-activate-execute
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/core/src/tools/activate-skill.ts
+  start: 111
+  end: 158
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  async execute({ abortSignal: _signal }: ExecuteOptions): Promise<ToolResult> {
+      const skillName = this.params.name;
+      const skillManager = this.config.getSkillManager();
+      const skill = skillManager.getSkill(skillName);
+      if (!skill) {
+        const skills = skillManager.getSkills();
+        const availableSkills = skills.map((s) => s.name).join(', ');
+        const errorMessage = `Skill "${skillName}" not found. Available skills are: ${availableSkills}`;
+        return {
+          llmContent: `Error: ${errorMessage}`,
+          returnDisplay: `Error: ${errorMessage}`,
+          error: {
+            message: errorMessage,
+            type: ToolErrorType.INVALID_TOOL_PARAMS,
+          },
+        };
+      }
+      skillManager.activateSkill(skillName);

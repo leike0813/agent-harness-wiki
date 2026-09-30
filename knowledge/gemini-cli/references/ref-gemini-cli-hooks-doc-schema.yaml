@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-hooks-doc-schema
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Configuration schema
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  ```json
+  {
+    "hooks": {
+      "BeforeTool": [
+        {
+          "matcher": "write_file|replace",
+          "hooks": [
+            {
+              "name": "security-check",
+              "type": "command",
+              "command": "$GEMINI_PROJECT_DIR/.gemini/hooks/security.sh",
+              "timeout": 5000
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```
+  #### Hook configuration fields
+  | Field         | Type   | Required  | Description                                                          |
+  | :------------ | :----- | :-------- | :------------------------------------------------------------------- |
+  | `type`        | string | **Yes**   | The execution engine. Currently only `"command"` is supported.       |
+  | `command`     | string | **Yes\*** | The shell command to execute.

@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-merge
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settings.ts
+  start: 240
+  end: 282
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  export function getDefaultsFromSchema(
+    schema: SettingsSchema = getSettingsSchema(),
+  ): Settings {
+    const defaults: Record<string, unknown> = {};
+    for (const key in schema) {
+      const definition = schema[key];
+      if (definition.properties) {
+        defaults[key] = getDefaultsFromSchema(definition.properties);
+      } else if (definition.default !== undefined) {
+        defaults[key] = definition.default;
+      }
+    }
+    return defaults as Settings;
+  }
+  export function mergeSettings(
+    system: Settings,
+    systemDefaults: Settings,
+    user: Settings,
+    workspace: Settings,
+    isTrusted: boolean,
+  ): MergedSettings {
+    const safeWorkspace = isTrusted ? workspace : ({} as Settings);
+    const schemaDefaults = getDefaultsFromSchema();

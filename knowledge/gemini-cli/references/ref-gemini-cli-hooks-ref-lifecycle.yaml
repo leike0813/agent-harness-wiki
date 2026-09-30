@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-hooks-ref-lifecycle
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: "Lifecycle & system hooks"
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  ### `SessionStart`
+  Fires on application startup, resuming a session, or after a `/clear` command.
+  Used for loading initial context.
+  - **Input fields**:
+    - `source`: (`"startup" | "resume" | "clear"`)
+  - **Relevant output fields**:
+    - `hookSpecificOutput.additionalContext`: (`string`)
+      - **Interactive**: Injected as the first turn in history.
+      - **Non-interactive**: Prepended to the user's prompt.
+    - `systemMessage`: Shown at the start of the session.
+  - **Advisory only**: `continue` and `decision` fields are **ignored**. Startup
+    is never blocked.
+  ### `SessionEnd`
+  Fires when the CLI exits or a session is cleared. Used for cleanup or final
+  telemetry.
+  - **Input Fields**:
+    - `reason`: (`"exit" | "clear" | "logout" | "prompt_input_exit" | "other"`)
+  - **Relevant Output Fields**:

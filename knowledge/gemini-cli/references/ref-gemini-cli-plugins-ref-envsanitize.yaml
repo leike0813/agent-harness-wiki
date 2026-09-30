@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-plugins-ref-envsanitize
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Environment variable sanitization
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  For security reasons, sensitive environment variables are filtered out and not
+  passed to extensions or MCP servers by default.
+  Extensions **will not** inherit the user's full shell environment variables.
+  They will only have access to:
+  1. Standard safe variables (e.g., `HOME`, `PATH`, `TMPDIR`).
+  2. Variables explicitly declared and requested in the `gemini-extension.json`
+     manifest via the `settings` array (using the `envVar` property).
+  If your extension requires specific environment variables (like an API key,
+  custom host, or config path), you **must** declare them in the `settings` array
+  so the CLI can allowlist them for use within the extension.

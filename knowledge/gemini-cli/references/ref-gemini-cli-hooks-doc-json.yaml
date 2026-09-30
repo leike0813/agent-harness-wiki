@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-hooks-doc-json
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: "Strict JSON requirements (The \"Golden Rule\")"
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  Hooks communicate via `stdin` (Input) and `stdout` (Output).
+  1. **Silence is Mandatory**: Your script **must not** print any plain text to
+     `stdout` other than the final JSON object. **Even a single `echo` or `print`
+     call before the JSON will break parsing.**
+  2. **Pollution = Failure**: If `stdout` contains non-JSON text, parsing will
+     fail. The CLI will default to "Allow" and treat the entire output as a
+     `systemMessage`.
+  3. **Debug via Stderr**: Use `stderr` for **all** logging and debugging (for
+     example, `echo "debug" >&2`). Gemini CLI captures `stderr` but never attempts
+     to parse it as JSON.

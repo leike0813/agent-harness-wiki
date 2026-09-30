@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-plugins-ref-format
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Extension format
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  Gemini CLI loads extensions from `<home>/.gemini/extensions`. Each extension
+  must have a `gemini-extension.json` file in its root directory.
+  ### `gemini-extension.json`
+  The manifest file defines the extension's behavior and configuration.
+  ```json
+  {
+    "name": "my-extension",
+    "version": "1.0.0",
+    "description": "My awesome extension",
+    "mcpServers": {
+      "my-server": {
+        "command": "node",
+        "args": ["${extensionPath}/my-server.js"],
+        "cwd": "${extensionPath}"
+      }
+    },
+    "contextFileName": "GEMINI.md",
+    "excludeTools": ["run_shell_command"],
+    "migratedTo": "https://github.com/new-owner/new-extension-repo",
+    "plan": {
+      "directory": ".gemini/plans"
+    }
+  }
+  ```
+  - `name`: The name of the extension. This is used to uniquely identify the

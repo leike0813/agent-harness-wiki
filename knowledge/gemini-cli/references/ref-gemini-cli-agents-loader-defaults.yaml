@@ -1,0 +1,43 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-agents-loader-defaults
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/core/src/agents/agentLoader.ts
+  start: 600
+  end: 640
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  return {
+      kind: 'local',
+      name: markdown.name,
+      description: markdown.description,
+      displayName: markdown.display_name,
+      promptConfig: {
+        systemPrompt: markdown.system_prompt,
+        query: '${query}',
+      },
+      modelConfig: {
+        model: modelName,
+        generateContentConfig: {
+          temperature: markdown.temperature ?? 1,
+          topP: 0.95,
+        },
+      },
+      runConfig: {
+        maxTurns: markdown.max_turns ?? DEFAULT_MAX_TURNS,
+        maxTimeMinutes: markdown.timeout_mins ?? DEFAULT_MAX_TIME_MINUTES,
+      },
+      toolConfig: markdown.tools
+        ? {
+            tools: markdown.tools,
+          }
+        : undefined,
+      mcpServers: Object.keys(mcpServers).length > 0 ? mcpServers : undefined,
+      inputConfig,
+      metadata,
+    };
+  }
+  /**

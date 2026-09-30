@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-hooks-doc-config
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Configuration
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  Hooks are configured in `settings.json`. Gemini CLI merges configurations from
+  multiple layers in the following order of precedence (highest to lowest):
+  1.  **Project settings**: `.gemini/settings.json` in the current directory.
+  2.  **User settings**: `~/.gemini/settings.json`.
+  3.  **System settings**: `/etc/gemini-cli/settings.json`.
+  4.  **Extensions**: Hooks defined by installed extensions.
+  ### Configuration schema
+  ```json
+  {
+    "hooks": {
+      "BeforeTool": [
+        {
+          "matcher": "write_file|replace",
+          "hooks": [
+            {
+              "name": "security-check",
+              "type": "command",
+              "command": "$GEMINI_PROJECT_DIR/.gemini/hooks/security.sh",
+              "timeout": 5000
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```
+  #### Hook configuration fields

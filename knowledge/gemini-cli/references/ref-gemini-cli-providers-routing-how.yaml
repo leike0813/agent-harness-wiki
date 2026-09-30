@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-providers-routing-how
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: How it works
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  Model routing is managed by the `ModelAvailabilityService`, which monitors model
+  health and automatically routes requests to available models based on defined
+  policies.
+  1.  **Model failure:** If the currently selected model fails (for example, due
+      to quota or server errors), the CLI will initiate the fallback process.
+  2.  **User consent:** Depending on the failure and the model's policy, the CLI
+      may prompt you to switch to a fallback model (by default always prompts
+      you).
+      Some internal utility calls (such as prompt completion and classification)
+      use a silent fallback chain for `gemini-2.5-flash-lite` and will fall back
+      to `gemini-2.5-flash` and `gemini-2.5-pro` without prompting or changing the
+      configured model.
+  3.

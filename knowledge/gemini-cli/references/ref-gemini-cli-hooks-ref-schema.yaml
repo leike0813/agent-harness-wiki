@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-hooks-ref-schema
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Configuration schema
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  Hooks are defined in `settings.json` within the `hooks` object. Each event (for
+  example, `BeforeTool`) contains an array of **hook definitions**.
+  ### Hook definition
+  | Field        | Type      | Required | Description                                                                             |
+  | :----------- | :-------- | :------- | :-------------------------------------------------------------------------------------- |
+  | `matcher`    | `string`  | No       | A regex (for tools) or exact string (for lifecycle) to filter when the hook runs.       |
+  | `sequential` | `boolean` | No       | If `true`, hooks in this group run one after another. If `false`, they run in parallel. |
+  | `hooks`      | `array`   | **Yes**  | An array of **hook configurations**.

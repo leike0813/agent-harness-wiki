@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-policy-approval
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Approval modes
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  Approval modes allow the policy engine to apply different sets of rules based on
+  the CLI's operational mode. A rule in a TOML policy file can be associated with
+  one or more modes (for example, `yolo`, `autoEdit`, `plan`). The rule will only
+  be active if the CLI is running in one of its specified modes. If a rule has no
+  modes specified, it is always active.
+  - `default`: The standard interactive mode where most write tools require
+    confirmation.
+  - `autoEdit`: Optimized for automated code editing; some write tools may be
+    auto-approved.
+  - `plan`: A strict, read-only mode for research and design. See
+    [Customizing Plan Mode Policies](../cli/plan-mode.md#customizing-policies).
+  - `yolo`: A mode where all tools are auto-approved (use with extreme caution).

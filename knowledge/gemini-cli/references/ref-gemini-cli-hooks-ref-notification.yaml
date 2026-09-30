@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-hooks-ref-notification
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: "`Notification`"
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  Fires when the CLI emits a system alert (for example, Tool Permissions). Used
+  for external logging or cross-platform alerts.
+  - **Input Fields**:
+    - `notification_type`: (`"ToolPermission"`)
+    - `message`: Summary of the alert.
+    - `details`: JSON object with alert-specific metadata (for example, tool name,
+      file path).
+  - **Relevant Output Fields**:
+    - `systemMessage`: Displayed alongside the system alert.
+  - **Observability Only**: This hook **cannot** block alerts or grant permissions
+    automatically. Flow-control fields are ignored.

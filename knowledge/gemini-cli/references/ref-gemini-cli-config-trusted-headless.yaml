@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-trusted-headless
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Headless and automated environments
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  When running Gemini CLI in a headless environment (for example, a CI/CD
+  pipeline) where interactive prompts are not possible, the trust dialog cannot be
+  displayed. If the folder is untrusted and the Folder Trust feature is enabled,
+  the CLI will throw a `FatalUntrustedWorkspaceError` and exit.
+  To proceed in these environments, you can bypass the trust check using one of
+  the following methods:
+  - **Command-line flag:** Run the CLI with the `--skip-trust` flag.
+  - **Environment variable:** Set the `GEMINI_CLI_TRUST_WORKSPACE=true`
+    environment variable.
+  These methods will trust the current workspace for the duration of the session
+  without prompting.
+  For detailed instructions on managing folder trust within CI/CD workflows,
+  review the

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-mcp-doc-mcpcli
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: "Managing MCP servers with `gemini mcp`"
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  While you can always configure MCP servers by manually editing your
+  `settings.json` file, Gemini CLI provides a convenient set of commands to manage
+  your server configurations programmatically. These commands streamline the
+  process of adding, listing, and removing MCP servers without needing to directly
+  edit JSON files.
+  ### Adding a server (`gemini mcp add`)
+  The `add` command configures a new MCP server in your `settings.json`. Based on
+  the scope (`-s, --scope`), it will be added to either the user config
+  `~/.gemini/settings.json` or the project config `.gemini/settings.json` file.
+  **Command:**
+  ```bash
+  gemini mcp add [options] <name> <commandOrUrl> [args...]
+  ```
+  - `<name>`: A unique name for the server.
+  - `<commandOrUrl>`: The command to execute (for `stdio`) or the URL (for

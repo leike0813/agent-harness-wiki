@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-skills-manager-state
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/core/src/skills/skillManager.ts
+  start: 152
+  end: 192
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  getSkills(): SkillDefinition[] {
+      return this.skills.filter((s) => !s.disabled);
+    }
+    /**
+     * Returns the list of enabled discovered skills that should be displayed in the UI.
+     * This excludes built-in skills.
+     */
+    getDisplayableSkills(): SkillDefinition[] {
+      return this.skills.filter((s) => !s.disabled && !s.isBuiltin);
+    }
+    /**
+     * Returns all discovered skills, including disabled ones.
+     */
+    getAllSkills(): SkillDefinition[] {
+      return this.skills;
+    }
+    /**
+     * Filters discovered skills by name.
+     */
+    filterSkills(predicate: (skill: SkillDefinition) => boolean): void {
+      this.skills = this.skills.filter(predicate);
+    }
+    /**
+     * Sets the list of disabled skill names.
+     */
+    setDisabledSkills(disabledNames: string[]): void {

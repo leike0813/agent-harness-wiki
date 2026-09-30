@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-mcp-doc-prompts
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: MCP prompts as slash commands
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  In addition to tools, MCP servers can expose predefined prompts that can be
+  executed as slash commands within Gemini CLI. This lets you create shortcuts for
+  common or complex queries that can be easily invoked by name.
+  ### Defining prompts on the server
+  Here's a small example of a stdio MCP server that defines prompts:
+  ```ts
+  import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+  import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+  import { z } from 'zod';
+  const server = new McpServer({
+    name: 'prompt-server',
+    version: '1.0.0',
+  });
+  server.registerPrompt(
+    'poem-writer',
+    {
+      title: 'Poem Writer',
+      description: 'Write a nice haiku',
+      argsSchema: { title: z.string(), mood: z.string().optional() },
+    },
+    ({ title, mood }) => ({

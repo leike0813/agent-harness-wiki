@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-hooks-best-exitcodes
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Check exit codes
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  Gemini CLI uses exit codes for high-level flow control:
+  - **Exit 0 (Success)**: The hook ran successfully. The CLI parses `stdout` for
+    JSON decisions.
+  - **Exit 2 (System Block)**: A critical block occurred. `stderr` is used as the
+    reason.
+    - For **Agent/Model** events, this aborts the turn.
+    - For **Tool** events, this blocks the tool but allows the agent to continue.
+    - For **AfterAgent**, this triggers an automatic retry turn.
+  > **TIP**
+  >
+  > **Blocking vs. Stopping**: Use `decision: "deny"` (or Exit Code 2) to block a
+  > **specific action**. Use `{"continue": false}` in your JSON output to **kill
+  > the entire agent loop** immediately.
+  ```bash
+  #!/usr/bin/env bash
+  set -e

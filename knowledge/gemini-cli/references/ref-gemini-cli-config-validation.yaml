@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-validation
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settings-validation.ts
+  start: 1
+  end: 60
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  /**
+   * @license
+   * Copyright 2025 Google LLC
+   * SPDX-License-Identifier: Apache-2.0
+   */
+  import { z } from 'zod';
+  import {
+    getSettingsSchema,
+    type SettingDefinition,
+    type SettingCollectionDefinition,
+    SETTINGS_SCHEMA_DEFINITIONS,
+  } from './settingsSchema.js';
+  // Helper to build Zod schema from the JSON-schema-like definitions
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function buildZodSchemaFromJsonSchema(def: any): z.ZodTypeAny {
+    if (def.anyOf) {
+      return z.union(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        def.anyOf.map((d: any) => buildZodSchemaFromJsonSchema(d)),
+      );
+    }
+    if (def.type === 'string') {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion

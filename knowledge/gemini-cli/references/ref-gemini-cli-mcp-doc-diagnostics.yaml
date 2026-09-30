@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-mcp-doc-diagnostics
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Troubleshooting and Diagnostics
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  To minimize noise during startup, MCP connection errors for background servers
+  are "silent by default." If issues are detected during startup, a single
+  informational hint will be shown: _"MCP issues detected. Run /mcp list for
+  status."_
+  Detailed, actionable diagnostics for a specific server are automatically
+  re-enabled when:
+  1.  You run an interactive command like `/mcp list`, `/mcp auth`, etc.
+  2.  The model attempts to execute a tool from that server.
+  3.  You invoke an MCP prompt from that server.
+  You can also use `gemini mcp list` from your shell to see connection errors for
+  all configured servers.
+  ### Removing a server (`gemini mcp remove`)
+  To delete a server from your configuration, use the `remove` command with the
+  server's name.
+  **Command:**
+  ```bash
+  gemini mcp remove <name>
+  ```

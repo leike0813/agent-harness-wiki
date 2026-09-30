@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-mcp-doc-list
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: "Listing servers (`gemini mcp list`)"
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  To view all MCP servers currently configured, use the `list` command. It
+  displays each server's name, configuration details, and connection status. This
+  command has no flags.
+  **Command:**
+  ```bash
+  gemini mcp list
+  ```
+  <!-- prettier-ignore -->
+  > [!NOTE]
+  > For security, `stdio` MCP servers (those using the
+  > `command` property) are only tested and displayed as "Connected" if the
+  > current folder is trusted. If the folder is untrusted, they will show as
+  > "Disconnected". Use `gemini trust` to trust the current folder.
+  **Example output:**
+  ```sh
+  ✓ stdio-server: command: python3 server.py (stdio) - Connected
+  ✓ http-server: https://api.example.com/mcp (http) - Connected
+  ✗ sse-server: https://api.example.com/sse (sse) - Disconnected
+  ```

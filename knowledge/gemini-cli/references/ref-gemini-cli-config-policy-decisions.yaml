@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-policy-decisions
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Decisions
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  There are three possible decisions a rule can enforce:
+  - `allow`: The tool call is executed automatically without user interaction.
+  - `deny`: The tool call is blocked and is not executed. For global rules (those
+    without an `argsPattern`), tools that are denied are **completely excluded
+    from the model's memory**. This means the model will not even see the tool as
+    an option, which is more secure and saves context window space.
+  - `ask_user`: The user is prompted to approve or deny the tool call. (In
+    non-interactive mode, this is treated as `deny`.)
+  <!-- prettier-ignore -->
+  > [!NOTE]
+  > The `deny` decision is the recommended way to exclude tools. The
+  > legacy `tools.exclude` setting in `settings.json` is deprecated in favor of
+  > policy rules with a `deny` decision.

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-settings-advanced
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: docs/reference/configuration.md
+  start: 2030
+  end: 2066
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  #### `advanced`
+  - **`advanced.autoConfigureMemory`** (boolean):
+    - **Description:** Automatically configure Node.js memory limits. Note:
+      Because memory is allocated during the initial process boot, this setting is
+      only read from the global user settings file and ignores workspace-level
+      overrides.
+    - **Default:** `true`
+    - **Requires restart:** Yes
+  - **`advanced.dnsResolutionOrder`** (string):
+    - **Description:** The DNS resolution order.
+    - **Default:** `undefined`
+    - **Requires restart:** Yes
+  - **`advanced.excludedEnvVars`** (array):
+    - **Description:** Environment variables to exclude from project context.
+    - **Default:**
+      ```json
+      ["DEBUG", "DEBUG_MODE"]
+      ```
+  - **`advanced.ignoreLocalEnv`** (boolean):

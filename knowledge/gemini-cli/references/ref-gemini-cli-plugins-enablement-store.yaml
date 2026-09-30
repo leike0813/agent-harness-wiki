@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-plugins-enablement-store
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/extensions/extensionEnablement.ts
+  start: 108
+  end: 135
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  }
+  export class ExtensionEnablementManager {
+    private configFilePath: string;
+    private configDir: string;
+    // If non-empty, this overrides all other extension configuration and enables
+    // only the ones in this list.
+    private enabledExtensionNamesOverride: string[];
+    constructor(enabledExtensionNames?: string[]) {
+      this.configDir = ExtensionStorage.getUserExtensionsDir();
+      this.configFilePath = path.join(
+        this.configDir,
+        'extension-enablement.json',
+      );
+      this.enabledExtensionNamesOverride =
+        enabledExtensionNames?.map((name) => name.toLowerCase()) ?? [];
+    }
+    validateExtensionOverrides(extensions: GeminiCLIExtension[]) {
+      for (const name of this.enabledExtensionNamesOverride) {
+        if (name === 'none') continue;
+        if (

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-doc-envfiles
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: "Environment variables and `.env` files"
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  Environment variables are a common way to configure applications, especially for
+  sensitive information like API keys or for settings that might change between
+  environments. For authentication setup, see the
+  [Authentication documentation](../get-started/authentication.mdx) which covers
+  all available authentication methods.
+  The CLI automatically loads environment variables from an `.env` file. The
+  loading order is:
+  1.  `.env` file in the current working directory.
+  2.  If not found, it searches upwards in parent directories until it finds an
+      `.env` file or reaches the project root (identified by a `.git` folder) or
+      the home directory.
+  3.  If still not found, it looks for `~/.env` (in the user's home directory).

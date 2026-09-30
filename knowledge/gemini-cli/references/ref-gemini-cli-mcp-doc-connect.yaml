@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-mcp-doc-connect
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: "1. Server iteration and connection"
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  For each configured server in `mcpServers`:
+  1. **Status tracking begins:** Server status is set to `CONNECTING`
+  2. **Transport selection:** Based on configuration properties:
+     - `httpUrl` → `StreamableHTTPClientTransport`
+     - `url` → `SSEClientTransport`
+     - `command` → `StdioClientTransport`
+  3. **Connection establishment:** The MCP client attempts to connect with the
+     configured timeout
+  4. **Error handling:** Connection failures are logged and the server status is
+     set to `DISCONNECTED`

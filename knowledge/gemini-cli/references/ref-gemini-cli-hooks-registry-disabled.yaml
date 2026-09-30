@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-hooks-registry-disabled
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/core/src/hooks/hookRegistry.ts
+  start: 240
+  end: 285
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  definition: HookDefinition,
+      eventName: HookEventName,
+      source: ConfigSource,
+    ): void {
+      if (
+        !definition ||
+        typeof definition !== 'object' ||
+        !Array.isArray(definition.hooks)
+      ) {
+        debugLogger.warn(
+          `Discarding invalid hook definition for ${eventName} from ${source}:`,
+          definition,
+        );
+        return;
+      }
+      // Get disabled hooks list from settings
+      const disabledHooks = this.config.getDisabledHooks() || [];
+      for (const hookConfig of definition.hooks) {
+        if (
+          hookConfig &&
+          typeof hookConfig === 'object' &&
+          this.validateHookConfig(hookConfig, eventName, source)
+        ) {
+          // Check if this hook is in the disabled list

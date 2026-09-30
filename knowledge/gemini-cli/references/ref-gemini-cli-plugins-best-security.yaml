@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-plugins-best-security
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Security
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  Follow the principle of least privilege and rigorous input validation when
+  building extensions.
+  ### Minimal permissions
+  Only request the permissions your MCP server needs to function. Avoid giving the
+  model broad access (such as full shell access) if restricted tools are
+  sufficient.
+  If your extension uses powerful tools like `run_shell_command`, restrict them in
+  your `gemini-extension.json` file:
+  ```json
+  {
+    "name": "my-safe-extension",
+    "excludeTools": ["run_shell_command(rm -rf *)"]
+  }
+  ```
+  This ensures the CLI blocks dangerous commands even if the model attempts to
+  execute them.
+  ### Validate inputs
+  Your MCP server runs on the user's machine. Always validate tool inputs to
+  prevent arbitrary code execution or unauthorized filesystem access.
+  ```typescript
+  // Example: Validating paths

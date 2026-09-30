@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-agents-doc-format
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: File format
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  The file **MUST** start with YAML frontmatter enclosed in triple-dashes `---`.
+  The body of the markdown file becomes the agent's **System Prompt**.
+  **Example: `.gemini/agents/security-auditor.md`**
+  ```markdown
+  ---
+  name: security-auditor
+  description: Specialized in finding security vulnerabilities in code.
+  kind: local
+  tools:
+    - read_file
+    - grep_search
+  model: gemini-3-flash-preview
+  temperature: 0.2
+  max_turns: 10
+  ---
+  You are a ruthless Security Auditor. Your job is to analyze code for potential
+  vulnerabilities.
+  Focus on:
+  1.  SQL Injection
+  2.  XSS (Cross-Site Scripting)
+  3.  Hardcoded credentials
+  4.  Unsafe file operations
+  When you find a vulnerability, explain it clearly and suggest a fix. Do not fix
+  it yourself; just report it.
+  ```

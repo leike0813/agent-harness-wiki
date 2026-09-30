@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-mcp-doc-sanitize
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Security and environment sanitization
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  To protect your credentials, Gemini CLI performs environment sanitization when
+  spawning MCP server processes.
+  #### Automatic redaction
+  By default, the CLI redacts sensitive environment variables from the base
+  environment (inherited from the host process). This prevents the accidental
+  leakage of sensitive host environment variables (like AWS keys or GitHub tokens)
+  to arbitrary third-party MCP servers that might execute malicious code or log
+  your environment. This includes:
+  - Core project keys: `GEMINI_API_KEY`, `GOOGLE_API_KEY`, etc.
+  - Variables matching sensitive patterns: `*TOKEN*`, `*SECRET*`, `*PASSWORD*`,
+    `*KEY*`, `*AUTH*`, `*CREDENTIAL*`.
+  - Certificates and private key patterns.
+  #### Explicit overrides
+  If an environment variable must be passed to an MCP server, you must explicitly

@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-plugins-manager-build
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/extension-manager.ts
+  start: 708
+  end: 790
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  private async _buildExtension(
+      extensionDir: string,
+    ): Promise<GeminiCLIExtension | null> {
+      try {
+        const stats = await fs.promises.stat(extensionDir);
+        if (!stats.isDirectory()) {
+          return null;
+        }
+      } catch {
+        return null;
+      }
+      const installMetadata = loadInstallMetadata(extensionDir);
+      let effectiveExtensionPath = extensionDir;
+      if ((this.settings.security?.allowedExtensions?.length ?? 0) > 0) {
+        if (!installMetadata?.source) {
+          throw new Error(
+            `Failed to load extension ${extensionDir}. The ${INSTALL_METADATA_FILENAME} file is missing or misconfigured.`,
+          );
+        }
+        const extensionAllowed = this.settings.security?.allowedExtensions.some(
+          (pattern) => {
+            try {

@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-skills-loader-file
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/core/src/skills/skillLoader.ts
+  start: 164
+  end: 192
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  export async function loadSkillFromFile(
+    filePath: string,
+  ): Promise<SkillDefinition | null> {
+    try {
+      const content = await fs.readFile(filePath, 'utf-8');
+      const match = content.match(FRONTMATTER_REGEX);
+      if (!match) {
+        return null;
+      }
+      const frontmatter = parseFrontmatter(match[1]);
+      if (!frontmatter) {
+        return null;
+      }
+      // Sanitize name for use as a filename/directory name (e.g. replace ':' with '-')
+      const sanitizedName = frontmatter.name.replace(/[:\\/<>*?"|]/g, '-');
+      return {
+        name: sanitizedName,
+        description: frontmatter.description,
+        location: filePath,
+        body: match[2]?.trim() ?? '',
+      };
+    } catch (error) {
+      debugLogger.log(`Error parsing skill file ${filePath}:`, error);
+      return null;
+    }
+  }

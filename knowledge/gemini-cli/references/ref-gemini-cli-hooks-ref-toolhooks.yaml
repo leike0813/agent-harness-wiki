@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-hooks-ref-toolhooks
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Tool hooks
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  ### Matchers and tool names
+  For `BeforeTool` and `AfterTool` events, the `matcher` field in your settings is
+  compared against the name of the tool being executed.
+  - **Built-in Tools**: You can match any built-in tool (for example, `read_file`,
+    `run_shell_command`). See the [Tools Reference](../reference/tools) for a full
+    list of available tool names.
+  - **MCP Tools**: Tools from MCP servers follow the naming pattern
+    `mcp_<server_name>_<tool_name>`.
+  - **Regex Support**: Matchers support regular expressions (for example,
+    `matcher: "read_.*"` matches all file reading tools).
+  ### `BeforeTool`
+  Fires before a tool is invoked. Used for argument validation, security checks,
+  and parameter rewriting.
+  - **Input Fields**:
+    - `tool_name`: (`string`) The name of the tool being called.

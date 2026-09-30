@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-mcp-doc-resources
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Working with MCP resources
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  Some MCP servers expose contextual “resources” in addition to the tools and
+  prompts. Gemini CLI discovers these automatically and gives you the possibility
+  to reference them in the chat. For more information on the tools used to
+  interact with these resources, see [MCP resource tools](mcp-resources.md).
+  ### Discovery and listing
+  - When discovery runs, the CLI fetches each server’s `resources/list` results.
+  - The `/mcp` command displays a Resources section alongside Tools and Prompts
+    for every connected server.
+  This returns a concise, plain-text list of URIs plus metadata.
+  ### Referencing resources in a conversation
+  You can use the same `@` syntax already known for referencing local files:
+  ```
+  @server://resource/path
+  ```

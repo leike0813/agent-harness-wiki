@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-plugins-write-skill
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: "(Optional) Step 7: Add an Agent Skill"
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  [Agent Skills](../cli/skills.md) bundle specialized expertise and workflows.
+  Skills are activated only when needed, which saves context tokens.
+  1.  Create a `skills` directory and a subdirectory for your skill:
+      **macOS/Linux**
+      ```bash
+      mkdir -p skills/security-audit
+      ```
+      **Windows (PowerShell)**
+      ```powershell
+      New-Item -ItemType Directory -Force -Path "skills\security-audit"
+      ```
+  2.  Create a `skills/security-audit/SKILL.md` file:
+      ```markdown
+      ---
+      name: security-audit
+      description:
+        Expertise in auditing code for security vulnerabilities. Use when the user
+        asks to "check for security issues" or "audit" their changes.
+      ---
+      # Security Auditor
+      You are an expert security researcher. When auditing code:
+      1.

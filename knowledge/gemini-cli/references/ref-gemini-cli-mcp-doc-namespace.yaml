@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-mcp-doc-namespace
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: "3. Tool naming and namespaces"
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  To prevent collisions across multiple servers or conflicting built-in tools,
+  every discovered MCP tool is assigned a strict namespace.
+  1. **Automatic FQN:** All MCP tools are unconditionally assigned a fully
+     qualified name (FQN) using the format `mcp_{serverName}_{toolName}`.
+  2. **Registry tracking:** The tool registry maintains metadata mappings between
+     these FQNs and their original server identities.
+  3. **Overwrites:** If two servers share the exact same alias in your
+     configuration and provide tools with the exact same name, the last registered
+     tool overwrites the previous one.
+  4. **Policies:** To configure permissions (like auto-approval or denial) for MCP
+     tools, see
+     [Special syntax for MCP tools](../reference/policy-engine.md#special-syntax-for-mcp-tools)

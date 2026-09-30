@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-plugins-manager-install
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/extension-manager.ts
+  start: 180
+  end: 240
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  async installOrUpdateExtension(
+      installMetadata: ExtensionInstallMetadata,
+      previousExtensionConfig?: ExtensionConfig,
+      requestConsentOverride?: (consent: string) => Promise<boolean>,
+    ): Promise<GeminiCLIExtension> {
+      if ((this.settings.security?.allowedExtensions?.length ?? 0) > 0) {
+        const extensionAllowed = this.settings.security?.allowedExtensions.some(
+          (pattern) => {
+            try {
+              return new RegExp(pattern).test(
+                getRealPath(installMetadata.source),
+              );
+            } catch (e) {
+              throw new Error(
+                `Invalid regex pattern in allowedExtensions setting: "${pattern}. Error: ${getErrorMessage(e)}`,
+              );
+            }
+          },
+        );
+        if (!extensionAllowed) {
+          throw new Error(

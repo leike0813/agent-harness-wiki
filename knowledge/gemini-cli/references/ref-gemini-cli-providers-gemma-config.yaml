@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-providers-gemma-config
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Configuration
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  To use a local Gemma model for routing, you must explicitly enable it in your
+  `settings.json`:
+  ```json
+  {
+    "experimental": {
+      "gemmaModelRouter": {
+        "enabled": true,
+        "classifier": {
+          "host": "http://localhost:9379",
+          "model": "gemma3-1b-gpu-custom"
+        }
+      }
+    }
+  }
+  ```
+  > Use the port you started your LiteRT-LM runtime on in the setup steps.
+  ### Configuration schema
+  | Field              | Type    | Required | Description                                                                                |
+  | :----------------- | :------ | :------- | :----------------------------------------------------------------------------------------- |
+  | `enabled`          | boolean | Yes      | Must be `true` to enable the feature.

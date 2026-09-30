@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-settings-gemmarouter
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: docs/reference/configuration.md
+  start: 2210
+  end: 2245
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  - **`experimental.gemmaModelRouter.enabled`** (boolean):
+    - **Description:** Enable the Gemma Model Router (experimental). Requires a
+      local endpoint serving Gemma via the Gemini API using LiteRT-LM shim.
+    - **Default:** `false`
+    - **Requires restart:** Yes
+  - **`experimental.gemmaModelRouter.autoStartServer`** (boolean):
+    - **Description:** Automatically start the LiteRT-LM server when Gemini CLI
+      starts and the Gemma router is enabled.
+    - **Default:** `false`
+    - **Requires restart:** Yes
+  - **`experimental.gemmaModelRouter.binaryPath`** (string):
+    - **Description:** Custom path to the LiteRT-LM binary. Leave empty to use the
+      default location (~/.gemini/bin/litert/).
+    - **Default:** `""`
+    - **Requires restart:** Yes

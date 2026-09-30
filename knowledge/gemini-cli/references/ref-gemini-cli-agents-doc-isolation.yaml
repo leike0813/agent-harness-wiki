@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-agents-doc-isolation
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Isolation and recursion protection
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  Each subagent runs in its own isolated context loop. This means:
+  - **Independent history:** The subagent's conversation history does not bloat
+    the main agent's context.
+  - **Isolated tools:** The subagent only has access to the tools you explicitly
+    grant it.
+  - **Recursion protection:** To prevent infinite loops and excessive token usage,
+    subagents **cannot** call other subagents. If a subagent is granted the `*`
+    tool wildcard, it will still be unable to see or invoke other agents.

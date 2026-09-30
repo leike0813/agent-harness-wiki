@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-hooks-registry-trust
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/core/src/hooks/hookRegistry.ts
+  start: 170
+  end: 200
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  * Process hooks from the config that was already loaded by the CLI
+     */
+    private processHooksFromConfig(): void {
+      if (this.config.isTrustedFolder()) {
+        this.checkProjectHooksTrust();
+      }
+      // Get hooks from the main config (this comes from the merged settings)
+      const configHooks = this.config.getHooks();
+      if (configHooks) {
+        if (this.config.isTrustedFolder()) {
+          this.processHooksConfiguration(configHooks, ConfigSource.Project);
+        } else {
+          debugLogger.warn(
+            'Project hooks disabled because the folder is not trusted.',
+          );
+        }
+      }
+      // Get hooks from extensions
+      const extensions = this.config.getExtensions() || [];
+      for (const extension of extensions) {
+        if (extension.isActive && extension.hooks) {

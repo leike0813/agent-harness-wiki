@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-plugins-manager-load
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/extension-manager.ts
+  start: 608
+  end: 680
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  async loadExtensions(): Promise<GeminiCLIExtension[]> {
+      if (this.loadedExtensions) {
+        throw new Error('Extensions already loaded, only load extensions once.');
+      }
+      if (this.loadingPromise) {
+        return this.loadingPromise;
+      }
+      this.loadingPromise = (async () => {
+        try {
+          if (this.settings.admin?.extensions?.enabled === false) {
+            this.loadedExtensions = [];
+            return this.loadedExtensions;
+          }
+          const extensionsDir = ExtensionStorage.getUserExtensionsDir();
+          if (!fs.existsSync(extensionsDir)) {
+            this.loadedExtensions = [];
+            return this.loadedExtensions;
+          }
+          const subdirs = await fs.promises.readdir(extensionsDir);
+          const extensionPromises = subdirs.map((subdir) => {

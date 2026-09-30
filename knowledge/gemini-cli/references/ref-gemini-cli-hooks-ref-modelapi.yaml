@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-hooks-ref-modelapi
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Stable Model API
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  Gemini CLI uses these structures to ensure hooks don't break across SDK updates.
+  **LLMRequest**:
+  ```typescript
+  {
+    "model": string,
+    "messages": Array<{
+      "role": "user" | "model" | "system",
+      "content": string // Non-text parts are filtered out for hooks
+    }>,
+    "config": { "temperature": number, ... },
+    "toolConfig": { "mode": string, "allowedFunctionNames": string[] }
+  }
+  ```
+  **LLMResponse**:
+  ```typescript
+  {
+    "candidates": Array<{
+      "content": { "role": "model", "parts": string[] },
+      "finishReason": string
+    }>,
+    "usageMetadata": { "totalTokenCount": number }
+  }
+  ```

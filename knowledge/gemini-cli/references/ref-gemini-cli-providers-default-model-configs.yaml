@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-providers-default-model-configs
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/core/src/config/defaultModelConfigs.ts
+  start: 1
+  end: 60
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  /**
+   * @license
+   * Copyright 2025 Google LLC
+   * SPDX-License-Identifier: Apache-2.0
+   */
+  import { ThinkingLevel } from '@google/genai';
+  import type { ModelConfigServiceConfig } from '../services/modelConfigService.js';
+  import {
+    DEFAULT_THINKING_MODE,
+    BASE_GEMINI_FLASH_MODEL,
+    LATEST_GEMINI_FLASH_MODEL,
+    BASE_GEMINI_FLASH_LITE_MODEL,
+    LATEST_GEMINI_FLASH_LITE_MODEL,
+    DEFAULT_GEMINI_MODEL,
+  } from './models.js';
+  // The default model configs. We use `base` as the parent for all of our model
+  // configs, while `chat-base`, a child of `base`, is the parent of the models
+  // we use in the "chat" experience.
+  export const DEFAULT_MODEL_CONFIGS: ModelConfigServiceConfig = {
+    aliases: {
+      base: {
+        modelConfig: {
+          generateContentConfig: {
+            temperature: 0,

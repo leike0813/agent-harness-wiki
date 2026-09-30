@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-admin-remote
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settings.ts
+  start: 386
+  end: 410
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  const merged = mergeSettings(
+        this.system.settings,
+        this.systemDefaults.settings,
+        this.user.settings,
+        workspace.settings,
+        isTrusted,
+      );
+      // Remote admin settings always take precedence and file-based admin settings
+      // are ignored.
+      const adminSettingSchema = getSettingsSchema().admin;
+      if (adminSettingSchema?.properties) {
+        const adminSchema = adminSettingSchema.properties;
+        const adminDefaults = getDefaultsFromSchema(adminSchema);
+        // The final admin settings are the defaults overridden by remote settings.
+        // Any admin settings from files are ignored.
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
+        merged.admin = customDeepMerge(

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-agents-doc-policies
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: document_section
+  heading: Subagent-specific policies
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  You can enforce fine-grained control over subagents using the
+  [Policy Engine's](../reference/policy-engine.md) TOML configuration. This allows
+  you to grant or restrict permissions specifically for an agent, without
+  affecting the rest of your CLI session.
+  To restrict a policy rule to a specific subagent, add the `subagent` property to
+  the `[[rules]]` block in your `policy.toml` file.
+  **Example:**
+  ```toml
+  [[rules]]
+  name = "Allow pr-creator to push code"
+  subagent = "pr-creator"
+  description = "Permit pr-creator to push branches automatically."
+  action = "allow"
+  toolName = "run_shell_command"
+  commandPrefix = "git push"
+  ```
+  In this configuration, the policy rule only triggers if the executing subagent's
+  name matches `pr-creator`. Rules without the `subagent` property apply

@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-agents-loader-parse
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-repo
+locator:
+  kind: file_lines
+  file: packages/core/src/agents/agentLoader.ts
+  start: 329
+  end: 420
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+  export async function parseAgentMarkdown(
+    filePath: string,
+    content?: string,
+  ): Promise<FrontmatterAgentDefinition[]> {
+    let fileContent: string;
+    if (content !== undefined) {
+      fileContent = content;
+    } else {
+      try {
+        fileContent = await fs.readFile(filePath, 'utf-8');
+      } catch (error) {
+        throw new AgentLoadError(
+          filePath,
+          `Could not read file: ${getErrorMessage(error)}`,
+        );
+      }
+    }
+    // Split frontmatter and body
+    const match = fileContent.match(FRONTMATTER_REGEX);
+    if (!match) {
+      throw new AgentLoadError(
+        filePath,
+        'Invalid agent definition: Missing mandatory YAML frontmatter. Agent Markdown files MUST start with YAML frontmatter enclosed in triple-dashes "---" (e.g., ---\nname: my-agent\n---).',
+      );
+    }
