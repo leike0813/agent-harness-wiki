@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-perm-res-auth
+harness_id: trae
+snapshot_id: snapshot-trae-docs-permission-global-ref
+locator:
+  kind: document_section
+  heading: Resource authorization
+official_url: "https://docs.trae.ai/ide/custom-global-permission-configuration-reference"
+excerpt: |-
+  The resourceAuthorization object is used to configure resource-level authorization rules. You can set read-write or read-only permissions for specified file directories, and you can also configure allow or deny access policies for specified network targets. When an agent accesses a resource that matches a rule here, TraeCode will prioritize using the resource-level rule; if there is no match, it will fall back to the default policy in the custom permission mode or the system's built-in default resource access permissions.
+  ```JSON
+  "resourceAuthorization": {
+    "filesystem": {
+      "readWrite": [],
+      "readOnly": []
+    },
+    "network": {
+      "allow": [],
+      "deny": []
+    }
+  }
+  ```
+  ### File directory authorization

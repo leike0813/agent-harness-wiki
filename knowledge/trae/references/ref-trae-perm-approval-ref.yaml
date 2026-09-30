@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-perm-approval-ref
+harness_id: trae
+snapshot_id: snapshot-trae-docs-permission-mode-ref
+locator:
+  kind: document_section
+  heading: Approval configuration
+official_url: "https://docs.trae.ai/ide/custom-permission-mode-configuration-reference"
+excerpt: |-
+  The approval object is used to define how to handle permission requests after they are triggered, as well as which built-in risk scenarios require approval.
+  ### Reviewer
+  The reviewer field is used to specify who will make the decision after an operation triggers approval. This field does not determine which operations require approval; it only specifies who handles the approval once triggered.
+  Values:
+  user: After approval is triggered, the user must manually confirm.
+  llm: After approval is triggered, TraeCode's built-in LLM Guardian will automatically decide whether to allow or deny; if LLM Guardian denies, it falls back to user confirmation. If the user uses a custom model, this model will make the decision.
+  ::: Note
+  The llm value is not available to users in the United States.
+  :::

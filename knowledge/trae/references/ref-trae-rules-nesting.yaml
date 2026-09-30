@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-rules-nesting
+harness_id: trae
+snapshot_id: snapshot-trae-docs-rules
+locator:
+  kind: document_section
+  heading: About multi-level rule nesting
+official_url: "https://docs.trae.ai/ide/rules"
+excerpt: |-
+  When there are many rules in the project root directory, placing all types of rules directly in the .trae/rules/ root directory makes searching and maintenance difficult.
+  You can create subfolders under the .trae/rules/ directory and categorize rule files of the same type into the corresponding subfolders. The system will automatically read the rules in these directories recursively. Currently, up to three levels of nesting are supported.
+  The structure is as follows:
+  ```Plain Text
+  .trae/rules/
+  ├── global-rules.md
+  ├── module-a/                                   # Level 1
+  │    ├── rules-a.md
+  │    ├── submodule-a1/                         # Level 2
+  │    │    └── rules-a1.md
+  │    └── submodule-a2/                         # Level 2
+  │          └── submodule-a2-b1/                # Level 3

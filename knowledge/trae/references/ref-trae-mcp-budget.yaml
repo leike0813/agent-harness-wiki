@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-mcp-budget
+harness_id: trae
+snapshot_id: snapshot-trae-docs-mcp-trouble
+locator:
+  kind: document_section
+  heading: TraeCode does not read tools in MCP Server
+official_url: "https://docs.trae.ai/ide/troubleshoot-mcp-server-related-issues"
+excerpt: |-
+  When using the built-in "Agent" or a custom agent that includes MCP servers, even if the model is explicitly requested in the chat to call a tool from an MCP server, the model still cannot call or recognize the tool.
+  Cause:
+  Due to the limitation of the model's context window size, TraeCode only reserves a fixed portion of context space to transmit descriptions of MCP servers and their tools to the model. The following limitations currently exist:
+  Maximum character count for all MCP server descriptions: 8,000
+  Maximum number of all MCP server tools: 40
+  When the configuration of MCP server reaches either limit, TraeCode will discard tool description information for tools that cannot be accommodated.
+  Solution:

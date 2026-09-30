@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-mcp-trim
+harness_id: trae
+snapshot_id: snapshot-trae-docs-mcp-trouble
+locator:
+  kind: document_section
+  heading: The model cannot fully read the response content from MCP server
+official_url: "https://docs.trae.ai/ide/troubleshoot-mcp-server-related-issues"
+excerpt: |-
+  An MCP server executes successfully, but in the next round of chat, the model either cannot read any response content from the MCP server or can only read part of the content.
+  Cause:
+  Due to the limitation of the model's context window size, TraeCode dynamically trims the response content from the MCP server to ensure that the overall context can be processed normally by the model. This trimming mechanism is affected by the following factors:
+  Differences in model context window size
+  Different models support different context window sizes; currently, mainstream models typically have a context window of around 45,000 tokens. However, the response content from the MCP server cannot occupy the entire context window space exclusively.
+  Current chat context usage

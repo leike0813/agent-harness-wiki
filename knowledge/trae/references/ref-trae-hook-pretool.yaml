@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-hook-pretool
+harness_id: trae
+snapshot_id: snapshot-trae-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: PreToolUse
+official_url: "https://docs.trae.ai/ide/hook-configuration-reference"
+excerpt: |-
+  Trigger timing: After the agent initiates a tool call and before actual execution.
+  Purpose of hook: Validate or intercept tool calls, modify tool parameters, or require user confirmation before execution.
+  matcher field configuration: You can configure regular expressions in the matcher field to match specific tool names.
+  stdin:
+  ```JSON
+  {
+    "session_id": "...",
+    "hook_event_name": "PreToolUse",
+    "tool_use_id": "toolcall-id-string",
+    "tool_name": "RunCommand",
+    "llm_tool_name": "RunCommand",
+    "tool_input": { ... }
+  }
+  ```
+  The dedicated fields for this event are as follows:
+  | Field | Type | Description |
+  | --- | --- | --- |
+  | tool_use_id | string | The unique ID of this tool call. |
+  | tool_name | string | Standardized tool name. For more information, refer to . |

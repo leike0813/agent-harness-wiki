@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-hook-stop
+harness_id: trae
+snapshot_id: snapshot-trae-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: Stop
+official_url: "https://docs.trae.ai/ide/hook-configuration-reference"
+excerpt: |-
+  Trigger timing: When the agent completes output and is ready to end the current query. At this point, you can check whether the agent's output meets the requirements; if not, you can prevent the agent from ending the task and require it to continue processing.
+  Purpose of hook: Prevent the agent from ending the current task and require it to continue processing.
+  stdin:
+  ```JSON
+  {
+    "session_id": "...",
+    "hook_event_name": "Stop",
+    "stop_hook_active": false,
+    "loop_count": 0,
+    "last_assistant_message": "The final text output by the large language model"
+  }
+  ```
+  The dedicated fields for this event are as follows:
+  | Field | Type | Description |
+  | --- | --- | --- |

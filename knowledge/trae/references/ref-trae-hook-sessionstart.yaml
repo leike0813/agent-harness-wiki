@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-hook-sessionstart
+harness_id: trae
+snapshot_id: snapshot-trae-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: SessionStart
+official_url: "https://docs.trae.ai/ide/hook-configuration-reference"
+excerpt: |-
+  Trigger timing: Triggered after creating a session and before initiating the first chat.
+  Purpose of hook: Initialize the environment, inject context, or set environment variables.
+  stdin:
+  ```JSON
+  {
+    "session_id": "...",
+    "hook_event_name": "SessionStart",
+    "source": "startup"
+  }
+  ```
+  The dedicated fields for this event are as follows:
+  | Field | Type | Description |
+  | --- | --- | --- |
+  | source | string | The origin of the session. Currently, only startup (new session) is supported. |
+  stdout:
+  Format 1: Plain text
+  Directly output plain text content, which will be provided to the model as additional context.
+  Format 2: JSON
+  ```JSON
+  {
+    "hookSpecificOutput": {
+      "hookEventName": "SessionStart",
+      "additionalContext": "textual content"
+    }
+  }
+  ```
+  | Field | Type | Description |

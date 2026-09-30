@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-hook-stdout
+harness_id: trae
+snapshot_id: snapshot-trae-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: Common stdout fields
+official_url: "https://docs.trae.ai/ide/hook-configuration-reference"
+excerpt: |-
+  Hook commands can output two formats of data via stdout:
+  JSON: Used to control the agent's workflow in a structured manner.
+  Plain text: The output will be provided to the model as additional context. This format is only applicable to the SessionStart and UserPromptSubmit events.
+  For JSON output, all hook events support the following common fields for workflow control:
+  ```JSON
+  {
+    "continue": true,
+    "stopReason": "string"
+  }
+  ```
+  | Field | Type | Default Value | Description |
+  | --- | --- | --- | --- |
+  | continue | boolean | true | Whether the agent continues execution after the hook completes. If set to false, the agent will stop execution. This field takes precedence over any event-specific decision field. |

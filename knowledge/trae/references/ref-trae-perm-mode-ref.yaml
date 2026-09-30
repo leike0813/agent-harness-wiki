@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-perm-mode-ref
+harness_id: trae
+snapshot_id: snapshot-trae-docs-permission-mode-ref
+locator:
+  kind: document_section
+  heading: Sandbox configuration
+official_url: "https://docs.trae.ai/ide/custom-permission-mode-configuration-reference"
+excerpt: |-
+  The shellSandbox field is used to control the execution environment for shell commands.
+  | Field | Type | Description |
+  | --- | --- | --- |
+  | enable | bool | Whether to enable sandboxed isolation. Commands are executed in an isolated environment and are subject to file system and network access policies. Values: true: Enable false: Not enable |
+  | onRestrict | string | Policy for handling commands restricted in the sandbox. Values: request_permission_retry_sandbox: Request authorization from the user, TraeCode's built-in LLM Guardian, or the user's custom model for required resources, then retry the command in the sandbox after authorization. request_escape_host: Request to execute the current command on the host machine.

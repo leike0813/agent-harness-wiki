@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-mcp-install-link
+harness_id: trae
+snapshot_id: snapshot-trae-docs-mcp-install
+locator:
+  kind: document_section
+  heading: About install links
+official_url: "https://docs.trae.ai/ide/mcp-server-install-links"
+excerpt: |-
+  The format of install links is as follows:
+  ```HTTP
+  trae://trae.ai-ide/mcp-import?type=${TYPE}&name=${NAME}&config=${BASE64_ENCODED_CONFIG}
+  ```
+  The description of each component in the link is as follows:
+  | Component | Required | Description |
+  | --- | --- | --- |
+  | trae:// | Yes | Protocol scheme, must use trae://. |
+  | trae.ai-ide | Yes | Fixed part, schema link handler. |
+  | /mcp-import | Yes | Fixed part, schema path. |
+  | type | Yes | The type of MCP server. Available values: stdio, http. |
+  | name | No | Custom name of MCP server. |
+  | config | Yes | Base64-encoded JSON configuration. |

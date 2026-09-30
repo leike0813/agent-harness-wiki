@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-subagents-format
+harness_id: trae
+snapshot_id: snapshot-trae-docs-subagents
+locator:
+  kind: document_section
+  heading: Write subagent files
+official_url: "https://docs.trae.ai/ide/subagents"
+excerpt: |-
+  A subagent configuration file uses Markdown and consists of two parts:
+  YAML frontmatter: Defines basic metadata for the subagent, such as its name, description, allowed tools, and allowed MCP servers.
+  System prompt: Defines the subagent's role, workflow, behavioral boundaries, output format, and other necessary instructions.
+  The basic structure of a subagent configuration file is as follows:
+  ```Markdown
+  ---
+  name: {my-agent}
+  description: {Describe when "Agent" should invoke this Subagent}
+  model: {modelName}
+  tools: {toolName}, {toolName}, {toolName}
+  disallowedTools: {toolName}, {toolName}, {toolName}
+  mcpServers:
+      - {mcpServerName}
+      - {mcpServerName}
+  ---
+  {systemPrompt}
+  ```
+  The frontmatter fields are described below:
+  | Field | Type | Required | Description |

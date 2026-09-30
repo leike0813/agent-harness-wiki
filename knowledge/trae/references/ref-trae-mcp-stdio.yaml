@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-mcp-stdio
+harness_id: trae
+snapshot_id: snapshot-trae-docs-mcp-add
+locator:
+  kind: document_section
+  heading: Configure an stdio MCP server
+official_url: "https://docs.trae.ai/ide/add-mcp-servers"
+excerpt: |-
+  The stdio MCP server communicates with the client through standard input (stdin) and standard output (stdout). Its configuration involves the following fields:
+  | Field | Required | Description |
+  | --- | --- | --- |
+  | command | Yes | The executable command used to start the MCP server. This command must be located in the system PATH or use the full path to the executable file. Caution: The command must not contain spaces, otherwise parsing errors will occur. |
+  | args | No | Argument list for the startup command. Each argument must be a string. |
+  | env | No | Environment variables passed to the MCP server. The value of each environment variable must be a string. |
+  Example:
+  ```JSON
+  {
+    "mcpServers": {
+      "mcp_name": {
+        "command": "npx",

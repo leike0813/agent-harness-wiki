@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-hook-format
+harness_id: trae
+snapshot_id: snapshot-trae-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: Format of hook configuration
+official_url: "https://docs.trae.ai/ide/hook-configuration-reference"
+excerpt: |-
+  The configuration format of the hooks.json file is as follows:
+  ```JSON
+  {
+    "version": 1,
+    "hooks": {
+      "<EventName>": [
+        {
+          "matcher": "<ToolPattern>",
+          "loop_limit": 5,
+          "hooks": [
+            {
+              "type": "command",
+              "command": "<shell command>",
+              "timeout": 30
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```

@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-hook-userprompt
+harness_id: trae
+snapshot_id: snapshot-trae-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: UserPromptSubmit
+official_url: "https://docs.trae.ai/ide/hook-configuration-reference"
+excerpt: |-
+  Trigger timing: After the user sends a query and before the agent begins processing.
+  Purpose of hook: Intercept disallowed requests or append additional context to the model.
+  stdin:
+  ```JSON
+  {
+    "session_id": "...",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "User prompt"
+  }
+  ```
+  The dedicated fields for this event are as follows:
+  | Field | Type | Description |
+  | --- | --- | --- |
+  | prompt | string | The text prompt submitted by the user. |
+  stdout:
+  Format 1: Plain text
+  Directly output plain text content, which will be provided to the model as additional context.
+  Format 2: JSON
+  ```JSON
+  {
+    "decision": "block",
+    "reason": "The reason why this request is not alllowed",
+    "hookSpecificOutput": {
+      "hookEventName": "UserPromptSubmit",

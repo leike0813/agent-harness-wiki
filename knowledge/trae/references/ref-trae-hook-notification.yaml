@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-hook-notification
+harness_id: trae
+snapshot_id: snapshot-trae-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: Notification
+official_url: "https://docs.trae.ai/ide/hook-configuration-reference"
+excerpt: |-
+  Trigger timing: When the agent's tool call is waiting for user confirmation, or when the agent completes a task. This event is executed asynchronously and does not block the agent's main workflow.
+  Purpose of hook: Send notifications without altering the agent's workflow.
+  matcher field configuration: Matching is based on notification type (notification_type), rather than tool name. If matcher is not configured, or is set to an empty string or , it means matching all notification types.
+  stdin:
+  ```JSON
+  {
+    "session_id": "...",
+    "hook_event_name": "Notification",
+    "notification_type": "idle_prompt",
+    "message": "Agent has completed the task",
+    "tool_use_id": "toolu_xxx"
+  }
+  ```
+  The dedicated fields for this event are as follows:
+  | Field | Type | Description |
+  | --- | --- | --- |

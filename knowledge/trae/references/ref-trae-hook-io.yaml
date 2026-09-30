@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-hook-io
+harness_id: trae
+snapshot_id: snapshot-trae-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: Hook input and output
+official_url: "https://docs.trae.ai/ide/hook-configuration-reference"
+excerpt: |-
+  All hook commands follow the standard input/output (I/O) mechanism: JSON-formatted input is received via stdin, and output and exit codes are provided via stdout to control the agent's behavior.
+  ### Common stdin fields
+  The stdin JSON for each hook event contains the following common fields:
+  ```JSON
+  {
+    "session_id": "string",
+    "cwd": "/path/to/workspace",
+    "hook_event_name": "PreToolUse",
+    "workspace_roots": ["/path/to/workspace"]
+  }
+  ```
+  | Field | Type | Description |
+  | --- | --- | --- |
+  | session_id | string | The current session ID. |
+  | cwd | string | The actual working directory of the current hook command. For more information, refer to . |
+  | hook_event_name | string | The name of the current hook event. |

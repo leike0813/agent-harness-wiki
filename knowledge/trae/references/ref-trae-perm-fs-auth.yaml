@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-perm-fs-auth
+harness_id: trae
+snapshot_id: snapshot-trae-docs-permission-global-ref
+locator:
+  kind: document_section
+  heading: File directory authorization
+official_url: "https://docs.trae.ai/ide/custom-global-permission-configuration-reference"
+excerpt: |-
+  The resourceAuthorization.filesystem is used to precisely control the agent's access permissions to the local file system. It sets read-write or read-only permissions for specified directories for the agent through a list of paths.
+  | Field | Type | Default Value | Description |
+  | --- | --- | --- | --- |
+  | readWrite | string[] | [] | List of read-write paths. Processes within the sandbox have read-write permissions for the paths in the list; actual permissions are inherited from the current user. |
+  | readOnly | string[] | [] | Read-only path list. Processes within the sandbox have read-only access to the paths in this list. |
+  Supported path formats:
+  Absolute path: for example, /usr/local/bin or C:\Program Files;

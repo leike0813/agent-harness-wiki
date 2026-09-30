@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-trae-hook-env
+harness_id: trae
+snapshot_id: snapshot-trae-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: Hook execution environment
+official_url: "https://docs.trae.ai/ide/hook-configuration-reference"
+excerpt: |-
+  ### Shell
+  Hook commands are executed in the system's default shell:
+  macOS/Linux: Bash is used by default.
+  Windows: PowerShell is used by default.
+  ### Environment variables
+  When executing hook commands, the following environment variables can be used to obtain context:
+  | Environment Variable | Description |
+  | --- | --- |
+  | TRAE_PROJECT_DIR | The workspace directory for the current hook command, consistent with stdin.cwd. |
+  | CLAUDE_PROJECT_DIR | The workspace directory variable compatible with Claude Code Hook, consistent with stdin.cwd. |
+  The SessionStart event additionally injects the following environment variables, which are used to write variables to the subsequent execution environment of the current session:
+  | Environment Variable | Description |
+  | --- | --- |
