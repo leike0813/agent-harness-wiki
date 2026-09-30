@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lovable-intsec-ip
+harness_id: lovable
+snapshot_id: snapshot-lovable-docs-integration-security
+locator:
+  kind: document_section
+  heading: IP allowlisting
+official_url: "https://docs.lovable.dev/integrations/security.md"
+excerpt: |-
+  Requests from gateway-based connectors to third-party services leave Lovable from a fixed set of IP ranges. Partners and enterprise customers can allowlist these ranges to permit Lovable connector traffic through firewalls or IP-restricted APIs.
+  * IPv4: `185.41.150.0/25`
+  * IPv6: `2a07:8241:fca::/48`
+  [Custom MCP servers](/integrations/custom-mcp) do not route through the connector gateway, so by default their traffic does not come from fixed addresses. Enterprise workspaces with the **Lovable static IPs** connection option enabled can route custom MCP traffic through a smaller set of addresses inside the ranges above, so allowlisting the gateway ranges covers that traffic too. See [Lovable static IPs](/integrations/custom-mcp#lovable-static-ips) for the exact ranges.

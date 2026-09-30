@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lovable-skills-import-github
+harness_id: lovable
+snapshot_id: snapshot-lovable-docs-skills
+locator:
+  kind: document_section
+  heading: Import from GitHub
+official_url: "https://docs.lovable.dev/features/skills.md"
+excerpt: |-
+  Choose **Add → Import from GitHub**, and paste a public GitHub repository URL.
+  Lovable supports two GitHub URL formats:
+  * **Whole repository**: `https://github.com/owner/repo`\
+    Use this when the repository contains one skill. The `SKILL.md` file must be at the root of the repository.
+  * **Subdirectory**: `https://github.com/owner/repo/tree/<branch>/path/to/skill`\
+    Use this when a single repository contains multiple skills. The linked directory must contain `SKILL.md` directly. A direct file URL also works:
+    ```text theme={null}
+    https://github.com/owner/repo/blob/<branch>/path/to/SKILL.md
+    ```
+    When you use a `blob` URL, Lovable imports the parent folder that contains `SKILL.md`.
+  Lovable downloads the repository, validates it, and adds the skill to your workspace.

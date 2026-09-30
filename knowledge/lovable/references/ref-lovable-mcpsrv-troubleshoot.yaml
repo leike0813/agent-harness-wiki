@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lovable-mcpsrv-troubleshoot
+harness_id: lovable
+snapshot_id: snapshot-lovable-docs-mcp-server
+locator:
+  kind: document_section
+  heading: Troubleshooting
+official_url: "https://docs.lovable.dev/integrations/lovable-mcp-server.md"
+excerpt: |-
+  <AccordionGroup>
+    <Accordion title="Tools not showing after connecting">
+      Run `tools/list` to confirm the connection. If tools don't appear, troubleshoot based on how you connected:
+      * **Connected through the client's UI (OAuth):** Open your client's connector or MCP settings, remove the Lovable entry, and add it again to re-run the OAuth flow.
+      * **Using a config file:** Open the config file and confirm the JSON is valid and the `"lovable"` entry is nested inside the existing `mcpServers` object. Restart the client after saving.
+    </Accordion>
+    <Accordion title="Workspace not found">
+      Call `list_workspaces` to retrieve valid workspace IDs.

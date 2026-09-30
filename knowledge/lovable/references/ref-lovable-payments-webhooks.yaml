@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lovable-payments-webhooks
+harness_id: lovable
+snapshot_id: snapshot-lovable-docs-payments
+locator:
+  kind: document_section
+  heading: Webhook endpoints
+official_url: "https://docs.lovable.dev/features/payments.md"
+excerpt: |-
+  Lovable registers two webhook endpoints on your provider account for each environment (test and live). They can look like duplicates in your provider's dashboard, but they serve different purposes:
+  * **Your app's endpoint** delivers payment events to your app's webhook handler. It keeps subscription data current and unlocks features after purchases. Its URL points at your app's backend and ends in `?env=sandbox` or `?env=live`, for example `https://<ref>.supabase.co/functions/v1/payments-webhook?env=sandbox` or `https://project--<id>-dev.lovable.app/api/public/payments/webhook?env=sandbox` in the test environment. The live endpoint uses `?env=live`, and on `lovable.app` URLs it drops the `-dev` suffix from the host.

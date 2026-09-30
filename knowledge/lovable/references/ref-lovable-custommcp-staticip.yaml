@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lovable-custommcp-staticip
+harness_id: lovable
+snapshot_id: snapshot-lovable-docs-custom-mcp
+locator:
+  kind: document_section
+  heading: Lovable static IPs
+official_url: "https://docs.lovable.dev/integrations/custom-mcp.md"
+excerpt: |-
+  By default, Lovable reaches a custom MCP server over a **Direct connection**, and requests do not come from a fixed set of IP addresses. That works for servers on the public internet, but not for servers behind a firewall that only accepts traffic from allowlisted IPs, such as on-premises deployments.
+  **Lovable static IPs** is a per-connection option for custom MCP servers that routes all Lovable traffic to the server through Lovable's published static egress IP ranges. Allowlist these ranges in your firewall, and Lovable can reach the server:
+  * IPv4: `185.41.150.0/28` and `185.41.150.16/28`
+  * IPv6: `2a07:8241:fca:1000::/56`
+  <Warning>
+    These ranges are shared Lovable infrastructure egress, not addresses reserved for your workspace.
