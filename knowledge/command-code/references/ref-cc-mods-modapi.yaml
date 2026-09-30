@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-modapi
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-mods
+locator:
+  kind: document_section
+  heading: ModApi reference
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  `export default function (cmd: ModApi)` \- the factory. `ModFactory = (cmd: ModApi) => void | Promise<void>`. Every `add*` / `on` / `hooks` call returns `Disposable { dispose(): void }` \- `.dispose()` undoes exactly that one registration (idempotent; a second call is a no-op). Disposables make a registration retractable and are the seam future hot-reload will recycle.
+  Member| Type| Notes
+  ---|---|---
+  `cmd.name`| `string`| the mod's name (from filename / manifest)
+  `cmd.cwd`| `string`| workspace root
+  `cmd.session`| `ModSessionApi | undefined`| persistence seam; undefined until bound
+  `cmd.events`| `ModEventBus`| `emit(channel, data?)` / `on(channel, handler)` cross-mod bus

@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-hooks-events
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-hooks
+locator:
+  kind: document_section
+  heading: Supported events
+official_url: "https://commandcode.ai/docs/hooks"
+excerpt: |-
+  **Event**| **Fires**| **Can block?**
+  ---|---|---
+  `PreToolUse`| Before a tool runs| Yes (denies the tool)
+  `PostToolUse`| After the tool returns| No (advisory)
+  `Stop`| When the assistant finishes a turn| Yes (forces a revision, capped at 3 retries)
+  `SessionStart`| When a session begins (startup, resume, clear)| No (injects context only)
+  Note
+  Need to react to more of the session lifecycle, like sub-agent activity, custom tools, or other moments beyond these four events? That's what mods are for.

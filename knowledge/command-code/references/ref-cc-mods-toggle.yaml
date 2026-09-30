@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-toggle
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-mods
+locator:
+  kind: document_section
+  heading: Enable/Disable a mod
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  `cmd mods disable <name>` disables a mod without removing it, and `cmd mods enable <name>` enables it again. Both write the project level (`.commandcode/settings.json`) by default, or the user level (`~/.commandcode/settings.json`) with `-g` flag, and take effect on the next session or `/reload`:
+  `cmd mods disable review-guard # disable in this project cmd mods enable review-guard -g # enable at the user level `
+  They work for discovered files, installed packages, and the disable-able built-ins (`provider-copilot`, `update-notice`, `titling`, `learning` etc). The `cmd mods disable` command adds the name to `mods.disabled`; `cmd mods enable` removes it from there and, for an opt-in built-in, adds it to `mods.enabled`:

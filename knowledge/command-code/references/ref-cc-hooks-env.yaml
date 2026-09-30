@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-hooks-env
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-hooks
+locator:
+  kind: document_section
+  heading: Environment variables
+official_url: "https://commandcode.ai/docs/hooks"
+excerpt: |-
+  Command Code injects four environment variables into every hook process.
+  **Variable**| **Value**
+  ---|---
+  `COMMANDCODE_PROJECT_DIR`| Absolute path to the project (same as `cwd`)
+  `COMMANDCODE_SESSION_ID`| Session ID, useful for correlating hooks to a run
+  `COMMANDCODE_HOOK_EVENT`| `PreToolUse`, `PostToolUse`, `Stop`, or `SessionStart`
+  `COMMANDCODE_CWD`| Alias of `COMMANDCODE_PROJECT_DIR` with the identical value
+  Your environment variables are forwarded to hook processes with any sensitive variable being stripped out.

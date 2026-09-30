@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-settings-precedence
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-settings
+locator:
+  kind: document_section
+  heading: Precedence
+official_url: "https://commandcode.ai/docs/settings"
+excerpt: |-
+  When the same setting is defined in more than one place, the more specific scope wins:
+    1. `<project>/.commandcode/settings.local.json` \- highest
+    2. `<project>/.commandcode/settings.json`
+    3. `~/.commandcode/settings.json`
+    4. `~/.commandcode/config.json` (legacy fields only) - lowest
+  Maps are deep-merged and scalars overwrite, **except** the permission rule lists (`allow`, `ask`, `deny`, `additionalDirectories`), which union across all layers.
+  The model for a session is resolved separately, since it can be set in more ways:
+    1. `--model` flag - highest
+    2. `/model` picked during the session
+    3. `model` in settings.json / `config.json`
+    4. Built-in default - lowest
+  A running session reads its default model from `config.json` once at startup.

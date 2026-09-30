@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-byok-providerfields
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-byok
+locator:
+  kind: document_section
+  heading: Provider fields
+official_url: "https://commandcode.ai/docs/byok"
+excerpt: |-
+  Field| Values| Notes
+  ---|---|---
+  `name`| string| Display name in `/connect` and `/model`; defaults to the id
+  `api`| `openai-completions` (default) | `openai-responses` | `anthropic-messages`| Omit for OpenAI-compatible endpoints. `openai-responses` posts to `{baseURL}/responses`. Any other value skips the provider
+  `npm`| AI-SDK package name| Compat only: `@ai-sdk/openai-compatible` & `@ai-sdk/openai` map to `openai-completions`, `@ai-sdk/anthropic` to `anthropic-messages`; any other package warns and assumes `openai-completions`. Ignored when `api` is set.
+  `baseURL`| URL| Required. The API root requests go to. Missing or invalid URL skips the provider. Also read from `options.baseURL` (top-level wins)

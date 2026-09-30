@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-filter
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-mods
+locator:
+  kind: document_section
+  heading: "Filtering a source's mods"
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  A `mods.sources` entry can be the object form to load only part of a package:
+  `{ "mods": { "sources": [ {"source": "owner/review-pack", "mods": ["review/*.ts", "!review/slow.ts"]} ] } } `
+  Four pattern kinds, applied in precedence order: `-path` force-exclude (exact, beats everything) → `+path` force-include (exact, restores what globs dropped) → `!glob` exclude → plain-glob include (when any includes exist, an entry must match one). Patterns match the entry's package-relative path or its mod name. `cmd mods add` / `remove` preserve hand-written object entries - they never flatten your filters.

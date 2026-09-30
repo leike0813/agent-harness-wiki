@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-hooks-definition
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-hooks
+locator:
+  kind: document_section
+  heading: "Hook Definition fields (outer)"
+official_url: "https://commandcode.ai/docs/hooks"
+excerpt: |-
+  Chooses which tools this group of handlers applies to.
+  **Field**| **Required**| **Type**| **Description**
+  ---|---|---|---
+  `matcher`| Optional| `string`| Omit to match every tool. Examples: `"shell"`, `"write|edit"`. Only meaningful for the tool events (`PreToolUse`, `PostToolUse`). `Stop` and `SessionStart` carry no tool, so a `matcher` there never matches and the hook **will not fire** \- omit it for those events.
+  `hooks`| Required| `array`| One or more handlers. Runs in the order listed

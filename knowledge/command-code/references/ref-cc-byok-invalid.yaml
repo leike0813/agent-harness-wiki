@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-byok-invalid
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-byok
+locator:
+  kind: document_section
+  heading: Invalid config
+official_url: "https://commandcode.ai/docs/byok"
+excerpt: |-
+  If there is a malformed entry in providers config, it never breaks its siblings. It's skipped with a specific warning shown under the `/connect` list and on `--list-models`:
+  `providers.json needs attention — one entry did not load as written: provider.work-llm: no baseURL configured — provider skipped `
+  An unreadable or unparseable file warns the same way (`providers config <path>: invalid JSON (details redacted)`). Your providers vanish for that run instead of crashing the CLI. The `/connect` writers never touch a file they can't parse: an add, model refetch, or remove against broken JSON refuses with nothing written.

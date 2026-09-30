@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-hooks-modes
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-hooks
+locator:
+  kind: document_section
+  heading: Permission modes
+official_url: "https://commandcode.ai/docs/hooks"
+excerpt: |-
+  The `permission_mode` field on stdin carries the session's current mode:
+  **Value**| **Description**
+  ---|---
+  `"default"`| Model requests permission before each tool
+  `"auto-accept"`| Permission prompts auto-accepted
+  `"plan"`| Plan mode. Tool calls are restricted to read-only operations. **Hooks are skipped entirely in plan mode**
+  `"bypass"`| Prompts are skipped; ordinary safety checks still apply
+  `"dont-ask"`| Never prompts; anything that would need a prompt is denied instead
+  `""` (empty)| No mode applies to this fire
+  `standard` is accepted as a legacy alias when _setting_ the mode (in settings.json or `--permission-mode`), but the value reported on the wire is always `default`.

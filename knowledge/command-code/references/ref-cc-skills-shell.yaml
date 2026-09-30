@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-skills-shell
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-skills
+locator:
+  kind: document_section
+  heading: Dynamic context injection
+official_url: "https://commandcode.ai/docs/skills"
+excerpt: |-
+  A skill body can run shell commands and inline their output before the body reaches the model, so the model reads live data instead of a command. Two forms are recognized:
+    * **Inline** \- `!`git status --short`` runs a single command. The `!` is only honored at the start of a line or directly after whitespace, so `KEY=!`cmd`` stays literal.
+    * **Fenced** \- a ````!` code block runs a multi-line script:
+  ````! node --version git rev-parse --short HEAD ``` `
+  Each placeholder is replaced with the command's output, once, left to right - output is never re-scanned for more placeholders. Commands run from the project directory, with the `COMMANDCODE_SKILL_DIR` / `COMMANDCODE_PROJECT_DIR` (and `CLAUDE_*` alias) values exported to their environment.

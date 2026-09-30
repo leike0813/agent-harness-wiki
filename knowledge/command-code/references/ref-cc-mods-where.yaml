@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-where
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-mods
+locator:
+  kind: document_section
+  heading: Where mods load from
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  Location| Scope| Notes
+  ---|---|---
+  built-in| shipped| compiled-in first-party mods (providers, titling, …); registered first
+  `~/.commandcode/mods/*.ts`| user| loose files, one mod each
+  `~/.commandcode/mods/<dir>/`| user| `package.json` manifest → `mods/` dir → `index.ts`
+  `<project>/.commandcode/mods/…`| project| same layout; loads only once the workspace is trusted
+  settings `mods.paths`| user/project| explicit files/dirs, relative to the settings scope
+  settings `mods.sources`| user/project| installed packages (see Packaging and install)
+  `--mod <path>`| session| repeatable; loads ahead of installed, wins name collisions
+  Dot-entries and `node_modules` are never scanned (the package registry lives under `mods/.registry/` precisely so discovery skips it).

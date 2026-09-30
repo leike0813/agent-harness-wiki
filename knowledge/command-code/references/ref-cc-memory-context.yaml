@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-memory-context
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-memory
+locator:
+  kind: document_section
+  heading: How memory reaches the model
+official_url: "https://commandcode.ai/docs/memory"
+excerpt: |-
+  Memory is part of the **system prompt** , not the conversation. That has a few consequences worth knowing:
+    * **It's re-read every request.** Edit `AGENTS.md` mid-session and the next turn picks it up, no restart needed. `/context` flags the row as _(modified, refreshes next request)_ until then.
+    * **It survives compaction.** Because it isn't conversation, it's never summarized away. See Context & Compaction.
+    * **It costs tokens on every turn.** `/context` shows exactly how many under the **Memory** row. A memory file that has grown into a wiki is a real, recurring cost. Keep it to standing rules, and use `@path` imports for the long-form material so it's only there when it's relevant.

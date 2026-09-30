@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-hooks-config
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-hooks
+locator:
+  kind: document_section
+  heading: Configuration
+official_url: "https://commandcode.ai/docs/hooks"
+excerpt: |-
+  Hooks are configured under the `hooks` key in a `settings.json` file. Command Code looks for settings.json in the following paths:
+  **Scope**| **Config file**| **Applies to**| **Committed to git?**
+  ---|---|---|---
+  User| `~/.commandcode/settings.json`| Across all projects| No
+  Project| `.commandcode/settings.json`| Anyone using the project| Yes
+  **Precedence:** project > user. When the exact same command string appears in multiple scopes, the higher-priority source wins.
+  Within the same event, hooks fire in the order they appear in `settings.json` (project first, then user).
+  For example, `PreToolUse` hooks run sequentially. As soon as one blocks the tool, the remaining `PreToolUse` hooks are skipped. `PostToolUse` hooks run in parallel because the tool has already finished.

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-skills-priority
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-skills
+locator:
+  kind: document_section
+  heading: Selection priority
+official_url: "https://commandcode.ai/docs/skills"
+excerpt: |-
+  Skills, custom commands, and built-ins all share the same `/` menu. Skill locations are checked in this order:
+    1. `.commandcode/skills/` (project)
+    2. `.agents/skills/` (project)
+    3. `~/.commandcode/skills/` (user)
+    4. `~/.agents/skills/` (user)
+    5. Extra locations (`--skill` flags first, then settings `skills` entries)
+    6. Bundled skills that ship with Command Code
+  Put simply: project-level always trumps user-level, and within the same level `.commandcode/` is favored over `.agents/`.
+  Command Code includes several ready-to-use skills. For example, `/skill-builder` creates and validates a new skill, `/design` provides a UI workflow, and `/loop` runs a task now and schedules later iterations.

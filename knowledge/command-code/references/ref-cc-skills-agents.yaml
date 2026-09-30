@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-skills-agents
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-skills
+locator:
+  kind: document_section
+  heading: "`.agents/skills/` compatibility"
+official_url: "https://commandcode.ai/docs/skills"
+excerpt: |-
+  Command Code also discovers skills from `.agents/skills/` (project) and `~/.agents/skills/` (user). If another tool already stores your skills under `.agents/`, they load automatically and show a `[.agents]` badge in the `/skills` menu.
+  **Priority:** `.commandcode/skills/` wins on name conflicts. If the same skill exists in both, the `.commandcode/` version is used and the `.agents/` version is skipped. See Selection priority for the full four-way order.
+  **Discovery:** Command Code walks up to 10 directory levels from your working directory to find `.agents/skills/`, stopping at your home directory. This keeps `~/.agents/skills/` from being picked up as a project-level source.

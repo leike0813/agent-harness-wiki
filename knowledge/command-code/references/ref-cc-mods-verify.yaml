@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-verify
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-mods
+locator:
+  kind: document_section
+  heading: Verify a mod
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  A mod that fails to import, exports no factory, or throws in its factory becomes a **warning - never a crashed session**. That safety also means a broken mod can fail silently if you never check. This section is the verification loop: load it, list it, exercise it, reload it.
+  `cmd --mod ./your-mod.ts `
+  `--mod` is repeatable, loads ahead of installed mods, and wins name collisions - the fastest try-it loop. No build step: jiti compiles the TypeScript at load.
+  `cmd mods list `
+  Your mod must appear, with no load warnings. If it does not appear, the warning printed by `cmd mods list` says why (import error, no default-export factory, factory threw, duplicate name).
+    * **Slash command** \- type `/` in the chat input: the command must appear in autocomplete with its description.

@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-hooks-output
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-hooks
+locator:
+  kind: document_section
+  heading: "Hook output (stdout)"
+official_url: "https://commandcode.ai/docs/hooks"
+excerpt: |-
+  The hook's executable writes a single JSON object to stdout. All fields are optional. Empty stdout on exit `0` means "no opinion, allow".
+  **Field**| **Type**| **Description**
+  ---|---|---
+  `continue`| `boolean`| `false` halts the session after the current tool batch. Pair with `stopReason`
+  `stopReason`| `string`| User-facing message shown in the TUI when `continue: false`. Not sent to the model
+  `suppressOutput`| `boolean`| When `true`, omit the hook's parsed output from the audit log
+  `systemMessage`| `string`| Free-text notice surfaced in the TUI feed. Not sent to the model
+  Adds a `hookSpecificOutput` object on top of the common fields.
+  **Field**| **Type**| **Description**
+  ---|---|---
+  `hookSpecificOutput.hookEventName`| `"PreToolUse"`| Optional.

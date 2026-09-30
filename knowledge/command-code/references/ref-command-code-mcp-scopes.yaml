@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-command-code-mcp-scopes
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-mcp
+locator:
+  kind: document_section
+  heading: "Configuration & scopes"
+official_url: "https://commandcode.ai/docs/mcp"
+excerpt: |-
+  MCP servers can be stored in three scopes with different visibility:
+  **Scope**| **File Location**| **Purpose**
+  ---|---|---
+  `local`| `~/.commandcode/projects/<slug>/mcp.json`| Private, per-project (default)
+  `project`| `.mcp.json` in project root| Shared, version controlled
+  `user`| `~/.commandcode/mcp.json`| Private, available across all projects
+  **Precedence:** When the same server name exists in multiple scopes, `local` overrides `project`, which overrides `user`.
+  Local (default)Project (shared)User (global)
+  `cmd mcp add --transport http notion https://mcp.notion.com/mcp `
+  Version control
+  The `project` scope saves to `.mcp.json` in your project root, which is meant to be committed to Git.

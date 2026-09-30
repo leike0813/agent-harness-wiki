@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-hooks-exit
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-hooks
+locator:
+  kind: document_section
+  heading: Exit codes
+official_url: "https://commandcode.ai/docs/hooks"
+excerpt: |-
+  The exit code is the fast path. Most hooks only ever use `0`.
+  **Exit**| **Stdout handling**| **Effect on tool**| **Effect on session**
+  ---|---|---|---
+  `0`| Parsed as JSON| Determined by output (see decision matrix)| Continues (unless `continue: false`)
+  `2`| Ignored| `PreToolUse`: blocked. `PostToolUse`: advisory retry signal. `Stop` / `SessionStart`: n/a| `PreToolUse` / `PostToolUse`: continues. `Stop`: retries the turn. `SessionStart`: continues (non-blocking)
+  any other| Parsed if present| Tool proceeds, non-blocking error logged| Continues
+  The text sent to the model when a hook exits `2` is resolved in this order:
+    1. `hookSpecificOutput.permissionDecisionReason` (if stdout parses and sets one)
+    2. Top-level `reason` (PostToolUse only)
+    3. Trimmed first line of stderr

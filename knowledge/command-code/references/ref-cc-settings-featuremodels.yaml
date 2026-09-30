@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-settings-featuremodels
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-settings
+locator:
+  kind: document_section
+  heading: Planning and implementation models
+official_url: "https://commandcode.ai/docs/settings"
+excerpt: |-
+  `featureModels` also carries the two **main-loop lanes** : the model the conversation itself runs on, chosen by which phase of a planning round you are in.
+    * **Planning** runs while the session is in plan mode (shift+tab, `/plan`, or the model's `enter_plan_mode` tool): exploring the codebase and writing the plan.
+    * **Implementation** takes over when you approve a plan, and drives the execution phase that follows. Leaving plan mode without approving a plan (a plain shift+tab or `/mode`) does not switch to it; you stay on the session model.
+  Set either one, or both, in `~/.commandcode/config.json` or any `settings.json` layer:
+  `{ "featureModels": { "planning": "zai-org/glm-5.3", "implementation": "deepseek/deepseek-v4-pro" } } `

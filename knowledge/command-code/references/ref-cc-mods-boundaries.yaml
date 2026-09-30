@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-boundaries
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-mods
+locator:
+  kind: document_section
+  heading: "Boundaries (deliberate)"
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  * **Hooks mutate,`on` observes.** Event handlers cannot block tools or rewrite context; that is what `cmd.hooks` is for.
+    * **Project mods are trust-gated** like project skills: they load only after the workspace trust prompt, because a mod is arbitrary code. User-scope and `--mod` mods always load. There is no sandbox - install packages you trust. Package installs run npm with `--ignore-scripts` (mods are jiti-loaded TypeScript; they need no build step, so lifecycle scripts are pure attack surface).
+    * **Print mode loads user-scope and`--mod` mods only**, with the ui bridge degraded to headless defaults (confirm → false, select/input → undefined - never auto-approved; `setStatus`/`widget` render nowhere, and `cmd.ui.capabilities.status` is false).

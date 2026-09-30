@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-security-model
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-resource-security
+locator:
+  kind: document_section
+  heading: Permission model
+official_url: "https://commandcode.ai/docs/resources/security"
+excerpt: |-
+  Command Code uses a permission system that puts you in control of every action. By default, any action that modifies your system requires explicit approval.
+  Command Code has **five** permission modes.
+  **Mode**| **File reads**| **File writes**| **Shell commands**| **When to use**
+  ---|---|---|---|---
+  **Default**|  Allowed| Requires approval| Requires approval| Day-to-day work
+  **Accept Edits**|  Allowed| Allowed| Safe filesystem commands only (`mkdir`, `cp`, non-recursive `rm`, …); other shell still asks| Trusted iteration
+  **Plan**|  Allowed| Blocked, except a plan file under `~/.commandcode/plans/`| Read-only only (e.g. `git status`)| Exploring and designing

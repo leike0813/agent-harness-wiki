@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-slash-locations
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-reference-slash-commands
+locator:
+  kind: document_section
+  heading: Locations
+official_url: "https://commandcode.ai/docs/reference/slash-commands"
+excerpt: |-
+  **Type**| **Location**| **Menu label**| **Scope**
+  ---|---|---|---
+  Project| `.commandcode/commands/`| `(project)`| This project only
+  User| `~/.commandcode/commands/`| `(user)`| All your projects
+  `# Project-level command mkdir -p .commandcode/commands echo "Generate unit tests for this code following our testing conventions" > .commandcode/commands/test.md  # User-level command mkdir -p ~/.commandcode/commands echo "I am currently being onboarded on this project, help me understand it." > ~/.commandcode/commands/understand.md `
+  The file's full trimmed body is the prompt that runs; the slash menu shows its first meaningful line (skipping YAML frontmatter and markdown markers, truncated to ~80 chars) plus the location label.

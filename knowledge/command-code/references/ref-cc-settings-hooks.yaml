@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-settings-hooks
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-settings
+locator:
+  kind: document_section
+  heading: hooks
+official_url: "https://commandcode.ai/docs/settings"
+excerpt: |-
+  Hooks run shell scripts at lifecycle events. Only four events are recognized: **`PreToolUse`** , **`PostToolUse`** , **`Stop`** , and **`SessionStart`**.
+  `{ "hooks": { "PreToolUse": [ { "matcher": "shell", "hooks": [ { "type": "command", "command": "./scripts/guard.sh", "timeout": 30 } ] } ] } } `
+  Each handler must be `{ "type": "command", "command": "…" }`, with an optional `timeout` (in seconds, `0`–`600`), `async`, and `failClosed`.
+  Complete guideHooks→
+  Every event and its stdin payload, exit-code semantics, the block/halt matrix, execution ordering and timeouts, plus runnable example scripts.

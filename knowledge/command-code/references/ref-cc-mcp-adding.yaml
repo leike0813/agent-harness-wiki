@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mcp-adding
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-mcp
+locator:
+  kind: document_section
+  heading: Adding MCP servers
+official_url: "https://commandcode.ai/docs/mcp"
+excerpt: |-
+  Use `--transport http` to connect to remote MCP servers:
+  BasicWith auth headerWith env vars
+  `cmd mcp add --transport http notion https://mcp.notion.com/mcp `
+  Stdio is the default transport. Use `--` to separate the server name from the command:
+  BasicWith args and env
+  `cmd mcp add my-tool -- npx @my-org/mcp-server `
+  Option ordering
+  All flags (`--transport`, `--scope`, `--env`, `--header`) must come **before** the server name. The `--` separates the server name from the stdio command and its arguments.
+  **Flag**| **Description**| **Default**
+  ---|---|---
+  `-t, --transport <type>`| Transport type: `stdio` or `http`| `stdio`
+  `-s, --scope <scope>`| Where to store: `local`, `project`, or `user`| `local`
+  `-e, --env <KEY=value>`| Environment variable (repeatable)| -

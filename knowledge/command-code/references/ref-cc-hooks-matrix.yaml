@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-hooks-matrix
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-hooks
+locator:
+  kind: document_section
+  heading: Block and halt decision matrix
+official_url: "https://commandcode.ai/docs/hooks"
+excerpt: |-
+  Each hook result produces two effects: whether the tool runs, and whether the session continues afterward.
+  **Signal**| **Value**| **Tool**| **Session**
+  ---|---|---|---
+  `exit code`| `2` (PreToolUse)| skipped| continues
+  `exit code`| `2` (PostToolUse)| (already ran) advisory retry| continues
+  `exit code`| `2` (Stop)| n/a| retries the turn; stderr is fed to the model
+  `exit code`| `0`| see output| see output
+  `exit code`| other| runs| continues
+  `hookSpecificOutput.permissionDecision`| `"deny"` (PreToolUse)| skipped| continues
+  `decision`| `"block"` (PostToolUse)| (already ran) advisory retry| continues
+  `decision`| `"block"` (Stop)| n/a| retries the turn (capped at 3); `reason` shown to the user and fed to the model
+  `continue`| `false`| runs| halts after this batch

@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-provider-errors
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-provider
+locator:
+  kind: document_section
+  heading: Errors
+official_url: "https://commandcode.ai/docs/provider"
+excerpt: |-
+  OpenAI clients see the standard error envelope:
+  `{ "error": { "message": "…", "type": "invalid_request_error" | "authentication_error" | "permission_error" | "rate_limit_error" | "server_error", "code": "…", "param": "…" } } `
+  Anthropic clients see:
+  `{ "type": "error", "error": { "type": "invalid_request_error" | "authentication_error" | "permission_error" | "rate_limit_error" | "api_error", "message": "…" } } `
+  Here are the common error cases:
+  Status| Code / Type| When
+  ---|---|---
+  `400`| `unsupported_model`| Model isn't in the catalog (OpenAI shape only - `code` is on the OpenAI envelope; the Anthropic envelope has `type: invalid_request_error` instead).

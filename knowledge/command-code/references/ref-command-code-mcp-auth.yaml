@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-command-code-mcp-auth
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-mcp
+locator:
+  kind: document_section
+  heading: Authentication
+official_url: "https://commandcode.ai/docs/mcp"
+excerpt: |-
+  Command Code supports OAuth 2.0 Authorization Code with PKCE for HTTP servers.
+  1
+  Add a server that requires OAuth
+  `cmd mcp add --transport http my-server https://api.example.com/mcp `
+  If the server requires authentication, Command Code detects this automatically and starts the OAuth flow.
+  2
+  Authenticate via browser
+  A browser window opens for you to authorize. After you grant access, tokens are stored securely in `~/.commandcode/mcp-tokens.json`.
+  You can also authenticate later:
+  `cmd mcp auth my-server `
+  Or use the `/mcp` menu inside a session to authenticate interactively.
+  3
+  Tokens refresh automatically
+  Tokens are refreshed automatically when they expire. If refresh fails, re-authenticate with `cmd mcp auth <server>`.
+  Check statusList allClear tokensRe-authenticate

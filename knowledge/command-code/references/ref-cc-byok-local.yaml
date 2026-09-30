@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-byok-local
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-byok
+locator:
+  kind: document_section
+  heading: Local-only mode
+official_url: "https://commandcode.ai/docs/byok"
+excerpt: |-
+  For setups that must never contact Command Code's backend at all (a team running the CLI against their own endpoints, CI fleets, or other environments), they can turn on local-only mode:
+  `cmd --local-only # or via the environment: CMD_LOCAL_ONLY=1 cmd `
+  or persist it in `~/.commandcode/config.json`:
+  `{ "localOnly": true } `
+  What it guarantees:
+    * **No telemetry, anywhere.** Trace exporters, lifecycle events, telemetry identity, and machine fingerprinting are all off. (`DO_NOT_TRACK=1` also stops all of these, including fingerprinting; local-only also blocks the non-telemetry backend traffic below.)
+    * **No billing reads.** The plan/credits prefetches never run; model pickers treat the absent plan as unrestricted and your providers gate access themselves.

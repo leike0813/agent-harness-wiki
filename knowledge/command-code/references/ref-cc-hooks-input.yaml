@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-hooks-input
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-hooks
+locator:
+  kind: document_section
+  heading: "Hook input (stdin)"
+official_url: "https://commandcode.ai/docs/hooks"
+excerpt: |-
+  Before your hook runs, Command Code writes a single JSON object to its stdin. Read stdin to the end, parse it as JSON, then write your response to stdout.
+  Present on all events.
+  **Field**| **Type**| **Description**
+  ---|---|---
+  `session_id`| `string`| Session identifier, stable for the lifetime of one CLI session
+  `transcript_path`| `string`| Absolute path to this session's transcript JSONL
+  `cwd`| `string`| Absolute working directory at fire time
+  `hook_event_name`| `string`| The event that fired the hook.
+  `permission_mode`| `"default" | "auto-accept" | "plan" | "bypass" | "dont-ask" | ""`| Current permission mode. Empty when no mode applies.
+  Present on every event tied to a tool call.
+  **Field**| **Type**| **Description**
+  ---|---|---

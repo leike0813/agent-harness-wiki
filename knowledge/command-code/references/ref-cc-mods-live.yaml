@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-live
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-mods
+locator:
+  kind: document_section
+  heading: "Live methods (any time after the harness binds)"
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  Method| Signature
+  ---|---
+  `cmd.getFlag`| `(name) => boolean | string | undefined`
+  `cmd.showEntry`| `(customType, data?) => void`
+  `cmd.queueMessage`| `({content, deliverAs?: 'steer' | 'follow-up'}) => void`
+  `cmd.exec`| `({command, args?, cwd?, signal?}) => Promise<{stdout, stderr, code}>`
+  `cmd.setSessionName` / `setModel` / `setEffort`| `(value) => void` (buffered pre-bind)
+  `cmd.getAllTools` / `getActiveTools`| `() => readonly string[]`
+  `cmd.setActiveTools`| `(names: readonly string[]) => void`
+  Details:
+    * `cmd.ui` \- `notify` (a `notice` feed row), `confirm` / `select` / `input` (the Interaction question modal in the TUI; deterministic defaults headless: false/undefined), `setStatus`, `widget`, `refreshWidgets`.

@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-perm-safety
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-permissions
+locator:
+  kind: document_section
+  heading: Safety behaviors
+official_url: "https://commandcode.ai/docs/permissions"
+excerpt: |-
+  Some prompts are forced by a safety check, not a mode or rule. They offer only one-time **Yes** /**No** , plus a banner naming the check. Session and project choices are hidden on purpose - destructive-command, sensitive-path, outside-workspace, and explicit `ask` approvals are never cached, so the next risky call asks again. To stop a recurring one, add a content-specific allow rule (e.g. `Edit(.commandcode/settings.json)`).
+  The **only** built-in safety prompt that survives `yolo`: a removal of the filesystem root or your home dir - `rm -rf /`, `rm -rf ~`, `rm -rf $HOME` \- always stops for confirmation, in every mode that can ask (`dont-ask` and `plan` deny instead).
+  Spoof-resistant.

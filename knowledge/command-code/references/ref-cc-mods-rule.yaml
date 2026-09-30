@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-rule
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-mods
+locator:
+  kind: document_section
+  heading: "The one rule: hooks mutate, `on` observes"
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  * **`cmd.hooks({...})`** is the only place that can change behavior - block a tool (`beforeToolCall`), rewrite a result (`afterToolCall`), add to the prompt (`appendSystemPrompt`), rewrite typed input (`transformInput`), force a finished run to keep going (`onStop`), react to session start/end (`onSessionStart`/`onSessionEnd`), or run post-turn work (`onRunEnd`). Multiple `hooks()` calls compose in registration order.
+    * **`cmd.on(event, ...)`** only observes - it cannot block or rewrite. Handlers are isolated (a throw becomes a `mod_error` event, never a crash).
+  If you find yourself wanting an `on` handler to stop a tool, you want a hook instead. The full mutating surface is in Hooks and events; the full registration/live surface is the ModApi reference.

@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-agents-effort
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-agents
+locator:
+  kind: document_section
+  heading: Reasoning effort
+official_url: "https://commandcode.ai/docs/agents"
+excerpt: |-
+  `reasoningEffort` pins how hard the agent thinks, independent of the session's `/effort`. Pin/select a reasoning level the agent's model supports. To see a model's exact set, open the `/model` picker and select the model - its reasoning-effort step lists precisely the levels that model accepts.
+  The value is validated in two stages so a bad one never reaches the provider mid-delegation:
+    * At load time an unknown level (a typo like `meduim`) is dropped with a warning, and the agent falls back to the model default - the file still loads.
+    * At runtime, the level is checked against the model actually chosen (an `inherit` model isn't known until launch).
+    * A level the resolved model doesn't support falls back to the model default rather than being clamped to a different level.

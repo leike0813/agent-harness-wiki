@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-headless-perm
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-headless
+locator:
+  kind: document_section
+  heading: Permissions
+official_url: "https://commandcode.ai/docs/headless"
+excerpt: |-
+  By default, headless mode **blocks tools that modify your system** \- file writes, file edits, and shell commands are denied. This keeps automated runs safe.
+  To enable all tools, pass `--yolo`:
+  `cmd -p "fix the lint errors" --yolo `
+  > `--dangerously-skip-permissions` is also accepted as an alias.
+  **Tool**| **Default (no flag)**| **With`--yolo`**
+  ---|---|---
+  File reads, grep, glob| Allowed| Allowed
+  File edits and writes| Blocked| Allowed
+  Shell commands| Blocked| Allowed
+  Warning
+  Only use `--yolo` in trusted environments. It allows Command Code to modify files and run shell commands without confirmation.
+  Complete guidePermissions→
+  Headless runs still go through the permission engine.

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-byok-modelfields
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-byok
+locator:
+  kind: document_section
+  heading: Model fields
+official_url: "https://commandcode.ai/docs/byok"
+excerpt: |-
+  Every field is optional but we recommend adding `contextWindow` as a bare minimum. `"a-model-id": {}` is a complete declaration:
+  Field| Values| Notes
+  ---|---|---
+  `name`| string| Display name in `/model`
+  `contextWindow`| number > 0| Tokens. Compat alias: `limit.context` (`contextWindow` wins when both are set) Default: 200K
+  `maxOutput`| number > 0| Tokens. Compat alias: `limit.output`
+  `reasoning`| boolean| `true` assumes the efforts `low` / `medium` / `high`; `false` declares none
+  `reasoningEfforts`| string[]| Exact valid set: `low` | `medium` | `high` | `xhigh` | `max`. Unknown levels are dropped with a warning
+  `cost`| object| $ per 1M tokens: `input`, `output`, `cacheRead`, `cacheWrite` (snake_case `cache_read` / `cache_write` accepted); `0` is valid for free models

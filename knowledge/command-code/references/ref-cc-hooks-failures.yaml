@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-hooks-failures
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-hooks
+locator:
+  kind: document_section
+  heading: Common failure modes
+official_url: "https://commandcode.ai/docs/hooks"
+excerpt: |-
+  What you'll see when a hook doesn't behave the way you expect:
+  **Symptom**| **Likely cause**| **Fix**
+  ---|---|---
+  Hook never runs| You're in plan mode (hooks are skipped). The matcher regex doesn't match any of `SHELL`, `READ`, `WRITE`, `EDIT`. The script isn't executable| Exit plan mode. Check `matcher` against the display names `SHELL`, `READ`, `WRITE`, `EDIT`. Run `chmod +x` for your executables.
+  Tool runs despite `"deny"`| `permissionDecision` is misspelled, or `hookSpecificOutput` is missing| Validate output against the Hook output schema
+  Timeout errors in the log| Hook takes longer than its `timeout`| Raise `timeout`, or move slow work to a background process

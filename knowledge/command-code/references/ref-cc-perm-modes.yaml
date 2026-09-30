@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-perm-modes
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-permissions
+locator:
+  kind: document_section
+  heading: Permission modes
+official_url: "https://commandcode.ai/docs/permissions"
+excerpt: |-
+  A mode sets the baseline. Cycle with **shift+tab** , or switch with **`/mode`**.
+  Mode| Meaning
+  ---|---
+  `default`| Prompt for anything mutating; reads are free.
+  `accept-edits`| Do normal workspace edits (and safe filesystem shell: `mkdir`, `touch`, `cp`, `mv`, non-recursive `rm`, `rmdir`, `sed`) without asking. Does **not** auto-accept arbitrary shell, MCP tools, or recursive deletes.
+  `plan`| Read-only exploration. Reads, searches, and read-only shell (`git status`) run; only the plan file may be written.
+  `yolo`| Permission bypass: do basically everything without asking. Deny rules, explicit ask rules, and the root/home removal breaker still apply. Enter with shift+tab, or `--yolo` / `--dangerously-skip-permissions` to start in it; throwaway environments only.

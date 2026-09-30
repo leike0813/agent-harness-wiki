@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-hooks-toolinput
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-hooks
+locator:
+  kind: document_section
+  heading: "`tool_input` fields"
+official_url: "https://commandcode.ai/docs/hooks"
+excerpt: |-
+  The shape of `tool_input` depends on which tool fired. Hooks read these fields to inspect a call. Example, a shell guard checks `tool_input.command`, a write audit reads `tool_input.file_path`.
+  **Tool**| **fields**
+  ---|---
+  `shell_command`| `command: string`, `args?: string[]`, `directory?: string`, `timeout?: number`
+  `read_file`| `absolute_path: string`, `offset?: number`, `limit?: number`
+  `write_file`| `file_path: string`, `content: string`
+  `edit_file`| `file_path: string`, `old_value: string`, `new_value: string`, `replacement_count?: number`, `replace_all?: boolean`

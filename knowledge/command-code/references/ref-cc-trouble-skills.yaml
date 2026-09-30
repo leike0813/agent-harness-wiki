@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-trouble-skills
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-troubleshooting-common-issues
+locator:
+  kind: document_section
+  heading: "Skills not appearing in `/skills` menu"
+official_url: "https://commandcode.ai/docs/troubleshooting/common-issues"
+excerpt: |-
+  **Problem:** Skills don't show up in the menu
+  Command Code surfaces every load failure for skills with a one-line reason. You don't have to guess which field is wrong:
+    * **In the TUI:** open `/skills` and press `space` to see the grouped _Skipped_ report. Each broken skill is a clickable link to its file; press `c` to copy the report as markdown for Command Code to fix.
+    * **From the CLI:** run `cmd skills list --debug` to get the same grouped report headlessly.
+  If the skill isn't even listed as skipped, it isn't being discovered at all. Walk the checks below.
+    1. Check directory structure:
+  `ls ~/.commandcode/skills/ ls .commandcode/skills/ `
+    2. Verify SKILL.md exists:
+  `cat ~/.commandcode/skills/my-skill/SKILL.md `
+    3. Validate frontmatter format:

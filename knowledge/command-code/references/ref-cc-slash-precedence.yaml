@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-slash-precedence
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-reference-slash-commands
+locator:
+  kind: document_section
+  heading: Dispatch precedence
+official_url: "https://commandcode.ai/docs/reference/slash-commands"
+excerpt: |-
+  When multiple sources define the same name, dispatch resolves in this order - first writer wins:
+    1. **Built-in** commands (the full set, including any the menu hides)
+    2. **Mod** commands (added by active mods)
+    3. **Custom** commands (`.commandcode/commands/`, `~/.commandcode/commands/`)
+    4. **Skills**
+  So a custom command can never override a built-in, and a skill shadowed by any of the above resolves to its owner. Shadowed skills still render in the menu with a `- shadowed by /<name>` note so you know they exist, and they run under the `skill:` namespace: `/skill:<name>` bypasses this whole ladder and only ever resolves to a skill. Lookup is case-insensitive (`/Reload` resolves to `/reload`).

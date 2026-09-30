@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-agents-fields
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-agents
+locator:
+  kind: document_section
+  heading: Frontmatter fields
+official_url: "https://commandcode.ai/docs/agents"
+excerpt: |-
+  Only these keys are read; anything else is ignored. All except `name` are optional.
+  **Field**| **Type**| **Required**| **Default**| **Description**
+  ---|---|---|---|---
+  `name`| `string`| Yes| filename| Agent id Command Code delegates to. Sanitized to `a-z A-Z 0-9 _ -`; can't be a reserved name.
+  `description`| `string`| No| `""`| When to use the agent, the text Command Code matches against. Be specific.
+  `tools`| `string | string[]`| No| none| Tools the agent may use. `"*"` grants all; otherwise a comma/space-separated list or YAML array.
+  `disallowedTools`| `string | string[]`| No| -| Deny list applied after `tools` (deny beats allow). Same format as `tools`.
+  `model`| `string`| No| inherit| Any `/model` id. Omit or set `inherit` to follow the session model.

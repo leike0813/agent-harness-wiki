@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-settings-permissions
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-settings
+locator:
+  kind: document_section
+  heading: permissions
+official_url: "https://commandcode.ai/docs/settings"
+excerpt: |-
+  Rules that allow, ask, or deny operations, plus a few related toggles.
+  `{ "permissions": { "allow": ["Bash(npm test)", "Bash(pnpm build)"], "ask": ["Bash(git push:*)"], "deny": ["Bash(rm -rf:*)"], "defaultMode": "default", "additionalDirectories": ["../shared-lib"], "disableBypass": false } } `
+  **Key**| **Type**| **What it does**
+  ---|---|---
+  `allow`| string[]| Rules that auto-approve matching operations
+  `ask`| string[]| Rules that always prompt
+  `deny`| string[]| Rules that always block
+  `defaultMode`| string| Default permission mode: `default`, `accept-edits`, `plan`, `yolo`, or `dont-ask` (`auto-accept` and `bypass` are accepted aliases)
+  `additionalDirectories`| string[]| Extra in-workspace directories (`~/` expands; relative paths resolve to the project root)

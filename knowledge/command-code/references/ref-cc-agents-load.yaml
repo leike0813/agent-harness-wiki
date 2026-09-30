@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-agents-load
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-agents
+locator:
+  kind: document_section
+  heading: Where agents load from
+official_url: "https://commandcode.ai/docs/agents"
+excerpt: |-
+  **Source**| **Path**| **Notes**
+  ---|---|---
+  Bundled| (built-in)| General, Explore, Plan - always present, read-only
+  Personal| `~/.commandcode/agents/`| Every project on your machine
+  Project| `.commandcode/agents/`| Committed with the repo; shared with the team
+  They load in that order and the **first** definition of a name wins. Files are re-scanned each turn, so adds, edits, and deletes take effect right away.
+  Note
+  Reserved names (`explore`, `plan`, `review`, `general`) are used by built-in behavior. A custom file with one of these names is ignored.

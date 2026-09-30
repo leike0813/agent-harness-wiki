@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-headless-json
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-headless
+locator:
+  kind: document_section
+  heading: JSON output
+official_url: "https://commandcode.ai/docs/headless"
+excerpt: |-
+  `--output-format json` turns print mode into a machine-readable stream. Use it when a script needs to react to the run, not just read the final answer.
+  `cmd -p "summarize the auth module" --output-format json `
+  The stream is **newline-delimited JSON** (NDJSON), one object per line, in two shapes.
+  **Event frames** , one per `AgentEvent` as the run progresses:
+  `{"type": "event", "event": {"type": "tool_running", "toolCallId": "…", "toolName": "read_file", "description": "…"}} `
+  **One final result line** , always last:
+  `{"type": "result", "subtype": "success", "sessionId": "…", "stopReason": "end_turn", "usage": {…}, "durationMs": 8421, "finalText": "…"} `
+  **Field**| **Always present?**| **Notes**
+  ---|---|---

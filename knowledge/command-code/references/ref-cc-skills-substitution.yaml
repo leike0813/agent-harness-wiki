@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-skills-substitution
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-skills
+locator:
+  kind: document_section
+  heading: Arguments and context substitution
+official_url: "https://commandcode.ai/docs/skills"
+excerpt: |-
+  When you invoke a skill with `/skill-name <args>`, Command Code substitutes these placeholders in the body before the model sees it:
+  Placeholder| Expands to
+  ---|---
+  `$ARGUMENTS`| All arguments as a single string. If the body has no placeholder, non-empty arguments are appended as an `ARGUMENTS: …` footer.
+  `$ARGUMENTS[N]` / `${N}`| The Nth argument, 0-indexed (`$ARGUMENTS[0]` / `${0}` is the first).
+  `$name`| A declared named argument. With `arguments: issue branch`, `$issue` is the first argument and `$branch` the second. Only declared names are replaced.
+  `${COMMANDCODE_SKILL_DIR}`| Absolute path to the skill's own directory - use it to reference bundled `scripts/` or `references/` regardless of the working directory.

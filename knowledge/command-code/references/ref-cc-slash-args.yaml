@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-slash-args
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-reference-slash-commands
+locator:
+  kind: document_section
+  heading: Argument templating
+official_url: "https://commandcode.ai/docs/reference/slash-commands"
+excerpt: |-
+  Placeholders in the command body are replaced with your arguments in a single pass (substituted text is never re-scanned, so an argument containing `$1` lands literally):
+  **Placeholder**| **Description**
+  ---|---
+  `$ARGUMENTS` / `$@`| All arguments as a single string (`${ARGUMENTS}` / `${@}` work too)
+  `$1`, `$2`, … `$N`| Positional arguments, 1-indexed (there is no `$0`); missing args → `""`
+  `${1}`, `${2}`, …| Braced positional - safe directly next to other text (`v${1}.0`)
+  `${N:-default}`| Nth argument, or `default` when missing/empty
+  `${@:-default}`| All arguments, or `default` when none were provided
+  `${@:N}`| Arguments from the Nth position to the end
+  `${@:N:L}`| `L` arguments starting at the Nth position (clamped to what exists)

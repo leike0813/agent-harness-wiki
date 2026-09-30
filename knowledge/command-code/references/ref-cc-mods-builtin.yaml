@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-builtin
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-mods
+locator:
+  kind: document_section
+  heading: Built-in mods
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  Command Code's own features ride this exact API. First-party providers (`provider-anthropic` / `provider-copilot` / `provider-openai`), the update notice, and the harness-side titling and taste-learning triggers are **built-in mods** : compiled-in factories registered on the same host before any discovered mod. They are not special - they use `cmd.addProvider`, `cmd.on`, and `cmd.hooks` like any mod, appear in `cmd mods list` with source `builtin`, and honor the same disable key:
+  `{"mods": {"disabled": ["provider-copilot", "update-notice", "titling", "learning"]}} `
+  A built-in can also ship **opt-in** \- off by default; `cmd mods list --builtin` marks it `off by default`.

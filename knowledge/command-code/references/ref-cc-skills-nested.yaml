@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-skills-nested
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-skills
+locator:
+  kind: document_section
+  heading: Nested skill folders
+official_url: "https://commandcode.ai/docs/skills"
+excerpt: |-
+  Discovery is recursive: a location may group skills under intermediate directories, and each skill is still the directory that directly contains `SKILL.md`.
+  `.commandcode/skills/ ├── docs/ │ ├── changelog-writer/ │ │ └── SKILL.md │ └── release-notes/ │ └── SKILL.md └── code-review/  └── SKILL.md `
+  The `name` field still matches the skill's own directory (`changelog-writer`), not the grouping folder. A skill's own subfolders (`scripts/`, `references/`, `assets/`) are never scanned for more skills.

@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-memory-atpath
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-memory
+locator:
+  kind: document_section
+  heading: "Importing other files with `@path`"
+official_url: "https://commandcode.ai/docs/memory"
+excerpt: |-
+  Any `@path` reference inside a memory file is replaced with that file's contents, so a memory file can compose rather than duplicate:
+  `See @README.md for the project overview. Our review rules live in @./docs/review-checklist.md. Personal shell aliases: @~/.commandcode/shell-notes.md `
+    * Paths are relative to the file doing the importing; `~/` expands to your home directory; absolute paths work.
+    * Imports are **recursive** , up to **5 levels** deep.
+    * Each expansion is wrapped with an `# Imported from <path>` header so the source stays visible.
+    * References inside code fences or backticks are **left alone** , so documenting `@something` doesn't accidentally import it.
+    * A path that doesn't resolve to a readable file is left as plain text rather than failing the turn.

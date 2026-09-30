@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-provider-zdr
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-provider
+locator:
+  kind: document_section
+  heading: "Zero data retention (ZDR)"
+official_url: "https://commandcode.ai/docs/provider"
+excerpt: |-
+  Send the header `x-cmd-zdr: 1` on any request to enforce zero data retention and no prompt training - the same opt-in the CLI exposes via `CMD_ZDR=1`. When set, the request routes only through ZDR-capable upstreams: if a model has no ZDR-capable upstream the request **fails** with a `422` (`cmd_zdr_no_providers`) rather than falling back to a non-ZDR provider.
+  The decision model `typesafe/jev` has no ZDR-capable upstream, so a request for it with the header set is refused with that same `422`. Turning on ZDR can change which upstream serves your request, so it may cost more depending on the provider. Anthropic models on `/v1/messages` are zero-data-retention at the account level already, so the header is accepted there for parity but doesn't affect routing.

@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-skills-disable
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-skills
+locator:
+  kind: document_section
+  heading: Enable or disable skills
+official_url: "https://commandcode.ai/docs/skills"
+excerpt: |-
+  Toggle a skill on or off without deleting it. Disabled skills are hidden from the model and won't be invoked.
+  In the `/skills` picker, highlight a skill and press **Enter** to toggle it.
+  Disabled skills are tracked under the `disabledSkills` key in a `settings.json` file. Command Code looks for settings.json in the following paths:
+  **Scope**| **Config file**| **Applies to**
+  ---|---|---
+  User| `~/.commandcode/settings.json`| Across all projects
+  Project| `.commandcode/settings.json`| Anyone using the project
+  The shape is the same in both settings files:
+  `{ "disabledSkills": ["blogster", "r0"] } `
+  To disable a skill across every project on your machine, edit `~/.commandcode/settings.json` directly. The next session will pick it up.

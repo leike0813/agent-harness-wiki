@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-settings-other
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-settings
+locator:
+  kind: document_section
+  heading: Other configuration files
+official_url: "https://commandcode.ai/docs/settings"
+excerpt: |-
+  **Path**| **Contents**| **Edit by hand?**
+  ---|---|---
+  `~/.commandcode/providers.json`| Custom BYOK providers \- endpoints, key references, models| Yes - or via `/connect`
+  `~/.commandcode/auth.json`| Command Code login, subscription tokens, and keys pasted in `/connect` for custom providers - written `0600`| No - managed by `/login`, `/logout`, and `/connect`
+  `~/.commandcode/keybindings.json`| Keybinding overrides, merged over the defaults (`id → key` or `id → key[]`)| Yes - see Keybindings
+  `~/.commandcode/mcp.json` (or `.mcp.json`)| User-scope MCP servers: `{ "mcpServers": { … } }`| Yes
+  `<project>/.mcp.json`| Project-scope MCP servers (commit this)| Yes
+  `~/.commandcode/projects/{project}/mcp.json`| Local (per-project) MCP servers| Via CLI

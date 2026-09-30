@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-trust
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-mods
+locator:
+  kind: document_section
+  heading: Trust and safety
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  * **There is no sandbox** \- a mod is arbitrary code; install packages you trust.
+    * **Project mods are trust-gated** like project skills: they load only after the workspace trust prompt. User-scope and `--mod` mods always load.
+    * **Package installs run npm with`--ignore-scripts`** \- mods are jiti-loaded TypeScript; they need no build step, so lifecycle scripts are pure attack surface.
+    * **Print mode loads user-scope and`--mod` mods only.** Project mods stay out of headless runs because print never shows a trust prompt; pass `--dangerously-skip-permissions` to opt a repo's own mods into a headless run (CI).

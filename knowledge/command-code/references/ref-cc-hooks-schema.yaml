@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-hooks-schema
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-hooks
+locator:
+  kind: document_section
+  heading: Settings schema
+official_url: "https://commandcode.ai/docs/hooks"
+excerpt: |-
+  Hooks are configured under the `hooks` key in `settings.json`. Each event array has two levels of nesting: a **`HookDefinition`** picks which tools the hook applies to (via `matcher`), and a **`HookEntry`** is the handler that runs them.
+  `settings.json └── hooks  └── <EventName> └── [ HookDefinition ]  │ matcher: which tools  └── hooks: [ HookEntry ]  type · command · timeout `
+  One `HookDefinition` can own multiple `HookEntry` handlers. They all run for the same matcher, in the order listed.
+  Chooses which tools this group of handlers applies to.
+  **Field**| **Required**| **Type**| **Description**
+  ---|---|---|---
+  `matcher`| Optional| `string`| Omit to match every tool. Examples: `"shell"`, `"write|edit"`. Only meaningful for the tool events (`PreToolUse`, `PostToolUse`).

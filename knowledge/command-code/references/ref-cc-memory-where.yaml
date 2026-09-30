@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-memory-where
+harness_id: command-code
+snapshot_id: snapshot-command-code-docs-memory
+locator:
+  kind: document_section
+  heading: Where memory files live
+official_url: "https://commandcode.ai/docs/memory"
+excerpt: |-
+  Command Code reads **three tiers** , and every one that exists is loaded; they add up, they don't replace each other.
+  Tier| Location| Use it for
+  ---|---|---
+  **User**| `~/.commandcode/AGENTS.md`| Your personal preferences, across every project
+  **Project**| `<project>/AGENTS.md` or `<project>/.commandcode/AGENTS.md`| Team-shared project instructions; commit this
+  **Subdirectory**| `<subdir>/AGENTS.md` or `<subdir>/.commandcode/AGENTS.md`| Rules for one package or area of a monorepo
+  They're assembled in that order (user, project, then subdirectory), each block headed by its source path, so the model always knows which file a rule came from. Later blocks are more specific, so a package-level convention naturally reads as a refinement of the project-level one.
+  Note
