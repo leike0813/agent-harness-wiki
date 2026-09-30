@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-mcp-env
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-mcp
+locator:
+  kind: document_section
+  heading: ".mcp.json 中的环境变量展开"
+official_url: "https://docs.costrict.ai/csc/tools-and-plugins/mcp"
+excerpt: "文件中的环境变量展开，允许团队共享配置，同时保持机器特定路径和 API 密钥等敏感值的灵活性。 支持的语法： ${VAR} - 展开为环境变量 VAR 的值 ${VAR:-default} - 如果 VAR 已设置则展开为其值，否则使用 default 展开位置： 环境变量可以在以下位置展开： command - 服务器可执行文件路径 args - 命令行参数 env - 传递给服务器的环境变量 url - 用于 HTTP 服务器类型 headers - 用于 HTTP 服务器认证 使用变量展开的示例： { \"mcpServers\" : { \"api-server\" : { \"type\" : \"http\" , \"url\" : \"${API_BASE_URL:-https://api.example.com}/mcp\" , \"headers\" : { \"Authorization\" : \"Bearer ${API_KEY}\" } } } } 如果所需的环境变量未设置且没有默认值，CSC 将无法解析配置。 实用示例 ​ 示例：使用 Sentry 监控错误 ​ csc mcp add --transport http sentry https://mcp.sentry.dev/mcp 使用您的 Sentry 账户进行身份验证： /mcp 然后调试生产问题： 过去 24 小时内最常见的错误是什么？ 显示错误 ID abc123 的堆栈跟踪 哪个部署引入了这些新错误？ 示例：连接 GitHub 进行代码审查 ​ csc mcp add --transport http github ht"

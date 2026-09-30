@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-settings-hooks
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-settings
+locator:
+  kind: document_section
+  heading: "钩子配置"
+official_url: "https://docs.costrict.ai/csc/configuration/settings"
+excerpt: "这些设置控制哪些钩子可以运行以及 HTTP 钩子可以访问什么。 allowManagedHooksOnly 设置只能在托管设置中配置。URL 和环境变量白名单可以在任何设置级别设置并跨来源合并。 当 allowManagedHooksOnly 为 true 时的行为： 托管钩子和 SDK 钩子被加载 在托管设置 enabledPlugins 中强制启用的插件钩子被加载。这让管理员通过组织市场分发经过审查的钩子，同时阻止其他所有内容。信任通过完整的 plugin@marketplace ID 授予，因此来自不同市场的同名插件仍被阻止 用户钩子、项目钩子和所有其他插件钩子被阻止 限制 HTTP 钩子 URL： 限制 HTTP 钩子可以目标的 URL。支持 * 作为匹配通配符。当数组定义后，目标非匹配 URL 的 HTTP 钩子被静默阻止。 { \"allowedHttpHookUrls\" : [ \"https://hooks.example.com/*\" , \"http://localhost:*\" ] } 限制 HTTP 钩子环境变量： 限制 HTTP 钩子可以插入到头值中的环境变量名。每个钩子的有效 allowedEnvVars 是其自身列表与此设置的交集。 { \"httpHookAllowedEnvVars\" : [ \"MY_TOKEN\" , \"HOOK_SECRET\" ] } 设置优先级 ​ 设置按优先级顺序应用。从最高到最低： 托管设置 （服务器管理的、MDM/OS 级别策略或托管设置文件） IT 通过服务器交付、MDM 配置文件、注册表策略或托管设置文件部署的策略 不能被任何其他级别覆盖，包括命令行参数 在托管层级内，优先级为：服务器管理的 > MDM/OS 级别策略 > 基于文件的（ managed-settings.d/*.json + managed-setti"

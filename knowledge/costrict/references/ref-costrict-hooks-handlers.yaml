@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-hooks-handlers
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-hooks
+locator:
+  kind: document_section
+  heading: "Hook 处理程序字段"
+official_url: "https://docs.costrict.ai/csc/reference/hooks"
+excerpt: "当匹配器匹配时运行的 shell 命令、HTTP 端点、LLM 提示或代理。有四种类型： 命令 hooks （ type: \"command\" ）：运行 shell 命令。你的脚本通过 stdin 接收事件的 JSON 输入，并通过退出码和 stdout 传回结果。 HTTP hooks （ type: \"http\" ）：将事件的 JSON 输入作为 HTTP POST 请求发送到 URL。端点使用与命令 hooks 相同的 JSON 输出格式通过响应体传回结果。 提示 hooks （ type: \"prompt\" ）：向 CSC 模型发送提示进行单轮评估。模型以 JSON 返回是/否决策。请参阅基于提示的 hooks。 代理 hooks （ type: \"agent\" ）：生成可以使用 Read、Grep 和 Glob 等工具的子代理，在返回决策之前验证条件。请参阅基于代理的 hooks。 通用字段 ​ 这些字段适用于所有 hook 类型： 字段 必需 描述 type 是 \"command\" 、 \"http\" 、 \"prompt\" 或 \"agent\" if 否 权限规则语法，用于过滤此 hook 何时运行，如 \"Bash(git *)\" 或 \"Edit(*.ts)\" 。hook 仅在工具调用匹配模式时才启动。仅在工具事件上评估： PreToolUse 、 PostToolUse 、 PostToolUseFailure 、 PermissionRequest 和 PermissionDenied 。在其他事件上，设置了 if 的 hook 永远不会运行。使用与权限规则相同的语法 timeout 否 取消前的秒数。默认值：命令 600，提示 30，代理 60 statusMessage 否 hook 运行时显示的自定义加载消息 once 否 如果为 true ，每个会话仅运"

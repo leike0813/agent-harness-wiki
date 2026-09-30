@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-hooks-agent
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-hooks
+locator:
+  kind: document_section
+  heading: "基于代理的 Hooks"
+official_url: "https://docs.costrict.ai/csc/reference/hooks"
+excerpt: "代理 hook 生成一个子代理，可以读取文件、搜索代码和检查代码库来验证条件。代理 hooks 支持与基于提示的 hooks 相同的事件。 代理 Hooks 如何工作 ​ 当代理 hook 触发时： CSC 生成一个带有你的提示和 hook 的 JSON 输入的子代理 子代理可以使用 Read、Grep 和 Glob 等工具进行调查 最多 50 轮后，子代理返回结构化的 { \"ok\": true/false } 决策 CSC 以与提示 hook 相同的方式处理决策 当验证需要检查实际文件或测试输出，而不仅仅是评估 hook 输入数据时，代理 hooks 很有用。 代理 Hook 配置 ​ 将 type 设置为 \"agent\" 并提供 prompt 字符串。配置字段与提示 hooks 相同，但默认超时更长： 字段 必需 描述 type 是 必须为 \"agent\" prompt 是 描述要验证什么的提示。使用 $ARGUMENTS 作为 hook 输入 JSON 的占位符 model 否 用于评估的模型。默认为快速模型 timeout 否 超时时间（秒）。默认：60 响应模式与提示 hoo"

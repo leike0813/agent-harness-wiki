@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-agents-session
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-subagents
+locator:
+  kind: document_section
+  heading: "将整个会话作为Subagents运行。"
+official_url: "https://docs.costrict.ai/csc/agent/sub-agents"
+excerpt: "启动一个会话，其中主线程本身采用该Subagents的系统提示、工具限制和模型： csc --agent code-reviewer Subagents的系统提示完全替换默认的 CSC 系统提示，与 --system-prompt 的方式相同。 AGENTS.md 文件和项目记忆仍然通过正常的消息流加载。代理名称在启动头中显示为 @<name> ，以便你确认它处于活动状态。 这适用于内置和自定义Subagents，当你恢复会话时选择会持久化。 对于Plugins提供的Subagents，传递限定名称： csc --agent <plugin-name>:<agent-name> 。 要使其成为项目中每个会话的默认值，在 .costrict/settings.json 中设置 agent ： { \"agent\" : \"code-reviewer\" } 如果两者都存在，CLI 标志覆盖设置。 在前台或后台运行Subagents ​ Subagents可以在前台（阻塞）或后台（并发）运行： 前台Subagents 阻塞主对话直到完成。权限提示和澄清问题（如 AskUserQuestion ）会传递给你。 后台Subagents 在你继续工作的同时并发运行。启动前，CSC 会提示Subagents需要的任何工具权限，确保它预先拥有必要的批准。运行后，Subagents继承这些权限并自动拒绝任何未预先批准的内容。如果后台Subagents需要提出澄清问题，该工具调用会失败，但Subagents继续运行。 如果后台Subagents因缺少权限而失败，你可以启动一个新的前台Subagents"

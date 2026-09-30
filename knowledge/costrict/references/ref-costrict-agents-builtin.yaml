@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-agents-builtin
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-subagents
+locator:
+  kind: document_section
+  heading: "内置Subagents"
+official_url: "https://docs.costrict.ai/csc/agent/sub-agents"
+excerpt: "CSC 包含 CSC 在适当时自动使用的内置Subagents。每个Subagents继承父对话的权限，并有额外的工具限制。 Explore ​ 一个快速的只读代理，针对搜索和分析代码库进行了优化。 工具 ：只读工具（禁止访问 Write 和 Edit 工具） 用途 ：文件发现、代码搜索、代码库探索 当 CSC 需要在不进行更改的情况下搜索或理解代码库时，它会委托给 Explore。这使探索结果不会出现在你的主对话上下文中。 调用 Explore 时，CSC 会指定彻底程度： quick 用于定向查找， medium 用于平衡探索， very thorough 用于全面分析。 Plan ​ 一个在计划模式中用于在呈现计划之前收集上下文的研究代理。 模型 ：从主对话继承 工具 ：只读工具（禁止访问 Write 和 Edit 工具） 用途 ：用于规划的代码库研究 当你在计划模式中且 CSC 需要理解你的代码库时，它会将研究委托给 Plan Subagents。这防止了无限嵌套（Subagents不能生成其他Subagents），同时仍然收集必要的上下文。 General-purpose ​ 一个功能强大的代理，用于需要探索和操作的复杂多步骤任务。 模型 ：从主对话继承 工具 ：所有工具 用途 ：复杂研究、多步骤操作、代码修改 当任务需要同时探索和修改、需要复杂推理来解释结果，或需要多个依赖步骤时，CSC 会委托给 general-purpose。 快速入门：创建你的第一个Subagents ​ Subagents在带有 YAML frontmatter 的 Markdown 文件中定义。你可以手动创建它们，或使用 /agents 命令。 本演练指导你使用 /agents 命令创建一个用户级Subagents。该Subagents审查代码并为代码库建议改进。 打开Subagent"

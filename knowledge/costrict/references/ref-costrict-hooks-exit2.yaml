@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-hooks-exit2
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-hooks
+locator:
+  kind: document_section
+  heading: "每个事件的退出码 2 行为"
+official_url: "https://docs.costrict.ai/csc/reference/hooks"
+excerpt: "退出码 2 是 hook 发出\"停止，不要这样做\"信号的方式。效果取决于事件，因为有些事件代表可以被阻止的操作（如尚未发生的工具调用），而其他事件代表已经发生或无法阻止的事情。 Hook 事件 可以阻止？ 退出码 2 时发生什么 PreToolUse 是 阻止工具调用 PermissionRequest 是 拒绝权限 UserPromptSubmit 是 阻止提示处理并清除提示 Stop 是 阻止 CSC 停止，继续对话 SubagentStop 是 阻止子代理停止 TeammateIdle 是 阻止队友进入空闲状态（队友继续工作） TaskCreated 是 回滚任务创建 TaskCompleted 是 阻止任务被标记为完成 ConfigChange 是 阻止配置更改生效（ policy_settings 除外） StopFailure 否 输出和退出码被忽略 PostToolUse 否 向 CSC 显示 stderr（工具已运行） PostToolUseFailure 否 向 CSC 显示 stderr（工具已失败） PermissionDenied 否 退出码和 stderr 被忽略（拒绝已发生）。使用 JSON hookSpecificOutput.retry: true 告知模型可以重试 Notification 否 仅向用户显示 stderr SubagentStart 否 仅向用户显示 stderr SessionStart 否 仅向用户显示 stderr SessionEnd 否 仅向用户显示 stderr CwdChanged 否 仅向用户显示 stderr FileChanged 否 仅向用户显示 stderr PreCompact 否 仅向用户显示 stderr PostCompact 否 仅向用户显示 stderr Elicitation 是 拒绝请"

@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-hooks-intro
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-hooks
+locator:
+  kind: document_section
+  heading: "Hooks 参考"
+official_url: "https://docs.costrict.ai/csc/reference/hooks"
+excerpt: "Hooks 是用户定义的 shell 命令、HTTP 端点或 LLM 提示，它们在 CSC 生命周期的特定点自动执行。使用此参考文档查找事件模式、配置选项、JSON 输入/输出格式以及异步 hooks、HTTP hooks 和 MCP 工具 hooks 等高级功能。如果你是首次设置 hooks，请先从指南开始。 Hook 生命周期 ​ Hooks 在 CSC 会话的特定点触发。当事件触发且匹配器匹配时，CSC 将有关事件的 JSON 上下文传递给你的 hook 处理程序。对于命令 hooks，输入通过 stdin 到达。对于 HTTP hooks，它作为 POST 请求体到达。你的处理程序随后可以检查输入、采取行动，并可选地返回决策。事件分为三种频率：每个会话一次（ SessionStart 、 SessionEnd ），每个轮次一次（ UserPromptSubmit 、 Stop 、 StopFailure ），以及智能体循环中的每次工具调用（ PreToolUse 、 PostToolUse ）： 下表总结了每个事件的触发时机。Hook 事件部分记录了每个事件的完整输入模式和决策控制选项。 事件 触发时机 SessionStart 当会话开始或恢复时 UserPromptSubmit 当你提交提示时，在 CSC 处理它之前 PreToolUse 在工具调用执行之前。可以阻止它 PermissionRequest 当权限对话框出现时 PermissionDenied 当工具调用被自动模式分类器拒绝时。返回 {retry: true} 告知模型可以重试被拒绝的工具调用 Pos"

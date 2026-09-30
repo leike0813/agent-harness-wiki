@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-mcp-add
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-mcp
+locator:
+  kind: document_section
+  heading: "安装 MCP 服务器"
+official_url: "https://docs.costrict.ai/csc/tools-and-plugins/mcp"
+excerpt: "MCP 服务器可以根据您的需求以三种不同方式进行配置： 选项 1：添加远程 HTTP 服务器 ​ HTTP 服务器是连接远程 MCP 服务器的推荐选项。这是云服务最广泛支持的传输方式。 # 基本语法 csc mcp add --transport http <name> <url> # 实际示例：连接到 Notion csc mcp add --transport http notion https://mcp.notion.com/mcp # 使用 Bearer token 的示例 csc mcp add --transport http secure-api https://api.example.com/mcp \\ --header \"Authorization: Bearer your-token\" 选项 2：添加远程 SSE 服务器 ​ ⚠️ 警告： SSE（服务器发送事件）传输已被弃用。请尽可能使用 HTTP 服务器代替。 # 基本语法 csc mcp add --transport sse <name> <url> # 实际示例：连接到 Asana csc mcp add --transport sse asana https://mcp.asana.com/sse # 使用认证头的示例 csc mcp add --transport sse private-api https://api.company.com/sse \\ --header \"X-API-Key: your-key-here\" 选项 3：添加本地 stdio 服务器 ​ Stdio 服务器作为本地进程在您的机器上运行。它们适用于需要直接系统访问或自定义脚本的工具。 # 基本语法 csc mcp add [options] <name> -- <command> [args...] # 实际示"

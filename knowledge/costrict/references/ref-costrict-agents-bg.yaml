@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-agents-bg
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-subagents
+locator:
+  kind: document_section
+  heading: "在前台或后台运行Subagents"
+official_url: "https://docs.costrict.ai/csc/agent/sub-agents"
+excerpt: "Subagents可以在前台（阻塞）或后台（并发）运行： 前台Subagents 阻塞主对话直到完成。权限提示和澄清问题（如 AskUserQuestion ）会传递给你。 后台Subagents 在你继续工作的同时并发运行。启动前，CSC 会提示Subagents需要的任何工具权限，确保它预先拥有必要的批准。运行后，Subagents继承这些权限并自动拒绝任何未预先批准的内容。如果后台Subagents需要提出澄清问题，该工具调用会失败，但Subagents继续运行。 如果后台Subagents因缺少权限而失败，你可以启动一个新的前台Subagents以相同任务重试交互式提示。 CSC 根据任务决定是在前台还是后台运行Subagents。你也可以： 让 CSC \"在后台运行此任务\" 按 Ctrl+B 将正在运行的任务置于后台 要禁用所有后台任务功能，将 CLAUDE_CODE_DISABLE_BACKGROUND_TASKS 环境变量设置为 1 。请参阅环境变量。 常见模式 ​ 隔离大量输出操作 ​ Subagents最有效的用途之一是隔离产生大量输出的操作。运行测试、获取文档或处理日志文件可能会消耗大量上下文。通过将这些委托给Subagents，冗长的输出留在Subagents的上下文中，而只有相关的摘要返回到你的主对话。 Use a subagent to run the test suite and report only the failing tests with their error messages 并行研究 ​ 对于独立的调查，生成多个Subagents同时工作： Research the authentication, database, and API modules in parallel using separate subagents 每个Su"

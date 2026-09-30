@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-agents-file
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-subagents
+locator:
+  kind: document_section
+  heading: "编写Subagents文件"
+official_url: "https://docs.costrict.ai/csc/agent/sub-agents"
+excerpt: "Subagents文件使用 YAML frontmatter 进行配置，后跟 Markdown 格式的系统提示： 注意： Subagents在会话启动时加载。如果你通过手动添加文件创建Subagents，请重启会话或使用 /agents 立即加载它。 --- name : code - reviewer description : Reviews code for quality and best practices tools : Read , Glob , Grep model : sonnet --- You are a code reviewer. When invoked, analyze the code and provide specific, actionable feedback on quality, security, and best practices. frontmatter 定义Subagents的元数据和配置。正文成为指导Subagents行为的系统提示。Subagents只接收此系统提示（加上基本环境详细信息，如工作目录），而不是完整的 CSC 系统提示。 Subagents在主对话的当前工作目录中启动。在Subagents内部， cd 命令不会在 Bash 或 PowerShell 工具调用之间持久化，也不会影响主对话的工作目录。要给Subagents一个仓库的隔离副本，请设置 isolation: worktree 。 支持的 frontmatter 字段 ​ 以下字段可在 YAML frontmatter 中使用。只有 name 和 d"

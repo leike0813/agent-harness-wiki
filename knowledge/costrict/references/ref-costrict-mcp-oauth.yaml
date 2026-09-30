@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-mcp-oauth
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-mcp
+locator:
+  kind: document_section
+  heading: "使用预配置的 OAuth 凭据"
+official_url: "https://docs.costrict.ai/csc/tools-and-plugins/mcp"
+excerpt: "某些 MCP 服务器不支持通过动态客户端注册进行自动 OAuth 设置。如果您看到类似\"Incompatible auth server: does not support dynamic client registration\"的错误，则服务器需要预配置的凭据。CSC 还支持使用客户端 ID 元数据文档（CIMD）而非动态客户端注册的服务器，并会自动发现这些服务器。如果自动发现失败，请先通过服务器的开发者门户注册 OAuth 应用，然后在添加服务器时提供凭据。 步骤 1：在服务器上注册 OAuth 应用 ​ 通过服务器的开发者门户创建应用，并记下您的客户端 ID 和客户端密钥。 许多服务器还需要重定向 URI。如果是，请选择一个端口并以 http://localhost:PORT/callback 格式注册重定向 URI。在下一步中使用相同的端口配合 --callback-port 。 步骤 2：使用您的凭据添加服务器 ​ 选择以下方法之一。 --callback-port 使用的端口可以是任何可用端口。它只需要与您在上一步中注册的重定向 URI 匹配。 csc mcp add ​ 使用 --client-id 传递应用的客户端 ID。 --client-secret 标志会提示输入密钥并遮盖输入： csc mcp add --transport http \\ --client-id your-client-id --client-secret --callback-port 8080 \\ my-server https://mcp.example.com/mcp csc m"

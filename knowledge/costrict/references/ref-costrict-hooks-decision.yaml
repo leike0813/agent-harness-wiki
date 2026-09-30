@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-hooks-decision
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-hooks
+locator:
+  kind: document_section
+  heading: "决策控制"
+official_url: "https://docs.costrict.ai/csc/reference/hooks"
+excerpt: "并非每个事件都支持通过 JSON 阻止或控制行为。支持的事件各自使用不同的字段集来表达该决策。在编写 hook 之前，使用此表作为快速参考： 事件 决策模式 关键字段 UserPromptSubmit, PostToolUse, PostToolUseFailure, Stop, SubagentStop, ConfigChange 顶级 decision decision: \"block\" 、 reason TeammateIdle, TaskCreated, TaskCompleted 退出码或 continue: false 退出码 2 通过 stderr 反馈阻止操作。JSON {\"continue\": false, \"stopReason\": \"...\"} 也会完全停止队友，匹配 Stop hook 行为 PreToolUse hookSpecificOutput permissionDecision （allow/deny/ask/defer）、 permissionDecisionReason PermissionRequest hookSpecificOutput decision.behavior （allow/deny） PermissionDenied hookSpecificOutput retry: true 告知模型可以重试被拒绝的工具调用 WorktreeCreate 路径返回 命令 hook 在 stdout 上打印路径；HTTP hook 返回 hookSpecificOutput.worktreePath 。Hook 失败或缺少路径会导致创建失败 Elicitation hookSpecificOutput action （accept/decline/cancel）、 content （accept 的表单字段值） Elicitatio"

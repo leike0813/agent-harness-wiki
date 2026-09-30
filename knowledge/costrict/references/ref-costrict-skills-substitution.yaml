@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-skills-substitution
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-skills
+locator:
+  kind: document_section
+  heading: "可用的字符串替换"
+official_url: "https://docs.costrict.ai/csc/tools-and-plugins/skills"
+excerpt: "Skills支持在Skills内容中进行动态值的字符串替换： 变量 描述 $ARGUMENTS 调用Skills时传递的所有参数。如果内容中不存在 $ARGUMENTS ，参数将作为 ARGUMENTS: <value> 附加。 $ARGUMENTS[N] 通过从 0 开始的索引访问特定参数，例如 $ARGUMENTS[0] 表示第一个参数。 $N $ARGUMENTS[N] 的简写，例如 $0 表示第一个参数， $1 表示第二个。 ${CLAUDE_SESSION_ID} 当前会话 ID。用于日志记录、创建会话特定文件或将Skills输出与会话关联。 ${CLAUDE_SKILL_DIR} 包含Skills SKILL.md 文件的目录。对于PluginsSkills，这是Plugins内Skills的子目录，而非Plugins根目录。在 bash 注入命令中使用此变量来引用与Skills捆绑的脚本或文件，无论当前工作目录是什么。 索引参数使用 shell 风格的引用，因此用引号包裹多词值可将它们作为单个参数传递。例如， /my-skill \"hello world\" second 使 $0 展开为 hello world ， $1 展开为 second 。 $ARGUMENTS 占位符始终展开为键入的完整参数字符串。 使用替换的示例： --- name : session - logger description : Log activity for this session --- Log the following to logs/$ { CLAUDE_SESSION_ID } .log : $ARGUMENTS 添加支持文件 ​ Skills可以在其目录中包含多个文件。这使 SKILL.md 专注于要点，同时让 CSC 仅在需要时访问详细的参考材料。大型参考文档、"

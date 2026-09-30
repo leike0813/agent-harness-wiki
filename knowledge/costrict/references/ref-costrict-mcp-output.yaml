@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-mcp-output
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-mcp
+locator:
+  kind: document_section
+  heading: "MCP 输出限制和警告"
+official_url: "https://docs.costrict.ai/csc/tools-and-plugins/mcp"
+excerpt: "当 MCP 工具产生大量输出时，CSC 帮助管理 token 使用量，以防止对话上下文过载： 输出警告阈值 ：当任何 MCP 工具输出超过 10,000 个 token 时，CSC 显示警告 可配置限制 ：您可以使用 MAX_MCP_OUTPUT_TOKENS 环境变量调整允许的最大 MCP 输出 token 数 默认限制 ：默认最大值为 25,000 个 token 作用域 ：环境变量适用于未声明自身限制的工具。设置了 anthropic/maxResultSizeChars 的工具无论 MAX_MCP_OUTPUT_TOKENS 设置为什么，都使用该值作为文本内容。返回图像数据的工具仍受 MAX_MCP_OUTPUT_TOKENS 限制 要增加产生大量输出的工具的限制： export MAX_MCP_OUTPUT_TOKENS=50000 csc 这在处理以下 MCP 服务器时特别有用： 查询大型数据集或数据库 生成详细报告或文档 处理大量日志文件或调试信息 提高特定工具的限制 ​ 如果您正在构建 MCP 服务器，可以通过在工具的 tools/list 响应条目中设置 _meta[\"anthropic/maxResultSizeChars\"] 来允许单个工具返回超过默认持久化到磁盘阈值的结果。CSC 将该工具的阈值提高到注释值，上限为 500,000 个字符。 这对于返回本质上较大但必要的输出的工具很有用，例如数据库架构或完整文件树。没有注释时，超过默认阈值的结果会持久化到磁盘，并在对话中替换为文件引用。 { \"name\" : \"get_schema\" , \"description\" : \"返回完整的数据库架构\" , \"_meta\" : { \"anthropic/maxResultSizeChars\" : 200000 } } 该注释对文本内容独立于 MAX_MCP_O"

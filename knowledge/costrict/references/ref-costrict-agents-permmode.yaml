@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-agents-permmode
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-subagents
+locator:
+  kind: document_section
+  heading: "权限模式"
+official_url: "https://docs.costrict.ai/csc/agent/sub-agents"
+excerpt: "字段控制Subagents如何处理权限提示。Subagents从主对话继承权限上下文，并可以覆盖模式，除非父模式优先，如下所述。 模式 行为 default 带提示的标准权限检查 acceptEdits 自动接受工作目录或 additionalDirectories 中路径的文件编辑和常见文件系统命令 auto 自动模式：后台分类器审查命令和受保护目录写入 dontAsk 自动拒绝权限提示（明确允许的工具仍然有效） bypassPermissions 跳过权限提示 plan 计划模式（只读探索） ⚠️ 警告： 谨慎使用 bypassPermissions 。它会跳过权限提示，允许Subagents在未经批准的情况下执行操作。对 .git 、 .claude 、 .vscode 、 .idea 和 .husky 目录的写入仍会提示确认，但 .costrict/commands 、 .costrict/agents 和 .costrict/skills 除外。有关详细信息，请参阅权限模式。 如果父级使用 bypassPermissions ，这优先且无法被覆盖。如果父级使用自动模式，Subagents继承自动模式，其 frontmatter 中的任何 permissionMode 都会被忽略：分类器使用与父会话相同的阻止和允许规则评估Subagents的工具调用。 将Skills预加载到Subagents ​ 使用 skills 字段在启动时将Skills内容注入Subagents的上下文。这为Subagents提供领域知识，而无需在执行期间发现和加载Skills。 --- name : api - developer description : Implement API endpoints following team conventions skills : - api"

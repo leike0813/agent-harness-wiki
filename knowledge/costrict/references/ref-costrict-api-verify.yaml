@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-api-verify
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-costrict-api
+locator:
+  kind: document_section
+  heading: "6. 如何验证接入成功"
+official_url: "https://docs.costrict.ai/plugin/guide/api-integration"
+excerpt: "确认当前配置和模型后，新建对话，发送： 请只回复“连接成功”，不要读取文件或执行命令。 能够正常收到回复，且没有鉴权、权限或额度错误，说明本次基本模型调用成功。 第二步：验证项目读取 ​ 在不包含敏感信息的演示项目中放入一份简单的 README.md ，再发送： 请读取当前项目的 README.md，用两句话概括内容，不要修改文件或执行命令。 如出现读取授权提示，确认目标文件后允许读取。检查是否实际完成文件读取、回答是否与文件内容一致，以及有无工具调用报错。 基本对话成功但文件读取失败，需要继续检查模型工具调用兼容性或本地权限；这时还不能判断 Agent 使用已配置完成。 如果服务商提供调用记录，可结合请求时间和模型信息核对本次调用。记录可能延迟显示；不要依靠模型回答“我是什么模型”来判断实际调用来源。 7. API Key 的保存与安全 ​ VS Code 插件 ​ 插件的 API 配置通过 VS Code 的 SecretStorage（密钥存储）保存。请在插件配置界面管理 Key，不要将真实 Key 写进项目代码或提交到 Git 仓库。 CoStrict CLI ​ 在 CSC 4.2.38 中，通过上述 /login 表单填写的第三方 Key，会写入用户级 settings.json 的 env 配置中，以可读文本保存。这与 CoStrict 账号登录凭据的存储不是同一条路径。 默认位置为： 系统 用户配置文件 macOS ~/.costrict/settings.json Windows %USERPROFILE%\\.costrict\\settings.json 如果"

@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-perm-rules
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-permissions
+locator:
+  kind: document_section
+  heading: "权限规则语法"
+official_url: "https://docs.costrict.ai/csc/configuration/permissions"
+excerpt: "权限规则遵循 Tool 或 Tool(specifier) 格式。 匹配工具的所有用法 ​ 要匹配工具的所有用法，只需使用工具名称，不加括号： 规则 效果 Bash 匹配所有 Bash 命令 WebFetch 匹配所有 Web 获取请求 Read 匹配所有文件读取 Bash(*) 等同于 Bash ，匹配所有 Bash 命令。 使用说明符进行细粒度控制 ​ 在括号中添加说明符以匹配特定工具用法： 规则 效果 Bash(npm run build) 匹配精确命令 npm run build Read(./.env) 匹配读取当前目录中的 .env 文件 WebFetch(domain:example.com) 匹配对 example.com 的获取请求 通配符模式 ​ Bash 规则支持使用 * 的 glob 模式。通配符可以出现在命令中的任何位置。此配置允许 npm 和 git commit 命令，同时阻止 git push： { \"permissions\" : { \"allow\" : [ \"Bash(npm run *)\" , \"Bash(git commit *)\" , \"Bash(git * main)\" , \"Bash(* --version)\" , \"Bash(* --help *)\" ] , \"deny\" : [ \"Bash(git push *)\" ] } } * 前的空格很重要： Bash(ls *) 匹配 ls -la 但不匹配 lsof ，而 Bash(ls*) 两者都匹配。 :* 后缀是编写尾部通配符的等效方式。 Bash(ls:*) 匹配与 Bash(l"

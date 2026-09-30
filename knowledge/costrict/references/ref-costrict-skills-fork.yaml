@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-skills-fork
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-skills
+locator:
+  kind: document_section
+  heading: "在Subagents中运行Skills"
+official_url: "https://docs.costrict.ai/csc/tools-and-plugins/skills"
+excerpt: "当你希望Skills在隔离环境中运行时，在 frontmatter 中添加 context: fork 。Skills内容成为驱动Subagents的提示。它无法访问你的对话历史。 ⚠️ 警告： context: fork 仅对具有明确指令的Skills有意义。如果你的Skills包含\"使用这些 API 约定\"之类的指导而没有任务，Subagents会收到指导但没有可操作的提示，将返回而没有有意义的输出。 Skills和Subagents以两种方式协同工作： 方式 系统提示 任务 还会加载 带 context: fork 的Skills 来自代理类型（ Explore 、 Plan 等） SKILL.md 内容 AGENTS.md 带 skills 字段的Subagents Subagents的 markdown 主体 CSC 的委派消息 预加载的Skills + AGENTS.md 使用 context: fork ，你在Skills中编写任务并选择一个代理类型来执行它。对于相反的方向（定义使用Skills作为参考材料的自定义Subagents），请参阅Subagents。 示例：使用 Explore 代理的研究Skills ​ 此Skills在分叉的 Explore 代理中运行研究。Skills内容成为任务，代理提供为代码库探索优化的只读工具： --- name : deep - research description : Research a topic thoroughly context : fork agent : Explore --- Research $AR"

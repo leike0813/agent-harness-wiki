@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-hooksguide-trouble
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-hooks-guide
+locator:
+  kind: document_section
+  heading: "限制和故障排除"
+official_url: "https://docs.costrict.ai/csc/automation/hooks-guide"
+excerpt: "限制和故障排除 ​ 限制 ​ 命令Hooks仅通过 stdout、stderr 和退出代码进行通信。它们无法触发 / 命令或工具调用。通过 additionalContext 返回的文本作为系统提醒注入，CSC 将其作为纯文本读取。HTTP Hooks改为通过响应体通信。 Hooks超时默认为 10 分钟，可通过 timeout 字段（以秒为单位）按Hooks配置。 PostToolUse Hooks无法撤销操作，因为工具已经执行。 PermissionRequest Hooks不在非交互模式（ -p ）中触发。请使用 PreToolUse Hooks进行自动权限决策。 Stop Hooks在 Claude 完成响应时触发，而不仅仅在任务完成时。它们不会在用户中断时触发。API 错误触发 StopFailure。 当多个 PreToolUse Hooks返回 updatedInput 来重写工具的参数时，最后完成的一个生效。由于Hooks并行运行，顺序是非确定性的。避免有多个Hooks修改同一工具的输入。 Hooks和权限模式 ​ PreToolUse Hooks在任何权限模式检查之前触发。返回 permissionDecision: \"deny\" 的Hooks即使在 bypassPermissions 模式或使用 --dangerously-skip-permissions 时也会阻止工具。这让你可以强制执行用户无法通过更改其权限模式来绕过的策略。 反过来则不然：返回 \"allow\" 的Hooks不会绕过设置中的拒绝规则。Hooks可以加强限制，但不能放宽到超出权限规则允许的范围。 Hooks未触发 ​ Hooks已配置但从未执行。 运行 /hooks 并确认Hooks出现在正确的事件下 检查匹配器模式是否与工具名称完全匹配（匹配器区分大小写） 验证你触发的是正确的事件类"

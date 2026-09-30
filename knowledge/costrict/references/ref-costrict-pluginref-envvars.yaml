@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-pluginref-envvars
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-plugins-ref
+locator:
+  kind: document_section
+  heading: "环境变量"
+official_url: "https://docs.costrict.ai/csc/reference/plugins-reference"
+excerpt: "CSC 提供两个变量用于引用插件路径。两者在技能内容、代理内容、钩子命令以及 MCP 或 LSP 服务器配置中出现时内联替换。两者也作为环境变量导出到钩子进程和 MCP 或 LSP 服务器子进程。 ${CLAUDE_PLUGIN_ROOT} ：插件安装目录的绝对路径。使用此变量引用与插件捆绑的脚本、二进制文件和配置文件。此路径在插件更新时会更改，因此你在此处写入的文件不会在更新后保留。 ${CLAUDE_PLUGIN_DATA} ：用于在更新后保留的插件状态的持久目录。使用此目录存放已安装的依赖项（如 node_modules 或 Python 虚拟环境）、生成的代码、缓存以及应在插件版本间持久化的任何其他文件。首次引用此变量时目录会自动创建。 { \"hooks\" : { \"PostToolUse\" : [ { \"hooks\" : [ { \"type\" : \"command\" , \"command\" : \"${CLAUDE_PLUGIN_ROOT}/scripts/process.sh\" } ] } ] } } 持久数据目录 ​ ${CLAUDE_PLUGIN_DATA} 目录解析为 ~/.costrict/plugins/data/{id}/ ，其中 {id} 是插件标识符， a-z 、 A-Z 、 0-9 、 _ 和 - 以外的字符替换为 - 。对于安装为 formatter@my-marketplace 的插件，目录为 ~/.costrict/plugins/data/formatter-my-marketplace/ 。 一个常见用途是一次安装语言依赖项并在会话和插件更新间重用。由于数据目录比任何单个插件版本存活时间更长，仅通过目录存在性检查无法检测更新何时更改了插件的依赖清单。推荐的模式是将捆绑的清单与数据目录中的副本进行比较，并在不同时重新安装。 此 Sessi"

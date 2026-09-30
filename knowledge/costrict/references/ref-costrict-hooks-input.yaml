@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-hooks-input
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-hooks
+locator:
+  kind: document_section
+  heading: "通用输入字段"
+official_url: "https://docs.costrict.ai/csc/reference/hooks"
+excerpt: "还接收这些字段作为 JSON。对于命令 hooks，此 JSON 通过 stdin 到达。对于 HTTP hooks，它作为 POST 请求体到达。 字段 描述 session_id 当前会话标识符 transcript_path 对话 JSON 的路径 cwd hook 被调用时的当前工作目录 permission_mode 当前权限模式： \"default\" 、 \"plan\" 、 \"acceptEdits\" 、 \"auto\" 、 \"dontAsk\" 或 \"bypassPermissions\" 。并非所有事件都接收此字段：请查看下面每个事件的 JSON 示例来检查 hook_event_name 触发的事件名称 当使用 --agent 运行或在子代理内部时，会包含两个额外的字段： 字段 描述 agent_id 子代理的唯一标识符。仅在 hook 在子代理调用内部触发时存在。使用它来区分子代理 hook 调用和主线程调用。 agent_type 代理名称（例如， \"Explore\" 或 \"security-reviewer\" ）。当会话使用 --agent 或 hook 在子代理内部触发时存在。对于子代理，子代理的类型优先于会话的 --agent 值。 例如，Bash 命令的 PreToolUse hook 通过 stdin 接收以下内容： { \"session_id\" : \"abc123\" , \"transcript_path\" : \"/home/user/.costrict/projects/.../transcript.jsonl\" , \"cwd\" : \"/home/us"

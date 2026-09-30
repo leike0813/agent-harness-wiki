@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-mcp-managed-lists
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-mcp
+locator:
+  kind: document_section
+  heading: "选项 2：使用允许列表和拒绝列表的基于策略的控制"
+official_url: "https://docs.costrict.ai/csc/tools-and-plugins/mcp"
+excerpt: "管理员可以不采取独占控制，而是允许用户配置自己的 MCP 服务器，同时强制执行对允许哪些服务器的限制。此方法在托管设置文件中使用 allowedMcpServers 和 deniedMcpServers 。 注意： 在选项之间选择 ：当您想部署一组固定的服务器且不允许用户自定义时，使用选项 1（ managed-mcp.json ）。当您想在策略约束下允许用户添加自己的服务器时，使用选项 2（允许列表/拒绝列表）。 限制选项 ​ 允许列表或拒绝列表中的每个条目可以通过三种方式限制服务器： 按服务器名称 （ serverName ）：匹配服务器的配置名称 按命令 （ serverCommand ）：匹配用于启动 stdio 服务器的确切命令和参数 按 URL 模式 （ serverUrl ）：匹配带有通配符支持的远程服务器 URL 重要 ：每个条目必须恰好包含 serverName 、 serverCommand 或 serverUrl 中的一个。 示例配置 ​ { \"allowedMcpServers\" : [ { \"serverName\" : \"github\" } , { \"serverName\" : \"sentry\" } , { \"serverCommand\" : [ \"npx\" , \"-y\" , \"@modelcontextprotocol/server-filesystem\" ] } , { \"serverCommand\" : [ \"python\" , \"/usr/local/bin/approved-server.py\" ] } , { \"serverUrl\" : \""

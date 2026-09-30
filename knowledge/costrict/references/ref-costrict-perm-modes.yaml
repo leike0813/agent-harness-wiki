@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-perm-modes
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-permissions
+locator:
+  kind: document_section
+  heading: "权限模式"
+official_url: "https://docs.costrict.ai/csc/configuration/permissions"
+excerpt: "CSC 支持多种权限模式来控制工具的批准方式。有关何时使用每种模式，请参阅权限模式。在设置文件中设置 defaultMode ： 模式 描述 default 标准行为：首次使用每个工具时提示权限 acceptEdits 自动接受工作目录或 additionalDirectories 中路径的文件编辑和常见文件系统命令（ mkdir 、 touch 、 mv 、 cp 等） plan 计划模式：CSC 可以分析但不能修改文件或执行命令 auto 自动批准工具调用，并通过后台安全检查验证操作是否符合你的请求。目前为研究预览版 dontAsk 除非通过 /permissions 或 permissions.allow 规则预先批准，否则自动拒绝工具 bypassPermissions 跳过权限提示，但写入受保护目录时除外（见下方警告） ⚠️ 警告： bypassPermissions 模式会跳过权限提示。写入 .git 、 .costrict 、 .vscode 、 .idea 和 .husky 目录仍会提示确认，以防止意外损坏仓库状态、编辑器配置和 git 钩子。写入 .costrict/commands 、 .costrict/agents 和 .costrict/skills 豁免且不提示，因为 CSC 在创建技能、子代理和命令时会常规写入这些目录。仅在 CSC 无法造成损害的隔离环境（如容器或 VM）中使用此模式。管理员可以通过在托管设置中将 permissions.disableBypassPermissionsMode 设置为 \"disable\" 来阻止此模式。 要阻止使"

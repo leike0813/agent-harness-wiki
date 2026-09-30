@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-pluginref-cache
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-plugins-ref
+locator:
+  kind: document_section
+  heading: "插件缓存和文件解析"
+official_url: "https://docs.costrict.ai/csc/reference/plugins-reference"
+excerpt: "出于安全和验证目的，CSC 将市场插件复制到用户的本地 插件缓存 （ ~/.costrict/plugins/cache ），而不是就地使用。了解此行为对于开发引用外部文件的插件很重要。 每个安装的版本在缓存中是一个单独的目录。当你更新或卸载插件时，以前的版本目录被标记为孤立，并在 7 天后自动删除。宽限期让已经加载旧版本的并发 CSC 会话继续运行而不会出错。 路径遍历限制 ​ 已安装的插件不能引用其目录之外的文件。遍历到插件根目录之外的路径（如 ../shared-utils ）在安装后将不起作用，因为这些外部文件不会被复制到缓存。 使用外部依赖 ​ 如果你的插件需要访问其目录之外的文件，你可以在插件目录内创建指向外部文件的符号链接。符号链接在缓存中保留而不是被解引用，它们在运行时解析到目标。以下命令从插件目录内部创建到共享工具位置的链接： ln -s /path/to/shared-utils ./shared-utils 这在保持缓存系统安全优势的同时提供了灵活性。 插件目录结构 ​ 标准插件布局 ​ 完整的插件遵循此结构： enterprise-plugin/ ├── .claude-plugin/ # 元数据目录（可选） │ └── plugin.json # 插件清单 ├── skills/ # 技能 │ ├── code-reviewer/ │ │ └── SKILL.md │ └── pdf-processor/ │ ├── SKILL.md │ └── scripts/ ├── commands/ # 扁平 .md 文件形式的技能 │ ├── status."

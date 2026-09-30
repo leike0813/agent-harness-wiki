@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-hooksguide-intro
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-hooks-guide
+locator:
+  kind: document_section
+  heading: "使用Hooks自动化工作流"
+official_url: "https://docs.costrict.ai/csc/automation/hooks-guide"
+excerpt: "当 CSC 编辑文件、完成任务或需要输入时，自动运行 shell 命令。格式化代码、发送通知、验证命令并强制执行项目规则。 Hooks是用户定义的 shell 命令，在 CSC 生命周期的特定点执行。它们提供了对 CSC 行为的确定性控制，确保某些操作始终发生，而不是依赖 LLM 选择运行它们。使用Hooks来强制执行项目规则、自动化重复任务，并将 CSC 与你现有的工具集成。 对于需要判断力而非确定性规则的决策，你还可以使用基于提示的Hooks或基于代理的Hooks，它们使用 Claude 模型来评估条件。 有关扩展 CSC 的其他方式，请参阅Skills（为 CSC 提供额外指令和可执行命令）、Subagents（在隔离上下文中运行任务）和Plugins（打包扩展以跨项目共享）。 💡 提示： 本指南涵盖了常见用例和入门方法。有关完整的事件模式、JSON 输入/输出格式以及异步Hooks和 MCP 工具Hooks等高级功能，请参阅Hooks参考。 设置你的第一个Hooks ​ 要创建Hooks，请将 hooks 块添加到设置文件中。本演练创建一个桌面通知Hooks，这样当 CSC 等待你的输入时，你会收到提醒，而不必一直盯着终端。 步骤 1：将Hooks添加到设置中 ​ 打开 ~/.costrict/settings.json 并添加一个 Notification Hooks。以下示例使用 osascript （适用于 macOS）；有关 Linux 和 Windows 命令，请参阅当 Claude 需要输入时获取通知。 { \"hooks\" : { \"Notification\" : [ { \"matcher\" : \"\" , \"hooks\" : [ { \"type\" : \"command\" , \"command\" : \"osascript -e 'display noti"

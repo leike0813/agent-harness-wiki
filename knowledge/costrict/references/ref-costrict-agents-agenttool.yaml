@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-agents-agenttool
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-subagents
+locator:
+  kind: document_section
+  heading: "限制可以生成的Subagents"
+official_url: "https://docs.costrict.ai/csc/agent/sub-agents"
+excerpt: "当代理使用 csc --agent 作为主线程运行时，它可以使用 Agent 工具生成Subagents。要限制它可以生成哪些Subagents类型，在 tools 字段中使用 Agent(agent_type) 语法。 注意： 在版本 2.1.63 中，Task 工具已重命名为 Agent。设置和代理定义中现有的 Task(...) 引用仍作为别名工作。 --- name : coordinator description : Coordinates work across specialized agents tools : Agent(worker , researcher) , Read , Bash --- 这是一个允许列表：只有 worker 和 researcher Subagents可以被生成。如果代理尝试生成任何其他类型，请求会失败，代理在其提示中只看到允许的类型。要阻止特定代理同时允许所有其他代理，使用 permissions.deny 。 要在没有任何限制的情况下允许生成任何Subagents，使用不带括号的 Agent ： tools : Agent , Read , Bash 如果 Agent 完全从 tools 列表中省略，代理无法生成任何Subagents。此限制仅适用于使用 csc --agent 作为主线程运行的代理。Subagents不能生成其他Subagents，因此 Agent(agent_type) 在Subagents定义中无效。 将 MCP 服务器限定到Subagents ​ 使用 mcpServers 字段为Subagents提供"

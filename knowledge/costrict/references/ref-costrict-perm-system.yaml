@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-perm-system
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-permissions
+locator:
+  kind: document_section
+  heading: "配置权限"
+official_url: "https://docs.costrict.ai/csc/configuration/permissions"
+excerpt: "CSC 使用分层权限系统来平衡能力与安全性： 工具类型 示例 是否需要批准 \"是，不再询问\" 行为 只读 文件读取、Grep 否 不适用 Bash 命令 Shell 执行 是 按项目目录和命令永久生效 文件修改 编辑/写入文件 是 直到会话结束 管理权限 ​ 你可以使用 /permissions 查看和管理 CSC 的工具权限。此 UI 列出所有权限规则及其来源的 settings.json 文件。 Allow 规则允许 CSC 无需手动批准即可使用指定工具。 Ask 规则在 CSC 尝试使用指定工具时提示确认。 Deny 规则阻止 CSC 使用指定工具。 规则按以下顺序评估： deny -> ask -> allow 。第一个匹配的规则生效，因此 deny 规则始终优先。 权限模式 ​ CSC 支持多种权限模式来控制工具的批准方式。有关何时使用每种模式，请参阅权限模式。在设置文件中设置 defaultMode ： 模式 描述 default 标准行为：首次使用每个工具时提示权限 acceptEdits 自动接受工作目录或 additionalDirectories 中路径的文件编辑和常见文件系统命令（ mkdir 、 touch 、 mv 、 cp 等） plan 计划模式：CSC 可以分析但不能修改文件或执行命令 auto 自动批准工具调用，并通过后台安全检查验证操作是否符合你的请求。目前为研究预览版 dontAsk 除非通过 /permissions 或 permissions.allow 规则预先批准，否则自动拒绝工具 bypassPermissions 跳过权限提示，但写入受保护目录时除外（见下方警告） ⚠️ 警告： bypassPermissions 模式会跳过权限提示。写入 .git 、 .costrict 、 .vscode 、 .idea 和 .husky"

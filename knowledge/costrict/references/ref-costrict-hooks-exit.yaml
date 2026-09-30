@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-hooks-exit
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-hooks
+locator:
+  kind: document_section
+  heading: "退出码输出"
+official_url: "https://docs.costrict.ai/csc/reference/hooks"
+excerpt: "hook 命令的退出码告诉 CSC 操作是否应继续、被阻止或被忽略。 退出码 0 表示成功。CSC 解析 stdout 以获取 JSON 输出字段。JSON 输出仅在退出码 0 时处理。对于大多数事件，stdout 写入调试日志但不显示在记录中。例外是 UserPromptSubmit 和 SessionStart ，其中 stdout 作为 CSC 可以看到并据此行动的上下文添加。 退出码 2 表示阻塞错误。CSC 忽略 stdout 及其中的任何 JSON。相反，stderr 文本作为错误消息反馈给 CSC。效果取决于事件： PreToolUse 阻止工具调用， UserPromptSubmit 拒绝提示，等等。请参阅每个事件的退出码 2 行为以获取完整列表。 任何其他退出码 对于大多数 hook 事件是非阻塞错误。记录中显示 <hook name> hook error 通知，后跟 stderr 的第一行，因此你可以在不使用 --debug 的情况下识别原因。执行继续，完整的 stderr 写入调试日志。 例如，一个阻止危险 Bash 命令的 hook 命令脚本： #!/bin/bash # Reads JSON input from stdin, checks the command command=$(jq -r '.tool_input.command' < /dev/stdin) if [[ \"$command\" == rm* ]]; then echo \"Blocked: rm commands are not allowed\" >&2 exit 2 # Blocking error: tool call is prevented fi exit 0 # Success: tool call proceeds ⚠️ 警告： 对于大多数 hook 事件，只有退"

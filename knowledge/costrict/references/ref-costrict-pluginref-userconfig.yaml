@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-pluginref-userconfig
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-plugins-ref
+locator:
+  kind: document_section
+  heading: "用户配置"
+official_url: "https://docs.costrict.ai/csc/reference/plugins-reference"
+excerpt: "字段声明了 CSC 在插件启用时提示用户输入的值。使用此字段代替要求用户手动编辑 settings.json 。 { \"userConfig\" : { \"api_endpoint\" : { \"description\" : \"你团队的 API 端点\" , \"sensitive\" : false } , \"api_token\" : { \"description\" : \"API 认证令牌\" , \"sensitive\" : true } } } 键必须是有效的标识符。每个值都可以在 MCP 和 LSP 服务器配置、钩子命令以及（仅限非敏感值）技能和代理内容中作为 ${user_config.KEY} 进行替换。值还会作为 CLAUDE_PLUGIN_OPTION_<KEY> 环境变量导出到插件子进程。 非敏感值存储在 settings.json 的 pluginConfigs[<plugin-id>].options 下。敏感值存储到系统钥匙串（或在钥匙串不可用时存储到 ~/.costrict/.credentials.json ）。钥匙串存储与 OAuth 令牌共享，大约有 2 KB 的总限制，因此请保持敏感值较小。 通道 ​ channels 字段允许插件声明一个或多个将内容注入对话的消息通道。每个通道绑定到插件提供的一个 MCP 服务器。 { \"channels\" : [ { \"server\" : \"telegram\" , \"userConfig\" : { \"bot_token\" : { \"description\" : \"Telegram 机器人令牌\" , \"sensitive\""

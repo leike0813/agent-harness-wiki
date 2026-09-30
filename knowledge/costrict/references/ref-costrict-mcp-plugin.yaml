@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-mcp-plugin
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-mcp
+locator:
+  kind: document_section
+  heading: "Plugins提供的 MCP 服务器"
+official_url: "https://docs.costrict.ai/csc/tools-and-plugins/mcp"
+excerpt: "Plugins可以捆绑 MCP 服务器，在启用Plugins时自动提供工具和集成。Plugins MCP 服务器与用户配置的服务器工作方式相同。 Plugins MCP 服务器的工作方式 ： Plugins在Plugins根目录的 .mcp.json 中或 plugin.json 中内联定义 MCP 服务器 启用Plugins时，其 MCP 服务器自动启动 Plugins MCP 工具与手动配置的 MCP 工具一起显示 Plugins服务器通过Plugins安装管理（而非 /mcp 命令） Plugins MCP 配置示例 ： 在Plugins根目录的 .mcp.json 中： { \"mcpServers\" : { \"database-tools\" : { \"command\" : \"${CLAUDE_PLUGIN_ROOT}/servers/db-server\" , \"args\" : [ \"--config\" , \"${CLAUDE_PLUGIN_ROOT}/config.json\" ] , \"env\" : { \"DB_URL\" : \"${DB_URL}\" } } } } 或在 plugin.json 中内联： { \"name\" : \"my-plugin\" , \"mcpServers\" : { \"plugin-api\" : { \"command\" : \"${CLAUDE_PLUGIN_ROOT}/servers/api-server\" , \"args\" : [ \"--port\" , \"8080\" ] } } } Plugins MCP 功能 ： 自动生命周期 ：在会话启动时，已"

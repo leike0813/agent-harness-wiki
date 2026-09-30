@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-hooks-security
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-hooks
+locator:
+  kind: document_section
+  heading: "安全注意事项"
+official_url: "https://docs.costrict.ai/csc/reference/hooks"
+excerpt: "命令 hooks 以你的系统用户的完整权限运行。 ⚠️ 警告： 命令 hooks 以你的完整用户权限执行 shell 命令。它们可以修改、删除或访问你的用户帐户可以访问的任何文件。在将 hook 命令添加到配置之前，请审查并测试所有 hook 命令。 安全最佳实践 ​ 在编写 hooks 时请记住这些做法： 验证和清理输入 ：永远不要盲目信任输入数据 始终引用 shell 变量 ：使用 \"$VAR\" 而不是 $VAR 阻止路径遍历 ：检查文件路径中的 .. 使用绝对路径 ：为脚本指定完整路径，使用 \"$CLAUDE_PROJECT_DIR\" 作为项目根目录 跳过敏感文件 ：避免 .env 、 .git/ 、密钥等 Windows PowerShell 工具 ​ 在 Windows 上，你可以通过在命令 hook 上设置 \"shell\": \"powershell\" 来在 PowerShell 中运行单个 hooks。Hooks 直接启动 PowerShell，因此无论是否设置了 CLAUDE_CODE_USE_POWERSHELL_TOOL ，这都可以工作。CSC 自动检测 pwsh.exe （PowerShell 7+），回退到 powershell.exe （5.1）。 { \"hooks\" : { \"PostToolUse\" : [ { \"matcher\" : \"Write\" ,"

@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-agents-tools
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-subagents
+locator:
+  kind: document_section
+  heading: "控制Subagents能力"
+official_url: "https://docs.costrict.ai/csc/agent/sub-agents"
+excerpt: "你可以通过工具访问、权限模式和条件规则来控制Subagents可以做什么。 可用工具 ​ Subagents可以使用 CSC 的任何内部工具。默认情况下，Subagents从主对话继承所有工具，包括 MCP 工具。 要限制工具，使用 tools 字段（允许列表）或 disallowedTools 字段（拒绝列表）。此示例使用 tools 仅允许 Read、Grep、Glob 和 Bash。Subagents无法编辑文件、写入文件或使用任何 MCP 工具： --- name : safe - researcher description : Research agent with restricted capabilities tools : Read , Grep , Glob , Bash --- 此示例使用 disallowedTools 继承主对话中除 Write 和 Edit 之外的每个工具。Subagents保留 Bash、MCP 工具和其他所有工具： --- name : no - writes description : Inherits every tool except file writes disallowedTools : Write , Edit --- 如果两者都设置了，先应用 disallowedTools ，然后根据剩余池解析 tools 。在两者中都列出的工具会被移除。 限制可以生成的Subagents ​ 当代理使用 csc --agent 作为主线程运行时，它可以使用 Agent 工具生成Subagents。要限制它可以生成哪些Subagents类型，在 tools 字段中使用 Agent(agent_type) 语法。 注意： 在版本 2.1.63 中，Task 工具已重命名为 Agent。设置和代理定义中现有的 Task(...)"

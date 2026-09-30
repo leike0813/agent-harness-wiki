@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-skills-access
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-skills
+locator:
+  kind: document_section
+  heading: "限制 CSC 的Skills访问"
+official_url: "https://docs.costrict.ai/csc/tools-and-plugins/skills"
+excerpt: "默认情况下，CSC 可以调用任何未设置 disable-model-invocation: true 的Skills。定义了 allowed-tools 的Skills在激活时授予 CSC 使用这些工具的权限而无需逐次批准。你的权限设置仍然管理所有其他工具的基线批准行为。像 /compact 和 /init 这样的内置命令不能通过 Skill 工具使用。 控制 CSC 可以调用哪些Skills的三种方式： 通过在 /permissions 中拒绝 Skill 工具来禁用所有Skills ： # Add to deny rules: Skill 使用权限规则允许或拒绝特定Skills ： # Allow only specific skills Skill(commit) Skill(review-pr *) # Deny specific skills Skill(deploy *) 权限语法： Skill(name) 用于精确匹配， Skill(name *) 用于带任意参数的前缀匹配。 通过在 frontmatter 中添加 disable-model-invocation: true 来隐藏个别Skills 。这会从 CSC 的上下文中完全移除该Skills。 注意： user-invocable 字段仅控制菜单可见性，不控制 Skill 工具访问。使用 disable-model-invocation: true 来阻止程序化调用。 共享Skills ​ Skills可以根据你的受众在不同范围内分发： 项目Skills ：将 .costrict/skills/ 提交到版"

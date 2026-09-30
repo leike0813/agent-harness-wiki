@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-settings-priority
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-settings
+locator:
+  kind: document_section
+  heading: "设置优先级"
+official_url: "https://docs.costrict.ai/csc/configuration/settings"
+excerpt: "设置按优先级顺序应用。从最高到最低： 托管设置 （服务器管理的、MDM/OS 级别策略或托管设置文件） IT 通过服务器交付、MDM 配置文件、注册表策略或托管设置文件部署的策略 不能被任何其他级别覆盖，包括命令行参数 在托管层级内，优先级为：服务器管理的 > MDM/OS 级别策略 > 基于文件的（ managed-settings.d/*.json + managed-settings.json ）> HKCU 注册表（仅 Windows）。仅使用一个托管来源；来源不跨层级合并。在基于文件的层级内，放置文件和基础文件合并在一起。 命令行参数 特定会话的临时覆盖 本地项目设置 （ .costrict/settings.local.json ） 个人的项目特定设置 共享项目设置 （ .costrict/settings.json ） 源代码控制中的团队共享项目设置 用户设置 （ ~/.costrict/settings.json ） 个人全局设置 此层级确保组织策略始终被强制执行，同时仍允许团队和个人自定义其体验。无论您是从 CLI、VS Code 扩展还是 JetBrains IDE 运行 CSC，都适用相同的优先级。 例如，如果您的用户设置允许 Bash(npm run *) 但项目的共享设置拒绝它，则项目设置优先，该命令被阻止。 注意： 数组设置跨范围合并。 当相同的数组值设置（如 sandbox.filesystem.allowWrite 或 permissions.allow ）出现在多个范围中时，数组被 连接并去重 ，而不是替换。这意味着较低优先级的范围可以添加条目而不覆盖较高优先级范围设置的条目，反之亦然。例如，如果托管设置将 allowWrite 设置为 [\"/opt/company-tools\"] ，而用户添加 [\"~/.kube\"] ，则两个路径都包含在"

@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-agents-hooks
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-subagents
+locator:
+  kind: document_section
+  heading: "为Subagents定义Hooks"
+official_url: "https://docs.costrict.ai/csc/agent/sub-agents"
+excerpt: "Subagents可以定义在Subagents生命周期期间运行的Hooks。有两种配置Hooks的方式： 在Subagents的 frontmatter 中 ：定义仅在该Subagents活跃时运行的Hooks 在 settings.json 中 ：定义在Subagents启动或停止时在主会话中运行的Hooks Subagents frontmatter 中的Hooks ​ 直接在Subagents的 markdown 文件中定义Hooks。这些Hooks仅在该特定Subagents活跃时运行，并在Subagents完成时清理。 支持所有Hooks事件。Subagents最常用的事件是： 事件 匹配器输入 触发时机 PreToolUse 工具名称 Subagents使用工具之前 PostToolUse 工具名称 Subagents使用工具之后 Stop （无） Subagents完成时（运行时转换为 SubagentStop ） 此示例使用 PreToolUse Hooks验证 Bash 命令，并使用 PostToolUse 在文件编辑后运行 linter： --- name : code - reviewer description : Review code changes with automatic linting hooks : PreToolUse : - matcher : \"Bash\" hooks : - type : command command : \"./scripts/validate-command.sh $TOOL_INPUT\" PostToolUs"

@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-agents-model
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-subagents
+locator:
+  kind: document_section
+  heading: "选择模型"
+official_url: "https://docs.costrict.ai/csc/agent/sub-agents"
+excerpt: "字段控制Subagents使用的 AI 模型： 模型别名 ：使用可用别名之一： sonnet 、 opus 或 haiku 完整模型 ID ：使用完整模型 ID，如 claude-opus-4-6 或 claude-sonnet-4-6 。接受与 --model 标志相同的值 inherit ：使用与主对话相同的模型 省略 ：如果未指定，默认为 inherit （使用与主对话相同的模型） 当 CSC 调用Subagents时，它也可以为该特定调用传递 model 参数。CSC 按以下顺序解析Subagents的模型： CLAUDE_CODE_SUBAGENT_MODEL 环境变量（如果已设置） 每次调用的 model 参数 Subagents定义的 model frontmatter 主对话的模型 控制Subagents能力 ​ 你可以通过工具访问、权限模式和条件规则来控制Subagents可以做什么。 可用工具 ​ Subagents可以使用 CSC 的任何内部工具。默认情况下，Subagents从主对话继承所有工具，包括 MCP 工具。 要限制工具，使用 tools 字段（允许列表）或 disallowedTools 字段（拒绝列表）。此示例使用 tools 仅允许 Read、Grep、Glob 和 Bash。Subagents无法编辑文件、写入文件或使用任何 MCP 工具： --- name : safe - researcher description : Research agent with restricted capabilities tools : Read"

@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-api-mapping
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-costrict-api
+locator:
+  kind: document_section
+  heading: "模型映射怎么填"
+official_url: "https://docs.costrict.ai/plugin/guide/api-integration"
+excerpt: "这里的三个名称是 CSC 中的模型映射位置。接入第三方服务时，应填写该服务商提供的实际模型 ID，不需要购买三个不同厂商的模型。 如果目前只使用一个模型，可以在三个位置填写同一个有效模型 ID。以后需要分配不同模型时，再分别修改。例如准备使用的模型 ID 为 YOUR_MODEL_ID ，三个位置都填写该 ID；不要原样填写这个占位词。 模型 ID、额度和能力以服务商为准。Gemini 配置要求三个模型位置都填写。 出现配置保存成功提示后，仍需完成下一节的实际调用验证。 6. 如何验证接入成功 ​ 第一步：验证基本对话 ​ 确认当前配置和模型后，新建对话，发送： 请只回复“连接成功”，不要读取文件或执行命令。 能够正常收到回复，且没有鉴权、权限或额度错误，说明本次基本模型调用成功。 第二步：验证项目读取 ​ 在不包含敏感信息的演示项目中放入一份简单的 README.md ，再发送： 请读取当前项目的 README.md，用两句话概括内容，不要修改文件或执行命令。 如出现读取授权提示，确认目标文件后允许读取。检查是否实际完成文件读取、回答是否与文件内容一致，以及有无工具调用报错。 基本对话成功但文件读取失败，需要继续检查模型工具调用兼容性或本地权限；这时还不能判断 Agent 使用已配置完成。 如果服务商提供调用记录，可结合请求时间和模型信息核对本次调用。记录可能延迟显示；不要依靠模型回答“我是什么模型”来判断实际调用来源。 7. API Key 的保存与安全 ​ VS Code 插件 ​ 插件的 API 配置通过 VS Code 的 SecretStorage（密钥存储）保存。"

@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-hooks-resolve
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-hooks
+locator:
+  kind: document_section
+  heading: "Hook 如何解析"
+official_url: "https://docs.costrict.ai/csc/reference/hooks"
+excerpt: "要了解这些部分如何组合在一起，请考虑这个阻止破坏性 shell 命令的 PreToolUse hook。 matcher 缩小到 Bash 工具调用， if 条件进一步缩小到以 rm 开头的命令，因此 block-rm.sh 仅在两个过滤器都匹配时才会启动： { \"hooks\" : { \"PreToolUse\" : [ { \"matcher\" : \"Bash\" , \"hooks\" : [ { \"type\" : \"command\" , \"if\" : \"Bash(rm *)\" , \"command\" : \"\\\"$CLAUDE_PROJECT_DIR\\\"/.costrict/hooks/block-rm.sh\" } ] } ] } } 脚本从 stdin 读取 JSON 输入，提取命令，如果包含 rm -rf 则返回 \"deny\" 的 permissionDecision ： #!/bin/bash # .costrict/hooks/block-rm.sh COMMAND=$(jq -r '.tool_input.command') if echo \"$COMMAND\" | grep -q 'rm -rf'; then jq -n '{ hookSpecificOutput: { hookEventName: \"PreToolUse\", permissionDecision: \"deny\", permissionDecisionReason: \"Destructive command blocked by hook\" } }' else exit 0 # allow the command fi 现在假设 CSC 决定运行 Bash \"rm -rf /tmp/build\" 。以下是发生的事情： 1. 事件触发 PreToolUse 事件触发。CSC 通过 stdin 将工具输入"

@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-agents-explicit
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-subagents
+locator:
+  kind: document_section
+  heading: "显式调用Subagents"
+official_url: "https://docs.costrict.ai/csc/agent/sub-agents"
+excerpt: "当自动委托不够时，你可以自己请求Subagents。三种模式从一次性建议递进到会话范围的默认值： 自然语言 ：在提示中命名Subagents；CSC 决定是否委托 @-提及 ：保证Subagents为一个任务运行 会话范围 ：通过 --agent 标志或 agent 设置，整个会话使用该Subagents的系统提示、工具限制和模型 对于自然语言，没有特殊语法。命名Subagents，CSC 通常会委托： Use the test-runner subagent to fix failing tests Have the code-reviewer subagent look at my recent changes @-提及Subagents。 输入 @ 并从自动完成中选择Subagents，就像你 @-提及文件一样。这确保特定Subagents运行，而不是将选择留给 CSC： @\"code-reviewer (agent)\" look at the auth changes 你的完整消息仍然发送给 CSC，CSC 根据你的请求编写Subagents的任务提示。@-提及控制 CSC 调用哪个Subagents，而不是它接收什么提示。 由已启用Plugins提供的Subagents在自动完成中显示为 <plugin-name>:<agent-name> 。会话中当前正在运行的命名后台Subagents也会出现在自动完成中，名称旁边显示其状态。你也可以在不使用选择器的情况下手动输入提及：本地Subagents使用 @agent-<name> ，PluginsSubagents使用 @agent-<plugin-name>:<agent-name> 。 将整个会话作为Subagents运行。 传递 --agent <name> 启动一个会话，其中主线程本身采用该Subagents"

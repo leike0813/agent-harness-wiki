@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-hooks-async
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-hooks
+locator:
+  kind: document_section
+  heading: "在后台运行 Hooks"
+official_url: "https://docs.costrict.ai/csc/reference/hooks"
+excerpt: "默认情况下，hooks 会阻塞 CSC 的执行直到完成。对于长时间运行的任务，如部署、测试套件或外部 API 调用，设置 \"async\": true 以在 CSC 继续工作的同时在后台运行 hook。异步 hooks 无法阻止或控制 CSC 的行为：响应字段如 decision 、 permissionDecision 和 continue 没有效果，因为它们本应控制的操作已经完成。 配置异步 Hook ​ 在命令 hook 的配置中添加 \"async\": true 以在后台运行而不阻塞 CSC。此字段仅在 type: \"command\" hooks 上可用。 此 hook 在每次 Write 工具调用后运行测试脚本。CSC 立即继续工作，而 run-tests.sh 执行最多 120 秒。当脚本完成时，其输出在下一个对话轮次中传递： { \"hooks\" : { \"PostToolUse\" : [ { \"matcher\" : \"Write\" , \"hooks\" : [ { \"type\" : \"command\" , \"command\" : \"/path/to/run-tests.sh\" , \"async\" : true , \"timeout\" : 120 } ] } ] } } timeout 字段设置后台进程的最大时间（秒）。如果未指定，异步 hooks 使用与同步 hooks 相同的 10 分钟默认值。 异步 Hooks 如何执行 ​ 当异步 hook 触发时，CSC 启动 hook 进程并立即继续，不等待其完成。hook 通过 stdin 接收与同步 hook 相同的 JS"

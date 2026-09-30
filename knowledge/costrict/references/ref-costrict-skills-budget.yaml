@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-skills-budget
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-skills
+locator:
+  kind: document_section
+  heading: "故障排除"
+official_url: "https://docs.costrict.ai/csc/tools-and-plugins/skills"
+excerpt: "Skills描述被加载到上下文中以便 CSC 知道有什么可用，但完整的Skills内容只在调用时加载。预加载Skills的Subagents工作方式不同：完整的Skills内容在启动时注入。 Skills内容生命周期 ​ 当你或 CSC 调用Skills时，渲染后的 SKILL.md 内容作为单条消息进入对话，并在会话的剩余时间内保留。CSC 不会在后续轮次中重新读取Skills文件，因此应将应在整个任务期间适用的指导写成持久性指令，而非一次性步骤。 自动压缩在 token 预算内将已调用的Skills向前传递。当对话被摘要以释放上下文时，CSC 在摘要后重新附加每个Skills最近一次的调用，保留每个Skills的前 5,000 个 token。重新附加的Skills共享 25,000 个 token 的组合预算。CSC 从最近调用的Skills开始填充此预算，因此如果你在一个会话中调用了很多Skills，较旧的Skills可能在压缩后被完全丢弃。 如果一个Skills似乎在第一次响应后就不再影响行为，内容通常仍然存在，只是模型选择了其他工具或方法。加强Skills的 description 和指令，使模型继续偏好它，或者使用Hooks来强制执行行为。如果Skills很大或你在之后调用了其他几个Skills，请在压缩后重新调用它以恢复完整内容。 为Skills预批准工具 ​ al"

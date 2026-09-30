@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-hooks-json
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-hooks
+locator:
+  kind: document_section
+  heading: "JSON 输出"
+official_url: "https://docs.costrict.ai/csc/reference/hooks"
+excerpt: "退出码让你允许或阻止，但 JSON 输出给你更细粒度的控制。与其以退出码 2 退出来阻止，不如退出码 0 并将 JSON 对象打印到 stdout。CSC 从该 JSON 中读取特定字段来控制行为，包括用于阻止、允许或升级给用户的决策控制。 注意： 你必须为每个 hook 选择一种方法，而不是两者兼用：要么仅使用退出码进行信号传递，要么退出码 0 并打印 JSON 进行结构化控制。CSC 仅在退出码 0 时处理 JSON。如果你退出码 2，任何 JSON 都会被忽略。 你的 hook 的 stdout 必须仅包含 JSON 对象。如果你的 shell 配置文件在启动时打印文本，它可能会干扰 JSON 解析。请参阅故障排除指南中的 JSON 验证失败。 注入到上下文中的 hook 输出（ additionalContext 、 systemMessage 或纯 stdout）上限为 10,000 个字符。超过此限制的输出会保存到文件并替换为预览和文件路径，与大型工具结果的处理方式相同。 JSON 对象支持三种字段： 通用字段 如 continue 适用于所有事件。这些列在下表中。 顶级 decision 和 reason 被某些事件用于阻止或提供反馈。 hookSpecificOutput 是需要更丰富控制的事件的嵌套对象。它需要一个设置为事件名称的 hookEventName 字段。 字段 默认值 描述 continue true 如果为 false ，CSC 在 hook 运行后完全停止处理。优先于任何事件特定的决策字段 stopReason 无 当 continue 为 false 时向用户显示的消息。不向 CSC 显示 suppressOutput false 如果为 true ，从调试日志中省略 stdout systemMessage 无 向用户显示的警告消息 要"

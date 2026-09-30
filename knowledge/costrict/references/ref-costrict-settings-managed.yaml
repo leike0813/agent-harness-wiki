@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-settings-managed
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-settings
+locator:
+  kind: document_section
+  heading: "设置文件"
+official_url: "https://docs.costrict.ai/csc/configuration/settings"
+excerpt: "对于需要集中控制的组织，CSC 支持多种托管设置的交付机制。所有机制使用相同的 JSON 格式，且不能被用户或项目设置覆盖： 服务器管理的设置 ：通过 costrict.ai 管理控制台从 CoStrict 的服务器交付。参见服务器管理的设置。 MDM/OS 级别策略 ：通过 macOS 和 Windows 上的本机设备管理交付： macOS： com.anthropic.claudecode 托管偏好域（通过 Jamf、Iru (Kandji) 或其他 MDM 工具中的配置文件部署） Windows： HKLM\\SOFTWARE\\Policies\\CoStrict 注册表键，包含 JSON 的 Settings 值（REG_SZ 或 REG_EXPAND_SZ）（通过组策略或 Intune 部署） Windows（用户级别）： HKCU\\SOFTWARE\\Policies\\CoStrict （最低策略优先级，仅在不存在管理员级别来源时使用） 基于文件 ：部署到系统目录的 managed-settings.json 和 managed-mcp.json ： macOS： /Library/Application Support/CoStrict/ Linux 和 WSL： /etc/claude-code/ Windows： C:\\Program Files\\CoStrict\\ ⚠️ 警告： 自 v2.1.75 起，旧版 Windows 路径 C:\\ProgramData\\CoStrict\\managed-settings.json 不再受支持。部署设置到该位置的管理员必须将文件迁移到 C:\\Program Files\\CoStrict\\managed-settings.json 。 基于文件的托管设置还在同一系统目录中支持 managed-settings.d/ 放置目录"

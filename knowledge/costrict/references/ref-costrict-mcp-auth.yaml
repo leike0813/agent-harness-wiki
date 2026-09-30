@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-mcp-auth
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-mcp
+locator:
+  kind: document_section
+  heading: "与远程 MCP 服务器进行身份验证"
+official_url: "https://docs.costrict.ai/csc/tools-and-plugins/mcp"
+excerpt: "许多基于云的 MCP 服务器需要身份验证。CSC 支持 OAuth 2.0 以实现安全连接。 步骤 1：添加需要身份验证的服务器 ​ 例如： csc mcp add --transport http sentry https://mcp.sentry.dev/mcp 步骤 2：在 CSC 中使用 /mcp 命令 ​ 在 CSC 中，使用命令： /mcp 然后按照浏览器中的步骤登录。 💡 提示： 提示： 身份验证令牌安全存储并自动刷新 使用 /mcp 菜单中的\"Clear authentication\"撤销访问权限 如果您的浏览器没有自动打开，请复制提供的 URL 并手动打开 如果浏览器在身份验证后因连接错误导致重定向失败，请将浏览器地址栏中的完整回调 URL 粘贴到 CSC 中出现的 URL 提示中 OAuth 身份验证适用于 HTTP 服务器 使用固定的 OAuth 回调端口 ​ 某些 MCP 服务器需要预先注册的特定重定向 URI。默认情况下，CSC 为 OAuth 回调选择一个随机可用端口。使用 --callback-port 固定端口，使其与预先注册的 http://localhost:PORT/callback 格式的重定向 URI 匹配。 您可以单独使用 --callback-port （使用动态客户端注册），也可以与 --client-id 一起使用（使用预配置的凭据）。 # 使用动态客户端注册的固定回调端口 csc mcp add --transport http \\ --callback-port 8080 \\ my-server https://mcp.example.com/mcp 使用预配置的 OAuth 凭据 ​ 某些 MCP 服务器不支持通过动态客户端注册进行自动 OAuth 设置。如果您看到类似\"Incompatible auth serve"

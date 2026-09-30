@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-settings-worktree
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-settings
+locator:
+  kind: document_section
+  heading: "工作树设置"
+official_url: "https://docs.costrict.ai/csc/configuration/settings"
+excerpt: "如何创建和管理 git 工作树。使用这些设置可以减少大型 monorepo 中的磁盘使用和启动时间。 键 描述 示例 worktree.symlinkDirectories 从主仓库符号链接到每个工作树的目录，以避免在磁盘上复制大型目录。默认不符号链接任何目录 [\"node_modules\", \".cache\"] worktree.sparsePaths 通过 git sparse-checkout（cone 模式）在每个工作树中检出的目录。仅列出的路径写入磁盘，在大型 monorepo 中更快 [\"packages/my-app\", \"shared/utils\"] 要将 gitignored 文件（如 .env ）复制到新工作树中，请在项目根目录中使用 .worktreeinclude 文件而不是设置。 权限设置 ​ 键 描述 示例 allow 允许工具使用的权限规则数组。参见下方权限规则语法了解模式匹配详情 [ \"Bash(git diff *)\" ] ask 在工具使用时要求确认的权限规则数组。参见下方权限规则语法 [ \"Bash(git push *)\" ] deny 拒绝工具"

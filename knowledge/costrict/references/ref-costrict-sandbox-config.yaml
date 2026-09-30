@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-sandbox-config
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-sandboxing
+locator:
+  kind: document_section
+  heading: "沙箱化"
+official_url: "https://docs.costrict.ai/csc/configuration/sandboxing"
+excerpt: "文件系统隔离，受损的代理可能会后门系统资源以获取网络访问权限。在配置沙箱化时，确保配置的设置不会在这些系统中创建绕过是非常重要的。 工作原理 ​ 文件系统隔离 ​ 沙箱化的 bash 工具将文件系统访问限制在特定目录： 默认写入行为 ：对当前工作目录及其子目录的读写访问 默认读取行为 ：对整个计算机的读取访问，除了某些被拒绝的目录 阻止的访问 ：未经明确许可，无法修改当前工作目录之外的文件 可配置 ：通过设置定义自定义允许和拒绝的路径 你可以使用设置中的 sandbox.filesystem.allowWrite 授予对额外路径的写入访问权限。这些限制在操作系统级别强制执行（macOS 上使用 Seatbelt，Linux 上使用 bubblewrap），因此它们适用于所有子进程命令，包括 kubectl 、 terraform 和 npm 等工具，而不仅仅是 CSC 的文件工具。 网络隔离 ​ 网络访问通过在沙箱外运行的代理服务器控制： 域名限制 ：只能访问已批准的域名 用户确认 ：新域名请求会触发权限提示（除非启用了 allowManagedDomainsOnly ，这会自动阻止未允许的域名） 自定义代理支持 ：高级用户可以对出站流量实施自定义规则 全面覆盖 ：限制适用于命令生成的所有脚本、程序和子进程 操作系统级强制执行 ​ 沙箱化的 bash 工具利用操作系统安全原语： macOS ：使用 Seatbelt 进行沙箱强制执行 Linux ：使用 bubblewrap 进行隔离 WSL2 ：使用 bubblewrap，与 Linux 相同 不支持 WSL1，因为 bubb"

@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-agents-records
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-subagents
+locator:
+  kind: document_section
+  heading: "自动压缩"
+official_url: "https://docs.costrict.ai/csc/agent/sub-agents"
+excerpt: "Subagents记录独立于主对话持久化： 主对话压缩 ：当主对话压缩时，Subagents记录不受影响。它们存储在单独的文件中。 会话持久性 ：Subagents记录在其会话内持久化。你可以通过恢复同一会话来在重启 CSC 后恢复Subagents。 自动清理 ：记录根据 cleanupPeriodDays 设置（默认：30 天）进行清理。 自动压缩 ​ Subagents支持使用与主对话相同逻辑的自动压缩。默认情况下，自动压缩在大约 95% 容量时触发。要更早触发压缩，将 CLAUDE_AUTOCOMPACT_PCT_OVERRIDE 设置为较低的百分比（例如 50 ）。有关详细信息，请参阅环境变量。 压缩事件记录在Subagents记录文件中： { \"type\" : \"system\" , \"subtype\" : \"compact_boundary\" , \"compactMetadata\" : { \"trigger\" : \"auto\" , \"preTokens\" : 167189 } } preTokens 值显示压缩发生前使用了多少 token。 示例Subagents ​ 这些示例演示了构建Subagents的有效模式。将它们作为起点，或使用 CSC 生成自定义版本。 💡 提示： 最佳实践： 设计聚焦的Subagents： 每个Subagents应该擅长一个特定任务 编写详"

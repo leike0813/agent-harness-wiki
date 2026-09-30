@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-mcp-headers
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-mcp
+locator:
+  kind: document_section
+  heading: "使用动态头部进行自定义身份验证"
+official_url: "https://docs.costrict.ai/csc/tools-and-plugins/mcp"
+excerpt: "如果您的 MCP 服务器使用 OAuth 以外的身份验证方案（如 Kerberos、短期令牌或内部 SSO），请使用 headersHelper 在连接时生成请求头部。CSC 运行该命令并将其输出合并到连接头部中。 { \"mcpServers\" : { \"internal-api\" : { \"type\" : \"http\" , \"url\" : \"https://mcp.internal.example.com\" , \"headersHelper\" : \"/opt/bin/get-mcp-auth-headers.sh\" } } } 命令也可以内联： { \"mcpServers\" : { \"internal-api\" : { \"type\" : \"http\" , \"url\" : \"https://mcp.internal.example.com\" , \"headersHelper\" : \"echo '{\\\"Authorization\\\": \\\"Bearer '\\\"$(get-token)\\\"'\\\"}'\" } } } 要求： 命令必须将 JSON 对象（字符串键值对）写入 stdout 命令在 shell 中运行，超时时间为 10 秒 动态头部覆盖任何同名的静态 headers 辅助程序在每次连接时（会话启动和重新连接时）重新运行。没有缓存，因此您的脚本负责任何令牌重用。 CSC 在执行辅助程序时设置以下环境变量： 变量 值 CLAUDE_CODE_MCP_SERVER_NAME MCP 服务器的名称 CLAUDE_CODE_MCP_SERVER_URL MCP 服务器的 URL 使用"

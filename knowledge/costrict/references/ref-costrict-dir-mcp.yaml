@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-dir-mcp
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-directory
+locator:
+  kind: document_section
+  heading: ".mcp.json"
+official_url: "https://docs.costrict.ai/csc/getting-started/costrict-directory"
+excerpt: "项目范围的 MCP 服务器，与团队共享 何时加载： 会话开始时服务器连接。工具模式默认延迟加载，通过工具搜索按需加载 描述： 配置模型上下文协议（MCP）服务器，让 CSC 访问外部工具：数据库、API、浏览器等。此文件保存整个团队使用的项目范围服务器。你想保留给自己的个人服务器放在 ~/.claude.json 中。 提示： 使用环境变量引用来存储密钥： ${GITHUB_TOKEN} 位于项目根目录，不在 .costrict/ 内 对于只有你需要的服务器，运行 csc mcp add --scope user 。这会写入 ~/.claude.json 而不是 .mcp.json 示例说明： 此示例配置 GitHub MCP 服务器，让 CSC 可以读取 issue 和打开 pull request。 ${GITHUB_TOKEN} 引用会在 CSC 启动服务器时从你的 shell 环境中读取，因此令牌永远不会出现在文件中。 { \"mcpServers\" : { \"github\" : { \"command\" : \"npx\" , \"args\" : [ \"-y\" , \"@modelcontextprotocol/server-github\" ] , \"env\" : { \"GITHUB_TOKEN\" : \"${GITHUB_TOKEN}\" } } } } .worktreeinclud"

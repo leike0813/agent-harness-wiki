@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-agents-mcpscope
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-subagents
+locator:
+  kind: document_section
+  heading: "将 MCP 服务器限定到Subagents"
+official_url: "https://docs.costrict.ai/csc/agent/sub-agents"
+excerpt: "使用 mcpServers 字段为Subagents提供主对话中不可用的 MCP 服务器。此处定义的内联服务器在Subagents启动时连接，在Subagents完成时断开。字符串引用共享父会话的连接。 列表中的每个条目要么是内联服务器定义，要么是引用已在会话中配置的 MCP 服务器的字符串： --- name : browser - tester description : Tests features in a real browser using Playwright mcpServers : # Inline definition: scoped to this subagent only - playwright : type : stdio command : npx args : [ \"-y\" , \"@playwright/mcp@latest\" ] # Reference by name: reuses an already-configured server - github --- Use the Playwright tools to navigate , screenshot , and interact with pages. 内联定义使用与 .mcp.json 服务器条目相同的模式（ stdio 、 http 、 sse 、 ws ），以服务器名称为键。 要将 MCP 服务器完全排除在主对话之外，避免其工具描述在那里消耗上下文，请在此处内联定义它，而不是在 .mcp.json 中。Subagents获得工具；父对话不会。 权限模式 ​ permiss"

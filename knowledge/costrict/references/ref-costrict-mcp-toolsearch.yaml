@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-mcp-toolsearch
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-mcp
+locator:
+  kind: document_section
+  heading: "使用 MCP 工具搜索进行扩展"
+official_url: "https://docs.costrict.ai/csc/tools-and-plugins/mcp"
+excerpt: "工具搜索通过延迟工具定义直到 CSC 需要它们来保持 MCP 上下文使用量较低。会话启动时仅加载工具名称，因此添加更多 MCP 服务器对您的上下文窗口影响极小。 工作原理 ​ 工具搜索默认启用。MCP 工具被延迟而非预先加载到上下文中，CSC 在任务需要时使用搜索工具发现相关工具。只有 CSC 实际使用的工具才会进入上下文。从您的角度来看，MCP 工具的工作方式与之前完全相同。 如果您更喜欢基于阈值的加载，请设置 ENABLE_TOOL_SEARCH=auto ，当工具适合上下文窗口的 10% 以内时预先加载架构，仅延迟溢出部分。有关所有选项，请参阅配置工具搜索。 针对 MCP 服务器作者 ​ 如果您正在构建 MCP 服务器，启用工具搜索后，服务器指令字段变得更加有用。服务器指令帮助 CSC 理解何时搜索您的工具，类似于Skills的工作方式。 添加清晰、描述性的服务器指令，解释： 您的工具处理什么类别的任务 CSC 何时应该搜索您的工具 您的服务器提供的关键功能 CSC 将工具描述和服务器指令截断为各 2KB。保持简洁以避免截断，并将关键细节放在开头。 配置工具搜索 ​ 工具搜索默认启用：MCP 工具被延迟并按需发现。当 ANTHROPIC_BASE_URL 指向非第一方主机时，工具搜索默认禁用，因为大多数代理不转发 tool_reference 块。如果您的代理支持，请显式设置 ENABLE_TOOL_SEARCH 。此功能需要支持 tool_reference 块的模型：Sonnet 4 及更高版本，或 Opus 4 及更高版本。Haiku 模型不支持工具搜索。 使用 ENABLE_TOOL_SEARCH 环境变量控制工具搜索行为： 值 行为 （未设置） 所有 MCP 工具延迟并按需加载。当 ANTHROPIC_BASE_URL 为非第一方主机时回退到预先加载 tru"

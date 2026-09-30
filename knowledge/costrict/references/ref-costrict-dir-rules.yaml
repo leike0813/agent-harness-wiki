@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-costrict-dir-rules
+harness_id: costrict
+snapshot_id: snapshot-costrict-docs-csc-directory
+locator:
+  kind: document_section
+  heading: rules/
+official_url: "https://docs.costrict.ai/csc/getting-started/costrict-directory"
+excerpt: "rules/ ​ 简介： 按主题范围的指令，可选地按文件路径限制 何时加载： 没有 paths: 的规则在会话开始时加载。有 paths: 的规则在匹配文件进入上下文时加载 描述： 将项目指令拆分为主题文件，可以根据文件路径有条件地加载。没有 paths: frontmatter 的规则在会话开始时加载，就像 AGENTS.md；有 paths: 的规则只在 CSC 读取匹配文件时加载。 与 AGENTS.md 一样，规则是 CSC 读取的指导，而不是 CSC 强制执行的配置。要保证行为，请使用 hooks 或 permissions。 提示： 使用带 glob 的 paths: frontmatter 将规则限定到目录或文件类型 子目录有效： .costrict/rules/frontend/react.md 会被自动发现 当 AGENTS.md 接近 200 行时，开始拆分为规则 testing.md ​ 简介： 限定于测试文件的测试约定 何时加载： 当 CSC 读取匹配以下 paths: glob 的文件时加载 描述： 一个只在 CSC 处理测试文件时加载的规则示例。frontmatter 中的 paths: glob 定义了哪些文件触发它；这里是以 .test.ts 或 .test.tsx 结尾的任何文件。对于其他文件，此规则不会加载到上下文中。 --- paths : - \"**/*.test.ts\" - \"**/*.test.tsx\" --- # 测试规则 - 使用描述性测试名称：\"should [ 预期 ] when [ 条件 ] \" - 模拟外部依赖，而非内部模"
