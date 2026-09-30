@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-agy-custom-agents-frontmatter
+harness_id: antigravity-cli
+snapshot_id: snapshot-agy-subagents-doc
+locator:
+  kind: document_section
+  heading: "Frontmatter Configuration (YAML)"
+official_url: https://antigravity.google/docs/subagents.md
+excerpt: |-
+  | Property | Type | Default | Description |
+  | :-- | :-- | :-- | :-- |
+  | `name` | `string` | _(Required)_ | The unique identifier for the custom agent. |
+  | `description` | `string` | _(Required)_ | Detailed description used by the planner to determine when to delegate tasks to this agent. |
+  | `tools` | `string[]` | `[]` | Explicit list of tools permitted for this subagent (e.g. `view_file`, `replace_file_content`, `grep_search`, `run_command`). |
+  | `mainAgent` | `boolean` | `true` | If `true`, allows selection as the primary agent in chat interfaces. |
+  | `subagent` | `boolean` | `true` | If `true`, allows invocation via the `invoke_subagent` tool. |
+  | `model` | `string` | `inherit` | Model tier used when invoked (`inherit`, `flash`, or `pro`). |

@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-agy-hooks-pretooluse-out
+harness_id: antigravity-cli
+snapshot_id: snapshot-agy-hooks-doc
+locator:
+  kind: document_section
+  heading: "PreToolUse"
+official_url: https://antigravity.google/docs/hooks.md
+excerpt: |-
+  | Field | Type | Description |
+  | :-- | :-- | :-- |
+  | `decision` | string | **Required.** Controls how the tool call is gated:  
+  \- `"allow"`: Automatically allows the tool execution.  
+  \- `"deny"`: Hard blocks execution immediately.  
+  \- `"ask"`: Prompts the user, but respects “Always Allow” settings.  
+  \- `"force_ask"`: Always prompts the user, ignoring cached permissions.  
+  \- `"deny_unless_prior_grant"`: Denies execution unless the resource was previously approved in a prior user grant. |
+  | `reason` | string | **Optional.** The explanation shown to the agent or user for the decision. |
+  | `permissionOverrides` | array of strings | **Optional.** A list of resource strings (e.g. `["read_file(/path)", "command(args)"]`) to override default tool permissions. |
