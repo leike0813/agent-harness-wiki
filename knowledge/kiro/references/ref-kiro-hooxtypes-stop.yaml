@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-hooxtypes-stop
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-hooks-types
+locator:
+  kind: document_section
+  heading: Agent Stop
+official_url: "https://kiro.dev/docs/hooks/types.md"
+excerpt: |-
+  Triggers when the agent has completed its turn and finished responding to the user.
+      IDE
+      CLI
+      This is useful for running post-processing tasks like code compilation, testing, formatting, or cleanup after the agent's response.
+      The hook receives the event via STDIN:
+      ```json
+      ```
+      **Exit Code Behavior:**
+      - **0**: Hook succeeded. If STDOUT contains a block decision (see below), the agent continues instead of stopping.
+      - **Other**: Show STDERR warning to user.
+      **Block Decision:** A stop hook can prevent the agent from stopping by returning JSON on STDOUT:
+      ```json
+      ```
+      When a stop hook returns `"decision": "block"`, the `reason` is sent as a new user message to the agent, continuing the conversation.

@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-subagents-how
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-agents-subagents
+locator:
+  kind: document_section
+  heading: How sub-agents work
+official_url: "https://kiro.dev/docs/custom-agents/subagents.md"
+excerpt: |-
+  1. **Task assignment** - You describe a task (or the main agent identifies one that benefits from delegation)
+  2. **Agent selection** - Kiro selects the appropriate agent configuration based on the task and available agents
+  3. **Isolated execution** - The sub-agent runs with its own context window, tools, and permissions
+  4. **Result return** - When finished, the sub-agent returns findings to the main agent
+  Any [custom agent](https://kiro.dev/docs/custom-agents.md) can be invoked as a sub-agent. The main agent automatically selects agents based on their `description` field, or you can request one explicitly:
+  ```text
+  Use the code-reviewer agent to analyze src/auth/ for security issues
+  ```

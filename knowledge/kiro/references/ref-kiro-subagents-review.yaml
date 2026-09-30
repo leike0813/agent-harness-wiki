@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-subagents-review
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-agents-subagents
+locator:
+  kind: document_section
+  heading: Review loops
+official_url: "https://kiro.dev/docs/custom-agents/subagents.md"
+excerpt: |-
+  A stage can loop back to an earlier stage when its output signals that more work is needed - for example, a reviewer sends work back to an implementer for revisions.
+  ```text
+  Implement the feature, then have a reviewer check it and send it back for fixes until it passes
+  ```
+  The agent builds a looping pipeline with:
+  - **target** - the stage to re-run when the loop triggers
+  - **trigger** - text in the stage output that fires the loop (e.g., `NEEDS_CHANGES`)
+  - **max_iterations** - safety cap (between 1 and 10)
+  Constraints:
+  - A stage cannot loop back to itself
+  - Mutual loops (A → B → A) are rejected
+  - The trigger must be at least four characters

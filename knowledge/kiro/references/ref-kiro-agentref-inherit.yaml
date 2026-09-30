@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-agentref-inherit
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-agents-config-ref
+locator:
+  kind: document_section
+  heading: Disabling default resource inheritance
+official_url: "https://kiro.dev/docs/custom-agents/configuration-reference.md"
+excerpt: |-
+  By default, custom agents inherit default resources (steering files, skills, and `AGENTS.md`) alongside their own configured resources. You can disable this behavior with the `chat.disableInheritingDefaultResources` CLI setting.
+  | Property | Value |
+  |----------|-------|
+  | Setting key | `chat.disableInheritingDefaultResources` |
+  | Type | Boolean |
+  | Default | `false` (custom agents inherit default resources) |
+  | Scope | Global or workspace-overridable |
+  Set it via the CLI:
+  ```bash
+  kiro-cli settings chat.disableInheritingDefaultResources true
+  ```
+  Or scope it to a workspace:
+  ```bash
+  kiro-cli settings --workspace chat.disableInheritingDefaultResources true
+  ```
+  When set to `true`, custom (user-defined) agents will not receive default steering, skills, or `AGENTS.md` in their context.

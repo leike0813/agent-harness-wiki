@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-2x-agent
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-cli-2x
+locator:
+  kind: document_section
+  heading: Custom agent config
+official_url: "https://kiro.dev/docs/cli/2x-reference.md"
+excerpt: |-
+  In CLI 2.x, agent configs were JSON-only with embedded `toolsSettings` and `hooks`.
+  ### Built-in names
+  CLI 2.x custom agent configs can use built-in names such as `kiro_default` or `kiro_planner`. The V2 loader does not reject these configs as reserved-name conflicts. For current built-in agents and their roles, see [Built-in agents](https://kiro.dev/docs/custom-agents/built-in.md).
+  ### Format
+  `.kiro/agents/my-agent.json`:
+  ```json
+  {
+    "name": "my-agent",
+    "description": "A development agent",
+    "prompt": "file://resources/MY_PROMPT.md",
+    "model": "claude-sonnet-4",
+    "tools": ["fs_read", "fs_write", "execute_bash", "grep", "glob", "code"],
+    "toolsSettings": {
+      "execute_bash": {
+        "allowedCommands": ["^git status$", "^cargo build[^&;]*$"],
+        "deniedCommands": ["^rm -rf"],

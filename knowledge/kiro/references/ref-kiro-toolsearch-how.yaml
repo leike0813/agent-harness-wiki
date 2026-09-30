@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-toolsearch-how
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-mcp-tool-search
+locator:
+  kind: document_section
+  heading: How it works
+official_url: "https://kiro.dev/docs/mcp/tool-search.md"
+excerpt: |-
+  1. **Indexing**: When MCP servers connect, all tool specs are indexed for keyword search. Each tool's name, server name, description, and parameter descriptions are tokenized.
+  2. **Deferred tool list**: Instead of full JSON schemas, the model receives a compact list of `server_name::tool_name: description` entries. Descriptions are truncated to 1KB.
+  3. **On-demand loading**: When the model needs a tool, it calls `tool_search` with either an exact `tool_id` (e.g., `builder-mcp::InternalSearch`) or a keyword `query` (e.g., `"search documents"`).
+  4. **Activation**: Matched tools are loaded and their full schemas are included in subsequent requests.

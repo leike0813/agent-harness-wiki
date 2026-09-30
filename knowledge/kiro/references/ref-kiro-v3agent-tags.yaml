@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-v3agent-tags
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-cli-v3-agent
+locator:
+  kind: document_section
+  heading: Tags vs Capabilities
+official_url: "https://kiro.dev/docs/cli/v3/agent-config.md"
+excerpt: |-
+  V3 separates tool *visibility* from tool *authorization* into two distinct systems.
+  **Tags** (in the `tools` field) control which tools the agent can see and invoke. Use short category names — new tools added to a category become available automatically:
+  | Tag | Tools included |
+  |-----|---------------|
+  | `read` | read_file, read_files, list_directory, file_search, grep_search, code |
+  | `write` | fs_write, str_replace, delete_file |
+  | `shell` | execute_bash, control_bash_process |
+  | `web` | web_fetch, web_search |
+  | `subagent` | Subagent delegation tools |
+  | `knowledge` | Knowledge base tools |
+  | `todo_list` | Task tracking tools |
+  | `@mcp` | All MCP server tools |
+  | `@builtin` | All built-in tools |
+  | `*` | All tools (no filtering) |

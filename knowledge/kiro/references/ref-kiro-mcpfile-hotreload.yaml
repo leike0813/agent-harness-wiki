@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-mcpfile-hotreload
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-mcp-configuration
+locator:
+  kind: document_section
+  heading: Hot-reload
+official_url: "https://kiro.dev/docs/mcp/configuration.md"
+excerpt: |-
+  Agent and MCP configurations hot-reload when you save changes on disk. A file watcher monitors `.kiro/agents` directories and `mcp.json` files, reconciling the running servers and agent state without restarting your session or losing conversation context.
+  This applies to:
+  - Editing an existing agent config or `mcp.json`
+  - Adding or removing an agent file
+  - Adding, removing, or editing MCP server entries
+  How reconciliation works:
+  - **Only changed servers restart** - if you add, remove, or edit a server entry, only the affected servers are stopped or started. Unchanged servers continue running.
+  - **Order-independent config diff** - reordering environment variables or JSON keys does not count as a change and won't trigger a restart.

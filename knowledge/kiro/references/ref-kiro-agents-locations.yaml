@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-agents-locations
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-custom-agents
+locator:
+  kind: document_section
+  heading: Storage locations
+official_url: "https://kiro.dev/docs/custom-agents.md"
+excerpt: |-
+  - **Workspace agents (project-specific):** `.kiro/agents/[name].json` or `.kiro/agents/[name].md` — shared via version control, loaded only if the workspace is trusted
+  - **Global agents (user-wide):** `~/.kiro/agents/[name].json` or `~/.kiro/agents/[name].md` — available across all projects
+  When both locations have agents with the same name, workspace agents take precedence.
+  Nested directories are supported. The agent name is the path relative to the agents directory without the extension: `~/.kiro/agents/team/planner.md` becomes `team/planner`.
+  #### Surface behavior
+  The IDE and CLI can select a custom agent as the primary session agent.

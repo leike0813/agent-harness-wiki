@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-v3agent-fields
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-cli-v3-agent
+locator:
+  kind: document_section
+  heading: New fields reference
+official_url: "https://kiro.dev/docs/cli/v3/agent-config.md"
+excerpt: |-
+  | Field | Type | Description |
+  |-------|------|-------------|
+  | `excludedTools` | string[] | Tools to exclude even if `tools` allows them |
+  | `includeMcpJson` | boolean | Include workspace `.kiro/settings/mcp.json` servers |
+  | `includePowers` | boolean | Include IDE-installed powers |
+  | `resources` | string[] | URIs to load into context: `file://./path`, `skill://name` |
+  | `permissions` | object | Inline policy rules (agent scope, supports all effects) |
+  | `welcomeMessage` | string | Custom greeting on session start |
+  | `hooks` | object | CLI only — inline hook definitions (same schema as `.kiro/hooks/`) |
+  > **Note:** Kiro checks an agent's `model:` value against the available model list when the session starts.

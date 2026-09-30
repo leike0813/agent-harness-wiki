@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-hookactions-shell
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-hooks-actions
+locator:
+  kind: document_section
+  heading: Shell Command action
+official_url: "https://kiro.dev/docs/hooks/actions.md"
+excerpt: |-
+  With this action, you can define a shell command that is executed each time the hook is triggered.
+      IDE
+      CLI
+      If the command returns an exit code of "0" indicating success, the *stdout* output of the command is added to the agent's context.
+      If the command returns any other exit code, the *stderr* output of the command is sent to the agent, and the agent is notified that the hook returned an error. Additionally, in the case of the **Pre Tool Use** hook, the tool invocation is blocked, and for the **Prompt Submit** hook, the user prompt submission is blocked.
+      An execution timeout can be specified. The default timeout is 60 seconds. Set to 0 to disable the timeout.
+      Hooks receive hook event data in JSON format via STDIN. The output behavior depends on the exit code:

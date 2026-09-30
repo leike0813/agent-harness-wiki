@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-subagents-runtime
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-agents-subagents
+locator:
+  kind: document_section
+  heading: Runtime behavior
+official_url: "https://kiro.dev/docs/custom-agents/subagents.md"
+excerpt: |-
+  - **Working directory reads are auto-approved.** `fs_read` within the current working directory doesn't prompt. Reads outside still prompt.
+  - **Non-interactive sub-agents can't prompt for approvals.** If `is_interactive` is false and a tool requires approval, the sub-agent fails fast. Add the agent to `trustedAgents` to avoid this.
+  - **Sub-agent sessions record their parent.** Each persisted session includes the spawning session's ID for traceability.
+  Sub-agents run automatically in the background. The agent delegates tasks and aggregates results without additional user interaction.

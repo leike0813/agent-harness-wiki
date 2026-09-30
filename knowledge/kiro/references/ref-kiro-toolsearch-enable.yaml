@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-toolsearch-enable
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-mcp-tool-search
+locator:
+  kind: document_section
+  heading: Enabling Tool Search
+official_url: "https://kiro.dev/docs/mcp/tool-search.md"
+excerpt: |-
+  Tool Search is disabled by default. Enable it via settings:
+  ```bash
+  kiro-cli settings toolSearch.enabled true
+  ```
+  Once enabled, Tool Search activates automatically when MCP tool specs are large enough to benefit from deferral. The default thresholds (5% of context window or 50,000 tokens) cover most cases. To force activation whenever any MCP tools are present, set the thresholds to `0`:
+  ```bash
+  kiro-cli settings toolSearch.minPct 0
+  kiro-cli settings toolSearch.minTokens 0
+  ```
+  ### Settings
+  Configure Tool Search behavior with these settings:
+  | Setting | Default | Description |
+  |---------|---------|-------------|
+  | `toolSearch.enabled` | `false` | Master toggle for Tool Search |
+  | `toolSearch.minPct` | `5` | Activate when MCP tool specs exceed this % of the context window |

@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-mcpfile-structure
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-mcp-configuration
+locator:
+  kind: document_section
+  heading: Configuration file structure
+official_url: "https://kiro.dev/docs/mcp/configuration.md"
+excerpt: |-
+  MCP configuration files use JSON format with the following structure:
+  ```json
+  {
+    "mcpServers": {
+      "local-server-name": {
+        "command": "command-to-run-server",
+        "args": ["arg1", "arg2"],
+        "env": {
+          "ENV_VAR1": "hard-coded-variable",
+          "ENV_VAR2": "${EXPANDED_VARIABLE}"
+        },
+        "disabled": false,
+        "autoApprove": ["tool_name1", "tool_name2"],
+        "disabledTools": ["tool_name3"]
+      },
+      "remote-server-name": {
+        "url": "https://endpoint.to.connect.to",
+        "headers": {
+          "HEADER1": "value1",
+          "HEADER2": "value2"
+        },
+        "disabled": false,
+        "autoApprove": ["tool_name1", "tool_name2"],
+        "disabledTools": ["tool_name3"]
+      }
+    }
+  }
+  ```
+  ### Configuration properties
+  #### Local server

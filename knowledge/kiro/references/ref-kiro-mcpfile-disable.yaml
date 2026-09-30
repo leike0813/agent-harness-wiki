@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-mcpfile-disable
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-mcp-configuration
+locator:
+  kind: document_section
+  heading: Disabling servers and tools
+official_url: "https://kiro.dev/docs/mcp/configuration.md"
+excerpt: |-
+  To temporarily disable an MCP server without removing its configuration, set `disabled` to `true`:
+  ```json
+  {
+    "mcpServers": {
+      "server-name": {
+        "disabled": true
+      }
+    }
+  }
+  ```
+  To keep a server active but prevent an agent from using specific tools, use `disabledTools`:
+  ```json
+  {
+    "mcpServers": {
+      "server-name": {
+        "disabledTools": ["delete_file", "execute_command"]
+      }
+    }
+  }
+  ```

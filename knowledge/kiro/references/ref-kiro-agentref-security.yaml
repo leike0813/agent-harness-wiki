@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-agentref-security
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-agents-config-ref
+locator:
+  kind: document_section
+  heading: Security best practices
+official_url: "https://kiro.dev/docs/custom-agents/configuration-reference.md"
+excerpt: |-
+  - Review `allowedTools` carefully
+  - Use specific patterns over wildcards
+  - Use `permissions.rules` to restrict sensitive operations
+  - Test agents in safe environments first
+  #### Write tool permissions
+  By default, the Kiro agent only has access to read-only tools. No write operations are permitted unless you explicitly enable them in `allowedTools` or approve them at runtime.
+  When you enable write tools (such as `write`, `shell`, or MCP tools with write capabilities), the agent operates with the same file-system permissions as your user account. This means:
+  - The agent can read and modify all files under `~/.kiro`, including skill context files, steering files, MCP server configurations (`mcp.json`), and other agent configurations.

@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-admin-policy
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-admin-permissions
+locator:
+  kind: document_section
+  heading: Deploy a permission policy
+official_url: "https://kiro.dev/docs/enterprise/governance/permissions.md"
+excerpt: |-
+  Place a JSON policy file at the OS-protected path for your platform. These paths require administrator or root access to modify, which keeps the policy out of reach of a standard user account. The policy applies to every Kiro surface on the machine, because the IDE and the CLI read the same file.
+      macOS
+      Windows
+      Linux
+  Create or edit the managed settings file:
+  ```bash
+  sudo mkdir -p "/Library/Application Support/Kiro"
+  sudo nano "/Library/Application Support/Kiro/managed-settings.json"
+  ```
+  Add your policy rules:
+  ```json
+  {
+    "rules": [
+      { "capability": "web_fetch", "effect": "deny" },
+      { "capability": "shell", "match": ["rm *", "sudo *"], "effect": "deny" }
+    ]
+  }
+  ```
+  You can also deploy this file via MDM (e.g., Jamf, Kandji) to manage it at scale.

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-permissions-examples
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-permissions
+locator:
+  kind: document_section
+  heading: Permission examples
+official_url: "https://kiro.dev/docs/permissions.md"
+excerpt: |-
+  Here are common patterns for configuring permissions:
+  | Scenario | Configuration |
+  | --- | --- |
+  | Trust file reads | `capability: fs_read`, `effect: allow` |
+  | Trust write in project dirs | `capability: fs_write`, `match: ["src/**", "tests/**"]`, `effect: allow` |
+  | Block sensitive files | `capability: fs_write`, `match: ["*.env", "*.pem", "*.key"]`, `effect: deny` |
+  | Block dangerous commands | `capability: shell`, `match: ["rm -rf *", "sudo *"]`, `effect: deny` |
+  | Trust specific MCP server | `capability: mcp`, `match: ["my-server/*"]`, `effect: allow` |
+  | Untrust shell in production | `capability: shell`, `effect: ask` (or use `/tools untrust shell` in CLI) |

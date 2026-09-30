@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-v3-breaking
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-cli-v3
+locator:
+  kind: document_section
+  heading: Breaking changes
+official_url: "https://kiro.dev/docs/cli/v3.md"
+excerpt: |-
+  | Change | Previous (2.x) | New (3.0) | Impact |
+  |--------|----------------|-----------|--------|
+  | `aws_tool` removed | Built-in AWS tool | Use MCP servers for AWS access | High |
+  | Session format changed | v2 session format | v3 session format (not backward-compatible) | High — back up `~/.kiro/sessions/` before upgrading |
+  | Hook format changed | Hooks embedded in agent config | Standalone `.kiro/hooks/*.json` files | High |
+  | Hook trigger names | camelCase (`agentSpawn`) | PascalCase (`SessionStart`) | High |
+  | Tool IDs standardized | camelCase (`readFile`, `writeFile`) | snake_case with short aliases | Medium |
+  | Sub-agent UI simplified | Multi-agent monitor (Ctrl+G) | Single-agent UI — sub-agents run in background | Medium |

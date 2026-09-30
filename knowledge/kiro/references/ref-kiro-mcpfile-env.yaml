@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-mcpfile-env
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-mcp-configuration
+locator:
+  kind: document_section
+  heading: Environment variables
+official_url: "https://kiro.dev/docs/mcp/configuration.md"
+excerpt: |-
+  Many MCP servers require environment variables for authentication or configuration. Use the `$` syntax to reference environment variables:
+  ```json
+  {
+    "mcpServers": {
+      "server-name": {
+        "env": {
+          "API_KEY": "${YOUR_API_KEY}",
+          "DEBUG": "true",
+          "TIMEOUT": "30000"
+        }
+      }
+    }
+  }
+  ```
+  IDE
+      CLI
+      Web
+      For security, Kiro only expands environment variables that are explicitly approved. When you add or modify an MCP server configuration that includes unapproved environment variables, Kiro displays a security warning popup listing the variables that need approval.
+      To manage approved environment variables:
+      1. Open Kiro settings
+      2. Search for "**Mcp Approved Env Vars**"
+      3. Add the environment variables you want to allow for expansion

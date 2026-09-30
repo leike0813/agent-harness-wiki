@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-permissions-defaults
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-permissions
+locator:
+  kind: document_section
+  heading: Default behavior
+official_url: "https://kiro.dev/docs/permissions.md"
+excerpt: |-
+  Without any `permissions.yaml` configured, the default agent policy allows:
+  - `fs_read` on `./**` - read any workspace file silently
+  - `shell` for common git read-only commands - `git status`, `git log`, `git diff`, `git branch`, and similar
+  - `shell` for system info commands - `pwd`, `whoami`, `uname`, and similar
+  - Utility tools (diagnostics, knowledge, and similar)
+  The Kiro scope (hardcoded, not changeable by configuration) enforces:
+  - **Always denied:** writes to `~/.kiro/settings/`, `.kiro/settings/`, and `~/.kiro/workspace-roots/` (prevents the agent from modifying its own permission files)
+  - **Always asks:** writes to `.git/**`, `.kiro/agents/**`, `.kiro/hooks/**`, `.kiroignore`
+  Everything else prompts for approval.

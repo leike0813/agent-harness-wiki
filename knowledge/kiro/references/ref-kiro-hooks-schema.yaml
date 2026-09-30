@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-hooks-schema
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-hooks
+locator:
+  kind: document_section
+  heading: Hook file schema
+official_url: "https://kiro.dev/docs/hooks.md"
+excerpt: |-
+  Each hook file is a standalone JSON file at `.kiro/hooks/<id>.json`. The full schema:
+  ```json
+  {
+    "version": "v1",
+    "hooks": [
+      {
+        "name": "example-hook",
+        "trigger": "PostFileSave",
+        "matcher": "\\.(ts|tsx)$",
+        "action": { "type": "command", "command": "npx eslint --fix" }
+      }
+    ]
+  }
+  ```
+  ### Field reference
+  | Field | Required | Description |
+  |-------|:--------:|-------------|
+  | `version` | Yes | Schema version - currently `"v1"` |
+  | `hooks` | Yes | Array of hook definitions |
+  | `hooks[].name` | Yes | Human-readable identifier for the hook |
+  | `hooks[].description` | No | Documentation only |
+  | `hooks[].trigger` | Yes | Event that fires the hook (PascalCase - see [Hook types](https://kiro.dev/docs/hooks/types.md)) |

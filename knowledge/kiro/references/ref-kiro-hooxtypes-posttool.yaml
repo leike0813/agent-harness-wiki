@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-hooxtypes-posttool
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-hooks-types
+locator:
+  kind: document_section
+  heading: Post Tool Use
+official_url: "https://kiro.dev/docs/hooks/types.md"
+excerpt: |-
+  Triggers after the agent has invoked a tool, with access to tool results.
+      IDE
+      CLI
+      For details on the **Tool name** field, refer to the [Pre Tool Use](#pre-tool-use) section above.
+      For details on tool matching, refer to the [Pre Tool Use](#pre-tool-use) section above.
+      **Hook Event:**
+      ```json
+          ]
+        },
+        "tool_response":
+      }
+      ```
+      **Exit Code Behavior:**
+      - **0**: Hook succeeded
+      - **Other**: Show STDERR warning to user. Tool already ran.
+  **Use Cases:**
+  - Log tool invocations for auditing purposes
+  - Format or review any updated files after a "write" tool call
+  - Provide additional instructions to the agent on top of the tool response

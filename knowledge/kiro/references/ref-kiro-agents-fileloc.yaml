@@ -1,0 +1,42 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-agents-fileloc
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-agents-creating
+locator:
+  kind: document_section
+  heading: File locations
+official_url: "https://kiro.dev/docs/custom-agents/creating.md"
+excerpt: |-
+  You can define local agents and global agents.
+  ### Local agents (project-specific)
+  ```text
+  .kiro/agents/
+  ```
+  Local agents are specific to the current workspace and only available when running Kiro from that directory or its subdirectories.
+  **Example:**
+  ```text
+  my-project/
+  ├── .kiro/
+  │   └── agents/
+  │       ├── dev-agent.json
+  │       └── aws-specialist.json
+  └── src/
+      └── main.py
+  ```
+  ### Global agents (user-wide)
+  ```text
+  ~/.kiro/agents/
+  ```
+  Global agents are available from any directory.
+  **Example:**
+  ```text
+  ~/.kiro/agents/
+  ├── general-assistant.json
+  ├── code-reviewer.json
+  └── documentation-writer.json
+  ```
+  ### Agent precedence
+  When Kiro looks for an agent:
+  1. **Local first**: Checks `.kiro/agents/` in the current directory
+  2.

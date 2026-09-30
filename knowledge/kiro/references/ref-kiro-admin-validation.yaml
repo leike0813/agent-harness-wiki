@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-admin-validation
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-admin-permissions
+locator:
+  kind: document_section
+  heading: Validation and error handling
+official_url: "https://kiro.dev/docs/enterprise/governance/permissions.md"
+excerpt: |-
+  Permission policies are validated when Kiro starts:
+  - **Malformed JSON:** The entire file is rejected and Kiro fails closed. All tool calls are denied until the file is fixed or removed.
+  - **Invalid effect:** Rules with `effect: "allow"` are rejected (admin policies only permit `deny` and `ask`). The entire file fails, with the same fail-closed result.
+  - **Unknown capabilities:** Rules with unrecognized capability names are skipped with a warning, but the remaining valid rules still load. This allows newer policies to work on older Kiro versions.
+  - **Unknown fields:** Rules with extra fields not in the schema cause the entire file to be rejected. This prevents typos (like `effct` instead of `effect`) from silently disabling admin rules.

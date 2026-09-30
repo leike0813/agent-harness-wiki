@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-config-conflicts
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-configuration
+locator:
+  kind: document_section
+  heading: Resolving conflicts
+official_url: "https://kiro.dev/docs/configuration.md"
+excerpt: |-
+  When the same configuration exists in multiple scopes, the scope closest to your current context wins:
+  | Configuration | Priority (highest → lowest) |
+  |---------------|---------------------------|
+  | MCP servers | Agent > Project > Global |
+  | Permissions | deny wins regardless of scope (deny-overrides algorithm) |
+  | Custom agents | Project > Global (same-name: project wins with warning) |
+  | Steering | All scopes merged (not overridden) |
+  | Skills | All scopes merged |
+  | Hooks | All scopes merged |
+  | Workflows | Project > Global > synchronized account recipes > bundled recipes |
+  An invalid higher-priority workflow recipe does not hide a valid lower-priority recipe with the same name. Available synchronized and bundled recipes can vary by account and client version.

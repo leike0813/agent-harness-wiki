@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-clicmd-mcp
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-cli-commands
+locator:
+  kind: document_section
+  heading: kiro-cli mcp
+official_url: "https://kiro.dev/docs/reference/cli-commands.md"
+excerpt: |-
+  Manage Model Context Protocol (MCP) servers.
+  **Syntax:**
+  ```bash
+  kiro-cli mcp [SUBCOMMAND] [OPTIONS]
+  ```
+  **Subcommands:**
+  #### kiro-cli mcp add
+  Add or replace a configured MCP server.
+  **Arguments:**
+  | Argument | Description |
+  |----------|-------------|
+  | `--name` | Server name (required) |
+  | `--command` | Launch command (required) |
+  | `--scope` | Scope: `workspace` or `global` |
+  | `--env` | Environment variables: `key1=value1,key2=value2` |
+  | `--timeout` | Launch timeout in milliseconds |
+  | `--force` | Overwrite existing server |
+  **Example:**
+  ```bash
+  kiro-cli mcp add --name my-server --command "node server.js" --scope workspace
+  ```
+  #### kiro-cli mcp remove
+  Remove an MCP server.
+  **Arguments:**
+  | Argument | Description |
+  |----------|-------------|
+  | `--name` | Server name (required) |

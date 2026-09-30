@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-permissions-rules
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-permissions
+locator:
+  kind: document_section
+  heading: Defining rules
+official_url: "https://kiro.dev/docs/permissions.md"
+excerpt: |-
+  Permissions are defined in YAML files at two levels:
+  **User-scoped** (`~/.kiro/settings/permissions.yaml`) - applies across all projects. Use to pre-approve trusted operations:
+  ```yaml
+  rules:
+    - capability: shell
+      match: ["git *", "npm *", "npx *"]
+      effect: allow
+    - capability: fs_write
+      match: ["src/**", "tests/**"]
+      effect: allow
+    - capability: fs_read
+      effect: allow
+    - capability: mcp
+      match: ["my-server/*"]
+      effect: allow
+  ```
+  **Workspace-scoped** (`~/.kiro/workspace-roots/<hash>/permissions.yaml`) - applies only to a specific project. Use to scope rules to one codebase:
+  ```yaml
+  rules:
+    - capability: fs_write
+      match: ["*.env", "*.pem", "*.key"]
+      effect: deny
+    - capability: shell
+      match: ["rm -rf *", "sudo *"]
+      effect: deny
+  ```

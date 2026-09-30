@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-update-precedence
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-managed-updates
+locator:
+  kind: document_section
+  heading: Base URL precedence
+official_url: "https://kiro.dev/docs/enterprise/managed-updates.md"
+excerpt: |-
+  macOS
+      Windows
+  An enforced `update.baseUrl` policy takes precedence over other release-URL configuration.
+  On each update check, Kiro CLI resolves the base URL from three sources: the managed `update.baseUrl` policy value, the `KIRO_DESKTOP_RELEASE_URL` environment variable, and the built-in default release server. Which one wins depends on whether the policy is enforced:
+  - **With an enforced policy** — policy value, then environment variable, then default.
+  - **Otherwise** — environment variable, then policy value, then default.
+  So an enforced policy governs managed machines, while on an unmanaged machine the environment variable can still override the base URL — worth accounting for when you plan how tightly to lock updates down.

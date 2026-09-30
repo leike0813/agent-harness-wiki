@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-mcpfile-oauth
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-mcp-configuration
+locator:
+  kind: document_section
+  heading: OAuth authentication
+official_url: "https://kiro.dev/docs/mcp/configuration.md"
+excerpt: |-
+  Remote MCP servers that require OAuth authentication are supported. Kiro handles the browser-based OAuth flow automatically when connecting to an OAuth-protected server.
+  ```json
+  {
+    "mcpServers": {
+      "remote-server-with-oauth": {
+        "url": "https://api.example.com/mcp",
+        "oauth": {
+          "clientId": "your-client-id",
+          "redirectUri": "http://127.0.0.1:8080/oauth/callback",
+          "oauthScopes": ["read", "write"]
+        }
+      }
+    }
+  }
+  ```
+  If you encounter OAuth scope errors, use an empty array: `"oauthScopes": []`
+  Most servers use [Dynamic Client Registration](https://datatracker.ietf.org/doc/html/rfc7591) (DCR) and need no extra configuration - just connect, and Kiro opens the authorization page.
+  ### OAuth configuration

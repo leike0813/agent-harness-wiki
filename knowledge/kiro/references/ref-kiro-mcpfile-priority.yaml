@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-mcpfile-priority
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-mcp-configuration
+locator:
+  kind: document_section
+  heading: MCP server loading priority
+official_url: "https://kiro.dev/docs/mcp/configuration.md"
+excerpt: |-
+  When multiple configurations define the same MCP server, they are loaded based on this hierarchy (highest to lowest priority):
+  1. **Agent Config** - `mcpServers` field in agent JSON
+  2. **Workspace MCP JSON** - `.kiro/settings/mcp.json`
+  3. **Global MCP JSON** - `~/.kiro/settings/mcp.json`
+  ### Example scenarios
+  **Complete override:**
+  ```
+  Agent config:     { "fetch": { command: "fetch-v2" } }
+  Workspace config: { "fetch": { command: "fetch-v1" } }
+  Global config:    { "fetch": { command: "fetch-old" } }
+  Result: Only "fetch-v2" from agent config is used
+  ```
+  **Additive (different names):**
+  ```
+  Agent config:     { "fetch": {...} }
+  Workspace config: { "git": {...} }
+  Global config:    { "aws": {...} }
+  Result: All three servers are used (fetch, git, aws)
+  ```
+  **Disable via override:**
+  ```

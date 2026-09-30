@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-skills-agents
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-skills
+locator:
+  kind: document_section
+  heading: Custom agents and skills
+official_url: "https://kiro.dev/docs/skills.md"
+excerpt: |-
+  **ℹ️ Info:** By default, the agent automatically loads skills from both workspace and global locations. [Custom agents](https://kiro.dev/docs/custom-agents.md) don't load skills by default - you need to explicitly add them to the agent's `resources` field using the `skill://` URI scheme.
+  ```json
+  {
+    "name": "my-agent",
+    "resources": [
+      "skill://.kiro/skills/*/SKILL.md",
+      "skill://~/.kiro/skills/*/SKILL.md"
+    ]
+  }
+  ```
+  The `skill://` URI scheme supports specific paths, glob patterns, and home directory expansion.

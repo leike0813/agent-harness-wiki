@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-clicmd-agent
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-cli-commands
+locator:
+  kind: document_section
+  heading: kiro-cli agent
+official_url: "https://kiro.dev/docs/reference/cli-commands.md"
+excerpt: |-
+  Manage agent configurations. Agent name is now a positional argument for create, edit, and other subcommands.
+  **Syntax:**
+  ```bash
+  kiro-cli agent [SUBCOMMAND] [AGENT_NAME] [OPTIONS]
+  ```
+  **Subcommands:**
+  | Subcommand | Description |
+  |------------|-------------|
+  | `list` | List the available agents |
+  | `create <name>` | Create an agent config (name is positional argument, v1.26.0+) |
+  | `edit [name]` | Edit an existing agent config (defaults to current agent if no name provided, v1.26.0+) |
+  | `validate` | Validate a config with the given path |
+  | `migrate` | Migrate profiles to agents (potentially destructive to existing agents) |
+  | `set-default` | Define a default agent to use when starting a session |
+  **Examples:**
+  ```bash
+  kiro-cli agent list

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-harness-surfaces
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-how-it-works
+locator:
+  kind: document_section
+  heading: "One harness, many surfaces"
+official_url: "https://kiro.dev/docs/how-kiro-works.md"
+excerpt: |-
+  At the center is the unified agent harness, which handles everything an agent run involves: orchestrating the conversation, executing tools, managing context, evaluating permissions, and talking to the LLM providers. Every Kiro surface (the IDE, CLI, Web, and Mobile) is a front end to that same harness.
+  ```mermaid
+  flowchart TD
+      IDE["Kiro IDE"] --> ACP
+      CLI["Kiro CLI"] --> ACP
+      WEB["Kiro Web"] --> ACP
+      MOB["Kiro Mobile"] --> ACP
+      ACP["Agent Client Protocol<br/>(with Kiro extensions)"] --> HARNESS
+      HARNESS["Unified agent harness"]
+      HARNESS --> TOOLS["Built-in tools<br/>files · shell · web · code"]
+      HARNESS --> MCP["MCP servers<br/>and Powers"]
+      HARNESS --> MODELS["Models<br/>Auto routing · effort"]
+      HARNESS --> POLICY["Permissions<br/>and ignore files"]

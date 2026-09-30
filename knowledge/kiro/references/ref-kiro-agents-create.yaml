@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-agents-create
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-agents-creating
+locator:
+  kind: document_section
+  heading: Quick start
+official_url: "https://kiro.dev/docs/custom-agents/creating.md"
+excerpt: |-
+  IDE
+  CLI
+  Create an agent file directly in your project:
+  1. Create a `.kiro/agents/` directory in your workspace (or `~/.kiro/agents/` for global agents)
+  2. Add a Markdown or JSON file - the filename becomes the agent name
+  For example, create `.kiro/agents/backend-dev.md`:
+  ```markdown
+  ---
+  name: backend-dev
+  description: Backend development specialist
+  model: claude-sonnet-4
+  tools: ["read", "write", "shell"]
+  permissions:
+    rules:
+      - capability: shell
+        match: ["npm *", "git *"]
+        effect: allow
+  ---
+  You are a backend engineer focused on Node.js and TypeScript.
+  Always use async/await. All database queries must be parameterized.
+  ```
+  Then switch to it using the agent picker in the chat pane header.

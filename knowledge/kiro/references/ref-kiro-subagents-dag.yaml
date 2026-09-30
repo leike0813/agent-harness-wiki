@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-subagents-dag
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-agents-subagents
+locator:
+  kind: document_section
+  heading: Task dependencies
+official_url: "https://kiro.dev/docs/custom-agents/subagents.md"
+excerpt: |-
+  Sub-agents support directed acyclic graphs (DAGs) where tasks depend on each other. The main agent plans the full task graph upfront, then executes in the right order - running independent tasks in parallel and waiting for dependencies before starting dependent ones.
+  ```text
+    ┌─────────────┐
+    │  1. Analyze  │
+    │ dependencies │
+    └──────┬───────┘
+           │
+    ┌──────▼───────┐
+    │ 2. Refactor  │
+    │   modules    │
+    └──────┬───────┘
+           │
+    ┌──────▼───────┐
+    │  3. Run and  │
+    │  fix tests   │
+    └──────────────┘
+  ```
+  **ℹ️ Info:** Task graphs are planned upfront and cannot be modified during execution. The agent determines the full DAG before any sub-agent starts running.

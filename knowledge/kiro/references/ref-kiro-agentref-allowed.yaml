@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-agentref-allowed
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-agents-config-ref
+locator:
+  kind: document_section
+  heading: AllowedTools field
+official_url: "https://kiro.dev/docs/custom-agents/configuration-reference.md"
+excerpt: |-
+  The `allowedTools` field specifies which tools can be used without prompting the user for permission. This is a security feature that helps prevent unauthorized tool usage.
+  ```json
+  {
+    "allowedTools": [
+      "read",
+      "write",
+      "@git/git_status",
+      "@server/read_*",
+      "@fetch"
+    ]
+  }
+  ```
+  You can allow tools using several patterns:
+  ### Exact matches
+  - **Built-in tools**: `"read"`, `"shell"`, `"knowledge"`
+  - **Specific MCP tools**: `"@server_name/tool_name"` (e.g., `"@git/git_status"`)
+  - **All tools from MCP server**: `"@server_name"` (e.g., `"@fetch"`)
+  ### Wildcard patterns
+  The `allowedTools` field supports glob-style wildcard patterns using `*` and `?`:
+  #### MCP tool patterns
+  - **Tool prefix**: `"@server/read_*"` - matches `@server/read_file`, `@server/read_config`

@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-agentref-mcpservers
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-agents-config-ref
+locator:
+  kind: document_section
+  heading: McpServers field
+official_url: "https://kiro.dev/docs/custom-agents/configuration-reference.md"
+excerpt: |-
+  The `mcpServers` field specifies which Model Context Protocol (MCP) servers the agent has access to. Each server is defined with a command and optional arguments.
+  ```json
+  {
+    "mcpServers": {
+      "fetch": {
+        "command": "fetch3.1",
+        "args": []
+      },
+      "git": {
+        "command": "git-mcp",
+        "args": [],
+        "env": {
+          "GIT_CONFIG_GLOBAL": "/dev/null"
+        },
+        "timeout": 120000
+      }
+    }
+  }
+  ```
+  Each MCP server configuration can include:
+  - `command` (required for local servers): The command to execute to start the MCP server
+  - `url` (for remote servers): The HTTP endpoint, with optional `headers` for authenticated endpoints
+  - `args` (optional): Arguments to pass to the command
+  - `env` (optional): Environment variables to set for the server.

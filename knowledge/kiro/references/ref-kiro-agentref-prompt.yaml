@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-agentref-prompt
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-agents-config-ref
+locator:
+  kind: document_section
+  heading: Prompt field
+official_url: "https://kiro.dev/docs/custom-agents/configuration-reference.md"
+excerpt: |-
+  The `prompt` field is intended to provide high-level context to the agent, similar to a system prompt. It supports both inline text and file:// URIs to reference external files.
+  ### Inline prompt
+  ```json
+  {
+    "prompt": "You are an expert AWS infrastructure specialist"
+  }
+  ```
+  ### File URI prompt
+  You can reference external files using `file://` URIs. This allows you to maintain long, complex prompts in separate files for better organization and version control, while keeping your agent configuration clean and readable.
+  ```json
+  {
+    "prompt": "file://./my-agent-prompt.md"
+  }
+  ```
+  #### File URI path resolution
+  - **Relative paths**: Resolved relative to the agent configuration file's directory
+    - `"file://./prompt.md"` - `prompt.md` in the same directory as the agent config

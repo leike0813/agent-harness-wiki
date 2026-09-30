@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-agentref-permissions
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-agents-config-ref
+locator:
+  kind: document_section
+  heading: Permissions field
+official_url: "https://kiro.dev/docs/custom-agents/configuration-reference.md"
+excerpt: |-
+  The `permissions` field provides inline capability-based policy rules embedded in the agent profile. This replaces the older `toolsSettings` approach for controlling what tools can do.
+  Rules use the same syntax as `permissions.yaml` files (see [Permissions](https://kiro.dev/docs/permissions.md)) but are scoped to this agent only.
+  ```json
+  {
+    "permissions": {
+      "rules": [
+        { "capability": "shell", "match": ["npm *", "git *"], "effect": "allow" },
+        { "capability": "fs_write", "match": ["src/**", "tests/**"], "effect": "allow" },
+        { "capability": "shell", "match": ["rm -rf *", "sudo *"], "effect": "deny" }
+      ]
+    }
+  }
+  ```
+  Each rule has:
+  | Field | Description |
+  |-------|-------------|

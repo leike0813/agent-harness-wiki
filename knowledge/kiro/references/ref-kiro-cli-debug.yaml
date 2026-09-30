@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-cli-debug
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-cli-setup
+locator:
+  kind: document_section
+  heading: Debugging and troubleshooting
+official_url: "https://kiro.dev/docs/cli/setup.md"
+excerpt: |-
+  If you're having a problem with Kiro CLI, run `kiro-cli doctor` to identify and fix common issues.
+  ### Expected output
+  ```bash
+  $ kiro-cli doctor
+  ✔ Everything looks good!
+  Kiro CLI still not working? Run kiro-cli issue to let us know!
+  ```
+  If your output doesn't look like the expected output, follow the prompts to resolve your issue.
+  ### Log file locations
+  Kiro CLI writes logs to platform-specific locations:
+  | Platform | Path |
+  |----------|------|
+  | macOS | `$TMPDIR/kiro-log/kiro-chat.log` |
+  | Linux | `$XDG_RUNTIME_DIR/kiro-log/kiro-chat.log` |
+  | Windows | `%TEMP%\kiro-log\logs\kiro-chat.log` |
+  Override the log path with the `KIRO_CHAT_LOG_FILE` environment variable:
+  ```bash
+  KIRO_CHAT_LOG_FILE=/tmp/my-debug.log kiro-cli chat
+  ```
+  On Windows (PowerShell):
+  ```powershell

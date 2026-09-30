@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-agentref-resources
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-agents-config-ref
+locator:
+  kind: document_section
+  heading: Resources field
+official_url: "https://kiro.dev/docs/custom-agents/configuration-reference.md"
+excerpt: |-
+  The `resources` field gives an agent access to local resources. Resources can be files, skills, or knowledge bases.
+  ```json
+  {
+    "resources": [
+      "file://README.md",
+      "file://.kiro/steering/**/*.md",
+      "skill://.kiro/skills/**/SKILL.md"
+    ]
+  }
+  ```
+  Resources support different types via URI schemes:
+  - `file://` - Files loaded directly into context at startup
+  - `skill://` - Skills with metadata loaded at startup, full content loaded on demand
+  Both support:
+  - Specific paths: `file://README.md` or `skill://my-skill.md`
+  - Glob patterns: `file://.kiro/**/*.md` or `skill://.kiro/skills/**/SKILL.md`
+  - Absolute or relative paths
+  ### File resources
+  File resources are loaded directly into the agent's context when the agent starts. Use these for content the agent always needs.
+  ```json
+  {

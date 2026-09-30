@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-permissions-capabilities
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-permissions
+locator:
+  kind: document_section
+  heading: How it works
+official_url: "https://kiro.dev/docs/permissions.md"
+excerpt: |-
+  The permissions system is built around three core concepts:
+  | Concept | Description |
+  |---------|-------------|
+  | **Capabilities** | `fs_read`, `fs_write`, `shell`, `web_fetch`, `web_search`, `mcp`, `subagent`, `skill`, `power`, `context`, `diagnostics`, `sandbox_network`. Meta-capabilities expand: `all` (everything), `builtin` (all built-in tools), `filesystem` (`fs_read` + `fs_write`) |
+  | **Effects** | `deny` (block always), `ask` (prompt you), `allow` (proceed silently) |
+  | **Priority** | deny > ask > allow - a deny rule always wins regardless of scope |
+  Additional rule properties:
+  | Property | Description |
+  |----------|-------------|
+  | **Match patterns** | Glob patterns scoping the rule (file paths for fs, command prefixes for shell, server/tool names for MCP) |

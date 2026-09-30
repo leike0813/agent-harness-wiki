@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-subagents-access
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-agents-subagents
+locator:
+  kind: document_section
+  heading: Configuring sub-agent access
+official_url: "https://kiro.dev/docs/custom-agents/subagents.md"
+excerpt: |-
+  Control which agents can be spawned and which run without approval prompts using `toolsSettings.subagent` in your [agent configuration](https://kiro.dev/docs/custom-agents/configuration-reference.md):
+  ```json
+  {
+    "toolsSettings": {
+      "subagent": {
+        "availableAgents": ["reviewer", "tester", "docs-*"],
+        "trustedAgents": ["reviewer", "tester"]
+      }
+    }
+  }
+  ```
+  | Field | Description |
+  |-------|-------------|
+  | `availableAgents` | Glob patterns for agents this agent can spawn. Omit to allow all. |
+  | `trustedAgents` | Agents that run without permission prompts. |
+  To restrict the tools a sub-agent can use, configure `tools` in the **sub-agent's own config file** rather than in the parent.

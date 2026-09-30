@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-mcp-agent
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-mcp
+locator:
+  kind: document_section
+  heading: Agent configuration
+official_url: "https://kiro.dev/docs/mcp.md"
+excerpt: |-
+  You can also define MCP servers directly in an agent's configuration file. The `mcpServers` field specifies which MCP servers the agent has access to:
+  ```json
+  {
+    "name": "myagent",
+    "description": "My special agent",
+    "mcpServers": {
+      "fetch": {
+        "command": "fetch3.1",
+        "args": []
+      }
+    },
+    "includeMcpJson": false
+  }
+  ```
+  The `includeMcpJson` field determines whether to include MCP servers defined in workspace and user-level configuration files. When set to `true`, the agent has access to all MCP servers defined in user and workspace-level configurations in addition to those defined in the agent's `mcpServers` field.

@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-headless-agent
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-headless
+locator:
+  kind: document_section
+  heading: Agent selection
+official_url: "https://kiro.dev/docs/cli/headless.md"
+excerpt: |-
+  Pass `--agent <name>` to run a non-interactive command with a specific agent. Without `--agent`, a new V3 run uses `chat.defaultAgent` when configured, then falls back to the built-in default. Without an explicit model, a new V3 run applies `chat.defaultModel` when configured; a selected agent that specifies a model can override it. V2 resolves its default agent and model internally.
+  ```bash
+  kiro-cli settings chat.defaultAgent my-project-agent
+  kiro-cli chat --v3 --no-interactive "Write tests for the auth module"  # runs on my-project-agent
+  ```
+  A resumed session keeps the agent and model it was created with instead of applying `chat.defaultAgent` or `chat.defaultModel`.

@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-hooks-confirm
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-hooks
+locator:
+  kind: document_section
+  heading: Confirmation prompts
+official_url: "https://kiro.dev/docs/hooks.md"
+excerpt: |-
+  A command hook on the `Stop` trigger can ask before it runs. Add a `confirm` block with the question to ask and the options to present:
+  ```json
+  {
+    "version": "v1",
+    "hooks": [
+      {
+        "name": "Submit session results",
+        "trigger": "Stop",
+        "action": { "type": "command", "command": "./submit.sh" },
+        "confirm": {
+          "question": "Submit this session's results?",
+          "options": [
+            { "id": "submit", "label": "Yes, submit", "run": true },
+            { "id": "dismiss", "label": "Not this time", "run": false }
+          ]
+        }
+      }
+    ]
+  }
+  ```
+  Each option has an `id`, a `label` shown on the button, and a `run` flag that controls whether the hook's command executes when that option is chosen.
+  #### Dynamic confirm options with `confirmCommand`

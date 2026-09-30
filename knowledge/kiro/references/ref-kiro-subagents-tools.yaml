@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-subagents-tools
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-agents-subagents
+locator:
+  kind: document_section
+  heading: Tool availability
+official_url: "https://kiro.dev/docs/custom-agents/subagents.md"
+excerpt: |-
+  The default sub-agent has the same built-in tools as the main agent - `read`, `write`, `shell`, `web_search`, `web_fetch`, and any configured MCP tools.
+  When you delegate to a custom agent, the sub-agent uses that agent's `tools` and `permissions` configuration. Tools not listed in the custom agent's config won't be available to the sub-agent.
+  **ℹ️ Custom orchestrator agents need the subagent tool:** If you're building a custom agent that will spawn sub-agents, include `subagent` in its `tools` array (or use `@builtin`). Without it, the agent can't delegate.

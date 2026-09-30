@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-2x-hooks
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-cli-2x
+locator:
+  kind: document_section
+  heading: Hooks
+official_url: "https://kiro.dev/docs/cli/2x-reference.md"
+excerpt: |-
+  In CLI 2.x, hooks were embedded directly in the agent configuration file rather than in standalone files.
+  ### Format
+  ```json
+  {
+    "hooks": {
+      "agentSpawn": [{"command": "echo 'starting'", "matcher": ".*"}],
+      "preToolUse": [{"command": "npm run lint", "matcher": "Write|Edit"}],
+      "fileEdited": [{"command": "prettier --write", "matcher": "\\.ts$"}]
+    }
+  }
+  ```
+  Each trigger name maps to an array of hook definitions. Each definition has:
+  | Field | Description |
+  |-------|-------------|
+  | `command` | Shell command to execute |
+  | `matcher` | Regex pattern for filtering (what it matches depends on the trigger) |
+  ### Available triggers
+  | Trigger | Fires when | `matcher` matches |
+  |---------|-----------|-------------------|
+  | `agentSpawn` | Agent is activated | Not evaluated |

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-powers-how
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-powers
+locator:
+  kind: document_section
+  heading: How powers work
+official_url: "https://kiro.dev/docs/powers.md"
+excerpt: |-
+  Instead of loading all MCP tools at once, powers activate dynamically based on keywords in your conversation.
+  ``` mermaid
+  flowchart TD
+      A["User starts task:<br/>'Add a database on Supabase'"] --> B["Kiro analyzes task"]
+      B --> C{"Which powers<br/>are relevant?"}
+      C -->|Relevant| D["Supabase power<br/>activated"]
+      C -->|Not relevant| E["Other powers<br/>not loaded"]
+      D --> I["Agent Context<br/>Only relevant tools"]
+      I --> J["Fast responses<br/>High quality<br/>Focused suggestions"]
+      style D fill:#51cf66,stroke:#2f9e44,stroke-width:2px
+      style I fill:#51cf66,stroke:#2f9e44,stroke-width:2px
+      style J fill:#51cf66,stroke:#2f9e44,stroke-width:2px
+  ```
+  When you start a task, Kiro:
+  1. Reads the task description
+  2. Evaluates installed powers against the task
+  3.

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-hookmigration-matcher
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-hooks-migration
+locator:
+  kind: document_section
+  heading: Matcher semantics by trigger
+official_url: "https://kiro.dev/docs/cli/v3/hooks-migration.md"
+excerpt: |-
+  The `matcher` field is a regex pattern, but what it matches against depends on the trigger:
+  | Trigger | `matcher` matches against |
+  |---------|--------------------------|
+  | `PostFileSave`, `PostFileCreate`, `PostFileDelete` | File path (e.g., `\\.ts$`, `src/.*`) |
+  | `PreToolUse`, `PostToolUse` | Tool name (e.g., `write`, `shell`, `write\|read`) |
+  | `UserPromptSubmit` | Prompt text content |
+  | `SessionStart`, `Stop`, `PreTaskExec`, `PostTaskExec`, `Manual` | Not evaluated — hook always fires |
+  Regex patterns from CLI 2.x transfer directly. The `}` template variable is available only in the new format for file-related triggers.
+  Once your files are in `.kiro/hooks/`, Kiro picks them up automatically.

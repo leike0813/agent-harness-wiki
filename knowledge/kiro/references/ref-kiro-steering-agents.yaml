@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-steering-agents
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-steering
+locator:
+  kind: document_section
+  heading: Steering with custom agents
+official_url: "https://kiro.dev/docs/steering.md"
+excerpt: |-
+  When using [custom agents](https://kiro.dev/docs/custom-agents/creating.md), steering files are not automatically included. You must explicitly add them to the agent's `resources` configuration to load steering context.
+  To include all steering files in a custom agent, add the following to your agent configuration:
+  ```json
+  {
+    "resources": ["file://.kiro/steering/**/*.md"]
+  }
+  ```
+  This glob pattern ensures all markdown files in your steering directory are loaded when using the agent. See the [custom agents documentation](https://kiro.dev/docs/custom-agents/creating.md) for a complete configuration example.

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-mcpfile-troubleshooting
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-mcp-configuration
+locator:
+  kind: document_section
+  heading: Troubleshooting configuration
+official_url: "https://kiro.dev/docs/mcp/configuration.md"
+excerpt: |-
+  1. **Validate JSON syntax**
+     - Ensure your JSON is valid with no syntax errors
+     - Check for missing commas, quotes, or brackets
+     - Use a JSON validator or linter
+  2. **Verify command paths**
+     - Make sure the command specified exists in your PATH
+     - Try running the command directly in your terminal
+  3. **Check environment variables**
+     - Verify that all required environment variables are set
+     - Check for typos in environment variable names
+  4. **OAuth issuer mismatch**
+     - If an OAuth-protected server fails to connect, the authorization server URL your MCP server advertises may not exactly match the `issuer` value in the authorization-server metadata.
+     - Fetch `/.well-known/oauth-protected-resource` from your MCP server. Note the URL in `authorization_servers[0]`.

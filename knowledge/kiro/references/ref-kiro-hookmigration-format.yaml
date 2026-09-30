@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-hookmigration-format
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-hooks-migration
+locator:
+  kind: document_section
+  heading: New format
+official_url: "https://kiro.dev/docs/cli/v3/hooks-migration.md"
+excerpt: |-
+  Each hooks file is a standalone `.kiro/hooks/*.json` file:
+  ```json
+  {
+    "version": "v1",
+    "hooks": [
+      {
+        "name": "lint-on-save",
+        "trigger": "PostFileSave",
+        "matcher": "\\.ts$",
+        "action": { "type": "command", "command": "npm run lint" },
+        "timeout": 30,
+        "enabled": true
+      },
+      {
+        "name": "format-on-save",
+        "trigger": "PostFileSave",
+        "matcher": "\\.ts$",
+        "action": { "type": "command", "command": "prettier --write {{filePath}}" },
+        "timeout": 10,
+        "enabled": true
+      }
+    ]
+  }
+  ```
+  Matcher syntax is unchanged — regex patterns from 2.x transfer directly. The `}` template variable is new in 3.0 and only available in the new format.

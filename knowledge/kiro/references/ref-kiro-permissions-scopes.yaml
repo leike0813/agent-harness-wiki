@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-permissions-scopes
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-permissions
+locator:
+  kind: document_section
+  heading: Scopes
+official_url: "https://kiro.dev/docs/permissions.md"
+excerpt: |-
+  Permissions are evaluated across multiple scopes.
+  | Scope | Location | Allowed effects |
+  |-------|----------|-----------------|
+  | Kiro | Hardcoded security invariants (cannot be changed by configuration) | deny, ask |
+  | administration | [Enterprise permission policies](https://kiro.dev/docs/enterprise/governance/permissions.md) in `managed-settings.json` | deny, ask |
+  | user | `~/.kiro/settings/permissions.yaml` | deny, ask, allow |
+  | workspace | `~/.kiro/workspace-roots/<hash>/permissions.yaml` | deny, ask, allow |
+  | agent | Embedded in agent profile (`permissions` field) | deny, ask, allow |
+  | session | In-memory rules from consent decisions during the session | deny, ask, allow |
+  Rules are evaluated using a deny-overrides algorithm: deny > ask > allow.
