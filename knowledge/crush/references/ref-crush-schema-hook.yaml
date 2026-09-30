@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-schema-hook
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: schema.json
+  start: 114
+  end: 150
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  "HookConfig": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Friendly display name shown in the TUI for this hook"
+          },
+          "matcher": {
+            "type": "string",
+            "description": "Regex pattern tested against the tool name. Empty means match all tools."
+          },
+          "command": {
+            "type": "string",
+            "description": "Shell command to execute when the hook fires"
+          },
+          "timeout": {
+            "type": "integer",
+            "description": "Timeout in seconds for the hook command",
+            "default": 30
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "command"
+        ]
+      },
+      "LSPConfig": {
+        "properties": {

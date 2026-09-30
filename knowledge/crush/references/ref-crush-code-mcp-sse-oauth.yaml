@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-sse-oauth
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/mcp/init.go
+  start: 1345
+  end: 1400
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  type oauthRoundTripper struct {
+  	base    http.RoundTripper
+  	handler auth.OAuthHandler
+  }
+  func newOAuthRoundTripper(handler auth.OAuthHandler, base http.RoundTripper) *oauthRoundTripper {
+  	return &oauthRoundTripper{base: base, handler: handler}
+  }
+  func (rt *oauthRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
+  	resp, err := rt.doRequestWithToken(req)
+  	if err != nil {
+  		return nil, err
+  	}
+  	if resp.StatusCode == http.StatusUnauthorized || resp.StatusCode == http.StatusForbidden {
+  		if authErr := rt.handler.Authorize(req.Context(), req, resp); authErr != nil {
+  			return resp, nil
+  		}
+  		resp.Body.Close()
+  		return rt.doRequestWithToken(req.Clone(req.Context()))
+  	}
+  	return resp, nil
+  }
+  func (rt *oauthRoundTripper) doRequestWithToken(req *http.Request) (*http.Response, error) {

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-retry-401
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/coordinator.go
+  start: 1507
+  end: 1552
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (c *coordinator) refreshTokenIfExpired(ctx context.Context, providerCfg config.ProviderConfig) error {
+  	if providerCfg.OAuthToken == nil || !providerCfg.OAuthToken.IsExpired() {
+  		return nil
+  	}
+  	slog.Debug("Token needs to be refreshed", "provider", providerCfg.ID)
+  	return c.refreshOAuth2Token(ctx, providerCfg)
+  }
+  // retryAfterUnauthorized attempts to refresh credentials after an auth error
+  // and returns nil if the request should be retried. For OAuth providers whose
+  // refresh token is revoked, and for Bedrock providers whose AWS SSO session
+  // has expired, it triggers interactive re-authentication and blocks until the
+  // user completes it (or the context is cancelled).
+  func (c *coordinator) retryAfterUnauthorized(ctx context.Context, providerCfg config.ProviderConfig) error {

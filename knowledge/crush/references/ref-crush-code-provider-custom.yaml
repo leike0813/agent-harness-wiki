@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-provider-custom
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/load.go
+  start: 474
+  end: 535
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  continue
+  		}
+  		apiKey, err := resolver.ResolveValue(providerConfig.APIKey)
+  		if apiKey == "" || err != nil {
+  			slog.Warn("Provider is missing API key, this might be OK for local providers", "provider", id)
+  		}
+  		baseURL, err := resolver.ResolveValue(providerConfig.BaseURL)
+  		if baseURL == "" || err != nil {
+  			slog.Warn("Skipping custom provider due to missing API endpoint", "provider", id, "error", err)
+  			c.Providers.Del(id)
+  			continue
+  		}
+  		// Apply discovery results if available.
+  		if result, ok := discoveryResults[id]; ok {
+  			if result.err != nil {
+  				slog.Warn("Model discovery failed", "provider", id, "error", result.err)
+  				if len(providerConfig.Models) == 0 {
+  					slog.Warn("Skipping provider with no models after failed discovery", "provider", id)
+  					c.Providers.Del(id)

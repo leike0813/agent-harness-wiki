@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-ping
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/mcp/init.go
+  start: 888
+  end: 905
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func pingSession(ctx context.Context, s *ClientSession, timeout time.Duration) error {
+  	pingCtx, cancel := context.WithTimeout(ctx, timeout)
+  	defer cancel()
+  	return s.Ping(pingCtx, nil)
+  }
+  // closeSession closes an MCP session, logging only unexpected errors. EOF,
+  // context cancellation, and a killed child are the ordinary result of tearing
+  // a session down and are not worth surfacing.
+  func closeSession(name string, s *ClientSession) {
+  	if err := s.Close(); err != nil &&
+  		!errors.Is(err, io.EOF) &&
+  		!errors.Is(err, context.Canceled) &&
+  		err.Error() != "signal: killed" {
+  		slog.Warn("Error closing MCP session", "name", name, "error", err)
+  	}
+  }

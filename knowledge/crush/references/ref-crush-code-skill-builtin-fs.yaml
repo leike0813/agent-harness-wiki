@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-skill-builtin-fs
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/skills/embed.go
+  start: 12
+  end: 60
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  const BuiltinPrefix = "crush://skills/"
+  //go:embed builtin/*
+  var builtinFS embed.FS
+  // BuiltinFS returns the embedded filesystem containing builtin skills.
+  func BuiltinFS() embed.FS {
+  	return builtinFS
+  }
+  // DiscoverBuiltin finds all valid skills embedded in the binary.
+  func DiscoverBuiltin() []*Skill {
+  	skills, _ := DiscoverBuiltinWithStates()
+  	return skills
+  }
+  // DiscoverBuiltinWithStates is like DiscoverBuiltin but additionally returns
+  // a per-file state slice describing parse/validation outcomes. Useful for
+  // diagnostics.
+  func DiscoverBuiltinWithStates() ([]*Skill, []*SkillState) {
+  	var discovered []*Skill
+  	var states []*SkillState
+  	fs.WalkDir(builtinFS, "builtin", func(path string, d fs.DirEntry, err error) error {
+  		if err != nil {
+  			return nil
+  		}

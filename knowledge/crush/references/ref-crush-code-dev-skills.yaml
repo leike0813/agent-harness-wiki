@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-dev-skills
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: ".agents/skills/shell-builtins/SKILL.md"
+  start: 1
+  end: 20
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  ---
+  name: shell-builtins
+  description: Use when creating a new shell builtin command for Crush (internal/shell/), editing an existing one, or when the user needs to understand how commands are intercepted in Crush's embedded shell.
+  ---
+  # Shell Builtins
+  Crush's shell (`internal/shell/`) uses `mvdan.cc/sh/v3` for POSIX shell
+  emulation. Commands can be intercepted before they reach the OS by adding
+  **builtins** — functions handled in-process.
+  ## How Builtins Work
+  Builtins live in `builtinHandler()` in `internal/shell/run.go`. This is an
+  `interp.ExecHandlerFunc` middleware registered in `standardHandlers()`
+  **before** the block handler, so builtins run even for commands that would
+  otherwise be blocked. The same handler chain is shared by the stateful

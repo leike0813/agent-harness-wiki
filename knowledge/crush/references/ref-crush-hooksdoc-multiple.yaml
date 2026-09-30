@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-hooksdoc-multiple
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: Multiple Hooks
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  Hooks run in parallel, but their results compose in config order. Whichever hook
+  finishes first doesn't get to "win" by virtue of timing; composition is
+  deterministic based on the order hooks appear in `crush.json`.
+  When multiple hooks match the same tool call:
+  - If **any** hook denies, the tool call is blocked. `reason` values are
+    concatenated in config order (newline-separated).
+  - If **any** hook halts, the turn ends after the tool call is blocked.
+  - If no hook denies or halts but at least one allows, the tool call proceeds
+    **and the permission prompt is skipped**.
+  - `context` values are concatenated in config order. Strings and arrays compose
+    uniformly — each string becomes one entry, and array entries are flattened in.

@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-skill-read
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/skills/catalog.go
+  start: 76
+  end: 105
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func ReadContent(active []*Skill, skillPaths []string, workingDir string, skillID string) ([]byte, SkillReadResult, error) {
+  	skill, err := FindEffective(active, skillID)
+  	if err != nil {
+  		return nil, SkillReadResult{}, err
+  	}
+  	_, source := skillLabel(skillPaths, workingDir, skill)
+  	result := SkillReadResult{
+  		Name:        skill.Name,
+  		Description: skill.Description,
+  		Source:      source,
+  		Builtin:     skill.Builtin,
+  	}
+  	if skill.Builtin {
+  		embeddedPath := "builtin/" + strings.TrimPrefix(skill.SkillFilePath, BuiltinPrefix)
+  		content, err := BuiltinFS().ReadFile(embeddedPath)
+  		if err != nil {
+  			return nil, SkillReadResult{}, fmt.Errorf("read builtin skill %q: %w", skillID, err)
+  		}
+  		return content, result, nil
+  	}
+  	content, err := os.ReadFile(skill.SkillFilePath)
+  	if err != nil {

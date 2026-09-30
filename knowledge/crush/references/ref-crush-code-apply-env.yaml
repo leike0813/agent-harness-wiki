@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-apply-env
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/load.go
+  start: 535
+  end: 556
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (c *Config) applyEnv(resolver VariableResolver) {
+  	keys := make([]string, 0, len(c.Env))
+  	for k := range c.Env {
+  		keys = append(keys, k)
+  	}
+  	slices.Sort(keys)
+  	for _, k := range keys {
+  		resolved, err := resolver.ResolveValue(c.Env[k])
+  		if err != nil {
+  			slog.Warn("Skipping env var due to resolution failure.", "key", k, "value", c.Env[k], "error", err)
+  			continue
+  		}
+  		os.Setenv(k, resolved)
+  	}
+  }
+  // NormalizeOptions allocates Options and Options.TUI and fills in the option
+  // defaults the UI relies on, so readers can dereference them without guarding.
+  // Configs loaded from disk get this via setDefaults; configs arriving over the
+  // wire from a Crush server need the same treatment before the UI reads them.
+  //

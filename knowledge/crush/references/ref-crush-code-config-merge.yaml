@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-config-merge
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/load.go
+  start: 991
+  end: 1055
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  continue
+  		}
+  		data, err := os.ReadFile(path)
+  		if err != nil {
+  			if os.IsNotExist(err) {
+  				continue
+  			}
+  			return nil, nil, fmt.Errorf("failed to open config file %s: %w", path, err)
+  		}
+  		if len(data) == 0 {
+  			continue
+  		}
+  		dir := filepath.Dir(path)
+  		if isShellConfig(path) {
+  			jsonBytes, err := shellconfig.LoadShellConfig(ctx, path, data)
+  			if err != nil {
+  				return nil, nil, fmt.Errorf("failed to load shell config %s: %w", path, err)
+  			}
+  			if len(jsonBytes) > 0 {
+  				if !json.Valid(jsonBytes) {
+  					return nil, nil, fmt.Errorf("shell config %s produced invalid JSON", path)
+  				}
+  				addTopLevelKeys(shDirKeys, dir, jsonBytes)
+  				configs = append(configs, jsonBytes)
+  				loaded = append(loaded, path)
+  			}
+  		} else {
+  			if !json.Valid(data) {

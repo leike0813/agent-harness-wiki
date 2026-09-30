@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-context-threshold-use
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/agent.go
+  start: 1090
+  end: 1115
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  return sessionErr
+  			}
+  			currentSession = updatedSession
+  			return a.messages.Update(genCtx, *currentAssistant)
+  		},
+  		StopWhen: []fantasy.StopCondition{
+  			func(_ []fantasy.StepResult) bool {
+  				cw := int64(largeModel.CatwalkCfg.ContextWindow)
+  				// If context window is unknown (0), skip auto-summarize
+  				// to avoid immediately truncating custom/local models.
+  				if cw == 0 {
+  					return false
+  				}
+  				tokens := currentSession.CompletionTokens + currentSession.PromptTokens
+  				remaining := cw - tokens
+  				var threshold int64
+  				if cw > largeContextWindowThreshold {
+  					threshold = largeContextWindowBuffer
+  				} else {
+  					threshold = int64(float64(cw) * smallContextWindowRatio)
+  				}
+  				if (remaining <= threshold) && !a.disableAutoSummarize {
+  					shouldSummarize = true

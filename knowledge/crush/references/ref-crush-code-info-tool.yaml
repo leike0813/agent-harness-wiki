@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-info-tool
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/crush_info.go
+  start: 18
+  end: 60
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  const CrushInfoToolName = "crush_info"
+  //go:embed crush_info.md
+  var crushInfoDescription string
+  type CrushInfoParams struct{}
+  func NewCrushInfoTool(
+  	cfg *config.ConfigStore,
+  	lspManager *lsp.Manager,
+  	allSkills []*skills.Skill,
+  	activeSkills []*skills.Skill,
+  	skillTracker *skills.Tracker,
+  ) fantasy.AgentTool {
+  	return fantasy.NewAgentTool(
+  		CrushInfoToolName,
+  		crushInfoDescription,
+  		func(ctx context.Context, _ CrushInfoParams, _ fantasy.ToolCall) (fantasy.ToolResponse, error) {
+  			return fantasy.NewTextResponse(buildCrushInfo(cfg, lspManager, allSkills, activeSkills, skillTracker)), nil
+  		},
+  	)
+  }
+  func buildCrushInfo(cfg *config.ConfigStore, lspManager *lsp.Manager, allSkills []*skills.Skill, activeSkills []*skills.Skill, skillTracker *skills.Tracker) string {
+  	var b strings.Builder

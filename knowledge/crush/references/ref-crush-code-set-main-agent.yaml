@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-set-main-agent
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/coordinator.go
+  start: 264
+  end: 288
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (c *coordinator) activeAgent() (SessionAgent, string) {
+  	c.agentMu.RLock()
+  	defer c.agentMu.RUnlock()
+  	return c.mainAgent, c.mainAgentName
+  }
+  // currentAgent returns the current main agent.
+  func (c *coordinator) currentAgent() SessionAgent {
+  	agent, _ := c.activeAgent()
+  	return agent
+  }
+  func (c *coordinator) SetMainAgent(agentName string) error {
+  	c.agentMu.Lock()
+  	defer c.agentMu.Unlock()
+  	agent, ok := c.agents[agentName]
+  	if !ok {
+  		return fmt.Errorf("%w: %s", errMainAgentNotFound, agentName)
+  	}
+  	c.mainAgent = agent
+  	c.mainAgentName = agentName
+  	return nil
+  }
+  // Run implements Coordinator.

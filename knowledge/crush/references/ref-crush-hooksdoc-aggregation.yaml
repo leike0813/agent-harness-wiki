@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-hooksdoc-aggregation
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: Aggregation
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  When multiple hooks match the same event, results compose in **config order**.
+  Universal rules:
+  1. `halt` is sticky: if any hook halts, the turn ends.
+  2. `reason` values concatenate with `\n` in config order. Halt-only hooks
+     without a deny still contribute their reason.
+  3. `context` values concatenate with `\n` in config order. String entries and
+     array entries flatten uniformly.
+  PreToolUse-specific rules:
+  4. `decision` precedence: `deny` > `allow` > `null`. First deny determines the
+     outcome; subsequent allows don't override. If the final aggregated decision
+     is `allow`, Crush pre-approves the tool call and skips the permission
+     prompt. If it's `null` (no hook allowed), the tool goes through the normal
+     permission flow.
+  5.

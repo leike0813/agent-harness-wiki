@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-global-paths
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/load.go
+  start: 1210
+  end: 1282
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func GlobalConfig() string {
+  	if crushGlobal := os.Getenv("CRUSH_GLOBAL_CONFIG"); crushGlobal != "" {
+  		return filepath.Join(crushGlobal, fmt.Sprintf("%s.json", appName))
+  	}
+  	return filepath.Join(home.Config(), appName, fmt.Sprintf("%s.json", appName))
+  }
+  // shellConfigSibling returns the crushrc path that sits alongside a given
+  // crush.json path (same directory). Used so global config locations pick up a
+  // shell config, not just JSON.
+  func shellConfigSibling(jsonPath string) string {
+  	return filepath.Join(filepath.Dir(jsonPath), appName+"rc")
+  }
+  // isShellConfig reports whether a config path is a shell config (crushrc or
+  // the hidden .crushrc), as opposed to a JSON config.
+  func isShellConfig(path string) bool {
+  	base := filepath.Base(path)

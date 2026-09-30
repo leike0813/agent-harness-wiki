@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-skill-struct
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/skills/skills.go
+  start: 22
+  end: 52
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  const (
+  	SkillFileName          = "SKILL.md"
+  	MaxNameLength          = 64
+  	MaxDescriptionLength   = 1024
+  	MaxCompatibilityLength = 500
+  )
+  var (
+  	namePattern    = regexp.MustCompile(`^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$`)
+  	promptReplacer = strings.NewReplacer("&", "&amp;", "<", "&lt;", ">", "&gt;", "\"", "&quot;", "'", "&apos;")
+  	latestStates   []*SkillState
+  	latestStatesMu sync.RWMutex
+  )
+  // Skill represents a parsed SKILL.md file.
+  type Skill struct {
+  	Name                   string            `yaml:"name" json:"name"`
+  	Description            string            `yaml:"description" json:"description"`
+  	UserInvocable          bool              `yaml:"user-invocable" json:"user_invocable"`
+  	DisableModelInvocation bool              `yaml:"disable-model-invocation" json:"disable_model_invocation"`

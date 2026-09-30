@@ -1,0 +1,42 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-skill-command-run
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/ui/model/ui.go
+  start: 2504
+  end: 2545
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func() tea.Msg {
+  				fimage.ResetCache()
+  				return nil
+  			},
+  		))
+  	case dialog.ActionRunCustomCommand:
+  		if len(msg.Arguments) > 0 && msg.Args == nil {
+  			m.dialog.CloseFrontDialog()
+  			argsDialog := dialog.NewArguments(
+  				m.com,
+  				"Custom Command Arguments",
+  				"",
+  				msg.Arguments,
+  				msg, // Pass the action as the result
+  			)
+  			m.dialog.OpenDialog(argsDialog)
+  			break
+  		}
+  		content := msg.Content
+  		if msg.Args != nil {
+  			content = substituteArgs(content, msg.Args)
+  		}
+  		// If this is a skill command, format it using the skill's FormatInvocation method
+  		if msg.Skill != nil {
+  			content = msg.Skill.FormatInvocation()
+  		}
+  		cmds = append(cmds, m.sendMessage(content))
+  		m.dialog.CloseFrontDialog()
+  	case dialog.ActionAttachSkill:
+  		m.dialog.CloseFrontDialog()

@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-hook-validate
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/load.go
+  start: 1431
+  end: 1469
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func normalizeHookEvent(name string) string {
+  	switch strings.ToLower(strings.ReplaceAll(name, "_", "")) {
+  	case "pretooluse":
+  		return "PreToolUse"
+  	default:
+  		return name
+  	}
+  }
+  // ValidateHooks normalizes event names and checks that every configured
+  // hook has a command and a syntactically valid matcher regex. Matcher
+  // compilation used for matching is owned by hooks.Runner; this function
+  // only validates up front so the user sees config errors at load time
+  // rather than on the first tool call.
+  func (c *Config) ValidateHooks() error {
+  	// Normalize event name keys.
+  	for event, eventHooks := range c.Hooks {
+  		canonical := normalizeHookEvent(event)
+  		if canonical != event {
+  			c.Hooks[canonical] = append(c.Hooks[canonical], eventHooks...)
+  			delete(c.Hooks, event)
+  		}
+  	}

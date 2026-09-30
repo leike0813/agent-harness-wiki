@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-request-timeout-error
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/request_timeout.go
+  start: 11
+  end: 44
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // requestTimeoutError reports that an LLM request exhausted its configured
+  // request_timeout budget. For streaming requests this is an idle timeout:
+  // it only fires when the provider sends nothing for the whole window, so a
+  // slow but actively streaming response is never killed. It wraps the
+  // underlying error so callers can still match [context.DeadlineExceeded]
+  // through the chain.
+  type requestTimeoutError struct {
+  	timeout time.Duration
+  	idle    bool
+  	cause   error
+  }
+  func (e *requestTimeoutError) Error() string {
+  	msg := fmt.Sprintf("LLM request timed out after %s", e.timeout)
+  	if e.idle {
+  		msg = fmt.Sprintf("LLM stream received no data for %s", e.timeout)
+  	}
+  	if e.cause != nil {
+  		return fmt.Sprintf("%s: %v", msg, e.cause)
+  	}
+  	return msg
+  }

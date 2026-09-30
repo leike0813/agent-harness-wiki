@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-system-config-win
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/config_windows.go
+  start: 1
+  end: 10
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  //go:build windows
+  package config
+  // systemConfigPath is empty on Windows: there is no system-wide config.
+  // loadFromConfigPaths skips paths that do not exist, so no special-case
+  // handling is needed.
+  const systemConfigPath = ""

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-skill-validate
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/skills/skills.go
+  start: 118
+  end: 148
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (s *Skill) Validate() error {
+  	var errs []error
+  	if s.Name == "" {
+  		errs = append(errs, errors.New("name is required"))
+  	} else {
+  		if len(s.Name) > MaxNameLength {
+  			errs = append(errs, fmt.Errorf("name exceeds %d characters", MaxNameLength))
+  		}
+  		if !namePattern.MatchString(s.Name) {
+  			errs = append(errs, errors.New("name must be alphanumeric with hyphens, no leading/trailing/consecutive hyphens"))
+  		}
+  		if s.Path != "" && !strings.EqualFold(filepath.Base(s.Path), s.Name) {
+  			errs = append(errs, fmt.Errorf("name %q must match directory %q", s.Name, filepath.Base(s.Path)))
+  		}
+  	}
+  	if s.Description == "" {
+  		errs = append(errs, errors.New("description is required"))
+  	} else if len(s.Description) > MaxDescriptionLength {

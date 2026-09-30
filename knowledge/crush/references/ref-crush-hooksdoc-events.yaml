@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-hooksdoc-events
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: Events
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  Here are the events you can hook into (spoiler: there's currently just one):
+  ### PreToolUse
+  This hook fires before every tool call. Use it to block dangerous commands,
+  enforce policies, rewrite tool input, inject context the model should see, log
+  stuff, and so on.
+  **Matched against**: the tool name (e.g. `bash`, `edit`, `write`,
+  `mcp_github_create_pull_request`).
+  > [!NOTE]
+  > Event names are case insensitive and snake-caseable, so `PreToolUse`,
+  > `pretooluse`, `PRETOOLUSE`, `pre_tool_use`, and `PRE_TOOL_USE` all work.
+  **Scope**: `PreToolUse` only fires on the **top-level agent's** tool calls.
+  Sub-agents (the `agent` task tool, `agentic_fetch`, etc.) run without hook
+  interception so a single delegated turn doesn't trigger your hook N times. The

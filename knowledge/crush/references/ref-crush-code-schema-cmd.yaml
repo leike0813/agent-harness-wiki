@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-schema-cmd
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/cmd/schema.go
+  start: 17
+  end: 45
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  Short:  "Generate JSON schema for configuration",
+  	Long:   "Generate JSON schema for the crush configuration file",
+  	Hidden: true,
+  	RunE: func(cmd *cobra.Command, args []string) error {
+  		reflector := new(jsonschema.Reflector)
+  		schema := reflector.Reflect(&config.Config{})
+  		setProviderTypeEnum(schema)
+  		bts, err := json.MarshalIndent(schema, "", "  ")
+  		if err != nil {
+  			return fmt.Errorf("failed to marshal schema: %w", err)
+  		}
+  		fmt.Println(string(bts))
+  		return nil
+  	},
+  }
+  // setProviderTypeEnum overwrites the provider `type` enum with the live set
+  // of accepted values rather than a hand-maintained struct tag. The values
+  // must match exactly what load.go validates against: the catwalk provider
+  // types, the Charm Hyper type, and any locally-discovered providers that

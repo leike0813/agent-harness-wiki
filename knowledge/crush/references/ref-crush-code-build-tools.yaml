@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-build-tools
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/coordinator.go
+  start: 841
+  end: 967
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (c *coordinator) buildTools(ctx context.Context, agent config.Agent, isSubAgent bool) ([]fantasy.AgentTool, error) {
+  	var allTools []fantasy.AgentTool
+  	if slices.Contains(agent.AllowedTools, AgentToolName) {
+  		agentTool, err := c.agentTool(ctx)
+  		if err != nil {
+  			return nil, err
+  		}
+  		allTools = append(allTools, agentTool)
+  	}
+  	if slices.Contains(agent.AllowedTools, tools.AgenticFetchToolName) {
+  		agenticFetchTool, err := c.agenticFetchTool(ctx, nil)
+  		if err != nil {
+  			return nil, err
+  		}
+  		allTools = append(allTools, agenticFetchTool)
+  	}
+  	// Get the model name for the agent
+  	modelID := ""
+  	if modelCfg, ok := c.cfg.Config().Models[agent.Model]; ok {
+  		if model := c.cfg.Config().GetModel(modelCfg.Provider, modelCfg.Model); model != nil {
+  			modelID = model.ID
+  		}
+  	}

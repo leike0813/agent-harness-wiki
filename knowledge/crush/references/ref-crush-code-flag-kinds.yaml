@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-flag-kinds
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/shellconfig/flags.go
+  start: 13
+  end: 50
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  type flagKind int
+  const (
+  	flagString flagKind = iota
+  	flagBool
+  	// flagBoolTrue is a valueless boolean flag (e.g. --think) that stores
+  	// true when present, without consuming an argument.
+  	flagBoolTrue
+  	flagInt
+  	flagFloat
+  	// flagKeyValue consumes two args (KEY VALUE) and stores them as a map
+  	// entry, e.g. --env NAME VALUE.
+  	flagKeyValue
+  	// flagJSONObject parses the value as a JSON object (map), rejecting
+  	// arrays and scalars.
+  	flagJSONObject
+  	// flagJSONAny parses the value as arbitrary JSON.
+  	flagJSONAny
+  )
+  // flagOp is how a parsed flag value is written into the target map.
+  type flagOp int
+  const (
+  	// opSet assigns target[jsonKey] = value.
+  	opSet flagOp = iota
+  	// opAppend appends value to the []any at target[jsonKey].
+  	opAppend

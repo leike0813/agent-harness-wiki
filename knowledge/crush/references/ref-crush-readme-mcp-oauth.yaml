@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-readme-mcp-oauth
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: MCP OAuth
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  HTTP and SSE MCP servers that require OAuth can use Crush's built-in
+  authorization-code flow instead of a static `Authorization` header. Set
+  `"oauth": true` to enable it:
+  ```json
+  {
+    "mcp": {
+      "linear": {
+        "type": "http",
+        "url": "https://mcp.linear.app/mcp",
+        "oauth": true
+      }
+    }
+  }
+  ```
+  ##### Pre-registered clients
+  Some servers (GitHub, Slack) don't support dynamic client registration.
+  For those, register an OAuth app with the provider and supply the
+  credentials directly. All values support shell expansion:
+  ```json
+  {
+    "mcp": {
+      "github": {
+        "type": "http",
+        "url": "https://api.github.com/mcp/",
+        "oauth": true,
+        "oauth_client_id": "Iv1.abc123def456",
+        "oauth_client_secret": "$GITHUB_MCP_SECRET",
+        "oauth_callback_port": 40704
+      }
+    }

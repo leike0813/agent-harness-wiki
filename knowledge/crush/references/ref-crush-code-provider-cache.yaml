@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-provider-cache
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/provider.go
+  start: 254
+  end: 295
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  type cache[T any] struct {
+  	path string
+  }
+  func newCache[T any](path string) cache[T] {
+  	return cache[T]{path: path}
+  }
+  func (c cache[T]) Get() (T, string, error) {
+  	var v T
+  	data, err := os.ReadFile(c.path)
+  	if err != nil {
+  		return v, "", fmt.Errorf("failed to read provider cache file: %w", err)
+  	}
+  	if err := json.Unmarshal(data, &v); err != nil {
+  		return v, "", fmt.Errorf("failed to unmarshal provider data from cache: %w", err)
+  	}
+  	return v, etag.Of(data), nil
+  }
+  func (c cache[T]) Store(v T) error {
+  	slog.Info("Saving provider data to disk", "path", c.path)
+  	if err := os.MkdirAll(filepath.Dir(c.path), 0o755); err != nil {
+  		return fmt.Errorf("failed to create directory for provider cache: %w", err)
+  	}
+  	data, err := json.Marshal(v)
+  	if err != nil {

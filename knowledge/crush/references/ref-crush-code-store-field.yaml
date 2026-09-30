@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-store-field
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/store.go
+  start: 344
+  end: 400
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (s *ConfigStore) HasConfigField(scope Scope, key string) bool {
+  	path, err := s.configPath(scope)
+  	if err != nil {
+  		return false
+  	}
+  	data, err := os.ReadFile(path)
+  	if err != nil {
+  		return false
+  	}
+  	return gjson.Get(string(data), key).Exists()
+  }
+  // SetConfigField sets a key/value pair in the config file for the given scope.
+  // After a successful write, it automatically reloads config to keep in-memory
+  // state fresh.
+  func (s *ConfigStore) SetConfigField(scope Scope, key string, value any) error {
+  	return s.SetConfigFields(scope, map[string]any{key: value})
+  }
+  // SetConfigFields sets multiple key/value pairs in the config file for the
+  // given scope in a single write, then reloads in-memory state from disk.
+  //
+  // Use this for arbitrary external edits where the in-memory effect of the

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-timeout
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/mcp/init.go
+  start: 1385
+  end: 1400
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func mcpTimeout(m config.MCPConfig) time.Duration {
+  	if m.Timeout > 0 {
+  		return time.Duration(m.Timeout) * time.Second
+  	}
+  	// OAuth flows require user interaction in a browser, so use a
+  	// generous default to avoid timing out mid-auth.
+  	if m.OAuth {
+  		return 30 * time.Second
+  	}
+  	return 10 * time.Second
+  }
+  // hasUsableToken returns true if the saved OAuth token has an access
+  // token that can be used or refreshed. A token with an empty access
+  // token is structurally invalid and should be treated as missing.
+  func hasUsableToken(tok *oauth.Token) bool {

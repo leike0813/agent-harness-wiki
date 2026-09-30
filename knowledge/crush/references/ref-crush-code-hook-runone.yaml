@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-hook-runone
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/hooks/runner.go
+  start: 146
+  end: 230
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (r *Runner) matchingHooks(toolName string) []config.HookConfig {
+  	var matched []config.HookConfig
+  	for _, h := range r.hooks {
+  		if h.matcher == nil || h.matcher.MatchString(toolName) {
+  			matched = append(matched, h.cfg)
+  		}
+  	}
+  	return matched
+  }
+  // runOne executes a single hook command and returns its result.
+  //
+  // Execution goes through Crush's embedded POSIX shell (shell.Run) so the
+  // same interpreter, builtins, and coreutils are visible to hooks as to
+  // the bash tool. BlockFuncs are intentionally omitted: hooks are
+  // user-authored config that carry the same trust as a shell alias.
+  //
+  // A hook that fails to yield after its deadline has passed is abandoned
+  // after abandonGrace so the caller never blocks longer than
+  // timeout + abandonGrace.

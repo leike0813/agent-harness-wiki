@@ -1,0 +1,43 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-install-migration
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/load.go
+  start: 1133
+  end: 1208
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func migrateDisableNotifications() {
+  	globalConfig := GlobalConfig()
+  	dataConfig := GlobalConfigData()
+  	var wasDisabled bool
+  	var styleValue string
+  	filesToClean := []string{}
+  	for _, path := range []string{globalConfig, dataConfig} {
+  		data, err := os.ReadFile(path)
+  		if err != nil {
+  			continue
+  		}
+  		needsClean := false
+  		if gjson.Get(string(data), "options.disable_notifications").Exists() {
+  			needsClean = true
+  			if gjson.Get(string(data), "options.disable_notifications").Bool() {
+  				wasDisabled = true
+  			}
+  		}
+  		if v := gjson.Get(string(data), "options.notification_style"); v.Exists() {
+  			needsClean = true
+  			if styleValue == "" {
+  				styleValue = v.String()
+  			}
+  		}
+  		if needsClean {
+  			filesToClean = append(filesToClean, path)
+  		}
+  	}
+  	if len(filesToClean) == 0 {
+  		return
+  	}

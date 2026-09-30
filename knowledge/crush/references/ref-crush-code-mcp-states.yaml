@@ -1,0 +1,46 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-states
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/mcp/init.go
+  start: 149
+  end: 246
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  type State int
+  const (
+  	StateDisabled State = iota
+  	StateStarting
+  	StateConnected
+  	StateError
+  	StateNeedsAuth
+  )
+  func (s State) String() string {
+  	switch s {
+  	case StateDisabled:
+  		return "disabled"
+  	case StateStarting:
+  		return "starting"
+  	case StateConnected:
+  		return "connected"
+  	case StateError:
+  		return "error"
+  	case StateNeedsAuth:
+  		return "needs auth"
+  	default:
+  		return "unknown"
+  	}
+  }
+  // EventType represents the type of MCP event
+  type EventType uint
+  const (
+  	EventStateChanged EventType = iota
+  	EventToolsListChanged
+  	EventPromptsListChanged
+  	EventResourcesListChanged
+  	// EventChannelMessage is published when a channel server pushes a
+  	// notifications/claude/channel event. ChannelMessage carries the rendered,
+  	// escaped <channel> element ready for injection into the session.

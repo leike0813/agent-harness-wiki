@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-config-struct
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/config.go
+  start: 828
+  end: 870
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // Config holds the configuration for crush.
+  type Config struct {
+  	Schema string `json:"$schema,omitempty"`
+  	// We currently only support large/small as values here.
+  	Models map[SelectedModelType]SelectedModel `json:"models,omitempty" jsonschema:"description=Model configurations for different model types,example={\"large\":{\"model\":\"gpt-4o\",\"provider\":\"openai\"}}"`
+  	// Recently used models stored in the data directory config.
+  	RecentModels map[SelectedModelType][]SelectedModel `json:"recent_models,omitempty" jsonschema:"-"`
+  	// The providers that are configured
+  	Providers *csync.Map[string, ProviderConfig] `json:"providers,omitempty" jsonschema:"description=AI provider configurations"`

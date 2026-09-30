@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-schema-root
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: schema.json
+  start: 1
+  end: 60
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://github.com/charmbracelet/crush/internal/config/config",
+    "$ref": "#/$defs/Config",
+    "$defs": {
+      "Attribution": {
+        "properties": {
+          "trailer_style": {
+            "type": "string",
+            "enum": [
+              "none",
+              "co-authored-by",
+              "assisted-by"
+            ],
+            "description": "Style of attribution trailer to add to commits",
+            "default": "assisted-by"
+          },
+          "co_authored_by": {
+            "type": "boolean",
+            "description": "Deprecated: use trailer_style instead",
+            "deprecated": true
+          },
+          "generated_with": {
+            "type": "boolean",

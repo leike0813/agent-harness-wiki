@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-resolved
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/config.go
+  start: 556
+  end: 682
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (m MCPConfig) ResolvedEnv(r VariableResolver) ([]string, error) {
+  	return resolveEnvs(m.Env, r)
+  }
+  // ResolvedArgs returns m.Args with every element expanded through the
+  // given resolver. A fresh slice is allocated; m.Args is never mutated.
+  // On the first resolution failure it returns nil and an error
+  // identifying the offending positional index; the inner resolver error
+  // is already sanitized by ResolveValue and is wrapped with %w so
+  // errors.Is/As continues to work.
+  //
+  // See ResolvedEnv for guidance on picking a resolver.
+  func (m MCPConfig) ResolvedArgs(r VariableResolver) ([]string, error) {
+  	if len(m.Args) == 0 {
+  		return nil, nil
+  	}
+  	out := make([]string, len(m.Args))
+  	for i, a := range m.Args {
+  		v, err := r.ResolveValue(a)
+  		if err != nil {

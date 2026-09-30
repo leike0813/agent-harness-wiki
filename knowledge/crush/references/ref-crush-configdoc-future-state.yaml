@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-configdoc-future-state
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: Separate machine state from user configuration
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  **Status:** planned for a later phase; not implemented.
+  ### Motivation
+  Crush currently uses JSON files in data directories as both persisted machine
+  state and high-priority configuration:
+  ```text
+  ~/.local/share/crush/crush.json
+  .crush/crush.json
+  ```
+  These files hold mutable choices such as preferred/recent models, UI settings,
+  workspace overrides, and some credentials. Treating them as ordinary config
+  means state enters the same generic JSON merge/reload path as user-authored
+  `crushrc` and legacy `crush.json` files.
+  The goal is to make the roles explicit:
+  | Role | Format |
+  |---|---|
+  | User-authored executable configuration | `crushrc` / `.crushrc` |
+  | Legacy user-authored static configuration | `crush.json` / `.crush.json` |

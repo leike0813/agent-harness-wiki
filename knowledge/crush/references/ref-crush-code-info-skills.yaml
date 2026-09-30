@@ -1,0 +1,41 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-info-skills
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/crush_info.go
+  start: 296
+  end: 349
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func writeSkills(b *strings.Builder, allSkills []*skills.Skill, activeSkills []*skills.Skill, tracker *skills.Tracker, cfg *config.ConfigStore) {
+  	var disabled []string
+  	if cfg.Config().Options != nil {
+  		disabled = cfg.Config().Options.DisabledSkills
+  	}
+  	if len(activeSkills) == 0 && len(disabled) == 0 {
+  		return
+  	}
+  	// Build origin map from the pre-filter list.
+  	originMap := make(map[string]string, len(allSkills))
+  	for _, s := range allSkills {
+  		if s.Builtin {
+  			originMap[s.Name] = "builtin"
+  		} else {
+  			originMap[s.Name] = "user"
+  		}
+  	}
+  	type entry struct {
+  		name   string
+  		origin string
+  		state  string
+  	}
+  	var entries []entry
+  	// Active skills: loaded or unloaded.
+  	for _, s := range activeSkills {
+  		state := "unloaded"
+  		if tracker.IsLoaded(s.Name) {
+  			state = "loaded"
+  		}

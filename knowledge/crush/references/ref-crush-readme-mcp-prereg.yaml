@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-readme-mcp-prereg
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: Pre-registered clients
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  Some servers (GitHub, Slack) don't support dynamic client registration.
+  For those, register an OAuth app with the provider and supply the
+  credentials directly. All values support shell expansion:
+  ```json
+  {
+    "mcp": {
+      "github": {
+        "type": "http",
+        "url": "https://api.github.com/mcp/",
+        "oauth": true,
+        "oauth_client_id": "Iv1.abc123def456",
+        "oauth_client_secret": "$GITHUB_MCP_SECRET",
+        "oauth_callback_port": 40704
+      }
+    }
+  }
+  ```
+  When `oauth_client_id` is set, Crush skips dynamic client registration
+  and authenticates as the specified client. When omitted, Crush attempts
+  dynamic registration automatically (works with Linear, Notion, and other
+  servers that support RFC 7591).

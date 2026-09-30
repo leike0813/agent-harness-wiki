@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-auth
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/mcp/init.go
+  start: 457
+  end: 500
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func AuthenticateMCP(ctx context.Context, cfg *config.ConfigStore, name string) error {
+  	m, exists := cfg.Config().MCP[name]
+  	if !exists {
+  		return fmt.Errorf("mcp '%s' not found in configuration", name)
+  	}
+  	if !m.OAuth || m.Type != config.MCPHttp {
+  		return fmt.Errorf("mcp '%s' does not use OAuth authentication", name)
+  	}
+  	updateState(name, StateStarting, nil, nil, Counts{}, withPending(m))
+  	// This is the user-initiated flow, so permit the interactive browser
+  	// authorization the handler otherwise withholds during startup.
+  	ctx = mcpoauth.WithInteractive(ctx)
+  	// The OAuth handler persists the token automatically as it is
+  	// exchanged, so a successful connection has already saved it.

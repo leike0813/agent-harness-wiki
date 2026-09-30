@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-info-perms
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/crush_info.go
+  start: 350
+  end: 384
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func writePermissions(b *strings.Builder, cfg *config.ConfigStore) {
+  	c := cfg.Config()
+  	overrides := cfg.Overrides()
+  	if c.Permissions == nil {
+  		if !overrides.SkipPermissionRequests {
+  			return
+  		}
+  	} else if !overrides.SkipPermissionRequests && len(c.Permissions.AllowedTools) == 0 {
+  		return
+  	}
+  	b.WriteString("[permissions]\n")
+  	if overrides.SkipPermissionRequests {
+  		b.WriteString("mode = yolo\n")
+  	}
+  	if c.Permissions != nil && len(c.Permissions.AllowedTools) > 0 {
+  		sorted := slices.Clone(c.Permissions.AllowedTools)
+  		slices.Sort(sorted)
+  		fmt.Fprintf(b, "allowed_tools = %s\n", strings.Join(sorted, ", "))
+  	}
+  	b.WriteString("\n")
+  }
+  func writeDisabledTools(b *strings.Builder, cfg *config.ConfigStore) {
+  	c := cfg.Config()
+  	if c.Options == nil || len(c.Options.DisabledTools) == 0 {

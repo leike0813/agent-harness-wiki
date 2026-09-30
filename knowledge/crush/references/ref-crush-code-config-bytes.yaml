@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-config-bytes
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/load.go
+  start: 1070
+  end: 1085
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func loadFromBytes(configs [][]byte) (*Config, error) {
+  	if len(configs) == 0 {
+  		return &Config{}, nil
+  	}
+  	data, err := jsons.Merge(configs)
+  	if err != nil {
+  		return nil, err
+  	}
+  	var config Config
+  	if err := json.Unmarshal(data, &config); err != nil {
+  		return nil, err
+  	}
+  	return &config, nil
+  }

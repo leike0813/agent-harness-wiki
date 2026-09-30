@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-provider-list
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/provider.go
+  start: 143
+  end: 242
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  return catwalkSyncer.Updated()
+  }
+  // Providers returns the list of providers, taking into account cached results
+  // and whether or not auto update is enabled.
+  //
+  // It will:
+  // 1. if auto update is disabled, it'll return the embedded providers at the
+  // time of release.
+  // 2. load the cached providers
+  // 3. try to get the fresh list of providers, and return either this new list,
+  // the cached list, or the embedded list if all others fail.
+  //
+  // A returned error is advisory: it reports that the catalog could not be
+  // cached, or that an upstream returned nothing usable. It never means that no
+  // providers are available, so callers should surface it as a warning and keep
+  // using the returned list. A refresh that simply could not reach the network

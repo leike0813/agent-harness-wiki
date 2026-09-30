@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-oauth
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/mcp/init.go
+  start: 1240
+  end: 1330
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  oauthHandler, oauthErr := mcpoauth.NewHandler(name, normalizedURL, m.OAuthToken, preregistered, tokenSaver, mcpoauth.IsInteractive(ctx), m.OAuthCallbackPort)
+  			if oauthErr != nil {
+  				return nil, nil, fmt.Errorf("failed to create OAuth handler for mcp %q: %w", name, oauthErr)
+  			}
+  			authURLs.Set(name, oauthHandler)
+  			return &mcp.StreamableClientTransport{
+  				Endpoint:     url,
+  				OAuthHandler: oauthHandler,
+  			}, oauthHandler, nil
+  		}
+  		headers, err := m.ResolvedHeaders(resolver)
+  		if err != nil {
+  			return nil, nil, err
+  		}
+  		client := &http.Client{
+  			Transport: &headerRoundTripper{
+  				headers: headers,
+  			},
+  		}
+  		return &mcp.StreamableClientTransport{
+  			Endpoint:   url,
+  			HTTPClient: client,
+  		}, nil, nil
+  	case config.MCPSSE:
+  		url, err := m.ResolvedURL(resolver)

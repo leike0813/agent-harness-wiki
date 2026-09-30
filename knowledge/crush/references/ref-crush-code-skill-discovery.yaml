@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-skill-discovery
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/skills/manager.go
+  start: 165
+  end: 227
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // DiscoverFromConfig walks the embedded builtin FS and every path in
+  // cfg.Options.SkillsPaths (after home / env expansion), then dedups and
+  // filters by cfg.Options.DisabledSkills. It returns the three slices the
+  // rest of the system needs:
+  //
+  //   - allSkills:    deduplicated, pre-filter (includes disabled).
+  //   - activeSkills: post-filter (DisabledSkills removed).
+  //   - states:       per-file discovery outcome for diagnostics/UI.
+  func DiscoverFromConfig(cfg DiscoveryConfig) (allSkills, activeSkills []*Skill, states []*SkillState) {
+  	builtin, builtinStates := DiscoverBuiltinWithStates()
+  	discovered := append([]*Skill(nil), builtin...)
+  	var userStates []*SkillState
+  	userPaths := cfg.ResolvePaths()
+  	if len(userPaths) > 0 {
+  		var userSkills []*Skill

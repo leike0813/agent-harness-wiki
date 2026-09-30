@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-agent-models
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/coordinator.go
+  start: 968
+  end: 1010
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (c *coordinator) buildAgentModels(ctx context.Context, isSubAgent bool) (Model, Model, error) {
+  	largeModelCfg, ok := c.cfg.Config().Models[config.SelectedModelTypeLarge]
+  	if !ok {
+  		return Model{}, Model{}, errLargeModelNotSelected
+  	}
+  	smallModelCfg, ok := c.cfg.Config().Models[config.SelectedModelTypeSmall]
+  	if !ok {
+  		return Model{}, Model{}, errSmallModelNotSelected
+  	}
+  	largeProviderCfg, ok := c.cfg.Config().Providers.Get(largeModelCfg.Provider)
+  	if !ok {
+  		return Model{}, Model{}, errLargeModelProviderNotConfigured
+  	}
+  	largeProvider, err := c.buildProvider(largeProviderCfg, largeModelCfg, isSubAgent)
+  	if err != nil {
+  		return Model{}, Model{}, err
+  	}
+  	smallProviderCfg, ok := c.cfg.Config().Providers.Get(smallModelCfg.Provider)
+  	if !ok {

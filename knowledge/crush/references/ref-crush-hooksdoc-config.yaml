@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-hooksdoc-config
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: Configuration
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  Hooks can be added to your `crush.json` (or `.crush.json`) at both the global
+  and project-level, with project level hooks taking precedence.
+  ```jsonc
+  {
+    "hooks": {
+      "PreToolUse": [
+        {
+          "name": "no-rm-rf", // friendly name shown in the TUI
+          "matcher": "bash", // regex tested against the tool name
+          "command": "./hooks/my-hot-hook.sh", // the path to the hook
+          "timeout": 10, // in seconds; default 30
+        },
+      ],
+    },
+  }
+  ```
+  > [!IMPORTANT]
+  > The `command` is resolved relative to your **current working directory** —
+  > not relative to the config file. Relative paths like `./hooks/whatever.sh`
+  > work fine in project-level `crush.json` because the project root is also
+  > your working directory. For **global** config (`~/.config/crush/`),

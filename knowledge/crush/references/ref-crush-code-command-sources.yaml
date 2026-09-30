@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-command-sources
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/commands/commands.go
+  start: 121
+  end: 137
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func buildCommandSources(cfg *config.Config) []commandSource {
+  	return []commandSource{
+  		{
+  			path:   filepath.Join(home.Config(), "crush", "commands"),
+  			prefix: userCommandPrefix,
+  		},
+  		{
+  			path:   filepath.Join(home.Dir(), ".crush", "commands"),
+  			prefix: userCommandPrefix,
+  		},
+  		{
+  			path:   filepath.Join(cfg.Options.DataDirectory, "commands"),
+  			prefix: projectCommandPrefix,
+  		},
+  	}
+  }

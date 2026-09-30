@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-skilldoc-config
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/skills/builtin/crush-config/SKILL.md
+  start: 1
+  end: 60
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  ---
+  name: crush-config
+  description: Use when the user needs help configuring Crush — writing crushrc (the Bash config format) or crush.json, setting up providers, models, LSPs, MCP servers, hooks, skills, permissions, or changing Crush behavior.
+  ---
+  # Crush Configuration
+  Crush supports two config formats:
+  - **`crushrc`** — a Bash script that builds config by calling Crush builtins.
+    **Preferred.** Because it is real Bash you get includes, secrets,
+    conditionals, and variables for free.
+  - **`crush.json`** — static JSON. Fully supported; see
+    [Legacy JSON format](#legacy-json-format).
+  Both are discovered together and deep-merged. Priority (highest to lowest):
+  1. `.crushrc` / `crushrc` / `.crush.json` / `crush.json` (project-local,

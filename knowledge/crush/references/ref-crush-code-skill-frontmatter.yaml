@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-skill-frontmatter
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/skills/skills.go
+  start: 167
+  end: 212
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func ParseContent(content []byte) (*Skill, error) {
+  	frontmatter, body, err := splitFrontmatter(string(content))
+  	if err != nil {
+  		return nil, err
+  	}
+  	var skill Skill
+  	if err := yaml.Unmarshal([]byte(frontmatter), &skill); err != nil {
+  		return nil, fmt.Errorf("parsing frontmatter: %w", err)
+  	}
+  	skill.Instructions = strings.TrimSpace(body)
+  	return &skill, nil
+  }
+  // splitFrontmatter extracts YAML frontmatter and body from markdown content.
+  func splitFrontmatter(content string) (frontmatter, body string, err error) {
+  	// Strip UTF-8 BOM for compatibility with editors that include it.
+  	content = strings.TrimPrefix(content, "\uFEFF")
+  	// Normalize line endings to \n for consistent parsing.
+  	content = strings.ReplaceAll(content, "\r\n", "\n")
+  	content = strings.ReplaceAll(content, "\r", "\n")

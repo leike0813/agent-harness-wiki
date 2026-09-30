@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-config-defaults
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/load.go
+  start: 573
+  end: 645
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (c *Config) setDefaults(workingDir, dataDir string) {
+  	c.NormalizeOptions()
+  	if len(c.Options.GlobalContextPaths) == 0 {
+  		crushConfigDir := filepath.Dir(GlobalConfig())
+  		c.Options.GlobalContextPaths = []string{
+  			filepath.Join(crushConfigDir, "CRUSH.md"),
+  			filepath.Join(filepath.Dir(crushConfigDir), "AGENTS.md"),
+  		}
+  	}
+  	slices.Sort(c.Options.GlobalContextPaths)
+  	c.Options.GlobalContextPaths = slices.Compact(c.Options.GlobalContextPaths)
+  	if dataDir != "" {
+  		c.Options.DataDirectory = dataDir
+  	} else if c.Options.DataDirectory == "" {
+  		if path, ok := fsext.LookupClosestBounded(workingDir, projectBoundary(workingDir), defaultDataDirectory); ok {
+  			c.Options.DataDirectory = path
+  		} else {
+  			c.Options.DataDirectory = filepath.Join(workingDir, defaultDataDirectory)
+  		}
+  	}

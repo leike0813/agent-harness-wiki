@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-permissions-builtin
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/shellconfig/permissions.go
+  start: 44
+  end: 80
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  return usage(stderr, "usage: permissions allow <tool> [<tool> ...]")
+  	}
+  	perms := b.section("permissions")
+  	allowed, _ := perms["allowed_tools"].([]any)
+  	for _, tool := range args[2:] {
+  		if !containsAny(allowed, tool) {
+  			allowed = append(allowed, tool)
+  		}
+  	}
+  	perms["allowed_tools"] = allowed
+  	slog.Info("Permissions allowed in shell config", "tools", args[2:])
+  	return nil
+  }
+  // permissionsDeny hides tools from the agent by adding them to
+  // options.disabled_tools. It is the inverse of allow.
+  func permissionsDeny(b *ConfigBuilder, args []string, stderr io.Writer) error {
+  	if len(args) < 3 {
+  		return usage(stderr, "usage: permissions deny <tool> [<tool> ...]")
+  	}
+  	opts := b.section("options")
+  	disabled, _ := opts["disabled_tools"].([]any)
+  	for _, tool := range args[2:] {

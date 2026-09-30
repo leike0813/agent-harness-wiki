@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-skill-dedupe
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/skills/skills.go
+  start: 365
+  end: 406
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func Deduplicate(all []*Skill) []*Skill {
+  	seen := make(map[string]int, len(all))
+  	for i, s := range all {
+  		seen[s.Name] = i
+  	}
+  	result := make([]*Skill, 0, len(seen))
+  	for i, s := range all {
+  		if seen[s.Name] == i {
+  			result = append(result, s)
+  		}
+  	}
+  	return result
+  }
+  // ApproxTokenCount returns a rough estimate of how many tokens a string
+  // occupies when sent to an LLM. Uses the common ~4-chars-per-token heuristic
+  // that approximates GPT/Claude tokenizers well enough for diagnostic logging.
+  func ApproxTokenCount(s string) int {
+  	if s == "" {
+  		return 0
+  	}
+  	return (len(s) + 3) / 4
+  }
+  // Filter removes skills whose names appear in the disabled list.
+  func Filter(all []*Skill, disabled []string) []*Skill {
+  	if len(disabled) == 0 {
+  		return all
+  	}

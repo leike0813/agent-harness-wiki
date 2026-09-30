@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-option-specs
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/shellconfig/options.go
+  start: 195
+  end: 224
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  var optionSpecs = map[string]optionSpec{
+  	// Boolean fields (stored as-is).
+  	"debug":     {jsonKey: "debug", kind: optBool},
+  	"debug-lsp": {jsonKey: "debug_lsp", kind: optBool},
+  	"auto-lsp":  {jsonKey: "auto_lsp", kind: optBool},
+  	"progress":  {jsonKey: "progress", kind: optBool},
+  	// Boolean fields exposed positively but stored as their negation.
+  	"metrics":              {jsonKey: "disable_metrics", kind: optBool, inverted: true},
+  	"auto-summarize":       {jsonKey: "disable_auto_summarize", kind: optBool, inverted: true},
+  	"provider-auto-update": {jsonKey: "disable_provider_auto_update", kind: optBool, inverted: true},
+  	"default-providers":    {jsonKey: "disable_default_providers", kind: optBool, inverted: true},
+  	// String fields.

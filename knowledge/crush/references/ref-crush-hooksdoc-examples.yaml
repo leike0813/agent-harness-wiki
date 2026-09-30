@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-hooksdoc-examples
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: Examples
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  ### Block destructive commands
+  Prevent the agent from running `rm -rf` in bash:
+  ```json
+  {
+    "hooks": {
+      "PreToolUse": [
+        {
+          "matcher": "^bash$",
+          "command": "./hooks/no-rm-rf.sh"
+        }
+      ]
+    }
+  }
+  ```
+  `hooks/no-rm-rf.sh`:
+  ```bash
+  #!/usr/bin/env bash

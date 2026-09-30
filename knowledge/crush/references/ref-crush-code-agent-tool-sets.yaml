@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-agent-tool-sets
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/config.go
+  start: 1043
+  end: 1078
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func resolveReadOnlyTools(tools []string) []string {
+  	readOnlyTools := []string{"glob", "grep", "ls", "lsp_call_hierarchy", "lsp_definition", "lsp_symbols", "sourcegraph", "view"}
+  	// filter to only include tools that are in allowedtools (include mode)
+  	return filterSlice(tools, readOnlyTools, true)
+  }
+  func resolvePlanTools(tools []string) []string {
+  	// The read-only LSP lookups mirror the task agent's tool set: planning
+  	// needs symbol navigation just as much as research does.
+  	planTools := []string{
+  		"agent",
+  		"glob",
+  		"grep",
+  		"ls",
+  		"lsp_call_hierarchy",
+  		"lsp_definition",
+  		"lsp_symbols",
+  		"question",
+  		"sourcegraph",
+  		"view",
+  	}
+  	return filterSlice(tools, planTools, true)
+  }
+  func filterSlice(data []string, mask []string, include bool) []string {
+  	var filtered []string

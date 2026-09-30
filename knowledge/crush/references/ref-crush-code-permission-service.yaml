@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-permission-service
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/permission/permission.go
+  start: 290
+  end: 310
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (s *permissionService) SetSkipRequests(skip bool) {
+  	s.skip.Store(skip)
+  }
+  func (s *permissionService) SkipRequests() bool {
+  	return s.skip.Load()
+  }
+  func NewPermissionService(workingDir string, skip bool, allowedTools []string) Service {
+  	svc := &permissionService{
+  		Broker:              pubsub.NewBroker[PermissionRequest](),
+  		notificationBroker:  pubsub.NewBroker[PermissionNotification](),
+  		workingDir:          workingDir,
+  		sessionPermissions:  csync.NewMap[PermissionKey, bool](),
+  		autoApproveSessions: make(map[string]bool),
+  		allowedTools:        allowedTools,
+  		pendingRequests:     csync.NewMap[string, chan bool](),
+  	}
+  	svc.skip.Store(skip)
+  	return svc
+  }

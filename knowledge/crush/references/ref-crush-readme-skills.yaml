@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-readme-skills
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: Agent Skills
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  Crush supports the [Agent Skills](https://agentskills.io) open standard for
+  extending agent capabilities with reusable skill packages. Skills are folders
+  containing a `SKILL.md` file with instructions that Crush can discover and
+  activate on demand.
+  The global paths we looks for skills are:
+  - `$CRUSH_SKILLS_DIR`
+  - `$XDG_CONFIG_HOME/agents/skills` or `~/.config/agents/skills/`
+  - `$XDG_CONFIG_HOME/crush/skills` or `~/.config/crush/skills/`
+  - `~/.agents/skills/`
+  - `~/.claude/skills/`
+  - On Windows, we _also_ look at
+    - `%LOCALAPPDATA%\agents\skills\` or `%USERPROFILE%\AppData\Local\agents\skills\`
+    - `%LOCALAPPDATA%\crush\skills\` or `%USERPROFILE%\AppData\Local\crush\skills\`
+  - Additional paths configured via `options.skills_paths`

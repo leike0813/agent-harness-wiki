@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-coordinator-agents
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/coordinator.go
+  start: 191
+  end: 262
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func NewCoordinator(ctx context.Context, opts CoordinatorOptions) (Coordinator, error) {
+  	// Skills are pre-discovered by the caller (see app.New /
+  	// backend.CreateWorkspace) and passed in via the manager. If no
+  	// manager was provided (legacy callers), fall back to an in-line
+  	// discovery so the coordinator still works.
+  	var allSkills, activeSkills []*skills.Skill
+  	if opts.Skills != nil {
+  		allSkills = opts.Skills.AllSkills()
+  		activeSkills = opts.Skills.ActiveSkills()
+  	} else {
+  		allSkills, activeSkills = discoverSkills(opts.Config)
+  	}
+  	skillTracker := skills.NewTracker(activeSkills)
+  	c := &coordinator{
+  		cfg:          opts.Config,
+  		sessions:     opts.Sessions,
+  		messages:     opts.Messages,
+  		permissions:  opts.Permissions,
+  		questions:    opts.Questions,

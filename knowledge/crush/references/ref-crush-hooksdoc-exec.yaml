@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-hooksdoc-exec
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: Execution model
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  Hooks run through Crush's embedded POSIX shell (`mvdan.cc/sh`) — the same
+  interpreter the `bash` tool uses. Inline commands and shebang-less scripts
+  execute in-process; scripts with a `#!` shebang dispatch to the named
+  interpreter via `os/exec`. This contract is identical on macOS, Linux, and
+  Windows.
+  What this means in practice:
+  - **Windows without Unix tooling**: inline shell (`echo`, pipelines, `jq`,
+    `grep`), shebang-less `.sh` scripts, inline PowerShell
+    (`powershell -Command …`), and `.exe` invocations all work out of the box
+    with no WSL, Git Bash, Cygwin, or MSYS required.
+  - **PowerShell scripts** (`.ps1`) are not auto-dispatched by extension.
+    Invoke them explicitly: `powershell -File ./audit.ps1` (or
+    `pwsh -File ./audit.ps1`).

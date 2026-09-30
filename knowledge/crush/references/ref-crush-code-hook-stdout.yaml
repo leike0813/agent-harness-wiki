@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-hook-stdout
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/hooks/input.go
+  start: 80
+  end: 130
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func parseStdout(stdout string) HookResult {
+  	stdout = strings.TrimSpace(stdout)
+  	if stdout == "" {
+  		return HookResult{Decision: DecisionNone}
+  	}
+  	var raw map[string]json.RawMessage
+  	if err := json.Unmarshal([]byte(stdout), &raw); err != nil {
+  		return HookResult{Decision: DecisionNone}
+  	}
+  	// Claude Code compat: if hookSpecificOutput is present, parse that.
+  	if hso, ok := raw["hookSpecificOutput"]; ok {
+  		return parseClaudeCodeOutput(hso)
+  	}
+  	var parsed struct {
+  		Version      int             `json:"version"`
+  		Decision     string          `json:"decision"`
+  		Halt         bool            `json:"halt"`
+  		Reason       string          `json:"reason"`
+  		Context      json.RawMessage `json:"context"`
+  		UpdatedInput json.RawMessage `json:"updated_input"`
+  	}

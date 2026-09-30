@@ -1,0 +1,41 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-dirs-cmd
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/cmd/dirs.go
+  start: 15
+  end: 60
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  var dirsCmd = &cobra.Command{
+  	Use:   "dirs",
+  	Short: "Show config and data directories",
+  	Long: `Show where Crush stores its configuration and data,
+  including any project-level config files discovered
+  from the current directory up to the project root.`,
+  	Example: `
+  # Show all directories
+  crush dirs
+    `,
+  	Run: func(cmd *cobra.Command, args []string) {
+  		entries := collectDirs(cmd)
+  		if term.IsTerminal(os.Stdout.Fd()) {
+  			printDirs(cmd, entries)
+  			return
+  		}
+  		for _, e := range entries {
+  			cmd.Println(e)
+  		}
+  	},
+  }
+  func collectDirs(cmd *cobra.Command) []string {
+  	var dirs []string
+  	dirs = append(dirs, filepath.Dir(config.GlobalConfig()))
+  	dirs = append(dirs, filepath.Dir(config.GlobalConfigData()))
+  	cwd, err := ResolveCwd(cmd)
+  	if err != nil {
+  		return dirs
+  	}

@@ -1,0 +1,51 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-tool-names
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/config.go
+  start: 1001
+  end: 1040
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func allToolNames() []string {
+  	return []string{
+  		"agent",
+  		"bash",
+  		"crush_info",
+  		"crush_logs",
+  		"job_output",
+  		"job_kill",
+  		"download",
+  		"edit",
+  		"multiedit",
+  		"lsp_diagnostics",
+  		"lsp_references",
+  		"lsp_restart",
+  		"lsp_symbols",
+  		"lsp_definition",
+  		"lsp_call_hierarchy",
+  		"lsp_rename",
+  		"lsp_replace_symbol",
+  		"fetch",
+  		"agentic_fetch",
+  		"glob",
+  		"grep",
+  		"ls",
+  		"question",
+  		"sourcegraph",
+  		"todos",
+  		"view",
+  		"write",
+  		"list_mcp_resources",
+  		"read_mcp_resource",
+  	}
+  }
+  func resolveAllowedTools(allTools []string, disabledTools []string) []string {
+  	if disabledTools == nil {
+  		return allTools
+  	}
+  	// filter out disabled tools (exclude mode)
+  	return filterSlice(allTools, disabledTools, false)

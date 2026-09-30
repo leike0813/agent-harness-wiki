@@ -1,0 +1,43 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-reinit
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/mcp/lifecycle.go
+  start: 103
+  end: 160
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func Reinitialize(ctx context.Context, cfg *config.ConfigStore) {
+  	reinitMu.Lock()
+  	if reinitRunning {
+  		reinitDirty = true
+  		reinitMu.Unlock()
+  		return
+  	}
+  	reinitRunning = true
+  	reinitMu.Unlock()
+  	for {
+  		reconcileOnce(ctx, cfg)
+  		reinitMu.Lock()
+  		if !reinitDirty {
+  			reinitRunning = false
+  			reinitMu.Unlock()
+  			return
+  		}
+  		reinitDirty = false
+  		reinitMu.Unlock()
+  	}
+  }
+  // reconcileOnce applies one reconciliation pass against the current config.
+  func reconcileOnce(ctx context.Context, cfg *config.ConfigStore) {
+  	current := cfg.Config().MCP
+  	actions := reconcile(current, states.Copy())
+  	for name, action := range actions {
+  		switch action {
+  		case reinitRemove:
+  			slog.Info("Removing MCP server no longer in config", "name", name)
+  			removeServer(name)
+  		case reinitDisable:

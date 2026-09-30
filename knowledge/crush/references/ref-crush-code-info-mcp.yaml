@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-info-mcp
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/crush_info.go
+  start: 210
+  end: 295
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func writeMCP(b *strings.Builder, states map[string]mcp.ClientInfo, cfg *config.ConfigStore) {
+  	// Write runtime MCP states
+  	if len(states) > 0 {
+  		type entry struct {
+  			name        string
+  			state       mcp.State
+  			err         error
+  			tools       int
+  			resources   int
+  			connectedAt string
+  		}
+  		var entries []entry
+  		for name, info := range states {
+  			e := entry{
+  				name:  name,
+  				state: info.State,
+  				err:   info.Error,
+  			}
+  			if info.State == mcp.StateConnected {
+  				e.tools = info.Counts.Tools
+  				e.resources = info.Counts.Resources
+  				if !info.ConnectedAt.IsZero() {
+  					e.connectedAt = info.ConnectedAt.Format("15:04:05")
+  				}
+  			}
+  			entries = append(entries, e)
+  		}
+  		slices.SortFunc(entries, func(a, b entry) int { return strings.Compare(a.name, b.name) })

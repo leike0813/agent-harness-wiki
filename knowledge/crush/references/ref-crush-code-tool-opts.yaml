@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-tool-opts
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/config.go
+  start: 761
+  end: 798
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  type Tools struct {
+  	Ls   ToolLs   `json:"ls,omitzero"`
+  	Grep ToolGrep `json:"grep,omitzero"`
+  	Glob ToolGlob `json:"glob,omitzero"`
+  }
+  type ToolLs struct {
+  	MaxDepth *int `json:"max_depth,omitempty" jsonschema:"description=Maximum depth for the ls tool,default=0,example=10"`
+  	MaxItems *int `json:"max_items,omitempty" jsonschema:"description=Maximum number of items to return for the ls tool,default=1000,example=100"`
+  }
+  // Limits returns the user-defined max-depth and max-items, or their defaults.
+  func (t ToolLs) Limits() (depth, items int) {
+  	return ptrValOr(t.MaxDepth, 0), ptrValOr(t.MaxItems, 0)
+  }
+  type ToolGrep struct {
+  	Timeout *time.Duration `json:"timeout,omitempty" jsonschema:"description=Timeout for the grep tool call,default=5s,example=10s"`
+  }

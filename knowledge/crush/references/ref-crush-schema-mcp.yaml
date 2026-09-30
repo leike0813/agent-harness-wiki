@@ -1,0 +1,42 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-schema-mcp
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: schema.json
+  start: 279
+  end: 320
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  "MCPConfig": {
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "Command to execute for stdio MCP servers",
+            "examples": [
+              "npx"
+            ]
+          },
+          "env": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "description": "Environment variables to set for the MCP server"
+          },
+          "args": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "description": "Arguments to pass to the MCP server command"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "stdio",
+              "sse",
+              "http"
+            ],

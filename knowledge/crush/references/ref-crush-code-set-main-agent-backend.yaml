@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-set-main-agent-backend
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/backend/agent.go
+  start: 172
+  end: 195
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  }
+  // SetMainAgent switches the workspace's active agent (coder or plan). It
+  // is rejected while the agent is running so a switch can never strand a
+  // run's queued prompts on the previous agent — the same protection the
+  // TUI gives itself with its busy check before toggling input mode.
+  func (b *Backend) SetMainAgent(workspaceID, agentID string) error {
+  	ws, err := b.GetWorkspace(workspaceID)
+  	if err != nil {
+  		return err
+  	}
+  	if ws.AgentCoordinator == nil {
+  		return ErrAgentNotInitialized
+  	}
+  	if ws.AgentCoordinator.IsBusy() {
+  		return ErrAgentBusy
+  	}
+  	return ws.AgentCoordinator.SetMainAgent(agentID)
+  }
+  // CancelSession cancels an ongoing agent operation for the given

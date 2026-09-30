@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-discover-models
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/discover/discover.go
+  start: 78
+  end: 145
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  type Config struct {
+  	ID           string
+  	BaseURL      string
+  	APIKey       string
+  	ExtraHeaders map[string]string
+  	// Existing models from config — IDs present in this list are skipped
+  	// during discovery (user-specified models win).
+  	ExistingModels []catwalk.Model
+  }
+  // Resolver resolves variable references (e.g. $ENV_VAR) in config values.
+  type Resolver interface {
+  	ResolveValue(val string) (string, error)
+  }
+  type modelsResponse struct {
+  	Data []struct {
+  		ID      string `json:"id"`
+  		Object  string `json:"object"`
+  		Created int64  `json:"created"`
+  		OwnedBy string `json:"owned_by"`
+  	} `json:"data"`
+  }
+  // DiscoverModels fetches available models from the provider's /models endpoint.
+  // It uses the provided context for cancellation and timeout; callers should set
+  // a deadline (e.g.

@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-load-startup
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/load.go
+  start: 41
+  end: 70
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func Load(workingDir, dataDir string, debug bool) (*ConfigStore, error) {
+  	// Migrate deprecated disable_notifications before loading config.
+  	migrateDisableNotifications()
+  	configPaths := lookupConfigs(workingDir)
+  	cfg, loadedPaths, err := loadFromConfigPaths(context.Background(), configPaths)
+  	if err != nil {
+  		return nil, fmt.Errorf("failed to load config from paths %v: %w", configPaths, err)
+  	}
+  	cfg.setDefaults(workingDir, dataDir)
+  	store := &ConfigStore{
+  		config:         cfg,
+  		workingDir:     workingDir,
+  		globalDataPath: GlobalConfigData(),
+  		workspacePath:  filepath.Join(cfg.Options.DataDirectory, fmt.Sprintf("%s.json", appName)),
+  		loadedPaths:    loadedPaths,
+  	}
+  	if debug {
+  		cfg.Options.Debug = true
+  	}
+  	// Load workspace config last so it has highest priority.

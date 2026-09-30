@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-option-ui
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/shellconfig/options.go
+  start: 225
+  end: 277
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func optionUI(options map[string]any, args []string, stderr io.Writer) error {
+  	if len(args) != 4 {
+  		return usage(stderr, "usage: option ui <compact|diff|transparent|mouse|scrollbar|completions-max-depth|completions-max-items|exit-banner> <value>")
+  	}
+  	key := args[2]
+  	value := args[3]
+  	ui := childMap(options, "tui")
+  	switch key {
+  	case "compact", "transparent", "mouse":
+  		parsed, err := parseBool(value)
+  		if err != nil {
+  			return usage(stderr, fmt.Sprintf("option ui %s expects true/false, got %q", key, value))
+  		}
+  		jsonKey := key
+  		if key == "compact" {
+  			jsonKey = "compact_mode"
+  		}
+  		ui[jsonKey] = parsed
+  	case "diff":
+  		if value != "unified" && value != "split" {
+  			return usage(stderr, fmt.Sprintf("option ui diff expects unified or split, got %q", value))
+  		}

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-boundary
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/load.go
+  start: 1349
+  end: 1362
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func projectBoundary(dir string) string {
+  	if root := worktreeRoot(dir); root != "" {
+  		return root
+  	}
+  	abs, err := filepath.Abs(dir)
+  	if err != nil {
+  		return dir
+  	}
+  	return abs
+  }
+  // GlobalSkillsDirs returns the default directories for Agent Skills.
+  // Skills in these directories are auto-discovered and their files can be read
+  // without permission prompts.

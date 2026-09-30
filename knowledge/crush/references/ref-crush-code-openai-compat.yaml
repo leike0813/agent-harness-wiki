@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-openai-compat
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/coordinator.go
+  start: 1172
+  end: 1226
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (c *coordinator) buildOpenaiCompatProvider(baseURL, apiKey string, headers map[string]string, extraBody map[string]any, providerID string, isSubAgent bool) (fantasy.Provider, error) {
+  	opts := []openaicompat.Option{
+  		openaicompat.WithBaseURL(baseURL),
+  		openaicompat.WithAPIKey(apiKey),
+  	}
+  	// Set HTTP client based on provider and debug mode.
+  	var httpClient *http.Client
+  	switch providerID {
+  	case string(catwalk.InferenceProviderCopilot):
+  		opts = append(
+  			opts,
+  			openaicompat.WithUseResponsesAPI(),
+  			openaicompat.WithResponsesAPIFunc(func(modelID string) bool {
+  				return copilotResponsesModels[modelID]
+  			}),
+  		)
+  		httpClient = copilot.NewClient(isSubAgent, c.cfg.Config().Options.Debug)

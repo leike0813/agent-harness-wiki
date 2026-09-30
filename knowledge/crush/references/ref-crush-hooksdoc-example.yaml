@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-hooksdoc-example
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: "Baby's First Hook"
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  Let's just dive into it and make a simple hook. This particular hook will
+  disallow the use of Haskell (but we love you, Simon Peyton Jones).
+  ### Config
+  The first thing we need to do is hook up our hook. Let's add the following to
+  our **project-level** `crush.json`. Relative paths like `./no-haskell.sh` work
+  here because the project root is your working directory. If you're configuring
+  a global hook (`~/.config/crush/crush.json`), use an absolute path instead.
+  ```jsonc
+  {
+    // As expected, hooks go in a "hooks" object.
+    "hooks": {
+      // PreToolUse is an event that fires before a tool is used.
+      "PreToolUse": [
+        {
+          // What tool do we want to hook into? In this case, Bash, because it
+          // runs the stuff we wanna block.
+          "matcher": "^bash$",

@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-option-reset
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/shellconfig/options.go
+  start: 60
+  end: 92
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  }
+  		target := args[2]
+  		spec, ok := optionSpecs[target]
+  		if !ok {
+  			return usage(stderr, fmt.Sprintf("option: unknown key %q", target))
+  		}
+  		if spec.kind != optList {
+  			return usage(stderr, fmt.Sprintf("option: reset only applies to list options, %q is not one", target))
+  		}
+  		o[spec.jsonKey] = []any{}
+  		slog.Info("Option list reset in shell config", "key", target)
+  		return nil
+  	}
+  	// Determine the value.
+  	var val string
+  	if len(args) >= 3 {
+  		val = args[2]
+  	}
+  	if key == "attribution-trailer-style" {
+  		if val == "" {
+  			return usage(stderr, "option: attribution-trailer-style requires a value")
+  		}
+  		switch val {
+  		case "none", "co-authored-by", "assisted-by":
+  		default:

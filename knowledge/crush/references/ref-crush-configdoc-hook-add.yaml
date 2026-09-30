@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-configdoc-hook-add
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: hook add
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  Add a shell command that runs when the given hook event fires.
+  ```text
+  Usage:
+    hook add <event> --command <command> [flags]
+  Flags:
+        --command string           shell command to run (required)
+        --name string              name used for later removal
+        --matcher string           regex tested against the tool name
+        --timeout int              timeout in seconds (default 30)
+  ```
+  ```bash
+  hook add PreToolUse --matcher "^bash$" \
+    --command "./hooks/no-haskell.sh" --name no-haskell
+  ```

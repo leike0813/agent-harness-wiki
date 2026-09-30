@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-crushrc-load
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/shellconfig/load.go
+  start: 18
+  end: 80
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // must not be able to wedge the whole store. The interpreter honors context
+  // cancellation, so this deadline reliably interrupts a runaway script.
+  const loadTimeout = 30 * time.Second
+  // LoadShellConfig executes a crushrc script and returns its config as a
+  // single JSON object. The script uses config builtins (provider, model, mcp,
+  // etc.) that mutate a ConfigBuilder in execution order; the builder is then
+  // marshaled to JSON, which the config loader merges with any other config
+  // files.
+  //
+  // The script runs with the same shell interpreter used by the bash tool and
+  // hooks, so source, $VAR, $(cmd), and other shell constructs all work.
+  //
+  // Execution is bounded by loadTimeout on top of any deadline already present

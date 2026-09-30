@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-hooksdoc-hookconfig
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: Hook config
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  Each entry under a `hooks.<EventName>` array:
+  ```jsonc
+  {
+    // string. Optional. Friendly display name shown in the TUI. Falls back to
+    // command when omitted.
+    "name": "no-rm-rf",
+    // string. Optional. Regex tested against the tool name. Omit to match all.
+    "matcher": "^bash$",
+    // string. Required. Shell command to run.
+    "command": "./hooks/my-hook.sh",
+    // number. Optional. Seconds before the hook is killed. Defaults to 30.
+    "timeout": 10,
+  }
+  ```

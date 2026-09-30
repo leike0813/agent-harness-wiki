@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-skill-discover
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/skills/skills.go
+  start: 221
+  end: 296
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func DiscoverWithStates(paths []string) ([]*Skill, []*SkillState) {
+  	var skills []*Skill
+  	var states []*SkillState
+  	var mu sync.Mutex
+  	seen := make(map[string]bool)
+  	addState := func(name, path string, state DiscoveryState, err error) {
+  		mu.Lock()
+  		states = append(states, &SkillState{
+  			Name:  name,
+  			Path:  path,
+  			State: state,
+  			Err:   err,
+  		})
+  		mu.Unlock()
+  	}
+  	for _, base := range paths {
+  		// We use fastwalk with Follow: true instead of filepath.WalkDir because
+  		// WalkDir doesn't follow symlinked directories at any depth—only entry
+  		// points. This ensures skills in symlinked subdirectories are discovered.
+  		// fastwalk is concurrent, so we protect shared state (seen, skills) with mu.
+  		conf := fastwalk.Config{
+  			Follow:  true,
+  			ToSlash: fastwalk.DefaultToSlash(),
+  		}

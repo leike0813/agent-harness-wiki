@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-hooksdoc-exit-codes
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: Exit codes
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  | Code  | Meaning                                                                  |
+  | ----- | ------------------------------------------------------------------------ |
+  | `0`   | Success. Stdout is parsed as the output envelope.                        |
+  | `2`   | Block this tool call. Stderr becomes the deny reason. Stdout is ignored. |
+  | `49`  | Halt the whole turn. Stderr becomes the halt reason. Stdout is ignored.  |
+  | other | Non-blocking error. Logged and ignored; the tool call proceeds.          |
+  Exit `2` only applies to events that can block something. On events where
+  there's nothing to block, it's treated as a non-blocking error.

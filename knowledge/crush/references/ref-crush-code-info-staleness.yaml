@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-info-staleness
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/crush_info.go
+  start: 60
+  end: 98
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func writeConfigFiles(b *strings.Builder, cfg *config.ConfigStore) {
+  	b.WriteString("[config_files]\n")
+  	paths := cfg.LoadedPaths()
+  	for _, p := range paths {
+  		b.WriteString(p + "\n")
+  	}
+  	b.WriteString("\n")
+  }
+  func writeConfigStaleness(b *strings.Builder, cfg *config.ConfigStore) {
+  	staleness := cfg.ConfigStaleness()
+  	b.WriteString("[config]\n")
+  	fmt.Fprintf(b, "dirty = %v\n", staleness.Dirty)
+  	if len(staleness.Changed) > 0 {
+  		sorted := slices.Clone(staleness.Changed)
+  		slices.Sort(sorted)
+  		fmt.Fprintf(b, "changed_paths = %s\n", strings.Join(sorted, ", "))
+  	}
+  	if len(staleness.Missing) > 0 {
+  		sorted := slices.Clone(staleness.Missing)
+  		slices.Sort(sorted)
+  		fmt.Fprintf(b, "missing_paths = %s\n", strings.Join(sorted, ", "))
+  	}
+  	if len(staleness.Errors) > 0 {
+  		var paths []string

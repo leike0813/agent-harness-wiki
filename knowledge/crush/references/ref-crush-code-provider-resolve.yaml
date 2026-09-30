@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-provider-resolve
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/load.go
+  start: 228
+  end: 300
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (c *Config) configureProviders(ctx context.Context, store *ConfigStore, env env.Env, resolver VariableResolver, knownProviders []catwalk.Provider) error {
+  	knownProviderNames := make(map[string]bool)
+  	restore := PushPopCrushEnv()
+  	defer restore()
+  	// When disable_default_providers is enabled, skip all default/embedded
+  	// providers entirely. Users must fully specify any providers they want.
+  	// We skip to the custom provider validation loop which handles all
+  	// user-configured providers uniformly.
+  	if c.Options.DisableDefaultProviders {
+  		knownProviders = nil
+  	}
+  	for _, p := range knownProviders {
+  		knownProviderNames[string(p.ID)] = true
+  		config, configExists := c.Providers.Get(string(p.ID))

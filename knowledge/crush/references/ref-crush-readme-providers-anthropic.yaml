@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-readme-providers-anthropic
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: Anthropic-Compatible APIs
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  Custom Anthropic-compatible providers follow this format:
+  ```bash
+  provider add custom-anthropic \
+    --type anthropic \
+    --base-url "https://api.anthropic.com/v1" \
+    --api-key "$ANTHROPIC_API_KEY" \
+    --extra-header anthropic-version 2023-06-01
+  model add custom-anthropic/claude-sonnet-4-20250514 \
+    --name "Claude Sonnet 4" \
+    --context-window 200000 \
+    --default-max-tokens 50000 \
+    --can-reason true \
+    --supports-images true \
+    --price-input 3 \
+    --price-output 15 \
+    --price-cache-create 3.75 \
+    --price-cache-hit 0.3
+  ```

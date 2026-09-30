@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-request-timeout
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/config.go
+  start: 484
+  end: 500
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  const DefaultRequestTimeout = 2 * time.Minute
+  // GetRequestTimeout returns the per-request timeout for LLM API calls (a
+  // hard deadline for non-streaming requests and an idle timeout for
+  // streams), or zero when disabled. The nil receiver and the unset field
+  // both mean DefaultRequestTimeout, so callers can ask without unwrapping
+  // either.
+  func (o *Options) GetRequestTimeout() time.Duration {
+  	if o == nil || o.RequestTimeout == nil {
+  		return DefaultRequestTimeout
+  	}
+  	if *o.RequestTimeout <= 0 {
+  		return 0
+  	}
+  	return time.Duration(*o.RequestTimeout) * time.Second
+  }

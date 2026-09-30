@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-configdoc-future-realtime
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: Real-time config from the bash tool
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  **Status:** planned, not implemented.
+  ### Motivation
+  Right now `crushrc` runs once, at startup. If you want to change something
+  mid-session — swap the large model, allow a tool, add an MCP server — you edit
+  the file and restart.
+  The idea: let the agent's `bash` tool run the same config commands
+  (`model large …`, `option …`, `mcp add …`) to reconfigure the **running
+  session**. The mental model is exactly a shell and its `.bashrc`:
+  - Running a config command changes the **current session only** — like typing
+    `export` or `alias` at a live prompt.
+  - To make it stick, you edit your `crushrc` — like editing `.bashrc`.
+  So you could say "Crush, switch to the small model for a bit" and it just
+  runs `model small …`, live, no restart.
+  > [!IMPORTANT]

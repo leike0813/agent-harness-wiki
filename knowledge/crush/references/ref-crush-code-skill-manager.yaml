@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-skill-manager
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/skills/manager.go
+  start: 24
+  end: 50
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  type Manager struct {
+  	mu           sync.RWMutex
+  	allSkills    []*Skill
+  	activeSkills []*Skill
+  	states       []*SkillState
+  	// resolvedPaths are the expanded SkillsPaths used during discovery.
+  	// Stored so Catalog/ReadContent can label skills without
+  	// re-resolving.
+  	resolvedPaths []string
+  	workingDir    string
+  	broker       *pubsub.Broker[Event]
+  	globalMirror bool
+  }
+  // ManagerOption configures a Manager at construction time.
+  type ManagerOption func(*Manager)
+  // WithGlobalMirror causes the manager to forward SetLatestStates and
+  // PublishStates calls to the package-level cache and broker. Only safe
+  // when the process hosts at most one Manager (e.g. local mode or the
+  // client process).
+  func WithGlobalMirror() ManagerOption {
+  	return func(m *Manager) {
+  		m.globalMirror = true
+  	}

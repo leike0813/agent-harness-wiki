@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-prompts
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/mcp/prompts.go
+  start: 13
+  end: 95
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  type Prompt = mcp.Prompt
+  var allPrompts = csync.NewMap[string, []*Prompt]()
+  // Prompts returns all available MCP prompts.
+  func Prompts() iter.Seq2[string, []*Prompt] {
+  	return allPrompts.Seq2()
+  }
+  // GetPromptMessages retrieves the content of an MCP prompt with the given arguments.
+  func GetPromptMessages(ctx context.Context, cfg *config.ConfigStore, clientName, promptName string, args map[string]string) ([]string, error) {
+  	c, err := getOrRenewClient(ctx, cfg, clientName)
+  	if err != nil {
+  		return nil, err
+  	}
+  	result, err := c.GetPrompt(ctx, &mcp.GetPromptParams{
+  		Name:      promptName,
+  		Arguments: args,
+  	})
+  	if err != nil {
+  		return nil, err
+  	}
+  	var messages []string
+  	for _, msg := range result.Messages {
+  		if msg.Role != "user" {
+  			continue
+  		}

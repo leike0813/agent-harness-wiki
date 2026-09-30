@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-transport
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/mcp/init.go
+  start: 1168
+  end: 1240
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func createTransport(ctx context.Context, cfg *config.ConfigStore, name string, m config.MCPConfig, resolver config.VariableResolver) (mcp.Transport, *mcpoauth.Handler, error) {
+  	switch m.Type {
+  	case config.MCPStdio:
+  		command, err := resolver.ResolveValue(m.Command)
+  		if err != nil {
+  			return nil, nil, fmt.Errorf("invalid mcp command: %w", err)
+  		}
+  		if strings.TrimSpace(command) == "" {
+  			return nil, nil, fmt.Errorf("mcp stdio config requires a non-empty 'command' field")
+  		}
+  		args, err := m.ResolvedArgs(resolver)
+  		if err != nil {
+  			return nil, nil, err
+  		}
+  		envs, err := m.ResolvedEnv(resolver)
+  		if err != nil {
+  			return nil, nil, err
+  		}
+  		cmd := exec.CommandContext(ctx, home.Long(command), args...)
+  		cmd.Env = append(os.Environ(), envs...)

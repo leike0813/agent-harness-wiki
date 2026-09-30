@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-store-overrides
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/store.go
+  start: 55
+  end: 100
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  }
+  // RuntimeOverrides holds per-session settings that are never persisted to
+  // disk. They are applied on top of the loaded Config and survive only for
+  // the lifetime of the process (or workspace).
+  type RuntimeOverrides struct {
+  	SkipPermissionRequests bool
+  	// EnabledChannels lists the MCP servers opted in as channels for this
+  	// session (via the --channels flag). A server present in MCP config only
+  	// pushes channel events when it also appears here. Entries may be written
+  	// as "server:<name>" or as a bare "<name>".
+  	EnabledChannels []string
+  	// Models records the model choices made in this instance, whether
+  	// persisted or not. They are reapplied after a config reload so that a
+  	// selection made here always outranks whatever the shared config file

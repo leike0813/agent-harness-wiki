@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-hooksdoc-timeouts
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: Timeouts
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  If a hook exceeds its timeout, Crush cancels its context and treats the
+  result as a non-blocking error so the tool call proceeds. The default
+  timeout is 30 seconds. Shebang-dispatched subprocesses are killed through
+  `exec.CommandContext`; in-process hooks get a short grace period to yield
+  and are then abandoned (the agent moves on regardless). Long-running work
+  should honor context cancellation or run out-of-process via a shebang.

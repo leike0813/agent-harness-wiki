@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-configdoc-permissions
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: permissions
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  Configure tool permissions. `allow` skips approval prompts; `deny` hides tools
+  from the agent entirely.
+  ```text
+  Usage:
+    permissions [command]
+  Available Commands:
+    allow     Allow tools without prompting
+    deny      Hide tools from the agent
+  ```
+  #### `permissions allow`
+  Allow one or more tools to run without prompting.
+  ```text
+  Usage:
+    permissions allow <tool> [<tool> ...]
+  ```
+  #### `permissions deny`
+  Hide one or more tools from the agent so they cannot be called.
+  ```text
+  Usage:
+    permissions deny <tool> [<tool> ...]
+  ```
+  ```bash
+  permissions allow view ls grep edit
+  permissions deny bash
+  ```

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-attribution
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/config.go
+  start: 426
+  end: 452
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  type Permissions struct {
+  	AllowedTools []string `json:"allowed_tools,omitempty" jsonschema:"description=List of tools that don't require permission prompts,example=bash,example=view"`
+  }
+  type TrailerStyle string
+  const (
+  	TrailerStyleNone         TrailerStyle = "none"
+  	TrailerStyleCoAuthoredBy TrailerStyle = "co-authored-by"
+  	TrailerStyleAssistedBy   TrailerStyle = "assisted-by"
+  )
+  type Attribution struct {
+  	TrailerStyle  TrailerStyle `json:"trailer_style,omitempty" jsonschema:"description=Style of attribution trailer to add to commits,enum=none,enum=co-authored-by,enum=assisted-by,default=assisted-by"`
+  	CoAuthoredBy  *bool        `json:"co_authored_by,omitempty" jsonschema:"description=Deprecated: use trailer_style instead"`

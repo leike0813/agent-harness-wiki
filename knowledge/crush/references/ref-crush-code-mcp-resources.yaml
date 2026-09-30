@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-resources
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/mcp/resources.go
+  start: 15
+  end: 115
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  type Resource = mcp.Resource
+  type ResourceContents = mcp.ResourceContents
+  var allResources = csync.NewMap[string, []*Resource]()
+  // Resources returns all available MCP resources.
+  func Resources() iter.Seq2[string, []*Resource] {
+  	return allResources.Seq2()
+  }
+  // ListResources returns the current resources for an MCP server.
+  func ListResources(ctx context.Context, cfg *config.ConfigStore, name string) ([]*Resource, error) {
+  	session, err := getOrRenewClient(ctx, cfg, name)
+  	if err != nil {
+  		return nil, err
+  	}
+  	resources, err := getResources(ctx, session)
+  	if err != nil {
+  		return nil, err
+  	}
+  	resourceCount := updateResources(name, resources)
+  	prev, _ := states.Get(name)
+  	prev.Counts.Resources = resourceCount
+  	updateState(name, StateConnected, nil, session, prev.Counts)

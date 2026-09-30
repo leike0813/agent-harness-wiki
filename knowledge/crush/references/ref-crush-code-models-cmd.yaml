@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-models-cmd
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/cmd/models.go
+  start: 17
+  end: 60
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  var modelsCmd = &cobra.Command{
+  	Use:   "models",
+  	Short: "List all available models from known providers",
+  	Long:  `List all available models from known providers. Shows provider name and model IDs. Unconfigured providers are marked with (not configured).`,
+  	Example: `# List all available models
+  crush models
+  # Search models
+  crush models gpt5`,
+  	Args: cobra.ArbitraryArgs,
+  	RunE: func(cmd *cobra.Command, args []string) error {
+  		cwd, err := ResolveCwd(cmd)
+  		if err != nil {
+  			return err
+  		}
+  		dataDir, _ := cmd.Flags().GetString("data-dir")
+  		debug, _ := cmd.Flags().GetBool("debug")
+  		cfg, err := config.Init(cwd, dataDir, debug)
+  		if err != nil {
+  			return err
+  		}
+  		term := strings.ToLower(strings.Join(args, " "))
+  		type providerEntry struct {
+  			name       string
+  			models     []string

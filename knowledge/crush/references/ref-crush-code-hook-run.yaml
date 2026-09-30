@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-hook-run
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/hooks/runner.go
+  start: 90
+  end: 145
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (r *Runner) Run(ctx context.Context, eventName, sessionID, toolName, toolInputJSON string) (AggregateResult, error) {
+  	matching := r.matchingHooks(toolName)
+  	if len(matching) == 0 {
+  		return AggregateResult{Decision: DecisionNone}, nil
+  	}
+  	// Deduplicate by command string.
+  	seen := make(map[string]bool, len(matching))
+  	var deduped []config.HookConfig
+  	for _, h := range matching {
+  		if seen[h.Command] {
+  			continue
+  		}
+  		seen[h.Command] = true
+  		deduped = append(deduped, h)
+  	}
+  	envVars := BuildEnv(eventName, toolName, sessionID, r.cwd, r.projectDir, toolInputJSON)
+  	payload := BuildPayload(eventName, sessionID, r.cwd, toolName, toolInputJSON)
+  	results := make([]HookResult, len(deduped))
+  	var wg sync.WaitGroup
+  	wg.Add(len(deduped))
+  	for i, h := range deduped {

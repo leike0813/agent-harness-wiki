@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-initialize
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/mcp/init.go
+  start: 335
+  end: 400
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func Initialize(ctx context.Context, permissions permission.Service, cfg *config.ConfigStore, forceStart ...string) {
+  	ArmInit()
+  	slog.Info("Initializing MCP clients")
+  	start := time.Now()
+  	var wg sync.WaitGroup
+  	// Initialize states for all configured MCPs
+  	for name, m := range cfg.Config().MCP {
+  		if m.Disabled {
+  			if !slices.Contains(forceStart, name) {
+  				updateState(name, StateDisabled, nil, nil, Counts{})
+  				slog.Debug("Skipping disabled MCP", "name", name)
+  				continue
+  			}
+  			slog.Info("Starting config-disabled MCP with repository enabled override", "name", name)
+  		}
+  		// Set initial starting state
+  		wg.Add(1)
+  		goInitClient(ctx, cfg, name, m, &wg)
+  	}
+  	wg.Wait()
+  	initOnce.Do(func() { close(initDone) })
+  	// Non-interactive runs wait for this to finish before sending a prompt, so

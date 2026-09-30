@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-hook-struct
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/config.go
+  start: 799
+  end: 828
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  type HookConfig struct {
+  	// Friendly display name shown in the TUI. Falls back to Command when empty.
+  	Name string `json:"name,omitempty" jsonschema:"description=Friendly display name shown in the TUI for this hook"`
+  	// Regex pattern tested against the tool name. Empty means match all.
+  	Matcher string `json:"matcher,omitempty" jsonschema:"description=Regex pattern tested against the tool name. Empty means match all tools."`
+  	// Shell command to execute.
+  	Command string `json:"command" jsonschema:"required,description=Shell command to execute when the hook fires"`
+  	// Timeout in seconds. Default 30.
+  	Timeout int `json:"timeout,omitempty" jsonschema:"description=Timeout in seconds for the hook command,default=30"`
+  }
+  // DisplayName returns the hook name for display purposes.

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-hooksdoc-claude
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: Claude Code compatibility
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  Crush hooks are broadly compatible with [Claude Code
+  hooks](https://docs.claude.com/en/docs/claude-code/hooks): the config shape,
+  stdin payload, output envelope, and exit codes line up so most Claude Code
+  hooks run under Crush unchanged. This document covers the Crush-specific API
+  only — anything not documented here isn't guaranteed to work.
+  One intentional divergence: Crush treats `updated_input` as a shallow-merge
+  patch against the original `tool_input` rather than a full replacement. Keys
+  you omit are preserved. See [Output](#output) for details.
+  ---

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-skill-tracker
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/skills/tracker.go
+  start: 10
+  end: 60
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  //
+  // Note: Tracking is name-based and limited to active skills only. If a builtin
+  // skill is overridden by a user skill, only the user skill (which is active)
+  // can be marked as loaded. This prevents misattribution when reading builtin
+  // files that have been overridden.
+  type Tracker struct {
+  	mu          sync.RWMutex
+  	loaded      map[string]bool
+  	activeNames map[string]bool // Set of active skill names (post-dedup, post-filter)
+  }
+  // NewTracker creates a new skill tracker with the given active skill names.
+  // Only skills in activeSkills can be marked as loaded.
+  func NewTracker(activeSkills []*Skill) *Tracker {
+  	activeNames := make(map[string]bool, len(activeSkills))
+  	for _, s := range activeSkills {
+  		activeNames[s.Name] = true
+  	}
+  	return &Tracker{
+  		loaded:      make(map[string]bool),

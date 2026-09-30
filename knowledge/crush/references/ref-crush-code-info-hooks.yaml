@@ -1,0 +1,44 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-info-hooks
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/agent/tools/crush_info.go
+  start: 442
+  end: 486
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func writeHooks(b *strings.Builder, cfg *config.ConfigStore) {
+  	c := cfg.Config()
+  	if len(c.Hooks) == 0 {
+  		return
+  	}
+  	type entry struct {
+  		event   string
+  		matcher string
+  		command string
+  		timeout int
+  	}
+  	var entries []entry
+  	for event, hookList := range c.Hooks {
+  		for _, h := range hookList {
+  			entries = append(entries, entry{
+  				event:   event,
+  				matcher: h.Matcher,
+  				command: h.Command,
+  				timeout: h.Timeout,
+  			})
+  		}
+  	}
+  	slices.SortFunc(entries, func(a, b entry) int {
+  		if a.event != b.event {
+  			return strings.Compare(a.event, b.event)
+  		}
+  		return strings.Compare(a.command, b.command)
+  	})
+  	b.WriteString("[hooks]\n")
+  	for _, e := range entries {
+  		line := fmt.Sprintf("%s = %s", e.event, e.command)
+  		if e.matcher != "" {

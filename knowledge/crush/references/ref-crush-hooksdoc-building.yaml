@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-hooksdoc-building
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: document_section
+  heading: Building Hooks
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  When a hook fires, Crush:
+  1. Filters hooks whose `matcher` regex matches the tool name (no matcher = match
+     all).
+  2. Deduplicates by `command` (identical commands run once).
+  3. Runs all matching hooks **in parallel** through Crush's embedded POSIX
+     shell (see [Execution model](#execution-model)).
+  4. Waits for all to finish (or time out), then aggregates results **in config
+     order**: deny wins over allow, allow wins over none; `updated_input` patches
+     shallow-merge in order.
+  5. Applies the result **before** permission checks. If the aggregated decision
+     is `deny`, the tool call is blocked and you never see a permission prompt
+     for it. If it's `allow`, Crush treats that as affirmative pre-approval and
+     also skips the prompt. Silence (no decision) falls through to the normal

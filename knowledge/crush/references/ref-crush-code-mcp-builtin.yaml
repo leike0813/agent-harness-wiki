@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-builtin
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/shellconfig/mcp.go
+  start: 45
+  end: 70
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  var mcpAddFlags = []flagSpec{
+  	{name: "--type", jsonKey: "type", kind: flagString, op: opSet},
+  	{name: "--command", jsonKey: "command", kind: flagString, op: opSet},
+  	{name: "--args", jsonKey: "args", kind: flagString, op: opAppend},
+  	{name: "--env", child: "env", kind: flagKeyValue, op: opSetChild},
+  	{name: "--url", jsonKey: "url", kind: flagString, op: opSet},
+  	{name: "--header", child: "headers", kind: flagKeyValue, op: opSetChild},
+  	{name: "--timeout", jsonKey: "timeout", kind: flagInt, op: opSet},
+  	{name: "--disabled", jsonKey: "disabled", kind: flagBool, op: opSet},
+  	{name: "--disabled-tools", jsonKey: "disabled_tools", kind: flagString, op: opAppend},
+  	{name: "--enabled-tools", jsonKey: "enabled_tools", kind: flagString, op: opAppend},

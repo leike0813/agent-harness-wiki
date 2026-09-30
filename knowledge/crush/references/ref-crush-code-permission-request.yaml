@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-permission-request
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/permission/permission.go
+  start: 181
+  end: 240
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (s *permissionService) Request(ctx context.Context, opts CreatePermissionRequest) (bool, error) {
+  	if s.skip.Load() {
+  		return true, nil
+  	}
+  	// Check if the tool/action combination is in the allowlist
+  	commandKey := opts.ToolName + ":" + opts.Action
+  	if slices.Contains(s.allowedTools, commandKey) || slices.Contains(s.allowedTools, opts.ToolName) {
+  		return true, nil
+  	}
+  	// A PreToolUse hook that returned decision=allow stamps the context
+  	// with the tool call ID. Treat that as a pre-approval and skip the
+  	// prompt entirely. We still publish a granted notification so the UI
+  	// and audit subscribers see the outcome.
+  	if hookApproved(ctx, opts.ToolCallID) {
+  		s.notificationBroker.Publish(pubsub.CreatedEvent, PermissionNotification{
+  			ToolCallID: opts.ToolCallID,
+  			Granted:    true,

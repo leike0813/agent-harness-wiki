@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-model-slots-builtin
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/shellconfig/model.go
+  start: 142
+  end: 192
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  var modelSelectFlags = []flagSpec{
+  	{name: "--think", jsonKey: "think", kind: flagBoolTrue, op: opSet},
+  	{name: "--reasoning-effort", jsonKey: "reasoning_effort", kind: flagString, op: opSet},
+  	{name: "--max-tokens", jsonKey: "max_tokens", kind: flagInt, op: opSet},
+  	{name: "--temperature", jsonKey: "temperature", kind: flagFloat, op: opSet},
+  	{name: "--top-p", jsonKey: "top_p", kind: flagFloat, op: opSet, validate: func(v any) error {
+  		f := v.(float64)
+  		if f < 0 || f > 1 {
+  			return fmt.Errorf("--top-p expects a value between 0 and 1, got %v", f)
+  		}
+  		return nil
+  	}},
+  	{name: "--top-k", jsonKey: "top_k", kind: flagInt, op: opSet},
+  	{name: "--frequency-penalty", jsonKey: "frequency_penalty", kind: flagFloat, op: opSet},

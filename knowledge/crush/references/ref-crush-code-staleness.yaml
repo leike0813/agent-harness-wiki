@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-staleness
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/store.go
+  start: 1150
+  end: 1210
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  type StalenessResult struct {
+  	Dirty   bool
+  	Changed []string
+  	Missing []string
+  	Errors  map[string]error // stat errors by path
+  }
+  // ConfigStaleness checks whether any tracked config files have changed on disk
+  // since the last snapshot. Returns dirty=true if any files changed or went
+  // missing, along with sorted lists of affected paths. Stat errors are
+  // captured in Errors map but still treated as non-existence for dirty detection.
+  func (s *ConfigStore) ConfigStaleness() StalenessResult {
+  	var result StalenessResult
+  	result.Errors = make(map[string]error)
+  	for _, path := range s.trackedConfigPaths {
+  		snapshot, hadSnapshot := s.snapshots[path]
+  		info, err := os.Stat(path)
+  		exists := err == nil && !info.IsDir()
+  		if err != nil && !os.IsNotExist(err) {

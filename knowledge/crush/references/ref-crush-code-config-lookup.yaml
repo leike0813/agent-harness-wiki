@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-config-lookup
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/load.go
+  start: 944
+  end: 990
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func lookupConfigs(cwd string) []string {
+  	// Prepend global user config and machine-owned data JSON. Only the user
+  	// config directory contributes a crushrc; the data directory is writable
+  	// machine state and must never be executed as Bash. Missing files are
+  	// skipped when loaded.
+  	configPaths := []string{
+  		systemConfigPath,
+  		GlobalConfig(),
+  		shellConfigSibling(GlobalConfig()),
+  		GlobalConfigData(),
+  	}
+  	// Ordered high-to-low priority within a directory. LookupBounded returns
+  	// matches in this order, and the later reverse + merge make the earliest
+  	// listed name win on conflict. So: .crushrc beats crushrc, both beat the
+  	// JSON configs, and .crush.json beats crush.json.
+  	configNames := []string{
+  		"." + appName + "rc",
+  		appName + "rc",
+  		"." + appName + ".json",

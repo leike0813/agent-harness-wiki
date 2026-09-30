@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-hook-runner
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/hooks/runner.go
+  start: 14
+  end: 50
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  )
+  // abandonGrace is how long runOne waits after ctx cancellation for the
+  // shell goroutine to yield before returning control to the caller and
+  // letting the goroutine finish on its own. Mirrors the historical
+  // cmd.WaitDelay = time.Second behavior of the previous os/exec path.
+  const abandonGrace = time.Second
+  // runShell is the shell executor used by runOne. It is a package-level
+  // variable so tests can substitute a blocking or non-yielding
+  // implementation to exercise the abandon-on-timeout path without
+  // depending on the scheduling behavior of the real interpreter.
+  var runShell = shell.Run
+  // compiledHook pairs a HookConfig with its compiled matcher regex. A nil
+  // matcher means "match every tool".
+  type compiledHook struct {
+  	cfg     config.HookConfig
+  	matcher *regexp.Regexp
+  }

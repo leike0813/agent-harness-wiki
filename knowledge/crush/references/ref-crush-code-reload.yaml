@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-reload
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/config/store.go
+  start: 1286
+  end: 1300
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (s *ConfigStore) ReloadFromDisk(ctx context.Context) error {
+  	if s.workingDir == "" {
+  		return fmt.Errorf("cannot reload: working directory not set")
+  	}
+  	s.writeMu.Lock()
+  	defer s.writeMu.Unlock()
+  	return s.reloadFromDiskLocked(ctx)
+  }
+  // reloadFromDiskLocked performs the actual reload. Caller must hold writeMu.
+  func (s *ConfigStore) reloadFromDiskLocked(ctx context.Context) error {
+  	// Migrate deprecated disable_notifications before reloading config.
+  	migrateDisableNotifications()
+  	configPaths := lookupConfigs(s.workingDir)

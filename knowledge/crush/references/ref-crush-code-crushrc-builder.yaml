@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-crushrc-builder
+harness_id: crush
+snapshot_id: snapshot-crush-repo
+locator:
+  kind: file_lines
+  file: internal/shellconfig/builder.go
+  start: 16
+  end: 48
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // At the end of a script the builder marshals to a single JSON object, which
+  // the config loader merges with any other config files.
+  type ConfigBuilder struct {
+  	root map[string]any
+  }
+  // newConfigBuilder returns an empty builder.
+  func newConfigBuilder() *ConfigBuilder {
+  	return &ConfigBuilder{root: make(map[string]any)}
+  }
+  // section returns the top-level object stored at key, creating it if absent.
+  // Panics if the existing value is non-nil and not a map: that invariant
+  // violation indicates a bug in a builtin handler, not user error.
+  func (b *ConfigBuilder) section(key string) map[string]any {
+  	m, ok := b.root[key].(map[string]any)
+  	if !ok {
+  		if b.root[key] != nil {
+  			panic(fmt.Sprintf("shellconfig: section(%q) overwrites non-map value %T", key, b.root[key]))
+  		}
