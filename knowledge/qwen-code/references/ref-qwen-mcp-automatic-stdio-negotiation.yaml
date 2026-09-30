@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-mcp-automatic-stdio-negotiation
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Automatic stdio negotiation
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Stdio servers use the single-process legacy initialize flow by default. To
+  connect to a modern-only stdio server, opt into automatic protocol negotiation:
+  ```jsonc
+  {
+    "mcpServers": {
+      "modern-server": {
+        "command": "node",
+        "args": ["./server.js"],
+        "versionNegotiation": "auto",
+      },
+    },
+  }
+  ```
+  Automatic negotiation runs a short-lived copy of the configured server before
+  starting the session process and can use up to five seconds of the discovery
+  budget. Keep the default legacy policy for servers with non-idempotent startup
+  side effects, single-owner locks or PID files, or slow initialize handshakes.

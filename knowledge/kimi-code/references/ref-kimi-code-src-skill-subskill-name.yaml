@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-src-skill-subskill-name
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/features/skill/catalog/fileSkillDiscovery.ts
+  start: 215
+  end: 228
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  function qualifySubSkillName(parentName: string, skillName: string): string {
+    if (skillName === parentName || skillName.startsWith(`${parentName}.`)) return skillName;
+    return `${parentName}.${skillName}`;
+  }
+  function hasSubSkillEnabled(skill: SkillDefinition): boolean {
+    const nested = skill.metadata['metadata'];
+    const nestedFlag =
+      typeof nested === 'object' && nested !== null
+        ? (nested as Record<string, unknown>)['has-sub-skill'] === true ||
+          (nested as Record<string, unknown>)['hasSubSkill'] === true
+        : false;
+    return (
+      skill.metadata['has-sub-skill'] === true ||

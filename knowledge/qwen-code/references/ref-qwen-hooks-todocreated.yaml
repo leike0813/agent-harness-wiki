@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-todocreated
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: TodoCreated
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  **Purpose**: Executed when a new todo item is created via the `todo_write` tool. Allows validation, logging, or blocking of todo creation.
+  Todo hooks run in two phases:
+  - `validation`: runs before persistence. Use this phase for validation only; returning `block` or `deny` prevents the write.
+  - `postWrite`: runs after persistence. Use this phase for side effects such as logging or syncing; `block` or `deny` is ignored in this phase.
+  **Event-specific fields**:
+  ```json
+  {
+    "todo_id": "unique identifier for the todo item",
+    "todo_content": "content/description of the todo item",
+    "todo_status": "pending | in_progress | completed",
+    "all_todos": "array of all todo items in the current list",
+    "phase": "validation | postWrite"
+  }
+  ```
+  **Output Options**:

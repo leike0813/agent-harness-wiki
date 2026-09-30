@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-guide-enforced
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Enforced hooks
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Hooks from the config layers your organization controls are enforced: they carry a `[policy]` badge in `/hooks`, `Space` refuses to disable them, an entry in `~/.grok/disabled-hooks` does not skip them, and their source cannot be removed. Two layers qualify:
+  - The root-owned system files `/etc/grok/requirements.toml` and `/etc/grok/managed_config.toml` (`requirements/system:` and `system_managed:` names).
+  - The `~/.grok/requirements.toml` that the deployment sync writes, while its bytes match the signed policy the server sent (`requirements/signed:` names). If the file is edited or its signature file is missing or unreadable, its hooks load as your own (`requirements/user:` names) and can be disabled again; an unreadable `requirements.toml` contributes no hooks.

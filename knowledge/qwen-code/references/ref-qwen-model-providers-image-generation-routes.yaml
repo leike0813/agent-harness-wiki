@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-model-providers-image-generation-routes
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Image generation routes
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Set `supportsImageGeneration: true` when a route can be used by the built-in
+  `image_gen` tool. This capability is independent from image input support such
+  as `capabilities.vision` or `generationConfig.modalities.image`.
+  Use `imageOnly: true` when the route is dedicated to image generation and must
+  not appear in ordinary model selectors. For backward compatibility,
+  `imageOnly: true` also implies image-generation capability, so existing settings
+  do not need to be migrated.
+  A dual-role route can be selected both as the main model and through
+  `/model --image`:
+  ```json
+  {
+    "modelProviders": {
+      "openai": [
+        {
+          "id": "omni-model",
+          "envKey": "MODEL_API_KEY",
+          "baseUrl": "https://gateway.example.com/model-api",
+          "supportsImageGeneration": true
+        }
+      ]

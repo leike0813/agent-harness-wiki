@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-architecture-cli-and-presentation-surfaces
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: CLI and presentation surfaces
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  `packages/cli` owns the executable and chooses the runtime mode from command-line
+  arguments. It loads user and workspace settings, constructs the core
+  configuration, enters the requested sandbox when necessary, and then starts one
+  of the interactive, headless, ACP, daemon, channel, or maintenance flows.
+  Presentation remains outside the core runtime:
+  - the Ink TUI renders local interactive sessions;
+  - `packages/web-shell` adapts daemon state to React providers and hooks and
+    provides the browser experience;
+  - IDE and channel packages translate host-specific events into shared client or
+    bridge contracts.

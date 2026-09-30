@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-introduction-how-it-works
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: How it works
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  On startup, Qwen Code looks for extensions in `<home>/.qwen/extensions`
+  Native Qwen extensions exist as a directory that contains a `qwen-extension.json` file. Agent Plugins v1 packages instead retain their root `plugin.json`; see [Agent Plugins v1](./agent-plugins.md).
+  For example, a native Qwen extension is stored at:
+  `<home>/.qwen/extensions/my-extension/qwen-extension.json`
+  ### `qwen-extension.json`
+  The `qwen-extension.json` file contains the configuration for the extension. The file has the following structure:
+  ```json
+  {
+    "name": "my-extension",
+    "version": "1.0.0",
+    "mcpServers": {
+      "my-server": {
+        "command": "node my-server.js"
+      }
+    },
+    "channels": {
+      "my-platform": {
+        "entry": "dist/index.js",
+        "displayName": "My Platform Channel"
+      }
+    },

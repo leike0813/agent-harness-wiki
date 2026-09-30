@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-plugins-manifest
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Plugin Manifest
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  A plugin is a directory or zip file containing a manifest. The manifest can be placed at either of the following locations:
+  ```text
+  <plugin_root>/kimi.plugin.json
+  <plugin_root>/.kimi-plugin/plugin.json
+  ```
+  When both files exist, `kimi.plugin.json` takes precedence.
+  Example:
+  ```json
+  {
+    "name": "kimi-finance",
+    "version": "1.0.0",
+    "description": "Finance data and analysis workflows for Kimi Code CLI",
+    "skills": "./skills/",
+    "systemPromptPath": "./SYSTEM.md",
+    "sessionStart": {
+      "skill": "using-finance"
+    },
+    "interface": {
+      "displayName": "Kimi Finance",
+      "shortDescription": "Market data and financial analysis workflows"
+    }
+  }
+  ```
+  Supported fields:
+  | Field | Description |
+  | --- | --- |
+  | `name` | Required; serves as the plugin id. Must match `[a-z0-9][a-z0-9_-]{0,63}` |

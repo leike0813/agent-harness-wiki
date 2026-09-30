@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-mcp-naming
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Tool Naming and Permissions
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  MCP tools are named in the format `mcp__<server>__<tool>`, for example `mcp__github__create_issue`. Permission rules support `*` and `**` wildcards, for example `mcp__github__*` matches all tools under that server. MCP tool parameters are not included in permission matching.
+  Calls that do not match any permission rule trigger an approval request. Selecting "Approve for this session" in the approval dialog automatically allows subsequent calls of the same kind within the current session.
+  You can also pre-configure permanent rules in `[[permission.rules]]` in `config.toml`:
+  ```toml
+  [[permission.rules]]
+  decision = "allow"
+  pattern = "mcp__github__*"
+  [[permission.rules]]
+  decision = "deny"
+  pattern = "mcp__filesystem__write_file"
+  ```

@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-sub-agents-security-considerations
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Security Considerations
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  - **Tool Restrictions**: Use `tools` to limit which tools a subagent can access, or `disallowedTools` to block specific tools while inheriting everything else
+  - **Permission Mode**: Subagents inherit their parent's permission mode by default. Plan-mode sessions cannot escalate to auto-edit through delegated agents. Privileged modes (auto-edit, yolo) are blocked in untrusted folders.
+  - **Provider Selection**: A subagent with `model: authType:modelId`, or
+    `model: fast` where `fastModel` resolves to another auth type, sends that
+    subagent's model requests to the selected provider. Make sure that provider is
+    appropriate for the subagent's task and data.
+  - **Sandboxing**: All tool execution follows the same security model as direct tool use

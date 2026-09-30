@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-notification
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Notification
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  **Purpose**: Executed when notifications are sent to customize or intercept them.
+  **Event-specific fields**:
+  ```json
+  {
+    "message": "notification message content",
+    "title": "notification title (optional)",
+    "notification_type": "permission_prompt | idle_prompt | auth_success"
+  }
+  ```
+  > **Note**: `elicitation_dialog` type is defined but not currently implemented.
+  **Output Options**:
+  - `hookSpecificOutput.additionalContext`: additional information to include
+  - Standard hook output fields
+  **Example Output**:
+  ```json
+  {
+    "hookSpecificOutput": {
+      "additionalContext": "Notification processed by monitoring system."
+    }
+  }
+  ```

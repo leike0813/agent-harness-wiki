@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-bearer-parse
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/mcp_bearer_token_file.rs
+  start: 44
+  end: 62
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub fn from_meta(meta: Option<&acp::Meta>) -> Result<Option<Self>, BearerTokenPathError> {
+          let Some(value) = meta.and_then(|meta| meta.get(META_KEY)) else {
+              return Ok(None);
+          };
+          let configured = value.as_str().ok_or(BearerTokenPathError::NotAString)?;
+          Self::parse(configured, xai_dirs::home_dir().as_deref()).map(Some)
+      }
+      fn parse(configured: &str, home: Option<&Path>) -> Result<Self, BearerTokenPathError> {
+          match configured.strip_prefix("~/") {
+              Some(rest) => {
+                  let home =
+                      home.ok_or_else(|| BearerTokenPathError::NoHomeDir(configured.to_owned()))?;
+                  BearerTokenPath::try_from(home.join(rest))
+              }

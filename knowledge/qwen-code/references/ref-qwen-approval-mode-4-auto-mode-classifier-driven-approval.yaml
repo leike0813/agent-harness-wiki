@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-approval-mode-4-auto-mode-classifier-driven-approval
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "4. Auto Mode - Classifier-Driven Approval"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Auto Mode sits between Auto-Edit and YOLO. An LLM classifier evaluates each
+  shell command, network call, and out-of-workspace edit and auto-approves
+  the ones it judges safe while blocking risky ones. Most read-only operations
+  and in-workspace edits skip the classifier for speed.
+  See [auto-mode.md](./auto-mode.md) for the full reference (hints
+  configuration, troubleshooting, FAQ).
+  ### When to use Auto Mode
+  - **Long autonomous sessions**: When Ask Permissions Mode interrupts too often but
+    YOLO is too risky.
+  - **Trusted projects**: Internal codebases where the agent should keep
+    moving but you still want a guardrail on destructive shell commands and
+    outbound network calls.
+  - **Headless / scheduled runs**: Where Auto-Edit isn't enough (the agent

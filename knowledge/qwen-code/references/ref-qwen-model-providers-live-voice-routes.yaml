@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-model-providers-live-voice-routes
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Live Voice routes
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Set `realtimeOnly: true` on a route that speaks the DashScope Realtime
+  (speech-to-speech) protocol. Such a route is never offered as a chat, fast,
+  vision, voice or image model; it can only be chosen as the Live Voice model
+  through `experimental.liveVoice.model` (a `modelId`, or `provider:modelId` when
+  the same id exists under more than one provider).
+  ```json
+  {
+    "modelProviders": {
+      "openai": [
+        {
+          "id": "qwen3.5-omni-plus-realtime",
+          "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+          "envKey": "DASHSCOPE_API_KEY",
+          "realtimeOnly": true
+        }
+      ]
+    },
+    "experimental": {
+      "liveVoice": {
+        "enabled": true,
+        "model": "qwen3.5-omni-plus-realtime",
+        "voice": "Tina"
+      }
+    }
+  }
+  ```

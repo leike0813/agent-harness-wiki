@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-marketplace-add
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Add a marketplace
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  A marketplace source is a GitHub repository, a git URL on any host, or a local folder. Add one from the command line:
+  ```bash
+  grok plugin marketplace add my-org/team-plugins                  # GitHub shorthand (owner/repo)
+  grok plugin marketplace add https://gitlab.com/acme/plugins.git  # any git host, include https:// and .git
+  grok plugin marketplace add ./my-marketplace                     # a local folder
+  ```
+  List, refresh, and remove sources with `grok plugin marketplace list`, `grok plugin marketplace update [<name>]`, and `grok plugin marketplace remove <url>`.
+  You can also declare sources in config so they are always present.
+  ### In config.toml
+  Each source needs a `name` and either a `git` URL (with an optional `branch`) or a local `path`:
+  ```toml
+  [[marketplace.sources]]

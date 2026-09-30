@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-details-transport
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/mcp_servers/server_details.rs
+  start: 20
+  end: 41
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  #[derive(Debug, Clone, PartialEq, Eq)]
+  pub enum McpServerTransport {
+      Stdio {
+          command: PathBuf,
+          args: Vec<String>,
+          env: Vec<(String, String)>,
+          cwd: Option<PathBuf>,
+      },
+      Http {
+          url: String,
+          /// The `Authorization` header from `bearer_token_env_var` is the last entry.
+          headers: Vec<(String, String)>,
+          /// As configured; the MCP client parses it when the server starts.
+          bearer_token_file: Option<String>,
+      },
+      Sse {
+          url: String,
+          headers: Vec<(String, String)>,
+          bearer_token_file: Option<String>,
+      },
+  }

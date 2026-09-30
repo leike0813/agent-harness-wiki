@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-skills-locations
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Skill Locations
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  Kimi Code CLI scans four tiers by scope; more specific scopes take higher priority: **Project > User > Extra > Built-in**
+  **User level** (applies to all projects):
+  - `$KIMI_CODE_HOME/skills/` (default: `~/.kimi-code/skills/`)
+  - `~/.agents/skills/`
+  The Kimi-specific user Skill directory moves with `KIMI_CODE_HOME`, so isolated data roots also get isolated Kimi-specific Skills. The generic `~/.agents/skills/` directory stays under the real OS home so it can be shared across tools.
+  **Project level** (project root = the nearest directory containing `.git`, searching upward from the working directory):
+  - `.kimi-code/skills/`
+  - `.agents/skills/`
+  **Extra directories**: Declared via `extra_skill_dirs` at the top level of `config.toml`:
+  ```toml

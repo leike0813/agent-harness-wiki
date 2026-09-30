@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-doc-overlay
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: "Injecting config with `GROK_CONFIG`"
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  A harness or ACP client that launches `grok agent stdio` can inject settings without writing a `config.toml` or relocating `$GROK_HOME`:
+  - **`GROK_CONFIG`**: an inline JSON object overlay.
+  - **`GROK_CONFIG_PATH`**: an *additional* file overlay (not a replacement for `config.toml`), a JSON or TOML file read by its extension (`.json` → JSON, else TOML). `GROK_CONFIG` wins if both are set. An empty `GROK_CONFIG` is treated as unset, and a malformed one logs a warning and falls through to `GROK_CONFIG_PATH`.
+  The overlay is **deep-merged** on top of your `config.toml` (it overrides only the keys it sets), placed above the user/managed layers but **below** `requirements.toml` / MDM so an enterprise pin still wins. A malformed blob is ignored with a warning.

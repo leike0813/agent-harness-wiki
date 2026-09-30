@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-docs-hooks-contract
+harness_id: grok
+snapshot_id: snapshot-grok-docs-hooks
+locator:
+  kind: document_section
+  heading: The script contract
+official_url: "https://docs.x.ai/build/features/hooks"
+excerpt: |-
+  The event arrives as JSON on stdin, including `hookEventName`, `sessionId`, `cwd`, `workspaceRoot`, and for tool events `toolName` and `toolInput`. Every hook process also receives `GROK_HOOK_EVENT`, `GROK_HOOK_NAME`, `GROK_SESSION_ID`, and `GROK_WORKSPACE_ROOT` in its environment.
+  A `PreToolUse` hook decides by writing JSON to stdout:
+  ```json
+  { "decision": "deny", "reason": "Unsafe command detected" }
+  ```
+  Exit code 0 allows, exit code 2 denies. Everything else — timeouts, crashes, malformed output — is fail-open: the failure is recorded in the session but the tool call proceeds. Only an explicit `deny` blocks. For passive events, stdout is ignored; exit 0 on success.

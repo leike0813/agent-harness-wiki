@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-paths-system
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/paths.rs
+  start: 22
+  end: 29
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// System-wide config directory: `/etc/grok/` on Unix, `None` on Windows.
+  pub fn system_config_dir() -> Option<PathBuf> {
+      if cfg!(unix) {
+          Some(PathBuf::from("/etc/grok"))
+      } else {
+          None
+      }
+  }

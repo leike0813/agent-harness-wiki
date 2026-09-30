@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-model-providers-key-differences
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Key differences
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  | Aspect                  | Provider Model                    | Runtime Model                              |
+  | ----------------------- | --------------------------------- | ------------------------------------------ |
+  | Configuration source    | `modelProviders` in settings      | CLI, env, settings layers                  |
+  | Configuration atomicity | Complete, impermeable package     | Layered, each field resolved independently |
+  | Reusability             | Always available in `/model` list | Captured as snapshot, appears if complete  |
+  | Team sharing            | Yes (via committed settings)      | No (user-local)                            |
+  | Credential storage      | Reference via `envKey` only       | May capture actual key in snapshot         |

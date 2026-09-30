@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-policy-deny
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/09-plugins.md
+  start: 315
+  end: 321
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: "**Deny wins.** A server that matches `deniedMcpServers` is blocked even if it also matches `allowedMcpServers`. If `allowedMcpServers` is present, every unlisted server is blocked; a present but empty list (`allowed_mcp_servers = []`) blocks every server the file binds, so do not ship it as a scaffold. A deny-only file blocks the listed servers and leaves the rest alone (an empty deny list is harmless). Across layers, a server must pass **every** restricted source."

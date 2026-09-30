@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-manifest-name
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/manifest.rs
+  start: 17
+  end: 27
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Regex pattern for valid plugin names: lowercase alphanumeric and hyphens.
+  fn is_valid_plugin_name(name: &str) -> bool {
+      !name.is_empty()
+          && name.len() <= MAX_PLUGIN_NAME_LEN
+          && name
+              .bytes()
+              .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'-')
+          && !name.starts_with('-')
+          && !name.ends_with('-')
+  }

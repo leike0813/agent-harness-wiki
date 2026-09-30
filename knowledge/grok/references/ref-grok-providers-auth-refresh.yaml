@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-providers-auth-refresh
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Automatic Credential Refresh
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Grok automatically refreshes expired credentials:
+  - **Before expiry:** If your auth provider returned `expires_in` (JSON output) or you set `auth_token_ttl`, Grok re-runs the auth binary ~5 minutes before expiry.
+  - **On auth error:** If the server returns 401 Unauthorized, Grok refreshes the credentials and retries the request.
+  - **OIDC:** If a `refresh_token` is available, Grok silently refreshes via your IdP without re-opening the browser.
+  Tune the refresh buffer:
+  ```bash

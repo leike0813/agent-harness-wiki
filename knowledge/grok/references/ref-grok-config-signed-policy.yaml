@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-signed-policy
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/signed_policy.rs
+  start: 1
+  end: 14
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  //! Ed25519-signed, identity-bound managed-policy envelope.
+  //!
+  //! The server signs policy, principal, and expiry.
+  //! The client verifies against a compiled-in key set (by signed `key_id`), binds the principal, and checks the on-disk bytes match.
+  //! This build has the prod `v1` key compiled in; keyless (`&[]`) keeps the cache marker as authority.
+  use std::sync::atomic::{AtomicBool, Ordering};
+  use base64::Engine;
+  // Shared wire types with the deployment-config server: a field rename breaks compile on both sides.
+  pub use prod_mc_cli_chat_proxy_types::{
+      MANAGED_CONFIG_NONCE_ECHO_HEADER, MANAGED_IDENTITY_TYP, MANAGED_POLICY_TYP,
+      ManagedIdentityClaim, SignatureEnvelope, SignedPayload, is_server_nonce_shape, now_unix,

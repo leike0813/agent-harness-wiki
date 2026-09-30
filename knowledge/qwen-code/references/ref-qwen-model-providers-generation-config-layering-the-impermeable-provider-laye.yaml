@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-model-providers-generation-config-layering-the-impermeable-provider-laye
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Generation Config Layering: The Impermeable Provider Layer"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  The configuration resolution follows a strict layering model with one crucial rule: **the modelProvider layer is impermeable**.
+  ### How it works
+  1. **When a modelProvider model IS selected** (e.g., via `/model` command choosing a provider-configured model):
+     - The entire `generationConfig` from the provider is applied **atomically**
+     - **The provider layer is completely impermeable** — lower layers (CLI, env, settings) do not participate in generationConfig resolution at all
+     - All fields defined in `modelProviders[].generationConfig` use the provider's values
+     - All fields **not defined** by the provider are set to `undefined` (not inherited from settings)
+     - This ensures provider configurations act as a complete, self-contained "sealed package"

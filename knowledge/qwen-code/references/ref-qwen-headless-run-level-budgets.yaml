@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-run-level-budgets
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Run-level budgets
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Qwen Code can abort an unattended run when it crosses one of the following thresholds. Each is `-1` (unlimited) by default; setting any one is enough to bound runaway behavior. They are enforced cooperatively against the same `AbortController` that already carries SIGINT, so a budget abort emits a structured `FatalBudgetExceededError` (exit code **55**) — distinct from the turn-cap exit code 53 and SIGINT's 130 so CI scripts can branch on the reason.
+  | Flag                  | Settings key               | What it bounds                                                                                                                                                                                                |

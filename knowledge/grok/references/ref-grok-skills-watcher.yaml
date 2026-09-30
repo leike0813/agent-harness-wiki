@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-watcher
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 137
+  end: 156
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub fn collect_skill_config_dirs(
+      cwd: Option<&Path>,
+      workspace_user_dir: Option<&Path>,
+      global_dir: &Path,
+      config_paths: &[String],
+      compat: CompatConfig,
+  ) -> Vec<PathBuf> {
+      let project_sources = cwd.map(|cwd| {
+          crate::repo::StartupProjectSources::with_workspace_user(
+              cwd,
+              workspace_user_dir.map(Path::to_path_buf),
+          )
+      });
+      collect_skill_config_dirs_from_sources(
+          project_sources.as_ref(),
+          global_dir,
+          config_paths,
+          compat,
+      )
+  }

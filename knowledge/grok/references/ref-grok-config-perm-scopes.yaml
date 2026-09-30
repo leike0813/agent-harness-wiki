@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-perm-scopes
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: "Where Permission Rules Live (Scopes)"
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Permission rules can be global (all projects), project-scoped (one repository), or personal to you within a project:
+  | Scope | File | Shared with teammates |
+  |-------|------|-----------------------|
+  | Global (all projects) | `~/.grok/config.toml` | No |
+  | Project (committed) | `<project>/.grok/config.toml` | Yes (commit it) |
+  | Project (personal) | `<project>/.claude/settings.local.json` | No (gitignore it) |
+  | Interactive grants | Stored internally by Grok, per project | No |
+  Notes on scoping:
+  - Grok discovers a `.grok/config.toml` at every directory level from the repository root down to your working directory, so a subdirectory can add rules on top of the repo root's.

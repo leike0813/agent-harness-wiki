@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-validation-requirements
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/validation.rs
+  start: 63
+  end: 83
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub fn requirements_layers() -> Vec<RequirementsLayer> {
+      let mut out = Vec::new();
+      if let Some(user_path) = user_grok_home().map(|g| g.join("requirements.toml"))
+          && let Some(value) = load_requirements_layer(&user_path)
+      {
+          out.push(RequirementsLayer {
+              value,
+              source: RequirementsSource::File(user_path),
+              is_system: false,
+          });
+      }
+      if let Some(dir) = system_config_dir() {
+          let sys_path = dir.join("requirements.toml");
+          if let Some(value) = load_requirements_layer(&sys_path) {
+              out.push(RequirementsLayer {
+                  value,
+                  source: RequirementsSource::File(sys_path),
+                  is_system: true,
+              });
+          }
+      }

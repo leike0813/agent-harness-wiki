@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-persona-resolution
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/16-subagents.md
+  start: 131
+  end: 144
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ### Persona Resolution
+  When a persona applies, Grok Build resolves the effective model and reasoning effort in this order, highest priority first:
+  1. Explicit spawn-time override
+  2. Role default
+  3. Persona default
+  4. Parent session
+  Isolation follows the same order for the first three steps but defaults to `none` (no worktree) rather than inheriting from the parent session.
+  If a persona is requested but cannot be resolved -- it is not found, has no instructions, or its `instructions_file` is unreadable -- the spawn fails.
+  ---

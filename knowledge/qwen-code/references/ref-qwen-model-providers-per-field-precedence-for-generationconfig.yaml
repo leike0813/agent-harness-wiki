@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-model-providers-per-field-precedence-for-generationconfig
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Per-field precedence for `generationConfig`"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  | Priority | Source                                        | Behavior                                                                                                 |
+  | -------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+  | 1        | Programmatic overrides                        | Runtime `/model`, `/auth` changes                                                                        |
+  | 2        | `modelProviders[authType][].generationConfig` | **Impermeable layer** - completely replaces all generationConfig fields; lower layers do not participate |

@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-guide-output
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: "Output (Blocking Hooks)"
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  For `PreToolUse` hooks, write JSON to **stdout**:
+  - **Allow**: `{"decision": "allow"}`
+  - **Deny**: `{"decision": "deny", "reason": "Unsafe command detected"}`
+  - **Ask the user**: `{"decision": "ask", "reason": "Confirm this deploy"}`
+  - **State no opinion**: `{"decision": "defer"}`
+  - **Rewrite the tool input**: `{"hookSpecificOutput": {"hookEventName": "PreToolUse", "updatedInput": {"command": "npm test"}}}`
+  - **Tell the model something**: `{"hookSpecificOutput": {"hookEventName": "PreToolUse", "additionalContext": "This repo builds with xb, not cargo"}}`
+  The decision can be written as top-level `decision` or as `hookSpecificOutput.permissionDecision`.

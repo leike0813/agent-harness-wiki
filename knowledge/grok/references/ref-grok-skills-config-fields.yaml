@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-config-fields
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 22
+  end: 40
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub struct SkillsConfig {
+      /// Additional skill locations to load.
+      /// Each entry is a `SKILL.md` file or a directory walked recursively.
+      /// Supports `~` expansion.
+      #[serde(default)]
+      pub paths: Vec<String>,
+      /// Path prefixes to exclude.
+      /// Any skill whose resolved path starts with one of these entries is filtered out.
+      /// Supports `~` expansion.
+      #[serde(default)]
+      pub ignore: Vec<String>,
+      /// Skill names that are disabled.
+      /// Disabled skills remain in the list (unlike `ignore` which hides them entirely).
+      /// They are excluded from the system prompt and skill tool invocation.
+      #[serde(default)]
+      pub disabled: Vec<String>,

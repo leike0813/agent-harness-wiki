@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-custom-env
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: "Custom Environment Variables (`env` field)"
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Each handler can declare additional env vars to inject into the child process:
+  ```json
+  {
+    "type": "command",
+    "command": "bin/check.sh",
+    "env": {
+      "MY_API_TOKEN": "secret-here",
+      "LOG_LEVEL": "debug"
+    }
+  }
+  ```
+  Values must be **strings**. JSON numbers and bools currently fail to parse; wrap
+  them in quotes if you need them.
+  For plugin hooks, the plugin adapter additionally injects
+  `GROK_PLUGIN_ROOT` and `GROK_PLUGIN_DATA`. These keys override any user-declared
+  values for the same names (the plugin contract is non-negotiable).

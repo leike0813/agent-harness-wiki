@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-details-skip
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/mcp_servers/server_details.rs
+  start: 118
+  end: 127
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  #[derive(Debug, Clone, PartialEq, Eq)]
+  pub enum McpServerSkipReason {
+      DisabledInConfig,
+      ListedInDisabledMcpServers,
+      VendorMcpsOff { vendor: CompatVendor },
+      SetupRequired,
+      InvalidSetup { reason: String },
+      InvalidEntry { reason: String },
+  }

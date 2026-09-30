@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-activation
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Activation
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Set the `QWEN_CODE_UNATTENDED_RETRY` environment variable to `true` or `1` (strict match, case-sensitive):
+  ```bash
+  export QWEN_CODE_UNATTENDED_RETRY=1
+  ```
+  > [!important]
+  > Persistent retry requires an **explicit opt-in**. `CI=true` alone does **not** activate it — silently turning a fast-fail CI job into an infinite-wait job would be dangerous. Always set `QWEN_CODE_UNATTENDED_RETRY` explicitly in your pipeline configuration.

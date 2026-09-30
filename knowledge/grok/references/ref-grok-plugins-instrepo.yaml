@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-instrepo
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/install_registry.rs
+  start: 8
+  end: 20
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  use serde::{Deserialize, Serialize};
+  /// Default install directory name under `~/.grok/`.
+  const DEFAULT_INSTALL_DIR_NAME: &str = "installed-plugins";
+  #[derive(Debug, Clone, Serialize, Deserialize)]
+  pub struct InstallRegistry {
+      /// Schema version for forward compatibility.
+      pub version: u32,
+      /// Installed repos, keyed by repo key (`<basename>-<hash8>`).
+      pub repos: HashMap<String, InstalledRepo>,
+      /// Absolute path to the install directory.
+      #[serde(skip)]

@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-nested-test
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 809
+  end: 820
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  fn find_skill_paths_nested_layout() {
+          // Nested: skills/team/infra/SKILL.md, skills/team/training/SKILL.md
+          let tmp = tempfile::tempdir().unwrap();
+          let grok_dir = tmp.path().join(".grok");
+          let skills = grok_dir.join("skills");
+          write_skill_md(&skills.join("team").join("infra"), "infra");
+          write_skill_md(&skills.join("team").join("training"), "training");
+          let paths = find_skill_paths(&grok_dir);
+          assert_eq!(paths.len(), 2);

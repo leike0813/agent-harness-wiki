@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-getting-started-extensions-step-2-understand-the-extension-files
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Step 2: Understand the Extension Files"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Let's look at the key files in your new extension.
+  ### `qwen-extension.json`
+  This is the manifest file for your extension. It tells Qwen Code how to load and use your extension.
+  ```json
+  {
+    "name": "my-first-extension",
+    "version": "1.0.0",
+    "mcpServers": {
+      "nodeServer": {
+        "command": "node",
+        "args": ["${extensionPath}${/}dist${/}example.js"],
+        "cwd": "${extensionPath}"
+      }
+    }
+  }
+  ```
+  - `name`: The unique name for your extension.
+  - `version`: The version of your extension.
+  - `mcpServers`: This section defines one or more Model Context Protocol (MCP) servers. MCP servers are how you can add new tools for the model to use.
+    - `command`, `args`, `cwd`: These fields specify how to start your server.

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-discovered
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/discovery.rs
+  start: 131
+  end: 148
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// A plugin candidate discovered on the filesystem.
+  #[derive(Debug, Clone)]
+  pub struct DiscoveredPlugin {
+      /// Parsed manifest (or synthetic for convention-based plugins).
+      pub manifest: PluginManifest,
+      /// Stable internal identity.
+      pub id: PluginId,
+      /// Absolute path to the plugin root directory.
+      pub root: PathBuf,
+      /// Canonical (symlink-resolved) root path.
+      pub canonical_root: PathBuf,
+      /// Where this plugin was discovered.
+      pub scope: PluginScope,
+      /// The concrete discovery source this plugin came from.
+      pub origin: PluginOrigin,
+      /// Whether the plugin is trusted for executable operations.
+      pub trusted: bool,
+      /// Resolved skill directories.

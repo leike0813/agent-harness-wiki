@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-sandbox-custom-sandbox-flags
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Custom Sandbox Flags
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  For container-based sandboxing, you can inject custom flags into the `docker` or `podman` command using the `SANDBOX_FLAGS` environment variable. This is useful for advanced configurations, such as disabling security features for specific use cases.
+  **Example (Podman)**:
+  To disable SELinux labeling for volume mounts, you can set the following:
+  ```bash
+  export SANDBOX_FLAGS="--security-opt label=disable"
+  ```
+  Multiple flags can be provided as a space-separated string:
+  ```bash
+  export SANDBOX_FLAGS="--flag1 --flag2=value"
+  ```

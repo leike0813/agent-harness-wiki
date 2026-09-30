@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-model-and-tool-usage-tracking
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Model and tool usage tracking
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  ```bash
+  result=$(qwen -p "Explain this database schema" --include-directories db --output-format json)
+  total_tokens=$(echo "$result" | jq -r '.[-1].stats.models // {} | to_entries | map(.value.tokens.total) | add // 0')
+  models_used=$(echo "$result" | jq -r '.[-1].stats.models // {} | keys | join(", ") | if . == "" then "none" else . end')
+  tool_calls=$(echo "$result" | jq -r '.[-1].stats.tools.totalCalls // 0')
+  tools_used=$(echo "$result" | jq -r '.[-1].stats.tools.byName // {} | keys | join(", ") | if . == "" then "none" else . end')
+  echo "$(date): $total_tokens tokens, $tool_calls tool calls ($tools_used) used with models: $models_used" >> usage.log
+  echo "$result" | jq -r '.[-1].result' > schema-docs.md
+  echo "Recent usage trends:"
+  tail -5 usage.log
+  ```

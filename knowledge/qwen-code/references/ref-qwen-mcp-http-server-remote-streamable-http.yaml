@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-mcp-http-server-remote-streamable-http
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "HTTP server (remote streamable HTTP)"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  JSON:
+  ```json
+  {
+    "mcpServers": {
+      "httpServerWithAuth": {
+        "httpUrl": "http://localhost:3000/mcp",
+        "headers": {
+          "Authorization": "Bearer your-api-token"
+        },
+        "timeout": 5000
+      }
+    }
+  }
+  ```
+  CLI:
+  ```bash
+  qwen mcp add --transport http httpServerWithAuth http://localhost:3000/mcp \
+    --header "Authorization: Bearer your-api-token" --timeout 5000
+  ```

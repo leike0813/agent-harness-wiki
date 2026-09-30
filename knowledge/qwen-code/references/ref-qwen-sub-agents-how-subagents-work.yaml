@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-sub-agents-how-subagents-work
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: How Subagents Work
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  1. **Configuration**: You create Subagents configurations that define their behavior, tools, and system prompts
+  2. **Delegation**: The main AI can automatically delegate tasks to appropriate Subagents — or fork itself (`subagent_type: "fork"`) when it needs the parent conversation context
+  3. **Execution**: Subagents work independently, using their configured tools to complete tasks
+  4. **Results**: Background runs send a completion notification containing the result to the main conversation; foreground regular subagents return results inline
+  5. **Continuation**: The main AI can use `list_agents` to find background agents and `send_message` to continue a running, paused, or completed agent

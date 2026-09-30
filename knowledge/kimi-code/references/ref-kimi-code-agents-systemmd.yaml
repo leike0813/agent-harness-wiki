@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-agents-systemmd
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: "Overriding the main agent's system prompt with SYSTEM.md"
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  To override the main agent's system prompt permanently, without passing `--agent` or `--agent-file` on every launch, write a `$KIMI_CODE_HOME/SYSTEM.md` file (default: `~/.kimi-code/SYSTEM.md`; it moves with `KIMI_CODE_HOME`). While the file exists and is non-empty, it fully replaces the built-in default main agent's system prompt (and only the prompt: the description, tool set, and sub-agent delegation allowlist are inherited from the built-in defaults). SYSTEM.md takes effect in every launch mode, including interactive TUI sessions.
+  SYSTEM.md is a plain Markdown body; no frontmatter is required or read. A missing or empty file has no effect, and a read failure falls back to the built-in prompt with a warning.
+  Explicit intent still outranks it:

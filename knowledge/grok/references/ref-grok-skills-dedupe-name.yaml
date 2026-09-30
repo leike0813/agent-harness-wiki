@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-dedupe-name
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 385
+  end: 396
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  fn dedupe_skills(skills: Vec<SkillInfo>) -> Vec<SkillInfo> {
+      let mut seen_paths: HashMap<PathBuf, usize> = HashMap::new();
+      // Maps a contested name to its claiming scope and the claimant's index in `deduped`
+      let mut seen_names: HashMap<String, (SkillScope, usize)> = HashMap::new();
+      let mut deduped: Vec<SkillInfo> = Vec::with_capacity(skills.len());
+      for mut skill in skills {
+          let canonical_path =
+              dunce::canonicalize(&skill.path).unwrap_or_else(|_| PathBuf::from(&skill.path));
+          if let Some(&kept_idx) = seen_paths.get(&canonical_path) {
+              // A file reached via both auto-discovery and `[skills].paths` is genuinely both

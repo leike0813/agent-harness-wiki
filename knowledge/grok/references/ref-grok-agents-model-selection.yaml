@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-model-selection
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/16-subagents.md
+  start: 285
+  end: 296
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ### Model Selection by the Agent
+  The `spawn_subagent` tool offers the agent a `model` argument, and its description lists the models you can pick, for when you explicitly ask for a subagent on a different model. With `[features] subagent_model_inheritance = true` (or `GROK_SUBAGENT_MODEL_INHERITANCE=1`), both are hidden whenever every model in your picker is an xAI model: subagents then always inherit the parent's model, and a spawn that still names one fails with a message asking the agent to retry without it. Catalogs with a third-party model, a model with no declared family, or a catalog still loading keep the argument. `[subagents.models]` pins, roles, and personas are unaffected. Read when a session starts; changing it requires a restart.

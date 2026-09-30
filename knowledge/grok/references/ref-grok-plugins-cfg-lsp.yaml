@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-cfg-lsp
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: LSP servers
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Language servers power passive diagnostics and the optional `lsp` tool (see the [`lsp_tools`](#general-settings) feature flag). Definitions come from three sources and merge by server name:
+  | Source | Location | Scope |
+  |--------|----------|-------|
+  | User | `~/.grok/lsp.json` | All projects |
+  | Project | `.grok/lsp.json` | Current repository |
+  | Plugin | A trusted plugin's `.lsp.json` file, or an inline `lspServers` block in its `plugin.json` | Wherever the plugin is enabled |
+  When the same server name comes from more than one source, it resolves highest-priority first:
+  1. **Project** — `.grok/lsp.json`
+  2. **User** — `~/.grok/lsp.json`
+  3. **Plugins** — file-based `.lsp.json`, then inline `lspServers`, in plugin load order

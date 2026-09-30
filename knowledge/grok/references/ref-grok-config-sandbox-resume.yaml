@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-sandbox-resume
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Resuming Sessions
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  The profile a session was started with is saved with the session and is **fixed
+  for the life of the session**. When you resume it (`grok --resume <id>`,
+  `grok --continue`, or `grok -r`), Grok restores that same profile automatically —
+  so a session started with `--sandbox workspace` won't silently come back under a
+  stricter default and break commands that previously worked.
+  Resuming will **not** change a session's sandbox:
+  - Omitting `--sandbox` on resume uses the session's saved profile.
+  - Passing `--sandbox <profile>` that **matches** the saved profile is allowed.
+  - Passing `--sandbox <profile>` that **differs** from the saved profile is
+    **refused with an error** — changing a resumed session's sandbox is a safety

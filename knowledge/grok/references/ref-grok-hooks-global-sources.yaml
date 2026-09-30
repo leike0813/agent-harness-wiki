@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-global-sources
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/global_hook_sources.rs
+  start: 13
+  end: 23
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+  pub enum GlobalHookSourceKind {
+      /// `$GROK_HOME/hooks/` (discovered and protected).
+      HookDirectory,
+      /// `$GROK_HOME/hooks-paths` (protected; never loaded as hook JSON).
+      RegistryFile,
+      /// Absolute registry target (must exist before sandbox apply).
+      ConfiguredSource,
+      /// `$GROK_HOME` trust-boundary file (protected; never hook JSON or a discovery source).
+      TrustBoundaryFile,
+  }

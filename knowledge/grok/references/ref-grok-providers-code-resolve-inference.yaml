@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-providers-code-resolve-inference
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/endpoints.rs
+  start: 138
+  end: 141
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub fn resolve_inference_base_url(&self) -> String {
+          self.models_base_url
+              .clone()
+              .unwrap_or_else(|| self.proxy_url())

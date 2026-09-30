@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-spawning
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/16-subagents.md
+  start: 146
+  end: 160
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ## Spawning Subagents
+  The main agent calls the `spawn_subagent` tool. Its parameters:
+  | Parameter           | Description                                                       |
+  | ------------------- | ---------------------------------------------------------------- |
+  | `prompt`            | The full task prompt for the subagent.                           |
+  | `description`       | A short label for the task (3-5 words).                          |
+  | `run_in_background` | Run in the background and return a subagent ID. Defaults to `true`. |
+  | `isolation`         | `none` (shared workspace, the default) or `worktree` (isolated git worktree). |
+  | `resume_from`       | Continue a completed subagent's conversation. Pass its subagent ID. |

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-input-output-rules
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Input/Output Rules
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  ### Hook Input Structure
+  All hook executors receive the standardized event input. The delivery boundary depends on the executor:
+  | Hook type  | Input recipient                                                 |
+  | :--------- | :-------------------------------------------------------------- |
+  | `command`  | Child process through JSON on `stdin`                           |
+  | `http`     | Configured endpoint through a JSON `POST` body                  |
+  | `function` | Trusted in-process callback                                     |
+  | `prompt`   | Configured model provider after the input replaces `$ARGUMENTS` |
+  Function hooks are trusted code running in the Qwen process. They receive an in-process object, so fields must not be treated as immutable against a function hook.

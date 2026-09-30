@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-sandbox-linux-tool-execution-sandbox
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Linux tool execution sandbox
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  On Linux, install `bwrap` (Bubblewrap) for the strongest supported boundary, then enable the tool execution sandbox in your **User** settings (`~/.qwen/settings.json`, or the directory selected by `QWEN_HOME`) or administrator **System** settings:
+  ```json
+  {
+    "tools": {
+      "executionSandbox": {
+        "backend": "auto",
+        "filesystem": "workspace-write",
+        "network": "closed"
+      }
+    }
+  }
+  ```
+  `filesystem` and `network` are required. `backend` defaults to `auto`, which tries bwrap first. When bwrap is unavailable and `network` is `open`, `auto` can use the bundled Landlock helper on kernels with Landlock ABI 3 or newer. Set `backend` to `bwrap` or `landlock` to require that exact implementation. Landlock cannot enforce `network: closed` or hide explicit masked paths.

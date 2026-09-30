@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-discover-head
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/discovery.rs
+  start: 255
+  end: 272
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Returns plugins deduplicated by canonical path, with name conflicts resolved by scope precedence.
+  pub fn discover_plugins(
+      cwd: Option<&Path>,
+      config: &DiscoveryConfig,
+      trust_store: &TrustStore,
+      project_trusted: bool,
+  ) -> Vec<DiscoveredPlugin> {
+      let _plugin_discovery_timer = crate::timing::timer("plugin_discovery");
+      let mut seen_paths: HashSet<PathBuf> = HashSet::new();
+      let mut candidates: Vec<DiscoveredPlugin> = Vec::new();
+      // 1. CLI --plugin-dir paths
+      for dir in &config.cli_plugin_dirs {
+          if dir.is_dir() {
+              collect_plugin(
+                  dir,
+                  PluginScope::CliOverride,
+                  PluginOrigin::CliOverride,

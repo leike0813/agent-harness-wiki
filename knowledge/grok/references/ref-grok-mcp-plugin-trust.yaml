@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-plugin-trust
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/09-plugins.md
+  start: 148
+  end: 154
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Enabled plugins require trust to load skills, commands, hooks, MCP servers, and LSP servers. Untrusted plugin agents remain listed with frontmatter only. Grok trusts plugins in `~/.grok/plugins/` automatically; project plugins in `.grok/plugins/` require trust. Install with `--trust` to grant it:
+  ```bash
+  grok plugin install <source> --trust
+  ```
+  Trusted plugin `.mcp.json` servers attach to the session like other MCP config, and child agents inherit them. Plugin agents (`plugin-name:agent-name`) use the parent session's MCP servers by default, the same as user agents under `~/.grok/agents/`; restrict that with the `mcpInheritance` frontmatter (see [Subagents](16-subagents.md#mcp-inheritance)).

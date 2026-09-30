@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-providers-code-env-defaults
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/endpoints.rs
+  start: 270
+  end: 279
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  const XAI_API_BASE_URL_DEFAULT: &str = "https://api.x.ai/v1";
+  impl Default for EndpointsConfig {
+      fn default() -> Self {
+          Self {
+              cli_chat_proxy_base_url: std::env::var("GROK_CLI_CHAT_PROXY_BASE_URL").ok(),
+              xai_api_base_url: std::env::var("GROK_XAI_API_BASE_URL")
+                  .unwrap_or_else(|_| XAI_API_BASE_URL_DEFAULT.to_owned()),
+              alpha_test_key: None,
+              models_base_url: env_string("GROK_MODELS_BASE_URL"),
+              models_list_url: env_string("GROK_MODELS_LIST_URL"),

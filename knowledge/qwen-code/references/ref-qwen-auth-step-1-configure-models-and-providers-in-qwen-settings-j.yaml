@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-auth-step-1-configure-models-and-providers-in-qwen-settings-j
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Step 1: Configure models and providers in `~/.qwen/settings.json`"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Define which models are available for each protocol. Each model entry requires at minimum an `id`; `envKey` (the environment variable name that holds your API key) is optional and recommended — when omitted, it falls back to the auth type's default env key (e.g. `OPENAI_API_KEY` for `openai`).
+  > [!important]
+  >
+  > It is recommended to define `modelProviders` in the user-scope `~/.qwen/settings.json` to avoid merge conflicts between project and user settings.
+  Edit `~/.qwen/settings.json` (create it if it doesn't exist). You can mix multiple protocols in a single file — here is a multi-provider example showing just the `modelProviders` section:
+  ```json
+  {
+    "modelProviders": {
+      "openai": [
+        {
+          "id": "gpt-4o",
+          "name": "GPT-4o",
+          "envKey": "OPENAI_API_KEY",

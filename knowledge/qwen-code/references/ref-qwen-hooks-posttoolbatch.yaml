@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-posttoolbatch
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: PostToolBatch
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  **Purpose**: Runs once after all tool calls in a batch have resolved, before their results are returned to the model. Use it to review the batch as a whole, add context to it, or stop it.
+  **Matcher**: None. `PostToolBatch` always fires, and a `matcher` on it is ignored.
+  **Event-specific fields**:
+  ```json
+  {
+    "permission_mode": "default | plan | auto_edit | auto | yolo",
+    "tool_calls": [
+      {
+        "tool_name": "runtime tool id, for example run_shell_command",
+        "tool_input": "object containing the tool's input parameters",
+        "tool_use_id": "the call id from the model's request",
+        "tool_call_id": "the same call id (optional)",
+        "status": "success | error | cancelled",

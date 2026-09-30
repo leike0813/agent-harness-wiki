@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-headless-init-status
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/src/headless/mcp_init.rs
+  start: 51
+  end: 53
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Messages tokens: Ready is `connected`; NeedsAuth and SetupRequired share `needs-auth`.
+  /// `disabled` requires `sessionMcpResolved`: list `enabled` is claim-set membership and is
+  /// empty before the init pass, so an unresolved Unavailable+!enabled row is still `pending`.

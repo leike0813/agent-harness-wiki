@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-update
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/git_install.rs
+  start: 681
+  end: 700
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub fn update_repo(
+      repo_key: &str,
+      repo: &InstalledRepo,
+      require_sha: bool,
+  ) -> Result<UpdateStatus, InstallError> {
+      match &repo.kind {
+          InstallKind::Local { .. } => Ok(UpdateStatus::LiveLocal),
+          InstallKind::Git {
+              url,
+              git_ref,
+              commit,
+              subdir,
+          } => {
+              // Check if pinned
+              if let Some(r) = git_ref {
+                  // Heuristic: if the ref looks like a commit hash or a version tag (starts with v and contains dots), it's pinned
+                  let is_tag_or_commit =
+                      is_full_commit_sha(r) || (r.starts_with('v') && r.contains('.'));
+                  if is_tag_or_commit {
+                      return Ok(UpdateStatus::Pinned {

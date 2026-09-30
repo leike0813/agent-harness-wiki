@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-plugin-info-status
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-hooks-plugins-types/src/lib.rs
+  start: 303
+  end: 316
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  #[serde(default)]
+      pub hook_count: usize,
+      /// Number of MCP servers.
+      pub mcp_server_count: usize,
+      /// MCP server status (active, active_inline, blocked, none).
+      pub mcp_status: McpStatus,
+      /// Marketplace source display name (None for non-marketplace installs).
+      #[serde(default, skip_serializing_if = "Option::is_none")]
+      pub marketplace_source: Option<String>,
+      /// The concrete discovery source (None when sent by an older shell).
+      #[serde(default, skip_serializing_if = "Option::is_none")]
+      pub origin: Option<PluginOrigin>,
+      /// Warning when this plugin shadowed another with the same name.
+      #[serde(default, skip_serializing_if = "Option::is_none")]

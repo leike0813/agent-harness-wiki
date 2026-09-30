@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-posttooluse
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: PostToolUse
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  **Purpose**: Executed after a tool completes successfully to process results, log outcomes, or inject additional context.
+  **Event-specific fields**:
+  ```json
+  {
+    "permission_mode": "default | plan | auto_edit | auto | yolo",
+    "tool_name": "name of the tool that was executed",
+    "tool_input": "object containing the tool's input parameters",
+    "tool_response": "object containing the tool's response",
+    "tool_use_id": "unique identifier for this tool use instance (internal format, e.g., toolu_xxx)",
+    "tool_call_id": "original API call ID from the LLM provider (e.g., call_xxx for OpenAI/Qwen) (optional)",
+    "duration_ms": "tool execution time in milliseconds, excluding approval (optional)"
+  }
+  ```
+  **Output Options**:
+  - `decision`: "allow", "deny", "block" (defaults to "allow" if not specified)

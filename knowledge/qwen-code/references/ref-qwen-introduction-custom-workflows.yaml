@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-introduction-custom-workflows
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Custom workflows
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Extensions can ship workflow scripts by placing `.js` files in a `workflows/` subdirectory, or in the directories and files the manifest lists in `workflows`. They appear only when Workflows are enabled with the [`tools.workflowsEnabled`](../configuration/settings.md) setting, which is off by default; the install consent prompt lists them either way.
+  **Example**
+  An extension named `gcp` with the following structure:
+  ```
+  .qwen/extensions/gcp/
+  ├── qwen-extension.json
+  └── workflows/
+      └── deep-research.js
+  ```
+  provides one workflow when its script declares a static `meta` object with `name: 'deep-research'`, registered as `gcp:deep-research` — the extension's `name`, a colon, then `meta.name`.

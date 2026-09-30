@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-extension-releasing-releasing-through-npm-registry
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Releasing through npm registry
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  You can publish Qwen Code extensions as scoped npm packages (e.g. `@your-org/my-extension`). This is a good fit when:
+  - Your team already uses npm for package distribution
+  - You need private registry support with existing auth infrastructure
+  - You want version resolution and access control handled by npm
+  ### Package requirements
+  Your npm package must include a supported manifest at the package root: `qwen-extension.json` for a native Qwen extension, or `plugin.json` for an [Agent Plugins v1](./agent-plugins.md) package. The npm tarball is simply another delivery mechanism.
+  A minimal package structure looks like:
+  ```
+  my-extension/
+  ├── package.json
+  ├── qwen-extension.json
+  ├── QWEN.md              # optional context file
+  ├── commands/             # optional custom commands

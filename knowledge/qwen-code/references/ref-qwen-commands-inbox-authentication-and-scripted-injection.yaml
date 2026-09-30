@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-commands-inbox-authentication-and-scripted-injection
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Inbox authentication and scripted injection
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Each session's inbox requires a per-session token: a connection must
+  present it on its first line before any message is read, and sessions
+  exchange tokens automatically through the same registry records they
+  discover each other by. Sessions from a build without token support can
+  receive from a newer one, but their sends to it are dropped.
+  A session exports its own inbox address and a token to child processes as
+  `QWEN_CODE_MESSAGING_SOCKET` and `QWEN_CODE_MESSAGING_TOKEN`, so a script
+  or hook the session runs can send a message back into it. This is a
+  second, _child_ token that is never published anywhere: only processes
+  the session started can hold it, so a message that arrives with it is
+  recognized as the session's own rather than as another session's.
+  ```bash
+  { printf '%s\n' \

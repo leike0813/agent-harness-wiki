@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-global-filefilter
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/global_hook_sources.rs
+  start: 541
+  end: 556
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Discovery filename filter: `*.json`, not hidden, not editor temps.
+  pub fn is_direct_hook_json_name(name: &str) -> bool {
+      if !name.ends_with(".json") || name.len() <= 5 {
+          return false;
+      }
+      if name.starts_with('.') {
+          return false;
+      }
+      if name.ends_with('~') || name.ends_with(".swp") || name.ends_with(".swo") {
+          return false;
+      }
+      true
+  }
+  /// Immediate discovery JSON files under `dir` (sorted, non-recursive).
+  pub fn list_direct_hook_json_files(dir: &Path) -> io::Result<Vec<PathBuf>> {

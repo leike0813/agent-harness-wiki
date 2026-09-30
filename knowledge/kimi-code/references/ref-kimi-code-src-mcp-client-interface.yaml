@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-src-mcp-client-interface
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/mcpCore/types.ts
+  start: 21
+  end: 42
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  export interface MCPToolResult {
+    content: MCPContentBlock[];
+    isError: boolean;
+    structuredContent?: unknown;
+    _meta?: Record<string, unknown>;
+  }
+  export interface MCPToolDefinition {
+    name: string;
+    description: string;
+    inputSchema: unknown;
+  }
+  export interface MCPClient {
+    listTools(): Promise<MCPToolDefinition[]>;
+    callTool(
+      name: string,
+      args: Record<string, unknown>,
+      signal?: AbortSignal,
+    ): Promise<MCPToolResult>;
+    ping(signal?: AbortSignal): Promise<void>;
+  }

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-stream-json-output
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Stream-JSON Output
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Stream-JSON format emits JSON messages immediately as they occur during execution, enabling real-time monitoring. This format uses line-delimited JSON where each message is a complete JSON object on a single line.
+  ```bash
+  qwen -p "Explain TypeScript" --output-format stream-json
+  ```
+  Output (streaming as events occur):
+  ```json
+  {"type":"system","subtype":"session_start","uuid":"...","session_id":"..."}
+  {"type":"assistant","uuid":"...","session_id":"...","message":{...}}
+  {"type":"result","subtype":"success","uuid":"...","session_id":"..."}
+  ```
+  When combined with `--include-partial-messages`, additional stream events are emitted in real-time (message_start, content_block_delta, etc.) for real-time UI updates.
+  For JSON and stream-JSON output, textual `tool_result.content` values are

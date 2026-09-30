@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-output-formats
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Output Formats
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Qwen Code supports multiple output formats for different use cases:
+  ### Text Output (Default)
+  Standard human-readable output:
+  ```bash
+  qwen -p "What is the capital of France?"
+  ```
+  Response format:
+  ```
+  The capital of France is Paris.
+  ```
+  ### JSON Output
+  Returns structured data as a JSON array. All messages are buffered and output together when the session completes. This format is ideal for programmatic processing and automation scripts.
+  The JSON output is an array of message objects. The output includes multiple message types: system messages (session initialization), assistant messages (AI responses), and result messages (execution summary).
+  #### Example Usage
+  ```bash
+  qwen -p "What is the capital of France?" --output-format json
+  ```
+  Output (at end of execution):
+  ```json
+  [
+    {

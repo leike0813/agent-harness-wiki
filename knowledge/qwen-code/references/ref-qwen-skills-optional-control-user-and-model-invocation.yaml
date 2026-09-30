@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-skills-optional-control-user-and-model-invocation
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Optional: control user and model invocation"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Skills are user-invocable by default. To hide a Skill from direct slash-command use while keeping it available for model invocation, set `user-invocable: false`:
+  ```yaml
+  ---
+  name: model-only-helper
+  description: Helper the model can call when appropriate
+  user-invocable: false
+  ---
+  ```
+  This removes the Skill from `/<skill-name>` invocation and `/skills` picker results. It does not hide the Skill from the model.
+  To hide a Skill from model invocation while keeping direct user invocation available, set `disable-model-invocation: true`:
+  ```yaml
+  ---
+  name: manual-helper
+  description: Helper you invoke manually
+  disable-model-invocation: true
+  ---
+  ```
+  You can combine both fields, but then the Skill is not reachable through the normal user or model invocation paths.

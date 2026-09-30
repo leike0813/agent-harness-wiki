@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-guide-project
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/07-mcp-servers.md
+  start: 149
+  end: 183
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ## Project-Scoped MCP Servers
+  MCP servers can be configured per-project by placing a `.grok/config.toml` in your repository:
+  ```
+  my-project/
+    .grok/
+      config.toml
+    src/
+    ...
+  ```
+  ```toml
+  # .grok/config.toml
+  [mcp_servers.linear]
+  url = "https://mcp.linear.app/mcp"
+  enabled = true
+  ```
+  When a server exposes a native HTTP/SSE endpoint, prefer the `url` form over wrapping it in a stdio proxy such as `npx mcp-remote <url>`. Grok handles HTTP/SSE and OAuth directly, so the native form avoids an extra subprocess per session. It also registers Grok's own OAuth client with the provider.
+  Grok walks from the current directory up to the git repo root, loading `.grok/config.toml` at each level:
+  | Location | Scope | Priority |
+  |----------|-------|----------|

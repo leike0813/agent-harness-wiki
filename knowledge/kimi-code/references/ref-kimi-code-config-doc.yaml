@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-config-doc
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Configuration files
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  Kimi Code CLI writes all long-term preferences into TOML (plain-text configuration) files under `~/.kimi-code/`: runtime settings live in `config.toml`, and terminal-UI preferences live in a companion `tui.toml`.
+  ## Config file location
+  The CLI reads configuration from `~/.kimi-code/config.toml`, created automatically on first run. To relocate the data directory, override it with the `KIMI_CODE_HOME` environment variable:
+  ```sh
+  export KIMI_CODE_HOME=/path/to/kimi-home
+  ```
+  The config file path then becomes `$KIMI_CODE_HOME/config.toml`. Regardless of where the directory lives, the file name is always `config.toml`.
+  ::: tip
+  TOML field names always use snake_case, for example `default_model` and `max_context_size`.

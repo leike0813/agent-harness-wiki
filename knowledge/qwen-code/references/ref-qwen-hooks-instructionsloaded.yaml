@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-instructionsloaded
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: InstructionsLoaded
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  **Purpose**: Runs for each context file Qwen loads into the system prompt, such as `QWEN.md`, and for each file those files import. Use it to audit which instruction files a session uses. It is informational: it cannot stop or change loading.
+  It fires when the session starts, when context files are reloaded during the session, and for every file pulled in through an import, after the file has been read. Qwen waits for the hooks before it continues loading; a hook failure is logged and does not stop loading.
+  **Matcher**: Matches against `file_path`. For example, `"matcher": "QWEN\\.local\\.md$"` fires only for local context files.
+  **Event-specific fields**:
+  ```json
+  {
+    "file_path": "path of the loaded file",
+    "memory_type": "user | project | local | extension",

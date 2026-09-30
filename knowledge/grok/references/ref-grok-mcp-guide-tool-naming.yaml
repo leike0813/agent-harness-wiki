@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-guide-tool-naming
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/07-mcp-servers.md
+  start: 184
+  end: 214
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ## Tool Naming
+  MCP tools are namespaced with the server name to avoid collisions. The catalog key is `server__tool` (two underscores):
+  - Server `filesystem` with tool `read_file` becomes `filesystem__read_file`
+  - Server `github` with tool `create_issue` becomes `github__create_issue`
+  - A tool segment may start with a digit: server `auth` with tool `2fa_enable` becomes `auth__2fa_enable`
+  ### What Grok admits
+  Grok admits a listed tool into the session catalog when all of these hold (`xai-grok-mcp` `qualify_mcp_tool_name`):
+  | Part | Rule |
+  | --- | --- |
+  | Server name | Starts with a letter or underscore. Then ASCII letters, digits, underscores, and hyphens only. |
+  | Tool name | Non-empty. ASCII letters, digits, underscores, and hyphens only. May start with a digit. |

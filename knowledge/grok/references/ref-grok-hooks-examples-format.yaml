@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-examples-format
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Format
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Hook files use the Claude-compatible JSON format:
+  ```json
+  {
+    "hooks": {
+      "PreToolUse": [
+        {
+          "matcher": "Bash",
+          "hooks": [
+            { "type": "command", "command": "bin/check.sh", "timeout": 5 }
+          ]
+        }
+      ]
+    }
+  }
+  ```
+  - **Event names:** `SessionStart`, `PreToolUse`, `PostToolUse`, `Stop`, `SubagentStop`, `SessionEnd` (see the [user guide](../../xai-grok-pager/docs/user-guide/10-hooks.md) for the full set)
+  - **Matcher:** regex on tool name. Claude names like `Bash`, `Read`, `Edit` are auto-expanded to also match Grok names (`run_terminal_cmd`, `read_file`, `search_replace`)
+  - **Timeout:** in seconds (default: 5)
+  - **Command:** path to script (relative to hook file directory) or inline shell command

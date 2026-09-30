@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-providers-auth-provider
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: External Auth Provider
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  When browser-based login isn't possible -- for example, on sandboxed VMs, CI runners, or air-gapped networks -- delegate authentication to an external binary or script.
+  ### How It Works
+  ```
+  +--------------+     sh -c     +------------------------+
+  |     Grok     |-------------->|  your auth binary      |
+  |              |               |                        |
+  |  reads       |<-- stdout ----|  prints token          |
+  |  auth.json   |               |                        |
+  |              |   (stderr)    |  prints status/URLs    |--> surfaced to user
+  +--------------+               +------------------------+
+  ```
+  1. Grok runs your command via `sh -c "<command>"`
+  2. Your binary runs whatever auth flow it needs (SSO, device code, certificate exchange)
+  3.

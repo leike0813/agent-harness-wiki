@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-src-skill-registry
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/features/skill/catalog/registry.ts
+  start: 86
+  end: 91
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  listInvocableSkills(): readonly SkillDefinition[] {
+      return this.listSkills().filter(
+        (skill) =>
+          skill.metadata.disableModelInvocation !== true && isInlineSkillType(skill.metadata.type),
+      );
+    }

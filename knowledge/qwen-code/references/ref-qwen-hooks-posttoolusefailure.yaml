@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-posttoolusefailure
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: PostToolUseFailure
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  **Purpose**: Executed when a tool execution fails to handle errors, send alerts, or record failures.
+  **Event-specific fields**:
+  ```json
+  {
+    "permission_mode": "default | plan | auto_edit | auto | yolo",
+    "tool_use_id": "unique identifier for the tool use (internal format, e.g., toolu_xxx)",
+    "tool_call_id": "original API call ID from the LLM provider (e.g., call_xxx for OpenAI/Qwen) (optional)",
+    "tool_name": "name of the tool that failed",
+    "tool_input": "object containing the tool's input parameters",
+    "error": "error message describing the failure",
+    "is_interrupt": "boolean indicating if failure was due to user interruption (optional)",
+    "duration_ms": "tool execution time in milliseconds when execution had started (optional)"
+  }
+  ```
+  **Output Options**:

@@ -1,0 +1,42 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-types-actions
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-hooks-plugins-types/src/lib.rs
+  start: 564
+  end: 593
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Hook management actions.
+  #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+  #[serde(tag = "type", rename_all = "snake_case")]
+  pub enum HooksAction {
+      /// Re-discover and reload all hooks mid-session.
+      Reload,
+      Trust,
+      Untrust,
+      Add {
+          path: String,
+      },
+      Remove {
+          path: String,
+      },
+      /// Enable a disabled hook by name.
+      Enable {
+          hook_name: String,
+      },
+      /// Disable a hook by name.
+      Disable {
+          hook_name: String,
+      },
+      /// Enable or disable all hooks from a source directory at once.
+      ToggleSource {
+          /// Hook names to toggle.
+          hook_names: Vec<String>,
+          /// If true, disable all; if false, enable all.
+          disable: bool,
+      },
+  }

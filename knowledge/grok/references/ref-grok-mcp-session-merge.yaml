@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-session-merge
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/mcp_servers/session_merge.rs
+  start: 1
+  end: 4
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  //! Merges configured and client MCP servers into one session list keyed by name alone.
+  //! Clients are re-admitted here, and a client keeps a configured tier only with an identical
+  //! definition, else it is foreign. Name order keeps a no-op reload equal, so MCP is not restarted.

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-loader-version-overrides
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/loader.rs
+  start: 503
+  end: 517
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub fn apply_version_overrides_with_registered(value: &mut toml::Value) -> std::io::Result<()> {
+      match xai_grok_version::installed_semver() {
+          Ok(version) => apply_version_overrides(value, &version)
+              .map_err(|e| std::io::Error::other(e.redacted())),
+          Err(_) => {
+              if let Some(table) = value.as_table_mut() {
+                  table.remove(version_overrides::VERSION_OVERRIDES_KEY);
+              }
+              Ok(())
+          }
+      }
+  }
+  /// Normalize a single config layer in place, before it is merged with the others.
+  /// `deep_merge_toml` then replaces the whole policy from the winning layer instead of mixing keys across layers.

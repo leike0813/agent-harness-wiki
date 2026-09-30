@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-guide-policy
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/07-mcp-servers.md
+  start: 439
+  end: 442
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ### Blocked by organization policy
+  If native TOML policy or Claude `managed-settings.json` sets `deniedMcpServers`, a nonempty `allowedMcpServers`, or `allowManagedMcpServersOnly`, Grok drops non-matching servers at merge time and logs `MCP server blocked by managed settings policy`. Native grok layers bind every server; the Claude file binds foreign-defined servers only. `grok inspect` shows the lists, lockdown scope, and each remaining server. Details and examples: [Restrict which MCP servers can run](09-plugins.md#restrict-which-mcp-servers-can-run).

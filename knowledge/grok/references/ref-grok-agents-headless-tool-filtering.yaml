@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-headless-tool-filtering
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/14-headless-mode.md
+  start: 62
+  end: 80
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  # Remove shell access
+  grok -p "Review this code" --disallowed-tools "run_terminal_cmd"
+  ```
+  `--disallowed-tools` also supports special `Agent` entries to control subagent spawning:
+  | Entry                  | Effect                                  |
+  | ---------------------- | --------------------------------------- |
+  | `Agent`                | Block all subagent spawning             |
+  | `Agent(explore)`       | Block the `explore` subagent type only  |
+  | `Agent(explore, plan)` | Block multiple specific types           |
+  ```bash
+  # Prevent the agent from spawning any subagents
+  grok -p "Fix this bug" --disallowed-tools "Agent"
+  # Block only the explore subagent
+  grok -p "Refactor this module" --disallowed-tools "Agent(explore)"
+  ```

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-overlay-allow
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/config_override.rs
+  start: 103
+  end: 112
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub const OVERLAY_ALLOW_PATHS: &[&[&str]] = &[
+      // Global model block (`default_reasoning_effort`, picker filters), not the per-model `[model.<id>]` block; and the soft `[features]` toggles
+      &["models"],
+      &["features"],
+      // `[toolset]` is not soft wholesale: its sinks (`web_search` base_url / api_key, `web_fetch` proxy_endpoint, `bash` cmd_prefix) stay out
+      // Only `login_shell_capture` (runs the user's own `$SHELL`) and the web-search domain lists survive
+      // The domain lists widen or narrow the user's own allowlist and are capped and requirements-clamped downstream
+      &["toolset", "bash", "login_shell_capture"],
+      &["toolset", "web_search", "allowed_domains"],
+      &["toolset", "web_search", "excluded_domains"],

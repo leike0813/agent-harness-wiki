@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-mod-doc
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/mod.rs
+  start: 1
+  end: 13
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  //! Plugin system: discover, load, and manage plugins (including compat layouts).
+  //!
+  //! A plugin is a self-contained directory that bundles skills, agents,
+  //! MCP server configs, and hooks into a namespaced unit.  Plugins can
+  //! live under `~/.grok/plugins/`, `.grok/plugins/` (project-level),
+  //! or be passed via `--plugin-dir` on the CLI.
+  pub mod discovery;
+  pub mod git_install;
+  pub mod hooks_adapter;
+  pub mod install_registry;
+  pub mod local_refresh;
+  pub mod manifest;

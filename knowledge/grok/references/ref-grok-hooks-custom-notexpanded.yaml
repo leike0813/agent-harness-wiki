@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-custom-notexpanded
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: What is NOT expanded
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  - **`matcher`** is a regex (`$` is the regex anchor for end-of-line). It is
+    never env-expanded. Substituting `$VAR` would silently change the regex's
+    semantics and likely produce an invalid pattern. If you need a dynamic
+    matcher, generate the JSON file at write time.
+  - **`timeout`** is numeric, so there is nothing to expand.
+  - **The values of the `env` map itself**: these are stored verbatim and
+    passed to the child as-is, so `"BAR": "${HOME}/x"` injects the literal
+    string `${HOME}/x` into the child's environment.

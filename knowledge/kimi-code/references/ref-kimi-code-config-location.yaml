@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-config-location
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Config file location
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  The CLI reads configuration from `~/.kimi-code/config.toml`, created automatically on first run. To relocate the data directory, override it with the `KIMI_CODE_HOME` environment variable:
+  ```sh
+  export KIMI_CODE_HOME=/path/to/kimi-home
+  ```
+  The config file path then becomes `$KIMI_CODE_HOME/config.toml`. Regardless of where the directory lives, the file name is always `config.toml`.
+  ::: tip
+  TOML field names always use snake_case, for example `default_model` and `max_context_size`. If a key contains `.`, you must quote it (for example `[models."gpt-4.1"]`); otherwise TOML treats `.` as a nested table separator.
+  :::

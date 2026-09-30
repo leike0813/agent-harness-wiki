@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-global-hookspaths
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/global_hook_sources.rs
+  start: 500
+  end: 530
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  }
+                      let path = PathBuf::from(trimmed);
+                      if !path.is_absolute() {
+                          continue;
+                      }
+                      if reject_symlinks && path_has_symlink_component(&path) {
+                          return Err(GlobalHookSourceError::SymlinkedSource { path });
+                      }
+                      push_unique(
+                          &mut out,
+                          GlobalHookSource {
+                              path,
+                              kind: GlobalHookSourceKind::ConfiguredSource,
+                          },
+                      );
+                  }
+              }
+              Err(e) if e.kind() == io::ErrorKind::NotFound => {}
+              Err(e) => {

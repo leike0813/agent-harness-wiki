@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-cmd-skills-dirs
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Custom Skills Directories
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  There are two ways to specify Skills directories, with different semantics:
+  - **`--skills-dir <dir>`** (CLI flag): **Replaces** the automatically discovered user and project directories for this launch only. Can be repeated to stack multiple directories:
+    ```sh
+    kimi --skills-dir /path/to/team-skills --skills-dir ./local-skills
+    ```
+  - **`extra_skill_dirs`** (`config.toml`): **Adds** directories on top of the automatically discovered ones, taking effect permanently. Suitable for configuring team-shared Skills. See [Agent Skills](../customization/skills.md).

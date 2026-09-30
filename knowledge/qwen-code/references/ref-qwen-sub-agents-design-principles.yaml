@@ -1,0 +1,43 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-sub-agents-design-principles
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Design Principles
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  #### Single Responsibility Principle
+  Each Subagent should have a clear, focused purpose.
+  **✅ Good:**
+  ```
+  ---
+  name: testing-expert
+  description: Writes comprehensive unit tests and integration tests
+  ---
+  ```
+  **❌ Avoid:**
+  ```
+  ---
+  name: general-helper
+  description: Helps with testing, documentation, code review, and deployment
+  ---
+  ```
+  **Why:** Focused agents produce better results and are easier to maintain.
+  #### Clear Specialization
+  Define specific expertise areas rather than broad capabilities.
+  **✅ Good:**
+  ```
+  ---
+  name: react-performance-optimizer
+  description: Optimizes React applications for performance using profiling and best practices
+  ---
+  ```
+  **❌ Avoid:**
+  ```
+  ---
+  name: frontend-developer
+  description: Works on frontend development tasks
+  ---
+  ```

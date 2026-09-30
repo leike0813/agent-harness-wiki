@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-cfg-fields
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/mcp_server_config.rs
+  start: 202
+  end: 219
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub struct McpServerConfig {
+      #[serde(flatten)]
+      pub transport: McpServerTransportConfig,
+      #[serde(default = "default_true")]
+      pub enabled: bool,
+      #[serde(default, skip_serializing_if = "Option::is_none")]
+      pub oauth: Option<McpJsonOAuthBlock>,
+      #[serde(default, skip_serializing_if = "Option::is_none")]
+      pub setup: Option<McpSetupConfig>,
+      #[serde(default, skip_serializing_if = "Option::is_none")]
+      pub startup_timeout_sec: Option<u64>,
+      #[serde(default, skip_serializing_if = "Option::is_none")]
+      pub tool_timeout_sec: Option<u64>,
+      /// Seconds per tool name. Tools not listed here fall back to `tool_timeout_sec`.
+      #[serde(default, skip_serializing_if = "Option::is_none")]
+      pub tool_timeouts: Option<HashMap<String, u64>>,

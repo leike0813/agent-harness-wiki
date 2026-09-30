@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-json-order
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/mcp_servers/json_config.rs
+  start: 1
+  end: 12
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  use std::collections::{HashMap, HashSet};
+  use std::path::{Path, PathBuf};
+  use agent_client_protocol as acp;
+  use indexmap::IndexMap;
+  use crate::compat::CompatConfig;
+  use crate::mcp_servers::server_list::{DefinitionResolver, McpServerResolution};
+  use crate::mcp_servers::{
+      McpServerSkipReason, McpServerSource, McpServerSources, SkippedMcpServer,
+  };
+  use crate::{ClaudeImport, McpConfig, McpOAuthConfigMap, McpPreferencesFile, McpServerConfig};

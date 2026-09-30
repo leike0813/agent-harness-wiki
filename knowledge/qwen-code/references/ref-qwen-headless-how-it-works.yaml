@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-how-it-works
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: How it works
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  - **Transient errors only**: HTTP 429 (Rate Limit) and 529 (Overloaded) are retried indefinitely. Other errors (400, 500, etc.) still fail normally.
+  - **Exponential backoff with cap**: Retry delays grow exponentially but are capped at **5 minutes** per retry.
+  - **Heartbeat keepalive**: During long waits, a status line is printed to stderr every **30 seconds** to prevent CI runners from killing the process due to inactivity.
+  - **Graceful degradation**: Non-transient errors and interactive mode are completely unaffected.

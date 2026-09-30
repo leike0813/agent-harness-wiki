@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-model-providers-api-key-storage
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: API Key Storage
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  When you configure Coding Plan through the `/auth` command, the API key is stored using the reserved environment variable name `BAILIAN_CODING_PLAN_API_KEY`. By default, it is stored in the `env` field of your `settings.json` file.
+  > [!warning]
+  >
+  > **Security Recommendation**: For better security, it is recommended to move the API key from `settings.json` to a separate `.env` file and load it as an environment variable. For example:
+  >
+  > ```bash
+  > # ~/.qwen/.env
+  > BAILIAN_CODING_PLAN_API_KEY=your-api-key-here
+  > ```
+  >
+  > Then ensure this file is added to your `.gitignore` if you're using project-level settings.

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-commands-programs-that-are-not-qwen-code-sessions
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Programs that are not Qwen Code sessions
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Everything above works between sessions, but nothing in it is specific to
+  one. A program that writes a registry record for itself and binds an
+  inbox the same way is listed by `qwen sessions ps` and by `list_agents`,
+  can be addressed by name from `send_message`, and receives delivery
+  receipts for what it sends — a voice front-end, a relay, a build watcher.
+  It should record `kind: "external"` so a listing can say what it is.
+  [Cross-Session Protocol](./cross-session-protocol.md) is the contract for
+  writing one: the record schema and how liveness is judged, the socket
+  paths and framing, the auth line, every frame field, the receipt states
+  and their transitions, and what a receiver does with a message before its
+  model sees it.
+  A Node program does not have to write any of that by hand:

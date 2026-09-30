@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-release-notes-generation
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Release notes generation
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  ```bash
+  result=$(git log --oneline v1.0.0..HEAD | qwen -p "Generate release notes from these commits" --output-format json)
+  response=$(echo "$result" | jq -r '.[-1].result')
+  echo "$response"
+  echo "$response" >> CHANGELOG.md
+  ```

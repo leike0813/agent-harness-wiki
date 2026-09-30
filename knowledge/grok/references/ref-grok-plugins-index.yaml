@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-index
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Write the index
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  `marketplace.json` names the marketplace and lists each plugin:
+  ```json
+  {
+    "name": "My Org Plugins",
+    "description": "Internal skills and tools",
+    "owner": { "name": "Platform Team", "email": "platform@example.com" },
+    "plugins": [
+      {
+        "name": "gdrive",
+        "description": "Search and edit Google Drive, Docs, Sheets, and Slides",
+        "category": "productivity",
+        "source": { "type": "local", "path": "./plugins/gdrive" }
+      }
+    ]
+  }
+  ```
+  Each plugin's `source` points at its files, in one of two ways:
+  - **In this repository**: `{ "type": "local", "path": "./plugins/gdrive" }`. The plain string `"./plugins/gdrive"` also works.
+  - **In a separate repository**: `{ "source": "url", "url": "https://github.com/my-org/gdrive.git", "sha": "<full commit sha>" }`.

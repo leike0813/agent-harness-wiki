@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-sub-agents-restricting-fork-tool-execution-with-fork-tools
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Restricting Fork Tool Execution with `fork_tools`"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Only `subagent_type: "fork"` accepts `fork_tools`. The array may contain exact canonical tool names, such as `read_file` and `grep_search`, or MCP server patterns such as `mcp__github`. The fork still receives the same model-visible tool declarations as an unrestricted fork, preserving its prompt-cache prefix, but its task prompt identifies the restriction and a call not matched by `fork_tools` is rejected before scheduling or approval.
+  - Forks never execute `ask_user_question`; when user input is required, they report the blocker to their parent agent.
+  - Omitting `fork_tools` allows every other inherited tool.
+  - An empty array rejects every tool call.
+  - `*` is not accepted; omit `fork_tools` to allow every otherwise-executable inherited tool.

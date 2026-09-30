@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-sandbox-common-issues
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Common issues
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  **"Operation not permitted"**
+  - Operation requires access outside sandbox.
+  - On macOS Seatbelt: try a more permissive `SEATBELT_PROFILE`.
+  - On Docker/Podman: verify the workspace is mounted and your command doesn’t require access outside the project directory.
+  **Missing commands**
+  - Container sandbox: add them via `.qwen/sandbox.Dockerfile` or `.qwen/sandbox.bashrc`.
+  - Seatbelt: your host binaries are used, but the sandbox may restrict access to some paths.
+  **Java not available in Docker sandbox**
+  The official Qwen Code Docker image is intentionally minimal to keep the image small, secure, and fast to pull. Different users require different language runtimes (Java, Python, Node.js, etc.), and bundling all environments into a single image is not practical.

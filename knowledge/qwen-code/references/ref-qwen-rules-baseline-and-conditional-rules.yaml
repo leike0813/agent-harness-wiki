@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-rules-baseline-and-conditional-rules
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Baseline and conditional rules
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  ```markdown
+  ---
+  description: How we write React components
+  paths:
+    - 'src/**/*.tsx'
+    - 'src/**/*.jsx'
+  ---
+  Components are function components. Co-locate the test beside the component.
+  Never reach for a global store for state one screen owns.
+  ```
+  - **With `paths:`** — a _conditional_ rule. It stays out of the prompt until a tool call reads or edits a file matching one of its globs, and is then injected once for the rest of the session.
+  - **Without `paths:`** — a _baseline_ rule. It is part of the system prompt from the first request, exactly like a context file, and costs the same on every turn.
+  Both fields are optional, and a rule with no frontmatter at all is a baseline rule.
+  Details worth knowing:

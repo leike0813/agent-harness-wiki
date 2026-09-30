@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-agents-format
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Agent File Format
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  An agent file is plain Markdown with a frontmatter block:
+  ```markdown
+  ---
+  name: reviewer
+  description: Strict code reviewer that reports severity-ranked findings
+  whenToUse: Code reviews and PR checks
+  override: false
+  tools:
+    - Read
+    - Grep
+    - Glob
+    - mcp__github__*
+  disallowedTools:
+    - Bash
+  ---
+  You are a strict code reviewer. Read the diff, then report findings grouped by severity…
+  ```
+  Frontmatter fields:
+  | Field | Required | Description |
+  | --- | --- | --- |
+  | `name` | no | Unique kebab-case identifier; defaults to the file name without its extension. A file with a missing or non-kebab-case name is skipped with a warning |
+  | `description` | yes | What the agent does, shown to the main Agent when it picks a sub-agent. Write it to guide delegation decisions |

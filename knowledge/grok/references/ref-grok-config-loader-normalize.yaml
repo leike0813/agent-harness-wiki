@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-loader-normalize
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/loader.rs
+  start: 523
+  end: 545
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  .and_then(|t| t.as_table_mut())
+          .and_then(|t| t.get_mut("web_search"))
+          .and_then(|v| v.as_table_mut())
+      else {
+          return;
+      };
+      let non_empty = |table: &toml::value::Table, key: &str| {
+          table
+              .get(key)
+              .and_then(toml::Value::as_array)
+              .is_some_and(|a| !a.is_empty())
+      };
+      let allowed = non_empty(web_search, "allowed_domains");
+      let excluded = non_empty(web_search, "excluded_domains");
+      if allowed && !excluded {
+          web_search.insert(
+              "excluded_domains".to_string(),
+              toml::Value::Array(Vec::new()),
+          );
+      } else if excluded && !allowed {
+          web_search.insert(
+              "allowed_domains".to_string(),
+              toml::Value::Array(Vec::new()),

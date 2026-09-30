@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-install-use
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Install and use a plugin
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Once a marketplace is added, install a plugin by name. You can also install straight from a repository or a local path:
+  ```bash
+  grok plugin install deploy-tools --trust
+  ```
+  The source you install accepts several forms:
+  - `owner/repo` (GitHub shorthand), `owner/repo@v1.0` (a ref), `owner/repo@<commit-sha>` (an exact commit, verified after fetch), or `owner/repo#subdir`
+  - a full git URL (`https://github.com/user/repo.git`) or SSH (`git@github.com:user/repo.git`)
+  - a local path (`./local-dir` or `/absolute/path`)
+  Run `grok plugin install <source>` without `--trust` and Grok shows the source, warns that installing activates the plugin's hooks, MCP servers, and skills, then stops. Add `--trust` to go ahead.

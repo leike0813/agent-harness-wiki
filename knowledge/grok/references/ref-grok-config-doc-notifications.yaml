@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-doc-notifications
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Notifications
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Fire terminal notifications when the agent finishes a turn or needs approval. They use terminal-native protocols (OSC 9, OSC 99, OSC 777, or BEL) and are focus-gated by default, so they only fire when you're not looking at the terminal.
+  ```toml
+  [ui.notifications]
+  method = "auto"           # auto|osc9|osc99|osc777|bel|none
+  condition = "unfocused"   # unfocused|always|never
+  idle_threshold_secs = 3   # seconds unfocused before a notification fires
+  events = ["turn_complete", "approval_required"]
+  sleep_prevention = true   # prevent display sleep during agent turns
+  progress_bar = true       # show tab progress bar (OSC 9;4)
+  [ui.notifications.title]
+  enabled = true
+  items = ["action-required", "spinner", "activity", "session-name", "grok"]
+  ```
+  | Option | Type | Default | Description |

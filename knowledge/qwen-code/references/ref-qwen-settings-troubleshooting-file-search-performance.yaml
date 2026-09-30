@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-settings-troubleshooting-file-search-performance
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Troubleshooting File Search Performance
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  If you are experiencing performance issues with file searching (e.g., with `@` completions), especially in projects with a very large number of files, here are a few things you can try in order of recommendation:
+  1. **Use an ignore file:** Create a `.qwenignore` or configured custom ignore file in your project root to exclude directories that contain a large number of files that you don't need to reference (e.g., build artifacts, logs, `node_modules`). Reducing the total number of files crawled is the most effective way to improve performance.
+  2. **Disable Fuzzy Search:** If ignoring files is not enough, you can disable fuzzy search by setting `enableFuzzySearch` to `false` in your `settings.json` file. This will use a simpler, non-fuzzy matching algorithm, which can be faster.
+  3.

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-refresh
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/local_refresh.rs
+  start: 26
+  end: 38
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Load the install registry, refresh local installs, and persist if a snapshot changed.
+  /// `force=false` at session spawn (skip-unchanged); `force=true` on explicit reload (always re-copy).
+  /// Trust granted at install re-applies at every spawn. Failures are non-fatal.
+  pub(crate) fn refresh_local_installs_from_disk(trust: &TrustStore, force: bool) -> RefreshSummary {
+      refresh_local_installs_in(&InstallRegistry::resolve_install_dir(), trust, force)
+  }
+  /// Short registry-lock wait: contention means a plugin install/update is in
+  /// flight, and the refresh reruns at the next spawn / `/plugins reload`.
+  const REFRESH_REGISTRY_LOCK_TIMEOUT: Duration = Duration::from_secs(1);
+  /// [`refresh_local_installs_from_disk`] at an explicit install dir (tests
+  /// inject temp dirs).

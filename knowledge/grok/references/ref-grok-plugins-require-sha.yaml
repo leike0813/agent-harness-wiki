@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-require-sha
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Require pinned versions
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Refuse any remote plugin install or update that is not pinned to a full commit sha:
+  ```toml
+  [marketplace]
+  require_sha = true
+  ```
+  You can also set `GROK_MARKETPLACE_REQUIRE_SHA=1`. Both only tighten the policy; neither turns it back off. Publish `sha` values in your marketplace's `plugin-index.json` so installs from it satisfy the rule. Plugins vendored directly inside a marketplace repository are copied from that repository's checkout, so pin them the same way, with `sha` values in `plugin-index.json`.

@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-guide-status
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Hooks in the Status Row and Scrollback
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Hooks are quiet unless they hold the turn up or change its course:
+  - While the turn is blocked on a hook batch (a `PreToolUse` gate before a tool, the `UserPromptSubmit` gate, a `Stop` gate), the status row reads `Running pre_tool_use hook…` (or `Running 3 stop hooks…`) once the batch has run for about 300 ms. The timer counts from when the batch started, so a slow hook shows its full wait; a fast one never shows at all.
+  - A hook that ran and allowed leaves no trace. Its stdout is not shown.
+  - A hook that denies a tool call, blocks a prompt, or stops or continues the agent gets one annotation line with the reason. Hooks from `~/.grok`, project, and plugin files are named; hooks from managed configuration read as "a managed policy hook".

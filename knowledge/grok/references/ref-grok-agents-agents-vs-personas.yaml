@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-agents-vs-personas
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/16-subagents.md
+  start: 9
+  end: 26
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ## Agents vs Personas
+  Agents and personas both customize behavior, but they operate at different levels:
+  | | **Agents** | **Personas** |
+  |---|---|---|
+  | **What they configure** | The whole session: model, tools, prompt mode, system prompt | A behavioral overlay added to a subagent's prompt |
+  | **Scope** | Primary session or subagent | Subagents only |
+  | **How you set them** | At startup, or with agent definitions (`.md` files in `.grok/agents/` or `~/.grok/agents/`) | In `config.toml` (`[subagents.personas]`) or `.toml` files under `.grok/personas/`; applied during subagent resolution |
+  | **What they control** | Model, tool availability, prompt body, skills | Tone, output format, task focus, and input/output contracts |

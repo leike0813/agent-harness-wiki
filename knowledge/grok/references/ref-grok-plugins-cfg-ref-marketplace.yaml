@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-cfg-ref-marketplace
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: "`marketplace`"
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  | Key | Type / Values | Requirements | Managed | Details |
+  | --- | --- | --- | --- | --- |
+  | `marketplace.sources` | `array of tables` | `yes` | `user` | `[[marketplace.sources]]` plugin marketplace repos. |
+  | `marketplace.require_sha` | `boolean` | `yes` | `user` | Tighten-only: remote plugin installs and updates must pin a full commit sha. Also `GROK_MARKETPLACE_REQUIRE_SHA`. Neither this key nor the env var can turn the gate back off. |

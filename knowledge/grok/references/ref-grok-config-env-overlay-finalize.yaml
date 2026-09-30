@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-env-overlay-finalize
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/env_overlay.rs
+  start: 174
+  end: 190
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  source_label: &str,
+      source: OverlaySource,
+  ) -> Option<(toml::Value, OverlaySource, Vec<String>)> {
+      expand_env_vars_in_toml(&mut overlay);
+      if let Err(e) = apply_version_overrides_with_registered(&mut overlay) {
+          tracing::warn!(source = source_label, error = %e, "config overlay `version_overrides` failed to apply; ignoring this overlay candidate");
+          return None;
+      }
+      let _ = crate::campaigns::take_campaign_entries(&mut overlay, "env_overlay");
+      if let Some(table) = overlay.as_table_mut() {
+          crate::config_override::retain_overlay_allowed(table);
+      }
+      normalize_config_layer(&mut overlay);
+      let sections: Vec<String> = overlay
+          .as_table()
+          .map(|t| t.keys().cloned().collect())
+          .unwrap_or_default();

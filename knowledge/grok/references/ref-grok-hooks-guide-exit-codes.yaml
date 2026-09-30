@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-guide-exit-codes
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Exit Codes
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  | Exit Code | Meaning |
+  |-----------|---------|
+  | `0` | Success / allow (for blocking hooks) |
+  | `2` | Explicit deny (`PreToolUse`), block-stop with stderr as feedback (`Stop`/`SubagentStop`), or feedback to the model (`PostToolUse`). For `PreToolUse`, the first stderr line (capped) becomes the deny reason when the JSON carries none; `Stop`/`SubagentStop` and `PostToolUse` feed the full stderr to the model, and a JSON `reason` wins over it. |
+  | Other | Fail-open — the failure is recorded (as `exit code N: <first stderr line>`) but nothing is blocked. For `PreToolUse`, a `deny` decision in stdout JSON is honored regardless of exit code.

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-extension-releasing-package-requirements
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Package requirements
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Your npm package must include a supported manifest at the package root: `qwen-extension.json` for a native Qwen extension, or `plugin.json` for an [Agent Plugins v1](./agent-plugins.md) package. The npm tarball is simply another delivery mechanism.
+  A minimal package structure looks like:
+  ```
+  my-extension/
+  ├── package.json
+  ├── qwen-extension.json
+  ├── QWEN.md              # optional context file
+  ├── commands/             # optional custom commands
+  ├── skills/               # optional custom skills
+  └── agents/               # optional custom subagents
+  ```
+  Make sure the selected root manifest and all referenced package files are included in your published package (i.e. not excluded by `.npmignore` or the `files` field in `package.json`).

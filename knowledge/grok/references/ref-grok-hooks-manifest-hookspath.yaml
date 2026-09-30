@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-manifest-hookspath
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/manifest.rs
+  start: 180
+  end: 183
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Returns the manifest-specified path or the default `hooks/hooks.json`.
+      pub fn hooks_path(&self, plugin_root: &Path) -> Option<PathBuf> {
+          resolve_component_path(&self.hooks, plugin_root, "hooks/hooks.json", "hooks")
+      }

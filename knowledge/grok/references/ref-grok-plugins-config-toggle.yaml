@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-config-toggle
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Turn plugins on or off in config
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Set these in `~/.grok/config.toml`:
+  ```toml
+  [plugins]
+  paths = ["~/my-plugins/custom-tools"]        # extra plugin directories
+  disabled = ["user/a1b2c3d4/noisy-plugin"]    # names or IDs to skip
+  enabled = ["project/9f8e7d6c/team-tools"]    # names or IDs to force on
+  ```
+  Plugins are off by default, so list one in `enabled` to turn it on, or in `disabled` to discover it but skip loading it. Each entry is a plain plugin name (from `grok plugin list`) or a full ID (`<scope>/<hash>/<name>`).
+  To hide the plugins and hooks interface entirely, set `disable_plugins = true` in `~/.grok/pager.toml`.
+  ---

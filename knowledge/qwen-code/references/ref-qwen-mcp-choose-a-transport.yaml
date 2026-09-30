@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-mcp-choose-a-transport
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Choose a transport
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  | Transport | When to use                                                       | JSON field(s)                               |
+  | --------- | ----------------------------------------------------------------- | ------------------------------------------- |
+  | `http`    | Recommended for remote services; works well for cloud MCP servers | `httpUrl` (+ optional `headers`)            |
+  | `sse`     | Legacy/deprecated servers that only support Server-Sent Events    | `url` (+ optional `headers`)                |
+  | `stdio`   | Local process (scripts, CLIs, Docker) on your machine             | `command`, `args` (+ optional `cwd`, `env`) |
+  > [!note]
+  >
+  > If a server supports both, prefer **HTTP** over **SSE**.

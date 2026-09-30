@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-providers-code-models-url
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/endpoints.rs
+  start: 20
+  end: 26
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Env: `GROK_MODELS_BASE_URL`. Setting it makes `has_custom_endpoint` true.
+      /// The models list URL defaults to `{models_base_url}/models`.
+      #[serde(skip_serializing_if = "Option::is_none")]
+      pub models_base_url: Option<String>,
+      /// Env: `GROK_MODELS_LIST_URL`. Overrides the default `{base}/models` list URL.
+      #[serde(alias = "models_endpoint", skip_serializing_if = "Option::is_none")]
+      pub models_list_url: Option<String>,

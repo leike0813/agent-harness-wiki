@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-docs-config-overview-path
+harness_id: grok
+snapshot_id: snapshot-grok-docs-overview
+locator:
+  kind: document_section
+  heading: Custom models
+official_url: "https://docs.x.ai/build/overview"
+excerpt: |-
+  Grok supports any custom model. Add it to your user-level config file, `~/.grok/config.toml` (on Windows, `%USERPROFILE%\.grok\config.toml`):
+  ```text
+  [model.my-model]
+  model = "model-id"
+  base_url = "https://api.example.com/v1"
+  name = "Display Name"
+  env_key = "API_KEY"
+  [models]
+  default = "my-model"
+  ```
+  After updating `~/.grok/config.toml`, use `grok inspect` to see what Grok discovered in the current directory, including config sources, instructions, skills, plugins, hooks, and MCP servers, then pick the model in headless mode or in the TUI:
+  ```bash customLanguage="bash"
+  grok inspect
+  grok -p "Hello" -m my-model
+  ```
+  You can also switch inside the TUI with `/model <name>`.

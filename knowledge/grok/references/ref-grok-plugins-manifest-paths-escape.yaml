@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-manifest-paths-escape
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/manifest.rs
+  start: 66
+  end: 76
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  .collect()
+      }
+  }
+  /// Canonicalizes both sides (resolving symlinks and `..`) before the prefix check.
+  fn is_path_contained(resolved: &Path, plugin_root: &Path) -> bool {
+      let canonical_root =
+          dunce::canonicalize(plugin_root).unwrap_or_else(|_| plugin_root.to_path_buf());
+      let canonical_resolved =
+          dunce::canonicalize(resolved).unwrap_or_else(|_| resolved.to_path_buf());
+      // dunce keeps the verbatim form for over-260-char paths, so this containment check fails closed; see crates/codegen/clippy.toml

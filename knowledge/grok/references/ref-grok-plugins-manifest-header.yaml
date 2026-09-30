@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-manifest-header
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/manifest.rs
+  start: 1
+  end: 9
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  //! The canonical manifest location is `plugin.json` at the plugin root.
+  //! Fallback locations (checked in order when the root manifest is absent):
+  //! 1. `.grok-plugin/plugin.json`
+  //! 2. `.claude-plugin/plugin.json`
+  //!
+  //! If no manifest is found, the plugin can still function via convention-based discovery (skills/, agents/, .mcp.json, hooks/hooks.json).
+  //! The plugin name is then derived from the directory name.
+  //!
+  //! The parser is forward-compatible: unknown fields are silently ignored so that manifests authored for newer upstream versions still load.

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-skills-optional-gate-a-skill-on-file-paths-paths
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Optional: gate a Skill on file paths (`paths:`)"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  For Skills that only matter to specific parts of a codebase, add a `paths:` list of glob patterns. The Skill stays out of the model's available-skills listing until a tool call touches a matching file:
+  ```yaml
+  ---
+  name: tsx-helper
+  description: React TSX component helper
+  paths:
+    - 'src/**/*.tsx'
+    - 'packages/*/src/**/*.tsx'
+  ---
+  ```
+  Notes:
+  - Globs are matched relative to the project root with [picomatch](https://github.com/micromatch/picomatch); files outside the project root never trigger activation.
+  - A path-gated Skill **stays activated for the rest of the session** once a matching file is touched. A new session, or a `refreshCache` triggered by editing any Skill file, resets activations.
+  - `paths:` only gates **model** discovery, and only at the SkillTool listing level.

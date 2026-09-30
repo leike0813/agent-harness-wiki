@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-manifest-fields
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/manifest.rs
+  start: 120
+  end: 138
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub struct PluginManifest {
+      /// User-facing plugin namespace (kebab-case).  Required.
+      pub name: String,
+      /// Semver version string.
+      #[serde(default)]
+      pub version: Option<String>,
+      #[serde(default)]
+      pub description: Option<String>,
+      #[serde(default)]
+      pub author: Option<Author>,
+      #[serde(default)]
+      pub homepage: Option<String>,
+      #[serde(default)]
+      pub repository: Option<String>,
+      #[serde(default)]
+      pub license: Option<String>,
+      #[serde(default)]
+      pub keywords: Vec<String>,

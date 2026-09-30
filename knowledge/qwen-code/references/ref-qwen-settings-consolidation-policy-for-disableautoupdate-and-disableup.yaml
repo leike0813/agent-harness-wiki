@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-settings-consolidation-policy-for-disableautoupdate-and-disableup
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Consolidation policy for `disableAutoUpdate` and `disableUpdateNag`"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  When both legacy settings are present with different values, the migration follows this policy: if **either** `disableAutoUpdate` **or** `disableUpdateNag` is `true`, then `enableAutoUpdate` becomes `false`:
+  | `disableAutoUpdate` | `disableUpdateNag` | Migrated `enableAutoUpdate` |
+  | ------------------- | ------------------ | --------------------------- |
+  | `false`             | `false`            | `true`                      |
+  | `false`             | `true`             | `false`                     |
+  | `true`              | `false`            | `false`                     |
+  | `true`              | `true`             | `false`                     |

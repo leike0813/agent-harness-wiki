@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-examples-contract
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Script Contract
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Scripts receive the hook event envelope as JSON on **stdin** and should write a response to **stdout**:
+  **For tool gates (`PreToolUse`):**
+  ```json
+  {"decision":"allow"}
+  ```
+  or
+  ```json
+  {"decision":"deny","reason":"Explanation for the user"}
+  ```
+  **For stop gates (`Stop` / `SubagentStop`):** keep the agent working or force it to stop:
+  ```json
+  {"decision":"block","reason":"Feedback fed back to the model"}
+  ```
+  ```json
+  {"hookSpecificOutput":{"hookEventName":"Stop","additionalContext":"Non-error feedback"}}
+  ```
+  ```json
+  {"continue":false,"stopReason":"Shown to the user; overrides any block"}
+  ```
+  The turn ends after 8 consecutive continuations. The input carries `stopHookActive` (true once a block has already continued this turn) so a hook can give up.

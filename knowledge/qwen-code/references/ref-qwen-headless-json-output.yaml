@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-json-output
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: JSON Output
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Returns structured data as a JSON array. All messages are buffered and output together when the session completes. This format is ideal for programmatic processing and automation scripts.
+  The JSON output is an array of message objects. The output includes multiple message types: system messages (session initialization), assistant messages (AI responses), and result messages (execution summary).
+  #### Example Usage
+  ```bash
+  qwen -p "What is the capital of France?" --output-format json
+  ```
+  Output (at end of execution):
+  ```json
+  [
+    {
+      "type": "system",
+      "subtype": "session_start",
+      "uuid": "...",
+      "session_id": "...",
+      "model": "qwen3-coder-plus",
+      ...
+    },
+    {
+      "type": "assistant",
+      "uuid": "...",
+      "session_id": "...",
+      "message": {
+        "id": "...",

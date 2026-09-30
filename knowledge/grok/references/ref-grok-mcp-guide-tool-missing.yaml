@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-guide-tool-missing
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/07-mcp-servers.md
+  start: 443
+  end: 453
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ### A listed tool never appears
+  The server starts and `tools/list` returns the tool, but `/mcps` and `search_tool` omit it.
+  1. Check `Skipping MCP tool` in `GROK_LOG_FILE` / `--debug`. The reason names the rule that failed (invalid server name, invalid tool name, ambiguous `__`, or catalog key longer than 256 characters).
+  2. Confirm the server config key starts with a letter or underscore. A digit-leading key never enters the catalog. A key that ends with `_` is skipped as an ambiguous `___` name.
+  3. Confirm the tool name uses only `[A-Za-z0-9_-]`. Dots and colons in the raw MCP name are skipped.
+  4. Do not shorten a `server__tool` key to 64 characters. Catalog keys may be up to 256. The 64-character cap is only for `search_tool` / `use_tool` as function names.

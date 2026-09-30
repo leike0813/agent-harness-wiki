@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-refresh-local
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/local_refresh.rs
+  start: 74
+  end: 88
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Re-copy refreshable local installs from their live `source_path` into the managed snapshot.
+  /// Refreshable when under the user's home or in the trust store. Remote git installs are handled by `update_repo`.
+  /// Unless `force`, snapshots already matching the live source are skipped.
+  fn refresh_local_installs(
+      registry: &mut InstallRegistry,
+      trust: &TrustStore,
+      force: bool,
+  ) -> RefreshSummary {
+      let mut summary = RefreshSummary::default();
+      let targets: Vec<RefreshTarget> = registry
+          .list()
+          .into_iter()
+          .filter_map(|(key, repo)| match &repo.kind {
+              InstallKind::Local {
+                  source_path,

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-env-overlay-resolve
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/env_overlay.rs
+  start: 85
+  end: 100
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  path: Option<&Path>,
+  ) -> Option<(toml::Value, OverlaySource, Vec<String>)> {
+      // Inline (`GROK_CONFIG`) wins only when it fully succeeds
+      // When it is absent, empty, or rejected at any stage (parse, `$VAR` expand, version_overrides, normalize), fall through to the path candidate
+      // That way a valid file is never skipped because of a bad inline value
+      if let Some(inline) = inline
+          && let Some(resolved) = resolve_inline_overlay(inline)
+      {
+          return Some(resolved);
+      }
+      resolve_path_overlay(path?)
+  }
+  #[cfg(test)]
+  fn resolve_overlay(inline: Option<&str>, path: Option<&Path>) -> Option<toml::Value> {
+      resolve_overlay_detailed(inline, path).map(|(value, _, _)| value)

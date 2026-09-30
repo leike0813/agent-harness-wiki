@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-getting-started-extensions-step-4-add-a-custom-command
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Step 4: Add a Custom Command"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Custom commands provide a way to create shortcuts for complex prompts. Let's add a command that searches for a pattern in your code.
+  1.  Create a `commands` directory and a subdirectory for your command group:
+      ```bash
+      mkdir -p commands/fs
+      ```
+  2.  Create a file named `commands/fs/grep-code.md`:
+      ```markdown
+      ---
+      description: Search for a pattern in code and summarize findings
+      ---
+      Please summarize the findings for the pattern `{{args}}`.
+      Search Results:
+      !{grep -r {{args}} .}
+      ```
+      This command, `/fs:grep-code`, will take an argument, run the `grep` shell command with it, and pipe the results into a prompt for summarization.
+  > **Note:** Commands use Markdown format with optional YAML frontmatter.

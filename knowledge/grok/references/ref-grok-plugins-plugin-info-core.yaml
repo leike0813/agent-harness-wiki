@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-plugin-info-core
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-hooks-plugins-types/src/lib.rs
+  start: 274
+  end: 290
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub name: String,
+      /// Stable plugin ID (format: "<scope>/<hex8>/<name>").
+      pub id: String,
+      /// Absolute path to plugin root directory.
+      pub root: String,
+      /// Plugin scope.
+      pub scope: PluginScope,
+      /// Deprecated: always `true`. Trust/untrust has been replaced by
+      /// enable/disable. Kept for serialization compatibility; will be removed.
+      pub trusted: bool,
+      /// Whether the plugin is enabled (not in [plugins].disabled list).
+      pub enabled: bool,
+      /// Version from manifest (if available).
+      pub version: Option<String>,
+      /// Description from manifest (if available).
+      pub description: Option<String>,
+      /// Number of skill subdirectories.

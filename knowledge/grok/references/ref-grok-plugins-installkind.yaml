@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-installkind
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/install_registry.rs
+  start: 26
+  end: 44
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub enum InstallKind {
+      /// Cloned from a remote git repo.
+      Git {
+          url: String,
+          #[serde(skip_serializing_if = "Option::is_none")]
+          git_ref: Option<String>,
+          commit: String,
+          #[serde(default, skip_serializing_if = "Option::is_none")]
+          subdir: Option<String>,
+      },
+      /// Copied from a local directory (full tree snapshot under installed-plugins).
+      Local {
+          source_path: PathBuf,
+          /// Optional plugin subdirectory selector used at install time (e.g. multi-package `path#plugins/foo`).
+          /// Preserved so refresh rediscovers the same scope.
+          #[serde(default, skip_serializing_if = "Option::is_none")]
+          subdir: Option<String>,
+      },
+  }

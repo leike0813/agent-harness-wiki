@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-introduction-conflict-resolution
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Conflict resolution
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Extension commands have the lowest precedence. When a conflict occurs with user or project commands:
+  1. **No conflict**: Extension command uses its natural name (e.g., `/deploy`)
+  2. **With conflict**: Extension command is renamed with the extension prefix (e.g., `/gcp.deploy`)
+  For example, if both a user and the `gcp` extension define a `deploy` command:
+  - `/deploy` - Executes the user's deploy command
+  - `/gcp.deploy` - Executes the extension's deploy command (marked with `[gcp]` tag)

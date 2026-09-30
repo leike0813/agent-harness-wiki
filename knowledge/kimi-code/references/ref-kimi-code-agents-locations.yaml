@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-agents-locations
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Agent Locations
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  Kimi Code CLI discovers agent files by scope; more specific scopes take higher priority: **Explicit (`--agent-file`) > Project > Extra > User > Plugin > Built-in**. When two files define the same `name`, the higher-priority scope wins. Each directory is scanned recursively for `.md` files.
+  **User level** (applies to all projects):
+  - `$KIMI_CODE_HOME/agents/` (default: `~/.kimi-code/agents/`)
+  - `~/.agents/agents/`
+  The Kimi-specific user agent directory moves with `KIMI_CODE_HOME`, while the generic `~/.agents/agents/` directory stays under the real OS home so it can be shared across tools.
+  **Project level** (project root = the nearest directory containing `.git`, searching upward from the working directory):
+  - `.kimi-code/agents/`
+  - `.agents/agents/`

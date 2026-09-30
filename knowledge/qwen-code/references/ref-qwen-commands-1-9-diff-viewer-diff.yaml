@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-commands-1-9-diff-viewer-diff
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "1.9 Diff Viewer (`/diff`)"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  The `/diff` command opens an interactive diff viewer showing uncommitted changes and per-turn diffs. Use ←/→ to switch between the current git diff and individual conversation turns, ↑/↓ to browse files, and Enter to view inline diffs.
+  **How it works:**
+  In interactive mode, `/diff` opens a dialog with a **source picker** along the top:
+  - **Current** — working tree vs HEAD (`git diff HEAD`). Shows all uncommitted changes including staged, unstaged, and untracked files.
+  - **T1, T2, T3, …** — per-turn diffs, one tab per model turn that modified files. Most recent turns appear first. Each tab shows a preview of the original prompt for context.

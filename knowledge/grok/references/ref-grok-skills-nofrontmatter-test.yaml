@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-nofrontmatter-test
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 1151
+  end: 1169
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  fn parse_skill_files_no_frontmatter_uses_dir_name() {
+          let tmp = tempfile::tempdir().unwrap();
+          let skill_dir = tmp.path().join("skills").join("my-skill");
+          fs::create_dir_all(&skill_dir).unwrap();
+          fs::write(
+              skill_dir.join("SKILL.md"),
+              "Just body content, no frontmatter.",
+          )
+          .unwrap();
+          let skills = parse_skill_files(vec![(skill_dir.join("SKILL.md"), SkillScope::Local)]);
+          assert_eq!(skills.len(), 1);
+          let Some(skill) = skills.first() else {
+              panic!("expected one skill: {skills:?}");
+          };
+          assert_eq!(skill.name, "my-skill");
+          assert!(
+              skill.user_invocable,
+              "no-frontmatter skills must be user-invocable"

@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-action
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-hooks-plugins-types/src/lib.rs
+  start: 606
+  end: 632
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub enum PluginsAction {
+      Reload,
+      Install {
+          source: String,
+      },
+      Uninstall {
+          plugin_id: String,
+          /// If true, skip multi-plugin repo confirmation.
+          #[serde(default)]
+          confirmed: bool,
+      },
+      Update {
+          plugin_id: Option<String>,
+      },
+      Add {
+          path: String,
+      },
+      Remove {
+          path: String,
+      },
+      /// Enable a disabled plugin by ID.
+      Enable {
+          plugin_id: String,
+      },
+      /// Disable a plugin by ID (adds to disabled list in config).
+      Disable {
+          plugin_id: String,

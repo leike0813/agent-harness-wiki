@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-plugin-trust
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/09-plugins.md
+  start: 144
+  end: 157
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ## Trust and security
+  Plugins run with your privileges, so treat them like any software you install: only add marketplaces and install plugins from sources you trust.
+  Enabled plugins require trust to load skills, commands, hooks, MCP servers, and LSP servers. Untrusted plugin agents remain listed with frontmatter only. Grok trusts plugins in `~/.grok/plugins/` automatically; project plugins in `.grok/plugins/` require trust. Install with `--trust` to grant it:
+  ```bash
+  grok plugin install <source> --trust
+  ```
+  Trusted plugin `.mcp.json` servers attach to the session like other MCP config, and child agents inherit them.

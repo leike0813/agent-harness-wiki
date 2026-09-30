@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-model-providers-openai-responses-api-openai-responses
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "OpenAI Responses API (`openai-responses`)"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Use `openai` with `wireApi: "responses"` to target OpenAI's `/v1/responses` endpoint. When the endpoint returns encrypted reasoning with visible thought text, it replays prior-turn reasoning across turns and `--resume` via `reasoning.encrypted_content`. Compatible endpoints that stream `response.reasoning_text.delta` also display their reasoning, but endpoints without `encrypted_content` cannot replay the opaque reasoning state. Use `reasoning.effort` (not `extra_body.enable_thinking`, which the Chat Completions wires use) to control reasoning intensity.
+  ```json
+  {
+    "env": {
+      "OPENAI_API_KEY": "sk-your-actual-openai-key-here"
+    },
+    "modelProviders": {
+      "openai": [
+        {
+          "id": "gpt-5.1",
+          "wireApi": "responses",
+          "name": "GPT-5.1 (Responses API)",

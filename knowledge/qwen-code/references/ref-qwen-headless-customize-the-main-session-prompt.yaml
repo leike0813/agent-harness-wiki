@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-customize-the-main-session-prompt
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Customize the Main Session Prompt
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  You can change the main session system prompt for a single CLI run without editing shared memory files.
+  ### Override the Built-in System Prompt
+  Use `--system-prompt` to replace Qwen Code's built-in main-session prompt for the current run:
+  ```bash
+  qwen -p "Review this patch" --system-prompt "You are a terse release reviewer. Report only blocking issues."
+  ```
+  ### Append Extra Instructions
+  Use `--append-system-prompt` to keep the built-in prompt and add extra instructions for this run:
+  ```bash
+  qwen -p "Review this patch" --append-system-prompt "Be terse and focus on concrete findings."
+  ```
+  You can combine both flags when you want a custom base prompt plus an extra run-specific instruction:
+  ```bash
+  qwen -p "Summarize this repository" \
+    --system-prompt "You are a migration planner." \

@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-ref-refused
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: What happens when a setting is refused
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  | Situation | What Grok Build does |
+  | --- | --- |
+  | A developer sets a key you pinned | The pinned value applies. `grok inspect` lists the requirements file that contributed. |
+  | A developer sets a key you shipped in `managed_config.toml` | Their value applies, except `features.remote_fetch`. Pin the key instead if it must hold. |
+  | `requirements.toml` is missing or its signature does not verify | The pins do not apply, and Grok Build starts without them. Set `fail_closed = true` to refuse to start instead. |
+  | A pinned key names a value this version does not recognise | The key is ignored and the rest of the file still applies. |

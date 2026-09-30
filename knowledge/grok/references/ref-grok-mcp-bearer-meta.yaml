@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-bearer-meta
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/mcp_bearer_token_file.rs
+  start: 10
+  end: 20
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  const META_KEY: &str = "x.ai/mcp/bearerTokenFile";
+  pub(crate) fn bearer_token_file_meta(configured: &str) -> acp::Meta {
+      acp::Meta::from_iter([(
+          META_KEY.to_owned(),
+          serde_json::Value::String(configured.to_owned()),
+      )])
+  }
+  /// The configured string, unparsed, for listing a client-provided server as it was given.

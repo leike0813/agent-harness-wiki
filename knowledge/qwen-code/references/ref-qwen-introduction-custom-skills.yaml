@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-introduction-custom-skills
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Custom skills
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Extensions can provide custom skills by placing skill files in a `skills/` subdirectory within the extension directory. Each skill should have a `SKILL.md` file with YAML frontmatter defining the skill's name and description.
+  **Example**
+  An extension named `gcp` with the following structure:
+  ```
+  .qwen/extensions/gcp/
+  ├── qwen-extension.json
+  └── skills/
+      └── pdf-processor/
+          └── SKILL.md   # frontmatter: name: pdf-processor
+  ```
+  provides one skill, registered as `gcp:pdf-processor` — the extension's `name`, a colon, then the name the `SKILL.md` authors. Run it with `/gcp:pdf-processor`; `/skills` lists it and labels it with the extension's display name, falling back to its `name` when the manifest declares none.

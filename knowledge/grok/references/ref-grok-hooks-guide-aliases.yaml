@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-guide-aliases
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Tool Name Aliases
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  In a `matcher`, Grok maps Claude-style tool names to its own so hooks migrated from Claude fire correctly. Common aliases include:
+  - `Bash` → `run_terminal_command`
+  - `Read` → `read_file`
+  - `Edit`, `Write`, and `MultiEdit` → `search_replace`
+  - `Grep` → `grep`
+  - `Glob` and `ListDir` → `list_dir`
+  - `WebSearch` → `web_search`
+  - `Task` → `spawn_subagent`
+  A matcher keeps its original name too, so `Bash` matches both `Bash` and `run_terminal_command`.
+  ---

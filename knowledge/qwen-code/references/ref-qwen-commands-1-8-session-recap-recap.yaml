@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-commands-1-8-session-recap-recap
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "1.8 Session Recap (`/recap`)"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  The `/recap` command generates a short "where you left off" summary of the
+  current session, so you can resume an old conversation without scrolling
+  back through pages of history.
+  | Command  | Description                                |
+  | -------- | ------------------------------------------ |
+  | `/recap` | Generate and show a one-line session recap |
+  **How it works:**
+  - Uses the configured fast model (`fastModel` setting) when available, falling
+    back to the main session model. A small, cheap model is enough for a recap.
+  - The recent conversation (up to 30 messages, text only — tool calls and tool
+    responses are filtered out) is sent to the model with a tight system prompt.
+  - The recap is rendered in dim color with a `❯` prefix so it stands apart
+    from real assistant replies.

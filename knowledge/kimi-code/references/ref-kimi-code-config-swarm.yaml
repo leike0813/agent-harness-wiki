@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-config-swarm
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: swarm
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  `swarm` controls how subagents launched by the `AgentSwarm` tool run, independently of `[subagent]`.
+  | Field | Type | Default | Description |
+  | --- | --- | --- | --- |
+  | `timeout_ms` | `integer` | `7200000` (2 hours) | Maximum wall-clock time (milliseconds) a single `AgentSwarm` subagent may run; on timeout it is aborted and the aggregated report marks `Subagent timed out.`; `0` means no timeout |
+  `timeout_ms` can be overridden by the `KIMI_CODE_SWARM_TIMEOUT_MS` environment variable, which takes higher priority than `config.toml`.

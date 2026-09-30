@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-layers-merge
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/config_layers.rs
+  start: 127
+  end: 149
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  fn merge(&self, inclusion: OverlayInclusion) -> toml::Value {
+          let Self {
+              system_managed,
+              managed,
+              user,
+              env_overlay,
+              user_requirements: _,
+              system_requirements: _,
+              mdm_requirements: _,
+              campaigns: _,
+          } = self;
+          let mut merged = system_managed.clone();
+          deep_merge_toml(&mut merged, managed);
+          deep_merge_toml(&mut merged, user);
+          if let (OverlayInclusion::Include, Some(overlay)) = (inclusion, env_overlay) {
+              deep_merge_toml(&mut merged, overlay);
+          }
+          for req in self.requirements_in_order() {
+              deep_merge_toml(&mut merged, req);
+          }
+          merged
+      }

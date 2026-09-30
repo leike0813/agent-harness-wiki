@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-auth-precedence
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Auth Precedence
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Grok resolves credentials for each request in this order, highest to lowest:
+  1. **Per-model `api_key` or `env_key`** -- set under `[model.<name>]` in `config.toml`. Wins whenever present.
+  2. **Active session token** -- obtained through browser, OIDC/OAuth2, or external-provider login and stored in `~/.grok/auth.json`.
+  3. **`XAI_API_KEY`** -- fallback when no session token is active.
+  When more than one login flow is configured, Grok populates the session token from the first available source, highest to lowest:
+  1. **External auth provider** (`auth_provider_command`)
+  2. **Enterprise OIDC** -- when OIDC is configured, through `[grok_com_config.oidc]` in `config.toml` or the `GROK_OIDC_ISSUER` and `GROK_OIDC_CLIENT_ID` environment variables
+  3. **SpaceXAI OAuth2 browser login** -- the default

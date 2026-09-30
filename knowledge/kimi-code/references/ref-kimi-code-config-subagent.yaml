@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-config-subagent
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: subagent
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  `subagent` controls how subagents spawned by the `Agent` tool run.
+  | Field | Type | Default | Description |
+  | --- | --- | --- | --- |
+  | `timeout_ms` | `integer` | `7200000` (2 hours) | Maximum wall-clock time (milliseconds) a single `Agent` subagent may run before it is settled as `timed_out`; `0` means no timeout |
+  `timeout_ms` can be overridden by the `KIMI_SUBAGENT_TIMEOUT_MS` environment variable, which takes higher priority than `config.toml`.

@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-messagedisplay
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: MessageDisplay
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  **Purpose**: Fires repeatedly as the assistant's reply streams — before `Stop`, which fires once at the end of the turn. Useful for live narration, incremental logging, or any consumer that wants to react to the reply as it's written rather than after the fact. This is a **fire-and-forget** event - hook output and exit codes are ignored.
+  **Event-specific fields**:
+  ```json
+  {
+    "message_id": "stable id for the whole streamed message",
+    "displayed_text": "the CUMULATIVE text streamed so far for this message (not a delta)",
+    "is_final": "true on the last firing for this message, false otherwise"
+  }
+  ```
+  `displayed_text` is cumulative rather than a delta so hook scripts never need to reassemble chunks themselves — each firing carries the full text so far.

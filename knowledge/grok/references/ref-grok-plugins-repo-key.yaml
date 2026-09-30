@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-repo-key
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/install_registry.rs
+  start: 270
+  end: 290
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  .unwrap_or("plugin");
+          // Sanitize basename to kebab-case
+          let sanitized: String = basename
+              .to_ascii_lowercase()
+              .chars()
+              .map(|c| {
+                  if c.is_ascii_alphanumeric() || c == '-' {
+                      c
+                  } else {
+                      '-'
+                  }
+              })
+              .collect();
+          let trimmed = sanitized.trim_matches('-');
+          // Hash the full source for uniqueness
+          use std::hash::{Hash, Hasher};
+          let mut hasher = std::collections::hash_map::DefaultHasher::new();
+          source.hash(&mut hasher);
+          let hash = hasher.finish();

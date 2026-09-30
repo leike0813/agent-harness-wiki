@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-isolation-worktree
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/16-subagents.md
+  start: 256
+  end: 266
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ## Isolation: Worktree Mode
+  For tasks that modify files, run a subagent in an isolated git worktree with `isolation: worktree`. This keeps the child's edits from conflicting with the parent's:
+  - The subagent works in its own copy of the working tree.
+  - Its changes stay isolated from the parent until you merge them.
+  - The subagent's result includes the worktree path.
+  Grok Build manages worktrees through the `x.ai/git/worktree/*` extension methods, including an apply operation that merges changes back into the main working directory.
+  ---

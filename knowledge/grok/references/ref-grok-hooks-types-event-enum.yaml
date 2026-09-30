@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-types-event-enum
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-hooks-plugins-types/src/lib.rs
+  start: 74
+  end: 99
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Maps from `HookEventName` in `xai-grok-hooks`. The source type's `SubagentEnd` variant (backward-compat alias) is
+  /// collapsed into `SubagentStop` during conversion.
+  #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+  #[serde(rename_all = "snake_case")]
+  pub enum HookEvent {
+      // Session lifecycle
+      SessionStart,
+      SessionEnd,
+      Stop,
+      StopFailure,
+      StopCancelled,
+      // Tool events
+      PreToolUse,
+      PostToolUse,
+      PostToolUseFailure,
+      PermissionDenied,
+      // User / notification
+      UserPromptSubmit,
+      Notification,
+      // Subagent
+      SubagentStart,
+      SubagentStop,
+      // Compaction
+      PreCompact,
+      PostCompact,
+      /// An event added after this client was built: it keeps one unrecognized name from blanking

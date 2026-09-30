@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-components
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-hooks-plugins-types/src/lib.rs
+  start: 393
+  end: 412
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub const MAX_COMPONENTS_PER_CATEGORY: usize = 50;
+  /// One concrete thing a plugin provides (a skill, command, agent, etc.).
+  #[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq, Eq)]
+  #[serde(rename_all = "camelCase")]
+  pub struct ComponentItem {
+      pub name: String,
+      #[serde(default, skip_serializing_if = "Option::is_none")]
+      pub description: Option<String>,
+  }
+  impl ComponentItem {
+      /// Build an item with control characters stripped and the description
+      /// truncated, defending against terminal-escape injection from
+      /// catalog-supplied strings.
+      pub fn new(name: impl Into<String>, description: Option<String>) -> Self {
+          let mut item = Self {
+              name: name.into(),
+              description,
+          };

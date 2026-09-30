@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-config-tools
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: tools
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  `tools` is the global tool switch: it applies to every agent in all sessions and intersects with each agent's own `tools` / `disallowedTools` policy.
+  | Field | Type | Default | Description |
+  | --- | --- | --- | --- |
+  | `enabled` | `array<string>` | — | Global allowlist: when non-empty, only the listed tools are available; omitting the field or setting an empty array imposes no constraint |
+  | `disabled` | `array<string>` | — | Global denylist, applied after `enabled` |
+  Name matching follows the same rules as the same-named fields in an agent file: built-in tools match by exact name (such as `Read`), and MCP tools match with globs (such as `mcp__github__*`).

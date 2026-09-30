@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-minimal-example
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/README.md
+  start: 80
+  end: 100
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ### Minimal example (extends base template)
+  ```markdown
+  ---
+  name: code-reviewer
+  description: Reviews code for quality and security
+  tools:
+    - read_file
+    - grep
+    - list_dir
+  permissionMode: plan
+  ---
+  You are a senior code reviewer. Analyze code and provide
+  actionable feedback organized by severity.
+  ```
+  With `promptMode: extend` (the default), the body is appended to the
+  base template which includes work policy, formatting
+  rules, and user info. The author only writes persona-specific content.

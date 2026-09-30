@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-getting-started-extensions-example-ts
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "`example.ts`"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  This file contains the source code for your MCP server. It's a simple Node.js server that uses the `@modelcontextprotocol/sdk`.
+  ```typescript
+  /**
+   * @license
+   * Copyright 2025 Google LLC
+   * SPDX-License-Identifier: Apache-2.0
+   */
+  import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+  import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+  import { z } from 'zod';
+  const server = new McpServer({
+    name: 'prompt-server',
+    version: '1.0.0',
+  });
+  // Registers a new tool named 'fetch_posts'
+  server.registerTool(
+    'fetch_posts',
+    {
+      description: 'Fetches a list of posts from a public API.',
+      inputSchema: z.object({}).shape,
+    },
+    async () => {
+      const apiResponse = await fetch(
+        'https://jsonplaceholder.typicode.com/posts',
+      );

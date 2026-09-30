@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-choose-an-output-style
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Choose an Output Style
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Use `--output-style` to pick an [output style](./output-styles) — built-in or custom — for this run. A style is a named block of instructions layered onto the built-in prompt that changes how the answer is written — `Concise` leads with the result and drops preamble and narration, `Proactive` starts working instead of proposing, `Explanatory` adds short notes about the codebase along the way. It overrides the `general.outputStyle` setting; `default` selects no style.
+  ```bash
+  qwen -p "Why does the build fail on Windows?" --output-style Concise
+  ```
+  > [!note]
+  >
+  > - `Learning` asks you to write part of the code and waits for a reply, so it is skipped in headless runs.
+  > - An unknown style name prints a warning and the run continues with the default style.

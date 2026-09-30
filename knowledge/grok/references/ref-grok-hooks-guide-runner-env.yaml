@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-guide-runner-env
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: "Runner-injected variables (always available)"
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  These variables are set by the hook runner for **every** hook:
+  | Variable              | Description |
+  |-----------------------|-------------|
+  | `GROK_HOOK_EVENT`     | The name of the event that triggered the hook (e.g. `pre_tool_use`, `session_start`, `post_tool_use`, `session_end`, `stop`, `notification`). |
+  | `GROK_HOOK_NAME`      | The configured name of this specific hook (includes the plugin prefix for plugin-provided hooks). |
+  | `GROK_SESSION_ID`     | The unique identifier of the current Grok session. |
+  | `GROK_WORKSPACE_ROOT` | Absolute path to the root of the current workspace. |
+  | `CLAUDE_PROJECT_DIR`  | Absolute path to the workspace root. A Claude Code-compatible alias for `GROK_WORKSPACE_ROOT`, set for every hook. |
+  These variables are **reserved**.

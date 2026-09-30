@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-loader-managed-layers
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/loader.rs
+  start: 147
+  end: 169
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub fn managed_config_layers() -> Vec<ManagedConfigLayer> {
+      managed_config_layers_at(system_config_dir().as_deref(), user_grok_home().as_deref())
+  }
+  /// [`managed_config_layers`] with explicit directories.
+  pub fn managed_config_layers_at(
+      system_dir: Option<&Path>,
+      user_home: Option<&Path>,
+  ) -> Vec<ManagedConfigLayer> {
+      let mut layers = Vec::new();
+      for (dir, is_system) in [(system_dir, true), (user_home, false)] {
+          let Some(path) = dir.map(|d| d.join(MANAGED_CONFIG_FILENAME)) else {
+              continue;
+          };
+          if !path.is_file() {
+              continue;
+          }
+          match load_config_file(&path) {
+              Ok(value) => layers.push(ManagedConfigLayer {
+                  value,
+                  path,
+                  is_system,
+              }),

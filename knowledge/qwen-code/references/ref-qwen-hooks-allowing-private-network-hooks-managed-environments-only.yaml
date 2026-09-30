@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-allowing-private-network-hooks-managed-environments-only
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Allowing private-network hooks (managed environments only)"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  By default, HTTP hooks cannot target private or link-local IP ranges. In platform-managed environments where the hook receiver is a first-party, VPC-internal endpoint (for example, an internal API gateway resolving to `172.16.0.0/12`), you can relax the IP-range checks with:
+  ```json
+  {
+    "security": {
+      "allowPrivateNetworkHooks": true
+    }
+  }
+  ```
+  - This setting is **only honored from User, System, and SystemDefaults settings scopes**. A value set in Workspace (project) settings is ignored and logged as a warning, so a cloned repository can never self-grant this bypass.
+  - The flag relaxes only the general private/CGNAT/link-local **range** checks.

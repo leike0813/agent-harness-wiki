@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-architecture-runtime-flows
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Runtime flows
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  ### Direct CLI flow
+  1. The CLI parses arguments and resolves user, workspace, environment, and
+     command-line configuration.
+  2. It prepares sandboxing and constructs the core runtime configuration.
+  3. The core runtime builds the model request and enters the agent/tool loop.
+  4. Tool calls are checked against permission policy and executed in the active
+     workspace environment.
+  5. The CLI renders incremental events in the TUI or serializes them for
+     headless output.
+  ### Daemon flow
+  1. A client uses the TypeScript SDK or the documented HTTP API to connect to
+     `qwen serve`.
+  2. The daemon authenticates the request and resolves the workspace that owns
+     the requested operation.
+  3. The workspace runtime forwards agent operations through its ACP bridge to a
+     `qwen --acp` child.
+  4.

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-guide-output-cap
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/07-mcp-servers.md
+  start: 47
+  end: 62
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  > **20_000 bytes**. Override via:
+  >
+  > - env `GROK_MAX_MCP_OUTPUT_BYTES` or `MAX_MCP_OUTPUT_BYTES` (bytes; Grok-native
+  >   wins if both set; Claude-style name, but we bound by **bytes** not tokens)
+  > - `config.toml` — user-level (`~/.grok/config.toml`) **or repo-level**
+  >   (`.grok/config.toml` anywhere on the cwd → git-root chain; the deepest
+  >   file wins, and the repo value applies only once the folder is trusted):
+  >
+  > ```toml
+  > [mcp]
+  > max_output_bytes = 40000
+  > ```
+  >
+  > Precedence: requirements.toml > env > repo `.grok/config.toml` >
+  > user/managed config > default. Repo edits apply to running sessions in that
+  > directory via config hot-reload.

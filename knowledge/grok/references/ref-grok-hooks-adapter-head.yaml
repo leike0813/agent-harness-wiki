@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-adapter-head
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/hooks_adapter.rs
+  start: 95
+  end: 101
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Hooks of each active (enabled and trusted) plugin in `registry`, parsed when the registry was built.
+  pub fn active_plugin_hook_specs(registry: &PluginRegistry) -> Vec<HookSpec> {
+      registry
+          .active_plugins()
+          .into_iter()
+          .flat_map(|plugin| plugin.hook_specs.iter().cloned())
+          .collect()

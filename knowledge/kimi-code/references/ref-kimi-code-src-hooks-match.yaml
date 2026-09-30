@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-src-hooks-match
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/features/externalHooks/internal/matchHooks.ts
+  start: 42
+  end: 80
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  ): Promise<HookResult[]> {
+    const matcherValue = matcherValueText(args.matcherValue);
+    const cwd = args.cwd ?? '';
+    const matched: HookDef[] = [];
+    const seen = new Set<string>();
+    for (const hook of byEvent.get(event) ?? []) {
+      if (!matches(hook.matcher ?? '', matcherValue)) continue;
+      const key = (hook.cwd ?? '') + '\0' + hook.command;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      matched.push(hook);
+    }
+    if (matched.length === 0) return [];
+    try {
+      callbacks.onTriggered?.(event, matcherValue, matched.length);
+    } catch {}
+    const inputData = toHookInputData({
+      hookEventName: event,
+      sessionId: args.sessionId ?? '',
+      cwd,
+      ...args.inputData,
+    });
+    const startedAt = Date.now();
+    const results = await Promise.all(
+      matched.map((hook) =>

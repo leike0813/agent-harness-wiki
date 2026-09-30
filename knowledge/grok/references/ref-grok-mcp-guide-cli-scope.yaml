@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-guide-cli-scope
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/07-mcp-servers.md
+  start: 123
+  end: 148
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  # Enable or disable a local/TOML (or compat-sourced) server
+  grok mcp enable github
+  grok mcp disable github
+  # Diagnose a server's configuration and connectivity
+  grok mcp doctor               # Check every configured server
+  grok mcp doctor github        # Check one server
+  grok mcp doctor --json        # Machine-readable output
+  ```
+  The transport defaults to `stdio`; pass `--transport http` or `--transport sse` for remote servers.
+  By default `grok mcp add` writes to `~/.grok/config.toml` (`--scope user`). Use `--scope project` to write to `.grok/config.toml` in the current directory instead, which can be committed and shared with your team (see [Project-Scoped MCP Servers](#project-scoped-mcp-servers)).

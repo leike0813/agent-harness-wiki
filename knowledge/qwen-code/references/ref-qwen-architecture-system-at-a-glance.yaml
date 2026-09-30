@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-architecture-system-at-a-glance
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: System at a glance
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Qwen Code has two agent execution models:
+  - **Direct execution:** the interactive TUI and headless CLI construct and run
+    the agent runtime directly.
+  - **ACP execution:** `qwen --acp` hosts the agent behind an ACP transport. It
+    can be driven by an ACP client directly or by `qwen serve` through the shared
+    ACP bridge.
+  `qwen serve` adds an HTTP + Server-Sent Events (SSE) control plane around ACP
+  execution so multiple clients can use long-lived, workspace-scoped runtimes.
+  ```mermaid
+  flowchart TB
+      subgraph surfaces["User and integration surfaces"]
+          TUI["Interactive TUI / headless CLI"]
+          PQ["TypeScript SDK process client"]
+          WEB["Web Shell / shared Web UI"]
+          IDE["IDE integrations"]
+          CHANNEL["Messaging channels"]
+          CUSTOM["Custom daemon clients"]

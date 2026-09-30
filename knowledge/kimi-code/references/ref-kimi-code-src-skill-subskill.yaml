@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-src-skill-subskill
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/features/skill/catalog/fileSkillDiscovery.ts
+  start: 80
+  end: 94
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  const allowedSubSkillBundles = new Map<string, string>();
+      for (const entry of directorySkills) {
+        const skill = await parseAndRegister({
+          byDiscoveryKey,
+          skipped,
+          warn,
+          skillMdPath: path.join(dirPath, entry, 'SKILL.md'),
+          skillDirName: entry,
+          root,
+          subSkillParentName,
+        });
+        if (skill !== undefined && hasSubSkillEnabled(skill)) {
+          allowedSubSkillBundles.set(entry, skill.name);
+        }
+      }

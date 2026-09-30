@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-subagent-inheritance
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/16-subagents.md
+  start: 218
+  end: 229
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ### MCP inheritance
+  The primary session overlays the active agent’s `mcpServers` frontmatter onto the disk/client merge by name (agent.md headers beat `config.toml`). Switching the primary agent replaces that overlay with the new seat only. Child inline `mcpServers` still become owned clients and beat inherited shared clients. Plugin agents cannot declare `mcpServers`.
+  Subagents inherit the parent session’s **already-connected** MCP servers by default. That includes local stdio/HTTP servers and plugin-sourced agents (for example `my-plugin:reviewer`). The child discovers and calls those tools with `search_tool` / `use_tool` the same way the parent does.
+  Control inheritance with agent frontmatter `mcpInheritance`:
+  | Value | Effect |
+  | ----- | ------ |

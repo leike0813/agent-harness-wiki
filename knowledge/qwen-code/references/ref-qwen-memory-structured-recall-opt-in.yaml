@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-memory-structured-recall-opt-in
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Structured recall (opt-in)"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  By default Qwen reads memory as a flat `MEMORY.md` index. The structured protocol replaces that with a hierarchical memory tree, injects only the subtree relevant to your current request, and gives Qwen a `search_memory` tool to pull full entries on demand — which costs fewer tokens once a memory collection grows past a handful of files.
+  It is off by default. Turn it on in `settings.json` (restart required):
+  ```json
+  {
+    "memory": {
+      "enableStructuredRecall": true
+    }
+  }
+  ```
+  or for a single run with `QWEN_CODE_MEMORY_STRUCTURED_RECALL=1`.
+  Turning it on starts a background metadata migration: each memory file gains the frontmatter (category, keywords, usage scenarios) that recall needs.

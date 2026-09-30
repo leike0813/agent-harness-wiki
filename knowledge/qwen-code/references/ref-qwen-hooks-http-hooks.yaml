@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-http-hooks
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: HTTP Hooks
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  HTTP hooks send hook input as POST requests to specified URLs. They support URL whitelists, DNS-level SSRF protection, environment variable interpolation, and other security features.
+  **Configuration:**
+  | Field            | Type                     | Required | Description                                               |
+  | :--------------- | :----------------------- | :------- | :-------------------------------------------------------- |
+  | `type`           | `"http"`                 | Yes      | Hook type                                                 |
+  | `url`            | `string`                 | Yes      | Target URL                                                |
+  | `headers`        | `Record<string, string>` | No       | Request headers (supports env var interpolation)          |

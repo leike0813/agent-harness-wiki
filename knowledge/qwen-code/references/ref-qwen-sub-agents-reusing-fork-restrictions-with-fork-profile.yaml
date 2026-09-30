@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-sub-agents-reusing-fork-restrictions-with-fork-profile
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Reusing Fork Restrictions with `fork_profile`"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  A project can save a named fork restriction in `.qwen/fork-profiles/<name>.md` and select it with `fork_profile`. This is useful when several calls need the same tool boundary and task guidance:
+  ```markdown
+  ---
+  name: ro-research
+  tools:
+    - read_file
+    - grep_search
+    - glob
+    - mcp__search__*
+  promptHint: |
+    Work read-only. Prefer targeted searches and cite file evidence.
+  ---
+  ```
+  Then launch the fork with:
+  ```text
+  agent(description="Research", prompt="Inspect the retry path", subagent_type="fork", fork_profile="ro-research")
+  ```
+  - `fork_profile` is valid only for a fork and cannot be combined with `fork_tools` or a named teammate.
+  - Profiles are currently project-only. The requested name, filename, and frontmatter `name` must match exactly.

@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-rules-where-rules-live
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Where rules live
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  | Location                                  | Loaded                                     |
+  | ----------------------------------------- | ------------------------------------------ |
+  | `~/.qwen/rules/` (or `$QWEN_HOME/rules/`) | always                                     |
+  | `<project>/.qwen/rules/`                  | when the workspace is trusted              |
+  | an active extension's `rules/`            | always, conditional rules only — see below |
+  Every `.md` file under those directories is discovered, including in subdirectories, in a deterministic order.

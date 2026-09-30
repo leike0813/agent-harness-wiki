@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-plugin-contents
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/09-plugins.md
+  start: 400
+  end: 414
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ### What a plugin contains
+  A plugin is a directory with any combination of:
+  - **Skills**: a `skills/` directory of SKILL.md files
+  - **Slash commands**: a `commands/` directory
+  - **Agents**: an `agents/` directory
+  - **Hooks**: a `hooks/hooks.json` file
+  - **MCP servers**: a `.mcp.json` file
+  - **LSP servers**: a `.lsp.json` file
+  An optional `plugin.json` manifest can override paths or add metadata; without one, Grok discovers components from these standard directories. For example, a `team-tools` plugin might bundle a deploy skill, a code-review agent, pre-commit hooks, and a Linear MCP server, installed together in one step.
+  A skill or command may ship a **helper script** next to its SKILL.md (for example a Python file it calls).

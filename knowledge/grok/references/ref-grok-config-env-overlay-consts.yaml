@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-env-overlay-consts
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/env_overlay.rs
+  start: 10
+  end: 17
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub const GROK_CONFIG_ENV: &str = "GROK_CONFIG";
+  /// Path to an additional JSON or TOML config-overlay file (read by extension).
+  pub const GROK_CONFIG_PATH_ENV: &str = "GROK_CONFIG_PATH";
+  /// Hard cap on a `GROK_CONFIG_PATH` overlay read.
+  /// A huge file, or a special node like `/dev/zero`, must never stall or OOM the agent, so the read is bounded.
+  const MAX_OVERLAY_BYTES: u64 = 4 * 1024 * 1024;

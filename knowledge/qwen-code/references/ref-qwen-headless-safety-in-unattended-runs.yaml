@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-safety-in-unattended-runs
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Safety in unattended runs
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Headless / CI runs combined with `--yolo` (or `--approval-mode=yolo`) auto-approve every tool call, including `shell`, `write`, and `edit`. **`--yolo` does not enable a sandbox** — those tools run at the host process's privilege level. When Qwen Code detects this combination with no sandbox configured, it prints a one-line warning to stderr at startup. Suppress the warning with `QWEN_CODE_SUPPRESS_YOLO_WARNING=1` once you've reviewed the trade-off.
+  ### Run-level budgets
+  Qwen Code can abort an unattended run when it crosses one of the following thresholds. Each is `-1` (unlimited) by default; setting any one is enough to bound runaway behavior.

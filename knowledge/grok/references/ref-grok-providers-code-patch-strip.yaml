@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-providers-code-patch-strip
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/config_override.rs
+  start: 76
+  end: 82
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// An override cannot re-inject nested `version_overrides`/`campaigns` or define `[auth_provider.*]` / `[model_providers.*]` command tables.
+  pub const PATCH_STRIP_KEYS: &[&str] = &[
+      "version_overrides",
+      "campaigns",
+      "auth_provider",
+      "model_providers",
+  ];

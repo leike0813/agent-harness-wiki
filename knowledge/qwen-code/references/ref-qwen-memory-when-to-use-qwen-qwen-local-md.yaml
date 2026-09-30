@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-memory-when-to-use-qwen-qwen-local-md
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "When to use `.qwen/QWEN.local.md`"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Use it for **project-specific but personal** instructions — things that belong to this project but shouldn't be shared with the team:
+  - Your own cluster ID, container registry namespace, or cloud account
+  - A personal debug command that hardcodes your local environment
+  - Notes you want Qwen to know about your work-in-progress, but not commit
+  It loads **after** the shared project `QWEN.md`, so your local instructions can supplement or override the team's.
+  **You must gitignore it yourself.** Although `.qwen/` is often treated as a local directory, qwen-code does not generate a `.gitignore` for you, and some projects commit `.qwen/settings.json`. Add this line to your `.gitignore` (or to your global git ignore):
+  ```
+  .qwen/QWEN.local.md
+  ```

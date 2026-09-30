@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-loader-deep-merge
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/loader.rs
+  start: 551
+  end: 566
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub fn deep_merge_toml(base: &mut toml::Value, overrides: &toml::Value) {
+      if let toml::Value::Table(overrides_table) = overrides
+          && let toml::Value::Table(base_table) = base
+      {
+          for (key, value) in overrides_table {
+              if let Some(existing) = base_table.get_mut(key) {
+                  deep_merge_toml(existing, value);
+              } else {
+                  base_table.insert(key.clone(), value.clone());
+              }
+          }
+      } else {
+          *base = overrides.clone();
+      }
+  }

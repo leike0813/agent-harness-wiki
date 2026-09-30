@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-where-looks
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Where Grok looks for plugins
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Grok discovers plugins from these locations, in priority order. The `.claude/plugins/` equivalents also work, and when two plugins share a name the higher-priority one wins:
+  | Location | Scope | Trust |
+  |----------|-------|-------|
+  | `_meta.pluginDirs` (`session/new` / `session/load`) | Session, that session only | Trusted automatically |
+  | `--plugin-dir` (the `grok agent … stdio` flag) | Process, that agent process only | Trusted automatically |
+  | `.grok/plugins/` | Project, shared through version control | Requires trust |
+  | `~/.grok/plugins/` | User, every project | Trusted automatically |
+  | `[plugins].paths` (config) | Custom directories you add | Depends on location |

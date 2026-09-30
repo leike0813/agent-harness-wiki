@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-cfg-resolve-transport
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/mcp_server_config.rs
+  start: 344
+  end: 400
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub(crate) fn resolve_transport(&self, name: &str) -> Option<McpServerTransport> {
+          match &self.transport {
+              McpServerTransportConfig::Stdio {
+                  command,
+                  args,
+                  env,
+                  cwd,
+              } => Some(McpServerTransport::Stdio {
+                  command: PathBuf::from(command),
+                  args: args.clone(),
+                  env: env
+                      .iter()
+                      .flatten()
+                      .map(|(key, value)| (key.clone(), value.clone()))
+                      .collect(),
+                  cwd: cwd.as_ref().map(PathBuf::from),
+              }),
+              McpServerTransportConfig::StreamableHttp {
+                  url,
+                  transport_type,
+                  bearer_token_env_var,

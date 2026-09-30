@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-providers-notice
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Model Notice
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  `notice` puts a message above the prompt for as long as the model is selected. The banner cannot be dismissed. It goes away when you switch to a model without a notice.
+  ```toml
+  [model.legacy]
+  model = "legacy-model"
+  base_url = "https://gateway.example/v1"
+  notice = { severity = "warning", text = "This model is deprecated on Oct 15. Switch to grok-4.6.", label = "deprecated" }
+  ```
+  `severity` sets the banner color and is `info`, `warning`, or `critical`. It defaults to `info`. `text` is required, and long text wraps. `label` is an optional short tag shown before the text. A custom models endpoint can send the same object as `notice` or `_meta.notice` on a model entry. To remove a notice a built-in or remote model carries, set `notice = { text = "" }`.
+  ---

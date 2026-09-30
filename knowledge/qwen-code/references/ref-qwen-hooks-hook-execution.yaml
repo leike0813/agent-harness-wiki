@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-hook-execution
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Hook Execution
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  ### Parallel vs Sequential Execution
+  - By default, hooks execute in parallel for better performance
+  - Use `sequential: true` in hook definition to enforce order-dependent execution
+  - Sequential hooks can modify input for subsequent hooks in the chain
+  ### Async Hooks
+  Only `command` type supports asynchronous execution. Setting `"async": true` runs the hook in the background without blocking the main flow.
+  Async hooks are scoped to the Qwen process. On POSIX, Qwen reclaims a still-running async hook process tree when it exits, except for event types whose sections explicitly guarantee fire-and-forget completion after exit. Windows cannot reconstruct a descendant tree after its root exits, so full parent-exit reclamation there requires a Job Object or descendant tracking.
+  **Features:**

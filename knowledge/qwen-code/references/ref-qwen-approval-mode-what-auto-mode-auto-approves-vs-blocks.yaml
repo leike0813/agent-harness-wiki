@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-approval-mode-what-auto-mode-auto-approves-vs-blocks
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: What Auto Mode auto-approves vs blocks
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  The classifier is biased toward blocking when uncertain. Defaults:
+  - **Auto-approved**: read-only commands (ls, cat, git status, grep, find),
+    package install in cwd, build/test commands, file edits inside the
+    workspace, local-only operations.
+  - **Blocked**: irreversible destruction (rm -rf /, fdisk, mkfs),
+    code-from-external execution (curl | sh, eval of remote content),
+    credential exfiltration, unauthorized persistence (.bashrc edits,
+    crontab), security weakening, force-push to main/master.
+  You can customize the classifier's judgement via natural-language hints in
+  settings.json. See [auto-mode.md](./auto-mode.md#configuring-hints).

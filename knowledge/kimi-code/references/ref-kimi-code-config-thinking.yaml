@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-config-thinking
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: thinking
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  `thinking` sets the global default behavior for Thinking mode.
+  | Field | Type | Default | Description |
+  | --- | --- | --- | --- |
+  | `enabled` | `boolean` | `true` | Whether Thinking is enabled by default for new sessions; set to `false` to force Thinking off |
+  | `effort` | `string` | — | Thinking effort: `low` / `medium` / `high` / `xhigh` / `max`; falls back to the model default when not in its supported list |
+  | `keep` | `string` | `"all"` | Preserved Thinking passthrough: `kimi` sends it as `thinking.keep`, `anthropic` as a `clear_thinking_20251015` edit (routes to the beta Messages API). An off-value disables it; overridden by `KIMI_MODEL_THINKING_KEEP`; injected only while Thinking is on |
+  <details><summary>Deprecated fields</summary>
+  | Field | Deprecated in | Description |

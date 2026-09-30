@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-cfg-expand
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/mcp_server_config.rs
+  start: 295
+  end: 340
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  fn try_for_each_substitutable_field<E>(
+          &mut self,
+          mut visit: impl FnMut(&mut String) -> Result<(), E>,
+      ) -> Result<(), E> {
+          match &mut self.transport {
+              McpServerTransportConfig::Stdio {
+                  command,
+                  args,
+                  env,
+                  cwd,
+              } => {
+                  visit(command)?;
+                  for arg in args.iter_mut() {
+                      visit(arg)?;
+                  }
+                  for value in env.iter_mut().flat_map(HashMap::values_mut) {
+                      visit(value)?;
+                  }
+                  if let Some(cwd) = cwd.as_mut() {
+                      visit(cwd)?;
+                  }
+              }
+              McpServerTransportConfig::StreamableHttp {
+                  url,

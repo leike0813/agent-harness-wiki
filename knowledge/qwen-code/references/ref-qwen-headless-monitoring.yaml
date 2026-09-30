@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-monitoring
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Monitoring
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  During persistent retry, heartbeat messages are printed to **stderr**:
+  ```
+  [qwen-code] Waiting for API capacity... attempt 3, retry in 45s
+  [qwen-code] Waiting for API capacity... attempt 3, retry in 15s
+  ```
+  These messages keep CI runners alive and let you monitor progress. They do not appear in stdout, so JSON output piped to other tools remains clean.

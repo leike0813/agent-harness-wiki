@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-skills-optional-enforce-a-rule-deterministically-hooks
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Optional: enforce a rule deterministically (`hooks:`)"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Everything in a `SKILL.md` body is an instruction to the model: it is prompt text, so following it depends on the model. When a rule must hold no matter what the model decides — refuse to run unless a required value was injected, never touch a protected path — declare a [hook](hooks.md) in the frontmatter instead. Hooks run as code, so they do not depend on the model's cooperation:
+  ```yaml
+  ---
+  name: gated-skill
+  description: Calls the downstream CLI using a runtime-injected session ID
+  hooks:
+    PreToolUse:
+      - matcher: run_shell_command
+        hooks:
+          - type: command
+            command: '"$QWEN_SKILL_ROOT/scripts/gate-session-id.sh"'
+  ---
+  ```
+  `$QWEN_SKILL_ROOT` is set to the Skill's own directory, so hook commands can reference files shipped alongside `SKILL.md`.

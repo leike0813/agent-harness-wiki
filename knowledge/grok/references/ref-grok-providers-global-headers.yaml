@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-providers-global-headers
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Global Default Headers
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  To apply the same headers to *every* model in the catalog -- built-in, prefetched from `/v1/models`, or custom -- set them once under the global `[models]` section instead of repeating them per model:
+  ```toml
+  [models]
+  extra_headers = { "X-Request-Tags" = "team=example,env=prod" }
+  ```
+  These act as a base for each model's inference requests. A per-model `[model.<id>].extra_headers` entry overrides the global default **per key** (matched case-insensitively): a key set on the model wins, while any global-only keys are still inherited by that model.

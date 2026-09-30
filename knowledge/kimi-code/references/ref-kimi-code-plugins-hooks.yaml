@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-plugins-hooks
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Hooks in Plugins
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  A plugin can declare hook rules in its manifest that run on lifecycle events while the plugin is enabled. Each entry uses the same fields as a [`[[hooks]]` rule in `config.toml`](./hooks.md#configuration) (`event`, `matcher`, `command`, `timeout`):
+  ```json
+  {
+    "hooks": [
+      {
+        "event": "PreToolUse",
+        "matcher": "Bash",
+        "command": "node ./hooks/check-bash.mjs",
+        "timeout": 5
+      }
+    ]
+  }
+  ```
+  Plugin hooks reuse the same mechanism as global hooks. See [Hooks](./hooks.md) for the event list, the stdin JSON payload, and how exit codes and return values affect the main flow. The differences are:
+  - A plugin's hooks are active only while the plugin is **enabled**; disabling the plugin stops its hooks.

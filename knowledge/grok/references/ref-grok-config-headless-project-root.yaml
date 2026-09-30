@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-headless-project-root
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Project Root Discovery
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  When Grok starts, it discovers the project root by walking upward from `--cwd`
+  (or the current directory) until it finds a `.git` directory.
+  Note: If `--cwd` is nested inside a large repository (such as a monorepo),
+  Grok discovers that repository as the project root and scopes its discovery (AGENTS.md, skills, git history) to it, which can make
+  startup slow. Point `--cwd` at the specific subproject you want to work in to keep
+  the scope small.
+  ---

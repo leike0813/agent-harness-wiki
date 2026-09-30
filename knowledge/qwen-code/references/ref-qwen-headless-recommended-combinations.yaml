@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-recommended-combinations
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Recommended combinations
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  - **Trusted, isolated environment (ephemeral CI runner, container):** `qwen -p "..." --yolo --max-session-turns N --max-wall-time 10m --output-format json`. Pin a turn budget and a wall-clock budget so a stuck agent can't burn through your CI minutes, and capture `--output-format json` for post-run usage / tool-call auditing.
+  - **Local machine or shared infra:** also pass `--sandbox` (or set `QWEN_SANDBOX=1`) so shell / write / edit tools run inside the sandbox image.
+  - **Long-running CI with retry-on-rate-limit:** combine `QWEN_CODE_UNATTENDED_RETRY=1` with `--max-wall-time`. The retry env keeps the run alive past transient 429 / 529 responses; the wall-clock budget ensures a persistently-failing provider can't extend the job indefinitely.

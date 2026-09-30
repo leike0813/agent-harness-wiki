@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-examples
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Examples
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  ### Code review
+  ```bash
+  cat src/auth.py | qwen -p "Review this authentication code for security issues" > security-review.txt
+  ```
+  ### Generate commit messages
+  ```bash
+  result=$(git diff --cached | qwen -p "Write a concise commit message for these changes" --output-format json)
+  echo "$result" | jq -r '.[-1].result'
+  ```
+  ### API documentation
+  ```bash
+  result=$(cat api/routes.js | qwen -p "Generate OpenAPI spec for these routes" --output-format json)
+  echo "$result" | jq -r '.[-1].result' > openapi.json
+  ```
+  ### Batch code analysis
+  ```bash
+  for file in src/*.py; do
+      echo "Analyzing $file..."
+      result=$(cat "$file" | qwen -p "Find potential bugs and suggest improvements" --output-format json)
+      echo "$result" | jq -r '.[-1].result' > "reports/$(basename "$file").analysis"

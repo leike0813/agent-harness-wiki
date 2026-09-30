@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-config-hooks
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/26-config-reference.md
+  start: 302
+  end: 310
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ### `hooks`
+  | Key | Type / Values | Requirements | Managed | Details |
+  | --- | --- | --- | --- | --- |
+  | `hooks.<event>` | `array of tables` | `yes` | `user` | Matcher groups for a lifecycle event such as PreToolUse or Stop. See Hooks. |
+  | `hooks.<event>[].hooks[].command` | `string` | `yes` | `user` | Command to run for this hook. `$VAR` is not expanded at load. |
+  | `hooks.<event>[].hooks[].type` | `command` | `yes` | `user` | Hook handler type. Command hooks are supported. |
+  | `hooks.<event>[].matcher` | `string` | `yes` | `user` | Tool-name matcher for this hook group. |

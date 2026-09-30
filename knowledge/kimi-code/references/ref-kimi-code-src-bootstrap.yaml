@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-src-bootstrap
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/app/bootstrap/bootstrap.ts
+  start: 111
+  end: 120
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  export function resolveBootstrapOptions(input: BootstrapInput): IBootstrapOptions {
+    const env = input.env ?? process.env;
+    const osHomeDir = input.osHomeDir ?? homedir();
+    const homeDir = resolveKimiHome(input.homeDir, env, osHomeDir);
+    const configPath = input.configPath ?? join(homeDir, 'config.toml');
+    return {
+      homeDir,
+      configPath,
+      osHomeDir,

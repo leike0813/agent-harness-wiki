@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-trust-gate
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 51
+  end: 66
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub fn has_project_skill_dirs_in<'a>(chain_dirs: impl IntoIterator<Item = &'a Path>) -> bool {
+      // All vendors must gate regardless of the runtime compatibility settings.
+      let config_dirs = CompatConfig::default().skill_config_dirs();
+      chain_dirs.into_iter().any(|dir| {
+          config_dirs.iter().any(|config_dir| {
+              let config_dir = dir.join(config_dir);
+              SKILL_SUBDIRS
+                  .iter()
+                  .copied()
+                  .chain(std::iter::once(COMMAND_SUBDIR))
+                  .any(|subdir| config_dir.join(subdir).is_dir())
+          })
+      })
+  }
+  /// List discovered skills. Priority: local, intermediate, repo, user, extra paths, server, then bundled.

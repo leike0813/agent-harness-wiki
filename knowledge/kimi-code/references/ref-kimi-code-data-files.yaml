@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-data-files
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: File descriptions
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  Each top-level file under the data root serves a specific purpose; most are managed automatically by the CLI:
+  - **`config.toml`**: the main runtime configuration file, storing user-level settings such as providers, models, and loop control. See [Configuration files](./config-files.md).
+  - **`tui.toml`**: terminal UI client preferences, including `[upgrade].auto_install` (auto-update, on by default). You can disable it in `/settings` or by manually setting `auto_install = false`.
+  - **`AGENTS.md`**: global Kimi-specific agent instructions. This file moves with `KIMI_CODE_HOME`; generic cross-tool instructions can still live under `~/.agents/AGENTS.md`.
+  - **`mcp.json`**: user-level MCP server declarations, merged with the project-local `.kimi-code/mcp.json` on startup.

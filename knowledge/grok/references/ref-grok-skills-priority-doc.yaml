@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-priority-doc
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 74
+  end: 81
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  project_trusted: bool,
+  ) -> Vec<SkillInfo> {
+      list_skills_with_plugins(working_directory, config, None, compat, project_trusted).await
+  }
+  /// List discovered skills including plugin-provided skills.
+  /// Native skills always win bare-name resolution; qualified plugin entries (`my-plugin:hello`) are preserved on collision.
+  /// Untrusted projects skip project roots and the workspace-user overlay.

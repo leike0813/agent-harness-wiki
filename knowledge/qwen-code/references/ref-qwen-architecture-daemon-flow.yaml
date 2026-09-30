@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-architecture-daemon-flow
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Daemon flow
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  1. A client uses the TypeScript SDK or the documented HTTP API to connect to
+     `qwen serve`.
+  2. The daemon authenticates the request and resolves the workspace that owns
+     the requested operation.
+  3. The workspace runtime forwards agent operations through its ACP bridge to a
+     `qwen --acp` child.
+  4. The child runs the same core agent and tool logic used by direct execution.
+  5. Responses and notifications return through the bridge; session events are
+     delivered to clients over SSE.
+  With multi-workspace sessions enabled, each live workspace runtime owns its own
+  bridge and ACP child. Filesystem access, environment overlays, MCP transports,
+  sessions, and failure handling remain scoped to that resolved runtime. The
+  [daemon architecture](./daemon/01-architecture.md) documents the process

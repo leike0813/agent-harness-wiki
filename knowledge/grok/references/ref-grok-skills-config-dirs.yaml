@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-config-dirs
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 158
+  end: 176
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  fn collect_skill_config_dirs_from_sources(
+      project_sources: Option<&crate::repo::StartupProjectSources>,
+      global_dir: &Path,
+      config_paths: &[String],
+      compat: CompatConfig,
+  ) -> Vec<PathBuf> {
+      let grok_home = global_dir.to_path_buf();
+      let mut dirs = Vec::new();
+      let mut seen = HashSet::new();
+      // Helper: add if the directory exists and hasn't been seen yet.
+      let mut try_add = |dir: PathBuf| {
+          if !dir.is_dir() {
+              return;
+          }
+          let canonical = dunce::canonicalize(&dir).unwrap_or_else(|_| dir.clone());
+          if seen.insert(canonical) {
+              dirs.push(dir);
+          }

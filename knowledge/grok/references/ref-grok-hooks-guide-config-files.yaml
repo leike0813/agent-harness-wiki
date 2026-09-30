@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-guide-config-files
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Hooks in Config Files
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Hooks can also live directly in your Grok config, so a team can distribute them with the rest of their configuration instead of shipping separate JSON files. The same `hooks` object is read from three TOML files:
+  | File | Tier | Who sets it |
+  |------|------|-------------|
+  | `~/.grok/config.toml` | User | You |
+  | `managed_config.toml` (`$GROK_HOME`, `/etc/grok`) | Managed / system | Your organization |
+  | `requirements.toml` (`$GROK_HOME` signed cache, `/etc/grok`) | Requirements | Your organization |
+  The TOML is structurally identical to the JSON hook object, so an existing hook transliterates directly:
+  ```toml
+  [[hooks.PreToolUse]]
+  matcher = "Bash|Write|Edit"
+  hooks = [
+    { type = "command", command = "/opt/guard/pretooluse.sh", timeout = 10 },
+  ]
+  ```

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-trust-auto
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/trust.rs
+  start: 150
+  end: 160
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// is under the user's home directory.  Otherwise it requires explicit
+      /// trust via `~/.grok/trusted-plugins`.
+      pub fn is_config_path_auto_trusted(plugin_root: &Path) -> bool {
+          let Some(home) = xai_dirs::home_dir() else {
+              return false;
+          };
+          match dunce::canonicalize(plugin_root) {
+              Ok(canonical) => canonical.starts_with(&home),
+              Err(_) => false,
+          }
+      }

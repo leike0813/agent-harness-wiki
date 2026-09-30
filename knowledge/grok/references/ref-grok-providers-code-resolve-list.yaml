@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-providers-code-resolve-list
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/endpoints.rs
+  start: 249
+  end: 259
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub fn resolve_models_list_url(&self) -> String {
+          if let Some(ref url) = self.models_list_url {
+              return url.clone();
+          }
+          let base = self
+              .models_base_url
+              .clone()
+              .unwrap_or_else(|| self.proxy_url());
+          format!("{}/models", base)
+      }
+  }

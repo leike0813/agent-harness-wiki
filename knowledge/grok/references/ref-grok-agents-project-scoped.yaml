@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-project-scoped
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/05-configuration.md
+  start: 866
+  end: 882
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ## Project-scoped configuration
+  Some settings can be set per-project by placing files in `.grok/` inside your repository:
+  | File | What it configures |
+  |------|--------------------|
+  | `.grok/config.toml` | MCP servers, plugins, permission rules, and the `[mcp] max_output_bytes` tool-result cap (other sections load only from `~/.grok/config.toml`) |
+  | `.grok/skills/` | Project-specific skills |
+  | `.grok/hooks/` | Project-specific lifecycle hooks |
+  | `.grok/agents/` | Project-specific agent definitions |
+  | `.grok/lsp.json` | LSP server configuration |
+  | `.grok/sandbox.toml` | Custom sandbox profiles |
+  | `AGENTS.md` | Project instructions (system prompt) |
+  Project-scoped MCP servers override global ones with the same name (full replacement, not a merge).
+  ---

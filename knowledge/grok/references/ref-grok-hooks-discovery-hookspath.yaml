@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-discovery-hookspath
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/discovery.rs
+  start: 608
+  end: 624
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  // Convention-based: derive name from directory, check for skills/ or agents/ or .mcp.json or hooks/hooks.json
+              let Some(name) = name_from_dirname(plugin_root) else {
+                  tracing::debug!(
+                      path = %plugin_root.display(),
+                      "cannot derive plugin name from directory; skipping"
+                  );
+                  return;
+              };
+              // Only treat as a plugin if it has at least one component
+              let has_skills =
+                  plugin_root.join("skills").is_dir() || plugin_root.join("commands").is_dir();
+              let has_agents = plugin_root.join("agents").is_dir();
+              let has_mcp = plugin_root.join(".mcp.json").is_file();
+              let has_lsp = plugin_root.join(".lsp.json").is_file();

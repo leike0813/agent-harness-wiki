@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-sandbox-platform
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Platform Support
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  | Platform | Mechanism | Minimum Version        |
+  | -------- | --------- | ---------------------- |
+  | Linux    | Landlock  | Kernel 5.13 or later   |
+  | macOS    | Seatbelt  | macOS (all versions)   |
+  If the sandbox cannot be applied (e.g., unsupported kernel, missing entitlements), Grok logs a warning and continues without enforcement. The exception is an explicitly-requested **custom profile**: on **both macOS and Linux**, if it cannot be applied (unknown profile, malformed `sandbox.toml`, or — on Linux — `bubblewrap` unavailable for a non-empty `deny`), Grok refuses to start rather than run with its denied paths exposed.
+  ---

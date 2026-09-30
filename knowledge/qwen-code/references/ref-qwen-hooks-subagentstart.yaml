@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-subagentstart
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: SubagentStart
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  **Purpose**: Executed when a subagent (like the Task tool) is started to set up context or permissions.
+  **Event-specific fields**:
+  ```json
+  {
+    "permission_mode": "default | plan | auto_edit | auto | yolo",
+    "agent_id": "identifier for the subagent",
+    "agent_type": "type of agent (Bash, Explorer, Plan, Custom, etc.)"
+  }
+  ```
+  **Output Options**:
+  - `hookSpecificOutput.additionalContext`: initial context for the subagent
+  - Standard hook output fields
+  **Example Output**:
+  ```json
+  {
+    "hookSpecificOutput": {
+      "additionalContext": "Subagent initialized with restricted permissions."
+    }
+  }
+  ```

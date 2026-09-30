@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-types-hookinfo
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-hooks-plugins-types/src/lib.rs
+  start: 217
+  end: 245
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// A single hook's metadata for display in the pager.
+  #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+  #[serde(rename_all = "camelCase")]
+  pub struct HookInfo {
+      /// Full name including scope prefix (e.g., "global/safety:pre_tool_use[0].hooks[0]").
+      pub name: String,
+      /// Event type this hook runs on.
+      pub event: HookEvent,
+      /// Handler type.
+      pub handler_type: HookHandlerType,
+      /// Raw matcher pattern from config (for display). None = matches all tools.
+      /// Maps from `HookSpec.configured_matcher` (not the compiled regex).
+      pub matcher: Option<String>,
+      /// Command path (for command handlers).
+      pub command: Option<String>,
+      /// HTTP URL (for http handlers).
+      pub url: Option<String>,
+      /// Timeout in milliseconds.
+      pub timeout_ms: u64,

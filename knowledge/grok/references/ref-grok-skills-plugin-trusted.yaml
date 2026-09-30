@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-plugin-trusted
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 527
+  end: 548
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub fn collect_plugin_skills(registry: Option<&crate::plugins::PluginRegistry>) -> Vec<SkillInfo> {
+      let Some(registry) = registry else {
+          return Vec::new();
+      };
+      let mut skills = Vec::new();
+      for plugin in registry.active_plugins() {
+          let mut paths: Vec<(PathBuf, SkillScope)> = Vec::new();
+          for skill_dir in &plugin.skill_dirs {
+              if !skill_dir.is_dir() {
+                  continue;
+              }
+              paths.extend(
+                  find_skill_md_paths(skill_dir)
+                      .into_iter()
+                      .map(|p| (p, SkillScope::Repo)),
+              );
+          }
+          for cmd_dir in &plugin.command_dirs {
+              paths.extend(
+                  scan_md_files(cmd_dir)
+                      .into_iter()

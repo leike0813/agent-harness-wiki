@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-mcp-important-redirect-uri-configuration
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Important: Redirect URI configuration"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  The OAuth flow requires a redirect URI where the authorization provider sends the authentication code.
+  - **Local development**: By default, Qwen Code uses `http://localhost:7777/oauth/callback`. This works when running Qwen Code on your local machine with a local browser.
+  - **Remote/cloud deployments**: When running Qwen Code on remote servers, cloud IDEs, or web terminals, the default `localhost` redirect will NOT work. Configure `--oauth-redirect-uri` with a public URL ending in `/oauth/callback`, then reverse-proxy that path to `http://127.0.0.1:7777/oauth/callback` on the machine running Qwen Code. Qwen Code does not terminate TLS; the proxy must do so.
+  Example for remote servers:
+  ```bash
+  qwen mcp add --transport sse remote-server https://api.example.com/sse/ \

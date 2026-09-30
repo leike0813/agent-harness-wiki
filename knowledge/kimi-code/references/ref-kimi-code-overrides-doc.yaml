@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-overrides-doc
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Config overrides
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  Kimi Code CLI has three places where runtime parameters can be influenced: the config file, command-line options, and environment variables. They are not a simple priority stack: the three serve different scenarios and have non-overlapping scopes:
+  - **Config file** stores long-term preferences (model, keys, loop control, etc.); takes effect on every startup
+  - **Command-line options** make one-off changes for the current startup; discarded after exit
+  - **Environment variables** primarily handle data directory location, OAuth endpoint switching, and a small number of runtime switches. They are **not a general fallback mechanism for config fields**.
+  This distinction matters: many users run `export KIMI_API_KEY=xxx` in the shell expecting the CLI to pick it up automatically, but it does not.

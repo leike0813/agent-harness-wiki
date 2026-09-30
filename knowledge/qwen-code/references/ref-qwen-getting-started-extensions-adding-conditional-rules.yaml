@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-getting-started-extensions-adding-conditional-rules
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Adding Conditional Rules
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  An extension can also ship a `rules/` directory. A rule is a Markdown file whose `paths:` frontmatter says which files it applies to, and it enters the prompt only when a tool call touches a matching file:
+  ```markdown
+  ---
+  description: How this project charts data
+  paths:
+    - 'src/**/*.chart.ts'
+  ---
+  Use the palette from `theme/charts.ts`. Never hard-code a hex value.
+  ```
+  **An extension's rules must be conditional** — a rule with no `paths:` is skipped and named in a startup warning. A baseline rule would be part of every request, which is exactly what the `QWEN.md` note in the next step asks you to avoid. Rules appear in the prompt labelled by owner, as `my-first-extension:rules/charting.md`. See [Rules](../features/rules.md).

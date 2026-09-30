@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-dto-hookstatus
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-hooks-plugins-types/src/lib.rs
+  start: 166
+  end: 182
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Plugin hook status -- derived from trust + has_hooks + has_inline_hooks_only.
+  #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+  #[serde(rename_all = "snake_case")]
+  pub enum HookStatus {
+      /// Trusted and active (file-based hooks).
+      Active,
+      /// Trusted and active (inline hooks only).
+      ActiveInline,
+      /// Untrusted -- hooks exist but are blocked.
+      Blocked,
+      /// No hooks configured for this plugin.
+      None,
+  }
+  /// Plugin MCP server status -- derived from trust + mcp_server_count + has_inline_mcp_only.
+  #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]

@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-mcp-configure-via-settings-json-vs-qwen-mcp-add
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Configure via `settings.json` vs `qwen mcp add`"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Both approaches produce the same `mcpServers` entries in your `settings.json`—use whichever you prefer.
+  #### Stdio server (local process)
+  JSON (`.qwen/settings.json`):
+  ```json
+  {
+    "mcpServers": {
+      "pythonTools": {
+        "command": "python",
+        "args": ["-m", "my_mcp_server", "--port", "8080"],
+        "cwd": "./mcp-servers/python",
+        "env": {
+          "DATABASE_URL": "$DB_CONNECTION_STRING",
+          "API_KEY": "${EXTERNAL_API_KEY}"
+        },
+        "timeout": 15000
+      }
+    }
+  }
+  ```
+  CLI (writes to user scope by default):
+  ```bash
+  qwen mcp add pythonTools -e DATABASE_URL=$DB_CONNECTION_STRING -e API_KEY=$EXTERNAL_API_KEY \
+    --timeout 15000 python -m my_mcp_server --port 8080
+  ```
+  #### HTTP server (remote streamable HTTP)
+  JSON:
+  ```json
+  {
+    "mcpServers": {
+      "httpServerWithAuth": {

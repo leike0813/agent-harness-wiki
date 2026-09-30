@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-frontmatter-schema
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/README.md
+  start: 162
+  end: 191
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ## Frontmatter Schema Reference
+  All frontmatter keys use **camelCase**.
+  | Field | Type | Required | Default | Description |
+  |---|---|---|---|---|
+  | `name` | `string` | **Yes** | — | Unique agent ID (lowercase, hyphens) |
+  | `description` | `string` | **Yes** | — | When/why to use this agent |
+  | `promptMode` | `string` | No | `"extend"` | `"extend"` or `"full"` |
+  | `tools` | `string[]` | No | inherit all | Tool allowlist. Omit = all tools. `[]` = none |
+  | `disallowedTools` | `string[]` | No | `[]` | Denylist (takes priority over `tools`) |
+  | `permissionMode` | `string` | No | `"default"` | `"default"`, `"acceptEdits"`, `"dontAsk"`, `"plan"` |
+  | `skills` | `string[]` | No | `[]` | Skill names to pre-load |
+  | `agentsMd` | `bool` | No | `true` | Discover and inject AGENTS.md files |

@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-manifest-path-resolve
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/manifest.rs
+  start: 46
+  end: 50
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Paths that escape the plugin root (via `..` components) are rejected with a warning and excluded from the result.
+      pub fn resolve(&self, plugin_root: &Path) -> Vec<PathBuf> {
+          let paths = match self {
+              PathOrPaths::Single(p) => vec![plugin_root.join(p)],
+              PathOrPaths::Multiple(ps) => ps.iter().map(|p| plugin_root.join(p)).collect(),

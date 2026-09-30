@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-introduction-managing-extension-settings
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Managing Extension Settings
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Extensions can require configuration through settings (such as API keys or credentials). These settings can be managed using the `qwen extensions settings` CLI command:
+  **Set a setting value:**
+  ```bash
+  qwen extensions settings set <extension-name> <setting-name> [--scope user|workspace]
+  ```
+  **List all settings and current values for an extension:**
+  ```bash
+  qwen extensions settings list <extension-name>
+  ```
+  Settings can be configured at two levels:
+  - **User level** (default): Settings apply across all projects (`~/.qwen/.env`)
+  - **Workspace level**: Settings apply only to the current project (`.qwen/.env`)
+  Workspace settings take precedence over user settings. Sensitive settings are stored securely and never displayed in plain text.

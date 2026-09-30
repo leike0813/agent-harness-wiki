@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-commands-qwen-sessions-list
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "`qwen sessions list`"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Lists your recent Qwen Code sessions with metadata.
+  **Flags:**
+  | Flag      | Type    | Default | Description                                     |
+  | --------- | ------- | ------- | ----------------------------------------------- |
+  | `--json`  | boolean | `false` | Output as JSON Lines (one JSON object per line) |
+  | `--limit` | number  | `20`    | Maximum number of sessions to show              |
+  **Human-readable output (default):**
+  A table with columns: SESSION ID, STARTED (UTC timestamp), TITLE, BRANCH, PROMPT.
+  **JSON output (`--json`):**
+  Outputs JSON Lines on stdout. Each line is a JSON object with fields:
+  ```
+  sessionId, startTime, mtime, prompt, gitBranch, customTitle, titleSource, filePath, cwd
+  ```
+  The "has more sessions" hint is emitted via stderr so piping to `jq` remains safe.

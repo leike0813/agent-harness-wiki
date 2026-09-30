@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-guide-cursor
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Cursor Hook Compatibility
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Grok accepts Cursor's camelCase hook event names, so `~/.cursor/hooks.json` loads unchanged:
+  | Cursor event | Maps to |
+  |---|---|
+  | `sessionStart`, `sessionEnd` | `SessionStart`, `SessionEnd` |
+  | `preToolUse`, `postToolUse`, `postToolUseFailure` | `PreToolUse`, `PostToolUse`, `PostToolUseFailure` |
+  | `beforeShellExecution`, `beforeMCPExecution`, `beforeReadFile` | `PreToolUse` |
+  | `afterShellExecution`, `afterMCPExecution`, `afterFileEdit` | `PostToolUse` |
+  | `afterAgentResponse`, `afterAgentThought` | `PostToolUse` |
+  | `beforeSubmitPrompt` | `UserPromptSubmit` |
+  | `subagentStart`, `subagentStop` | `SubagentStart`, `SubagentStop` |
+  | `preCompact`, `stop` | `PreCompact`, `Stop` |

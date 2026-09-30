@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-extension-releasing-example-github-actions-workflow
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Example GitHub Actions workflow
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Here is an example of a GitHub Actions workflow that builds and releases a Qwen Code extension for multiple platforms:
+  ```yaml
+  name: Release Extension
+  on:
+    push:
+      tags:
+        - 'v*'
+  jobs:
+    release:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        - name: Set up Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: '22'
+        - name: Install dependencies
+          run: npm ci
+        - name: Build extension
+          run: npm run build
+        - name: Create release assets
+          run: |
+            npm run package -- --platform=darwin --arch=arm64
+            npm run package -- --platform=linux --arch=x64
+            npm run package -- --platform=win32 --arch=x64
+        - name: Create GitHub Release

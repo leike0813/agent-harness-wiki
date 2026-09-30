@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-hooks-input
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Event Data Format
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  Each time a hook triggers, the CLI passes the following base information to the script via stdin:
+  ```json
+  {
+    "hook_event_name": "PreToolUse",
+    "session_id": "session_abc",
+    "session_title": "Fix the login page",
+    "client_type": "kimi_code_cli",
+    "cwd": "/path/to/project"
+  }
+  ```
+  Specific events will also include additional fields (such as tool name and command content); see the [event reference](#event-reference). All field names use snake_case.

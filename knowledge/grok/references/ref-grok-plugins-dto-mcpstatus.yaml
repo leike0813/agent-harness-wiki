@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-dto-mcpstatus
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-hooks-plugins-types/src/lib.rs
+  start: 184
+  end: 198
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub enum McpStatus {
+      /// Trusted and active (file-based config).
+      Active,
+      /// Trusted and active (inline config only).
+      ActiveInline,
+      /// Untrusted -- MCP servers exist but are blocked.
+      Blocked,
+      /// No MCP servers configured.
+      None,
+  }
+  /// Machine-readable outcome status for action responses.
+  #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+  #[serde(rename_all = "snake_case")]
+  pub enum OutcomeStatus {

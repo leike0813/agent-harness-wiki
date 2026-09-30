@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-docs-skills-discovery
+harness_id: grok
+snapshot_id: snapshot-grok-docs-skills-plugins
+locator:
+  kind: document_section
+  heading: Skills
+official_url: "https://docs.x.ai/build/features/skills-plugins-marketplaces"
+excerpt: |-
+  Skills are reusable folders containing markdown instructions, script files, and resources for agents.
+  Grok discovers skills from:
+  * `./.grok/skills/` (walked up to the repo root)
+  * `~/.grok/skills/`
+  * Any enabled plugin's `skills/` directory
+  * Extra paths under `[skills] paths` in `~/.grok/config.toml`
+  User-invocable skills also appear as slash commands, for example `/<skill-name>`.
+  `SKILL.md` starts with YAML frontmatter. Extra keys are ignored.
+  | Field | Description |
+  | ----- | ----------- |
+  | `name` | Identifier. Directory name if omitted. |
+  | `description` | What it does and when to use it. First body paragraph if omitted. |
+  | `when-to-use` | Extra trigger phrases. Alias: `when_to_use`. |
+  | `paths` | Gitignore globs. Hidden until a matching file is touched. |

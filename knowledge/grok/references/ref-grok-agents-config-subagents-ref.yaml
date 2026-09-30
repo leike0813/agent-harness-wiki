@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-config-subagents-ref
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/26-config-reference.md
+  start: 538
+  end: 547
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ### `subagents`
+  | Key | Type / Values | Requirements | Managed | Details |
+  | --- | --- | --- | --- | --- |
+  | `subagents.enabled` | `boolean` | `pin` | `user` | Subagent / task tool master switch, default true even when other `subagents.*` keys are set. Also GROK_SUBAGENTS or `--no-subagents`. |
+  | `subagents.limit_behavior` | `queue / fail` | `yes` | `user` | What to do when the concurrent subagent cap is hit. |
+  | `subagents.max_concurrent` | `integer` | `yes` | `user` | Max concurrent subagents. |
+  | `subagents.max_depth` | `integer` | `yes` | `user` | Max nested subagent depth (clamped ≥1). |
+  | `subagents.models.<name>` | `string` | `yes` | `user` | Per-subagent model id override. |
+  | `subagents.toggle.<name>` | `boolean` | `yes` | `user` | Enable or disable an individual subagent type.

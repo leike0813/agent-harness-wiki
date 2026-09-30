@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-guide-security
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Security Notes
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  - Global hooks (`~/.grok/hooks/`) run with your user permissions; treat them like shell scripts.
+  - Project hooks require folder trust (`/hooks-trust` or `--trust`, the same gate as repo-local MCP/LSP) to prevent supply-chain attacks from malicious repos.
+  - HTTP hooks send session data; only use trusted endpoints.
+  - A `PostToolUse` hook decides what the model reads for that tool call — it can add instructions or replace the output outright — so trust one the way you trust a `PreToolUse` gate. The scrollback and the transcript keep the real output, so a replacement is always visible to you.
+  ---

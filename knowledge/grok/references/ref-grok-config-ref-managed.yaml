@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-ref-managed
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: managed_config.toml
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  `managed_config.toml` accepts every key in the tables above. It sets fleet defaults, so a developer's own `config.toml` overrides it. Use it for values you want people to be able to adjust, and `requirements.toml` for values they cannot.
+  One exception to that rule:
+  | Key | Behaviour |
+  | --- | --- |
+  | `features.remote_fetch` | The managed value wins over the developer's. |
+  Grok Build reads `/etc/grok/managed_config.toml` first, then `$GROK_HOME/managed_config.toml`, which the console keeps in sync. Values in the second replace values in the first.
+  The **Managed** column on the tables above is the per-key answer: `fleet` means the fleet value stands, `user` means the user's file wins, `—` means this file is ignored.

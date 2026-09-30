@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-no-gitignore
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 246
+  end: 262
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Skill/command discovery does not consult `.gitignore` — those roots are often ignored but still expected to load.
+  /// Hiding a skill uses `[skills] ignore`. AGENTS.md discovery still honors gitignore.
+  fn collect_discovered_paths(
+      paths: impl IntoIterator<Item = PathBuf>,
+      scope: SkillScope,
+      seen: &mut HashSet<PathBuf>,
+      out: &mut Vec<(PathBuf, SkillScope)>,
+  ) {
+      for path in paths {
+          let canonical = dunce::canonicalize(&path).unwrap_or_else(|_| path.clone());
+          if seen.insert(canonical) {
+              out.push((path, scope));
+          }
+      }
+  }
+  /// Discover skills and commands from config dirs, workspace, and bundled paths.

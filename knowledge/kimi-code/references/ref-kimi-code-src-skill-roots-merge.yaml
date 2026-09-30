@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-src-skill-roots-merge
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/features/skill/catalog/skillRoots.ts
+  start: 87
+  end: 110
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  async function pushBrandGroup(
+    out: SkillRoot[],
+    dirs: readonly string[],
+    base: string,
+    source: SkillSource,
+    mergeAllAvailableSkills: boolean,
+  ): Promise<void> {
+    if (!mergeAllAvailableSkills) {
+      await pushFirstExisting(out, dirs, base, source);
+      return;
+    }
+    for (const dir of dirs) {
+      await pushExistingRoot(out, path.join(base, dir), source);
+    }
+  }
+  async function pushExistingRoot(
+    out: SkillRoot[],
+    dir: string,
+    source: SkillSource,
+  ): Promise<boolean> {
+    if (!(await isDir(dir))) return false;
+    const resolved = await realpath(dir);
+    if (!out.some((root) => root.path === resolved)) out.push({ path: resolved, source });

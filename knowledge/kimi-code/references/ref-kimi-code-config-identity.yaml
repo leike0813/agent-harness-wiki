@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-config-identity
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: identity
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  Customizes how the agent identifies itself. Leave it unset and nothing changes.
+  | Field | Type | Default | Description |
+  | --- | --- | --- | --- |
+  | `name` | `string` | — | Display name the agent calls itself in the system prompt (fills the `${product_name}` slot, including in your own `SYSTEM.md` and agent files) |
+  | `slug` | `string` | derived from `name` | Machine identifier in protocol fields (`User-Agent` product token, MCP client name); derived from `name` when omitted: lowercased, non-alphanumeric runs folded to `-` |
+  ```toml
+  [identity]
+  name = "Acme Dev Agent"
+  slug = "acme-dev"        # optional
+  ```

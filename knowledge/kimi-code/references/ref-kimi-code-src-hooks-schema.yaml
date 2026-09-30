@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-src-hooks-schema
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/features/externalHooks/configSection.ts
+  start: 10
+  end: 26
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  export const HookDefSchema = z
+    .object({
+      event: z.enum(HOOK_EVENT_TYPES),
+      matcher: z.string().optional(),
+      command: z.string().min(1),
+      timeout: z.number().int().min(1).max(600).optional(),
+    })
+    .strict();
+  export type HookDefConfig = z.infer<typeof HookDefSchema>;
+  export const HooksConfigSchema = z.array(HookDefSchema);
+  export const hooksFromToml = (rawSnake: unknown): unknown => {
+    if (!Array.isArray(rawSnake)) return rawSnake;
+    return rawSnake.map((hook) => (isPlainObject(hook) ? transformPlainObject(hook) : hook));
+  };

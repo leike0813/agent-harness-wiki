@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-model-providers-reasoning-thinking-configuration
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Reasoning / thinking configuration
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  The optional `reasoning` field under `generationConfig` controls how aggressively the model reasons before responding. The Anthropic and Gemini converters always honor it. The OpenAI-compatible pipeline honors it **unless** `generationConfig.samplingParams` is set. Known GPT-5 models and GPT-6 Astra are an exception: unrelated sampling keys do not suppress configured effort. See "Interaction with `samplingParams`" below.
+  ```jsonc
+  {
+    "modelProviders": {
+      "openai": [
+        {
+          "id": "deepseek-v4-pro",
+          "name": "DeepSeek V4 Pro",
+          "baseUrl": "https://api.deepseek.com/v1",
+          "envKey": "DEEPSEEK_API_KEY",
+          "generationConfig": {
+            // The four-tier scale:
+            //   'low'    | 'medium' — server-mapped to 'high' on DeepSeek

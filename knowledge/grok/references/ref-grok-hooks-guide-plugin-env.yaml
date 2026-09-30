@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-guide-plugin-env
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Plugin hook variables
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  When a hook originates from a plugin, Grok additionally injects the following variables:
+  | Variable             | Description |
+  |----------------------|-------------|
+  | `GROK_PLUGIN_ROOT`   | Absolute path to the plugin's installed directory. |
+  | `GROK_PLUGIN_DATA`   | Absolute path to the plugin's writable data directory (for storing plugin state, caches, etc.). |
+  These values are provided by the plugin system. For the four plugin-related keys (`GROK_PLUGIN_ROOT`, `GROK_PLUGIN_DATA`, and their Claude aliases), the plugin adapter ensures the official plugin values always win over any user-declared values in the hook's `env` map.

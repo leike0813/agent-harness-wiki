@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-list-merge
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/mcp_servers/server_list.rs
+  start: 400
+  end: 428
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  fn merge_definitions(
+      toml: Vec<McpServerResolution>,
+      toml_claimed: &HashMap<String, McpServerTimeouts>,
+      non_toml: Vec<McpServerResolution>,
+  ) -> McpServerList {
+      let mut list = McpServerList::default();
+      for resolution in toml {
+          match resolution {
+              McpServerResolution::Server(server) => list.servers.push(*server),
+              McpServerResolution::Skipped(skipped) => list.skipped.push(skipped),
+          }
+      }
+      let mut taken: HashSet<String> = toml_claimed.keys().cloned().collect();
+      for resolution in non_toml {
+          match resolution {
+              McpServerResolution::Server(server) => {
+                  if taken.insert(server.name.clone()) {
+                      list.servers.push(*server);
+                  }
+              }

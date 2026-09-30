@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-skills-how-extension-skills-are-named
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: How extension Skills are named
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Qwen Code registers a Skill from an installed extension as `<extensionName>:<name>`, where `<extensionName>` is the `name` field of that extension's `qwen-extension.json` and `<name>` is the Skill's own frontmatter `name`. A Skill named `pdf` in the `rust` extension is registered as `rust:pdf`.
+  The prefix is added while the Skill is loaded, not written into the file: your `SKILL.md` keeps the name you authored, and Qwen Code never recovers the authored name by splitting the registered one apart (an author may legitimately write `rust:chat` inside `rust`). Only extension Skills are prefixed — personal, project, and bundled Skills keep the single spelling you authored.
+  Use the registered name everywhere you refer to the Skill:
+  - Invoke it as `/rust:pdf`.

@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-env-switches
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Runtime switches
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  Switches that control the behavior of subsystems such as telemetry, background tasks, and the plugin marketplace:
+  | Variable | Purpose | Valid values |
+  | --- | --- | --- |
+  | `KIMI_DISABLE_TELEMETRY` | Disable anonymous telemetry reporting | `1`, `true`, `yes`, `y` (case-insensitive) |
+  | `KIMI_CODE_PASSWORD` | Parallel auth credential for `kimi web`, recommended when binding beyond loopback (see [Security notes](../guides/web.md#security-notes)) | Any non-empty string; when unset, only the token is valid |
+  | `KIMI_CODE_BACKGROUND_KEEP_ALIVE_ON_EXIT` | Keep background tasks when the session closes; higher priority than `config.toml` (default: stop them on exit) | Truthy: `1`/`true`/`yes`/`on`; falsy: `0`/`false`/`no`/`off` |

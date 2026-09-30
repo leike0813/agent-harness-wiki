@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-config-loop-control
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: loop_control
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  `loop_control` governs the step count limit, the per-step attempt limit, and the thresholds and attempt limit for automatic context compaction in the Agent execution loop.
+  | Field | Type | Default | Description |
+  | --- | --- | --- | --- |
+  | `max_steps_per_turn` | `integer` | — | Maximum steps per turn; unset or `0` means unlimited |
+  | `max_attempts_per_step` | `integer` | `10` | Maximum total attempts for a failing step, including the initial attempt |
+  | `reserved_context_size` | `integer` | — | Number of tokens reserved for model output; automatic compaction is triggered when the remaining context window falls below this value |
+  | `compaction_max_attempts` | `integer` | `5` | Maximum total attempts for a failing compaction request, including the initial attempt |

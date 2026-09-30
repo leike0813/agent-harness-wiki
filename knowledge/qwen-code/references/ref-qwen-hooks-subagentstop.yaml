@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-subagentstop
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: SubagentStop
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  **Purpose**: Executed when a subagent finishes to perform finalization tasks.
+  **Event-specific fields**:
+  ```json
+  {
+    "permission_mode": "default | plan | auto_edit | auto | yolo",
+    "stop_hook_active": "false on the first stop check; true when the subagent is continuing because a SubagentStop hook blocked its previous stop",
+    "agent_id": "identifier for the subagent",
+    "agent_type": "type of agent",
+    "agent_transcript_path": "path to the subagent's transcript",
+    "last_assistant_message": "the last message from the subagent",
+    "background_tasks": "array of background tasks, same shape as in Stop",
+    "crons": "array of scheduled jobs, same shape as in Stop"
+  }
+  ```
+  **Output Options**:
+  - `decision`: "allow", "deny", "block", or "ask"
+  - `reason`: human-readable explanation for the decision

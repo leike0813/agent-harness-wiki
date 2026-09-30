@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-mcp-global-allow-deny-lists
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Global allow/deny lists
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  The `mcp` object in your `settings.json` defines global rules for all MCP servers:
+  - `mcp.allowed`: allow-list of MCP server names (keys in `mcpServers`)
+  - `mcp.excluded`: deny-list of MCP server names
+  Both lists support glob patterns: `*` matches any sequence of characters and `?` matches a single character (for example, `"*puppeteer*"` matches every server whose name contains `puppeteer`). Entries without glob characters are matched exactly. When a server matches both lists, `mcp.excluded` takes precedence.
+  Example:
+  ```json
+  {
+    "mcp": {
+      "allowed": ["my-trusted-server", "*-internal"],
+      "excluded": ["experimental-server"]
+    }
+  }
+  ```

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-paths-rs
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/paths.rs
+  start: 16
+  end: 31
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// extra_skill_dirs = ["~/.claude/skills", "/path/to/.claude/skills"]
+  /// extra_rule_dirs = ["~/.claude/rules"]
+  /// ```
+  #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+  #[serde(default)]
+  pub struct PathsConfig {
+      /// Additional directories to scan for skills (each contains `<skill>/SKILL.md`).
+      /// `/import-claude` writes this. `list_skills_with_plugins` does not read it.
+      /// Extra injection dirs belong in `[skills] paths`. ACP `x.ai/skills/list` may
+      /// still show these dirs as source folders.
+      pub extra_skill_dirs: Vec<String>,
+      /// Additional directories to scan for rules (each contains `*.md`).
+      pub extra_rule_dirs: Vec<String>,
+  }
+  impl PathsConfig {

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-model-providers-override-reasoning-capabilities
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Override reasoning capabilities
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Set `capabilities.reasoning` on a model entry to override its reasoning format,
+  offered effort tiers and default. Known models inherit omitted fields from the
+  provider catalog at the selected endpoint; for example,
+  `"capabilities": { "reasoning": { "defaultEffort": "medium" } }` makes a
+  DashScope `qwen3.8-max` route use medium when no explicit effort is selected.
+  For an unknown alias, declare all three fields:
+  ```json
+  {
+    "id": "company-model-v2",
+    "baseUrl": "https://gateway.example.com/v1",
+    "envKey": "COMPANY_MODEL_API_KEY",
+    "capabilities": {
+      "reasoning": {
+        "profile": "openai-effort",
+        "efforts": ["low", "medium", "high"],
+        "defaultEffort": "medium"
+      }
+    }
+  }
+  ```
+  `efforts` replaces the supported subset of `low/medium/high/xhigh/max`.

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-github-actions
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: GitHub Actions
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  ```yaml
+  - name: Automated code review
+    env:
+      QWEN_CODE_UNATTENDED_RETRY: '1'
+    run: |
+      qwen -p "Review all files in src/ for security issues" \
+        --output-format json \
+        --yolo > review.json
+  ```

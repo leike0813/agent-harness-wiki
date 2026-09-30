@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-config-background
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: background
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  `background` controls the concurrency behavior of background tasks (launched via the `Bash` tool or the `Agent` tool's `run_in_background=true` parameter).
+  | Field | Type | Default | Description |
+  | --- | --- | --- | --- |
+  | `max_running_tasks` | `integer` | — | Maximum number of background tasks running concurrently |
+  | `keep_alive_on_exit` | `boolean` | `false` | Whether to keep still-running background tasks when the session closes; in print mode only a fallback when `print_background_mode` is unset (`true` = `drain`) |
+  | `kill_grace_period_ms` | `integer` | `5000` | Grace period in milliseconds after a task is asked to terminate; still-running tasks are force-stopped when it elapses |

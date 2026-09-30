@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-plugins-skills
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Skills and Session Start
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  Plugin Skills use the same `SKILL.md` format as ordinary [Agent Skills](./skills.md). A typical directory structure:
+  ```text
+  my-plugin/
+    kimi.plugin.json
+    skills/
+      using-my-plugin/
+        SKILL.md
+      another-workflow/
+        SKILL.md
+  ```
+  `sessionStart.skill` loads a plugin Skill into the main Agent at session start, making it suitable for initialization instructions, workflow rules, or mapping terminology from other tools to Kimi Code CLI. It only injects text; it does not execute code.
+  Regardless of how a Skill is loaded (`sessionStart.skill`, `/skill:<name>`, or automatic model invocation), `skillInstructions` appears alongside that plugin's Skill.

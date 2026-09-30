@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-plugins-mcp
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: MCP Servers in Plugins
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  When a plugin needs real tool capabilities, it can declare `mcpServers` in its manifest, reusing the [MCP](./mcp.md) schema.
+  Stdio server (local command):
+  ```json
+  {
+    "mcpServers": {
+      "finance": {
+        "command": "uvx",
+        "args": ["kimi-finance-mcp"]
+      }
+    }
+  }
+  ```
+  HTTP server (remote service):
+  ```json
+  {
+    "mcpServers": {
+      "docs": {
+        "url": "https://example.com/mcp"
+      }
+    }
+  }
+  ```
+  For stdio servers, `command` can be a command on `PATH` or a path starting with `./` within the plugin root directory. `cwd` likewise must start with `./` and be within the plugin root directory; otherwise the server is ignored.
+  Plugin MCP servers start after `/reload` or in new sessions. To enable or disable a server:
+  ```sh
+  /plugins mcp disable kimi-finance finance
+  /reload

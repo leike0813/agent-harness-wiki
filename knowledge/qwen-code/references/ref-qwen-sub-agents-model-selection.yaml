@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-sub-agents-model-selection
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Model Selection
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Use the optional `model` frontmatter field to control which model a subagent uses:
+  - `inherit`: Use the same model as the main conversation.
+  - Omit the field: Same as `inherit`.
+  - `fast`: Use the configured `fastModel`. If no valid fast model is configured,
+    the subagent falls back to `inherit`.
+  - `glm-5`: Use that model ID. Qwen Code first checks the main conversation's
+    auth type; if the model is not available there, it can resolve the model from
+    another configured provider.
+  - `openai:gpt-4o`: Use an explicit provider and model ID. This is useful when a
+    subagent should run on a model registered under a different auth type from the
+    main conversation.
+  For example:
+  ```
+  ---
+  name: fast-reviewer
+  description: Reviews small diffs with the configured fast model
+  model: fast
+  tools:

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-ignore-filter
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 590
+  end: 611
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub fn filter_skills(skills: Vec<SkillInfo>, ignore_paths: &[String]) -> Vec<SkillInfo> {
+      if ignore_paths.is_empty() {
+          return skills;
+      }
+      let expanded: Vec<PathBuf> = ignore_paths
+          .iter()
+          .map(|p| {
+              let path = expand_tilde(p);
+              dunce::canonicalize(&path).unwrap_or(path)
+          })
+          .collect();
+      skills
+          .into_iter()
+          .filter(|skill| {
+              let canonical =
+                  dunce::canonicalize(&skill.path).unwrap_or_else(|_| PathBuf::from(&skill.path));
+              // >MAX_PATH caveat (see workspace clippy.toml); fail-open here: over-long ignored skills stay included
+              !expanded.iter().any(|ignore| canonical.starts_with(ignore))
+          })
+          .collect()
+  }

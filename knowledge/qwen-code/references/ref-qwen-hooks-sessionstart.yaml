@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-sessionstart
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: SessionStart
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  **Purpose**: Executed when a new session starts to perform initialization tasks.
+  **Event-specific fields**:
+  ```json
+  {
+    "permission_mode": "default | plan | auto_edit | auto | yolo",
+    "source": "startup | resume | clear | compact",
+    "model": "the model being used",
+    "agent_type": "the type of agent if applicable (optional)"
+  }
+  ```
+  **Output Options**:
+  - `hookSpecificOutput.additionalContext`: context to be available in the session
+  - Standard hook output fields
+  **Example Output**:
+  ```json
+  {
+    "hookSpecificOutput": {
+      "additionalContext": "Session started with security policies enabled."
+    }
+  }
+  ```

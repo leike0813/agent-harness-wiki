@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-reload
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/registry.rs
+  start: 395
+  end: 410
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub fn reload(
+          &self,
+          cwd: Option<&std::path::Path>,
+          disk_config: &super::discovery::DiscoveryConfig,
+          project_trusted: bool,
+          force: bool,
+      ) -> usize {
+          let mut config = disk_config.clone();
+          config
+              .cli_plugin_dirs
+              .extend(self.cli_plugin_dirs.iter().cloned());
+          let trust_store = super::trust::TrustStore::load();
+          Self::run_local_refresh(&trust_store, force);
+          let discovered =
+              super::discovery::discover_plugins(cwd, &config, &trust_store, project_trusted);
+          let count = discovered.len();

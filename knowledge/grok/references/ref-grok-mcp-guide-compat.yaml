@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-guide-compat
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/07-mcp-servers.md
+  start: 279
+  end: 295
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ## Compatibility
+  Grok loads MCP server configurations from multiple sources for compatibility:
+  | Source | Format | Location | Configurable |
+  |--------|--------|----------|-------------|
+  | `config.toml` | Native Grok config | `~/.grok/config.toml`, `.grok/config.toml` | Always on |
+  | `.claude.json` | Claude Code format | `~/.claude.json` | `[compat.claude] mcps` |
+  | `.cursor/mcp.json` | Cursor format | `~/.cursor/mcp.json`, `<project>/.cursor/mcp.json` | `[compat.cursor] mcps` |
+  | `.mcp.json` | MCP standard format | Project root (cwd to git root) | Loaded unless you have imported or dismissed the Claude import prompt (the import marker is set) |
+  All sources are merged in priority order: config.toml > Claude > Cursor > `.mcp.json`.

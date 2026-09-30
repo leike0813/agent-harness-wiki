@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-sandbox-writeprotect
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Direct global write protection
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Under `workspace`, `read-only`, and `strict` (and custom profiles that extend those bases), the kernel **write-denies** the Grok-owned direct disk paths used as user-global hook sources, plus its configuration and trust files (they stay readable when granted). Built-in `strict` can read `~/.grok` (they stay readable); writes are CWD + `~/.grok/sessions` + temp, not the whole tree. Write-deny still applies where the profile grants write:
+  - `~/.grok/hooks/` (hook directory)
+  - `~/.grok/hooks-paths` (registry file; not loaded as hook JSON — only its absolute targets are)
+  - Absolute targets listed in `hooks-paths` (relative lines are ignored; missing targets refuse sandbox start)

@@ -1,0 +1,42 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-model-providers-google-gemini-gemini
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Google Gemini (`gemini`)"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  ```json
+  {
+    "env": {
+      "GEMINI_API_KEY": "AIza-your-actual-gemini-key-here"
+    },
+    "modelProviders": {
+      "gemini": [
+        {
+          "id": "gemini-2.0-flash",
+          "name": "Gemini 2.0 Flash",
+          "envKey": "GEMINI_API_KEY",
+          "baseUrl": "https://generativelanguage.googleapis.com",
+          "capabilities": {
+            "vision": true
+          },
+          "generationConfig": {
+            "timeout": 60000,
+            "maxRetries": 2,
+            "contextWindowSize": 1000000,
+            "schemaCompliance": "auto",
+            "samplingParams": {
+              "temperature": 0.4,
+              "top_p": 0.95,
+              "max_tokens": 8192,
+              "top_k": 40
+            }
+          }
+        }
+      ]
+    }
+  }
+  ```

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-parent-child-test
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 911
+  end: 928
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  fn find_skill_paths_parent_and_child_both_have_skill_md() {
+          let tmp = tempfile::tempdir().unwrap();
+          let grok_dir = tmp.path().join(".grok");
+          let skills = grok_dir.join("skills");
+          // Parent skill
+          write_skill_md(&skills.join("parent"), "parent-skill");
+          // Child skill inside parent
+          write_skill_md(&skills.join("parent").join("child"), "child-skill");
+          let paths = find_skill_paths(&grok_dir);
+          assert_eq!(paths.len(), 2);
+          let path_strs: Vec<String> = paths.iter().map(|p| p.display().to_string()).collect();
+          assert!(path_strs.iter().any(|p| p.contains("parent/SKILL.md")));
+          assert!(path_strs.iter().any(|p| p.contains("child/SKILL.md")));
+      }

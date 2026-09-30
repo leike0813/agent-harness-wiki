@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-claude-import
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/claude_import.rs
+  start: 26
+  end: 42
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub fn is_claude_import_marked(grok_home: &Path) -> bool {
+      let Ok(contents) = std::fs::read_to_string(user_config_file(grok_home)) else {
+          return false;
+      };
+      let Ok(config) = toml::from_str::<toml::Value>(&contents) else {
+          return false;
+      };
+      config
+          .get("claude_compat")
+          .and_then(|section| section.get("imported"))
+          .and_then(toml::Value::as_bool)
+          .unwrap_or(false)
+  }
+  #[cfg(test)]
+  #[path = "claude_import_tests.rs"]
+  mod tests;

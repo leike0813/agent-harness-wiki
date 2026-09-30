@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-send-messages
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/16-subagents.md
+  start: 161
+  end: 193
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ### Sending messages to subagents
+  The `send_subagent_message` tool is off by default. Enable it with `GROK_ACTIVE_AGENT_MESSAGES` or `[features] active_agent_messages`.
+  The root session can send a follow-up to a subagent it owns. When the flag is on, a granted child also receives the tool:
+  - `subagent_id: "parent"` targets that child's active parent subagent.
+  - A durable agent id targets another local subagent. An eligible completed subagent resumes with the same identity.
+  A child whose parent is the root session cannot message the root. Curated harness toolsets never receive the tool. A capability mode that excludes this kind also removes it.
+  Child senders are bounded: 4 in-flight messages per sender-target pair, and 32 outbound messages per sender attempt.

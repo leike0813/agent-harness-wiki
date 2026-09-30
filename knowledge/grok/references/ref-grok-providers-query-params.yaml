@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-providers-query-params
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Request Query Parameters
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Some gateways route or version on the query string. `query_params` appends percent-encoded query parameters to every request Grok makes for a model. For example, a gateway that selects an API version this way:
+  ```toml
+  [model.my-gateway]
+  model = "my-model"
+  base_url = "https://gateway.example/v1"
+  api_backend = "responses"
+  env_key = "GATEWAY_API_KEY"
+  query_params = { api-version = "2026-07-22" }
+  ```
+  A key that also appears in the `base_url` query string is overridden (last value wins) rather than duplicated. Query parameters are saved in the session, so do not put secrets in them: use `env_http_headers` for a secret.

@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-providers-config-entry
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Configuring Custom Models
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Add custom model endpoints in `~/.grok/config.toml` under `[model.<name>]` sections:
+  ```toml
+  [model.my-model]
+  model = "model-id"                        # Model identifier sent to the API
+  base_url = "https://api.example.com/v1"   # OpenAI-compatible endpoint
+  name = "Display Name"                     # Shown in the model picker
+  description = "Model description"          # Optional description
+  api_key = "sk-..."                        # API key for this provider (optional)
+  env_key = "XAI_API_KEY"                   # Env var holding the API key (optional; string or array)
+  api_backend = "chat_completions"          # "chat_completions", "responses", or "messages"
+  reasoning_summary = "concise"             # Responses API only: "none", "auto", "concise", or "detailed"

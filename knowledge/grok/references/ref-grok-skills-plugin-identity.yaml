@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-plugin-identity
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 511
+  end: 519
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  // Identity is the directory basename (`plugin:<dir>`), keeping sibling skills collision-free; frontmatter `name` becomes the display label
+          // Normalize the basename so the slash name is a valid slug, matching how frontmatter/fallback names are slugged at parse time
+          if let Some(dir) = skill_name_from_path(&skill.path) {
+              let dir = normalize_skill_name(dir);
+              if !dir.is_empty() && dir != skill.name {
+                  skill.display_name = Some(std::mem::replace(&mut skill.name, dir));
+              }
+          }
+          skill.config_source = Some(xai_grok_tools::types::config_source::ConfigSource::Plugin {

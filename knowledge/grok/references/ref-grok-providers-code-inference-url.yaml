@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-providers-code-inference-url
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/endpoints.rs
+  start: 106
+  end: 113
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub fn has_custom_endpoint(&self) -> bool {
+          self.models_base_url.is_some() || self.models_list_url.is_some()
+      }
+      /// `default()` with the managed and requirements `[endpoints]` overrides merged on top.
+      /// Startup fetches use it to reach the configured endpoints.
+      pub fn from_effective_config() -> Self {
+          match crate::effective_config::load_effective_config() {
+              Ok(cfg) => Self::from_config_value(&cfg),

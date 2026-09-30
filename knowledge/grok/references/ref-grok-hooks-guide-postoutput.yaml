@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-guide-postoutput
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: PostToolUse Output
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  `PostToolUse` runs after the tool finished, so it blocks nothing. Its stdout is still read, because it decides what the model sees next. Write JSON to **stdout**:
+  ```json
+  {
+    "decision": "block",
+    "reason": "The diff still contains a debug print",
+    "hookSpecificOutput": {
+      "hookEventName": "PostToolUse",
+      "additionalContext": "This file is generated; edit the template instead",
+      "updatedToolOutput": { "type": "Bash", "command": "…", "exit_code": 0, "output_for_prompt": "[redacted]" }
+    }
+  }
+  ```
+  | Field | Effect |
+  |-------|--------|
+  | `decision: "block"` + `reason` | Delivers `reason` to the model next to the tool result. The tool's own output still arrives; "block" means "tell the model something went wrong", not "stop the call". |

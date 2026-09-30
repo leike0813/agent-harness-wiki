@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-mcp-manual-configuration-via-settings-json
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Manual configuration via settings.json
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  You can also configure OAuth by editing `settings.json` directly:
+  ```json
+  {
+    "mcpServers": {
+      "oauthServer": {
+        "url": "https://api.example.com/sse/",
+        "oauth": {
+          "enabled": true,
+          "clientId": "your-client-id",
+          "clientSecret": "your-client-secret",
+          "authorizationUrl": "https://provider.example.com/authorize",
+          "tokenUrl": "https://provider.example.com/token",
+          "redirectUri": "https://your-server.com/oauth/callback",
+          "scopes": ["read", "write"]
+        }
+      }
+    }
+  }
+  ```
+  OAuth configuration properties:
+  | Property           | Description                                                                                                           |

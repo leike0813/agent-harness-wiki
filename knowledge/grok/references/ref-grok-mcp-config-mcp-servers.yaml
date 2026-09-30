@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-config-mcp-servers
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/05-configuration.md
+  start: 296
+  end: 326
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ### MCP servers
+  Configure external tool integrations over the Model Context Protocol.
+  ```toml
+  [mcp_servers.github]
+  command = "npx"
+  args = ["-y", "@modelcontextprotocol/server-github"]
+  env = { GITHUB_PERSONAL_ACCESS_TOKEN = "ghp_xxx" }
+  enabled = true                        # enable/disable (default: true)
+  startup_timeout_sec = 30              # init timeout in seconds (default: 30)
+  tool_timeout_sec = 6000              # tool call timeout in seconds (default: 6000)
+  tool_timeouts = { create_issue = 120 }  # per-tool timeout overrides
+  [mcp_servers.postgres]
+  command = "npx"
+  args = ["-y", "@modelcontextprotocol/server-postgres", "postgresql://user:pass@localhost/db"]
+  [mcp_servers.my-streamable-server]
+  url = "https://mcp.example.com/api/mcp"  # HTTP/SSE transport

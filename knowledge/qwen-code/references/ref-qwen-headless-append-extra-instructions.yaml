@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-append-extra-instructions
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Append Extra Instructions
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Use `--append-system-prompt` to keep the built-in prompt and add extra instructions for this run:
+  ```bash
+  qwen -p "Review this patch" --append-system-prompt "Be terse and focus on concrete findings."
+  ```
+  You can combine both flags when you want a custom base prompt plus an extra run-specific instruction:
+  ```bash
+  qwen -p "Summarize this repository" \
+    --system-prompt "You are a migration planner." \
+    --append-system-prompt "Return exactly three bullets."
+  ```

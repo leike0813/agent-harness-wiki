@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-doc-qualified
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Qualified Names
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  When a skill's name collides with another skill or a built-in command, Grok keeps **both** invocable. The built-in keeps the bare name (`/login`, `/compact`, …). The skill is advertised under a qualified name prefixed by its scope -- `local:`, `repo:`, `user:`, or the plugin name:
+  ```
+  /local:commit        # The "commit" skill from ./.grok/skills/
+  /user:commit         # The "commit" skill from ~/.grok/skills/
+  /acme:login          # A plugin skill named "login" (built-in /login is unchanged)
+  ```
+  Typing `/login` in the slash menu shows both rows, with a right-aligned **built-in** or **skill · plugin-name** badge so you can tell them apart. Rename the skill (or its directory) if you want the bare `/name` for the skill instead.

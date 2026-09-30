@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-conflicts
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/discovery.rs
+  start: 714
+  end: 726
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  };
+                  // A lower scope ordinal means higher priority
+                  if (candidate.scope as u8) < (existing.scope as u8) {
+                      // New candidate wins
+                      tracing::warn!(
+                          plugin_name = %name,
+                          winner = %candidate.root.display(),
+                          loser = %existing.root.display(),
+                          "plugin name collision resolved by scope precedence"
+                      );
+                      let msg = format!(
+                          "Name collision: shadowing \"{}\" from {}",
+                          name,

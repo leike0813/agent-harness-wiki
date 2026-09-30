@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-skills-examples
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Examples
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Show concrete examples of using this Skill.
+  ```
+  ### Field requirements
+  Qwen Code currently validates that:
+  - `name` is a non-empty string matching `/^[\p{L}\p{N}_:.-]+$/u` — Unicode letters and digits (CJK / Cyrillic / accented Latin all OK), plus `_`, `:`, `.`, `-`. Whitespace, slashes, brackets and other structurally unsafe characters are rejected at parse time. The admitted `:` is what lets a Skill registered by an extension (`rust:pdf`) and an author who chooses a colon themselves (`rust:chat`, written inside the `rust` extension) share one pattern, so a colon in a registered name is not proof of an owner — see [How extension Skills are named](#how-extension-skills-are-named).
+  - `description` is a non-empty string
+  - `priority` is optional. When present, it must be a finite number.

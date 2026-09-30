@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-model-providers-local-self-hosted-models-via-openai-compatible-api
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Local Self-Hosted Models (via OpenAI-compatible API)"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Most local inference servers (vLLM, Ollama, LM Studio, etc.) provide an OpenAI-compatible API endpoint. Configure them using the `openai` auth type with a local `baseUrl`:
+  ```json
+  {
+    "env": {
+      "OLLAMA_API_KEY": "ollama",
+      "VLLM_API_KEY": "not-needed",
+      "LMSTUDIO_API_KEY": "lm-studio"
+    },
+    "modelProviders": {
+      "openai": [
+        {
+          "id": "qwen2.5-7b",
+          "name": "Qwen2.5 7B (Ollama)",
+          "envKey": "OLLAMA_API_KEY",
+          "baseUrl": "http://localhost:11434/v1",
+          "generationConfig": {
+            "timeout": 300000,
+            "streamIdleTimeoutMs": 600000,
+            "maxRetries": 1,
+            "contextWindowSize": 32768,
+            "samplingParams": {
+              "temperature": 0.7,
+              "top_p": 0.9,
+              "max_tokens": 4096
+            }

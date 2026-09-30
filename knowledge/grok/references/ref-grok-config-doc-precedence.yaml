@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-doc-precedence
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Precedence
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Settings resolve highest-priority first:
+  1. **CLI flags** (e.g. `--yolo`, `--model`, `--sandbox`)
+  2. **Environment variables** (e.g. `XAI_API_KEY`, `GROK_MEMORY`)
+  3. **`requirements.toml` / MDM** (org-enforced; clamps every config layer below, including the overlay)
+  4. **`GROK_CONFIG` / `GROK_CONFIG_PATH` overlay** (above `config.toml` and managed, below `requirements.toml` / MDM)
+  5. **config.toml** (`~/.grok/config.toml`)
+  6. **`managed_config.toml`** (org-deployed defaults; below `config.toml`)
+  7. **Built-in defaults**
+  Within the config-file tier, the layers merge lowest-to-highest: `managed_config.toml` → `config.toml` → `GROK_CONFIG` overlay → `requirements.toml` / MDM. So `requirements.toml` and MDM clamp **both** your `config.toml` and the overlay.

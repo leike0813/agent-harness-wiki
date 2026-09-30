@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-trust-doc
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/trust.rs
+  start: 1
+  end: 16
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  //! Project plugin trust management.
+  //!
+  //! A cloned repository could contain plugins (`.grok/plugins/`, `.claude/plugins/`) whose hook scripts or MCP server commands run arbitrary code.
+  //!
+  //! **Trust granularity**: per-plugin-root (not per-worktree).
+  //! Trusting one plugin in a repo does not automatically trust other plugins in the same repo.
+  //!
+  //! **Trust key**: canonical absolute path of the plugin root directory, resolved via `dunce::canonicalize()`.
+  //!
+  //! **Trust storage**: `~/.grok/trusted-plugins` (one canonical path per line).
+  //!
+  //! **Behavior for untrusted plugins**:
+  //! - Skills and agents are **discovered and listed** (metadata-only).
+  //! - Hooks, MCP servers, and scripts are **blocked**.
+  use std::collections::HashSet;

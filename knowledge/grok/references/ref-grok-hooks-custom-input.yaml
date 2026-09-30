@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-custom-input
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Input
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  The full event is sent as JSON on **stdin**. Example for a `PreToolUse` hook:
+  ```json
+  {
+    "hookEventName": "pre_tool_use",
+    "hook_event_name": "PreToolUse",
+    "sessionId": "abc-123",
+    "cwd": "/Users/you/project",
+    "workspaceRoot": "/Users/you/project",
+    "toolName": "run_terminal_cmd",
+    "toolInput": { "command": "npm test" },
+    "timestamp": "2026-04-14T12:00:00Z"
+  }
+  ```
+  The `hook_event_name` (snake_case key) carries Claude's PascalCase value; `hookEventName` (camelCase key) carries grok's snake_case value.

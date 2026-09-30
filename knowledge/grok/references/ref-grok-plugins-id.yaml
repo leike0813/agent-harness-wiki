@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-id
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/discovery.rs
+  start: 108
+  end: 123
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Stable internal identity for a plugin.
+  /// Format: `<scope>/<hex8>/<name>`, where hex8 is the first 8 hex chars of SHA-256 of the canonical plugin root.
+  #[derive(Debug, Clone, PartialEq, Eq, Hash)]
+  pub struct PluginId(pub String);
+  impl PluginId {
+      /// Construct a plugin ID from its components.
+      pub fn new(scope: PluginScope, canonical_root: &Path, name: &str) -> Self {
+          let path_str = canonical_root.to_string_lossy();
+          let mut hasher = Sha256::new();
+          hasher.update(path_str.as_bytes());
+          let hash = hasher.finalize();
+          let hex8: String = hash.iter().take(4).map(|b| format!("{b:02x}")).collect();
+          Self(format!("{}/{}/{}", scope.id_label(), hex8, name))
+      }
+  }

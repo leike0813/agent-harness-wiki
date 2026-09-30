@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-compat-resolution
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/compat.rs
+  start: 217
+  end: 233
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Resolution order is env override, this value, remote flag, default ON.
+  #[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
+  pub struct VendorCompatToml {
+      pub skills: Option<bool>,
+      pub rules: Option<bool>,
+      pub agents: Option<bool>,
+      pub mcps: Option<bool>,
+      pub hooks: Option<bool>,
+      pub sessions: Option<bool>,
+  }
+  impl VendorCompatToml {
+      fn value(&self, surface: CompatSurface) -> Option<bool> {
+          match surface {
+              CompatSurface::Skills => self.skills,
+              CompatSurface::Rules => self.rules,
+              CompatSurface::Agents => self.agents,

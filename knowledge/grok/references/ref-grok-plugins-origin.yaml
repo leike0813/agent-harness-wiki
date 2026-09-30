@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-origin
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/discovery.rs
+  start: 74
+  end: 92
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// Recorded at scan time so consumers do not re-derive it from paths. Not part of [`PluginId`], which stays scope-based.
+  #[derive(Debug, Clone, PartialEq, Eq)]
+  pub enum PluginOrigin {
+      /// CLI `--plugin-dir`.
+      CliOverride,
+      /// Project `.grok/plugins/`.
+      ProjectGrok,
+      /// Project `.claude/plugins/`.
+      ProjectClaude,
+      /// `$GROK_HOME/plugins/`.
+      UserGrok,
+      /// `~/.claude/plugins/`.
+      UserClaude,
+      /// A compat marketplace clone (project `extraKnownMarketplaces` or user `known_marketplaces.json`).
+      ClaudeMarketplace {
+          /// Marketplace name from the settings/registry entry.
+          marketplace: String,
+      },
+      /// Install recorded in `~/.claude/plugins/installed_plugins.json`.

@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-sub-agents-permission-mode
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Permission Mode
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Use the optional `approvalMode` frontmatter field to control how a subagent's tool calls are approved. Valid values:
+  - `default`: Tools require interactive approval (same as the main session default)
+  - `plan`: Analyze-only mode — the agent plans but does not execute changes
+  - `auto-edit`: Tools are auto-approved without prompting (recommended for most agents)
+  - `yolo`: All tools auto-approved, including potentially destructive ones
+  - `bubble`: Background-agent tool approvals are surfaced in the parent session
+  If you omit this field, the subagent's permission mode is determined automatically:
+  - If the parent session is in **yolo** or **auto-edit** mode, the subagent inherits that mode. A permissive parent stays permissive.

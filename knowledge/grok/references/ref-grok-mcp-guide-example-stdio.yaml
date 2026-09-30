@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-guide-example-stdio
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/07-mcp-servers.md
+  start: 356
+  end: 378
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ### Local stdio
+  Use stdio for tools that must run locally (filesystem access, local databases, in-house servers).
+  ```toml
+  # Filesystem access scoped to a directory
+  [mcp_servers.filesystem]
+  command = "npx"
+  args = ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/allowed/directory"]
+  # Local Postgres
+  [mcp_servers.postgres]
+  command = "npx"
+  args = ["-y", "@modelcontextprotocol/server-postgres", "postgresql://user:pass@localhost/db"]
+  # Custom server with a longer startup timeout and tuned per-tool timeouts
+  [mcp_servers.my-tools]
+  command = "/usr/local/bin/my-mcp-server"
+  args = ["--config", "/etc/my-mcp.json"]
+  startup_timeout_sec = 30
+  tool_timeout_sec = 120
+  tool_timeouts = { slow_analysis = 300, quick_lookup = 10 }
+  ```

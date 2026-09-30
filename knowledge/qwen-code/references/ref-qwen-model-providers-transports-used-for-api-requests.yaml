@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-model-providers-transports-used-for-api-requests
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Transports Used for API Requests
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  The effective model protocol determines the transport. Both OpenAI APIs use the `openai` provider group; `wireApi` selects Chat Completions or Responses:
+  | Effective protocol | Transport                                                                                                          |
+  | ------------------ | ------------------------------------------------------------------------------------------------------------------ |
+  | `openai`           | [`openai`](https://www.npmjs.com/package/openai) - Official OpenAI Node.js SDK                                     |
+  | `openai-responses` | Direct HTTP/SSE calls to `/v1/responses` (no SDK); embeddings use [`openai`](https://www.npmjs.com/package/openai) |

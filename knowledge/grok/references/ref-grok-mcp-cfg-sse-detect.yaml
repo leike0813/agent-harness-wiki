@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-cfg-sse-detect
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/mcp_server_config.rs
+  start: 499
+  end: 503
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  fn is_sse_transport(transport_type: Option<&str>, url: &str) -> bool {
+      transport_type.is_some_and(|transport| transport.eq_ignore_ascii_case("sse"))
+          || url.ends_with("/sse")
+  }

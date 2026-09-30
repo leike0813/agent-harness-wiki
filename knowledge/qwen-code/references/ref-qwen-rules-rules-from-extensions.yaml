@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-rules-rules-from-extensions
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Rules from extensions
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  An extension can ship a `rules/` directory, and **its rules must be conditional**: a rule with no `paths:` is skipped, with a startup warning naming it. That restriction is the entire point. An extension's context file (`contextFileName`) is concatenated into every request of every session the extension is active in, with no relevance gating — in one measured session, nine extensions' context files came to 9,989 tokens, 65% of all the always-on context that session carried. A baseline extension rule would recreate exactly that, one mechanism over.
+  Extension rules are labelled by their owner in the prompt — `charts:rules/charting.md`, not a path climbing out of the project — so a transcript shows whose rule fired.

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-untrusted-test
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 1728
+  end: 1740
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  for config_dir in [".grok", ".agents", ".claude", ".cursor"] {
+              let tmp = tempfile::tempdir().unwrap();
+              let repo = tmp.path().join("repo");
+              let config_root = repo.join(config_dir);
+              write_skill_md(
+                  &config_root.join("skills").join("trust-gate-proj"),
+                  "trust-gate-proj",
+              );
+              let commands = config_root.join("commands");
+              fs::create_dir_all(&commands).unwrap();
+              fs::write(commands.join("trust-gate-command.md"), "# deploy\n").unwrap();
+              init_git_repo(&repo);
+              fs::write(repo.join(".gitignore"), format!("{config_dir}/\n")).unwrap();

@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-slash-dynamic
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Skill Dynamic Commands
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  Activated external Skills are automatically registered as slash commands. Ordinary external Skills use the `skill:` namespace prefix:
+  ```
+  /skill:<name> [extra text]
+  ```
+  For example, `/skill:code-style` loads the Skill named `code-style` and sends it to the Agent; any text appended after the command is concatenated to the Skill prompt.
+  External sub-skills appear directly in the slash command panel with dotted names:
+  ```
+  /<parent-skill>.<sub-skill> [extra text]
+  ```
+  For example, a child Skill named `review` inside a parent Skill named `code-style` is shown as `/code-style.review`. The dotted command name is derived from the hierarchy; the child `SKILL.md` can keep its local `name`.

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-src-deepmerge
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/app/config/configPure.ts
+  start: 25
+  end: 36
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  export function deepMerge<T>(base: T | undefined, patch: unknown): T {
+    if (!isPlainObject(base) || !isPlainObject(patch)) {
+      return (patch ?? base) as T;
+    }
+    const out: Record<string, unknown> = { ...base };
+    for (const key of Object.keys(patch)) {
+      const pv = patch[key];
+      const bv = out[key];
+      out[key] = isPlainObject(bv) && isPlainObject(pv) ? deepMerge(bv, pv) : pv;
+    }
+    return out as T;
+  }

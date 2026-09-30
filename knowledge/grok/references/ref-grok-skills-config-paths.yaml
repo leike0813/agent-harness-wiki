@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-config-paths
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 324
+  end: 343
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub fn collect_config_skills(config_paths: &[String], git_root: Option<&Path>) -> Vec<SkillInfo> {
+      let mut skill_files: Vec<(PathBuf, SkillScope)> = Vec::new();
+      let mut seen = HashSet::new();
+      for raw in config_paths {
+          let expanded = expand_tilde(raw);
+          let scope = match git_root {
+              Some(root) if expanded.starts_with(root) => SkillScope::Repo,
+              _ => SkillScope::User,
+          };
+          if expanded.is_file() && expanded.file_name().is_some_and(|n| n == "SKILL.md") {
+              collect_discovered_paths(
+                  std::iter::once(expanded),
+                  scope,
+                  &mut seen,
+                  &mut skill_files,
+              );
+          } else if expanded.is_dir() {
+              let dir_paths = find_skill_md_paths(&expanded);

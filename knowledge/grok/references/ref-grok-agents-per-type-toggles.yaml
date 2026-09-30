@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-per-type-toggles
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/16-subagents.md
+  start: 270
+  end: 284
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ### Per-Type Toggles and Model Overrides
+  Disable specific agent types, or route them to a different model:
+  ```toml
+  [subagents.toggle]
+  explore = true                       # default -- omit to keep enabled
+  plan = false                         # disable the plan subagent
+  [subagents.models]
+  explore = "grok-4.6"                 # route explore to a specific model
+  ```
+  Per-type model overrides apply for any parent. Without an override, a subagent inherits the parent's model.

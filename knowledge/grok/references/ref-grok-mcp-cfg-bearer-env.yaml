@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-cfg-bearer-env
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/mcp_server_config.rs
+  start: 485
+  end: 498
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  fn bearer_authorization_header(server_name: &str, env_var: &str) -> Option<(String, String)> {
+      match std::env::var(env_var) {
+          Ok(token) => Some(("Authorization".to_owned(), format!("Bearer {token}"))),
+          Err(_) => {
+              tracing::warn!(
+                  "MCP server '{}': bearer_token_env_var '{}' not set in environment",
+                  server_name,
+                  env_var
+              );
+              None
+          }
+      }
+  }

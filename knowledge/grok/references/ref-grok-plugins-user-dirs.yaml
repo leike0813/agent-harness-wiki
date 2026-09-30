@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-user-dirs
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/discovery.rs
+  start: 209
+  end: 222
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  /// User plugin directories in priority order: `$GROK_HOME/plugins` then `~/.claude/plugins`.
+  /// Plugins are intentionally not discovered from legacy `~/.grok/plugins`.
+  /// Trust, persisted data, and install paths all resolve under `grok_home()`, so a legacy scan would be half-initialized.
+  fn user_plugin_dirs(home: Option<&Path>, grok: Option<&Path>) -> Vec<(PathBuf, PluginOrigin)> {
+      let mut dirs = Vec::new();
+      if let Some(g) = grok {
+          dirs.push((g.join("plugins"), PluginOrigin::UserGrok));
+      }
+      if let Some(h) = home {
+          dirs.push((h.join(".claude").join("plugins"), PluginOrigin::UserClaude));
+      }
+      dirs
+  }

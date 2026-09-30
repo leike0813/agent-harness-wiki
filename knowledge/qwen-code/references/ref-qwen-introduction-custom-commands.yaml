@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-introduction-custom-commands
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Custom commands
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Extensions can provide [custom commands](../features/commands.md#4-custom-commands) by placing Markdown files in a `commands/` subdirectory within the extension directory. These commands follow the same format as user and project custom commands and use standard naming conventions.
+  > **Note:** The command format has been updated from TOML to Markdown. TOML files are deprecated but still supported. You can migrate existing TOML commands using the automatic migration prompt that appears when TOML files are detected.
+  **Example**
+  An extension named `gcp` with the following structure:
+  ```
+  .qwen/extensions/gcp/
+  ├── qwen-extension.json
+  └── commands/
+      ├── deploy.md
+      └── gcs/
+          └── sync.md
+  ```
+  Would provide these commands:

@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-slash-skills-section
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Skills as Slash Commands
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Any enabled skill with `user-invocable: true` in its SKILL.md frontmatter shows up as a slash command. (Turn a skill off via `/skills` and it stops being advertised.) So a skill at `~/.grok/skills/commit/SKILL.md` runs as:
+  ```
+  /commit fix typo in README
+  ```
+  Skills from plugins work the same way. When two skills share a name across scopes, qualify it:
+  ```
+  /local:commit      # Project-scoped skill
+  /user:commit       # User-scoped skill
+  ```
+  Built-in commands always win the bare name. Name a skill "compact" and `/compact` still runs the built-in — the skill stays available as `/local:compact` (or `/acme:compact` for a plugin). Both appear in the slash menu: the built-in is tagged `built-in` and the skill is tagged `skill · local` / `skill · acme`.
+  ---

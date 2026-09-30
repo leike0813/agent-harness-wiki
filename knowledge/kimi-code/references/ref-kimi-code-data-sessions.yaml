@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-data-sessions
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Session data
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  Each session's data is stored under `sessions/<workDirKey>/<sessionId>/`, and a top-level `session_index.jsonl` index is maintained (one record per line, each containing `sessionId`, `sessionDir`, and `workDir`). `workDirKey` is a bucket name derived from the working directory path, in the format `wd_<slug>_<first-12-chars-of-sha256>`.
+  Inside each session directory:
+  - **`state.json`**: session metadata including title, `lastPrompt`, creation/update timestamps, and `forkedFrom`.
+  - **`upcoming-goals.json`**: the TUI-only queue created by `/goal next <objective>`. It is not part of the agent conversation until a queued goal is promoted after the current goal completes.
+  - **`agents/main/wire.jsonl`**: the main Agent's complete communication record, used for session resumption and replay.

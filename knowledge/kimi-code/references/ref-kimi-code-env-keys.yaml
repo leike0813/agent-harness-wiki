@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-env-keys
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: "Provider credential key names (written in config.toml)"
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  The key names below are not read directly from the shell. They are key names written inside the `[providers.<name>.env]` sub-table of `config.toml`, serving as fallback values for `api_key` / `base_url`. The CLI reads only from the config file, not from `process.env`.
+  These conventional names are fixed per provider type. If you would rather keep the key in the shell environment under a name of your choosing, set [`api_key_env`](./config-files.md#providers) on the provider instead: the CLI then reads the key from that variable on every request.
+  This design lets you keep familiar key name conventions while centralizing secret management in the config file:
+  ```toml
+  [providers.kimi.env]
+  KIMI_API_KEY = "sk-xxx"
+  KIMI_BASE_URL = "https://api.moonshot.ai/v1"
+  ```
+  Key names per provider:

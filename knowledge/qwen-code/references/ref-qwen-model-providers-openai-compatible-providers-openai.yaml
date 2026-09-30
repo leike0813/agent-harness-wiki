@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-model-providers-openai-compatible-providers-openai
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "OpenAI-compatible providers (`openai`)"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  This auth type supports not only OpenAI's official API but also any OpenAI-compatible endpoint, including aggregated model providers like OpenRouter and Requesty.
+  ```json
+  {
+    "env": {
+      "OPENAI_API_KEY": "sk-your-actual-openai-key-here",
+      "OPENROUTER_API_KEY": "sk-or-your-actual-openrouter-key-here",
+      "REQUESTY_API_KEY": "sk-your-actual-requesty-key-here"
+    },
+    "modelProviders": {
+      "openai": [
+        {
+          "id": "gpt-4o",
+          "name": "GPT-4o",
+          "envKey": "OPENAI_API_KEY",
+          "baseUrl": "https://api.openai.com/v1",
+          "generationConfig": {
+            "timeout": 60000,
+            "maxRetries": 3,
+            "retryInitialDelayMs": 3000,
+            "retryMaxDelayMs": 30000,
+            "enableCacheControl": true,
+            "contextWindowSize": 128000,

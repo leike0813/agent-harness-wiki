@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-version-overrides
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/version_overrides.rs
+  start: 1
+  end: 18
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  //! Version-aware config layering.
+  //! A `[[version_overrides]]` array carries semver-gated patches deep-merged in ascending `minimum_version` order.
+  //!
+  //! ```toml
+  //! [[version_overrides]]
+  //! minimum_version = "1.7.0"
+  //! [version_overrides.features]
+  //! logging = true
+  //!
+  //! [[version_overrides]]
+  //! minimum_version = "1.8.0"
+  //! maximum_version = "1.9.999"
+  //! [version_overrides.features.telemetry]
+  //! enabled = true
+  //! ```
+  use semver::Version;
+  use serde::Deserialize;

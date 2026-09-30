@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-doc-inspect
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Viewing Skill Details
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Run `grok inspect` to see every skill Grok discovers, along with the rest of your configuration:
+  ```bash
+  grok inspect          # Human-readable summary
+  grok inspect --json   # Machine-readable report
+  ```
+  In the human-readable output, the Skills section lists each skill's name and its source -- `project`, `user`, `bundled`, `config` (a `[skills].paths` entry), `server` (skills synced from the skill store in managed workspaces), or `plugin: <name>`. Grok tags any skill disabled via `[skills].disabled` or from a disabled vendor surface with `[disabled]`.
+  The report honors your `[skills]` config the same way a live session does: skills from `paths` are listed, skills under an `ignore` prefix are hidden, and skills named in `disabled` stay listed but tagged `[disabled]`.

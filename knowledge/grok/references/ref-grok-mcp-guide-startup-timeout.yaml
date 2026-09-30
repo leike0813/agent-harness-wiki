@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-guide-startup-timeout
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/07-mcp-servers.md
+  start: 38
+  end: 46
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  > **Global startup-timeout override:** instead of setting `startup_timeout_sec`
+  > per server, you can change the default for all servers via the `MCP_TIMEOUT`
+  > environment variable (milliseconds, compatible with Claude Code) or
+  > `GROK_MCP_STARTUP_TIMEOUT_SECS` (seconds). A per-server `startup_timeout_sec`
+  > still takes precedence over both. Cold-start `npx`/`uvx` servers that download
+  > packages on first launch often need this; the default is 30s.
+  >
+  > **MCP tool-result size cap:** large MCP / `use_tool` results are truncated
+  > inline (full payload spilled under the session `mcp/` folder). Default is

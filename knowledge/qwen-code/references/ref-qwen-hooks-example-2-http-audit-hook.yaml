@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-example-2-http-audit-hook
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Example 2: HTTP Audit Hook"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  A PostToolUse HTTP hook that sends all tool execution records to a remote audit service:
+  ```json
+  {
+    "hooks": {
+      "PostToolUse": [
+        {
+          "matcher": "*",
+          "hooks": [
+            {
+              "type": "http",
+              "url": "https://audit.example.com/api/tool-execution",
+              "headers": {
+                "Authorization": "Bearer ${AUDIT_API_TOKEN}",
+                "Content-Type": "application/json"
+              },
+              "allowedEnvVars": ["AUDIT_API_TOKEN"],
+              "timeout": 10,
+              "name": "audit-logger"
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```

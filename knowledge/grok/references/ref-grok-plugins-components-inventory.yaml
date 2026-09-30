@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-components-inventory
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-hooks-plugins-types/src/lib.rs
+  start: 452
+  end: 466
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  #[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq, Eq)]
+  #[serde(rename_all = "camelCase")]
+  pub struct PluginComponents {
+      #[serde(default, skip_serializing_if = "Vec::is_empty")]
+      pub skills: Vec<ComponentItem>,
+      #[serde(default, skip_serializing_if = "Vec::is_empty")]
+      pub commands: Vec<ComponentItem>,
+      #[serde(default, skip_serializing_if = "Vec::is_empty")]
+      pub agents: Vec<ComponentItem>,
+      #[serde(default, skip_serializing_if = "Vec::is_empty")]
+      pub mcp_servers: Vec<ComponentItem>,
+      /// `name` = hook event (e.g. "PreToolUse"), `description` = optional matcher.
+      #[serde(default, skip_serializing_if = "Vec::is_empty")]
+      pub hooks: Vec<ComponentItem>,
+      #[serde(default, skip_serializing_if = "Vec::is_empty")]

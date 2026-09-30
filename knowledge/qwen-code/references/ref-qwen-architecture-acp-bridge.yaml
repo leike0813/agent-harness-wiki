@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-architecture-acp-bridge
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: ACP bridge
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  `packages/acp-bridge` connects a host process to an ACP agent runtime. Its main
+  responsibilities are:
+  - spawning or attaching to an ACP channel;
+  - multiplexing sessions and clients;
+  - forwarding prompts, cancellations, and ACP notifications;
+  - mediating permission requests;
+  - publishing bounded session event streams;
+  - providing a workspace filesystem interface to the host.
+  The bridge can use a real `qwen --acp` child process in production or an
+  in-memory channel in tests. See the
+  [`@qwen-code/acp-bridge` README](../../packages/acp-bridge/README.md) for its
+  public entry points.

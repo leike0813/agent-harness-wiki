@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-env-model
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: "Define a model from environment variables (KIMI_MODEL_*)"
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  Want to switch models for testing without touching `config.toml`? When `KIMI_MODEL_NAME` is set, the CLI synthesizes a temporary provider and model alias from the `KIMI_MODEL_*` variables in memory; nothing is written back to the config file. These variables take priority over `default_model` in `config.toml`, but the `-m <alias>` option at startup still has the highest priority.
+  ```sh
+  export KIMI_MODEL_NAME="kimi-for-coding"
+  export KIMI_MODEL_API_KEY="YOUR_API_KEY"
+  export KIMI_MODEL_BASE_URL="https://api.example.com/v1"
+  export KIMI_MODEL_MAX_CONTEXT_SIZE="262144"
+  export KIMI_MODEL_CAPABILITIES="image_in,thinking"
+  kimi
+  ```
+  Complete variable list:
+  | Variable | Required | Purpose | Default |
+  | --- | --- | --- | --- |

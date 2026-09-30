@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-acp-header
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-hooks-plugins-types/src/lib.rs
+  start: 1
+  end: 10
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  //! Shared DTO types for hooks/plugins ACP extensions.
+  //!
+  //! This crate defines the wire format for `x.ai/hooks/*` and `x.ai/plugins/*`
+  //! ACP extension methods. It is dependency-free (only `serde`) so both
+  //! `xai-grok-shell` and `xai-grok-pager` can depend on it without pulling
+  //! in domain logic.
+  //!
+  //! Conversion from domain types (`HookSpec`, `LoadedPlugin`) to these DTOs
+  //! lives in the shell's extension handlers, not here.

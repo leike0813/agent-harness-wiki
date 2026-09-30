@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-server-info
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-hooks-plugins-types/src/lib.rs
+  start: 353
+  end: 372
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub struct McpToolInfo {
+      pub name: String,
+      #[serde(default, skip_serializing_if = "Option::is_none")]
+      pub description: Option<String>,
+  }
+  /// Summary of an MCP server for display in the pager.
+  #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+  #[serde(rename_all = "camelCase")]
+  pub struct McpServerInfo {
+      pub name: String,
+      pub source: McpServerSource,
+      pub enabled: bool,
+      #[serde(default, skip_serializing_if = "Option::is_none")]
+      pub status: Option<McpSessionStatus>,
+      /// Number of tools this server exposes.
+      pub tool_count: usize,
+      /// Tool names (for display when expanded).
+      #[serde(default, skip_serializing_if = "Vec::is_empty")]
+      pub tools: Vec<McpToolInfo>,

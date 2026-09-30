@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-skills-before-commands
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 290
+  end: 306
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  for config_dir in &config_dirs {
+          let scope = scope_for_config_dir(config_dir, cwd.as_deref(), git_root);
+          // Skills before commands: skills win name collisions.
+          collect_discovered_paths(
+              find_skill_paths(config_dir),
+              scope,
+              &mut seen_canonical_paths,
+              &mut skill_files,
+          );
+          collect_discovered_paths(
+              find_command_paths(config_dir),
+              scope,
+              &mut seen_canonical_paths,
+              &mut skill_files,
+          );
+      }

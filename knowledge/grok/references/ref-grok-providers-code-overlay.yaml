@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-providers-code-overlay
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/config_override.rs
+  start: 105
+  end: 108
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  &["models"],
+      &["features"],
+      // `[toolset]` is not soft wholesale: its sinks (`web_search` base_url / api_key, `web_fetch` proxy_endpoint, `bash` cmd_prefix) stay out
+      // Only `login_shell_capture` (runs the user's own `$SHELL`) and the web-search domain lists survive

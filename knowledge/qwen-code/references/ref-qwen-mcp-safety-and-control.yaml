@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-mcp-safety-and-control
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Safety and control
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  ### Trust (skip confirmations)
+  - **Server trust** (`trust: true`): bypasses confirmation prompts for that server only in a trusted workspace (use sparingly).
+  ### Connection-loss replay
+  Qwen Code only reconnects and replays the current MCP tool call when the server has `trust: true`, the workspace is trusted, and the tool explicitly declares either `idempotentHint: true` or a consistent read-only annotation. Read-only annotations conflict with `destructiveHint: true` or `idempotentHint: false` and are not replayed.
+  Calls with missing annotations, conflicting annotations, an untrusted server, or an untrusted workspace are not replayed after a connection failure.

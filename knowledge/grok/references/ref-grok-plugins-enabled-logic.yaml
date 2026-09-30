@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-enabled-logic
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/registry.rs
+  start: 163
+  end: 172
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  // Capture inline data before consuming the manifest
+              let inline_hooks = dp.manifest.inline_hooks().cloned();
+              let inline_mcp_servers = dp.manifest.inline_mcp_servers().cloned();
+              let inline_lsp_servers = dp.manifest.inline_lsp_servers().cloned();
+              // Determine enabled status.
+              // Every plugin should be in either the `enabled` or `disabled` list (`DiscoveryConfig::populate_plugin_lists` ensures this)
+              // A plugin is enabled only if it is in the `enabled` list and NOT in the `disabled` list (disabled takes precedence on conflict)
+              let explicitly_enabled = enabled

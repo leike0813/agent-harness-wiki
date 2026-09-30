@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-guide-user-env
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: User-defined environment variables
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  You can supply additional environment variables for an individual hook handler using the `env` field:
+  ```json
+  {
+    "type": "command",
+    "command": "bin/my-hook.sh",
+    "env": {
+      "MY_SECRET": "value",
+      "LOG_LEVEL": "debug"
+    }
+  }
+  ```
+  These variables are passed through to the hook process, but they cannot override the reserved runner or plugin variables listed above.

@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-config-secondary
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: secondary_model
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  Subagents inherit the model the main agent is running by default. The `[secondary_model]` section makes this configurable: it offers subagents a pool of candidate models plus a default binding. Typically that is a cheaper model for subtasks that do not need the main model's capability.
+  ### Subagent model pool
+  The pool is always available and needs no opt-in; with no `[secondary_model]` keys configured, subagents simply inherit the caller's model.
+  The minimal configuration is one line. A lone `default_model` is a pool with a single entry:
+  ```toml
+  [secondary_model]
+  default_model = "kimi-code/kimi-for-coding-highspeed"
+  ```
+  | Field | Type | Default | Description |
+  | --- | --- | --- | --- |
+  | `default_model` | `string` | — | The default model for subagents |

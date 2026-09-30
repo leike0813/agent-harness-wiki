@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-env-proxy
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: HTTP proxy
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  Kimi Code honors the standard proxy environment variables for all outbound traffic: model API calls, MCP servers, web tools, telemetry, sign-in, and update checks:
+  - `HTTP_PROXY` / `http_proxy`: proxy for `http://` requests
+  - `HTTPS_PROXY` / `https_proxy`: proxy for `https://` requests
+  - `ALL_PROXY` / `all_proxy`: fallback proxy used when the scheme-specific variable is unset; this is where a SOCKS proxy is usually set
+  - `NO_PROXY` / `no_proxy`: comma-separated hosts that bypass the proxy
+  ### Proxy types and precedence
+  Both HTTP(S) and SOCKS proxies are supported. A SOCKS proxy is recognized by its scheme: `socks5://`, `socks5h://`, `socks4://`, or `socks://` (an alias for `socks5://`). It is typically set via `ALL_PROXY` (the form used by tools like Clash and V2RayN).

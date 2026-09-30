@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-guide-stdio
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/07-mcp-servers.md
+  start: 25
+  end: 36
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Grok spawns a local process and communicates over stdin/stdout:
+  ```toml
+  [mcp_servers.my-server]
+  command = "/path/to/server"           # Server executable
+  args = ["--flag", "value"]            # Command arguments
+  env = { API_KEY = "sk-..." }          # Environment variables
+  enabled = true                        # Enable or disable the server (default: true)
+  startup_timeout_sec = 30              # Server startup timeout, seconds (default: 30)
+  tool_timeout_sec = 6000               # Per-tool-call timeout fallback, seconds (default: 6000)
+  tool_timeouts = { slow_op = 120 }     # Per-tool timeout overrides, seconds
+  ```

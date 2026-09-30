@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-settings-sandbox
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Sandbox
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Qwen Code can execute potentially unsafe operations (like shell commands and file modifications) within a sandboxed environment to protect your system.
+  [Sandbox](../features/sandbox) is disabled by default, but you can enable it in a few ways:
+  - Using `--sandbox` or `-s` flag.
+  - Setting `QWEN_SANDBOX` environment variable.
+  - Setting `tools.sandbox` in settings.
+  > ⚠️ **`--yolo` does _not_ automatically enable a sandbox.** YOLO mode only auto-approves tool calls; sandboxing must still be opted into via `--sandbox`, `QWEN_SANDBOX`, or `tools.sandbox`. In headless / non-interactive runs with `--yolo` (or `--approval-mode=yolo`) and no sandbox, the model can execute shell, write, and edit tools at the current process's privilege level — Qwen Code prints a warning to stderr in that case.

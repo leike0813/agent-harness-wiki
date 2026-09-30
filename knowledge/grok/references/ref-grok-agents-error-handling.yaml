@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-error-handling
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/README.md
+  start: 259
+  end: 273
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ## Error Handling
+  `AgentBuilder::build()` returns `Result<Agent, AgentBuildError>`:
+  | Error | When |
+  |---|---|
+  | `ParseError` | Bad YAML, missing `---`, wrong types |
+  | `MissingField` | Required field (`name`/`description`) absent |
+  | `UnknownToolOverride` | `toolNameOverrides` references nonexistent tool |
+  | `IoError` | File read error during AGENTS.md/skills discovery |
+  | `MiniJinjaError` | Template rendering failure |
+  Unknown frontmatter fields are **silently ignored** for forward
+  compatibility — definitions written for newer versions work on older
+  ones.

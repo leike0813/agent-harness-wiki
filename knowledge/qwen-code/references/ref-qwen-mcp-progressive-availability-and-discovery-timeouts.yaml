@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-mcp-progressive-availability-and-discovery-timeouts
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Progressive availability and discovery timeouts
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Qwen Code discovers MCP servers in the background after the UI is already
+  interactive. You see the cli's first prompt within a few hundred
+  milliseconds even when one of your MCP servers takes several seconds
+  (or never responds), and the model's tool list updates within roughly
+  one frame (~16 ms) of each server completing its discover handshake.
+  - **Interactive mode**: the UI appears immediately; an MCP status pill in
+    the bottom-right shows `N/M MCP servers ready` while discovery is in
+    flight. Sending a prompt before MCP finishes simply means the model
+    sees the tools that are ready _at that moment_; subsequent prompts see
+    more tools as servers come online.
+  - **Non-interactive mode** (`--prompt`, stream-json, ACP): the cli still

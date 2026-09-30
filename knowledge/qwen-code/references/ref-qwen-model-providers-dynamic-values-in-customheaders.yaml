@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-model-providers-dynamic-values-in-customheaders
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Dynamic values in `customHeaders`"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  A `customHeaders` value may contain the placeholder `${session_id}`, which is
+  expanded per request with the current Qwen Code session ID. Use it for gateways
+  that require a stable per-conversation identifier — OpenCode Go, for example,
+  rejects requests without `x-opencode-session`:
+  ```json
+  {
+    "generationConfig": {
+      "customHeaders": {
+        "x-opencode-session": "${session_id}"
+      }
+    }
+  }
+  ```
+  Because the value is resolved per request rather than baked into the SDK client,
+  `/new` and `/resume` rotate it without a restart.
+  ⚠️ **Two steps are required.** The provider entry above is only half of it — a
+  placeholder is inert until you also switch on
+  [`outboundCorrelation.allowDynamicHeaderValues`](settings.md#outboundcorrelation):
+  ```json
+  {
+    "outboundCorrelation": {

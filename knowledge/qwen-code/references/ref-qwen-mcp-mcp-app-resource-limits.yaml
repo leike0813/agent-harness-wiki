@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-mcp-mcp-app-resource-limits
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: MCP App resource limits
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  MCP Apps can return bundled HTML larger than the default 1 MiB or take longer
+  than the default 10 seconds to load. Configure only the server that needs more
+  headroom in `settings.json`:
+  ```json
+  {
+    "mcpServers": {
+      "amplitude": {
+        "httpUrl": "https://mcp.amplitude.com/mcp",
+        "appResourceMaxBytes": 4194304,
+        "appResourceTimeoutMs": 120000
+      }
+    }
+  }
+  ```
+  Amplitude still requires OAuth authentication. These settings do not enable
+  additional App bridge capabilities or guarantee that every App is compatible.
+  - `appResourceMaxBytes`: maximum decoded HTML size in UTF-8 bytes. Defaults to
+    1,048,576 (1 MiB); clamped to 1–4,194,304 bytes (4 MiB).
+  - `appResourceTimeoutMs`: resource-read deadline, independent of tool execution
+    when explicitly set; clamped to 100–120,000 ms.

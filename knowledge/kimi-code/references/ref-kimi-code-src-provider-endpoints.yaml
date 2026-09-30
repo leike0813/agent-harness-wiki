@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-src-provider-endpoints
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/llm-adapter/provider/provider-definition.ts
+  start: 15
+  end: 50
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  import type { Protocol } from '../protocol/protocol';
+  import type { ModelSource } from './provider';
+  export const openAIConnection: ProviderConnection = {
+    endpoint: () => ({ apiKeyEnv: 'OPENAI_API_KEY', baseUrlEnv: 'OPENAI_BASE_URL' }),
+  };
+  export const anthropicConnection: ProviderConnection = {
+    endpoint: () => ({ apiKeyEnv: 'ANTHROPIC_API_KEY', baseUrlEnv: 'ANTHROPIC_BASE_URL' }),
+  };
+  export const geminiEndpoint: ProtocolEndpoint = {
+    apiKeyEnv: 'GOOGLE_API_KEY',
+    baseUrlEnv: 'GOOGLE_GEMINI_BASE_URL',
+  };
+  export const vertexEndpoint: ProtocolEndpoint = {
+    apiKeyEnv: 'VERTEXAI_API_KEY',
+    baseUrlEnv: 'GOOGLE_VERTEX_BASE_URL',
+  };
+  export const geminiConnection: ProviderConnection = {
+    endpoint: () => geminiEndpoint,
+  };
+  export const vertexConnection: ProviderConnection = {

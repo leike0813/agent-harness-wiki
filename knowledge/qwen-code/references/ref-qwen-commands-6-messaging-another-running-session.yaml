@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-commands-6-messaging-another-running-session
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "6. Messaging Another Running Session"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Two interactive sessions on the same machine can send each other
+  messages. The feature is **on by default**: a session is discoverable by
+  the other sessions of the same user on the machine, and what they send
+  it goes through the review rules below before its model sees any of it.
+  To keep a session invisible and unreachable, turn it off in
+  `settings.json` and restart:
+  ```json
+  { "agents": { "crossSessionMessaging": false } }
+  ```
+  With it on, the model in one session can discover the others with
+  `list_agents` — each appears under `sessions` with the `name` that
+  `qwen sessions ps --json` records (the table view may truncate long
+  names) — and address one with `send_message` using
+  that name as `to`. When two sessions share a name, `list_agents` shows

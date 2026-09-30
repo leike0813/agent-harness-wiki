@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-guide-resolves
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: How a Hook Resolves
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  When an event fires, Grok resolves it in four steps:
+  1. **Select matching groups.** For that event, each matcher group whose `matcher` matches the event's field runs. The matcher tests the tool name on tool events, the notification type on `Notification`, and so on (see [Key Fields](#key-fields)). An empty or omitted matcher matches everything.
+  2. **Run the handlers in order.** Handlers in the selected groups run in config order, each receiving the event as JSON on stdin, until one returns `deny` (which stops the chain). Handlers from different sources (global, project, plugin, config) are merged, and identical handlers are deduplicated.

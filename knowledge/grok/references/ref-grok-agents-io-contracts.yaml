@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-io-contracts
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/16-subagents.md
+  start: 111
+  end: 129
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ### Input/Output Contracts
+  A persona can declare the inputs it expects and the outputs it produces. The parent agent reads these to know what context to supply and what artifacts to expect. This lets you chain personas, so one persona's output file becomes the next persona's input:
+  ```toml
+  [[subagents.personas.reviewer.inputs]]
+  name = "review_file"
+  io_type = "file"
+  required = true
+  description = "Path to the code under review"
+  [[subagents.personas.reviewer.outputs]]
+  name = "summary_file"
+  io_type = "file"
+  required = false
+  description = "Path to write review notes"
+  ```
+  Each field has a `name`, an `io_type` (defaults to `file`), a `required` flag, and a `description`.

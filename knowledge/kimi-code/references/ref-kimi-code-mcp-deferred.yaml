@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-mcp-deferred
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Loading tools on demand
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  By default, every tool of a server goes straight into the model's top-level tool list; with many connected servers — or a single server that exposes many tools — those definitions occupy context for the whole session. Marking a server as deferred keeps its tools out of the top-level list: the model first sees a manifest of loadable tools, loads full definitions on demand through the built-in `select_tools` tool, and can call them in the same turn once loaded.
+  Loading tools on demand is experimental and takes effect only when both prerequisites are met:
+  - The `tool-select` experimental flag is on: set `KIMI_CODE_EXPERIMENTAL_TOOL_SELECT=1`, or write `tool-select = true` under `[experimental]` in `config.toml`; the master switch `KIMI_CODE_EXPERIMENTAL_FLAG=1` enables it too.

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-hooks-guide-input
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Input
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  The event is sent as JSON on **stdin** (for example, a `PreToolUse` event; the payload also always includes `toolUseId` and `toolInputTruncated`):
+  ```json
+  {
+    "hookEventName": "pre_tool_use",
+    "hook_event_name": "PreToolUse",
+    "sessionId": "abc-123",
+    "cwd": "/Users/you/project",
+    "workspaceRoot": "/Users/you/project",
+    "permissionMode": "default",
+    "toolName": "run_terminal_command",
+    "toolInput": { "command": "npm test" },
+    "timestamp": "2026-04-14T12:00:00Z"
+  }
+  ```
+  Every event carries the same common fields: `hookEventName`, `sessionId`, `cwd`, `workspaceRoot`, `timestamp`, `permissionMode` (`default`, `auto`, `plan`, or `bypassPermissions`), and `promptId` (the turn the event belongs to; absent for session-scoped events), plus event-specific fields like `toolName` above.

@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-src-skill-flat
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/features/skill/catalog/fileSkillDiscovery.ts
+  start: 111
+  end: 118
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  for (const entry of entries) {
+          if (!entry.endsWith('.md')) continue;
+          if (entry === 'SKILL.md') continue;
+          const skillName = entry.slice(0, -'.md'.length);
+          if (directorySkills.has(skillName)) continue;
+          const skillMdPath = path.join(dirPath, entry);
+          if (!(await isFile(skillMdPath))) continue;
+          await parseAndRegister({

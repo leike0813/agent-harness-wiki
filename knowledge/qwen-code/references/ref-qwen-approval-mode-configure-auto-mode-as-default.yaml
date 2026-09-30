@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-approval-mode-configure-auto-mode-as-default
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Configure Auto Mode as default
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  ```jsonc
+  // .qwen/settings.json
+  {
+    "tools": {
+      "approvalMode": "auto",
+    },
+    "permissions": {
+      "autoMode": {
+        "hints": {
+          "allow": ["Running pytest, mypy, and ruff on this Python repo"],
+          "deny": ["Any network call to intranet.example.com"],
+        },
+        "environment": ["Open-source monorepo; commits are signed"],
+        // Optional: route ALL shell commands (including read-only ones like
+        // ls, cat) through the classifier for defense-in-depth.
+        // "classifyAllShell": true,
+        // Optional: send MCP tool calls to the classifier by name only
+        // (arguments are forwarded by default).
+        // "mcp": { "forwardArguments": false },
+      },
+    },
+  }
+  ```

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-getting-started-extensions-step-3-build-and-link-your-extension
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Step 3: Build and Link Your Extension"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Before you can use the extension, you need to compile the TypeScript code and link the extension to your Qwen Code installation for local development.
+  1.  **Install dependencies:**
+      ```bash
+      cd my-first-extension
+      npm install
+      ```
+  2.  **Build the server:**
+      ```bash
+      npm run build
+      ```
+      This will compile `example.ts` into `dist/example.js`, which is the file referenced in your `qwen-extension.json`.
+  3.  **Link the extension:**
+      The `link` command creates a symbolic link from the Qwen Code extensions directory to your development directory. This means any changes you make will be reflected immediately without needing to reinstall.
+      ```bash
+      qwen extensions link .
+      ```
+  Now, restart your Qwen Code session. The new `fetch_posts` tool will be available.

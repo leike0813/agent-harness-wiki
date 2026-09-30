@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-overrides-env
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Three roles of environment variables
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  Environment variables fall into three categories by function and cannot be collapsed into a single linear priority order:
+  1. **Locating the config file**: `KIMI_CODE_HOME` sets the data root directory, making the config file path `$KIMI_CODE_HOME/config.toml`. This step runs before all other resolution and is not a fallback for individual parameters.
+  2. **Runtime switches**: A small set of variables like `KIMI_DISABLE_TELEMETRY` directly shut down the corresponding subsystem. Even if `config.toml` has `telemetry = true`, a truthy value for this variable disables telemetry. The semantics are "additionally disable", not "ordinary override".
+  3.

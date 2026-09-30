@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-install-source
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/git_install.rs
+  start: 12
+  end: 28
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  pub enum InstallSource {
+      /// Remote git repo or Git-supported local repository path that will be cloned.
+      Git {
+          url: String,
+          git_ref: Option<String>,
+          git_sha: Option<String>,
+          subdir: Option<String>,
+      },
+      /// Local directory that will be copied into the managed install snapshot.
+      Local {
+          path: PathBuf,
+          subdir: Option<String>,
+      },
+  }
+  pub struct InstallResult {
+      pub repo_key: String,

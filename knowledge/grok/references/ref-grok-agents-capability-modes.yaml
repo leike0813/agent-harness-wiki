@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-capability-modes
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/16-subagents.md
+  start: 194
+  end: 205
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ## Capability Modes
+  Capability mode is not a spawn argument. A child's tools come from its **agent type** and any **role / definition default**. `general-purpose` is unrestricted (`all`). The built-in `explore` and `plan` types read, search, and run shell commands but cannot edit files.
+  | Mode         | Read | Write | Execute | Description                                  |
+  | ------------ | ---- | ----- | ------- | -------------------------------------------- |
+  | `read-only`  | Yes  | No    | No      | Read, search, and inspect (also web search and LSP); no file edits or shell. |
+  | `read-write` | Yes  | Yes   | No      | Read, plus create, edit, delete, and move files. No shell. |
+  | `execute`    | Yes  | No    | Yes     | Read, plus run shell commands and background tasks. No file edits.

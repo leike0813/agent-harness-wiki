@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-discovery-rules
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/README.md
+  start: 226
+  end: 241
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ## Discovery Rules
+  Agent definitions are discovered from multiple locations with priority:
+  1. **Project-level** (highest priority): `.grok/agents/*.md` — walk
+     from `cwd` up to the git repository root. Files found closer to
+     `cwd` take priority.
+  2. **User-level**: `~/.grok/agents/*.md`
+  3. **Compat paths** (lowest priority): additional vendor agent
+     directories under the user home (when enabled)
+  4. **Built-in**: `default_grok_build()`, `browser_use()`
+  Name-based dedup ensures the highest-priority definition wins. For
+  example, a project `.grok/agents/code-reviewer.md` shadows a
+  user-level definition with the same name.

@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-api-documentation
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: API documentation
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  ```bash
+  result=$(cat api/routes.js | qwen -p "Generate OpenAPI spec for these routes" --output-format json)
+  echo "$result" | jq -r '.[-1].result' > openapi.json
+  ```

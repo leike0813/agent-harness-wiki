@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-config-doc-version-pinning
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Version pinning
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Control which versions the CLI may auto-update to and which versions may run. Set
+  these in `[cli]`, or in a managed layer for fleet-wide policy. Each has an
+  environment override that can only tighten the bound, for CI and testing.
+  > **Changed:** `minimum_version` no longer blocks startup. It is now a soft
+  > anti-downgrade floor for the updater. For a hard floor that prevents old
+  > versions from starting, use `required_minimum_version`.
+  ```toml
+  [cli]
+  minimum_version = "0.2.109"          # updater won't downgrade below this
+  maximum_version = "0.2.180"          # updater won't install above this
+  required_minimum_version = "0.2.100" # refuse to start below this
+  required_maximum_version = "0.2.200" # refuse to start above this
+  ```

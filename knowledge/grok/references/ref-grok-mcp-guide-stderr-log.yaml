@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-guide-stderr-log
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/07-mcp-servers.md
+  start: 421
+  end: 438
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ### Server Not Starting
+  ```bash
+  # Test the server command manually
+  npx -y @modelcontextprotocol/server-filesystem /path
+  # Increase startup timeout
+  # In config.toml:
+  [mcp_servers.filesystem]
+  startup_timeout_sec = 30
+  ```
+  For stdio servers, Grok captures the process's standard error to `~/.grok/logs/mcp/<server>.stderr.log`, truncated on each launch. Check this file when a server starts but fails to handshake:
+  ```bash
+  tail -f ~/.grok/logs/mcp/filesystem.stderr.log
+  ```

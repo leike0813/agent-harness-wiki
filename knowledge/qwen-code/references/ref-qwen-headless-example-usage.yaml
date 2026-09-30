@@ -1,0 +1,50 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-headless-example-usage
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Example Usage
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  ```bash
+  qwen -p "What is the capital of France?" --output-format json
+  ```
+  Output (at end of execution):
+  ```json
+  [
+    {
+      "type": "system",
+      "subtype": "session_start",
+      "uuid": "...",
+      "session_id": "...",
+      "model": "qwen3-coder-plus",
+      ...
+    },
+    {
+      "type": "assistant",
+      "uuid": "...",
+      "session_id": "...",
+      "message": {
+        "id": "...",
+        "type": "message",
+        "role": "assistant",
+        "model": "qwen3-coder-plus",
+        "content": [
+          {
+            "type": "text",
+            "text": "The capital of France is Paris."
+          }
+        ],
+        "usage": {...}
+      },
+      "parent_tool_use_id": null
+    },
+    {
+      "type": "result",
+      "subtype": "success",
+      "uuid": "...",
+      "session_id": "...",
+      "is_error": false,
+      "duration_ms": 1234,

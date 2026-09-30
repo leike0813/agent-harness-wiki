@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-userpromptexpansion
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: UserPromptExpansion
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  **Purpose**: Runs when a slash command expands into a prompt for the model, after the expansion and before the prompt is sent. This covers commands that submit a prompt, such as custom commands, skills, MCP prompts and built-in commands like `/init`. Commands that only act locally do not fire it. It fires in the interactive UI, headless runs and ACP sessions, and when the model runs a model-invocable command.
+  **Matcher**: Matches against `command_name`. For example, `"matcher": "^init$"` fires only for `/init`.
+  **Event-specific fields**:
+  ```json
+  {
+    "command_name": "slash command name without the leading /",
+    "command_args": "argument text after the command name",
+    "prompt": "the expanded prompt, with non-text parts rendered as text"
+  }
+  ```

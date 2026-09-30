@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-commands-4-file-content-injection
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "4. File Content Injection (`@{...}`)"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  | File Type    | Support Status         | Processing Method           |
+  | ------------ | ---------------------- | --------------------------- |
+  | Text Files   | ✅ Full Support        | Directly inject content     |
+  | Images/PDF   | ✅ Multi-modal Support | Encode and inject           |
+  | Binary Files | ⚠️ Limited Support     | May be skipped or truncated |
+  | Directory    | ✅ Recursive Injection | Follow .gitignore rules     |
+  Example: Code Review Command
+  ```markdown
+  ---
+  description: Code review based on best practices
+  ---
+  Review {{args}}, reference standards:
+  @{docs/code-standards.md}
+  ```

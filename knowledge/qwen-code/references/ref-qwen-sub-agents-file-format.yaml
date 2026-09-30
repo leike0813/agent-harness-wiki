@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-sub-agents-file-format
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: File Format
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Subagents are configured using Markdown files with YAML frontmatter. This format is human-readable and easy to edit with any text editor.
+  #### Basic Structure
+  ```
+  ---
+  name: agent-name
+  description: Brief description of when and how to use this agent
+  model: inherit # Optional: inherit, fast, modelId, or authType:modelId
+  approvalMode: auto-edit # Optional: default, plan, auto-edit, yolo, bubble
+  tools:         # Optional: allowlist of tools
+    - tool1
+    - tool2
+  disallowedTools: # Optional: blocklist of tools
+    - tool3
+  ---
+  System prompt content goes here.
+  Multiple paragraphs are supported.
+  ```
+  #### Model Selection
+  Use the optional `model` frontmatter field to control which model a subagent uses:
+  - `inherit`: Use the same model as the main conversation.
+  - Omit the field: Same as `inherit`.

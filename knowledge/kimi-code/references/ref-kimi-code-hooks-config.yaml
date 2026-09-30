@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-hooks-config
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Configuration
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  All hook rules are written in the `[[hooks]]` array in `~/.kimi-code/config.toml`, where each entry is one rule:
+  | Field | Type | Required | Description |
+  | --- | --- | --- | --- |
+  | `event` | `string` | Yes | Trigger event name; must be one of the events in the [event reference](#event-reference) |
+  | `matcher` | `string` | No | A regular expression to filter event targets; if omitted, matches all |
+  | `command` | `string` | Yes | The shell command to run when triggered |
+  | `timeout` | `integer` | No | Timeout in seconds, range 1–600; defaults to 30 seconds |
+  `[[hooks]]` only allows these four fields; extra fields will cause the config file to fail to load.

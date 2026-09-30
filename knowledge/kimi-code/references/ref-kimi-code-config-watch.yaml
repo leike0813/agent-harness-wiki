@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-config-watch
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: watch
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  `watch` controls filesystem watchers that reload local.toml, AGENTS.md, skills, MCP config, and `config.toml` itself. It defaults to on. Set `enabled` to `false` to start with no watchers; changing the file later will not be picked up until restart.
+  | Field | Type | Default | Description |
+  | --- | --- | --- | --- |
+  | `enabled` | `boolean` | `true` | Attach filesystem watchers; `false` disables every `watch()` for the process |
+  `enabled` can be overridden by the `KIMI_CODE_WATCH` environment variable, which takes higher priority than `config.toml`.
+  <!--

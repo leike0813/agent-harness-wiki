@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-model-providers-example
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Example
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  ```jsonc
+  // User settings (~/.qwen/settings.json)
+  {
+    "model": {
+      "generationConfig": {
+        "timeout": 30000,
+        "samplingParams": { "temperature": 0.5, "max_tokens": 1000 }
+      }
+    }
+  }
+  // modelProviders configuration
+  {
+    "modelProviders": {
+      "openai": [{
+        "id": "gpt-4o",
+        "envKey": "OPENAI_API_KEY",
+        "generationConfig": {
+          "timeout": 60000,
+          "samplingParams": { "temperature": 0.2 }
+        }
+      }]
+    }
+  }
+  ```
+  When `gpt-4o` is selected from modelProviders:
+  - `timeout` = 60000 (from provider, overrides settings)
+  - `samplingParams.temperature` = 0.2 (from provider, completely replaces settings object)

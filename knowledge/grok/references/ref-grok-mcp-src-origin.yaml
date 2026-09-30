@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-src-origin
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/mcp_servers.rs
+  start: 63
+  end: 84
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  #[derive(Debug, Clone, PartialEq, Eq)]
+  pub enum McpServerOrigin {
+      /// `path` is the user `config.toml` even for a project definition.
+      ConfigToml {
+          path: PathBuf,
+      },
+      Plugin {
+          plugin_name: String,
+          path: PathBuf,
+      },
+      ClaudeJson {
+          path: PathBuf,
+      },
+      /// A project `.mcp.json` or a Cursor `mcp.json`.
+      McpJson {
+          path: PathBuf,
+      },
+  }
+  pub struct PluginMcpServers {
+      pub plugin_name: String,

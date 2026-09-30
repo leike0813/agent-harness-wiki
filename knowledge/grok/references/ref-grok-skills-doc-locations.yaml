@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-doc-locations
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: document_section
+  heading: Skill Locations
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  Grok discovers skills from these directories, in priority order:
+  | Location | Scope | Priority | Notes |
+  |----------|-------|----------|-------|
+  | `./.grok/skills/`, `./.grok/commands/` | Local (CWD) | Highest | Current directory skills / legacy command markdown |
+  | `<repo_root>/.grok/skills/`, `…/commands/` | Repo | Medium | Shared across the repo |
+  | `~/.grok/skills/`, `~/.grok/commands/` | User | Lowest | Personal skills for all projects |
+  | `~/.claude/skills/`, `~/.claude/commands/` | User | Lowest | Claude Code compatibility (configurable) |
+  | `./.claude/skills/`, `./.claude/commands/` | Local / Repo | High | Project Claude skills and legacy custom slash commands |
+  | `~/.cursor/skills/` | User | Lowest | Cursor compatibility (configurable) |

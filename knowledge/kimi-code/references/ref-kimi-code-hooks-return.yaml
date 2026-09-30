@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-hooks-return
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-repo
+locator:
+  kind: document_section
+  heading: Return Values
+official_url: "https://github.com/MoonshotAI/kimi-code"
+excerpt: |-
+  After the script exits, the CLI determines the hook's intent based on the exit code:
+  | Exit code | Meaning | CLI behavior |
+  | --- | --- | --- |
+  | `0` | Normal exit, allow | Continue execution; stdout content (if any) may be appended to context |
+  | `2` | Intentional block | Stop the current operation; stderr content (printed via `console.error`) is used as the reason for blocking |
+  | Other non-zero | Script error | Default allow (fail-open) |
+  | Timeout or crash | Script exception | Default allow (fail-open) |
+  You can also return a JSON object via stdout to block:
+  ```json
+  {
+    "hookSpecificOutput": {
+      "permissionDecision": "deny",
+      "permissionDecisionReason": "Please use rg instead of grep"
+    }
+  }
+  ```
+  ::: info Which events support blocking?

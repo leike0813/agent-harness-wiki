@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-sandbox-configure-the-sandbox-image-docker-podman
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Configure the sandbox image (Docker/Podman)"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  - **CLI flag**: `--sandbox-image <image>`
+  - **Environment variable**: `QWEN_SANDBOX_IMAGE=<image>`
+  - **Settings file**: `tools.sandboxImage` in your `settings.json` (e.g., `{"tools": {"sandboxImage": "ghcr.io/qwenlm/qwen-code:0.14.1"}}`)
+  Priority order (highest to lowest):
+  1. `--sandbox-image`
+  2. `QWEN_SANDBOX_IMAGE`
+  3. `tools.sandboxImage`
+  4. Built-in default image from the CLI package (for example `ghcr.io/qwenlm/qwen-code:<version>`)
+  `settings.env.QWEN_SANDBOX_IMAGE` also works as a generic env injection mechanism, but `tools.sandboxImage` is the preferred persistent setting.
+  Custom images are user-managed. Rebuild them with an up-to-date Qwen Code installation to receive the safe update handoff; older images may still use their original in-process updater.

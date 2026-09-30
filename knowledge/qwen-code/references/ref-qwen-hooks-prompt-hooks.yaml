@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-prompt-hooks
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Prompt Hooks
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Prompt hooks use an LLM to evaluate hook input and return a decision. This is useful for making intelligent decisions based on context, such as determining whether to allow or block an operation.
+  > **Data handling:** A prompt hook sends its event input to the configured model provider. When file-backed debug logging is enabled, the fully expanded prompt-hook request is also written to the session debug log. Treat hook input and debug logs as potentially sensitive.
+  **How it works:**
+  1. The hook input JSON is injected into your prompt using the `$ARGUMENTS` placeholder
+  2. The prompt is sent to an LLM (default: your current model)
+  3. The LLM returns a JSON response with the decision
+  4. Qwen Code processes the decision and continues or blocks execution accordingly
+  **Configuration:**

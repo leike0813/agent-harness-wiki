@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-plugins-scope
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/plugins/discovery.rs
+  start: 26
+  end: 48
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+  pub enum PluginScope {
+      /// `--plugin-dir` (highest priority, always trusted)
+      CliOverride = 0,
+      /// `.grok/plugins/` or `.claude/plugins/` in project (requires trust)
+      Project = 1,
+      /// `~/.grok/plugins/` or `~/.claude/plugins/` (always trusted)
+      User = 2,
+      /// `[plugins].paths` in config (trust depends on location)
+      ConfigPath = 3,
+  }
+  impl PluginScope {
+      /// Label used in `PluginId` format.
+      pub fn id_label(&self) -> &'static str {
+          match self {
+              Self::CliOverride => "cli",
+              Self::Project => "project",
+              Self::User => "user",
+              Self::ConfigPath => "config",
+          }
+      }
+  }

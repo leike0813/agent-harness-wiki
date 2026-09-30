@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-commands-trusted-controllers
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Trusted controllers
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  The rule above holds a message from any sender that does not say which
+  review class it is in, and a program that is not a Qwen Code session has
+  none to say. That is the right default for a stranger, but not for a
+  program you chose: a voice front-end, a dictation bridge, an automation
+  daemon relaying your own instructions would have every message parked,
+  and approving each one by hand defeats the point.
+  You grant such a program delivery by minting it a token:
+  ```bash
+  qwen sessions controllers add --label voice-bridge
+  ```
+  The token is printed once and is not stored anywhere: the file under
+  your Qwen home keeps only its SHA-256 hash, so nothing that later reads
+  that file can present the token. Put it in the controller's own
+  configuration when the command prints it.

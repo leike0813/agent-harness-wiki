@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-model-providers-selecting-the-openai-api
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Selecting the OpenAI API
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Set `wireApi` beside `id`, `envKey`, and `baseUrl` on an OpenAI-compatible model:
+  ```json
+  {
+    "modelProviders": {
+      "openai": [
+        {
+          "id": "my-model",
+          "wireApi": "responses",
+          "envKey": "OPENAI_API_KEY",
+          "baseUrl": "https://api.openai.com/v1"
+        }
+      ]
+    },
+    "security": { "auth": { "selectedType": "openai" } },
+    "model": { "name": "my-model" }
+  }
+  ```
+  The supported values are `chat-completions` and `responses`. Omitting `wireApi` uses Chat Completions for `openai`, including custom providers mapped to `openai`. Other values, or `wireApi` on an Anthropic, Gemini, Vertex AI, or Qwen OAuth model, are configuration errors.
+  Use `openai` with per-model `wireApi` for new configurations.

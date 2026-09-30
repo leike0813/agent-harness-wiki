@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-permissionrequest
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: PermissionRequest
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  **Purpose**: Executed when permission dialogs are displayed to automate decisions or update permissions.
+  **Event-specific fields**:
+  ```json
+  {
+    "permission_mode": "default | plan | auto_edit | auto | yolo",
+    "tool_name": "name of the tool requesting permission",
+    "tool_input": "object containing the tool's input parameters",
+    "permission_suggestions": "array of suggested permissions (optional)"
+  }
+  ```
+  **Output Options**:
+  - `hookSpecificOutput.decision`: structured object with permission decision details:
+    - `behavior`: "allow" or "deny"
+    - `updatedInput`: modified tool input (optional)
+    - `updatedPermissions`: modified permissions (optional)
+    - `message`: message to show to user (optional)
+    - `interrupt`: whether to interrupt the workflow (optional)
+  **Example Output**:
+  ```json
+  {

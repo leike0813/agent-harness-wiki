@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-mcp-tool-filtering-allow-deny-tools-per-server
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Tool filtering (allow/deny tools per server)"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Use `includeTools` / `excludeTools` to restrict tools exposed by a server (from Qwen Code’s perspective).
+  Example: include only a few tools:
+  ```json
+  {
+    "mcpServers": {
+      "filteredServer": {
+        "command": "python",
+        "args": ["-m", "my_mcp_server"],
+        "includeTools": ["safe_tool", "file_reader", "data_processor"],
+        "timeout": 30000
+      }
+    }
+  }
+  ```

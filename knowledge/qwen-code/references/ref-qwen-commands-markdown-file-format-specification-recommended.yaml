@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-commands-markdown-file-format-specification-recommended
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: "Markdown File Format Specification (Recommended)"
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Custom commands use Markdown files with optional YAML frontmatter:
+  ```markdown
+  ---
+  description: Optional description (displayed in /help)
+  ---
+  Your prompt content here.
+  Use {{args}} for parameter injection.
+  ```
+  | Field         | Required | Description                              | Example                                    |
+  | ------------- | -------- | ---------------------------------------- | ------------------------------------------ |
+  | `description` | Optional | Command description (displayed in /help) | `description: Code analysis tool`          |
+  | Prompt body   | Required | Prompt content sent to model             | Any Markdown content after the frontmatter |

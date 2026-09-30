@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-agents-tui-views
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/16-subagents.md
+  start: 334
+  end: 358
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  ## Viewing Subagents in the TUI
+  Subagents appear in several places in the interactive TUI:
+  ### Scrollback (parent conversation history)
+  When a subagent is spawned, a compact lifecycle block is added to the *parent's* scrollback:
+  - `Subagent running: "do the thing" (Implementer · grok-4.6) · Thinking`
+  - Or for background subagents: `Subagent started: "..."`
+  While running, the block shows a live activity suffix (e.g. "Running: cargo test", "Compacting", "Retrying (2/3)") pulled from the child's turn tracker. The bullet animates (or is colored) according to state.
+  Press **Enter** (or Ctrl-F) on the block to open the subagent's full transcript.
+  For blocking subagents the single entry updates its bullet color when the child finishes.

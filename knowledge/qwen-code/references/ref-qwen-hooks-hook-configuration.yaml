@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-hook-configuration
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Hook Configuration
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Hooks are configured in Qwen Code settings, typically in `.qwen/settings.json` or user configuration files. Hooks in the system settings files (System and SystemDefaults) load with the source System and, like user hooks, regardless of folder trust. Within one event, sequential hooks from settings and extensions run in this order: Project, User, System, Extension.
+  > [!NOTE]
+  > A hook must include a name field to be enabled or disabled individually at runtime. Hooks without a name will always execute when their event and matcher conditions are met.
+  ```json
+  {
+    "hooks": {
+      "PreToolUse": [
+        {
+          "matcher": "^run_shell_command$",
+          "sequential": false,
+          "hooks": [
+            {
+              "type": "command",
+              "command": "/path/to/security-check.sh",

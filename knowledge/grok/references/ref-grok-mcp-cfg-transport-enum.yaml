@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-mcp-cfg-transport-enum
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/mcp_server_config.rs
+  start: 28
+  end: 62
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  #[serde(untagged)]
+  pub enum McpServerTransportConfig {
+      Stdio {
+          command: String,
+          #[serde(default)]
+          args: Vec<String>,
+          #[serde(default, skip_serializing_if = "Option::is_none")]
+          env: Option<HashMap<String, String>>,
+          /// The ACP stdio server config has no `cwd` field yet.
+          #[serde(default, skip_serializing_if = "Option::is_none")]
+          cwd: Option<String>,
+      },
+      StreamableHttp {
+          // An entry without a url must fail to deserialize
+          #[serde(alias = "urlTemplate", alias = "url_template")]
+          url: String,
+          #[serde(default, rename = "type", skip_serializing_if = "Option::is_none")]
+          transport_type: Option<String>,
+          #[serde(default, skip_serializing_if = "Option::is_none")]

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-permissiondenied
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: PermissionDenied
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  **Purpose**: Runs when the AUTO-mode classifier blocks a tool call, including when repeated blocks make Qwen fall back to asking the user. It reports the denial and cannot approve or change the call. Qwen waits for the hooks before continuing; a hook failure is logged and does not change the outcome.
+  **Matcher**: Matches against the tool id, like the other tool events.
+  **Event-specific fields**:
+  ```json
+  {
+    "tool_name": "runtime tool id of the denied call",
+    "tool_input": "object containing the tool's input parameters",
+    "tool_use_id": "the call id",
+    "tool_call_id": "the same call id (optional)",
+    "reason": "classifier_blocked | classifier_unavailable"
+  }
+  ```
+  `reason` is currently always `classifier_blocked`.

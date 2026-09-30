@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-skills-depth-test
+harness_id: grok
+snapshot_id: snapshot-grok-repo
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-agent/src/prompt/skills.rs
+  start: 886
+  end: 903
+official_url: "https://github.com/xai-org/grok-build"
+excerpt: |-
+  let skills_dir = tmp.path().join("skills");
+          // Build a chain: skills/d0/d1/d2/d3/d4/d5/d6/deep-skill/SKILL.md
+          // d5 sits at the depth limit and d6 is one past it
+          let mut current = skills_dir.clone();
+          for i in 0..=MAX_SKILL_WALK_DEPTH + 1 {
+              current = current.join(format!("d{i}"));
+          }
+          write_skill_md(&current.join("deep-skill"), "deep-skill");
+          // Also put one at an accessible depth
+          write_skill_md(&skills_dir.join("shallow"), "shallow");
+          let mut paths = Vec::new();
+          walk_for_skill_md(&skills_dir, &mut paths, 0);
+          assert_eq!(paths.len(), 1);
+          assert!(

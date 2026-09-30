@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-skills-maintain-auto-generated-project-skills
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo
+locator:
+  kind: document_section
+  heading: Maintain auto-generated project Skills
+official_url: "https://github.com/QwenLM/qwen-code"
+excerpt: |-
+  Qwen Code tracks successful uses of generated project Skills locally, including while new Auto Skill generation is disabled, so re-enabling maintenance cannot mistake a recently used skill for an inactive one. When **Auto Skill** is enabled, it periodically moves inactive generated Skills out of the active library. Only directories named `.qwen/skills/auto-skill-*` whose `SKILL.md` frontmatter contains `source: auto-skill` are managed; personal, extension, bundled, and hand-authored Skills are never selected.
+  - After 30 days without a successful use or `SKILL.md` edit, an auto-skill is marked stale.
+  - After 90 days, its complete directory is moved to `.qwen/archived-skills/`. Nothing is permanently deleted.
+  - Automatic maintenance runs at most once every 7 days in trusted workspaces.
