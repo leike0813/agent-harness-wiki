@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-skills-allowed-tools
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/plugins/_native.py
+  start: 1978
+  end: 1990
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def _render_generated_skill(definition: AdaptedSkill) -> str:
+      lines = [
+          "---",
+          f"name: {json.dumps(definition.source_name)}",
+          f"description: {json.dumps(definition.description)}",
+      ]
+      if definition.allowed_tools:
+          lines.append("allowed-tools: " + json.dumps(list(definition.allowed_tools)))
+      if not definition.model_invocable:
+          lines.append(f"{DISABLE_MODEL_INVOCATION_FIELD}: true")
+      lines.extend(["---", "", definition.prompt, ""])
+      return "\n".join(lines)

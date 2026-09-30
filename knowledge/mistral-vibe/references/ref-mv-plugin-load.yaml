@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-plugin-load
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/plugins/_native.py
+  start: 700
+  end: 800
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def _load_plugin(
+          self, plugin_dir: Path, scope: SkillScope
+      ) -> _PluginCandidate | None:
+          try:
+              root = plugin_dir.resolve(strict=True)
+          except OSError as error:
+              self._issues.append(
+                  PluginConfigIssue(
+                      file=plugin_dir, message=f"Failed to resolve: {error}"
+                  )
+              )
+              return None
+          detection = detect_plugin_source_format(root)
+          if detection.unsupported_schema is not None:
+              self._issues.append(
+                  PluginConfigIssue(
+                      file=root / "plugin.json",
+                      message=(
+                          "Agent Plugins schema version is not supported: "
+                          f"{detection.unsupported_schema}"

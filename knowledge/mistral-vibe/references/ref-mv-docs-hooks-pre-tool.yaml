@@ -1,0 +1,10 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-docs-hooks-pre-tool
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-docs-hooks
+locator:
+  kind: document_section
+  heading: "`pre_tool`"
+official_url: "https://docs.mistral.ai/vibe/code/cli/hooks.md"
+excerpt: "Fires per tool call, **before** the user permission prompt. The first deny short-circuits the remaining `pre_tool` hooks for that call. **Receives** `tool_name`, `tool_call_id`, `tool_input`. **Can return**: `decision: \"deny\"` + `reason` (denies the tool call); `hook_specific_output.tool_input` (object) — **full replacement** of the model's arguments, re-validated against the tool's schema; rewrites compose left-to-right across hooks; `system_message`."

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-skills-registry
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/skills/manager.py
+  start: 185
+  end: 205
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def _discover_registry_skills(self) -> dict[str, SkillInfo]:
+          """The active set the agent uses: one entry per name, project wins."""
+          if not self._config.experimental_enable_registry_skills:
+              return {}
+          out: dict[str, SkillInfo] = {}
+          for path, scope in self._registry_sources():
+              for entry in _manifest.load_sync(path).skills:
+                  info = self._load_registry_entry(entry, scope)
+                  if info is not None:
+                      out[entry.name] = info
+          return out
+      def registry_pins(self) -> list[SkillInfo]:
+          """Every registry pin as its own SkillInfo, one per (name, scope).
+          Unlike ``available_skills`` (de-duped, project-wins) this keeps a global

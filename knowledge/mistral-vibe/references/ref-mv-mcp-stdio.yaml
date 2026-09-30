@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-mcp-stdio
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 390
+  end: 408
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  class MCPStdio(_MCPBase):
+      transport: Literal["stdio"]
+      command: str | list[str]
+      args: list[str] = Field(default_factory=list)
+      env: dict[str, str] = Field(
+          default_factory=dict,
+          description="Environment variables to set for the MCP server process.",
+      )
+      cwd: str | None = Field(
+          default=None, description="Working directory for the MCP server process."
+      )
+      def argv(self) -> list[str]:
+          base = (
+              shlex.split(self.command)
+              if isinstance(self.command, str)
+              else list(self.command or [])
+          )
+          return [*base, *self.args] if self.args else base

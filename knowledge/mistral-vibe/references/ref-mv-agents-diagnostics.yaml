@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-agents-diagnostics
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/agents/diagnostics.py
+  start: 17
+  end: 48
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  if (
+          profile is not None
+          and profile.install_required
+          and name not in config.installed_agents
+      ):
+          return (
+              f"Agent '{name}' requires installation. Run it once via --agent "
+              f"'{name}', or add it to 'installed_agents'."
+          )
+      is_default = name == config.default_agent
+      label = "default_agent" if is_default else "Agent"
+      fix = (
+          "set 'default_agent' to an enabled agent"
+          if is_default
+          else "select an enabled agent"
+      )
+      if enabled := config.enabled_agents:
+          if not name_matches(name, enabled):
+              return (
+                  f"{label} '{name}' is not in 'enabled_agents' {enabled}. "
+                  f"Add '{name}' to 'enabled_agents', or {fix}."
+              )

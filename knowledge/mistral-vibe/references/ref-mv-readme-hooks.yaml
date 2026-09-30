@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-readme-hooks
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: document_section
+  heading: Hooks
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  Hooks wire arbitrary shell commands into Vibe's lifecycle to gate, audit, or rewrite agent behavior. No flag is required — declaring a hook is enough.
+  Declared in `<project>/.vibe/hooks.toml` (project, loaded first; trusted only) and `~/.vibe/hooks.toml` (user-global, loaded second; duplicates by `name` lose to the project entry):
+  ```toml
+  [[hooks]]
+  name = "deny-rm-rf"
+  type = "pre_tool"
+  match = "bash"                       # tool-name matcher (fnmatch glob + `re:` regex escape, case-insensitive)
+  command = "uv run python /path/to/guard-bash"
+  timeout = 60.0                       # seconds; default 60 for all hooks
+  strict = false                       # tool hooks only: turn failures into denials (pre) / text-clears (post)
+  description = "Reject dangerous shell commands."
+  ```

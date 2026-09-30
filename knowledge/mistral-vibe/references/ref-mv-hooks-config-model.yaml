@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-hooks-config-model
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/hooks/models.py
+  start: 49
+  end: 92
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  _DEFAULT_HOOK_TIMEOUT = 60.0
+  # --- Declarative hook config (TOML on disk) ---
+  class HookConfig(BaseModel):
+      name: str
+      type: HookType
+      command: str
+      match: str | None = None
+      timeout: float | None = None
+      strict: bool = False
+      description: str | None = None
+      @field_validator("command")
+      @classmethod
+      def command_not_blank(cls, v: str) -> str:
+          if not v.strip():
+              raise ValueError("command must not be empty")
+          return v
+      @field_validator("match")
+      @classmethod
+      def match_not_blank(cls, v: str | None) -> str | None:
+          if v is not None and not v.strip():
+              raise ValueError("match must not be empty")
+          return v
+      @model_validator(mode="after")
+      def _apply_defaults_and_constraints(self) -> Self:

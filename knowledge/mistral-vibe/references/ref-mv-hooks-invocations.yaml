@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-hooks-invocations
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/hooks/models.py
+  start: 131
+  end: 161
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  class HookSessionContext(BaseModel):
+      """Shared session fields passed to every hook invocation."""
+      session_id: str
+      transcript_path: str
+      cwd: str
+      parent_session_id: str | None = None
+  class PostAgentInvocation(HookSessionContext):
+      hook_event_name: Literal[HookType.POST_AGENT] = HookType.POST_AGENT
+  class PreToolInvocation(HookSessionContext):
+      hook_event_name: Literal[HookType.PRE_TOOL] = HookType.PRE_TOOL
+      tool_name: str
+      tool_call_id: str
+      tool_input: dict[str, Any]
+  class PostToolInvocation(HookSessionContext):
+      hook_event_name: Literal[HookType.POST_TOOL] = HookType.POST_TOOL
+      tool_name: str
+      tool_call_id: str
+      tool_input: dict[str, Any]
+      tool_status: ToolStatus
+      tool_output: dict[str, Any] | None
+      tool_output_text: str

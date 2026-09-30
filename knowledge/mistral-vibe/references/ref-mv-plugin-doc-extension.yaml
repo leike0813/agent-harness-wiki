@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-plugin-doc-extension
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: document_section
+  heading: "Step 2 — Vibe extension (optional)"
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  To use Vibe-specific components (hooks, knowledge, agents, libraries,
+  connectors), add an `ai.mistral.vibe` extension to `plugin.json`:
+  ```json
+  {
+    "extensions": {
+      "ai.mistral.vibe": {
+        "schemaVersion": 1,
+        "toolNamespace": "myPlugin",
+        "toolOverrides": {
+          "lookup": {
+            "name": "search",
+            "exposure": "direct_and_programmatic"
+          }
+        }
+      }
+    }
+  }
+  ```
+  Without this extension, Vibe only loads `plugin.json`, `skills/`, and
+  `mcp.json`. The `toolNamespace` defaults to a TypeScript identifier derived
+  from the plugin name. It must not be one of the reserved namespaces:
+  `file_system`, `self`, `process`, `agent`, `vibe`.
+  `vibe` is reserved for built-in plugins shipped with the CLI; user plugins
+  must choose a different namespace.

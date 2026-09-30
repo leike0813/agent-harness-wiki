@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-mcp-cache-ttl
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/tools/mcp/registry.py
+  start: 190
+  end: 205
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  record = self._memory_records.get(key)
+          if record is None:
+              return self._cache.get(key)
+          age = (now - record.discovered_at).total_seconds()
+          if (
+              self._descriptor_cache_ttl_s <= 0
+              or record.discovered_at > now
+              or age >= self._descriptor_cache_ttl_s
+          ):
+              self._drop_key(key, source_name)
+              return None
+          touched = _MemoryDescriptorRecord(
+              key=record.key,
+              source_name=record.source_name,
+              discovered_at=record.discovered_at,
+              last_used_at=now,

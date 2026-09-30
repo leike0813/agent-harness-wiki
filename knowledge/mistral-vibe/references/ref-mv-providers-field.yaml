@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-providers-field
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/vibe_schema.py
+  start: 335
+  end: 346
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  providers: Annotated[list[ProviderConfig], WithUnionMerge(merge_key="name")] = (
+          Field(default_factory=lambda: list(DEFAULT_PROVIDERS))
+      )
+      models: Annotated[
+          dict[str, ModelConfig],
+          # Keyed by alias internally so per-model patches can deep-merge.
+          # Sparse default-model overrides are completed by DefaultConfigLayer at
+          # merge time; here we only normalize the list / alias map into the map shape.
+          WithDeepMerge(),
+          BeforeValidator(normalize_model_configs),
+          AfterValidator(_non_empty),
+      ] = Field(default_factory=lambda: normalize_model_configs(DEFAULT_MODELS))

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-plugin-catalog-entry
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/app_server/models.py
+  start: 699
+  end: 714
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  class PluginCatalogEntry(ProtocolModel):
+      name: str
+      version: str | None = None
+      source_format: PluginSourceFormat
+      manifest_digest: str
+      # Everything below comes off the descriptor, which a pinned entry this
+      # resolve dropped does not have.
+      description: str = ""
+      author: str | None = None
+      scope: PluginScope | None = None
+      content_sha256: str | None = None
+      pinned_root: str | None = None
+      installed_root: str | None = None
+      components: list[PluginCatalogComponent] = Field(default_factory=list)
+      drifted: int = 0

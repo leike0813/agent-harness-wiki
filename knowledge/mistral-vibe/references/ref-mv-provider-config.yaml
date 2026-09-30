@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-provider-config
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 94
+  end: 148
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  class ProviderConfig(BaseModel):
+      name: str
+      api_base: str
+      api_key_env_var: str = ""
+      browser_auth_base_url: str | None = None
+      browser_auth_api_base_url: str | None = None
+      # Split-horizon deployments (e.g. behind an SAP Cloud Connector) expose the
+      # console under a virtual host the CLI reaches but the server does not know
+      # about, so it returns sign-in/poll URLs on its own public host. When True,
+      # returned URLs are re-homed onto the configured browser auth base URLs
+      # instead of being rejected for an origin mismatch.
+      browser_auth_allow_origin_rewrite: bool = False
+      api_style: str = "openai"
+      backend: Backend = Backend.GENERIC
+      reasoning_field_name: str = "reasoning_content"

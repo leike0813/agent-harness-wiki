@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-mcp-cli-add
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/cli/mcp_command.py
+  start: 77
+  end: 125
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  subparsers = parser.add_subparsers(dest="mcp_command")
+      add_parser = subparsers.add_parser(
+          "add", help="Add an MCP server to the user configuration."
+      )
+      add_parser.add_argument("name", metavar="NAME", help="MCP server name.")
+      add_parser.add_argument(
+          "--transport",
+          choices=["http", "streamable-http", "stdio"],
+          default="streamable-http",
+          help="Transport (default: streamable-http).",
+      )
+      add_parser.add_argument(
+          "--url", help="Remote MCP server URL (http and streamable-http transports)."
+      )
+      add_parser.add_argument(
+          "--command", help="Executable to launch the server process (stdio transport)."
+      )
+      add_parser.add_argument(
+          "--arg",
+          action="append",
+          default=[],

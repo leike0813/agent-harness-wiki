@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-agents-subagents
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/agents/manager.py
+  start: 139
+  end: 144
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def get_subagents(self) -> list[AgentProfile]:
+          return [
+              a
+              for a in self.available_agents.values()
+              if a.agent_type == AgentType.SUBAGENT
+          ]

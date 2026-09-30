@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-readme-mcp
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: document_section
+  heading: MCP Server Configuration
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  You can configure MCP (Model Context Protocol) servers to extend Vibe's capabilities. Add MCP server configurations under the `mcp_servers` section:
+  Remote MCP servers can be added non-interactively from the shell. Static auth
+  is selected when `--api-key-env` or `--header` is provided; otherwise the
+  server uses OAuth and starts browser login by default.
+  ```bash
+  vibe mcp add mistralai \
+    --url https://api.mistral.ai/mcp \
+    --transport streamable-http \
+    --api-key-env MISTRAL_API_KEY
+  vibe mcp add linear \
+    --url https://mcp.linear.app/mcp
+  vibe mcp remove mistralai
+  ```
+  Use `--no-login` to persist an OAuth server without starting login. Static auth
+  also supports repeatable `--header`, `--api-key-header`, `--api-key-format`,
+  `--startup-timeout-sec`, and `--tool-timeout-sec`.

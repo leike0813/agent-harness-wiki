@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-hooks-failure
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/hooks/manager.py
+  start: 120
+  end: 150
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  hook, invocation, structured, self._retry_state
+              )
+          handler.on_passthrough(hook, self._retry_state)
+          return _HookAction(
+              events=[HookEndEvent(hook_name=hook.name, status=HookMessageSeverity.OK)],
+              next_invocation=None,
+              should_break=False,
+          )
+      def _handle_failure(
+          self,
+          handler: HookHandler,
+          hook: HookConfig,
+          invocation: HookInvocation,
+          *,
+          reason: str,
+          warn_content: str | None = None,
+      ) -> _HookAction:
+          if hook.strict:
+              escalation = handler.on_strict_failure(hook, invocation, reason)
+              if escalation is not None:
+                  return escalation
+          handler.on_passthrough(hook, self._retry_state)
+          return _HookAction(

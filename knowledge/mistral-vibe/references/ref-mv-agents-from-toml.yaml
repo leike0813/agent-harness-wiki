@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-agents-from-toml
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/agents/models.py
+  start: 46
+  end: 60
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def from_toml(cls, path: Path) -> AgentProfile:
+          with path.open("rb") as f:
+              data = tomllib.load(f)
+          migrate_agent_profile_config(data)
+          data.pop(LEGACY_BASE_DISABLED_KEY, None)
+          return cls(
+              name=path.stem,
+              display_name=data.pop("display_name", path.stem.replace("-", " ").title()),
+              description=data.pop("description", ""),
+              safety=AgentSafety(data.pop("safety", AgentSafety.NEUTRAL)),
+              agent_type=AgentType(data.pop("agent_type", AgentType.AGENT)),
+              instructions=data.pop("instructions", None),
+              overrides=data,
+              source_path=path,
+          )

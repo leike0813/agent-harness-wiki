@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-plugin-format-markers
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/plugins/_compatibility.py
+  start: 140
+  end: 180
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def detect_plugin_source_format(root: Path) -> PluginFormatDetection:
+      native_manifest = root / "plugin.json"
+      native_schema = _read_schema_id(native_manifest)
+      if native_schema == _NATIVE_SCHEMA:
+          return PluginFormatDetection(
+              source_format=DetectedPluginFormat.AGENT_PLUGINS_1_0,
+              marker_paths=(native_manifest,),
+          )
+      if native_schema is not None and native_schema.startswith(
+          _AGENT_PLUGIN_SCHEMA_PREFIX
+      ):
+          return PluginFormatDetection(
+              source_format=DetectedPluginFormat.AGENT_PLUGINS_1_0,
+              marker_paths=(native_manifest,),
+              unsupported_schema=native_schema,
+          )
+      markers: list[tuple[DetectedPluginFormat, Path]] = []
+      for source_format, marker in (

@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-hooks-failure-reason
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/hooks/_handler.py
+  start: 102
+  end: 107
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def _failure_reason(result: HookExecutionResult) -> str:
+      # Prefer stderr: stdout is reserved for the JSON response and is
+      # likely empty / garbage when the hook crashed.
+      if result.timed_out or result.exit_code is None:
+          return "timed out"
+      return result.stderr or result.stdout or f"exited with code {result.exit_code}"

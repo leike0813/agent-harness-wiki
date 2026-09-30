@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-mcp-oauth-headless
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/auth/mcp_oauth.py
+  start: 88
+  end: 100
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  class MCPOAuthHeadlessError(MCPOAuthError):
+      def __init__(self, *, server_alias: str) -> None:
+          self.server_alias = server_alias
+          super().__init__(self._fmt())
+      def _fmt(self) -> str:
+          return (
+              f"No OS keyring backend is available; cannot store OAuth tokens for "
+              f"MCP server {self.server_alias!r}. "
+              'Switch this server to `auth.type = "static"` with `api_key_env` for '
+              "headless or CI environments."
+          )

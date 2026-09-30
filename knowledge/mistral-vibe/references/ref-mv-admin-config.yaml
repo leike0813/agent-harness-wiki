@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-admin-config
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/admin_config.py
+  start: 12
+  end: 22
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  # Served by Vibe server app, so this is appended to vibe_base_url
+  # e.g. https://chat.mistral.ai/api/v1/code/managed-config.
+  MANAGED_CONFIG_PATH = "/api/v1/code/managed-config"
+  # Per-request timeout for the managed-config HTTP call.
+  MANAGED_CONFIG_TIMEOUT = 2.0
+  # Number of attempts before giving up (1 initial + retries).
+  MANAGED_CONFIG_RETRY_TRIES = 3

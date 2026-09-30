@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-hooks-pre-tool
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/hooks/_pre_tool.py
+  start: 41
+  end: 66
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def matches(self, hook: HookConfig, invocation: HookInvocation) -> bool:
+          return name_matches(_as_pre_tool(invocation).tool_name, [hook.match or "*"])
+      def external_attributes(self, invocation: HookInvocation) -> HookExternalAttrs:
+          inv = _as_pre_tool(invocation)
+          return {"tool_name": inv.tool_name, "tool_call_id": inv.tool_call_id}
+      def _on_deny(
+          self,
+          hook: HookConfig,
+          invocation: HookInvocation,
+          response: HookStructuredResponse,
+          retry_state: HookRetryState,
+      ) -> _HookAction:
+          inv = _as_pre_tool(invocation)
+          return _HookAction(
+              events=[
+                  HookEndEvent(
+                      hook_name=hook.name,
+                      status=HookMessageSeverity.ERROR,

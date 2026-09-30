@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-docs-config-agent-files
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-docs-configuration-reference
+locator:
+  kind: document_section
+  heading: Agent definition files
+official_url: "https://docs.mistral.ai/vibe/code/cli/configuration-reference.md"
+excerpt: |-
+  These keys live in `~/.vibe/agents/<name>.toml` or `./.vibe/agents/<name>.toml`, **not in `config.toml`**. Most top-level keys above (`active_model`, `enabled_tools`, `disabled_tools`, `[tools.*]` blocks) can also be set inside an agent file to override the global config for that agent.
+  | `agent_type` | string | Required | `"agent"` (user-facing, selectable via `--agent`) or `"subagent"` (delegation-only) |
+  | `display_name` | string |  | Human-readable label |
+  | `description` | string |  | Free-text description |
+  | `safety` | string |  | Visual hint: `safe`, `neutral`, `destructive`, or `yolo` |
+  | `system_prompt_id` | string |  | Points to a prompt file in `~/.vibe/prompts/` |

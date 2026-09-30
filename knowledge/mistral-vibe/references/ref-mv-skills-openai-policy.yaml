@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-skills-openai-policy
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/skills/parser.py
+  start: 24
+  end: 40
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  class OpenAISkillPolicy(BaseModel):
+      model_config = ConfigDict(extra="forbid", strict=True)
+      allow_implicit_invocation: bool | None = None
+      products: list[str] = Field(default_factory=list)
+  class OpenAISkillMetadata(BaseModel):
+      model_config = ConfigDict(extra="allow", strict=True)
+      policy: OpenAISkillPolicy | None = None
+      @property
+      def allows_implicit_invocation(self) -> bool:
+          if self.policy is None or self.policy.allow_implicit_invocation is None:
+              return True
+          return self.policy.allow_implicit_invocation

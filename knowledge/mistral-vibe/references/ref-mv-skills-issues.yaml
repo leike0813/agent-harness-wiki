@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-skills-issues
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/skills/manager.py
+  start: 296
+  end: 310
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  try:
+              skill_info = self._parse_skill_file(
+                  skill_file,
+                  source=source,
+                  scope=scope,
+                  registry=registry,
+                  check_dir_name=check_dir_name,
+              )
+          except Exception as e:
+              logger.warning("Failed to parse skill at %s: %s", skill_file, e)
+              self._config_issues.append(
+                  SkillConfigIssue(file=skill_file, message=f"Failed to load: {e}")
+              )
+              return None
+          return skill_info

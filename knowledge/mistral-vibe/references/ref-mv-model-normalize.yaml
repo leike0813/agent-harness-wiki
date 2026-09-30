@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-model-normalize
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 456
+  end: 470
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  """Read [[models]] lists or alias maps into the deep-mergeable internal map."""
+      if isinstance(value, Mapping):
+          normalized: dict[str, Any] = {}
+          for alias, payload in value.items():
+              normalized[alias] = _model_payload_with_alias(alias, payload)
+          return normalized
+      if isinstance(value, list):
+          normalized: dict[str, Any] = {}
+          for payload in value:
+              alias = _model_alias_from_payload(payload)
+              normalized[alias] = _model_payload_with_alias(alias, payload)
+          return normalized
+      return value

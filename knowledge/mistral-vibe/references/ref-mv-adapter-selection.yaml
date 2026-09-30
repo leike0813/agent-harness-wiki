@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-adapter-selection
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/llm/backend/generic.py
+  start: 242
+  end: 249
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def _get_adapter(api_style: str) -> APIAdapter:
+      """Build the adapter for the given API style.
+      Adapters are built per request: several of them buffer state while parsing a
+      streamed response, and a shared instance would let concurrent sessions observe
+      each other's partial state.
+      """
+      return _ADAPTERS[api_style]()

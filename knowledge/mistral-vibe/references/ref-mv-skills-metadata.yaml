@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-skills-metadata
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/skills/models.py
+  start: 39
+  end: 90
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  class SkillMetadata(BaseModel):
+      model_config = {"populate_by_name": True}
+      name: str = Field(
+          ...,
+          min_length=1,
+          max_length=64,
+          pattern=r"^[a-z0-9]+(-[a-z0-9]+)*$",
+          description="Skill identifier. Lowercase letters, numbers, and hyphens only.",
+      )
+      description: str = Field(
+          ...,
+          min_length=1,
+          max_length=1024,
+          description="What this skill does and when to use it.",
+      )
+      license: str | None = Field(
+          default=None, description="License name or reference to a bundled license file."
+      )
+      compatibility: str | None = Field(
+          default=None,
+          max_length=500,
+          description="Environment requirements (intended product, system packages, etc.).",
+      )

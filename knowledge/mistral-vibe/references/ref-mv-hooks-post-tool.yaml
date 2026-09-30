@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-hooks-post-tool
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/hooks/_post_tool.py
+  start: 45
+  end: 110
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  inv = _as_post_tool(invocation)
+          return {"tool_name": inv.tool_name, "tool_call_id": inv.tool_call_id}
+      def _on_deny(
+          self,
+          hook: HookConfig,
+          invocation: HookInvocation,
+          response: HookStructuredResponse,
+          retry_state: HookRetryState,
+      ) -> _HookAction:
+          inv = _as_post_tool(invocation)
+          reason = response.reason or ""
+          additional = response.hook_specific_output.additional_context
+          final_text = (
+              _append_text(reason, additional) if additional is not None else reason
+          )
+          return _HookAction(
+              events=[
+                  HookEndEvent(
+                      hook_name=hook.name,
+                      status=HookMessageSeverity.WARNING,
+                      content=response.system_message

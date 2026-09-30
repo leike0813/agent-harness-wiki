@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-mcp-oauth
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 319
+  end: 352
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  class MCPOAuth(BaseModel):
+      model_config = ConfigDict(extra="forbid")
+      type: Literal["oauth"]
+      scopes: list[str] = Field(
+          description="OAuth scopes to request. Pass an empty list to accept the AS default."
+      )
+      client_id: str | None = Field(
+          default=None,
+          min_length=1,
+          description="Pre-registered OAuth public client_id (PKCE). Mutually exclusive with client_metadata_url.",
+      )
+      client_metadata_url: HttpUrl | None = Field(
+          default=None,
+          description="RFC 9728 client-metadata-document URL. Mutually exclusive with client_id.",
+      )
+      redirect_port: int = Field(
+          default=47823,
+          ge=1024,
+          le=65535,
+          description="Loopback port for the OAuth callback handler.",
+      )

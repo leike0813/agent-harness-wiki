@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-config-fingerprint
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/fingerprint.py
+  start: 32
+  end: 40
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def create_file_fingerprint(file: IO) -> str:
+      """Return an opaque token representing the current state of a file."""
+      stat = os.fstat(file.fileno())
+      return f"{stat.st_dev}:{stat.st_ino}:{stat.st_mtime_ns}:{stat.st_size}"
+  def create_dict_fingerprint(source: dict[str, Any]) -> str:
+      """Return an opaque token representing the current state of a dict."""
+      payload = json.dumps(

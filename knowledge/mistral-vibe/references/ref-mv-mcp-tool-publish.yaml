@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-mcp-tool-publish
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/tools/mcp/tools.py
+  start: 214
+  end: 232
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def _alias_from_url(url: str) -> str:
+          p = urlparse(url)
+          host = (p.hostname or "mcp").replace(".", "_")
+          port = f"_{p.port}" if p.port else ""
+          return f"{host}{port}"
+      computed_alias = alias or _alias_from_url(url)
+      published_name = f"{computed_alias}_{remote.name}"
+      class MCPHttpProxyTool(MCPTool):
+          description: ClassVar[str] = (
+              (f"[{computed_alias}] " if computed_alias else "")
+              + (remote.description or f"MCP tool '{remote.name}' from {url}")
+              + (f"\nHint: {server_hint}" if server_hint else "")
+          )
+          _server_name: ClassVar[str] = computed_alias
+          _mcp_url: ClassVar[str] = url
+          _remote_name: ClassVar[str] = remote.name

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-task-args
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/subagents.py
+  start: 16
+  end: 23
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  class TaskArgs(BaseModel):
+      model_config = ConfigDict(extra="forbid")
+      task: str = Field(description="The task for the agent to perform")
+      agent: str = Field(
+          default="explore",
+          description="The type of specialized subagent to use for this task",
+      )

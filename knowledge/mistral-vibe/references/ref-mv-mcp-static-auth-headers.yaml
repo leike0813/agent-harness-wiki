@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-mcp-static-auth-headers
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 289
+  end: 305
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  @model_validator(mode="after")
+      def _warn_inert_api_key_fields(self) -> MCPStaticAuth:
+          if not self.api_key_env and (
+              self.api_key_header != "Authorization"
+              or self.api_key_format != "Bearer {token}"
+          ):
+              logger.warning(
+                  "MCP static auth sets api_key_header/api_key_format without "
+                  "api_key_env; these fields are ignored.",
+                  extra={
+                      "api_key_header": self.api_key_header,
+                      "api_key_format": self.api_key_format,
+                  },
+              )
+          return self
+      def http_headers(self) -> dict[str, str]:

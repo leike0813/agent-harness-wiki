@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-plugin-doc-manifest
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: document_section
+  heading: "Step 1 — plugin.json (required)"
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  The manifest is a JSON file with `$schema` and `name` as required fields.
+  ```json
+  {
+    "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+    "name": "my-plugin",
+    "version": "1.0.0",
+    "description": "What this plugin provides.",
+    "author": {
+      "name": "Author Name",
+      "email": "author@example.com",
+      "url": "https://example.com"
+    },
+    "homepage": "https://example.com/my-plugin",
+    "repository": "https://github.com/example/my-plugin",
+    "license": "MIT",
+    "keywords": ["productivity", "finance"],
+    "extensions": {}
+  }
+  ```
+  Rules:
+  - `name` must match `^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?$` (1-64 chars), no `--`
+    or `..`.
+  - `$schema` must be exactly
+    `https://agent-plugins.org/schemas/1.0.0/plugin.schema.json`. Any other

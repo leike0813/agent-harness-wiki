@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-mcp-oauth-token
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/auth/mcp_oauth.py
+  start: 168
+  end: 190
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def _kr_username(alias: str, kind: str) -> str:
+      return f"{_USERNAME_PREFIX}:{alias}:{kind}"
+  async def _kr_get(username: str) -> str | None:
+      # OAuth material has only ever been filed under the current service name, so
+      # the legacy fallback can only ever miss -- and on macOS each service tried
+      # is its own `security` subprocess, ~17ms, on the session startup path.
+      return await anyio.to_thread.run_sync(
+          functools.partial(get_api_key_from_keyring, search_legacy_services=False),
+          username,
+      )
+  async def _kr_set(username: str, value: str) -> None:
+      await anyio.to_thread.run_sync(set_api_key_in_keyring, username, value)
+  async def _kr_delete(username: str) -> None:
+      try:
+          await anyio.to_thread.run_sync(delete_api_key_from_keyring, username)

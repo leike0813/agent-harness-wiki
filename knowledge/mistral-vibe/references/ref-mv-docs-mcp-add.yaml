@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-docs-mcp-add
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-docs-mcp-servers
+locator:
+  kind: document_section
+  heading: Add an MCP server
+official_url: "https://docs.mistral.ai/vibe/code/cli/mcp-servers.md"
+excerpt: |-
+  Append a `[[mcp_servers]]` table to `config.toml`. Required fields depend on the transport.
+  ```toml
+  [[mcp_servers]]
+  name = "my_http_server"
+  transport = "http"
+  url = "http://localhost:8000"
+  headers = { "Authorization" = "Bearer my_token" }
+  api_key_env = "MY_API_KEY_ENV_VAR"
+  api_key_header = "Authorization"
+  api_key_format = "Bearer {token}"
+  ```
+  ```toml
+  [[mcp_servers]]
+  name = "fetch_server"
+  transport = "stdio"
+  command = "uvx"
+  args = ["mcp-server-fetch"]
+  env = { "DEBUG" = "1", "LOG_LEVEL" = "info" }
+  ```

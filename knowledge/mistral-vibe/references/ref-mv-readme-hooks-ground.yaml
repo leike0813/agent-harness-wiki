@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-readme-hooks-ground
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: document_section
+  heading: Common ground
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  Every hook is spawned with a JSON invocation on **stdin** (UTF-8) containing the session context: `session_id`, `parent_session_id`, `transcript_path`, `cwd`, plus `hook_event_name` discriminating the hook type. Tool hooks add tool-specific fields (below).
+  Every hook signals back via its **exit code** and **stdout**. The contract on stdout is strict: either empty (do nothing), or a JSON object matching the schema below. Use **stderr** for diagnostics / debug logs.
+  - **Exit `0`, empty stdout** — passthrough.
+  - **Exit `0`, valid JSON object on stdout** — structured response. Universal top-level fields:
+    - `system_message` (string, optional) — shown to the user in the UI.
+    - `decision` (`"allow"` | `"deny"`, optional, default `"allow"`) — the effect of `"deny"` depends on the hook type.

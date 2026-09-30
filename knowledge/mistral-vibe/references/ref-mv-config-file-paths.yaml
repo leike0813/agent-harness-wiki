@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-config-file-paths
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/harness_files/_harness_manager.py
+  start: 97
+  end: 124
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def _trusted_workdir(self) -> Path | None:
+          """Return cwd if project source is enabled and trusted, else None."""
+          if not self.project_source_enabled:
+              return None
+          cwd = self._effective_cwd
+          if self.trust_store.is_trusted(cwd) is not True:
+              return None
+          return cwd
+      @property
+      def config_file(self) -> Path | None:
+          workdir = self._trusted_workdir
+          if workdir is not None:
+              candidate = workdir / ".vibe" / "config.toml"
+              if candidate.is_file():
+                  return candidate
+          if "user" in self.sources:
+              return VIBE_HOME.path / "config.toml"
+          return None
+      @property
+      def project_roots(self) -> list[Path]:

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-skills-search-paths
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/skills/manager.py
+  start: 86
+  end: 118
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def _compute_search_paths(
+          self, config: VibeConfigSchema
+      ) -> list[tuple[Path, SkillScope]]:
+          paths: list[tuple[Path, SkillScope]] = []
+          for path in config.skill_paths:
+              if path.is_dir():
+                  paths.append((path, SkillScope.GLOBAL))
+          mgr = self._harness_files
+          paths.extend((p, SkillScope.PROJECT) for p in mgr.project_skills_dirs)
+          paths.extend((p, SkillScope.GLOBAL) for p in mgr.user_skills_dirs)
+          global_paths = {p.resolve() for p in mgr.user_skills_dirs}
+          global_paths.update(
+              p.resolve() for p, scope in paths if scope is SkillScope.GLOBAL
+          )
+          unique: list[tuple[Path, SkillScope]] = []
+          seen: set[Path] = set()
+          for p, scope in paths:
+              rp = p.resolve()

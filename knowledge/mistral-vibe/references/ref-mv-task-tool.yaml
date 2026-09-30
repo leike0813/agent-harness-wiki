@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-task-tool
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/tools/builtins/task.py
+  start: 96
+  end: 115
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  agent_manager = ctx.agent_manager
+          if agent_manager.active_profile.agent_type is AgentType.SUBAGENT:
+              raise ToolError(
+                  "Agent depth limit of 1 reached. Complete the task in the current "
+                  "subagent."
+              )
+          try:
+              agent_profile = agent_manager.get_agent(args.agent)
+          except ValueError as e:
+              raise ToolError(f"Unknown agent: {args.agent}") from e
+          if agent_profile.agent_type != AgentType.SUBAGENT:
+              raise ToolError(
+                  f"Agent '{args.agent}' is a {agent_profile.agent_type.value} agent. "
+                  f"Only subagents can be used with the task tool. "
+                  f"This is a security constraint to prevent recursive spawning."
+              )

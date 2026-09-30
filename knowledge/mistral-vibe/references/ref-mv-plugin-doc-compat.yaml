@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-plugin-doc-compat
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: document_section
+  heading: Compatibility with other plugin formats
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  Vibe also detects and adapts plugins authored for other agents:
+  | Format | Marker | Adapted as |
+  |---|---|---|
+  | Claude Code | `.claude-plugin/plugin.json` | skills, MCP servers, hooks |
+  | Codex | `.codex-plugin/plugin.json` | skills, MCP servers |
+  | Kimi Code | `kimi.plugin.json` or `.kimi-plugin/plugin.json` | skills, MCP servers, hooks |
+  | OpenCode | `.opencode/` directory | skills only (executable modules unsupported) |
+  If markers for more than one format are present, the plugin is rejected as
+  ambiguous. Native Agent Plugins 1.0 (a valid `plugin.json` with the correct
+  `$schema`) always takes precedence.
+  When creating a new plugin, always use the native Agent Plugins 1.0 format.

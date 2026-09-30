@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-config-layer-list
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/default_orchestrator.py
+  start: 66
+  end: 79
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  return override_layer
+      layers = [
+          DefaultConfigLayer(schema=VibeConfigSchema),
+          GrowthbookLayer(),
+          *([user_layer] if user_layer is not None else []),
+          *([project_layer] if project_layer is not None else []),
+          EnvironmentLayer(schema=VibeConfigSchema),
+          override_layer,
+          # Empty slot filled in place by AgentManager when a profile is selected
+          AgentProfileLayer(),
+          # Highest priority: org-enforced config populated at runtime.
+          AdminConfigLayer(),
+      ]

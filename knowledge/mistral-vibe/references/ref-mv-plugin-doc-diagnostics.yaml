@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-plugin-doc-diagnostics
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: document_section
+  heading: Diagnostic codes
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  When a plugin fails to load or has issues, Vibe emits typed diagnostics. The
+  most common ones:
+  | Code | Fatal | Meaning |
+  |---|---|---|
+  | `plugin.manifest.invalid` | yes | `plugin.json` missing, unreadable, or invalid |
+  | `plugin.schema.version_unsupported` | yes | unsupported schema version |
+  | `plugin.compatibility.format_unrecognized` | yes | no supported manifest found |
+  | `plugin.namespace.reserved` | yes | namespace is reserved |
+  | `plugin.namespace.collision` | yes | two plugins claim one namespace |
+  | `plugin.name.collision` | yes | two plugins share a name at the same scope |
+  | `plugin.path.outside_root` | yes | a declared path escapes the plugin root |
+  | `plugin.skill.invalid` | no | one `SKILL.md` failed to parse |

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-user-dirs
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/harness_files/_harness_manager.py
+  start: 156
+  end: 171
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def user_skills_dirs(self) -> list[Path]:
+          if "user" not in self.sources:
+              return []
+          return [
+              d
+              for d in (GLOBAL_SKILLS_DIR.path, GLOBAL_AGENTS_SKILLS_DIR.path)
+              if d.is_dir()
+          ]
+      @property
+      def user_agents_dirs(self) -> list[Path]:
+          if "user" not in self.sources:
+              return []
+          d = GLOBAL_AGENTS_DIR.path
+          return [d] if d.is_dir() else []

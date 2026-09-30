@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-readme-builtin-agents
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: document_section
+  heading: Built-in Agents
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  Vibe comes with several built-in agent profiles, each designed for different use cases:
+  - **`ask`**: Requires approval for tool executions.
+  - **`plan`**: Read-only agent for exploration and planning. Auto-approves safe tools like `grep` and `read`.
+  - **`accept-edits`**: The default agent. Auto-approves file edits only (`write_file`, `edit`). Useful for code refactoring.
+  - **`auto-approve`**: Auto-approves all tool executions. Use with caution.
+  Use the `--agent` flag to select a different agent:
+  ```bash
+  vibe --agent plan
+  ```
+  To change the default agent used when `--agent` is not passed, set
+  `default_agent` in your `config.toml`:
+  ```toml
+  default_agent = "plan"
+  ```
+  Valid values are `ask`, `plan`, `accept-edits`, `auto-approve`,

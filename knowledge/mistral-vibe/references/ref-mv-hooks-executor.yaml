@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-hooks-executor
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/hooks/executor.py
+  start: 38
+  end: 95
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  async def run(
+          self, hook: HookConfig, invocation: HookInvocation
+      ) -> HookExecutionResult:
+          stdin_data = invocation.model_dump_json().encode()
+          try:
+              process = await asyncio.create_subprocess_shell(
+                  hook.command,
+                  stdin=asyncio.subprocess.PIPE,
+                  stdout=asyncio.subprocess.PIPE,
+                  stderr=asyncio.subprocess.PIPE,
+                  start_new_session=True,
+                  cwd=self._cwd,
+              )
+          except OSError as e:
+              return HookExecutionResult(
+                  hook_name=hook.name,
+                  exit_code=1,
+                  stdout="",
+                  stderr=f"Failed to start: {e}",
+                  timed_out=False,
+              )
+          try:
+              stdin = process.stdin

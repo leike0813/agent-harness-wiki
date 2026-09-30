@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-mcp-integrate
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/tools/manager.py
+  start: 511
+  end: 528
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def integrate_mcp(self, *, raise_on_failure: bool = False) -> None:
+          """Discover and register MCP tools (sync wrapper).
+          Idempotent: subsequent calls after a successful integration are
+          no-ops to avoid redundant MCP discovery.
+          """
+          run_sync(self._integrate_mcp_async(raise_on_failure=raise_on_failure))
+      async def _integrate_mcp_async(self, *, raise_on_failure: bool = False) -> None:
+          """Async MCP discovery — canonical implementation."""
+          if self._mcp_integrated:
+              return
+          if not self._config.mcp_servers:
+              if self._mcp_registry is not None:
+                  self._mcp_registry.sync_active_servers([])
+              return
+          try:

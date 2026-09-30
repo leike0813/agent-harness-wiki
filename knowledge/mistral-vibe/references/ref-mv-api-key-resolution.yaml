@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-api-key-resolution
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/utils/api_keys.py
+  start: 36
+  end: 45
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def resolve_api_key_with_origin(env_key: str) -> tuple[str, ApiKeyOrigin] | None:
+      """The key for ``env_key`` and where it was read from, or ``None``.
+      The one place the precedence lives, so a key and its reported origin can
+      never disagree. The keyring read goes through its process-wide cache, so
+      asking again after a failed call costs nothing.
+      """
+      if not env_key:
+          return None
+      if token := os.environ.get(env_key):

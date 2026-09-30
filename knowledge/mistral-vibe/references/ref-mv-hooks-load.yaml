@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-hooks-load
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/hooks/config.py
+  start: 94
+  end: 116
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def load_hooks_from_fs(
+      *, harness_files: HarnessFilesManager | None = None
+  ) -> HookConfigResult:
+      all_hooks: list[HookConfig] = []
+      all_issues: list[HookConfigIssue] = []
+      seen_names: set[str] = set()
+      mgr = harness_files or get_harness_files_manager()
+      for path in mgr.hook_files:
+          result = load_hooks_file(path)
+          all_issues.extend(result.issues)
+          for hook in result.hooks:
+              if hook.name in seen_names:
+                  all_issues.append(
+                      HookConfigIssue(
+                          file=path, message=f"Duplicate hook name: {hook.name!r}"
+                      )
+                  )
+                  continue
+              seen_names.add(hook.name)
+              all_hooks.append(hook)

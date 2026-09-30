@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-config-layer-stack
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/default_orchestrator.py
+  start: 31
+  end: 39
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  """Build the CLI ConfigOrchestrator with the standard layer stack.
+      Priority order (lowest to highest): schema defaults, GrowthBook experiments,
+      user TOML, project TOML, VIBE_* env vars, runtime overrides, agent profile
+      overrides, enforced admin config. The agent-profile slot ships empty and is
+      filled in place by AgentManager; the admin layer stays on top so an enforced
+      org config shadows every layer below it. Both the user and project TOML
+      layers are installed together when
+      their sources are enabled, so a trusted project config inherits unspecified

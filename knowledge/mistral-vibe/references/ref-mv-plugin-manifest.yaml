@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-plugin-manifest
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/plugins/_native.py
+  start: 119
+  end: 145
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  class _PluginManifest(BaseModel):
+      model_config = ConfigDict(extra="forbid", strict=True, populate_by_name=True)
+      schema_id: Literal["https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"] = (
+          Field(alias="$schema")
+      )
+      name: str = Field(
+          min_length=1, max_length=64, pattern=r"^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?$"
+      )
+      version: str | None = None
+      description: str | None = None
+      author: _ManifestAuthor | None = None
+      homepage: str | None = None
+      repository: str | None = None
+      license: str | None = None
+      keywords: list[str] | None = None
+      extensions: dict[str, object] | None = None
+      @field_validator("name")
+      @classmethod
+      def reject_repeated_separators(cls, value: str) -> str:
+          if "--" in value or ".." in value:

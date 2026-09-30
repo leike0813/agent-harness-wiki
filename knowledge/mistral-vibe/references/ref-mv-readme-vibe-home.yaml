@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-readme-vibe-home
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: document_section
+  heading: Custom Vibe Home Directory
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  By default, Vibe stores its configuration in `~/.vibe/`. You can override this by setting the `VIBE_HOME` environment variable:
+  ```bash
+  export VIBE_HOME="/path/to/custom/vibe/home"
+  ```
+  This affects where Vibe looks for:
+  - `config.toml` - Main configuration
+  - `.env` - API keys
+  - `connector_bootstrap_cache.json` - Short-lived connector discovery cache
+  - `agents/` - Custom agent configurations
+  - `prompts/` - Custom system and compaction prompts
+  - `tools/` - Custom tools
+  - `logs/` - Session logs
+  Custom tools will be deprecated in a future release. Prefer skills for new
+  extensions; Vibe can help migrate existing custom tools to skills.

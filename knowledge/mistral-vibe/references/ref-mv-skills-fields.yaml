@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-skills-fields
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/vibe_schema.py
+  start: 500
+  end: 533
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  skill_paths: Annotated[
+          list[Path], WithConcatMerge(), BeforeValidator(_expand_paths)
+      ] = Field(
+          default_factory=list,
+          description=(
+              "Additional directories to search for skills. "
+              "Each path may be absolute or relative to the current working directory."
+          ),
+      )
+      enabled_skills: Annotated[list[str], WithConcatMerge()] = Field(
+          default_factory=list,
+          description=(
+              "An explicit list of skill names/patterns to enable. If set, only these"
+              " skills will be active. Supports glob patterns (e.g., 'search-*') and"
+              " regex with 're:' prefix."
+          ),
+      )
+      disabled_skills: Annotated[list[str], WithConcatMerge()] = Field(
+          default_factory=list,
+          description=(

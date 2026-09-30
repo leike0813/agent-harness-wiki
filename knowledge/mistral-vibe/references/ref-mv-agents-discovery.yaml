@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-agents-discovery
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/agents/registry.py
+  start: 73
+  end: 110
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  agents: dict[str, AgentProfile] = dict(BUILTIN_AGENTS)
+          candidate: ConfigOrchestrator[VibeConfigSchema] | None = None
+          for base in self.search_paths:
+              if not base.is_dir():
+                  continue
+              for agent_file in base.glob("*.toml"):
+                  if not agent_file.is_file():
+                      continue
+                  if candidate is None:
+                      candidate = self._orchestrator.copy()
+                  if (agent := self._try_load(agent_file, candidate)) is not None:
+                      if agent.name in BUILTIN_AGENTS:
+                          logger.info(
+                              "Custom agent '%s' overrides builtin agent", agent.name
+                          )
+                      elif agent.name in agents:

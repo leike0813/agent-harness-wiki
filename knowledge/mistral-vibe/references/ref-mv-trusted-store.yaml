@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-trusted-store
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/trusted_folders.py
+  start: 240
+  end: 275
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  self._session_trusted.remove(normalized)
+      def _normalize_path(self, path: Path) -> str:
+          return str(path.expanduser().resolve())
+      def _load(self) -> None:
+          if not self._file_path.is_file():
+              self._trusted = []
+              self._untrusted = []
+              self._save()
+              return
+          try:
+              with self._file_path.open("rb") as f:
+                  data = tomllib.load(f)
+              self._trusted = list(data.get("trusted", []))
+              self._untrusted = list(data.get("untrusted", []))
+          except (OSError, tomllib.TOMLDecodeError):
+              self._trusted = []
+              self._untrusted = []
+              self._save()
+      def _save(self) -> None:
+          self._file_path.parent.mkdir(parents=True, exist_ok=True)

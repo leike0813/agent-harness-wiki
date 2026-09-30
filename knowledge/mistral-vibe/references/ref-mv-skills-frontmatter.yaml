@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-skills-frontmatter
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/skills/parser.py
+  start: 56
+  end: 80
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  FM_BOUNDARY = re.compile(r"^-{3,}\s*$", re.MULTILINE)
+  def parse_skill_markdown(content: str) -> tuple[dict[str, Any], str]:
+      content = content.lstrip("\ufeff")
+      splits = FM_BOUNDARY.split(content, 2)
+      if len(splits) < 3 or splits[0].strip():  # noqa: PLR2004
+          raise SkillParseError(
+              "Missing or invalid YAML frontmatter (metadata section must start and end with ---)"
+          )
+      yaml_content = splits[1]
+      markdown_body = splits[2]
+      try:
+          frontmatter = yaml.safe_load(yaml_content)
+      except yaml.YAMLError as e:
+          raise SkillParseError(f"Invalid YAML frontmatter: {e}") from e
+      if frontmatter is None:
+          frontmatter = {}
+      if not isinstance(frontmatter, dict):

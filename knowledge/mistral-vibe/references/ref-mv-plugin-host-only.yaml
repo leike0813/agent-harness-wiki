@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-plugin-host-only
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/app_server/_plugins.py
+  start: 1
+  end: 11
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  """The Host side of plugin resolution for a Unified Harness session.
+  Resolution runs once per session context: the roots are discovered, every
+  plugin is parsed and materialized, and the result is projected into the
+  portable snapshot the Session Runtime reads. Only the Unified backend reaches
+  this module — the legacy backend never resolves plugins.
+  This is also the single file in Vibe that implements the Session Runtime's
+  plugin port. `UnifiedPluginProvider` is the whole of the seam: everything
+  plugin-shaped stays on this side of it, and the Runtime below knows only names,
+  paths, and digests.

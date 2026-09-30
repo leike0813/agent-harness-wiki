@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-tools-field
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/vibe_schema.py
+  start: 397
+  end: 427
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  tools: Annotated[
+          dict[str, dict[str, Any]],
+          WithDeepMerge(),
+          BeforeValidator(_normalize_tool_configs),
+      ] = Field(default_factory=dict)
+      tool_paths: Annotated[
+          list[Path], WithConcatMerge(), BeforeValidator(_expand_paths)
+      ] = Field(
+          default_factory=list,
+          description=(
+              "Additional directories or files to explore for custom tools. "
+              "Paths may be absolute or relative to the current working directory. "
+              "Directories are shallow-searched for tool definition files, "
+              "while files are loaded directly if valid."
+          ),
+      )
+      enabled_tools: Annotated[list[str], WithReplaceMerge()] = Field(
+          default_factory=list,
+          description=(

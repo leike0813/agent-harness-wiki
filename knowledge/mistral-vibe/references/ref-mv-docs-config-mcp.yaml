@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-docs-config-mcp
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-docs-configuration-reference
+locator:
+  kind: document_section
+  heading: "MCP servers (`[[mcp_servers]]`)"
+official_url: "https://docs.mistral.ai/vibe/code/cli/configuration-reference.md"
+excerpt: |-
+  One `[[mcp_servers]]` table per server. Required fields depend on the `transport` (`http`, `streamable-http`, or `stdio`).
+  | `name` | string | Required | Short alias; prefixes this server's tool names |
+  | `transport` | string | Required | One of `http`, `streamable-http`, or `stdio` |
+  | `url` | string |  | Base URL for HTTP transports |
+  | `command` | string |  | Command for the stdio transport |
+  | `args` | array<string> |  | Arguments for the stdio transport |
+  | `env` | table |  | Environment variables passed to the stdio process |
+  | `startup_timeout_sec` | number |  | Seconds to wait for the server to start |
+  | `tool_timeout_sec` | number |  | Seconds to wait for a tool call to complete |

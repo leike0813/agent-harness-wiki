@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-readme-subagents
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: document_section
+  heading: Subagents and Task Delegation
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  Vibe supports subagents for delegating tasks. Subagents run independently and can perform specialized work without user interaction, preventing the context from being overloaded.
+  The `task` tool allows the agent to delegate work to subagents:
+  ```
+  > Can you explore the codebase structure while I work on something else?
+  🤖 I'll use the task tool to delegate this to the explore subagent.
+  > task(task="Analyze the project structure and architecture", agent="explore")
+  ```
+  Create custom subagents by adding `agent_type = "subagent"` to your agent configuration. Vibe comes with a built-in subagent called `explore`, a read-only subagent for codebase exploration and skill loading used internally for delegation.
+  When the Unified Harness is active, the interactive prompt shows each known

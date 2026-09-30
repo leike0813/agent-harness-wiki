@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-plugin-bind
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/app_server/_plugins.py
+  start: 363
+  end: 403
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  The only read of an installed directory in the design, and it reads
+          nothing but the path. The roots come from the resolve that produced the
+          request, so they disagree only if the tree moved in between — which the
+          Runtime catches when the ingest digest misses.
+          A name this provider does not hold is left out rather than guessed at,
+          and the Runtime turns the gap into ``plugin_pin_mismatch``.
+          Each root travels with the names the ingest must prune from it, taken
+          off the request's own ``source_format`` so it is the set the resolve
+          that produced the request digested with. Deriving it here from
+          anything else would reintroduce the mismatch it exists to prevent.
+          """

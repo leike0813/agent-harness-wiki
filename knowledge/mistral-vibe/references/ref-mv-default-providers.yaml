@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-default-providers
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/vibe_schema.py
+  start: 112
+  end: 126
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  DEFAULT_PROVIDERS = [
+      ProviderConfig(
+          name="mistral",
+          api_base=f"{DEFAULT_MISTRAL_SERVER_URL}/v1",
+          api_key_env_var=DEFAULT_MISTRAL_API_ENV_KEY,
+          browser_auth_base_url=DEFAULT_MISTRAL_BROWSER_AUTH_BASE_URL,
+          browser_auth_api_base_url=DEFAULT_MISTRAL_BROWSER_AUTH_API_BASE_URL,
+          backend=Backend.MISTRAL,
+      ),
+      ProviderConfig(
+          name="llamacpp",
+          api_base="http://127.0.0.1:8080/v1",
+          api_key_env_var="",  # NOTE: if you wish to use --api-key in llama-server, change this value
+      ),
+  ]

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-vibe-home-paths
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/paths/_vibe_home.py
+  start: 10
+  end: 30
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  VIBE_HOME = GlobalPath(get_vibe_home)
+  GLOBAL_ENV_FILE = GlobalPath(lambda: VIBE_HOME.path / ".env")
+  SESSION_LOG_DIR = GlobalPath(lambda: VIBE_HOME.path / "logs" / "session")
+  WORKTREES_DIR = GlobalPath(lambda: VIBE_HOME.path / "worktrees")
+  TRUSTED_FOLDERS_FILE = GlobalPath(lambda: VIBE_HOME.path / "trusted_folders.toml")
+  LOG_DIR = GlobalPath(lambda: VIBE_HOME.path / "logs")
+  LOG_FILE = GlobalPath(lambda: VIBE_HOME.path / "logs" / "vibe.log")
+  CACHE_FILE = GlobalPath(lambda: VIBE_HOME.path / "cache.toml")
+  PROJECTS_FILE = GlobalPath(lambda: VIBE_HOME.path / "projects.toml")
+  CONNECTOR_BOOTSTRAP_CACHE_FILE = GlobalPath(
+      lambda: VIBE_HOME.path / "connector_bootstrap_cache.json"
+  )
+  EXPERIMENT_EVAL_CACHE_FILE = GlobalPath(
+      lambda: VIBE_HOME.path / "experiment_eval_cache.json"
+  )

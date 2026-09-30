@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-config-migration
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/_migration.py
+  start: 18
+  end: 60
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  # One-shot id: syncs an existing bash allowlist up to the current default
+  # read-only commands once, so users keep the ability to remove any of them.
+  BASH_READ_ONLY_MIGRATION = "bash_read_only_defaults_v1"
+  # Old tool name -> new tool name. The new tools replaced these in-place, so
+  # existing user configs keyed by the old names need their settings moved over.
+  RENAMED_TOOLS: dict[str, str] = {"read": "read_file", "search_replace": "edit"}
+  RENAMED_AGENTS: dict[str, str] = {"default": "ask"}
+  # Options on the old tool that have no equivalent on the new one; dropped on migrate.
+  DROPPED_TOOL_OPTIONS: dict[str, tuple[str, ...]] = {
+      "edit": ("max_content_size", "create_backup")
+  }
+  async def migrate_config_layers(layers: Iterable[ConfigLayer[RawConfig]]) -> None:
+      for layer in layers:

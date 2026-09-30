@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-hooks-manager
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/hooks/manager.py
+  start: 155
+  end: 184
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  )
+      async def run(self, invocation: HookInvocation) -> AsyncGenerator[_HookYield]:
+          """Run all hooks matching *invocation* and stream their events."""
+          hook_type = HookType(invocation.hook_event_name)
+          handler = _HANDLERS[hook_type]
+          hooks = self._matching_hooks(handler, invocation)
+          if not hooks:
+              return
+          external_attrs = handler.external_attributes(invocation)
+          current = invocation
+          yield HookRunStartEvent(
+              scope=hook_type,
+              tool_name=external_attrs.get("tool_name"),
+              tool_call_id=external_attrs.get("tool_call_id"),
+          )
+          tool_call_id = external_attrs.get("tool_call_id")
+          for hook in hooks:
+              yield HookStartEvent(

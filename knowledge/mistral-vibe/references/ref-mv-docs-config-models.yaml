@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-docs-config-models
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-docs-configuration-reference
+locator:
+  kind: document_section
+  heading: "Models (`[[models]]`)"
+official_url: "https://docs.mistral.ai/vibe/code/cli/configuration-reference.md"
+excerpt: |-
+  One `[[models]]` table per model preset.
+  | `name` | string | Required | Model ID, for example `mistral-medium-latest` |
+  | `provider` | string | Required | References a `[[providers]]` `name` |
+  | `alias` | string | `name` | Local alias used by `active_model`. Defaults to `name` when omitted |
+  | `display_name` | string | `alias` | Label shown in the model picker. Falls back to `alias` when unset |
+  | `temperature` | number | `0.2` | Sampling temperature |
+  | `thinking` | string | `off` | Default thinking level for the model. |
+  | `supports_images` | boolean | `false` | Whether the model is vision-capable. |
+  | `max_context_length` | number |  | Context window in tokens. Drives automatic compaction |
+  | `auto_compact_threshold` | number |  | Token count that triggers automatic compaction |

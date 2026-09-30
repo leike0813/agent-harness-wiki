@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-agents-select
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/agents/manager.py
+  start: 63
+  end: 68
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  if not allow_subagent and profile.agent_type != AgentType.AGENT:
+              raise ValueError(
+                  f"Agent '{initial_agent}' is a {profile.agent_type} and cannot be used"
+                  f" as the primary agent. Only agents of type 'agent' can be selected"
+                  f" with --agent."
+              )

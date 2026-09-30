@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-skills-system-prompt
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/system_prompt.py
+  start: 255
+  end: 295
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def _get_available_skills_section(skill_manager: SkillManager) -> str:
+      available_skills = skill_manager.available_skills
+      model_invocable_skills = {
+          name: skill for name, skill in available_skills.items() if skill.model_invocable
+      }
+      has_user_invocable_skill = any(
+          skill.user_invocable for skill in available_skills.values()
+      )
+      if not model_invocable_skills and not has_user_invocable_skill:
+          return ""
+      lines = ["# Available Skills", ""]
+      if model_invocable_skills:
+          lines.extend([
+              "You have access to the following skills. When a task matches a skill's description,",
+              "use the `skill` tool if available to load the full skill instructions, if it is not available, read the files manually if they exist.",

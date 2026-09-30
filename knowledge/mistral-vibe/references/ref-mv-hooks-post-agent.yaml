@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-hooks-post-agent
+harness_id: mistral-vibe
+snapshot_id: snapshot-mistral-vibe-repo
+locator:
+  kind: file_lines
+  file: vibe/core/hooks/_post_agent.py
+  start: 28
+  end: 62
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def matches(self, hook: HookConfig, invocation: HookInvocation) -> bool:
+          return True
+      def _on_deny(
+          self,
+          hook: HookConfig,
+          invocation: HookInvocation,
+          response: HookStructuredResponse,
+          retry_state: HookRetryState,
+      ) -> _HookAction:
+          reason = response.reason or ""
+          logger.debug("Hook %s retry reason: %s", hook.name, reason)
+          if not retry_state.should_retry(hook.name):
+              return _HookAction(
+                  events=[
+                      HookEndEvent(
+                          hook_name=hook.name,
+                          status=HookMessageSeverity.ERROR,
+                          content=f"Failed, retries exhausted ({_MAX_RETRIES}/{_MAX_RETRIES})",
+                      )
+                  ],
