@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-repo-chat-use-chat
+harness_id: bolt
+snapshot_id: snapshot-bolt-repo
+locator:
+  kind: file_lines
+  file: app/components/chat/Chat.client.tsx
+  start: 78
+  end: 88
+official_url: "https://github.com/stackblitz/bolt.new"
+excerpt: |-
+  const { messages, isLoading, input, handleInputChange, setInput, stop, append } = useChat({
+      api: '/api/chat',
+      onError: (error) => {
+        logger.error('Request failed\n\n', error);
+        toast.error('There was an error processing your request');
+      },
+      onFinish: () => {
+        logger.debug('Finished streaming');
+      },
+      initialMessages,
+    });

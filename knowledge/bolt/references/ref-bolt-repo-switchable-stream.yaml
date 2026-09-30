@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-repo-switchable-stream
+harness_id: bolt
+snapshot_id: snapshot-bolt-repo
+locator:
+  kind: file_lines
+  file: app/lib/.server/llm/switchable-stream.ts
+  start: 1
+  end: 30
+official_url: "https://github.com/stackblitz/bolt.new"
+excerpt: |-
+  export default class SwitchableStream extends TransformStream {
+    private _controller: TransformStreamDefaultController | null = null;
+    private _currentReader: ReadableStreamDefaultReader | null = null;
+    private _switches = 0;
+    constructor() {
+      let controllerRef: TransformStreamDefaultController | undefined;
+      super({
+        start(controller) {
+          controllerRef = controller;
+        },
+      });
+      if (controllerRef === undefined) {
+        throw new Error('Controller not properly initialized');
+      }
+      this._controller = controllerRef;
+    }
+    async switchSource(newStream: ReadableStream) {
+      if (this._currentReader) {
+        await this._currentReader.cancel();
+      }
+      this._currentReader = newStream.getReader();
+      this._pumpStream();

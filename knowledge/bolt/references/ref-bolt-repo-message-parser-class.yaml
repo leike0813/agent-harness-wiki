@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-repo-message-parser-class
+harness_id: bolt
+snapshot_id: snapshot-bolt-repo
+locator:
+  kind: file_lines
+  file: app/lib/runtime/message-parser.ts
+  start: 40
+  end: 60
+official_url: "https://github.com/stackblitz/bolt.new"
+excerpt: |-
+  export interface StreamingMessageParserOptions {
+    callbacks?: ParserCallbacks;
+    artifactElement?: ElementFactory;
+  }
+  interface MessageState {
+    position: number;
+    insideArtifact: boolean;
+    insideAction: boolean;
+    currentArtifact?: BoltArtifactData;
+    currentAction: BoltActionData;
+    actionId: number;
+  }
+  export class StreamingMessageParser {
+    #messages = new Map<string, MessageState>();
+    constructor(private _options: StreamingMessageParserOptions = {}) {}
+    parse(messageId: string, input: string) {
+      let state = this.#messages.get(messageId);

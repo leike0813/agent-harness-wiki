@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-repo-action-runner
+harness_id: bolt
+snapshot_id: snapshot-bolt-repo
+locator:
+  kind: file_lines
+  file: app/lib/runtime/action-runner.ts
+  start: 75
+  end: 122
+official_url: "https://github.com/stackblitz/bolt.new"
+excerpt: |-
+  async runAction(data: ActionCallbackData) {
+      const { actionId } = data;
+      const action = this.actions.get()[actionId];
+      if (!action) {
+        unreachable(`Action ${actionId} not found`);
+      }
+      if (action.executed) {
+        return;
+      }
+      this.#updateAction(actionId, { ...action, ...data.action, executed: true });
+      this.#currentExecutionPromise = this.#currentExecutionPromise
+        .then(() => {
+          return this.#executeAction(actionId);
+        })
+        .catch((error) => {
+          console.error('Action failed:', error);
+        });
+    }
+    async #executeAction(actionId: string) {
+      const action = this.actions.get()[actionId];
+      this.#updateAction(actionId, { status: 'running' });
+      try {
+        switch (action.type) {
+          case 'shell': {

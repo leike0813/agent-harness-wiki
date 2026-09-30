@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-repo-workbench-actions
+harness_id: bolt
+snapshot_id: snapshot-bolt-repo
+locator:
+  kind: file_lines
+  file: app/lib/stores/workbench.ts
+  start: 246
+  end: 276
+official_url: "https://github.com/stackblitz/bolt.new"
+excerpt: |-
+  async addAction(data: ActionCallbackData) {
+      const { messageId } = data;
+      const artifact = this.#getArtifact(messageId);
+      if (!artifact) {
+        unreachable('Artifact not found');
+      }
+      artifact.runner.addAction(data);
+    }
+    async runAction(data: ActionCallbackData) {
+      const { messageId } = data;
+      const artifact = this.#getArtifact(messageId);
+      if (!artifact) {
+        unreachable('Artifact not found');
+      }
+      artifact.runner.runAction(data);
+    }
+    #getArtifact(id: string) {
+      const artifacts = this.artifacts.get();
+      return artifacts[id];
+    }
+  }
+  export const workbenchStore = new WorkbenchStore();

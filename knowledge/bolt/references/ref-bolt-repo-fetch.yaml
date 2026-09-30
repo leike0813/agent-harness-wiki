@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-repo-fetch
+harness_id: bolt
+snapshot_id: snapshot-bolt-repo
+locator:
+  kind: file_lines
+  file: app/lib/fetch.ts
+  start: 1
+  end: 14
+official_url: "https://github.com/stackblitz/bolt.new"
+excerpt: |-
+  type CommonRequest = Omit<RequestInit, 'body'> & { body?: URLSearchParams };
+  export async function request(url: string, init?: CommonRequest) {
+    if (import.meta.env.DEV) {
+      const nodeFetch = await import('node-fetch');
+      const https = await import('node:https');
+      const agent = url.startsWith('https') ? new https.Agent({ rejectUnauthorized: false }) : undefined;
+      return nodeFetch.default(url, { ...init, agent });
+    }
+    return fetch(url, init);
+  }

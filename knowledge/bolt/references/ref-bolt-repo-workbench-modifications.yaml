@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-repo-workbench-modifications
+harness_id: bolt
+snapshot_id: snapshot-bolt-repo
+locator:
+  kind: file_lines
+  file: app/lib/stores/workbench.ts
+  start: 205
+  end: 221
+official_url: "https://github.com/stackblitz/bolt.new"
+excerpt: |-
+  getFileModifcations() {
+      return this.#filesStore.getFileModifications();
+    }
+    resetAllFileModifications() {
+      this.#filesStore.resetFileModifications();
+    }
+    abortAllActions() {
+      // TODO: what do we wanna do and how do we wanna recover from this?
+    }
+    addArtifact({ messageId, title, id }: ArtifactCallbackData) {
+      const artifact = this.#getArtifact(messageId);
+      if (artifact) {
+        return;

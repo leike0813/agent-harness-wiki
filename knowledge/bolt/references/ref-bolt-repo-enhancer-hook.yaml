@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-repo-enhancer-hook
+harness_id: bolt
+snapshot_id: snapshot-bolt-repo
+locator:
+  kind: file_lines
+  file: app/lib/hooks/usePromptEnhancer.ts
+  start: 16
+  end: 46
+official_url: "https://github.com/stackblitz/bolt.new"
+excerpt: |-
+  setEnhancingPrompt(true);
+      setPromptEnhanced(false);
+      const response = await fetch('/api/enhancer', {
+        method: 'POST',
+        body: JSON.stringify({
+          message: input,
+        }),
+      });
+      const reader = response.body?.getReader();
+      const originalInput = input;
+      if (reader) {
+        const decoder = new TextDecoder();
+        let _input = '';
+        let _error;
+        try {
+          setInput('');
+          while (true) {
+            const { value, done } = await reader.read();
+            if (done) {
+              break;
+            }
+            _input += decoder.decode(value);

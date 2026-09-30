@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-repo-vite-config
+harness_id: bolt
+snapshot_id: snapshot-bolt-repo
+locator:
+  kind: file_lines
+  file: vite.config.ts
+  start: 22
+  end: 45
+official_url: "https://github.com/stackblitz/bolt.new"
+excerpt: |-
+  v3_throwAbortReason: true,
+          },
+        }),
+        UnoCSS(),
+        tsconfigPaths(),
+        chrome129IssuePlugin(),
+        config.mode === 'production' && optimizeCssModules({ apply: 'build' }),
+      ],
+    };
+  });
+  function chrome129IssuePlugin() {
+    return {
+      name: 'chrome129IssuePlugin',
+      configureServer(server: ViteDevServer) {
+        server.middlewares.use((req, res, next) => {
+          const raw = req.headers['user-agent']?.match(/Chrom(e|ium)\/([0-9]+)\./);
+          if (raw) {
+            const version = parseInt(raw[2], 10);
+            if (version === 129) {
+              res.setHeader('content-type', 'text/html');
+              res.end(

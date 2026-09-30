@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-repo-api-enhancer
+harness_id: bolt
+snapshot_id: snapshot-bolt-repo
+locator:
+  kind: file_lines
+  file: app/routes/api.enhancer.ts
+  start: 12
+  end: 34
+official_url: "https://github.com/stackblitz/bolt.new"
+excerpt: |-
+  async function enhancerAction({ context, request }: ActionFunctionArgs) {
+    const { message } = await request.json<{ message: string }>();
+    try {
+      const result = await streamText(
+        [
+          {
+            role: 'user',
+            content: stripIndents`
+            I want you to improve the user prompt that is wrapped in \`<original_prompt>\` tags.
+            IMPORTANT: Only respond with the improved prompt and nothing else!
+            <original_prompt>
+              ${message}
+            </original_prompt>
+          `,
+          },
+        ],
+        context.cloudflare.env,
+      );

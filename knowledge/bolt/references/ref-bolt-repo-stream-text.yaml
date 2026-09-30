@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-repo-stream-text
+harness_id: bolt
+snapshot_id: snapshot-bolt-repo
+locator:
+  kind: file_lines
+  file: app/lib/.server/llm/stream-text.ts
+  start: 22
+  end: 35
+official_url: "https://github.com/stackblitz/bolt.new"
+excerpt: |-
+  export type StreamingOptions = Omit<Parameters<typeof _streamText>[0], 'model'>;
+  export function streamText(messages: Messages, env: Env, options?: StreamingOptions) {
+    return _streamText({
+      model: getAnthropicModel(getAPIKey(env)),
+      system: getSystemPrompt(),
+      maxTokens: MAX_TOKENS,
+      headers: {
+        'anthropic-beta': 'max-tokens-3-5-sonnet-2024-07-15',
+      },
+      messages: convertToCoreMessages(messages),
+      ...options,
+    });
+  }

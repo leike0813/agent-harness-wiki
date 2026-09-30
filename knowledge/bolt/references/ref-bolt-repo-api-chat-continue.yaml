@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-repo-api-chat-continue
+harness_id: bolt
+snapshot_id: snapshot-bolt-repo
+locator:
+  kind: file_lines
+  file: app/routes/api.chat.ts
+  start: 17
+  end: 40
+official_url: "https://github.com/stackblitz/bolt.new"
+excerpt: |-
+  const options: StreamingOptions = {
+        toolChoice: 'none',
+        onFinish: async ({ text: content, finishReason }) => {
+          if (finishReason !== 'length') {
+            return stream.close();
+          }
+          if (stream.switches >= MAX_RESPONSE_SEGMENTS) {
+            throw Error('Cannot continue message: Maximum segments reached');
+          }
+          const switchesLeft = MAX_RESPONSE_SEGMENTS - stream.switches;
+          console.log(`Reached max token limit (${MAX_TOKENS}): Continuing message (${switchesLeft} switches left)`);
+          messages.push({ role: 'assistant', content });
+          messages.push({ role: 'user', content: CONTINUE_PROMPT });
+          const result = await streamText(messages, context.cloudflare.env, options);
+          return stream.switchSource(result.toAIStream());

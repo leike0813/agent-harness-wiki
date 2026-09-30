@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-repo-chat-send
+harness_id: bolt
+snapshot_id: snapshot-bolt-repo
+locator:
+  kind: file_lines
+  file: app/components/chat/Chat.client.tsx
+  start: 149
+  end: 197
+official_url: "https://github.com/stackblitz/bolt.new"
+excerpt: |-
+  const sendMessage = async (_event: React.UIEvent, messageInput?: string) => {
+      const _input = messageInput || input;
+      if (_input.length === 0 || isLoading) {
+        return;
+      }
+      /**
+       * @note (delm) Usually saving files shouldn't take long but it may take longer if there
+       * many unsaved files. In that case we need to block user input and show an indicator
+       * of some kind so the user is aware that something is happening. But I consider the
+       * happy case to be no unsaved files and I would expect users to save their changes
+       * before they send another message.
+       */
+      await workbenchStore.saveAllFiles();
+      const fileModifications = workbenchStore.getFileModifcations();
+      chatStore.setKey('aborted', false);
+      runAnimation();

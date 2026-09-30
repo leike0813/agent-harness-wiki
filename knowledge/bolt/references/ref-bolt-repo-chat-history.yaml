@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-repo-chat-history
+harness_id: bolt
+snapshot_id: snapshot-bolt-repo
+locator:
+  kind: file_lines
+  file: app/lib/persistence/useChatHistory.ts
+  start: 15
+  end: 40
+official_url: "https://github.com/stackblitz/bolt.new"
+excerpt: |-
+  }
+  const persistenceEnabled = !import.meta.env.VITE_DISABLE_PERSISTENCE;
+  export const db = persistenceEnabled ? await openDatabase() : undefined;
+  export const chatId = atom<string | undefined>(undefined);
+  export const description = atom<string | undefined>(undefined);
+  export function useChatHistory() {
+    const navigate = useNavigate();
+    const { id: mixedId } = useLoaderData<{ id?: string }>();
+    const [initialMessages, setInitialMessages] = useState<Message[]>([]);
+    const [ready, setReady] = useState<boolean>(false);
+    const [urlId, setUrlId] = useState<string | undefined>();
+    useEffect(() => {
+      if (!db) {
+        setReady(true);
+        if (persistenceEnabled) {
+          toast.error(`Chat persistence is unavailable`);
+        }
+        return;

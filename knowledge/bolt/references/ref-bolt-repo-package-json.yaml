@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-repo-package-json
+harness_id: bolt
+snapshot_id: snapshot-bolt-repo
+locator:
+  kind: file_lines
+  file: package.json
+  start: 1
+  end: 40
+official_url: "https://github.com/stackblitz/bolt.new"
+excerpt: |-
+  {
+    "name": "bolt",
+    "description": "StackBlitz AI Agent",
+    "private": true,
+    "license": "MIT",
+    "packageManager": "pnpm@9.4.0",
+    "sideEffects": false,
+    "type": "module",
+    "scripts": {
+      "deploy": "npm run build && wrangler pages deploy",
+      "build": "remix vite:build",
+      "dev": "remix vite:dev",
+      "test": "vitest --run",
+      "test:watch": "vitest",
+      "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
+      "lint:fix": "npm run lint -- --fix",
+      "start": "bindings=$(./bindings.sh) && wrangler pages dev ./build/client $bindings",
+      "typecheck": "tsc",
+      "typegen": "wrangler types",
+      "preview": "pnpm run build && pnpm run start"
+    },
+    "engines": {
+      "node": ">=18.18.0"
+    },
+    "dependencies": {
+      "@ai-sdk/anthropic": "^0.0.39",
