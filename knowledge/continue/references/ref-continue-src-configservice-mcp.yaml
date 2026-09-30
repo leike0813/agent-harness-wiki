@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-configservice-mcp
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/services/ConfigService.ts
+  start: 131
+  end: 200
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  }
+    private processMcpServers(
+      mcps: string[],
+      agentFileState: AgentFileServiceState | undefined,
+      packageIdentifiers: PackageIdentifier[],
+      additional: AssistantUnrolled,
+    ): void {
+      const allMcps = [
+        ...mcps,
+        ...(agentFileState?.parsedTools?.mcpServers || []),
+      ];
+      for (const mcp of allMcps) {
+        try {
+          if (this.isUrl(mcp)) {
+            additional.mcpServers!.push({
+              name: new URL(mcp).hostname,
+              url: mcp,
+            });
+          } else {
+            packageIdentifiers.push(decodePackageIdentifier(mcp));
+          }
+        } catch (e) {
+          logger.warn(`Failed to add MCP server "${mcp}": ${getErrorString(e)}`);
+        }
+      }
+    }
+    private processAgentFileRules(
+      agentFileState: AgentFileServiceState | undefined,

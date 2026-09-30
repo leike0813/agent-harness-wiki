@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-doc-cap-manual
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: document_section
+  heading: How to Configure Capabilities Manually
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  You can add capabilities to models that Continue doesn't automatically detect in your `config.yaml`.
+  <Note>
+    You cannot override autodetection - you can only add capabilities. Continue
+    will always use its built-in knowledge about your model in addition to any
+    capabilities you specify.
+  </Note>
+  ```yaml
+  models:
+    - name: my-custom-gpt4
+      provider: openai
+      apiBase: https://my-deployment.com/v1
+      model: gpt-4-custom
+      capabilities:
+        - tool_use
+        - image_input
+  ```

@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-doc-cap-detect
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: document_section
+  heading: How Continue Detects Model Capabilities
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  Continue uses a two-tier system for determining model capabilities:
+  ### How Automatic Detection Works (Default)
+  Continue automatically detects capabilities based on your provider and model name. For example:
+  - **OpenAI**: GPT-4 and GPT-3.5 Turbo models support tools
+  - **Anthropic**: Claude 3.5+ models support both tools and images
+  - **Ollama**: Most models support tools, vision models support images
+  - **Google**: All Gemini models support function calling
+  This works well for popular models, but may not cover custom deployments or newer models.
+  For implementation details, see:
+  - [toolSupport.ts](https://github.com/continuedev/continue/blob/main/core/llm/toolSupport.ts) - Tool capability detection logic

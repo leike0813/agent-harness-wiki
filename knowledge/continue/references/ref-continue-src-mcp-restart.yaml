@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-mcp-restart
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/services/MCPService.ts
+  start: 205
+  end: 240
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  /**
+     * Restart all servers
+     */
+    public async restartAllServers(): Promise<void> {
+      if (!this.assistant) return;
+      await this.shutdownConnections();
+      await this.initialize(this.assistant);
+    }
+    /**
+     * Restart a specific server
+     */
+    public async restartServer(serverName: string): Promise<void> {
+      if (!this.assistant || !this.assistant.mcpServers) return;
+      const serverConfig = this.assistant.mcpServers.find(
+        (s, index) => s && (s.name || `server-${index}`) === serverName,
+      );
+      if (!serverConfig) {
+        throw new Error(`Server ${serverName} not found in configuration`);
+      }
+      const existingConnection = this.connections.get(serverName);
+      if (existingConnection) {
+        if (existingConnection.status === "connected") {

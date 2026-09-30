@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-chat-tui-agentprompt
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/commands/chat.ts
+  start: 575
+  end: 600
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  options,
+          headless: false,
+          toolPermissionOverrides: permissionOverrides,
+        });
+        const agentFileState = await serviceContainer.get<AgentFileServiceState>(
+          SERVICE_NAMES.AGENT_FILE,
+        );
+        const initialPrompt = prependPrompt(
+          agentFileState?.agentFile?.prompt,
+          prompt,
+        );
+        // Start TUI with skipOnboarding since we already handled it
+        const tuiOptions: any = {
+          initialPrompt,
+          resume: options.resume,
+          fork: options.fork,
+          config: options.config,
+          org: options.org,
+          rule: options.rule,
+          prompt: options.prompt,
+          toolPermissionOverrides: permissionOverrides,
+          skipOnboarding: true,
+        };

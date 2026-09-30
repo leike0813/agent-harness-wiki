@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-hooks-aggregate
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/hooks/hookRunner.ts
+  start: 333
+  end: 425
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  function aggregateResults(
+    results: HookExecutionResult[],
+    eventName: string,
+  ): HookEventResult {
+    const eventResult: HookEventResult = {
+      blocked: false,
+      results,
+    };
+    const additionalContextParts: string[] = [];
+    for (const result of results) {
+      // Check for blocking
+      if (result.blocked) {
+        eventResult.blocked = true;
+        if (!eventResult.blockReason) {
+          eventResult.blockReason = result.blockReason;
+        }
+      }
+      const output = result.output;
+      if (!output?.hookSpecificOutput) {
+        // For exit 0 with no JSON output, stdout can be context
+        // (for UserPromptSubmit and SessionStart)
+        if (
+          result.exitCode === 0 &&
+          result.stdout &&
+          (eventName === "UserPromptSubmit" || eventName === "SessionStart")
+        ) {

@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-chat-agentprompt
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/commands/chat.ts
+  start: 468
+  end: 495
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  compactionIndex = findCompactionIndex(chatHistory);
+    }
+    // Handle additional prompts from --prompt flags
+    const { processAndCombinePrompts } = await import(
+      "../util/promptProcessor.js"
+    );
+    const agentFileState = await serviceContainer.get<AgentFileServiceState>(
+      SERVICE_NAMES.AGENT_FILE,
+    );
+    const initialPrompt = prependPrompt(
+      agentFileState?.agentFile?.prompt,
+      prompt,
+    );
+    const initialUserInput = await processAndCombinePrompts(
+      options.prompt,
+      initialPrompt,
+    );
+    // Critical validation: Ensure we have actual prompt text in headless mode
+    // This prevents the CLI from hanging in TTY-less environments when question() is called
+    // We check AFTER processing all prompts (including agent files) to ensure we have real content

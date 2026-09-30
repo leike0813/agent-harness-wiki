@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-updateservice
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/services/UpdateService.ts
+  start: 18
+  end: 60
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  export class UpdateService extends BaseService<UpdateServiceState> {
+    constructor() {
+      super("update", {
+        autoUpdate: true,
+        isAutoUpdate: true,
+        status: UpdateStatus.IDLE,
+        message: "",
+        error: null,
+        isUpdateAvailable: false,
+        latestVersion: null,
+        currentVersion: getVersion(),
+      });
+    }
+    /**
+     * Initialize the update service
+     */
+    async doInitialize(headless?: boolean) {
+      // Don't automatically check in tests/headless
+      if (!headless && process.env.NODE_ENV !== "test") {
+        void this.checkAndAutoUpdate();
+      }
+      return this.currentState;
+    }
+    private async checkAndAutoUpdate() {
+      // First get auto update setting from global context
+      const globalContext = new GlobalContext();

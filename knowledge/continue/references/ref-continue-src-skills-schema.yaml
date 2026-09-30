@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-skills-schema
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/util/loadMarkdownSkills.ts
+  start: 18
+  end: 32
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  export interface LoadSkillsResult {
+    skills: Skill[];
+    errors: { fatal: boolean; message: string }[];
+  }
+  const skillFrontmatterSchema = z.object({
+    name: z.string().min(1),
+    description: z.string().min(1),
+  });
+  const SKILLS_DIR = "skills";
+  /**get the relative path if the filePath is within the current working directory
+   * otherwise return the absolute path

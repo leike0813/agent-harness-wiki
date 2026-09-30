@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-skills-dirs
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/util/loadMarkdownSkills.ts
+  start: 92
+  end: 107
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  const cwd = process.cwd();
+    try {
+      const skillsDirs = [
+        path.join(cwd, ".continue", SKILLS_DIR),
+        path.join(cwd, ".claude", SKILLS_DIR),
+        path.join(env.continueHome, SKILLS_DIR),
+      ];
+      const skillFilePaths = (
+        await Promise.all(
+          skillsDirs.map((skillDir) => getSkillFilesFromDir(skillDir)),
+        )
+      ).flat();
+      await Promise.all(

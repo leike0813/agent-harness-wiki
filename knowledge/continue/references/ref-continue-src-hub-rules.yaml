@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-hub-rules
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/hubLoader.ts
+  start: 77
+  end: 110
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  * Hub slug resolution has been removed.
+   */
+  export async function processRule(ruleSpec: string): Promise<string> {
+    const trimmedRuleSpec = ruleSpec.trim();
+    const hasNewline = /[\r\n]/.test(ruleSpec);
+    // If it looks like a file path (single line, typical path indicators)
+    const looksLikePath =
+      !hasNewline &&
+      (trimmedRuleSpec.startsWith(".") ||
+        trimmedRuleSpec.startsWith("/") ||
+        trimmedRuleSpec.includes("\\") ||
+        /\.[a-zA-Z]+$/.test(trimmedRuleSpec));
+    if (looksLikePath) {
+      const fs = await import("fs");
+      const path = await import("path");
+      try {
+        const absolutePath = path.resolve(trimmedRuleSpec);
+        if (!fs.existsSync(absolutePath)) {
+          throw new Error(`Rule file not found: ${ruleSpec}`);
+        }

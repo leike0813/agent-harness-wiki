@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-createllm
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/config.ts
+  start: 43
+  end: 58
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  */
+  export function createLlmApi(
+    model: ModelConfig,
+    _authConfig: AuthConfig,
+  ): BaseLlmApi | null {
+    const config: LLMConfig = {
+      provider: model.provider as any,
+      model: model.model,
+      apiKey: model.apiKey,
+      apiBase: model.apiBase,
+      requestOptions: model.requestOptions,
+      env: model.env,
+    };
+    return constructLlmApi(config) ?? null;
+  }

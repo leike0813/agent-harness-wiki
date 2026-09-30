@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-systemmessage-agents
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/systemMessage.ts
+  start: 155
+  end: 215
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  * @param additionalRules - Additional rules from --rule flags
+   * @param format - Output format for headless mode
+   * @param headless - Whether running in headless mode
+   * @param mode - Current permission mode
+   * @returns The comprehensive system message with base message and rules section
+   */
+  export async function constructSystemMessage(
+    mode: PermissionMode,
+    additionalRules?: string[],
+    format?: "json",
+    headless?: boolean,
+  ): Promise<string> {
+    const agentFiles = ["AGENTS.md", "AGENT.md", "CLAUDE.md", "CODEX.md"];
+    let agentContent = "";
+    try {
+      for (const fileName of agentFiles) {
+        const filePath = path.join(process.cwd(), fileName);
+        if (fs.existsSync(filePath)) {
+          agentContent = fs.readFileSync(filePath, "utf-8");

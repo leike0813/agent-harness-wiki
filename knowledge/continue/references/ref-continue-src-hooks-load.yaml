@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-hooks-load
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/hooks/hookConfig.ts
+  start: 100
+  end: 125
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  */
+  export function loadHooksConfig(
+    cwd: string = process.cwd(),
+    homeDir?: string,
+  ): LoadedHooksConfig {
+    const paths = getSettingsFilePaths(cwd, homeDir);
+    let mergedHooks: HooksConfig = {};
+    let disabled = false;
+    for (const filePath of paths) {
+      const settings = loadSettingsFile(filePath);
+      if (!settings) continue;
+      if (settings.disableAllHooks) {
+        disabled = true;
+      }
+      if (settings.hooks) {
+        mergedHooks = mergeHooksConfigs(mergedHooks, settings.hooks);
+      }
+    }
+    return { hooks: mergedHooks, disabled };
+  }
+  /**

@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-mcpselector-actions
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/ui/MCPSelector.tsx
+  start: 85
+  end: 150
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  connections.forEach((conn) => {
+          const { icon } = getServerStatusDisplay(conn);
+          let serverLabel = `${icon} ${conn.config.name}`;
+          // Add tools and prompts count if server is connected
+          if (conn.status === "connected") {
+            const toolsCount = conn.tools.length;
+            const promptsCount = conn.prompts.length;
+            const counts = [];
+            if (toolsCount > 0) {
+              counts.push(`🔧${toolsCount}`);
+            }
+            if (promptsCount > 0) {
+              counts.push(`📝${promptsCount}`);
+            }
+            if (counts.length > 0) {
+              serverLabel += ` (${counts.join(" ")})`;
+            }
+          }
+          options.push({
+            label: serverLabel,
+            value: `server:${conn.config.name}`,
+          });
+        });

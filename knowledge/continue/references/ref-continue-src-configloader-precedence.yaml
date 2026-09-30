@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-configloader-precedence
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/configLoader.ts
+  start: 78
+  end: 100
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  /**
+   * Determines the configuration source using the specification's precedence rules:
+   * 1. CLI --config flag (highest priority)
+   * 2. Saved config URI (if no CLI flag)
+   * 3. Default resolution (if no flag and no saved URI)
+   */
+  function determineConfigSource(
+    authConfig: AuthConfig,
+    cliConfigPath: string | undefined,
+    _isHeadless: boolean | undefined,
+  ): ConfigSource {
+    // Priority 1: CLI --config flag
+    if (cliConfigPath) {
+      return { type: "cli-flag", path: cliConfigPath };
+    }
+    // Priority 2: Check for default config.yaml, then fallback to default config
+    const defaultConfigPath = path.join(env.continueHome, "config.yaml");
+    if (fs.existsSync(defaultConfigPath)) {
+      return { type: "local-config-yaml" };
+    }
+    return { type: "remote-default-config" };
+  }

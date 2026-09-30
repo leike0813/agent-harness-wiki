@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-hookservice-init
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/hooks/HookService.ts
+  start: 44
+  end: 70
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  async doInitialize(cwd?: string): Promise<HookServiceState> {
+      if (cwd) {
+        this.cwd = cwd;
+      }
+      const loaded = loadHooksConfig(this.cwd);
+      const eventCount = Object.keys(loaded.hooks).length;
+      const handlerCount = Object.values(loaded.hooks).reduce(
+        (sum, groups) =>
+          sum + (groups?.reduce((s, g) => s + g.hooks.length, 0) ?? 0),
+        0,
+      );
+      if (handlerCount > 0) {
+        logger.debug(
+          `Hooks loaded: ${handlerCount} handler(s) across ${eventCount} event type(s)`,
+        );
+      }
+      return {
+        config: loaded.hooks,
+        disabled: loaded.disabled,
+        onceKeys: new Set(),
+      };
+    }

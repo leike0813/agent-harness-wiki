@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-mcp-status
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/services/MCPService.ts
+  start: 135
+  end: 165
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  * Get overall status for UI indicator
+     */
+    getOverallStatus(): {
+      status: "idle" | "connecting" | "connected" | "error";
+      hasWarnings: boolean;
+    } {
+      const connections = Array.from(this.connections.values());
+      const hasWarnings = connections.some((c) => c.warnings.length > 0);
+      if (connections.some((c) => c.status === "connecting")) {
+        return { status: "connecting", hasWarnings };
+      }
+      if (connections.some((c) => c.status === "error")) {
+        return { status: "error", hasWarnings };
+      }
+      if (connections.some((c) => c.status === "connected")) {
+        return { status: "connected", hasWarnings };
+      }
+      return { status: "idle", hasWarnings };
+    }
+    /**
+     * Generic wrapper for client operations that handles 401 errors with token refresh

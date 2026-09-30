@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-toolsupport
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: core/llm/toolSupport.ts
+  start: 1
+  end: 20
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  import { ModelDescription } from "..";
+  export const PROVIDER_TOOL_SUPPORT: Record<string, (model: string) => boolean> =
+    {
+      anthropic: (model) => {
+        if (model.includes("claude-2") || model.includes("claude-instant")) {
+          return false;
+        }
+        if (["claude"].some((part) => model.toLowerCase().startsWith(part))) {
+          return true;
+        }
+        return false;
+      },
+      azure: (model) => {
+        const lower = model.toLowerCase();
+        if (lower.match(/^gpt-[4-9]/) || lower.match(/^o[1-9]/)) return true;
+        return false;
+      },
+      openai: (model) => {
+        const lower = model.toLowerCase();

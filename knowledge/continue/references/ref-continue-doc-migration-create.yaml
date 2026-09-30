@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-doc-migration-create
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: document_section
+  heading: Create YAML File
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  Create a `config.yaml` file in your Continue Global Directory (`~/.continue` on Mac, `%USERPROFILE%\.continue`) alongside your current config.json file. If a `config.yaml` file is present, it will be loaded instead of config.json.
+  Give your configuration a `name` and a `version`:
+  config.yaml
+  ```
+  name: my-configurationversion: 0.0.1schema: v1
+  ```
+  ### Models
+  Add all model configurations in `config.json`, including models in `models`, `tabAutocompleteModel`, `embeddingsProvider`, and `reranker`, to the `models` section of your new YAML config file. A new `roles` YAML field specifies which roles a model can be used for, with possible values `chat`, `autocomplete`, `embed`, `rerank`, `edit`, `apply`, `summarize`.
+  - `models` in config should have `roles: [chat]`

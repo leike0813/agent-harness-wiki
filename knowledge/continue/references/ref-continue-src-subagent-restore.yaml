@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-subagent-restore
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/subagent/executor.ts
+  start: 185
+  end: 213
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  // Restore original system message function
+        if (services.systemMessage && originalGetSystemMessage) {
+          services.systemMessage.getSystemMessage = originalGetSystemMessage;
+        }
+        // Restore original ChatHistoryService ready state
+        if (chatHistorySvc && originalIsReady) {
+          chatHistorySvc.isReady = originalIsReady;
+        }
+        // Restore original main agent tool permissions
+        serviceContainer.set<ToolPermissionServiceState>(
+          SERVICE_NAMES.TOOL_PERMISSIONS,
+          mainAgentPermissionsState,
+        );
+      }
+    } catch (error: any) {
+      logger.error("Subagent execution failed", {
+        agent: subAgent.model?.name,
+        error: error.message,
+      });
+      return {
+        success: false,
+        response: "",
+        error: error.message,
+      };
+    }
+  }

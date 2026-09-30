@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-subagent-meta
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/subagent/index.ts
+  start: 1
+  end: 28
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  import { Tool } from "../tools/types.js";
+  export const SUBAGENT_TOOL_META: Tool = {
+    name: "Subagent",
+    displayName: "Subagent",
+    description: "Use a subagent to handle a specialized task.",
+    readonly: false,
+    isBuiltIn: true,
+    parameters: {
+      type: "object",
+      required: ["description", "prompt", "subagent_name"],
+      properties: {
+        description: {
+          type: "string",
+          description: "A short description of the task",
+        },
+        prompt: {
+          type: "string",
+          description: "The task for the agent to perform",
+        },
+        subagent_name: {
+          type: "string",
+          description: "The type of specialized agent to use for this task.",
+        },
+      },
+    },
+    run: async () => "",
+  };

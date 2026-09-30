@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-hooks-exec
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/hooks/hookRunner.ts
+  start: 35
+  end: 105
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  cwd: string,
+  ): Promise<HookExecutionResult> {
+    const timeoutMs = (handler.timeout ?? DEFAULT_COMMAND_TIMEOUT_SECONDS) * 1000;
+    return new Promise((resolve) => {
+      const env = {
+        ...process.env,
+        CLAUDE_PROJECT_DIR: cwd,
+        CONTINUE_PROJECT_DIR: cwd,
+      };
+      // Use shell to execute the command (matches Claude Code behavior)
+      const shell = process.platform === "win32" ? "cmd.exe" : "/bin/sh";
+      const shellArgs =
+        process.platform === "win32"
+          ? ["/c", handler.command]
+          : ["-c", handler.command];
+      const child = execFile(shell, shellArgs, {
+        cwd,
+        env,
+        timeout: timeoutMs,
+        maxBuffer: 10 * 1024 * 1024, // 10MB
+      });
+      let stdout = "";
+      let stderr = "";
+      child.stdout?.setEncoding("utf8");

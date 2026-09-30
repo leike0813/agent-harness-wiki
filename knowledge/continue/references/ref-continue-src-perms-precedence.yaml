@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-perms-precedence
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/permissions/precedenceResolver.ts
+  start: 29
+  end: 53
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  * 4. Default policies (lowest)
+   *
+   * Earlier sources completely override later ones on a per-tool basis.
+   */
+  export function resolvePermissionPrecedence(
+    sources: PermissionSources,
+  ): ToolPermissionPolicy[] {
+    const policies: ToolPermissionPolicy[] = [];
+    // Layer 1: Command line flags (highest precedence)
+    if (sources.commandLineFlags) {
+      const cliPolicies = commandLineFlagsToPolicies(sources.commandLineFlags);
+      policies.push(...cliPolicies);
+    }
+    // Layer 2: Personal settings from ~/.continue/permissions.yaml
+    if (sources.personalSettings !== false) {
+      const yamlConfig = loadPermissionsYaml();
+      if (yamlConfig) {
+        const yamlPolicies = yamlConfigToPolicies(yamlConfig);
+        policies.push(...yamlPolicies);
+      }
+    }

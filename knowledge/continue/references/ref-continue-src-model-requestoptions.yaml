@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-model-requestoptions
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: packages/config-yaml/src/schemas/models.ts
+  start: 10
+  end: 21
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  >;
+  export const requestOptionsSchema = z.object({
+    timeout: z.number().optional(),
+    verifySsl: z.boolean().optional(),
+    caBundlePath: z.union([z.string(), z.array(z.string())]).optional(),
+    proxy: z.string().optional(),
+    headers: z.record(z.string()).optional(),
+    extraBodyProperties: z.record(z.any()).optional(),
+    noProxy: z.array(z.string()).optional(),
+    clientCertificate: clientCertificateOptionsSchema.optional(),
+  });

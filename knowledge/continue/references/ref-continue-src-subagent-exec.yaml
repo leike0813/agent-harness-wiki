@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-subagent-exec
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/subagent/executor.ts
+  start: 56
+  end: 100
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  */
+  // eslint-disable-next-line complexity
+  export async function executeSubAgent(
+    options: SubAgentExecutionOptions,
+  ): Promise<SubAgentResult> {
+    const { agent: subAgent, prompt, abortController, onOutputUpdate } = options;
+    const mainAgentPermissionsState =
+      await serviceContainer.get<ToolPermissionServiceState>(
+        SERVICE_NAMES.TOOL_PERMISSIONS,
+      );
+    try {
+      logger.debug("Starting subagent execution", {
+        agent: subAgent.model?.name,
+      });
+      const { model, llmApi } = subAgent;
+      if (!model || !llmApi) {
+        throw new Error("Model or LLM API not available");
+      }
+      // allow all tools for now
+      // todo: eventually we want to show the same prompt in a dialog whether asking whether that tool call is allowed or not

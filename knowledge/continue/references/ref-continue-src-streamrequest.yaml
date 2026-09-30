@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-streamrequest
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/stream/streamChatResponse.ts
+  start: 258
+  end: 275
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  const streamFactory = async (retryAbortSignal: AbortSignal) => {
+      logger.debug("Creating chat completion stream", {
+        model,
+        messageCount: chatHistory.length,
+        toolCount: tools?.length || 0,
+      });
+      return await chatCompletionStreamWithBackoff(
+        llmApi,
+        {
+          model: model.model,
+          messages: openaiChatHistory,
+          stream: true,
+          tools,
+          ...getDefaultCompletionOptions(model.defaultCompletionOptions),
+        },
+        retryAbortSignal,
+      );

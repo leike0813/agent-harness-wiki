@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-tools-mcpconvert
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/tools/index.tsx
+  start: 192
+  end: 215
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  export function convertMcpToolToContinueTool(mcpTool: MCPTool): Tool {
+    return {
+      name: mcpTool.name,
+      displayName: mcpTool.name,
+      description: mcpTool.description ?? "",
+      parameters: {
+        type: "object",
+        properties: (mcpTool.inputSchema.properties ?? {}) as Record<
+          string,
+          ParameterSchema
+        >,
+        required: mcpTool.inputSchema.required,
+      },
+      readonly: undefined, // MCP tools don't have readonly property
+      isBuiltIn: false,
+      run: async (args: any) => {
+        const result = await services.mcp?.runTool(mcpTool.name, args);
+        return JSON.stringify(result?.content) ?? "";
+      },
+    };
+  }
+  export async function executeToolCall(
+    toolCall: PreprocessedToolCall,

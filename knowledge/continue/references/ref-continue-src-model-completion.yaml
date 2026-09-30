@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-model-completion
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: packages/config-yaml/src/schemas/models.ts
+  start: 46
+  end: 72
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  export const completionOptionsSchema = z.object({
+    contextLength: z.number().optional(),
+    maxTokens: z.number().optional(),
+    temperature: z.number().optional(),
+    topP: z.number().optional(),
+    topK: z.number().optional(),
+    minP: z.number().optional(),
+    presencePenalty: z.number().optional(),
+    frequencyPenalty: z.number().optional(),
+    stop: z.array(z.string()).optional(),
+    n: z.number().optional(),
+    reasoning: z.boolean().optional(),
+    reasoningBudgetTokens: z.number().optional(),
+    promptCaching: z.boolean().optional(),
+    stream: z.boolean().optional(),
+    keepAlive: z.number().optional(),
+  });
+  export type CompletionOptions = z.infer<typeof completionOptionsSchema>;
+  export const embeddingTasksSchema = z.union([
+    z.literal("chunk"),
+    z.literal("query"),
+  ]);

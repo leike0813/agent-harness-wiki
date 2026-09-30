@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-hooks-handlers
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/hooks/types.ts
+  start: 34
+  end: 90
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  // ---------------------------------------------------------------------------
+  // Hook handler configuration (what users write in settings.json)
+  // ---------------------------------------------------------------------------
+  /** Common fields shared by all hook handler types */
+  interface HookHandlerBase {
+    /** Seconds before canceling. Defaults: 600 for command, 30 for http/prompt, 60 for agent */
+    timeout?: number;
+    /** Custom spinner message displayed while the hook runs */
+    statusMessage?: string;
+    /** If true, runs only once per session then is removed (skills only) */
+    once?: boolean;
+  }
+  /** Command hook handler — runs a shell command */
+  export interface CommandHookHandler extends HookHandlerBase {
+    type: "command";
+    /** Shell command to execute */
+    command: string;

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-mcp-client
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/services/MCPService.ts
+  start: 400
+  end: 470
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  */
+    private async getConnectedClient(
+      serverConfig: MCPServerConfig,
+      connection: ServerConnection,
+    ): Promise<Client> {
+      const client = new Client(
+        { name: "continue-cli-client", version: "1.0.0" },
+        { capabilities: {} },
+      );
+      if ("command" in serverConfig) {
+        // STDIO: no need to check type, just if command is present
+        const transport = constructStdioTransport(serverConfig, connection);
+        await client.connect(transport, {});
+      } else {
+        // SSE/HTTP: if type isn't explicit: try http and fall back to sse
+        try {
+          await this.withTokenRefresh(serverConfig.name, async () => {
+            if (serverConfig.apiKey && !this.apiKeyCache.get(serverConfig.name)) {
+              this.apiKeyCache.set(serverConfig.name, serverConfig.apiKey);

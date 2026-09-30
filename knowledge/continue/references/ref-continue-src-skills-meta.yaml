@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-skills-meta
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/tools/skills.ts
+  start: 8
+  end: 27
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  export const SKILLS_TOOL_META: Tool = {
+    name: "Skills",
+    displayName: "Skills",
+    description:
+      "Use this tool to read the content of a skill by its name. Skills contain detailed instructions for specific tasks.",
+    readonly: false,
+    isBuiltIn: true,
+    parameters: {
+      type: "object",
+      required: ["skill_name"],
+      properties: {
+        skill_name: {
+          type: "string",
+          description:
+            "The name of the skill to read. This should match the name from the available skills.",
+        },
+      },
+    },
+    run: async () => "",
+  };

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-onboarding-first
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/onboarding.ts
+  start: 107
+  end: 125
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  export async function isFirstTime(): Promise<boolean> {
+    return !fs.existsSync(path.join(env.continueHome, ".onboarding_complete"));
+  }
+  export async function markOnboardingComplete(): Promise<void> {
+    const flagPath = path.join(env.continueHome, ".onboarding_complete");
+    const flagDir = path.dirname(flagPath);
+    if (!fs.existsSync(flagDir)) {
+      fs.mkdirSync(flagDir, { recursive: true });
+    }
+    fs.writeFileSync(flagPath, new Date().toISOString());
+  }
+  export async function initializeWithOnboarding(
+    authConfig: AuthConfig,
+    configPath: string | undefined,
+  ) {

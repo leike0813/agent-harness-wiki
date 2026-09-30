@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-tools-assemble
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/tools/index.tsx
+  start: 130
+  end: 143
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  if (isBetaSubagentToolEnabled()) {
+      tools.push(await subagentTool());
+    }
+    tools.push(await skillsTool());
+    const mcpState = await serviceContainer.get<MCPServiceState>(
+      SERVICE_NAMES.MCP,
+    );
+    tools.push(...mcpState.tools.map(convertMcpToolToContinueTool));
+    return tools;
+  }

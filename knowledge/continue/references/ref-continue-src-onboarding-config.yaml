@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-onboarding-config
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/onboarding.ts
+  start: 18
+  end: 50
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  const CONFIG_PATH = path.join(env.continueHome, "config.yaml");
+  export async function checkHasAcceptableModel(
+    configPath: string,
+  ): Promise<boolean> {
+    try {
+      if (!fs.existsSync(configPath)) {
+        return false;
+      }
+      const content = fs.readFileSync(configPath, "utf8");
+      return content.includes("claude");
+    } catch {
+      return false;
+    }
+  }
+  export async function createOrUpdateConfig(apiKey: string): Promise<void> {
+    const configDir = path.dirname(CONFIG_PATH);
+    if (!fs.existsSync(configDir)) {
+      fs.mkdirSync(configDir, { recursive: true });
+    }
+    const existingContent = fs.existsSync(CONFIG_PATH)
+      ? fs.readFileSync(CONFIG_PATH, "utf8")
+      : "";
+    const updatedContent = updateAnthropicModelInYaml(existingContent, apiKey);

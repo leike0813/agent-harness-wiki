@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-doc-cli-perms-modes
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: document_section
+  heading: Modes
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  Modes are a shorthand for common permission sets. Switch modes with `Shift+Tab` during a TUI session, or set them at launch:
+  ```bash
+  cn --auto       # Allow all tools without prompting
+  cn --readonly   # Plan mode — read-only tools only, no file writes
+  ```
+  | Mode | Effect |
+  |------|--------|
+  | **normal** (default) | Uses configured permissions |
+  | **plan** (`--readonly`) | Excludes all write tools, allows reads and `Bash` |
+  | **auto** (`--auto`) | Allows everything — `*: allow` |
+  Plan and auto modes are absolute overrides. They ignore `--allow`, `--exclude`, and `permissions.yaml` entirely.

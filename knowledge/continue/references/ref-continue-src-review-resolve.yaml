@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-review-resolve
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/commands/review/resolveReviews.ts
+  start: 13
+  end: 50
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  /**
+   * Determine which reviews to run, using three sources in order:
+   * 1. CLI --agent flags (highest priority)
+   * 2. Hub API (if logged in and no --agent flags)
+   * 3. Local .continue/agents/*.md and .continue/checks/*.md (fallback)
+   */
+  export async function resolveReviews(
+    agentFlags?: string[],
+  ): Promise<ResolvedReview[]> {
+    // Source 1: CLI --agent flags
+    if (agentFlags && agentFlags.length > 0) {
+      return agentFlags.map((agent) => ({
+        name: agentDisplayName(agent),
+        source: agent,
+        sourceType: isLocalPath(agent) ? "local" : "hub",
+      }));
+    }
+    // Source 2: Hub API (silent failure if not logged in)
+    const hubReviews = await resolveFromHub();
+    if (hubReviews.length > 0) {
+      return hubReviews;
+    }

@@ -1,0 +1,41 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-hooks-unimpl
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/hooks/hookRunner.ts
+  start: 212
+  end: 240
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  input: HookInput,
+    cwd: string,
+  ): Promise<HookExecutionResult> {
+    switch (handler.type) {
+      case "command":
+        return executeCommandHook(handler, input, cwd);
+      case "http":
+        return executeHttpHook(handler, input);
+      case "prompt":
+      case "agent":
+        // Prompt and agent hooks are not yet implemented
+        logger.debug(
+          `Hook type "${handler.type}" is not yet supported, skipping`,
+        );
+        return {
+          output: null,
+          stdout: "",
+          stderr: "",
+          exitCode: 0,
+          blocked: false,
+        };
+      default:
+        logger.warn(`Unknown hook handler type: ${(handler as any).type}`);
+        return {
+          output: null,
+          stdout: "",
+          stderr: "",
+          exitCode: 0,
+          blocked: false,

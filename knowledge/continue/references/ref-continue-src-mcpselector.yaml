@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-mcpselector
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/ui/MCPSelector.tsx
+  start: 14
+  end: 60
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  import { defaultBoxStyles } from "./styles.js";
+  // Utility function to get status icon and color based on server connection
+  const getServerStatusDisplay = (conn: MCPConnectionInfo) => {
+    let icon = "⚪️"; // note, white circle causes extra blank line bug
+    let color: "green" | "yellow" | "red" | "white" | "dim" = "white";
+    let statusText = conn.status;
+    if (conn.status === "connecting") {
+      icon = "🟡";
+      color = "yellow";
+    } else if (conn.status === "error") {
+      icon = "🔴";
+      color = "red";
+    } else if (conn.status === "connected") {
+      if (conn.warnings && conn.warnings.length > 0) {
+        icon = "🟡";
+        color = "yellow";
+        statusText = "connected (with warnings)" as MCPServerStatus;
+      } else {
+        icon = "🟢";
+        color = "green";
+      }
+    }

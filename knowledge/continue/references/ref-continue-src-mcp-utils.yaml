@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-mcp-utils
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/services/mcpUtils.ts
+  start: 1
+  end: 19
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  import { SseError } from "@modelcontextprotocol/sdk/client/sse.js";
+  import { StreamableHTTPError } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
+  /**
+   * Check if an error is an authentication error that should trigger token refresh
+   * 405 is technically "not allowed" but some servers like Sanity don't return the correct error
+   * Since we're using mcp library there's a good chance 405 means auth issue and doesn't hurt to retry with auth
+   */
+  export function isAuthError(error: unknown): boolean {
+    return (
+      (error instanceof SseError && error.code === 401) ||
+      (error instanceof SseError && error.code === 405) ||
+      (error instanceof StreamableHTTPError && error.code === 401) ||
+      (error instanceof StreamableHTTPError && error.code === 405) ||

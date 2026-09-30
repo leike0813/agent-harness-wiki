@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-yamlupdater
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/util/yamlConfigUpdater.ts
+  start: 1
+  end: 30
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  import { parseDocument } from "yaml";
+  export interface ModelConfig {
+    name: string;
+    provider: string;
+    model: string;
+    apiKey: string;
+    roles: string[];
+    defaultCompletionOptions?: {
+      contextLength: number;
+      maxTokens: number;
+    };
+    capabilities?: string[];
+  }
+  export interface ConfigStructure {
+    name: string;
+    version: string;
+    schema: string;
+    models: ModelConfig[];
+  }
+  // These model definitions are inlined copies of the corresponding Continue Hub
+  // blocks (e.g. anthropic/claude-sonnet-4-6) that onboarding previously resolved
+  // via `uses:` slugs. Since Hub/slug resolution has been removed, we reproduce
+  // the exact block contents here, with `apiKey` substituted for the block's
+  // `${{ inputs.*_API_KEY }}` placeholder. Keep these in sync with the explicit

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-skills-walk
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/util/loadMarkdownSkills.ts
+  start: 40
+  end: 60
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  function getFilePathsInSkillDirectory(
+    cwd: string,
+    skillFilePath: string,
+  ): string[] {
+    const skillDir = path.dirname(skillFilePath);
+    if (!fs.existsSync(skillDir)) return [];
+    const walker = new WalkerSync({
+      path: skillDir,
+      includeEmpty: false,
+      follow: false,
+    });
+    const files = walker.start().result as string[];
+    return files
+      .map((filePath) => path.join(skillDir, filePath))
+      .filter((filePath) => !filePath.endsWith("SKILL.md"))
+      .map((filePath) => getRelativePath(cwd, filePath));
+  }
+  /**get the SKILL.md files from the given directory */

@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-auth-null
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/auth/workos.ts
+  start: 14
+  end: 40
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  // ---------------------------------------------------------------------------
+  // Types
+  // ---------------------------------------------------------------------------
+  /**
+   * AuthConfig is always null now that Hub auth has been removed.
+   */
+  export type AuthConfig = null;
+  /**
+   * Kept for type compatibility - code that references AuthenticatedConfig will
+   * still compile but the type is never instantiated at runtime.
+   */
+  export interface AuthenticatedConfig {
+    userId: string;
+    userEmail: string;
+    accessToken: string;
+    refreshToken: string;
+    expiresAt: number;
+    organizationId: string | null | undefined;
+    configUri?: string;
+    modelName?: string;
+  }
+  export interface EnvironmentAuthConfig {
+    userId?: undefined;
+    accessToken: string;

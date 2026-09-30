@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-hooks-firehook
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/hooks/fireHook.ts
+  start: 55
+  end: 90
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  function isHookServiceReady(): boolean {
+    try {
+      return services.hooks?.isReady() ?? false;
+    } catch {
+      return false;
+    }
+  }
+  // ---------------------------------------------------------------------------
+  // Tool events
+  // ---------------------------------------------------------------------------
+  export async function firePreToolUse(
+    toolName: string,
+    toolInput: unknown,
+    toolUseId: string,
+  ): Promise<HookEventResult> {
+    if (!isHookServiceReady()) return NOOP_RESULT;
+    const input: PreToolUseInput = {
+      ...getCommonFields(),
+      hook_event_name: "PreToolUse",
+      tool_name: toolName,
+      tool_input: toolInput,
+      tool_use_id: toolUseId,
+    };
+    return services.hooks.fireEvent(input);
+  }
+  export async function firePostToolUse(
+    toolName: string,
+    toolInput: unknown,

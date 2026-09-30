@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-mcp-capabilities-find
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/services/MCPService.ts
+  start: 183
+  end: 205
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  public async runTool(name: string, args: Record<string, any>) {
+      for (const connection of this.connections.values()) {
+        if (connection.status === "connected" && connection.client) {
+          const tool = connection.tools.find((t) => t.name === name);
+          if (tool) {
+            const serverName = connection.config!.name;
+            return await this.withTokenRefresh(serverName, async () => {
+              const conn = this.connections.get(serverName);
+              if (!conn?.client) {
+                throw new Error(`Client for ${serverName} not available`);
+              }
+              return await conn.client.callTool({
+                name,
+                arguments: args,
+              });
+            });
+          }
+        }
+      }
+      throw new Error(`Tool ${name} not found`);
+    }
+    /**

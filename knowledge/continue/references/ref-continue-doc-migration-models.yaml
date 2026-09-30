@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-doc-migration-models
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: document_section
+  heading: Models
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  Add all model configurations in `config.json`, including models in `models`, `tabAutocompleteModel`, `embeddingsProvider`, and `reranker`, to the `models` section of your new YAML config file. A new `roles` YAML field specifies which roles a model can be used for, with possible values `chat`, `autocomplete`, `embed`, `rerank`, `edit`, `apply`, `summarize`.
+  - `models` in config should have `roles: [chat]`
+  - `tabAutocompleteModel`(s) in config should have `roles: [autocomplete]`
+  - `embeddingsProvider` in config should have `roles: [embed]`
+  - `reranker` in config should have `roles: [rerank]`
+  - `experimental.modelRoles` is replaced by simply adding roles to the model
+    - `inlineEdit` -> e.g. `roles: [chat, edit]`
+    - `applyCodeBlock` -> e.g. `roles: [chat, apply]`

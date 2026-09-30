@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-modelservice-switch
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/services/ModelService.ts
+  start: 178
+  end: 215
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  /**
+     * Switch to a different chat model by index
+     */
+    async switchModel(modelIndex: number): Promise<ModelServiceState> {
+      // Get assistant and authConfig from state, but fall back to instance properties
+      // This is needed during initialization when state isn't set yet
+      const stateValues = this.getState();
+      const assistant = stateValues.assistant || this.assistant;
+      const authConfig = stateValues.authConfig || this.authConfig;
+      // Debug logging to understand the state
+      logger.debug("switchModel: Checking state", {
+        hasStateAssistant: !!stateValues.assistant,
+        hasStateAuthConfig: !!stateValues.authConfig,
+        hasInstanceAssistant: !!this.assistant,
+        hasInstanceAuthConfig: !!this.authConfig,
+        isInitialized: this.isReady(),

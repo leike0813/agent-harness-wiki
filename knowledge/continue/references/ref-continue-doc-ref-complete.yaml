@@ -1,0 +1,43 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-doc-ref-complete
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: document_section
+  heading: Complete YAML Config Example
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  Putting it all together, here's a complete example of a `config.yaml` configuration file:
+  ```yaml title="config.yaml"
+  name: My Config
+  version: 1.0.0
+  schema: v1
+  models:
+    - uses: anthropic/claude-sonnet-4-6
+      with:
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      override:
+        defaultCompletionOptions:
+          temperature: 0.8
+    - name: GPT-4
+      provider: openai
+      model: gpt-4
+      roles:
+        - chat
+        - edit
+      defaultCompletionOptions:
+        temperature: 0.5
+        maxTokens: 2000
+      requestOptions:
+        headers:
+          Authorization: Bearer YOUR_OPENAI_API_KEY
+    - name: Ollama Starcoder
+      provider: ollama
+      model: starcoder
+      roles:
+        - autocomplete
+      autocompleteOptions:
+        debounceDelay: 350
+        maxPromptTokens: 1024
+        onlyMyCode: true

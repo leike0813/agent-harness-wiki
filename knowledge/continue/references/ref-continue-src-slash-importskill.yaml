@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-slash-importskill
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/slashCommands.ts
+  start: 137
+  end: 155
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  async function handleImportSkill(args: string[]): Promise<SlashCommandResult> {
+    const query = args.join(" ").trim();
+    if (!query) {
+      return {
+        exit: false,
+        output: chalk.yellow(
+          "Please provide a skill URL or name. Usage: /import-skill <url-or-name>",
+        ),
+      };
+    }
+    return {
+      newInput: buildImportSkillPrompt(query),
+    };
+  }
+  function handleSessions() {

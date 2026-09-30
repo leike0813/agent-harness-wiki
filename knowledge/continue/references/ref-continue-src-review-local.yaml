@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-review-local
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/commands/review/resolveReviews.ts
+  start: 52
+  end: 90
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  /**
+   * Resolve reviews from local .continue/agents/*.md and .continue/checks/*.md files.
+   * Agents take precedence over checks if the same filename exists in both directories.
+   */
+  function resolveFromLocal(): ResolvedReview[] {
+    const cwd = process.cwd();
+    const dirs = [
+      path.join(cwd, ".continue", "agents"),
+      path.join(cwd, ".continue", "checks"),
+    ];
+    const seen = new Set<string>();
+    const results: ResolvedReview[] = [];
+    for (const dir of dirs) {
+      if (!fs.existsSync(dir)) {
+        continue;
+      }
+      try {
+        const files = fs.readdirSync(dir).filter((f) => f.endsWith(".md"));
+        for (const file of files) {
+          if (!seen.has(file)) {
+            seen.add(file);
+            results.push({
+              name: path.basename(file, ".md").replace(/[-_]/g, " "),

@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-mcp-caps
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/services/MCPService.ts
+  start: 263
+  end: 340
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  if (this.isHeadless) {
+            throw new Error(message);
+          } else {
+            connection.warnings.push(message);
+          }
+        }
+        const client = await this.getConnectedClient(serverConfig, connection);
+        connection.client = client;
+        connection.status = "connected";
+        this.updateState();
+        const capabilities = client.getServerCapabilities();
+        if (capabilities?.prompts) {
+          try {
+            connection.prompts = await this.withTokenRefresh(
+              serverName,
+              async () => {
+                const conn = this.connections.get(serverName);
+                if (!conn?.client) {
+                  throw new Error(`Client for ${serverName} not available`);
+                }
+                return (await conn.client.listPrompts()).prompts;
+              },

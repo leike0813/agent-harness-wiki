@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-skills-slashname
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/util/loadMarkdownSkills.ts
+  start: 148
+  end: 170
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  export function getSkillSlashCommandName(skill: Skill): string {
+    // Normalize skill name to lowercase and sanitize for use as command name
+    const base = skill.name.trim().toLowerCase();
+    const safe = base
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+/, "")
+      .replace(/-+$/, "");
+    if (safe) {
+      return `skill-${safe}`;
+    }
+    // Fallback to directory name if skill name is invalid
+    const dirName = path
+      .basename(path.dirname(skill.path))
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+/, "")
+      .replace(/-+$/, "");
+    const fallback = dirName || "skill";
+    return `skill-${fallback}`;
+  }

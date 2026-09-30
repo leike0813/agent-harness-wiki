@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-globalcontext
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: core/util/GlobalContext.ts
+  start: 22
+  end: 55
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  export type GlobalContextType = {
+    indexingPaused: boolean;
+    lastSelectedProfileForWorkspace: {
+      [workspaceIdentifier: string]: string | null;
+    };
+    lastSelectedOrgIdForWorkspace: {
+      [workspaceIdentifier: string]: string | null;
+    };
+    selectedModelsByProfileId: {
+      [profileId: string]: GlobalContextModelSelections;
+    };
+    cliSelectedModel?: string; // CLI-specific model selection for unauthenticated users
+    /**
+     * This is needed to handle the case where a JetBrains user has created
+     * docs embeddings using one provider, and then updates to a new provider.
+     *
+     * For VS Code users, it is unnecessary since we use transformers.js by default.
+     */
+    hasDismissedConfigTsNoticeJetBrains: boolean;
+    hasAlreadyCreatedAPromptFile: boolean;

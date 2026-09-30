@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-backoff
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/util/exponentialBackoff.ts
+  start: 50
+  end: 145
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  function isRetryableHttpStatus(status: number): boolean {
+    // 429 (Too Many Requests), 502 (Bad Gateway), 503 (Service Unavailable), 504 (Gateway Timeout)
+    return status === 429 || status === 502 || status === 503 || status === 504;
+  }
+  /**
+   * Checks if the error type indicates a server issue
+   */
+  function isServerError(error: any): boolean {
+    return error.type === "server_error" || error.type === "rate_limit_exceeded";
+  }
+  /**
+   * Checks if the error message indicates a connection issue
+   */
+  function isConnectionError(errorMessage: string): boolean {
+    const connectionErrorPatterns = [
+      "premature close",
+      "premature end",
+      "connection reset",
+      "socket hang up",
+      "aborted",
+      "overloaded",
+    ];
+    return connectionErrorPatterns.some((pattern) =>

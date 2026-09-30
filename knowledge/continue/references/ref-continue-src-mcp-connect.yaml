@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-mcp-connect
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/services/MCPService.ts
+  start: 239
+  end: 262
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  private async connectServer(serverConfig: MCPServerConfig) {
+      const connection: ServerConnection = {
+        config: serverConfig,
+        client: null,
+        prompts: [],
+        tools: [],
+        status: "connecting",
+        warnings: [],
+      };
+      const serverName = serverConfig.name;
+      this.connections.set(serverName, connection);
+      this.updateState();
+      const vars = getTemplateVariables(JSON.stringify(serverConfig));
+      const secretVars = vars.filter((v) => v.startsWith("secrets."));
+      const unrendered = secretVars.map((v) => {
+        return decodeFQSN(v.replace("secrets.", "")).secretName;
+      });
+      try {
+        if (unrendered.length > 0) {
+          const message = `${serverConfig.name} MCP Server has unresolved secrets: ${unrendered.join(", ")}

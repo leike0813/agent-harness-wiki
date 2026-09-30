@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-index-program
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/index.ts
+  start: 174
+  end: 200
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  .name("cn")
+    .description(
+      "Continue CLI - AI-powered development assistant. Starts an interactive session by default, use -p/--print for non-interactive output.",
+    )
+    .version(getVersion(), "-v, --version", "Display version number");
+  // Root command - chat functionality (default)
+  // Add common options to the root command
+  addCommonOptions(program)
+    .argument("[prompt]", "Optional prompt to send to the assistant")
+    .option("-p, --print", "Print response and exit (useful for pipes)")
+    .option(
+      "--format <format>",
+      "Output format for headless mode (json). Only works with -p/--print flag.",
+    )
+    .option(
+      "--silent",
+      "Strip <think></think> tags and excess whitespace from output. Only works with -p/--print flag.",
+    )
+    .option("--resume", "Resume from last session")

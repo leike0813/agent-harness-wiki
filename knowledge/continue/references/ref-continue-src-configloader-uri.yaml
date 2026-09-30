@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-configloader-uri
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/configLoader.ts
+  start: 529
+  end: 543
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  */
+  function getUriFromSource(source: ConfigSource): string | null {
+    switch (source.type) {
+      case "cli-flag":
+        return isFilePath(source.path)
+          ? `file://${source.path}`
+          : `slug://${source.path}`;
+      case "saved-uri":
+        return source.uri;
+      case "local-config-yaml":
+        return `file://${path.join(env.continueHome, "config.yaml")}`;
+      default:
+        return null;
+    }
+  }

@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-agentfile-tools
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: packages/config-yaml/src/markdown/agentFiles.ts
+  start: 79
+  end: 145
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  const cleanFrontmatter = Object.fromEntries(
+      Object.entries(frontmatter).filter(([, value]) => value !== undefined),
+    );
+    const yamlFrontmatter = YAML.stringify(cleanFrontmatter).trim();
+    return `---\n${yamlFrontmatter}\n---\n${prompt}`;
+  }
+  /**
+   * Parse agent tools string into structured format
+   *
+   * Supports formats:
+   * - owner/package - all tools from MCP server
+   * - owner/package:tool_name - specific tool from MCP server
+   * - https://mcp.url.com or http://mcp.url.com - all tools from URL-based MCP server
+   * - https://mcp.url.com:tool_name - specific tool from URL-based MCP server
+   * - ToolName or tool_name - built-in tool
+   * - built_in - all built-in tools
+   *
+   * @param toolsString Comma-separated tools string
+   * @returns Parsed tools configuration
+   */

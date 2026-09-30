@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-hooks-run
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/hooks/hookRunner.ts
+  start: 270
+  end: 332
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  return (input as any)[field] as string | undefined;
+  }
+  export async function runHooks(
+    config: HooksConfig,
+    input: HookInput,
+    cwd: string = process.cwd(),
+  ): Promise<HookEventResult> {
+    const eventName = input.hook_event_name;
+    const matcherValue = getMatcherValue(input);
+    const matchingGroups = getMatchingHookGroups(config, eventName, matcherValue);
+    if (matchingGroups.length === 0) {
+      return { blocked: false, results: [] };
+    }
+    // Collect all handlers, deduplicating by key
+    const seen = new Set<string>();
+    const handlers: HookHandler[] = [];
+    for (const group of matchingGroups) {
+      for (const handler of group.hooks) {
+        const key = getHandlerDedupeKey(handler);
+        if (!seen.has(key)) {
+          seen.add(key);
+          handlers.push(handler);
+        }
+      }
+    }

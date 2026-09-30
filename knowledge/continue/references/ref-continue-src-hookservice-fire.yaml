@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-hookservice-fire
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/hooks/HookService.ts
+  start: 72
+  end: 97
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  * Fire a hook event and return the aggregated result.
+     *
+     * This is the main entry point used by all integration points.
+     * Returns a no-op result if hooks are disabled.
+     */
+    async fireEvent(input: HookInput): Promise<HookEventResult> {
+      if (this.currentState.disabled) {
+        return { blocked: false, results: [] };
+      }
+      if (Object.keys(this.currentState.config).length === 0) {
+        return { blocked: false, results: [] };
+      }
+      try {
+        const result = await runHooks(this.currentState.config, input, this.cwd);
+        return result;
+      } catch (error) {
+        logger.warn(`Hook event ${input.hook_event_name} failed:`, error);
+        // Hook errors should not break the main flow
+        return { blocked: false, results: [] };
+      }
+    }
+    /**

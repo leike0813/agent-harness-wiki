@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-hooks-http
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/hooks/hookRunner.ts
+  start: 137
+  end: 200
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  handler: HttpHookHandler,
+    input: HookInput,
+  ): Promise<HookExecutionResult> {
+    const timeoutMs = (handler.timeout ?? DEFAULT_HTTP_TIMEOUT_SECONDS) * 1000;
+    try {
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (handler.headers) {
+        const allowedVars = handler.allowedEnvVars ?? [];
+        for (const [key, value] of Object.entries(handler.headers)) {
+          headers[key] = interpolateEnvVars(value, allowedVars);
+        }
+      }
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), timeoutMs);
+      const response = await fetch(handler.url, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(input),
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);

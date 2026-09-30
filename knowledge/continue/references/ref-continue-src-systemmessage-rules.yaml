@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-systemmessage-rules
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/systemMessage.ts
+  start: 60
+  end: 120
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  ${getGitStatus()}
+  </context>`;
+  async function getConfigYamlRules(): Promise<string[]> {
+    const configState = await serviceContainer.get<ConfigServiceState>(
+      SERVICE_NAMES.CONFIG,
+    );
+    if (configState.config?.rules) {
+      // Extract systemMessage from the config if it exists
+      const rules = configState.config.rules;
+      return rules
+        .map((rule) => {
+          return typeof rule === "string" ? rule : rule?.rule;
+        })
+        .filter((rule): rule is string => !!rule);
+    }
+    return [];
+  }
+  function getRuleNameFromPath(filePath: string): string {
+    const segments = filePath.split(/[/\\]/);
+    const lastTwoParts = segments.slice(-2);
+    return lastTwoParts.filter(Boolean).join("/").replace(/\.md$/, "");
+  }
+  /**

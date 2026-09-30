@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-promptprocessor
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/util/promptProcessor.ts
+  start: 11
+  end: 49
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  export async function processAndCombinePrompts(
+    additionalPrompts?: string[],
+    initialPrompt?: string,
+  ): Promise<string | undefined> {
+    if (!additionalPrompts || additionalPrompts.length === 0) {
+      return initialPrompt;
+    }
+    const processedPrompts: string[] = [];
+    for (const promptSpec of additionalPrompts) {
+      try {
+        const processed = await processRule(promptSpec);
+        processedPrompts.push(processed);
+      } catch (error: any) {
+        logger.warn(`Failed to process prompt "${promptSpec}": ${error.message}`);
+      }
+    }
+    if (processedPrompts.length === 0) {
+      return initialPrompt;
+    }
+    const combinedPrompts = processedPrompts.join("\n\n");
+    return initialPrompt
+      ? `${combinedPrompts}\n\n${initialPrompt}`
+      : combinedPrompts;
+  }

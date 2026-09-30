@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-model-roles
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: packages/config-yaml/src/schemas/models.ts
+  start: 22
+  end: 45
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  export type RequestOptions = z.infer<typeof requestOptionsSchema>;
+  export const modelRolesSchema = z.enum([
+    "chat",
+    "autocomplete",
+    "embed",
+    "rerank",
+    "edit",
+    "apply",
+    "summarize",
+    "subagent",
+  ]);
+  export type ModelRole = z.infer<typeof modelRolesSchema>;
+  // TODO consider just using array of strings for model capabilities
+  // To allow more dynamic string parsing
+  export const modelCapabilitySchema = z.union([
+    z.literal("tool_use"),
+    z.literal("image_input"),
+    z.literal("next_edit"),
+    z.string(), // Needed for forwards compatibility, see https://github.com/continuedev/continue/pull/7676
+  ]);
+  // not ideal but lose type suggestions if use z.infer because of the string fallback
+  export type ModelCapability = "tool_use" | "image_input" | "next_edit";

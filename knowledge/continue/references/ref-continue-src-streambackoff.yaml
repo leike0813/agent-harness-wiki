@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-streambackoff
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/util/exponentialBackoff.ts
+  start: 166
+  end: 205
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  /**
+   * Wrapper around llmApi.chatCompletionStream with exponential backoff retry logic
+   */
+  export async function chatCompletionStreamWithBackoff(
+    llmApi: BaseLlmApi,
+    params: ChatCompletionCreateParamsStreaming,
+    abortSignal: AbortSignal,
+    options: ExponentialBackoffOptions = {},
+  ): Promise<AsyncGenerator<any>> {
+    const opts = { ...DEFAULT_OPTIONS, ...options };
+    let lastError: any;
+    for (let attempt = 0; attempt <= opts.maxRetries; attempt++) {
+      try {
+        // Check if we should abort before making the request
+        if (abortSignal.aborted) {
+          throw new Error("Request aborted");
+        }
+        const useResponses =
+          typeof llmApi.responsesStream === "function" &&
+          isResponsesModel(params.model);
+        if (useResponses) {

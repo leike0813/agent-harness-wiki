@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-commands-skills
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/commands/commands.ts
+  start: 230
+  end: 243
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  /**
+   * Get skill-based slash commands from Markdown skills
+   */
+  export async function getSkillSlashCommands(): Promise<SlashCommand[]> {
+    const { skills } = await loadMarkdownSkills();
+    return skills.map((skill) => ({
+      name: getSkillSlashCommandName(skill),
+      description: skill.description,
+      category: "assistant" as const,
+    }));
+  }

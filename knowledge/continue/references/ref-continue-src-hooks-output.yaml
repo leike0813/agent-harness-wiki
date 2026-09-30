@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-hooks-output
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/hooks/types.ts
+  start: 360
+  end: 375
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  stderr: string;
+    /** Exit code (command hooks only) */
+    exitCode: number;
+    /** Whether the hook blocked the action (exit code 2 or decision:"block") */
+    blocked: boolean;
+    /** The blocking error message (from stderr or output.reason) */
+    blockReason?: string;
+  }
+  /**
+   * Aggregated result from running all matching hooks for an event.
+   * Used by integration points to decide what to do.
+   */
+  export interface HookEventResult {
+    /** Whether any hook blocked the action */
+    blocked: boolean;

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-slash-skills
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/slashCommands.ts
+  start: 112
+  end: 135
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  async function handleSkills(): Promise<SlashCommandResult> {
+    const { skills } = await loadMarkdownSkills();
+    if (!skills.length) {
+      return {
+        exit: false,
+        output: chalk.yellow(
+          "No skills found. Add skills under .continue/skills or .claude/skills.",
+        ),
+      };
+    }
+    const header = chalk.bold("Available skills:");
+    const lines = skills.map(
+      (skill) =>
+        `${chalk.cyan(skill.name)} - ${skill.description} ${chalk.gray(
+          `(${skill.path})`,
+        )}`,
+    );
+    return {
+      exit: false,
+      output: [header, "", ...lines].join("\n"),
+    };

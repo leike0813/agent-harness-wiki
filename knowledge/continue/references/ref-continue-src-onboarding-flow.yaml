@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-onboarding-flow
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/onboarding.ts
+  start: 50
+  end: 105
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  export async function runOnboardingFlow(
+    configPath: string | undefined,
+  ): Promise<boolean> {
+    // Step 1: Check if --config flag is provided
+    if (configPath !== undefined) {
+      return false;
+    }
+    // Step 2: Check for CONTINUE_USE_BEDROCK environment variable first (before test env check)
+    if (process.env.CONTINUE_USE_BEDROCK === "1") {
+      console.log(
+        chalk.blue("✓ Using AWS Bedrock (CONTINUE_USE_BEDROCK detected)"),
+      );
+      return true;
+    }
+    // Step 3: Check if we're in a test/CI environment - if so, skip interactive prompts
+    const isTestEnv =
+      process.env.NODE_ENV === "test" ||
+      process.env.CI === "true" ||
+      process.env.VITEST === "true" ||
+      process.env.GITHUB_ACTIONS === "true" ||
+      !process.stdin.isTTY;
+    if (isTestEnv) {

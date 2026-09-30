@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-configloader-local
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/configLoader.ts
+  start: 305
+  end: 320
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  * Loads default config.yaml from ~/.continue/config.yaml
+   */
+  async function loadLocalConfigYaml(
+    accessToken: string | null,
+    organizationId: string | null,
+    apiClient: DefaultApiInterface,
+    injectBlocks: PackageIdentifier[],
+  ): Promise<AssistantUnrolled> {
+    const defaultConfigPath = path.join(env.continueHome, "config.yaml");
+    return await loadConfigYaml(
+      defaultConfigPath,
+      accessToken,
+      organizationId,
+      apiClient,
+      injectBlocks,
+    );

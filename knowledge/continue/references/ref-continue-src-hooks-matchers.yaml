@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-hooks-matchers
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/hooks/types.ts
+  start: 398
+  end: 424
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  * per event type. Events not listed here don't support matchers.
+   */
+  export const MATCHER_FIELD_MAP: Partial<Record<HookEventName, string>> = {
+    PreToolUse: "tool_name",
+    PostToolUse: "tool_name",
+    PostToolUseFailure: "tool_name",
+    PermissionRequest: "tool_name",
+    SessionStart: "source",
+    SessionEnd: "reason",
+    Notification: "notification_type",
+    SubagentStart: "agent_type",
+    SubagentStop: "agent_type",
+    PreCompact: "trigger",
+    ConfigChange: "source",
+  };
+  /**
+   * Events that don't support matchers — they always fire on every occurrence.
+   */
+  export const NO_MATCHER_EVENTS: HookEventName[] = [
+    "UserPromptSubmit",
+    "Stop",
+    "TeammateIdle",
+    "TaskCompleted",
+    "WorktreeCreate",
+    "WorktreeRemove",
+  ];

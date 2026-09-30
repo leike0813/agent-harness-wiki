@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-configservice-blocks
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/services/ConfigService.ts
+  start: 72
+  end: 130
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  }
+    getAdditionalBlocksFromOptions(
+      injectedConfigOptions: BaseCommandOptions | undefined,
+      agentFileState: AgentFileServiceState | undefined,
+    ): {
+      injected: PackageIdentifier[];
+      additional: AssistantUnrolled;
+    } {
+      const packageIdentifiers: PackageIdentifier[] = [];
+      const additional: AssistantUnrolled = {
+        name: "hidden",
+        version: "1.0.0",
+        rules: [],
+        mcpServers: [],
+        prompts: [],
+      };
+      const options = injectedConfigOptions || {};
+      this.processModels(options.model || [], agentFileState, packageIdentifiers);
+      this.processMcpServers(
+        options.mcp || [],
+        agentFileState,
+        packageIdentifiers,
+        additional,
+      );
+      this.processAgentFileRules(agentFileState, packageIdentifiers);

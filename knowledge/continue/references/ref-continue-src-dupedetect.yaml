@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-dupedetect
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: packages/config-yaml/src/load/blockDuplicationDetector.ts
+  start: 26
+  end: 60
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  private isCommonBlockDuplicated(block: any, blockType: BlockType): boolean {
+      return this.check(block.name, blockType);
+    }
+    private check(identifier: string, blockType: BlockType): boolean {
+      if (this.records.get(blockType)!.has(identifier)) {
+        return true;
+      } else {
+        this.records.get(blockType)!.add(identifier);
+        return false;
+      }
+    }
+    // Check if the name is duplicated within the same blockType
+    isDuplicated(block: any, blockType: BlockType): boolean {
+      // Not checking any null or undefined object
+      if (block === null || block === undefined) {
+        return false;
+      }
+      switch (blockType) {
+        case "rules":
+          if (this.isRuleDuplicated(block)) {
+            return true;
+          }
+          return false;
+        case "context":

@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-hooks-paths
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/hooks/hookConfig.ts
+  start: 70
+  end: 95
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  * Resolve all settings file paths in precedence order (lowest to highest).
+   * Later files' hooks are appended but all run.
+   */
+  function getSettingsFilePaths(cwd: string, homeDir?: string): string[] {
+    const home = homeDir ?? os.homedir();
+    const continueHome =
+      process.env.CONTINUE_GLOBAL_DIR || path.join(home, ".continue");
+    return [
+      // User-global (lowest precedence)
+      path.join(home, ".claude", "settings.json"),
+      path.join(continueHome, "settings.json"),
+      // Project-level
+      path.join(cwd, ".claude", "settings.json"),
+      path.join(cwd, ".continue", "settings.json"),
+      // Project-local (highest precedence)
+      path.join(cwd, ".claude", "settings.local.json"),
+      path.join(cwd, ".continue", "settings.local.json"),
+    ];
+  }
+  export interface LoadedHooksConfig {

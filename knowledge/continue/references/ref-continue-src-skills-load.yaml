@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-skills-load
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/util/loadMarkdownSkills.ts
+  start: 108
+  end: 133
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  skillFilePaths.map(async (skillFilePath) => {
+          try {
+            const content = await fsPromises.readFile(skillFilePath, "utf-8");
+            const { frontmatter, markdown } = parseMarkdownRule(content) as {
+              frontmatter: { name?: string; description?: string };
+              markdown: string;
+            };
+            const validatedFrontmatter =
+              skillFrontmatterSchema.parse(frontmatter);
+            const filesInSkillsDirectory = getFilePathsInSkillDirectory(
+              cwd,
+              skillFilePath,
+            );
+            skills.push({
+              ...validatedFrontmatter,
+              content: markdown,
+              path: getRelativePath(cwd, skillFilePath),
+              files: filesInSkillsDirectory,
+            });
+          } catch (error) {
+            errors.push({

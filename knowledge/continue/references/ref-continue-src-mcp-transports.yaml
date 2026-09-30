@@ -1,0 +1,41 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-mcp-transports
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/services/mcpTransports.ts
+  start: 13
+  end: 70
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  export function constructSseTransport(
+    serverConfig: SseMcpServer,
+    apiKey: string | undefined,
+  ): SSEClientTransport {
+    const sseAgent =
+      serverConfig.requestOptions?.verifySsl === false
+        ? new HttpsAgent({ rejectUnauthorized: false })
+        : undefined;
+    const headers = {
+      ...serverConfig.requestOptions?.headers,
+      ...(apiKey && {
+        Authorization: `Bearer ${apiKey}`,
+      }),
+    };
+    return new SSEClientTransport(new URL(serverConfig.url), {
+      eventSourceInit: {
+        fetch: (input, init) =>
+          fetch(input, {
+            ...init,
+            headers: {
+              ...init?.headers,
+              ...headers,
+            },
+            ...(sseAgent && { agent: sseAgent }),
+          }),
+      },
+      requestInit: {
+        headers,
+        ...(sseAgent && { agent: sseAgent }),

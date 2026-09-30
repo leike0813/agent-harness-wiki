@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-logger
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/util/logger.ts
+  start: 14
+  end: 31
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  // Get log directory
+  function getLogDir(): string {
+    const logDir = path.join(env.continueHome, "logs");
+    // Create directory if it doesn't exist
+    if (!fs.existsSync(logDir)) {
+      fs.mkdirSync(logDir, { recursive: true });
+    }
+    return logDir;
+  }
+  // Get current log file path
+  function getLogFilePath(): string {
+    const logDir = getLogDir();
+    return path.join(logDir, "cn.log");
+  }

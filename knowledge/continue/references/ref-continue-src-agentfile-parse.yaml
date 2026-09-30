@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-agentfile-parse
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: packages/config-yaml/src/markdown/agentFiles.ts
+  start: 46
+  end: 78
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  * Agent files must have frontmatter with at least a name
+   */
+  export function parseAgentFile(content: string): AgentFile {
+    const { frontmatter, markdown } = parseMarkdownRule(content);
+    if (!frontmatter.name) {
+      throw new Error(
+        "Agent file must contain YAML frontmatter with a 'name' field",
+      );
+    }
+    const validationResult = agentFileFrontmatterSchema.safeParse(frontmatter);
+    if (!validationResult.success) {
+      const errorDetails = validationResult.error.issues
+        .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+        .join(", ");
+      throw new Error(`Invalid agent file frontmatter: ${errorDetails}`);
+    }
+    return {
+      ...validationResult.data,
+      prompt: markdown,
+    };
+  }
+  /**
+   * Serializes an Agent file back to markdown with YAML frontmatter
+   */

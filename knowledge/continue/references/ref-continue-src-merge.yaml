@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-merge
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: packages/config-yaml/src/load/merge.ts
+  start: 1
+  end: 55
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  import { BLOCK_TYPES, RequestOptions } from "../browser.js";
+  import { AssistantUnrolled, ConfigYaml } from "../schemas/index.js";
+  import { BlockDuplicationDetector } from "./blockDuplicationDetector.js";
+  export function mergePackages(
+    current: ConfigYaml,
+    incoming: ConfigYaml,
+  ): ConfigYaml {
+    return {
+      ...current,
+      models: [...(current.models ?? []), ...(incoming.models ?? [])],
+      context: [...(current.context ?? []), ...(incoming.context ?? [])],
+      data: [...(current.data ?? []), ...(incoming.data ?? [])],
+      mcpServers: [...(current.mcpServers ?? []), ...(incoming.mcpServers ?? [])],
+      rules: [...(current.rules ?? []), ...(incoming.rules ?? [])],
+      prompts: [...(current.prompts ?? []), ...(incoming.prompts ?? [])],

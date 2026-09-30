@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-doc-mcp-quickstart
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: document_section
+  heading: "Quick Start: How to Set Up Your First MCP Server"
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  Below is a quick example of setting up a new MCP server for use in your config:
+  1. Create a folder called `.continue/mcpServers` at the top level of your workspace
+  2. Add a file called `playwright-mcp.yaml` to this folder
+  3. Write the following contents and save
+  ```yaml title=".continue/mcpServers/playwright-mcp.yaml"
+  name: Playwright mcpServer
+  version: 0.0.1
+  schema: v1
+  mcpServers:
+    - name: Browser search
+      command: npx
+      args:
+        - "@playwright/mcp@latest"
+  ```
+  Now test your MCP server by prompting the following command:
+  ```
+  Open the browser and navigate Hacker News. Save the top 10 headlines in a hn.txt file.
+  ```
+  The result will be a generated file called `hn.txt` in the current working directory.
+  ![playwright mcp](/images/mcp-playwright.png)

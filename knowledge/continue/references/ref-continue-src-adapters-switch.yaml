@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-adapters-switch
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: packages/openai-adapters/src/index.ts
+  start: 84
+  end: 130
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  export function constructLlmApi(config: LLMConfig): BaseLlmApi | undefined {
+    if (process.env.CONTINUE_USE_AI_SDK) {
+      if (["openai", "anthropic"].includes(config.provider)) {
+        const aiSdkApi = createAiSdkApiForProvider(
+          config as LLMConfig & { model?: string },
+          config.provider,
+        );
+        if (aiSdkApi) {
+          return aiSdkApi;
+        }
+      }
+    }
+    switch (config.provider) {
+      case "openai":
+        return new OpenAIApi(config);
+      case "azure":
+        return new AzureApi(config);
+      case "bedrock":
+        return new BedrockApi(config);
+      case "cohere":
+        return new CohereApi(config);
+      case "cometapi":
+        return new CometAPIApi(config);
+      case "askSage":
+        return new AskSageApi(config);
+      case "anthropic":

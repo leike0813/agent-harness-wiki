@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-permissionmanager
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/permissions/permissionManager.ts
+  start: 1
+  end: 40
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  import { EventEmitter } from "events";
+  import { ToolCallRequest } from "./types.js";
+  export interface PermissionRequestResult {
+    approved: boolean;
+    remember?: boolean; // For future implementation - remember this decision
+  }
+  export class ToolPermissionManager extends EventEmitter {
+    private pendingRequests = new Map<
+      string,
+      {
+        toolCall: ToolCallRequest;
+        resolve: (result: PermissionRequestResult) => void;
+      }
+    >();
+    private requestCounter = 0;
+    /**
+     * Request permission for a tool call. Returns a promise that resolves
+     * when the user approves or rejects the request.
+     */
+    async requestPermission(
+      toolCall: ToolCallRequest,
+    ): Promise<PermissionRequestResult> {
+      const requestId = `tool-request-${++this.requestCounter}`;

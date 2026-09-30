@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-src-hooks-settings
+harness_id: continue
+snapshot_id: snapshot-continue-repo
+locator:
+  kind: file_lines
+  file: extensions/cli/src/hooks/types.ts
+  start: 95
+  end: 115
+official_url: "https://github.com/continuedev/continue"
+excerpt: |-
+  matcher?: string;
+    /** The hook handlers to run when the matcher matches */
+    hooks: HookHandler[];
+  }
+  /** Top-level hooks configuration object (the `hooks` key in settings.json) */
+  export type HooksConfig = Partial<Record<HookEventName, HookMatcherGroup[]>>;
+  /** Full settings file shape (only the hooks portion) */
+  export interface HookSettingsFile {
+    hooks?: HooksConfig;
+    /** Plugin-level description */
+    description?: string;
+    /** If true, all hooks are disabled */
+    disableAllHooks?: boolean;
+  }
+  // ---------------------------------------------------------------------------
+  // Hook input — JSON sent to hooks on stdin / as POST body
+  // ---------------------------------------------------------------------------
