@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-precedence-merge
+harness_id: devin
+snapshot_id: snapshot-devin-cli-precedence
+locator:
+  kind: document_section
+  heading: How Merging Works
+official_url: "https://docs.devin.ai/cli/reference/configuration/global-vs-local.md"
+excerpt: |-
+  The precedence table above only applies to settings that support multiple levels (`permissions`, `mcpServers`, `read_config_from`, `hooks`).
+  ### Permissions
+  Permission lists are **merged** (combined) across levels. A denial at a higher level cannot be overridden by an allow at a lower level.
+  For example, if your organization denies `Exec(sudo)`, adding `Exec(sudo)` to your user allow list has no effect — the organization denial always wins. However, other permissions like `Read(**)` at the project level are applied normally.
+  ### MCP Servers
+  MCP server configs are **merged by name**. A server defined at a higher level overrides the same-named server at a lower level.

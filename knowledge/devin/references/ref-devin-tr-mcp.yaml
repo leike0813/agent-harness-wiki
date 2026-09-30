@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-tr-mcp
+harness_id: devin
+snapshot_id: snapshot-devin-cli-troubleshooting
+locator:
+  kind: document_section
+  heading: MCP Server Issues
+official_url: "https://docs.devin.ai/cli/troubleshooting.md"
+excerpt: |-
+  <AccordionGroup>
+    <Accordion title="Server won't start">
+      If an MCP server fails to start:
+      1. Verify the command works outside Devin CLI:
+         ```bash theme={null}
+         npx -y @modelcontextprotocol/server-github
+         ```
+      2. Check that all required environment variables are set
+      3. Look for error messages in the server output
+    </Accordion>
+    <Accordion title="Tools not appearing">
+      If MCP tools don't show up:
+      1. The server may need a moment to initialize — wait a few seconds
+      2. Check that the server is configured correctly in your config file
+      3. Verify your enterprise allows MCP servers in [Team Settings](/cli/enterprise/team-settings)
+    </Accordion>
+    <Accordion title="Permission denied for MCP tools">
+      MCP tools default to prompting for approval.

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-mcpc-trouble
+harness_id: devin
+snapshot_id: snapshot-devin-cli-mcp-config
+locator:
+  kind: document_section
+  heading: Troubleshooting
+official_url: "https://docs.devin.ai/cli/extensibility/mcp/configuration.md"
+excerpt: |-
+  <AccordionGroup>
+    <Accordion title="Auth required / OAuth errors with remote servers">
+      If you see errors like `Auth required` or `AuthRequired` when connecting to a remote MCP server, the server requires OAuth authentication.
+      Run:
+      ```bash theme={null}
+      devin mcp login <server-name>
+      ```
+      Each MCP client authenticates independently. Even if you've already authenticated in Windsurf or Claude Code, you need to run `devin mcp login` separately for Devin CLI.
+      To verify your auth status, try removing and re-adding credentials:
+      ```bash theme={null}
+      devin mcp logout <server-name>
+      devin mcp login <server-name>
+      ```
+    </Accordion>
+    <Accordion title="Server won't start">
+      Verify the command works outside Devin CLI:
+      ```bash theme={null}

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-skillc-allowed
+harness_id: devin
+snapshot_id: snapshot-devin-cli-skills-create
+locator:
+  kind: document_section
+  heading: Auto-Approved Tools
+official_url: "https://docs.devin.ai/cli/extensibility/skills/creating-skills.md"
+excerpt: |-
+  `allowed-tools` lists tools that are auto-approved while the skill runs, so the agent can use them without a permission prompt:
+  ```yaml theme={null}
+  allowed-tools:
+    - read
+    - grep
+    - glob
+  ```
+  Each entry is equivalent to a `permissions.allow` entry for that tool name. Available tool names: `read`, `edit`, `grep`, `glob`, `exec`
+  You can also auto-approve MCP tools:
+  ```yaml theme={null}
+  allowed-tools:
+    - read
+    - mcp__github__list_issues
+    - mcp__github__create_issue
+  ```
+  <Warning>
+    `allowed-tools` is **not** a restriction. Tools that are not listed remain available to the skill and go through the normal permission checks (prompting the user, or running without a prompt if the session's permissions already allow them).

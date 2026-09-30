@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-precedence-layers
+harness_id: devin
+snapshot_id: snapshot-devin-cli-precedence
+locator:
+  kind: document_section
+  heading: Configuration Layers
+official_url: "https://docs.devin.ai/cli/reference/configuration/global-vs-local.md"
+excerpt: |-
+  From highest to lowest priority:
+  | Priority | Source | Notes |
+  | - | - | - |
+  | 1 (highest) | Organization / Team Settings | Cannot be overridden |
+  | 2 | Session (interactive approvals) | In-memory only |
+  | 3 | Project Local (`.devin/config.local.json`) | Personal, gitignored |
+  | 4 | Project (`.devin/config.json`) | Shared with team |
+  | 5 (lowest) | User (`~/.config/devin/config.json`; `%APPDATA%\devin\config.json` on Windows) | Your defaults |
+  When the same setting is defined at multiple levels, the higher-priority source wins.
+  <Note>
+    MCP servers follow the same precedence but live in dedicated files at each level: `~/.config/devin/mcp_config.json` (`%APPDATA%\devin\mcp_config.json` on Windows), `.devin/mcp_config.json`, and `.devin/mcp_config.local.json`.

@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-sub-fields
+harness_id: devin
+snapshot_id: snapshot-devin-cli-subagents
+locator:
+  kind: document_section
+  heading: Frontmatter Fields
+official_url: "https://docs.devin.ai/cli/subagents.md"
+excerpt: |-
+  | Field | Type | Default | Description |
+  | - | - | - | - |
+  | `name` | string | file or directory name | Identifier for the profile (must not conflict with built-in profiles) |
+  | `description` | string | none | Shown to the agent when selecting a profile |
+  | `model` | string | default subagent model (router-selected unless an admin pins one) — **not** the parent's model | Override the model used by this subagent |
+  | `allowed-tools` | list | all tools | Restrict which tools the subagent can use. Cannot grant `ask_user_question`, which is always withheld from subagents. The alias `tools` is also accepted. |
+  | `max-nesting` | integer | none | Override the maximum nesting depth, allowing this subagent to spawn its own subagents |

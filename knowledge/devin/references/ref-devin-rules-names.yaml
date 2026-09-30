@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-rules-names
+harness_id: devin
+snapshot_id: snapshot-devin-cli-rules
+locator:
+  kind: document_section
+  heading: Supported File Names
+official_url: "https://docs.devin.ai/cli/extensibility/rules.md"
+excerpt: |-
+  Devin CLI reads rules from any of these files:
+  | File | Notes |
+  | - | - |
+  | `AGENTS.md` | Recommended |
+  | `AGENTS.local.md` | Personal rules (gitignored) |
+  | `AGENT.md` | Singular alternative |
+  | `.windsurfrules` | Legacy Windsurf workspace rules |
+  | `CLAUDE.md` | Compatible with Claude Code |
+  All of these are treated identically — their contents are loaded as always-on rules.
+  These files can exist at multiple levels in your project (not just the root). Files at the workspace root are loaded at session start. Files in subdirectories are discovered lazily when the agent accesses files in that directory, keeping the context focused on the relevant part of the codebase.

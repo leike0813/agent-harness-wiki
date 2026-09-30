@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-mcpc-disable
+harness_id: devin
+snapshot_id: snapshot-devin-cli-mcp-config
+locator:
+  kind: document_section
+  heading: Enabling and Disabling Servers
+official_url: "https://docs.devin.ai/cli/extensibility/mcp/configuration.md"
+excerpt: |-
+  You can temporarily disable an MCP server without removing its configuration. A disabled server is skipped during tool discovery — its tools won't appear and the server process won't be started.
+  ```bash theme={null}
+  devin mcp disable <name>    # Disable a server
+  devin mcp enable <name>     # Re-enable it
+  ```
+  This sets the `"disabled": true` flag on the server entry in the config file. Use `-s`/`--scope` to target a specific scope:
+  ```bash theme={null}
+  devin mcp disable -s project my-server
+  devin mcp enable -s user my-server
+  ```
+  You can also set the flag directly in your config file:
+  ```json theme={null}
+  {
+    "mcpServers": {
+      "my-server": {
+        "command": "npx",
+        "args": ["-y", "@company/mcp-server"],
+        "disabled": true
+      }
+    }
+  }
+  ```

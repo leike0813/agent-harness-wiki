@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-mcp-example
+harness_id: devin
+snapshot_id: snapshot-devin-cli-mcp-overview
+locator:
+  kind: document_section
+  heading: Quick Example
+official_url: "https://docs.devin.ai/cli/extensibility/mcp/overview.md"
+excerpt: |-
+  Add a GitHub MCP server to your project:
+  ```json theme={null}
+  // .devin/mcp_config.local.json  (gitignored — keep tokens out of committed config)
+  {
+    "mcpServers": {
+      "github": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-github"],
+        "env": {
+          "GITHUB_TOKEN": "ghp_your_token_here"
+        }
+      }
+    }
+  }
+  ```
+  Now the agent can create issues, read PRs, search repos, and more — all through natural language.
+  ***

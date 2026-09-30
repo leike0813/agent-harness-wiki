@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-ts-perms
+harness_id: devin
+snapshot_id: snapshot-devin-cli-team-settings
+locator:
+  kind: document_section
+  heading: Terminal Permissions
+official_url: "https://docs.devin.ai/cli/enterprise/team-settings.md"
+excerpt: |-
+  Configure team-enforced permission rules for Devin CLI usage. These rules have the **highest precedence** and cannot be overridden by individual users' local or project configurations.
+  Click **Configure** to open the permissions editor. The configuration requires a JSON object with three fields:
+  ```json theme={null}
+  {
+    "deny": [
+      "exec"
+    ],
+    "ask": [],
+    "allow": [
+      "Read(~/my-repository/**)"
+    ]
+  }
+  ```
+  * **`deny`** — Actions that are blocked entirely (takes highest priority)
+  * **`ask`** — Actions that always prompt the user for approval
+  * **`allow`** — Actions that are automatically approved without prompting
+  Permissions can be **scope-based** or **tool-based**:
+  | Type | Format | Example |
+  | - | - | - |
+  | File read | `Read(/path)` | `Read(~/sensitive/**)` |

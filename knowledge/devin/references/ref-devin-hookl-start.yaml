@@ -1,0 +1,42 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-hookl-start
+harness_id: devin
+snapshot_id: snapshot-devin-cli-hooks-lifecycle
+locator:
+  kind: document_section
+  heading: SessionStart
+official_url: "https://docs.devin.ai/cli/extensibility/hooks/lifecycle-hooks.md"
+excerpt: |-
+  Fires when a new session begins. Use this for initialization, logging, or environment setup.
+  **Stdin data:**
+  | Field | Description |
+  | - | - |
+  | `source` | How the session was started |
+  **Example — Run setup script:**
+  ```json theme={null}
+  {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./scripts/dev-setup.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+  ```
+  A SessionStart command can also inject context by printing `additionalContext` inside a `hookSpecificOutput` object on stdout:
+  ```json theme={null}
+  {
+    "hookSpecificOutput": {
+      "hookEventName": "SessionStart",
+      "additionalContext": "Session started. Project uses ESM imports only."
+    }
+  }
+  ```
+  ***

@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-perm-config
+harness_id: devin
+snapshot_id: snapshot-devin-cli-permissions
+locator:
+  kind: document_section
+  heading: Configuration
+official_url: "https://docs.devin.ai/cli/reference/permissions.md"
+excerpt: |-
+  Add permissions to your config file's `permissions` section:
+  <Note>
+    On Windows, the user config path is `%APPDATA%\devin\config.json` (typically `C:\Users\<you>\AppData\Roaming\devin\config.json`) rather than `~/.config/devin/config.json`. See [Configuration File](/cli/reference/configuration/config-file#file-locations) for details.
+  </Note>
+  <Tabs>
+    <Tab title="Project config">
+      ```json theme={null}
+      // .devin/config.json
+      {
+        "permissions": {
+          "allow": [
+            "Read(src/**)",
+            "Exec(npm run)"
+          ],
+          "deny": [
+            "Exec(rm)"
+          ]
+        }
+      }
+      ```
+    </Tab>
+    <Tab title="User config">
+      ```json theme={null}
+      // ~/.config/devin/config.json
+      {
+        "permissions": {
+          "allow": [
+            "Read(**)",

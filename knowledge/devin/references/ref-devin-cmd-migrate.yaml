@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-cmd-migrate
+harness_id: devin
+snapshot_id: snapshot-devin-cli-commands
+locator:
+  kind: document_section
+  heading: devin migrate
+official_url: "https://docs.devin.ai/cli/reference/commands.md"
+excerpt: |-
+  Migrate configuration from other tools into Devin's own formats.
+  | Command | Description |
+  | - | - |
+  | `devin migrate hooks` | Migrate Windsurf hooks (`.windsurf/hooks.json`) to Devin hooks (`.devin/hooks.v1.json`) |
+  | `devin migrate workflows` | Migrate workflow files into skills and remove the originals |
+  **Options for `devin migrate workflows`:**
+  * `--scope <all\|workspace\|global>` — Which workflows to migrate (default: `all`)
+  Migration is a one-time copy. Configuration that Devin CLI reads in place — rules, skills, and MCP servers from Cursor, Windsurf, Claude Code, Copilot, and others — needs no migration; see [Configuration Import](/cli/reference/configuration/read-config-from).

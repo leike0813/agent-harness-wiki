@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-tr-net
+harness_id: devin
+snapshot_id: snapshot-devin-cli-troubleshooting
+locator:
+  kind: document_section
+  heading: "Network & Proxy Issues"
+official_url: "https://docs.devin.ai/cli/troubleshooting.md"
+excerpt: |-
+  <AccordionGroup>
+    <Accordion title="Connections fail behind a corporate proxy">
+      The CLI routes its own outbound HTTPS traffic (authentication, updates, model API calls, MCP servers) through a proxy when one is configured. There are two ways to set it:
+      **Environment variables** — the default `system` proxy mode respects these:
+      ```bash theme={null}
+      export HTTPS_PROXY=http://proxy.corp.example.com:8080
+      export HTTP_PROXY=http://proxy.corp.example.com:8080
+      export ALL_PROXY=socks5://proxy.corp.example.com:1080   # optional, SOCKS5
+      export NO_PROXY=localhost,127.0.0.1,.internal.corp      # hosts to bypass
+      ```
+      **`config.json`** — applies regardless of environment:
+      ```json theme={null}
+      {
+        "proxy": {
+          "mode": "manual",

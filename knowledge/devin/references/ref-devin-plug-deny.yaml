@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-plug-deny
+harness_id: devin
+snapshot_id: snapshot-devin-cli-plugins
+locator:
+  kind: document_section
+  heading: A denylist is only overridden at its own level
+official_url: "https://docs.devin.ai/cli/extensibility/plugins/overview.md"
+excerpt: |-
+  Because allow-lists don't cross levels, the **only** way to carve an exception
+  out of a denylist is at the same level that declared it. A level's `forbiddenPlugins`
+  is overridden only by that same manifest's own `optionalPlugins` (or
+  `requiredPlugins`) — never by a list at a lower level.
+  For example, an enterprise-level managed manifest can lock the account down to a
+  single approved plugin:
+  ```jsonc theme={null}
+  // Enterprise-level managed manifest
+  {
+    "forbiddenPlugins": ["*"],
+    "optionalPlugins": ["acme/approved"]
+  }
+  ```
+  This means "across the whole account, allow only `acme/approved` and forbid
+  every other plugin." No org, repo, or user can widen that allow-list — not by
+  installing a plugin, and not by adding it to a lower level's `optionalPlugins`.

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-mcpc-options
+harness_id: devin
+snapshot_id: snapshot-devin-cli-mcp-config
+locator:
+  kind: document_section
+  heading: Server Configuration Options
+official_url: "https://docs.devin.ai/cli/extensibility/mcp/configuration.md"
+excerpt: |-
+  MCP servers can be configured in two ways: as a **local command** (stdio transport) or as a **remote server** (HTTP transport).
+  ### Local Command (stdio)
+  | Field | Type | Required | Description |
+  | - | - | - | - |
+  | `command` | string | Yes | The executable to run |
+  | `args` | string\[] | No | Command-line arguments |
+  | `env` | object | No | Environment variables to set |
+  | `disabled` | boolean | No | Set to `true` to skip this server (see [Enabling and disabling servers](#enabling-and-disabling-servers)) |
+  ### Remote Server (Streamable HTTP)
+  | Field | Type | Required | Description |
+  | - | - | - | - |
+  | `url` | string | Yes | The URL of the MCP server endpoint |
+  | `transport` | string | No | `"http"` (Streamable HTTP, default for URL-based servers) or `"sse"` (legacy SSE).

@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-hookl-stop
+harness_id: devin
+snapshot_id: snapshot-devin-cli-hooks-lifecycle
+locator:
+  kind: document_section
+  heading: Stop
+official_url: "https://docs.devin.ai/cli/extensibility/hooks/lifecycle-hooks.md"
+excerpt: |-
+  Fires when the agent decides to stop (finish its turn). Use this to add follow-up instructions or prevent premature stopping.
+  **Stdin data:**
+  | Field | Description |
+  | - | - |
+  | `stop_hook_active` | Whether a stop hook is already active |
+  **Example — Remind agent to run tests:**
+  ```json theme={null}
+  {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '{\"decision\": \"block\", \"reason\": \"Please run the test suite before stopping.\"}'"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+  <Warning>
+    Be careful with stop hooks that block — they can cause the agent to loop if the condition isn't eventually satisfied.
+  </Warning>
+  ***

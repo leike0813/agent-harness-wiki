@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-perm-precedence
+harness_id: devin
+snapshot_id: snapshot-devin-cli-permissions
+locator:
+  kind: document_section
+  heading: Precedence
+official_url: "https://docs.devin.ai/cli/reference/permissions.md"
+excerpt: |-
+  When multiple permission sources define rules, they're merged with this precedence (highest first):
+  1. Organization/team settings (if enterprise)
+  2. Session-level grants (interactive approvals)
+  3. Project local config (`.devin/config.local.json`)
+  4. Project config (`.devin/config.json`)
+  5. User config (`~/.config/devin/config.json`; `%APPDATA%\devin\config.json` on Windows)
+  <Warning>
+    Organization-level deny and ask rules cannot be overridden by project or user config. This ensures enterprise policies are enforced.
+  </Warning>
+  ***

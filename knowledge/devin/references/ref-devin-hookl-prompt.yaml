@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-hookl-prompt
+harness_id: devin
+snapshot_id: snapshot-devin-cli-hooks-lifecycle
+locator:
+  kind: document_section
+  heading: UserPromptSubmit
+official_url: "https://docs.devin.ai/cli/extensibility/hooks/lifecycle-hooks.md"
+excerpt: |-
+  Fires when the user submits a message. Use this to add context or trigger workflows.
+  **Stdin data:**
+  | Field | Description |
+  | - | - |
+  | `prompt` | The user's message text |
+  **Example — Inject context on every prompt:**
+  ```json theme={null}
+  {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '{\"hookSpecificOutput\": {\"hookEventName\": \"UserPromptSubmit\", \"additionalContext\": \"Deploys require an approved change ticket.\"}}'"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+  The command prints `additionalContext` inside a `hookSpecificOutput` object on stdout, tagged with the event name. That text is injected into the agent's context:
+  ```json theme={null}
+  {
+    "hookSpecificOutput": {

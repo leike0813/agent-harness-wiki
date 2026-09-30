@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-hookl-matcher
+harness_id: devin
+snapshot_id: snapshot-devin-cli-hooks-lifecycle
+locator:
+  kind: document_section
+  heading: Using the Matcher
+official_url: "https://docs.devin.ai/cli/extensibility/hooks/lifecycle-hooks.md"
+excerpt: |-
+  The `matcher` field is a **regex** matched against the hook event's `tool_name`. It is available for tool-related events: `PreToolUse`, `PostToolUse`, and `PermissionRequest`.
+  For non-tool events (`UserPromptSubmit`, `Stop`, `PostCompaction`, `SessionStart`, and `SessionEnd`), there is no `tool_name`; use `""` or omit the matcher to run the hook for every event of that type.
+  <Note>
+    The matcher is not a permission glob. Patterns like `mcp__github__*` are useful in permissions, but hook matchers are regexes. Use `mcp__github__.*` in a hook matcher.
+  </Note>
+  | Matcher | Matches |
+  | - | - |
+  | `""` (empty) or omitted | All tool names for tool events |
+  | `"exec"` | Tool names containing `exec` |
+  | `"^exec$"` | Only the `exec` tool |
+  | `"^(exec\|edit)$"` | Only `exec` or `edit` |

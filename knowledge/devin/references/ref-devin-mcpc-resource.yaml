@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-mcpc-resource
+harness_id: devin
+snapshot_id: snapshot-devin-cli-mcp-config
+locator:
+  kind: document_section
+  heading: OAuth resource override
+official_url: "https://docs.devin.ai/cli/extensibility/mcp/configuration.md"
+excerpt: |-
+  During OAuth authorization and token exchange, Devin CLI sends an [RFC 8707](https://datatracker.ietf.org/doc/html/rfc8707) `resource` parameter so the authorization server can issue audience-restricted tokens. By default the value is the MCP server's URL. Override it with `oauthResource`:
+  ```json theme={null}
+  {
+    "mcpServers": {
+      "my-server": {
+        "url": "https://my-server.example.com/mcp",
+        "transport": "http",
+        "oauthResource": ""
+      }
+    }
+  }
+  ```
+  The field has three behaviors:
+  * **Unset** (default): sends `resource` set to the MCP server URL.
+  * **Non-empty value**: replaces the default with your value (e.g. a specific application ID URI).
+  * **Empty string (`""`)**: omits the `resource` parameter entirely from both the authorization URL and the token exchange.

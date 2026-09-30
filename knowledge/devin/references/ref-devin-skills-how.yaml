@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-skills-how
+harness_id: devin
+snapshot_id: snapshot-devin-cli-skills-overview
+locator:
+  kind: document_section
+  heading: How Skills Work
+official_url: "https://docs.devin.ai/cli/extensibility/skills/overview.md"
+excerpt: |-
+  When a skill is invoked:
+  1. The skill's prompt is injected into the conversation
+  2. Tools listed in the skill's `allowed-tools` (if specified) are auto-approved, so they run without a permission prompt. Unlisted tools stay available and go through the normal permission checks
+  3. The skill's `permissions` (`allow`, `deny`, `ask`) are applied. Use `permissions.deny` to block a tool while the skill runs
+  4. The specified model is used (if different from the current one)
+  <Note>
+    `allowed-tools` and `permissions` apply to skills that run inline. A skill that runs as a [subagent](/cli/extensibility/skills/creating-skills#running-skills-as-subagents) (`subagent: true` or `agent:`) gets its tool access from the subagent profile instead.
+  </Note>
+  ***

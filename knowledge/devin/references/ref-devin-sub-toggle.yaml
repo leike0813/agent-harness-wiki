@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-sub-toggle
+harness_id: devin
+snapshot_id: snapshot-devin-cli-subagents
+locator:
+  kind: document_section
+  heading: Enabling and Disabling Subagents
+official_url: "https://docs.devin.ai/cli/subagents.md"
+excerpt: |-
+  Subagents are on by default. Set `subagents_enabled` to `false` in your [config file](/cli/reference/configuration/config-file#subagents_enabled) to remove the `run_subagent` and `read_subagent` tools so the agent does everything itself:
+  ```json theme={null}
+  // ~/.config/devin/config.json
+  {
+    "subagents_enabled": false
+  }
+  ```
+  The change applies live — a running session picks it up without restarting. In Devin Desktop, the same capability is the **Subagents (Preview)** toggle in settings.
+  <Note>
+    Organization policy wins: if an admin has set **Default subagent model** to **None**, subagents stay disabled no matter what this setting says.
+  </Note>
+  ***

@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-mcpc-auth
+harness_id: devin
+snapshot_id: snapshot-devin-cli-mcp-config
+locator:
+  kind: document_section
+  heading: Authentication
+official_url: "https://docs.devin.ai/cli/extensibility/mcp/configuration.md"
+excerpt: |-
+  Some remote MCP servers require OAuth authentication. After adding an OAuth-based server to your config, authenticate using the `login` command:
+  ```bash theme={null}
+  devin mcp login <server-name>
+  ```
+  For example:
+  ```bash theme={null}
+  devin mcp login notion    # Authenticate with Notion
+  devin mcp login linear    # Authenticate with Linear
+  ```
+  This opens a browser window where you can authorize access. The OAuth tokens are stored locally and refreshed automatically.
+  You can optionally request specific OAuth scopes:
+  ```bash theme={null}
+  devin mcp login notion --scopes read,write
+  ```
+  To remove stored OAuth credentials for a server:
+  ```bash theme={null}
+  devin mcp logout <server-name>
+  ```
+  <Note>

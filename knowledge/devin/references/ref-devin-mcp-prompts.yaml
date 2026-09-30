@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-mcp-prompts
+harness_id: devin
+snapshot_id: snapshot-devin-cli-mcp-overview
+locator:
+  kind: document_section
+  heading: Prompts as Slash Commands
+official_url: "https://docs.devin.ai/cli/extensibility/mcp/overview.md"
+excerpt: |-
+  Beyond tools, an MCP server can publish **prompts** — reusable, parameterized instructions declared through the MCP `prompts` capability. Devin CLI exposes each one as a slash command:
+  ```
+  /mcp__<server>__<prompt> [arguments]
+  ```
+  For example, a `linear` server that publishes a `bug_report` prompt becomes `/mcp__linear__bug_report`. Prompt commands are listed in the command palette under their own **MCP** category, described with the title or description the server publishes, and annotated with an argument hint built from the prompt's declared parameters — `<name>` for required arguments and `[name]` for optional ones.
+  When you send the command, Devin CLI fetches the prompt from the server and substitutes the messages it returns as your message for that turn.
+  ### How arguments map

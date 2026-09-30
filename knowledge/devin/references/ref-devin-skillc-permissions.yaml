@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-skillc-permissions
+harness_id: devin
+snapshot_id: snapshot-devin-cli-skills-create
+locator:
+  kind: document_section
+  heading: Permissions
+official_url: "https://docs.devin.ai/cli/extensibility/skills/creating-skills.md"
+excerpt: |-
+  Skills can define their own permission scope using the same syntax as the main permissions config:
+  ```yaml theme={null}
+  permissions:
+    allow:
+      - Read(src/**)
+      - Exec(npm run test)
+    deny:
+      - Write(/etc/**)
+      - exec
+    ask:
+      - Write(src/**)
+  ```
+  **How skill permissions work:**
+  * `allow` — These scopes are auto-approved during skill execution
+  * `deny` — These scopes are blocked during skill execution
+  * `ask` — These scopes always prompt the user
+  `deny` is the way to hard-block a tool for an inline skill. Tool-name entries such as `exec` or `edit` block the entire tool, and `mcp__server__tool` patterns block MCP tools — see [Tool-Based Permissions](/cli/reference/permissions#tool-based-permissions).
+  <Note>

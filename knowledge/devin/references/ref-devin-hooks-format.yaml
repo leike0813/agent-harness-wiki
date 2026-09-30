@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-hooks-format
+harness_id: devin
+snapshot_id: snapshot-devin-cli-hooks
+locator:
+  kind: document_section
+  heading: Hook Format
+official_url: "https://docs.devin.ai/cli/extensibility/hooks/overview.md"
+excerpt: |-
+  Each hook has a **type** (`command` or `prompt`), an optional **matcher** (regex on the hook event's `tool_name`), and configuration:
+  ```json theme={null}
+  {
+    "PreToolUse": [
+      {
+        "matcher": "exec",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./scripts/validate.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+  ```
+  | Field | Description |
+  | - | - |
+  | `matcher` | Regex matched against the hook event's `tool_name`. Empty string or an omitted matcher matches all tool names. |
+  | `type` | `"command"` to run a shell command, or `"prompt"` to evaluate an LLM prompt. |
+  | `command` | Shell command to run (for `command` type). |
+  | `prompt` | LLM prompt to evaluate (for `prompt` type). |
+  | `timeout` | Timeout in seconds (optional). |
+  ### Command Hooks

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-hookl-pretool
+harness_id: devin
+snapshot_id: snapshot-devin-cli-hooks-lifecycle
+locator:
+  kind: document_section
+  heading: PreToolUse
+official_url: "https://docs.devin.ai/cli/extensibility/hooks/lifecycle-hooks.md"
+excerpt: |-
+  Fires **before** a tool executes. Use this to block, modify, or add context to tool calls.
+  **Stdin data:**
+  | Field | Description | Example |
+  | - | - | - |
+  | `tool_name` | Name of the tool being called | `exec`, `edit`, `mcp__github__create_issue` |
+  | `tool_input` | Arguments passed to the tool | `{ "command": "rm -rf /", "shell_id": "main" }` |
+  **Example — Block destructive commands:**
+  ```json theme={null}
+  {
+    "PreToolUse": [
+      {
+        "matcher": "exec",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import sys, json; data = json.load(sys.stdin); cmd = data.get('tool_input', {}).get('command', ''); sys.exit(2 if 'rm -rf' in cmd else 0)\""
+          }
+        ]
+      }
+    ]
+  }
+  ```
+  **Example — Require confirmation for writes outside src/:**

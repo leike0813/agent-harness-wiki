@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-sub-model
+harness_id: devin
+snapshot_id: snapshot-devin-cli-subagents
+locator:
+  kind: document_section
+  heading: "Which Model Does a Subagent Use?"
+official_url: "https://docs.devin.ai/cli/subagents.md"
+excerpt: |-
+  Subagents do not all run on the model you picked in the model picker. Each profile decides where its model comes from:
+  | Profile | Model used | Effect on quota / credits |
+  | - | - | - |
+  | `subagent_explore` | The **default subagent model** — chosen by the subagent router at spawn time unless an admin pins a model; not your model picker selection | Depends on the default subagent model, not your primary model's rate |
+  | `subagent_general` | **The same model as the parent agent** — whatever you selected in the model picker (e.g. Claude Opus, GPT-5) | Same rate as the parent: a general subagent costs like a full extra session on your selected model |
+  | Custom subagents | The `model` field in the definition file if set, otherwise the **default subagent model** | Depends on the model you pin |

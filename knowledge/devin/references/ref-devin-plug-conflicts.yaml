@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-plug-conflicts
+harness_id: devin
+snapshot_id: snapshot-devin-cli-plugins
+locator:
+  kind: document_section
+  heading: Conflicts and dependencies
+official_url: "https://docs.devin.ai/cli/extensibility/plugins/overview.md"
+excerpt: |-
+  * A require and a forbid for the same plugin at the **same level** but from
+    **different manifests** (for example two separately installed user-level
+    plugins) resolve to the forbid — an allow-list only exempts entries in its
+    *own* manifest, so it can't rescue a plugin another manifest forbids. (Within
+    a single manifest, its own required/optional stay exempt from its own forbids,
+    as [above](#a-denylist-is-only-overridden-at-its-own-level).)
+  * A plugin blocked by governance **soft-fails**: at session start its skills are
+    skipped with a warning naming the forbidder, rather than aborting the session.
+  * Being depended upon grants no exemption. A plugin pulled in only as a
+    transitive dependency is still subject to every forbid that applies to it, and

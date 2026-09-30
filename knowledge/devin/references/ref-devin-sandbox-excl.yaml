@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-sandbox-excl
+harness_id: devin
+snapshot_id: snapshot-devin-cli-sandbox
+locator:
+  kind: document_section
+  heading: Excluded commands
+official_url: "https://docs.devin.ai/cli/sandbox.md"
+excerpt: |-
+  Sometimes a specific command needs to run *outside* the sandbox — for example `git` commands that must access credentials or hooks the sandbox blocks. The `sandbox.excluded` config section lets you exclude matching commands from sandbox isolation using the same `Exec(...)` rule syntax as [permissions](/cli/reference/permissions):
+  | Option | Type | Description |
+  | - | - | - |
+  | `excluded.allow` | string\[] | Matching commands run outside the sandbox automatically |
+  | `excluded.ask` | string\[] | Matching commands run outside the sandbox after the user approves a prompt |
+  | `excluded.deny` | string\[] | Matching commands are never excluded — they always stay inside the sandbox |
+  **Example:**
+  ```json theme={null}
+  {
+    "sandbox": {
+      "excluded": {
+        "allow": ["Exec(git status *)"],

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-plugqs-fork
+harness_id: devin
+snapshot_id: snapshot-devin-cli-plugins-quickstart
+locator:
+  kind: document_section
+  heading: "1. Fork the template"
+official_url: "https://docs.devin.ai/cli/extensibility/plugins/quickstart.md"
+excerpt: |-
+  Fork [CognitionAI/team-marketplace-template](https://github.com/CognitionAI/team-marketplace-template). Its layout:
+  ```
+  your-marketplace/
+  ├── .devin-plugin/
+  │   └── plugin.json      # the meta-plugin: your baseline + policy
+  ├── AGENTS.md            # always-on rule shipped with the baseline
+  ├── plugins/
+  │   ├── engineering-baseline/   # each subfolder is its own plugin
+  │   ├── security-guardrails/
+  │   ├── frontend-standards/
+  │   └── docs-and-release/
+  └── scripts/validate-template.mjs   # CI validation
+  ```
+  The repo root is itself a plugin — the **meta-plugin**. Installing the repo installs your whole baseline: its manifest's `requiredPlugins` pulls in the plugins every teammate should have, `optionalPlugins` endorses extras, and `forbiddenPlugins` blocks what you don't want.

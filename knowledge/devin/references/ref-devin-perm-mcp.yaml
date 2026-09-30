@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-perm-mcp
+harness_id: devin
+snapshot_id: snapshot-devin-cli-permissions
+locator:
+  kind: document_section
+  heading: MCP Tool Permissions
+official_url: "https://docs.devin.ai/cli/reference/permissions.md"
+excerpt: |-
+  Control access to MCP server tools:
+  ```json theme={null}
+  {
+    "permissions": {
+      "allow": [
+        "mcp__github__list_issues",     // Specific tool on specific server
+        "mcp__github__*",               // All tools on github server
+        "mcp__*"                        // All MCP tools
+      ],
+      "deny": [
+        "mcp__github__delete_repo"      // Block specific dangerous tool
+      ]
+    }
+  }
+  ```
+  | Pattern | Matches |
+  | - | - |
+  | `mcp__server__tool` | One specific tool |
+  | `mcp__server__*` | All tools on a server |
+  | `mcp__*` | All MCP tools everywhere |
+  ***

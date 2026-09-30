@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-hooks-output
+harness_id: devin
+snapshot_id: snapshot-devin-cli-hooks
+locator:
+  kind: document_section
+  heading: Output format
+official_url: "https://docs.devin.ai/cli/extensibility/hooks/overview.md"
+excerpt: |-
+  A command hook can print a JSON object to **stdout** to control the outcome.
+  To approve or block an action, return a top-level `decision` (with an optional `reason`):
+  ```json theme={null}
+  {
+    "decision": "block",
+    "reason": "Destructive command blocked by policy"
+  }
+  ```
+  To inject text into the agent's context, return `additionalContext` inside a `hookSpecificOutput` object tagged with the event name:
+  ```json theme={null}
+  {
+    "hookSpecificOutput": {
+      "hookEventName": "UserPromptSubmit",
+      "additionalContext": "Remember: deploys require an approved change ticket."
+    }
+  }
+  ```
+  To transparently rewrite a tool's input before it executes, return `updatedInput` inside a `PreToolUse` `hookSpecificOutput`.

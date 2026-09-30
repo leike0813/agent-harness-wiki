@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-perm-default
+harness_id: devin
+snapshot_id: snapshot-devin-cli-permissions
+locator:
+  kind: document_section
+  heading: Default Permission Behavior
+official_url: "https://docs.devin.ai/cli/reference/permissions.md"
+excerpt: |-
+  Devin CLI uses a tiered permission system to balance power and safety. The default behavior depends on the current [mode](/cli/essential-commands#modes):
+  Each cell shows whether that tool runs automatically (**Auto**, no prompt) or waits for your approval (**Prompt**) in that mode:
+  | Tool type | Example | Normal | Accept Edits | Smart | Bypass | Autonomous (sandbox) |
+  | - | - | - | - | - | - | - |
+  | Read-only | File reads, grep, glob | Auto | Auto | Auto | Auto | Auto |
+  | Fetch | HTTP requests | Prompt | Prompt | Auto when judged safe | Auto | Auto |
+  | Bash commands | Shell execution | Prompt | Prompt | Auto when judged safe | Auto | Auto |
+  | File edits via `edit`/`write` | Edit/write files | Prompt | Auto (in workspace) | Auto (in workspace) | Auto | Prompt |

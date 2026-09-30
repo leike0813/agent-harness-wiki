@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-sub-perms
+harness_id: devin
+snapshot_id: snapshot-devin-cli-subagents
+locator:
+  kind: document_section
+  heading: Tool Permissions
+official_url: "https://docs.devin.ai/cli/subagents.md"
+excerpt: |-
+  How tool permissions work depends on whether the subagent is running in the foreground or background:
+  * **Foreground subagents** behave like the main agent -- you are prompted to approve or deny tool calls as usual. The prompt names the subagent that requested the action, so you know who is asking.
+  * **Background subagents** inherit any tool permissions you have already granted during the current session. Any tool that has not been pre-approved is automatically denied. Background subagents cannot prompt you for new permissions.
+  <Tip>
+    If a background subagent fails because a required tool was denied, you can resume it in the foreground to approve the necessary permissions. See [Resuming Subagents](#resuming-subagents) below.
+  </Tip>
+  ***

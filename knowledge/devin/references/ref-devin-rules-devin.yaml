@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-rules-devin
+harness_id: devin
+snapshot_id: snapshot-devin-cli-rules
+locator:
+  kind: document_section
+  heading: Rules in the .devin Directory
+official_url: "https://docs.devin.ai/cli/extensibility/rules.md"
+excerpt: |-
+  Devin CLI also reads rules from the `.devin/` directory, one rule per file:
+  | Path | Notes |
+  | - | - |
+  | `.devin/rules/*.md` | One rule per file. Supports `trigger` frontmatter |
+  | `.devin/global_rules.md` | Single always-on file |
+  These files use the same frontmatter as `.windsurf/rules/*.md`, so the `trigger` values `always_on`, `manual`, `model_decision`, `agent`, and `glob` all apply.
+  `.devin/` is the preferred location and takes precedence over `.windsurf/`. If both `.devin/global_rules.md` and `.windsurf/global_rules.md` exist, Devin CLI loads only `.devin/global_rules.md`. Rule files in `.devin/rules/` and `.windsurf/rules/` are both loaded.

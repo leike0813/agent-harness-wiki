@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-plug-levels
+harness_id: devin
+snapshot_id: snapshot-devin-cli-plugins
+locator:
+  kind: document_section
+  heading: Inheritance and levels
+official_url: "https://docs.devin.ai/cli/extensibility/plugins/overview.md"
+excerpt: |-
+  Plugins aren't declared in one place. Beyond your own installs, plugins can be
+  required, endorsed, or forbidden by your repo and by your organization's admin.
+  Each source is a **level**, and the levels are ranked by **authority**, highest
+  first:
+  1. **Enterprise** — the account-wide managed manifest, configured by an
+     enterprise admin.
+  2. **Org** — an org-level managed manifest, layered below its enterprise (an
+     org can add to what its enterprise declares, but can't overrule it). Cloud
+     sessions use the manifest of the session's organization; the CLI and Devin
+     Desktop use the manifest of your primary organization.
+  3. **Repo** — the `requiredPlugins` / `optionalPlugins` / `forbiddenPlugins` in a
+     checkout's `.devin/config.json`, discovered by walking up from your working

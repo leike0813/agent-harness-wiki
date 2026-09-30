@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-ext-import
+harness_id: devin
+snapshot_id: snapshot-devin-cli-ext-index
+locator:
+  kind: document_section
+  heading: Importing From Other Tools
+official_url: "https://docs.devin.ai/cli/extensibility/index.md"
+excerpt: |-
+  Devin CLI can read configuration from other AI coding tools you may already use:
+  | Source | What's Imported |
+  | - | - |
+  | `AGENTS.md` / `AGENT.md` / `CLAUDE.md` | Rules (always-on context) |
+  | `.cursor/rules/*.md` / `.cursor/rules/*.mdc` | Rules |
+  | `.windsurf/rules/*.md` | Rules |
+  | `.claude/` directory | Commands, [custom subagents](/cli/subagents#custom-subagents), [hooks](/cli/extensibility/hooks/overview) |
+  | `.github/skills/` (GitHub Copilot) | Skills |
+  | `opencode.json` (OpenCode) | MCP servers |
+  | `.zed/settings.json` (Zed) | MCP servers |
+  This means you can start using Devin CLI without rewriting your existing configuration. Import is enabled by default and can be controlled in your config file:
+  ```json theme={null}
+  {
+    "read_config_from": {
+      "cursor": true,

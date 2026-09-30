@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-config-locations
+harness_id: devin
+snapshot_id: snapshot-devin-cli-config-ext
+locator:
+  kind: document_section
+  heading: Config File Locations
+official_url: "https://docs.devin.ai/cli/extensibility/configuration.md"
+excerpt: |-
+  <Tabs>
+    <Tab title="User config">
+      **Path:** `~/.config/devin/config.json`
+      Your personal defaults that apply across all projects. This is where you set your preferred model, theme, and global permissions.
+      You can also place an `AGENTS.md` file in this directory (`~/.config/devin/AGENTS.md`) to define [global rules](/cli/extensibility/rules#global-rules) that apply to every project.
+      <Note>
+        On Windows, this path is `%APPDATA%\devin\config.json` (typically `C:\Users\<you>\AppData\Roaming\devin\config.json`).
+      </Note>
+      ```json theme={null}
+      {
+        "agent": { "model": "claude-sonnet-4.5" },
+        "permissions": {
+          "allow": ["Read(**)", "Exec(git)"]
+        }
+      }
+      ```
+    </Tab>
+    <Tab title="Project config">

@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-mcpc-file
+harness_id: devin
+snapshot_id: snapshot-devin-cli-mcp-config
+locator:
+  kind: document_section
+  heading: Via Config File
+official_url: "https://docs.devin.ai/cli/extensibility/mcp/configuration.md"
+excerpt: |-
+  Add servers directly to your MCP config file's `mcpServers` section:
+  <Note>
+    **The MCP config file location changed in v3000.3 (the Local 3.6 release).** Older versions (before v3000.3) store MCP servers in the `mcpServers` key of the main config files (`~/.config/devin/config.json`, `.devin/config.json`, `.devin/config.local.json`). Newer versions store them in dedicated files at the same locations: `~/.config/devin/mcp_config.json` (`%APPDATA%\devin\mcp_config.json` on Windows), `.devin/mcp_config.json`, and `.devin/mcp_config.local.json`. Any `mcpServers` entries found in the main config files are migrated to the dedicated files automatically on startup.
+  </Note>
+  <Tabs>
+    <Tab title="Project config">
+      ```json theme={null}
+      // .devin/mcp_config.json
+      {
+        "mcpServers": {

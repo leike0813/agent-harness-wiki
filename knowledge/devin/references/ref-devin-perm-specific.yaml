@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-perm-specific
+harness_id: devin
+snapshot_id: snapshot-devin-cli-permissions
+locator:
+  kind: document_section
+  heading: Specific Allow Rules
+official_url: "https://docs.devin.ai/cli/reference/permissions.md"
+excerpt: |-
+  At the same configuration level, a specific command allow can carve out an exception from a broader ask. For example:
+  ```json theme={null}
+  {
+    "permissions": {
+      "ask": ["exec"],
+      "allow": ["Exec(git status)"]
+    }
+  }
+  ```
+  With this configuration, `git status` runs without prompting, while other commands still prompt. The same applies when both rules use command scopes: an exact command is more specific than a prefix, and a longer prefix is more specific than a shorter one.
+  MCP rules use the same principle: a specific tool is more specific than a server-wide rule, which is more specific than a rule covering all MCP tools.
+  This exception only applies within the same configuration level.

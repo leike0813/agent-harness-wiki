@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-precedence-files
+harness_id: devin
+snapshot_id: snapshot-devin-cli-precedence
+locator:
+  kind: document_section
+  heading: File Discovery Summary
+official_url: "https://docs.devin.ai/cli/reference/configuration/global-vs-local.md"
+excerpt: |-
+  | File | Found by | Shared? |
+  | - | - | - |
+  | `~/.config/devin/config.json` | XDG path | No |
+  | `.devin/config.json` | Walking up from cwd | Yes (committed) |
+  | `.devin/config.local.json` | Walking up from cwd | No (gitignored) |
+  | `~/.config/devin/mcp_config.json` | XDG path | No |
+  | `.devin/mcp_config.json` | Walking up from cwd | Yes (committed) |
+  | `.devin/mcp_config.local.json` | Walking up from cwd | No (gitignored) |
+  | `.devin/skills/*/SKILL.md` | Project root | Yes (committed) |
+  | `~/.config/devin/skills/*/SKILL.md` | XDG path | No |
+  | `AGENTS.md` | Project root | Yes (committed) |
+  | `~/.config/devin/AGENTS.md` | XDG path | No |
+  <Note>
+    **Windows:** Paths shown as `~/.config/devin/` use the XDG convention for Linux/macOS.

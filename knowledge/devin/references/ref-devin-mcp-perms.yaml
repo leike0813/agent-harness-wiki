@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-mcp-perms
+harness_id: devin
+snapshot_id: snapshot-devin-cli-mcp-overview
+locator:
+  kind: document_section
+  heading: Permission Control
+official_url: "https://docs.devin.ai/cli/extensibility/mcp/overview.md"
+excerpt: |-
+  Once configured, MCP tools appear with a namespaced format: `mcp__<server>__<tool>`. For example, a "github" server with a "create\_issue" tool becomes `mcp__github__create_issue`.
+  MCP tools are subject to the same permission system as built-in tools. You can control access at multiple levels:
+  ```json theme={null}
+  {
+    "permissions": {
+      "allow": [
+        "mcp__github__*"
+      ],
+      "deny": [
+        "mcp__github__delete_repo"
+      ]
+    }
+  }
+  ```
+  See [Permissions](/cli/reference/permissions) for the full permission syntax.
+  ***

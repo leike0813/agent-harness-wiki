@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-perm-how
+harness_id: devin
+snapshot_id: snapshot-devin-cli-permissions
+locator:
+  kind: document_section
+  heading: How Permissions Work
+official_url: "https://docs.devin.ai/cli/reference/permissions.md"
+excerpt: |-
+  When the agent calls a tool, matching rules at the same configuration level resolve as follows:
+  1. **Deny rules** — If matched, the action is blocked immediately.
+  2. **Ask rules** — If matched, you're prompted unless an equally or more specific command or MCP allow rule also matches.
+  3. **Allow rules** — If matched, the action proceeds without prompting.
+  4. **Default** — If no rule matches, you're prompted for approval.
+  <Note>
+    A deny rule always wins. An allow rule never overrides a matching deny, regardless of how specific the allow rule is.
+  </Note>
+  ### Specific Allow Rules
+  At the same configuration level, a specific command allow can carve out an exception from a broader ask. For example:
+  ```json theme={null}
+  {
+    "permissions": {
+      "ask": ["exec"],
+      "allow": ["Exec(git status)"]

@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-sub-influence
+harness_id: devin
+snapshot_id: snapshot-devin-cli-subagents
+locator:
+  kind: document_section
+  heading: Influencing the Model
+official_url: "https://docs.devin.ai/cli/subagents.md"
+excerpt: |-
+  There is no way to name a model for a subagent in a prompt — the `run_subagent` tool takes a *profile*, not a model. You have two levers:
+  1. **Ask for a profile in natural language.** Requesting an explore subagent ("research how auth works in an explore subagent") keeps the work on the default subagent model rather than your selected model. Asking for code changes gets you `subagent_general`, which runs on your selected model.
+  2. **Pin a model in a [custom subagent](#custom-subagents) profile.** `model:` in the definition file is the only way to run a *write-capable* subagent on a model other than the parent's. A [skill](/cli/extensibility/skills) that runs in a subagent can also set `model:` in its frontmatter to override the profile's model.

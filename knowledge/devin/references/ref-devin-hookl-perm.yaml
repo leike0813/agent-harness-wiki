@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-hookl-perm
+harness_id: devin
+snapshot_id: snapshot-devin-cli-hooks-lifecycle
+locator:
+  kind: document_section
+  heading: PermissionRequest
+official_url: "https://docs.devin.ai/cli/extensibility/hooks/lifecycle-hooks.md"
+excerpt: |-
+  Fires when the agent needs a permission decision. Use this to implement custom approval logic.
+  **Stdin data:**
+  | Field | Description |
+  | - | - |
+  | `tool_name` | Tool requesting permission |
+  | `tool_input` | Arguments for the tool call |
+  **Example — Auto-approve git commands:**
+  ```json theme={null}
+  {
+    "PermissionRequest": [
+      {
+        "matcher": "exec",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import sys, json; data = json.load(sys.stdin); cmd = data.get('tool_input', {}).get('command', ''); print(json.dumps({'decision': 'approve'})) if cmd.startswith('git ') else sys.exit(0)\""
+          }
+        ]
+      }
+    ]
+  }
+  ```
+  ***

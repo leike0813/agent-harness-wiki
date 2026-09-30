@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-hookl-compact
+harness_id: devin
+snapshot_id: snapshot-devin-cli-hooks-lifecycle
+locator:
+  kind: document_section
+  heading: PostCompaction
+official_url: "https://docs.devin.ai/cli/extensibility/hooks/lifecycle-hooks.md"
+excerpt: |-
+  Fires **after** context compaction completes successfully. Use this for logging, triggering follow-up actions, or re-injecting context that may have been lost during compaction.
+  **Stdin data:**
+  | Field | Description |
+  | - | - |
+  | `summary` | Summary text produced by the compactor (may be null if no summary was generated) |
+  **Example — Log compaction events:**
+  ```json theme={null}
+  {
+    "PostCompaction": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh -c 'cat >> ~/.devin-compaction-log'"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+  ***

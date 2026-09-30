@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-perm-paths
+harness_id: devin
+snapshot_id: snapshot-devin-cli-permissions
+locator:
+  kind: document_section
+  heading: Path Patterns
+official_url: "https://docs.devin.ai/cli/reference/permissions.md"
+excerpt: |-
+  Glob patterns in `Read()` and `Write()` support:
+  | Pattern | Meaning |
+  | - | - |
+  | `*` | Any characters in a single path segment |
+  | `**` | Any characters across path segments (recursive) |
+  | `~` | Home directory expansion |
+  **Examples:**
+  ```json theme={null}
+  "allow": [
+    "Read(**)",                    // All files everywhere
+    "Read(src/**/*.ts)",           // All TypeScript in src/
+    "Write(~/projects/myapp/**)"   // Write to specific project
+  ]
+  ```
+  <Note>
+    Use an absolute path prefix (e.g., `Read(/**)`) when you want to match all files on the system. A bare `Read(**)` without a leading `/` is resolved relative to your current working directory, so it only matches files under that directory — not files accessed via absolute paths elsewhere.
+  </Note>
+  ***

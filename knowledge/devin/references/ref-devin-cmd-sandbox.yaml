@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-cmd-sandbox
+harness_id: devin
+snapshot_id: snapshot-devin-cli-commands
+locator:
+  kind: document_section
+  heading: devin sandbox
+official_url: "https://docs.devin.ai/cli/reference/commands.md"
+excerpt: |-
+  \[Research Preview] Manage OS-level process sandboxing for the exec tool. Pass the global `--sandbox` flag to run a session with the sandbox enforced.
+  #### devin sandbox setup
+  Print the sandbox prerequisites for the current platform.
+  Requirements to run with `--sandbox`:
+  * **Linux**: requires bubblewrap (`bwrap`) and `socat`. A sandbox session fails to start with install instructions if either is missing — including in a fresh WSL distribution.
+  * **macOS**: works out of the box via Seatbelt; no extra packages needed.
+  * **Windows**: native Windows cannot run the sandbox. [Install WSL 2](https://learn.microsoft.com/windows/wsl/install) and run Devin inside your WSL distribution.
+  ```bash theme={null}
+  devin sandbox setup
+  ```

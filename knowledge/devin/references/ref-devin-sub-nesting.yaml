@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-sub-nesting
+harness_id: devin
+snapshot_id: snapshot-devin-cli-subagents
+locator:
+  kind: document_section
+  heading: Nesting Depth
+official_url: "https://docs.devin.ai/cli/subagents.md"
+excerpt: |-
+  By default, subagents cannot spawn their own subagents — only the root agent can. Subagent tools (`run_subagent` and `read_subagent`) are disabled inside a subagent to prevent unbounded nesting.
+  However, **custom subagent profiles** can opt in to nested spawning by setting the `max-nesting` field in their frontmatter. This value overrides the default maximum depth, allowing subagents to spawn children as long as the tree stays within that limit.
+  For example, `max-nesting: 3` allows the following chain:
+  ```
+  Root agent (depth 0)
+  └── Custom subagent (depth 1) — can spawn children
+      └── Child subagent (depth 2) — can spawn children
+          └── Grandchild subagent (depth 3) — cannot spawn (depth limit reached)
+  ```
+  <Warning>
+    Nested subagents can increase cost significantly.

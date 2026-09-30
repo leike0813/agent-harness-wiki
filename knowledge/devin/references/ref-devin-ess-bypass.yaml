@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-ess-bypass
+harness_id: devin
+snapshot_id: snapshot-devin-cli-essential
+locator:
+  kind: document_section
+  heading: Bypass vs Autonomous
+official_url: "https://docs.devin.ai/cli/essential-commands.md"
+excerpt: |-
+  Bypass and Autonomous both reduce approval prompts, but they rely on different safety mechanisms:
+  | | Bypass | Autonomous |
+  | - | - | - |
+  | Requires `--sandbox` | No | Yes (only available in sandbox sessions) |
+  | Shell commands | Auto-approved, unrestricted | Auto-approved, contained by the sandbox |
+  | File writes via `edit`/`write` tools | Auto-approved anywhere | Still prompt (granting a scope expands the sandbox) |
+  | Network access | Unrestricted | Filtered by the sandbox's [domain allow/deny lists](/cli/reference/configuration/config-file#sandbox) |
+  | Respects admin [Team Settings](/cli/enterprise/team-settings) | Yes | Yes |
+  Pick Bypass when you trust the agent with your whole machine.

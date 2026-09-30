@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-hooks-command
+harness_id: devin
+snapshot_id: snapshot-devin-cli-hooks
+locator:
+  kind: document_section
+  heading: Command Hooks
+official_url: "https://docs.devin.ai/cli/extensibility/hooks/overview.md"
+excerpt: |-
+  Command hooks run a shell command. Event data is passed as JSON on **stdin**, and the command can return JSON on **stdout** to control the outcome (see [Output format](#output-format) below).
+  **Input** (stdin):
+  ```json theme={null}
+  {
+    "hook_event_name": "PreToolUse",
+    "tool_name": "exec",
+    "tool_input": {
+      "command": "rm -rf /"
+    },
+    "session_id": "3f8d1c2a-...",
+    "prompt_id": "b71e9d40-..."
+  }
+  ```
+  Every event payload also carries two correlation ids alongside the event fields:
+  | Field | Description |
+  | - | - |
+  | `session_id` | Stable id for the agent session. Use it to correlate hook invocations across a whole session. |
+  | `prompt_id` | Per-turn id, rotated on every user prompt. All hooks fired during the same turn share one `prompt_id`.

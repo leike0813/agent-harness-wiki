@@ -1,0 +1,41 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-mcpc-examples
+harness_id: devin
+snapshot_id: snapshot-devin-cli-mcp-config
+locator:
+  kind: document_section
+  heading: Examples
+official_url: "https://docs.devin.ai/cli/extensibility/mcp/configuration.md"
+excerpt: |-
+  <AccordionGroup>
+    <Accordion title="GitHub (stdio)">
+      ```json theme={null}
+      {
+        "mcpServers": {
+          "github": {
+            "command": "npx",
+            "args": ["-y", "@modelcontextprotocol/server-github"],
+            "env": {
+              "GITHUB_TOKEN": "ghp_..."
+            }
+          }
+        }
+      }
+      ```
+    </Accordion>
+    <Accordion title="Notion (HTTP with OAuth)">
+      ```json theme={null}
+      {
+        "mcpServers": {
+          "notion": {
+            "url": "https://mcp.notion.com/mcp",
+            "transport": "http"
+          }
+        }
+      }
+      ```
+      <Note>After adding an OAuth-based server, run `devin mcp login notion` to authenticate. See [Authentication](#authentication) below.</Note>
+    </Accordion>
+    <Accordion title="Linear (HTTP with OAuth)">
+      ```json theme={null}

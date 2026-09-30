@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-skills-triggers
+harness_id: devin
+snapshot_id: snapshot-devin-cli-skills-overview
+locator:
+  kind: document_section
+  heading: Skill Triggers
+official_url: "https://docs.devin.ai/cli/extensibility/skills/overview.md"
+excerpt: |-
+  Skills can be invoked in two ways:
+  | Trigger | Description | Default |
+  | - | - | - |
+  | `user` | User can invoke with `/skill-name` | Enabled |
+  | `model` | Agent can invoke autonomously when relevant | Enabled |
+  ```yaml theme={null}
+  ---
+  name: security-check
+  triggers:
+    - user
+    - model
+  ---
+  ```
+  Set `triggers: [user]` to prevent the agent from invoking a skill on its own.
+  ***

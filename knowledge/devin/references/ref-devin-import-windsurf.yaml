@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-import-windsurf
+harness_id: devin
+snapshot_id: snapshot-devin-cli-import
+locator:
+  kind: document_section
+  heading: Windsurf
+official_url: "https://docs.devin.ai/cli/reference/configuration/read-config-from.md"
+excerpt: |-
+  | What's imported | Source files |
+  | - | - |
+  | Rules | `.windsurf/rules/*.md`, `.windsurf/global_rules.md` (at workspace root and subdirectories) |
+  | Skills | `.windsurf/skills/` (project), `~/.codeium/<channel>/skills/` (global, channel-dependent) |
+  | MCP servers | `~/.codeium/<channel>/mcp_config.json` (channel-dependent) |
+  <Note>
+    Devin CLI reads from the Windsurf config directory matching its own channel: stable reads from `~/.codeium/windsurf/`, next reads from `~/.codeium/windsurf-next/`, insiders reads from `~/.codeium/windsurf-insiders/`. `.windsurf/rules/` directories can exist at multiple levels in your project. Rules at the workspace root are loaded at session start. Rules in subdirectories are discovered lazily when the agent accesses files in that directory.
+  </Note>
+  <Note>

@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-sandbox-how
+harness_id: devin
+snapshot_id: snapshot-devin-cli-sandbox
+locator:
+  kind: document_section
+  heading: How the sandbox works
+official_url: "https://docs.devin.ai/cli/sandbox.md"
+excerpt: |-
+  When the sandbox is active:
+  * **Writable paths** are derived from granted `Write(...)` permission scopes plus the workspace directory; everything else is read-only
+  * **Readable paths** are everything except paths covered by `Read(...)` rules in the `deny` list, which are hidden from sandboxed commands entirely
+  * `Write(...)` scopes granted mid-session dynamically expand the sandbox for subsequent commands. Mid-session `Read(...)` approvals affect only the agent's own tools — they cannot reveal a path hidden by a `Read(...)` deny rule, which stays hidden for the whole session
+  <Warning>
+    If sandbox resolution fails (e.g., the sandboxing tools are unavailable on the user's platform), the CLI will **refuse to start** rather than running unsandboxed.

@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-perm-auto
+harness_id: devin
+snapshot_id: snapshot-devin-cli-permissions
+locator:
+  kind: document_section
+  heading: Autonomous Mode
+official_url: "https://docs.devin.ai/cli/reference/permissions.md"
+excerpt: |-
+  Autonomous is the permission mode that pairs with the `--sandbox` flag. Conceptually it is roughly "Accept Edits in the current workspace" plus the ability to run any shell command, with both behaviors contained by the OS-level sandbox. When sandbox is active:
+  * **It is the only permission mode available.** Normal, Accept Edits, Smart, and Bypass are hidden in sandbox sessions. Plan mode remains available.
+  * **Shell commands and fetches auto-approve** instead of prompting, because the sandbox enforces what they can read, write, and reach over the network.
+  * **Direct file edits via the `edit` and `write` tools still prompt.** These tools run inside the CLI process rather than inside the sandbox, so they cannot be bounded by it.

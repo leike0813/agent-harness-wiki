@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-auth-creds
+harness_id: devin
+snapshot_id: snapshot-devin-cli-auth
+locator:
+  kind: document_section
+  heading: Credentials file location
+official_url: "https://docs.devin.ai/cli/enterprise/devin-auth.md"
+excerpt: |-
+  After `devin auth login`, Devin CLI stores your API token in `credentials.toml`. By default, this token is persistent and does not expire. You can copy the credentials file between your own machines to reuse the same authentication, but treat it as sensitive: anyone with this file can authenticate as you. Do not share it or commit it to source control.
+  | Platform | Location |
+  | - | - |
+  | macOS / Linux | `$XDG_DATA_HOME/devin/credentials.toml` when `XDG_DATA_HOME` is set; otherwise `~/.local/share/devin/credentials.toml` |
+  | Windows | `%APPDATA%\devin\credentials.toml` (typically `C:\Users\<you>\AppData\Roaming\devin\credentials.toml`) |
+  Run `devin auth logout` to remove stored credentials.
+  <Tip>

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-mcpc-prereg
+harness_id: devin
+snapshot_id: snapshot-devin-cli-mcp-config
+locator:
+  kind: document_section
+  heading: Pre-registered OAuth clients
+official_url: "https://docs.devin.ai/cli/extensibility/mcp/configuration.md"
+excerpt: |-
+  Most OAuth-based MCP servers support [dynamic client registration](https://datatracker.ietf.org/doc/html/rfc7591) (DCR), so Devin CLI registers itself automatically and you don't need to provide any client credentials.
+  Some providers (e.g. GitHub) don't support DCR and instead require a **pre-registered** OAuth client. For those, supply the client ID — and a client secret if it's a confidential client — via `oauthClientId` / `oauthClientSecret`:
+  ```json theme={null}
+  {
+    "mcpServers": {
+      "my-server": {
+        "url": "https://mcp.example.com/mcp",
+        "transport": "http",
+        "oauthClientId": "Iv1.abc123def456",
+        "oauthClientSecret": "${env:MY_MCP_CLIENT_SECRET}"
+      }
+    }
+  }
+  ```

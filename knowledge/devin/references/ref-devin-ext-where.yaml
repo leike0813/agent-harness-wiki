@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-ext-where
+harness_id: devin
+snapshot_id: snapshot-devin-cli-ext-index
+locator:
+  kind: document_section
+  heading: Where Configuration Lives
+official_url: "https://docs.devin.ai/cli/extensibility/index.md"
+excerpt: |-
+  All project-level extensibility configuration lives in the `.devin/` directory at your project root:
+  ```
+  my-project/
+  ├── .devin/
+  │   ├── config.json             # Project config (permissions, imports)
+  │   ├── config.local.json       # Personal overrides (gitignored)
+  │   ├── mcp_config.json         # Project MCP servers
+  │   ├── mcp_config.local.json   # Personal MCP servers and secrets (gitignored)
+  │   ├── hooks.v1.json           # Lifecycle hooks (Claude Code compatible)
+  │   ├── skills/
+  │   │   └── review/
+  │   │       └── SKILL.md        # A custom skill
+  │   └── agents/
+  │       └── reviewer.md         # A custom subagent profile (reviewer/AGENT.md also works)
+  ├── AGENTS.md                   # Project rules
+  └── src/
+  ```

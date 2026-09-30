@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-skillc-subagents
+harness_id: devin
+snapshot_id: snapshot-devin-cli-skills-create
+locator:
+  kind: document_section
+  heading: Running Skills as Subagents
+official_url: "https://docs.devin.ai/cli/extensibility/skills/creating-skills.md"
+excerpt: |-
+  <Warning>
+    Running skills as subagents is **experimental**. The `subagent` and `agent` frontmatter fields may change in future releases.
+  </Warning>
+  By default, a skill's prompt is injected into the current conversation — the agent processes it inline. You can instead run a skill as a **subagent**, which spawns an independent worker with its own context window. This is useful for skills that perform focused, self-contained tasks where you don't want the output to clutter the main conversation.
+  There are two ways to run a skill as a subagent:
+  ### `subagent: true`
+  Set `subagent: true` to run the skill as a subagent using the default `subagent_general` profile:
+  ```yaml theme={null}
+  ---
+  name: deep-research
+  description: Thorough codebase research on a topic
+  subagent: true
+  model: sonnet
+  ---

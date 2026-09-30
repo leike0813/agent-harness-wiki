@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-sys-example
+harness_id: devin
+snapshot_id: snapshot-devin-cli-system-config
+locator:
+  kind: document_section
+  heading: Example
+official_url: "https://docs.devin.ai/cli/enterprise/system-config.md"
+excerpt: |-
+  ```json theme={null}
+  // /Library/Application Support/Devin/system.json
+  {
+    "enterprise_host": "acme.devinenterprise.com",
+    "account_id": "acct-acme",
+    "proxy": {
+      "mode": "manual",
+      "url": "http://proxy.corp.example.com:8080",
+      "no_proxy": "localhost,127.0.0.1,.internal.corp"
+    }
+  }
+  ```
+  <Warning>
+    `system.json` is parsed as strict JSON — comments and trailing commas are **not** supported here, unlike the user `config.json`, which is JSON-with-comments. The comment above is shown only to indicate the file path.
+  </Warning>

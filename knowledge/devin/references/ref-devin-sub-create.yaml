@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-sub-create
+harness_id: devin
+snapshot_id: snapshot-devin-cli-subagents
+locator:
+  kind: document_section
+  heading: Creating a Custom Subagent
+official_url: "https://docs.devin.ai/cli/subagents.md"
+excerpt: |-
+  Custom subagents are defined as markdown files under `agents/`, using either layout:
+  * **Flat file** — `agents/<name>.md` (the same convention used by Claude Code, Cursor, and other tools). The file name (without `.md`) becomes the profile's identifier.
+  * **Directory** — `agents/<name>/AGENT.md`. The directory name becomes the profile's identifier. `AGENTS.md`, `agent.md`, and `agents.md` are also accepted as the file name (if multiple are present, `AGENT.md` takes precedence, then `AGENTS.md`, `agent.md`, `agents.md`).
+  In both layouts, a `name:` in the frontmatter overrides the identifier derived from the path.
+  <Tabs>
+    <Tab title="Project-specific">
+      ```text theme={null}
+      .devin/agents/
+      ├── reviewer.md
+      └── researcher/
+          └── AGENT.md
+      ```
+      Also supported:

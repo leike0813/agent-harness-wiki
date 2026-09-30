@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-hooks-example
+harness_id: devin
+snapshot_id: snapshot-devin-cli-hooks
+locator:
+  kind: document_section
+  heading: Quick Example
+official_url: "https://docs.devin.ai/cli/extensibility/hooks/overview.md"
+excerpt: |-
+  Create `.devin/hooks.v1.json` in your project:
+  ```json theme={null}
+  {
+    "PreToolUse": [
+      {
+        "matcher": "exec",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./scripts/check-command.sh"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+  This runs `./scripts/check-command.sh` before every shell command execution. The script receives event data on stdin and can block the action by exiting with code `2` (or by printing a `"decision": "block"` JSON object); any other non-zero exit code is logged as an error and does not block — see [Exit Codes](#exit-codes).
+  ***

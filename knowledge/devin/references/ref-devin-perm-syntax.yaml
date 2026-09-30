@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-perm-syntax
+harness_id: devin
+snapshot_id: snapshot-devin-cli-permissions
+locator:
+  kind: document_section
+  heading: Permission Syntax
+official_url: "https://docs.devin.ai/cli/reference/permissions.md"
+excerpt: |-
+  There are two types of permission matchers: **scope-based** (controlling what paths/commands/URLs are accessible) and **tool-based** (controlling which tools can be used).
+  ### Scope-Based Permissions
+  <AccordionGroup>
+    <Accordion title="Read(glob)" icon="eye" defaultOpen>
+      Controls file read access. The glob pattern matches file paths.
+      ```json theme={null}
+      "allow": [
+        "Read(src/**)",           // All files under src/
+        "Read(~/.config/**)",     // Home config files
+        "Read(/tmp/**)"           // Temp directory
+      ]
+      ```
+      Directory paths automatically match all files within them.
+    </Accordion>
+    <Accordion title="Write(glob)" icon="pen">
+      Controls file write/edit access.
+      ```json theme={null}
+      "allow": [

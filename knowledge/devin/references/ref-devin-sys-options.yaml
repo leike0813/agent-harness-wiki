@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-sys-options
+harness_id: devin
+snapshot_id: snapshot-devin-cli-system-config
+locator:
+  kind: document_section
+  heading: Options reference
+official_url: "https://docs.devin.ai/cli/enterprise/system-config.md"
+excerpt: |-
+  | Option | Type | Default | Description |
+  | - | - | - | - |
+  | `enterprise_host` | string | unset | Devin enterprise host that users must authenticate against, e.g. `"acme.devinenterprise.com"`. Accepts a bare host or a full URL |
+  | `account_id` | string | unset | Devin account identifier the authenticated account must belong to |
+  | `proxy` | object | unset | Outbound HTTP proxy settings for the CLI and the updater (`mode`, `url`, `no_proxy`) |
+  Every field is independent — set only the ones you need. Unknown fields are ignored, so a policy written for a newer CLI still applies its known settings on an older one.
+  ### enterprise\_host
+  When set, `devin auth login`:
+  1. Skips the login-method menu and the subdomain prompt, and drives authentication directly against the configured host.
+  2.

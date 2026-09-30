@@ -1,0 +1,44 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-import-disable
+harness_id: devin
+snapshot_id: snapshot-devin-cli-import
+locator:
+  kind: document_section
+  heading: Disabling Configuration Import
+official_url: "https://docs.devin.ai/cli/reference/configuration/read-config-from.md"
+excerpt: |-
+  To stop importing from a specific tool, set it to `false` in your config:
+  <Tabs>
+    <Tab title="User config">
+      ```json theme={null}
+      // ~/.config/devin/config.json
+      // (on Windows: %APPDATA%\devin\config.json)
+      {
+        "read_config_from": {
+          "agents_standard": false,
+          "cursor": false,
+          "windsurf": false,
+          "claude": false,
+          "copilot": false,
+          "opencode": false,
+          "zed": false
+        }
+      }
+      ```
+    </Tab>
+    <Tab title="Project config">
+      ```json theme={null}
+      // .devin/config.json
+      {
+        "read_config_from": {
+          "windsurf": false
+        }
+      }
+      ```
+    </Tab>
+  </Tabs>
+  You can disable imports selectively — for example, import from Cursor but not Windsurf:
+  ```json theme={null}
+  {
+    "read_config_from": {

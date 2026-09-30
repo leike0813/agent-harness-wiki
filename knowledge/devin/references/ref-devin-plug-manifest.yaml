@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-plug-manifest
+harness_id: devin
+snapshot_id: snapshot-devin-cli-plugins
+locator:
+  kind: document_section
+  heading: Manifest
+official_url: "https://docs.devin.ai/cli/extensibility/plugins/overview.md"
+excerpt: |-
+  `.devin-plugin/plugin.json` describes the plugin. Only `name` is required, and
+  it must be unique among installed plugins (it is the `/<name>:…` namespace).
+  Names are lowercase alphanumeric characters with single `-` or `.` separators
+  (e.g. `review-tools`, `acme.tools`).
+  ```jsonc theme={null}
+  {
+    "name": "review-tools",
+    "version": "1.0.0",
+    "description": "Code-review skills for our team",
+    "requiredPlugins": [
+      "acme/secure-base",
+      { "source": "github", "repo": "acme/audit-logging" }
+    ],
+    "optionalPlugins": [
+      "acme/deploy-tools",
+      { "source": "url", "url": "https://gitlab.com/acme/extra.git" }
+    ],
+    "forbiddenPlugins": ["sketchy-org/bad-plugin", "acme/*", "*"]
+  }
+  ```
+  ### Metadata
+  `name`, `version`, `description`, `author` (`{ name, email }`), `homepage`,

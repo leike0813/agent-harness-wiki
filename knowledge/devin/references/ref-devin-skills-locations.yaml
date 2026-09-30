@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-skills-locations
+harness_id: devin
+snapshot_id: snapshot-devin-cli-skills-overview
+locator:
+  kind: document_section
+  heading: Where Skills Live
+official_url: "https://docs.devin.ai/cli/extensibility/skills/overview.md"
+excerpt: |-
+  Skills can be scoped to a single project or shared across all projects:
+  | Location | Scope | Committed to git? |
+  | - | - | - |
+  | `.agents/skills/<name>/SKILL.md` | Project-specific | Yes |
+  | `.devin/skills/<name>/SKILL.md` | Project-specific | Yes |
+  | `.windsurf/skills/<name>/SKILL.md` | Project-specific | Yes |
+  | `~/.agents/skills/<name>/SKILL.md` | Global (all projects) | No |
+  | `~/.config/devin/skills/<name>/SKILL.md` | Global (all projects) | No |
+  | `~/.codeium/<channel>/skills/<name>/SKILL.md` | Global (all projects, channel-dependent) | No |
+  **Project skills** live in the `.devin/skills/` or `.windsurf/skills/` directory at your project root and are committed to version control, making them shareable with your team. Both locations use the same `SKILL.md` format.

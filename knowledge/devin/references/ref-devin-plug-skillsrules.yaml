@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-plug-skillsrules
+harness_id: devin
+snapshot_id: snapshot-devin-cli-plugins
+locator:
+  kind: document_section
+  heading: "Skills & Rules"
+official_url: "https://docs.devin.ai/cli/extensibility/plugins/overview.md"
+excerpt: |-
+  The `skills` field controls where skills load from, replacing the default
+  `skills/` directory. It accepts a single plugin-root-relative path or an array
+  of them:
+  ```jsonc theme={null}
+  { "skills": "custom-skills" }
+  { "skills": ["skills", "extra/skills"] }
+  ```
+  An empty array (`"skills": []`) disables skill loading entirely. Paths must
+  stay inside the plugin — absolute paths, `~`, and `..` traversal are rejected,
+  and an invalid entry fails the whole manifest.
+  Rules load independently of `skills`: an `AGENTS.md` at the plugin root is
+  always-on, and Markdown files in the `rules/` directory are loaded as triggered
+  rules. See [Rules](/cli/extensibility/rules) for activation details.

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-plug-compat
+harness_id: devin
+snapshot_id: snapshot-devin-cli-plugins
+locator:
+  kind: document_section
+  heading: Compatible formats
+official_url: "https://docs.devin.ai/cli/extensibility/plugins/overview.md"
+excerpt: |-
+  The layout above is Devin's own plugin format. Devin also loads plugins
+  packaged in two other layouts, with manifest precedence
+  `.devin-plugin/plugin.json` > `.claude-plugin/plugin.json` > root
+  `plugin.json`:
+  * **Claude plugins** — if there's no `.devin-plugin/plugin.json`, Devin falls
+    back to `.claude-plugin/plugin.json`. Claude plugins' root `.mcp.json` and
+    manifest `mcpServers` field are honored, and `${CLAUDE_PLUGIN_ROOT}` in
+    server configs expands to the plugin root.
+  * **Agent Plugins** — plugins packaged per the open
+    [Agent Plugins 1.0.0](https://github.com/agentplugins/agent-plugins-spec)
+    spec (a `plugin.json` manifest at the plugin root, MCP servers in a root
+    `mcp.json`, skills under `skills/`) load too. For these plugins the root

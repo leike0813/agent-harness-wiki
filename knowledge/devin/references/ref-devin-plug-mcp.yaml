@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-plug-mcp
+harness_id: devin
+snapshot_id: snapshot-devin-cli-plugins
+locator:
+  kind: document_section
+  heading: MCP Servers
+official_url: "https://docs.devin.ai/cli/extensibility/plugins/overview.md"
+excerpt: |-
+  The `mcpServers` field adds [MCP server](/cli/extensibility/mcp/overview)
+  declarations. Plugins can also use the conventional root `.mcp.json` (and
+  `mcp.json` for plugins using the Agent Plugins root-manifest layout). Four
+  shapes are accepted:
+  ```jsonc theme={null}
+  // One declaration file
+  { "mcpServers": "config/mcp.json" }
+  // Several, read in the order listed
+  { "mcpServers": ["config/mcp.json", "config/extra.json"] }
+  // Only these files — suppresses the root .mcp.json / mcp.json convention
+  { "mcpServers": { "paths": ["config/mcp.json"], "exclusive": true } }
+  // Inline server map (suppresses the root convention when non-empty)
+  { "mcpServers": { "linear": { "command": "npx", "args": ["-y", "linear-mcp"] } } }
+  ```
+  Declared paths follow the same containment rules as `skills`, but unsafe

@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-mcp-auth
+harness_id: devin
+snapshot_id: snapshot-devin-cli-mcp-overview
+locator:
+  kind: document_section
+  heading: Authentication
+official_url: "https://docs.devin.ai/cli/extensibility/mcp/overview.md"
+excerpt: |-
+  Some remote MCP servers (such as Atlassian, Notion, and Linear) require OAuth authentication. Each MCP client authenticates independently — tokens from Windsurf or Claude Code are **not** shared with Devin CLI.
+  After adding a remote server, authenticate with:
+  ```bash theme={null}
+  devin mcp login <server-name>
+  ```
+  This opens a browser window for the OAuth flow. If stored credentials later expire or are revoked, the server reports an auth-required state and you re-authenticate with `devin mcp logout` followed by `devin mcp login` — see [MCP Configuration — Authentication](/cli/extensibility/mcp/configuration#authentication) and [Re-authenticating](/cli/extensibility/mcp/configuration#re-authenticating) for details.
+  ***

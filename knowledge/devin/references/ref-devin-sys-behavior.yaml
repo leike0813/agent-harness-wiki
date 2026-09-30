@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-sys-behavior
+harness_id: devin
+snapshot_id: snapshot-devin-cli-system-config
+locator:
+  kind: document_section
+  heading: Behavior and failure modes
+official_url: "https://docs.devin.ai/cli/enterprise/system-config.md"
+excerpt: |-
+  A broken or partially understood policy file never disables the CLI — it degrades to no enforcement — while a valid policy is always enforced:
+  | Situation | Result |
+  | - | - |
+  | File absent | No enforcement; the CLI behaves as on an unmanaged device |
+  | File unreadable or malformed JSON | Treated as absent, with a warning in the logs |
+  | Unknown fields present | Ignored; the recognized fields still apply |
+  | Malformed `proxy` section | The proxy section is ignored; `enterprise_host` / `account_id` enforcement still applies |
+  | Malformed `enterprise_host` / `account_id` | Login enforcement is dropped; a valid `proxy` section still applies |
+  | Blank or whitespace-only value | Treated as unset |
+  Login enforcement runs during `devin auth login`.

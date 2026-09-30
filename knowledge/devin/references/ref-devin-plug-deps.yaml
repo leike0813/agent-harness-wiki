@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-plug-deps
+harness_id: devin
+snapshot_id: snapshot-devin-cli-plugins
+locator:
+  kind: document_section
+  heading: Dependencies
+official_url: "https://docs.devin.ai/cli/extensibility/plugins/overview.md"
+excerpt: |-
+  A dependency entry is a **source** — either a string shorthand or an object:
+  | Form | Meaning |
+  | - | - |
+  | `"owner/repo"` | GitHub repository |
+  | `"https://…"`, `"git@…"`, `"ssh://…"` | any git URL |
+  | `{ "source": "github", "repo": "owner/repo" }` | GitHub, object form |
+  | `{ "source": "url", "url": "https://gitlab.com/team/plugin.git" }` | git URL, object form |
+  | `{ "source": "git-subdir", "url": "…", "path": "sub/dir" }` | a plugin living in a subfolder of a shared repo |
+  | `{ "source": "github", "repo": "owner/repo", "sha": "3f2a9c1…" }` | pinned to an exact commit — never changes until you edit the entry |
+  | `{ "source": "github", "repo": "owner/repo", "ref": "v2" }` | tracks a branch or tag — re-resolved on every refresh |

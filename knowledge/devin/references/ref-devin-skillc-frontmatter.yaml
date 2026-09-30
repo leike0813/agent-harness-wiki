@@ -1,0 +1,41 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-skillc-frontmatter
+harness_id: devin
+snapshot_id: snapshot-devin-cli-skills-create
+locator:
+  kind: document_section
+  heading: Frontmatter Reference
+official_url: "https://docs.devin.ai/cli/extensibility/skills/creating-skills.md"
+excerpt: |-
+  ```yaml theme={null}
+  ---
+  name: my-skill
+  description: What this skill does (shown in completions)
+  argument-hint: "[file] [options]"
+  model: sonnet
+  allowed-tools:
+    - read
+    - grep
+    - glob
+    - exec
+  permissions:
+    allow:
+      - Read(src/**)
+    deny:
+      - exec
+    ask:
+      - Write(**)
+  triggers:
+    - user
+    - model
+  ---
+  Your prompt content goes here...
+  ```
+  ### All Frontmatter Fields
+  | Field | Type | Default | Description |
+  | - | - | - | - |
+  | `name` | string | directory name | Display name of the skill |
+  | `description` | string | none | Shown in slash command completions |
+  | `argument-hint` | string | none | Hint shown after the command name (e.g., `[filename]`) |
+  | `model` | string | current model | Override the model used when running this skill |

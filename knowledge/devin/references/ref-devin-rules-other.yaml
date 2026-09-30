@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-rules-other
+harness_id: devin
+snapshot_id: snapshot-devin-cli-rules
+locator:
+  kind: document_section
+  heading: Rules From Other Tools
+official_url: "https://docs.devin.ai/cli/extensibility/rules.md"
+excerpt: |-
+  If you're coming from another AI coding tool, Devin CLI can read your existing rules:
+  <AccordionGroup>
+    <Accordion title="Cursor">
+      Devin CLI reads from `.cursor/rules/*.md` and `.cursor/rules/*.mdc`.
+      Cursor rules support frontmatter to control activation:
+      ```markdown theme={null}
+      ---
+      description: "React component guidelines"
+      globs: "src/components/**/*.tsx"
+      alwaysApply: false
+      ---
+      Use functional components with hooks. Never use class components.
+      ```
+      **Activation behavior:**
+      * `alwaysApply: true` — Always active
+      * `globs` specified — Active when working with matching files
+      * `description` only — Agent decides when to apply
+      * None of the above — User must invoke manually
+    </Accordion>
+    <Accordion title="Windsurf">

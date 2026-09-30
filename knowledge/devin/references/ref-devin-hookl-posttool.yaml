@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-hookl-posttool
+harness_id: devin
+snapshot_id: snapshot-devin-cli-hooks-lifecycle
+locator:
+  kind: document_section
+  heading: PostToolUse
+official_url: "https://docs.devin.ai/cli/extensibility/hooks/lifecycle-hooks.md"
+excerpt: |-
+  Fires **after** a tool finishes executing. Use this for logging, validation, or triggering follow-up actions.
+  **Stdin data:**
+  | Field | Description |
+  | - | - |
+  | `tool_name` | Name of the tool that ran |
+  | `tool_input` | Arguments that were passed |
+  | `tool_response` | Object with `success` (boolean), `output` (string), and `error` (string or null) |
+  **Example — Log all shell commands:**
+  ```json theme={null}
+  {
+    "PostToolUse": [
+      {
+        "matcher": "exec",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh -c 'cat >> ~/.devin-command-log'"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+  ***
