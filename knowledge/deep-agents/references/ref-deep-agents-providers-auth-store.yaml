@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-providers-auth-store
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/auth_store.py
+  start: 1
+  end: 14
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  """User-level credential storage for model providers.
+  Persists API keys (and, in the future, OAuth tokens) under
+  `~/.deepagents/.state/auth.json` (file mode 0600, parent 0700) so users can
+  enter credentials directly in the TUI rather than exporting environment
+  variables before launch.
+  Security notes:
+  - The stored value (`ApiKeyCredential.key`) must never be logged, formatted
+      via `%r`/`!r`, or interpolated into exception messages — every helper here
+      reports only structural facts ("set credential for provider X").
+  - The file is written via `O_EXCL | 0o600` to a temp path, then atomically
+      replaced. A second `chmod 0600` runs on the final path so filesystems that

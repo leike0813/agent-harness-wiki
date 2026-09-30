@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-agents-doc-cli
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-cli-reference
+locator:
+  kind: document_section
+  heading: Agents and sessions
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/cli-reference.md"
+excerpt: |-
+  Use `-a`/`--agent` to launch with a named agent that has its own memory, skills, and `AGENTS.md` under `~/.deepagents/<agent_name>/`. The flag overrides both `[agents].default` and `[agents].recent` in `config.toml`:
+  ```bash theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+  dcode --agent backend-dev
+  ```
+  Resume a previous conversation with `-r`/`--resume`. Pass no ID to open the most recent thread, or pass a thread ID to resume a specific session. Resuming bypasses agent selection flags and restores the thread's original agent:
+  ```bash theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+  dcode -r
+  dcode -r abc123-thread-id
+  ```
+  List and delete sessions with `dcode threads list` and `dcode threads delete`.

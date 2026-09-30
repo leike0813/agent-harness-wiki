@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-skills-parse
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/deepagents/deepagents/middleware/skills.py
+  start: 399
+  end: 422
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  # Match YAML frontmatter between --- delimiters
+      frontmatter_pattern = r"^---\s*\n(.*?)\n---\s*\n"
+      match = re.match(frontmatter_pattern, content, re.DOTALL)
+      if not match:
+          logger.warning("Skipping %s: no valid YAML frontmatter found", skill_path)
+          return None
+      frontmatter_str = match.group(1)
+      # Parse YAML using safe_load for proper nested structure support
+      try:
+          frontmatter_data = yaml.safe_load(frontmatter_str)
+      except yaml.YAMLError as e:
+          logger.warning("Invalid YAML in %s: %s", skill_path, e)
+          return None
+      if not isinstance(frontmatter_data, dict):
+          logger.warning("Skipping %s: frontmatter is not a mapping", skill_path)
+          return None
+      name = str(frontmatter_data.get("name", "")).strip()

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-mcp-exposure-middleware
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/mcp_middleware.py
+  start: 105
+  end: 157
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  @wrap_tool_call(name="MCPToolMiddleware")
+      async def _wrap(
+          request: ToolCallRequest,
+          handler: Callable[[ToolCallRequest], Awaitable[ToolMessage]],
+      ) -> ToolMessage:
+          tool = request.tool
+          if tool is None or not _is_mcp_tool(request):
+              return await handler(request)
+          server = (tool.metadata or {}).get(_MCP_SERVER, "?")
+          arguments = normalize_mcp_arguments(
+              request.tool_call.get("args") or {},
+              getattr(request.tool, "args_schema", None),
+          )
+          request = request.override(
+              tool_call={**request.tool_call, "args": arguments},
+          )
+          try:
+              return await asyncio.wait_for(
+                  handler(request),
+                  timeout=timeout_seconds,
+              )

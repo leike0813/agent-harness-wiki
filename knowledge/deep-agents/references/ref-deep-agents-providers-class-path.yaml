@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-providers-class-path
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/config.py
+  start: 6259
+  end: 6278
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def _create_model_from_class(
+      class_path: str,
+      model_name: str,
+      provider: str,
+      kwargs: dict[str, Any],
+  ) -> BaseChatModel:
+      """Import and instantiate a custom `BaseChatModel` class.
+      Args:
+          class_path: Fully-qualified class in `module.path:ClassName` format.
+          model_name: Model identifier to pass as `model` kwarg.
+          provider: Provider name (for error messages).
+          kwargs: Additional keyword arguments for the constructor.
+      Returns:
+          Instantiated `BaseChatModel`.
+      Raises:
+          ModelConfigError: If the class cannot be imported, is not a
+              `BaseChatModel` subclass, or fails to instantiate.

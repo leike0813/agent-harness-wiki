@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-mcp-lifecycle-trust
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/mcp_tools.py
+  start: 849
+  end: 881
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def filter_trusted_project_servers(
+      servers: Mapping[str, Any],
+      trust_lists: McpServerTrustLists,
+      *,
+      project_root: Path,
+      config_trusted: bool = False,
+  ) -> dict[str, Any]:
+      """Return only the project servers that survive the user's trust policy.
+      The single place the per-server trust rule lives, shared by the runtime
+      tool loader and the `mcp login` resolver so reject-precedence cannot drift
+      between them: a disabled name is dropped even from a `config_trusted`
+      config; otherwise a server is kept when the whole config is trusted or the
+      user's scoped approvals / env allowlist enable it (`is_enabled`).
+      Args:
+          servers: `mcpServers`-shaped mapping of name to definition.
+          trust_lists: The user's allow/deny policy.

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-mcp-exposure-normalize
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/mcp_middleware.py
+  start: 39
+  end: 74
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def normalize_mcp_arguments(
+      arguments: dict[str, Any],
+      input_schema: Any,  # noqa: ANN401  # raw JSON Schema dict from the MCP tool
+  ) -> dict[str, Any]:
+      """Drop empty-string values for optional MCP tool params.
+      Some MCP servers (e.g. Slack's `slack_search_public_and_private`) validate
+      optional ID-typed params with `value is not a channel ID` when the model
+      fills them in with `""` instead of omitting them. JSON-Schema-derived
+      models happily accept `""` for an optional string, so the request reaches
+      the server and comes back as a generic failure.
+      Treat `""` for a non-required string field as "omitted", so the server sees
+      the payload it would have for a field the model genuinely skipped. Required

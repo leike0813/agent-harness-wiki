@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-skills-fields
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/deepagents/deepagents/middleware/skills.py
+  start: 258
+  end: 284
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  - Should include specific keywords that help agents identify relevant tasks
+      """
+      license: str | None
+      """License name or reference to bundled license file."""
+      compatibility: str | None
+      """Environment requirements.
+      Constraints per Agent Skills specification:
+      - 1-500 characters if provided
+      - Should only be included if there are specific compatibility requirements
+      - Can indicate intended product, required packages, etc.
+      """
+      metadata: dict[str, str]
+      """Arbitrary key-value mapping for additional metadata.
+      Clients can use this to store additional properties not defined by the spec.
+      It is recommended to keep key names unique to avoid conflicts.
+      """
+      allowed_tools: list[str]
+      """Tool names the skill recommends using.

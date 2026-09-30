@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-providers-compatible-doc
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-config-file
+locator:
+  kind: document_section
+  heading: Compatible APIs
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/config-file.md"
+excerpt: |-
+  For providers that expose APIs that are wire-compatible with OpenAI or Anthropic, you can use the existing `langchain-openai` or `langchain-anthropic` packages by pointing `base_url` at the provider's endpoint:
+  ```toml theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+  [models.providers.openai]
+  base_url = "https://api.example.com/v1"
+  api_key_env = "EXAMPLE_API_KEY"
+  models = ["my-model"]
+  ```
+  ```toml theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+  [models.providers.anthropic]
+  base_url = "https://api.example.com"
+  api_key_env = "EXAMPLE_API_KEY"
+  models = ["my-model"]
+  ```
+  <Note>
+    Any features added on top of the official spec by the provider will not be captured. If the provider offers a dedicated LangChain integration package, prefer that instead.

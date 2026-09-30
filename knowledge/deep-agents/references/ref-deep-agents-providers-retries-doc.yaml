@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-providers-retries-doc
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-config-file
+locator:
+  kind: document_section
+  heading: Retries
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/config-file.md"
+excerpt: |-
+  Deep Agents Code retries transient model errors at the model node. The default is five retries after the first request. Set the top-level `[retries]` value to change the budget, or set it to `0` to disable retries:
+  ```toml theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+  [retries]
+  max_retries = 2
+  [retries.fireworks]
+  max_retries = 3
+  [retries.anthropic]
+  max_retries = 0
+  ```
+  The global `[retries].max_retries` value applies to all supported providers. A provider-specific table, such as `[retries.fireworks]`, overrides the global value for that provider. Values must be integers greater than or equal to `0`.
+  For an arbitrary provider, set `param` to the name of its retry-count constructor argument.

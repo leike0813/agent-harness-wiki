@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-plugins-doc-manifest
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-plugins
+locator:
+  kind: document_section
+  heading: Define the plugin manifest
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/plugins.md"
+excerpt: |-
+  When present, `.claude-plugin/plugin.json` or `.codex-plugin/plugin.json` must contain a `name`. You can also declare a version and custom component paths:
+  ```json theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+  {
+    "name": "my-plugin",
+    "version": "1.0.0",
+    "skills": "./skills",
+    "mcpServers": "./.mcp.json",
+    "hooks": "./hooks/hooks.json"
+  }
+  ```
+  The `skills`, `mcpServers`, and `hooks` fields accept a path string or an array of paths. `mcpServers` and `hooks` can also contain inline configuration objects. Every component path must start with `./`, remain inside the plugin root, and not contain `..`.
+  When no custom path is declared, Deep Agents Code discovers:
+  * Skills under `skills/`, or a root `SKILL.md` when no `skills/` directory exists.

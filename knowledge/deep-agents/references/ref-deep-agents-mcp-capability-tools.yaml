@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-mcp-capability-tools
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/mcp_tools.py
+  start: 1917
+  end: 1932
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  owned.push_async_callback(
+                  _close_mcp_resource,
+                  "backend client",
+                  functools.partial(backend._disconnect, force=True),
+              )
+              await backend.__aenter__()  # noqa: PLC2801 - explicit forced disconnect above
+              tools = await backend.list_tools()
+              connected[server_name] = backend
+              discovered[server_name] = tools
+              stack.push_async_callback(_close_backend_stack, owned.pop_all())
+          except Exception as exc:  # noqa: BLE001 - isolate each backend
+              failures[server_name] = _classify_connect_failure(
+                  server_name, exc, redact=redact.get(server_name, False)
+              )
+          finally:
+              await _close_backend_stack(owned)

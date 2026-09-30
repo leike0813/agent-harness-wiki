@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-providers-provider-kwargs
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/model_config.py
+  start: 3982
+  end: 4000
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  """Resolve the effective configured and runtime model kwargs.
+          This mirrors the ordering used when constructing a model: provider and
+          per-model `params`, then the resolved `base_url`, then runtime
+          overrides. Consumers that need to reason about an actual request (such
+          as cache policy checks) must use this rather than inspecting one source
+          of settings in isolation.
+          Args:
+              provider_name: Provider whose configuration should be resolved.
+              model_name: Optional model name for per-model params.
+              overrides: Per-request params, which take highest precedence.
+          Returns:
+              Effective model kwargs.
+          """
+          result = self.get_kwargs(provider_name, model_name=model_name)

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-config-doctor
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/doctor.py
+  start: 690
+  end: 703
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  """Report user TOML location and parse health.
+      `_path_status` answers only "is there a file there", so a `config.toml`
+      that exists and does not parse produced a green `exists` row - in the one
+      command a user runs when their settings are not taking effect. Resolution
+      treats an unparseable file as declaring nothing, which is exactly the state
+      the row has to distinguish.
+      Returns:
+          User config diagnostic row.
+      """
+      from deepagents_code.configuration.providers import TomlFileProvider
+      from deepagents_code.configuration.types import ProviderHealth
+      from deepagents_code.model_config import DEFAULT_CONFIG_PATH

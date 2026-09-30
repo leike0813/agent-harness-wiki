@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-mcp-doc-oauth
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-mcp-tools
+locator:
+  kind: document_section
+  heading: OAuth login
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/mcp-tools.md"
+excerpt: |-
+  For remote MCP servers that require OAuth (Slack, GitHub, Notion, Linear, and other hosted MCP endpoints), set `"auth": "oauth"` on the server entry and run the login subcommand once. Tokens are persisted to disk and refreshed automatically.
+  ### Configure the server
+  ```json title=".mcp.json" theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+  {
+      "mcpServers": {
+          "linear": {
+              "type": "http",
+              "url": "https://mcp.linear.app/mcp",
+              "auth": "oauth"
+          }
+      }
+  }
+  ```
+  `auth: "oauth"` is mutually exclusive with an `Authorization` header on the same entry, and cannot be set on a stdio server.
+  To connect Deep Agents Code to LangSmith, use the [LangSmith Remote MCP](/langsmith/langsmith-remote-mcp):

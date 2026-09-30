@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-agents-fsinject
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/agent.py
+  start: 297
+  end: 312
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  for subagent in custom_subagents:
+          if "runnable" in subagent:
+              msg = (
+                  "Cannot enforce --allow-fs-tools on compiled subagent "
+                  f"{subagent.get('name', '<unnamed>')!r}: its middleware is "
+                  "not configurable, so the filesystem restriction would be "
+                  "silently bypassed."
+              )
+              raise ValueError(msg)
+          # `"runnable" in subagent` above narrows the union to `SubAgent`.
+          subagent_tool_descriptions = (
+              _get_harness_tool_descriptions(subagent["model"])
+              if "model" in subagent
+              else main_tool_descriptions
+          )
+          subagent["middleware"] = cast(

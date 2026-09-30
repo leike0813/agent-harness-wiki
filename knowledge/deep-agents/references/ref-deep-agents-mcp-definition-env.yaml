@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-mcp-definition-env
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/mcp_config.py
+  start: 129
+  end: 165
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def resolve_mcp_server_env(
+      server_name: str,
+      server_config: Mapping[str, object],
+  ) -> dict[str, Any]:
+      """Resolve `${VAR}` references in one MCP server's supported fields.
+      Interpolates the `command`, `url`, `args`, `env`, and `headers`
+      fields (see `_interpolate_env` for the reference syntax); every other
+      field is copied through verbatim. The input is not mutated.
+      Args:
+          server_name: Server name used in field-specific error messages.
+          server_config: Raw server configuration.
+      Returns:
+          A resolved copy of the server configuration.
+      Raises:
+          TypeError: If a supported field has the wrong type — a non-string
+              scalar value, or `args`/`env`/`headers` with the wrong container
+              type.

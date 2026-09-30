@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-skills-trustcli
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/ui.py
+  start: 566
+  end: 585
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  console.print("[bold]Usage:[/bold]", style=theme.PRIMARY)
+      console.print("  dcode skills trust <command>")
+      console.print()
+      console.print("[bold]Commands:[/bold]", style=theme.PRIMARY)
+      console.print("  list|ls           List trusted skill directories")
+      console.print("  revoke <dir>      Revoke trust for a directory")
+      console.print("  clear             Remove all trusted skill directories")
+      console.print()
+      trust_store = escape(PATHS.display(PATHS.profile.state_dir / "skill_trust.json"))
+      console.print(
+          "Directories are trusted when you approve a skill that resolves "
+          "outside the standard skill roots (for example, a symlink target). "
+          f"Trust is stored in {trust_store}."
+      )
+      console.print()

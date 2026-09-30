@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-providers-profiles-merge
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/model_config.py
+  start: 1714
+  end: 1739
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def _build_entry(
+      base: dict[str, Any],
+      overrides: dict[str, Any],
+      cli_override: dict[str, Any] | None,
+  ) -> ModelProfileEntry:
+      """Build a profile entry by merging base, overrides, and app override.
+      Args:
+          base: Upstream profile dict (empty for config-only models).
+          overrides: `config.toml` profile overrides.
+          cli_override: Extra fields from `--profile-override`.
+      Returns:
+          Profile entry with merged data and override tracking.
+      """
+      merged = {**base, **overrides}
+      overridden_keys = set(overrides)
+      if cli_override:
+          merged = {**merged, **cli_override}
+          overridden_keys |= set(cli_override)
+      return ModelProfileEntry(
+          profile=merged,
+          overridden_keys=frozenset(overridden_keys),
+      )

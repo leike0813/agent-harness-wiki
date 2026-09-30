@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-config-resolve-doc
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-configuration
+locator:
+  kind: document_section
+  heading: How settings resolve
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/configuration.md"
+excerpt: |-
+  Deep Agents Code uses tiered configuration. The precedence order depends on the setting type.
+  **General options** (interpreter limits, update settings, themes, and other `config.toml` keys) use the first available value in this order:
+  1. Administrator-owned `managed_config.toml`
+  2. `DEEPAGENTS_CODE_`-prefixed environment variable
+  3. Canonical environment variable (when applicable)
+  4. `~/.deepagents/config.toml`
+  5. Built-in default
+  Use `dcode config` or `dcode config get <key>` to see the current value and where it comes from. See [Inspect configuration](#inspect-configuration).
+  **Provider API keys** use a separate order. See [Key resolution order](/oss/deepagents/code/credentials#key-resolution-order).

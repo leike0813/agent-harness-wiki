@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-config-dotenv-doc
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-configuration
+locator:
+  kind: document_section
+  heading: Loading order and precedence
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/configuration.md"
+excerpt: |-
+  At startup, Deep Agents Code reads the nearest project `.env`, found by searching the directory you launch from and walking up through its parents (the first `.env` found wins), then `~/.deepagents/.env` as a global fallback for all projects. A project `.env` wins over the global one, and neither overrides a value already set in your shell.
+  To skip the project `.env` entirely (the global `~/.deepagents/.env` still loads), set `startup.read_project_dotenv`.
+  <Tabs>
+    <Tab title="Config file">
+      ```toml title="~/.deepagents/config.toml" theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+      [startup]
+      read_project_dotenv = false
+      ```
+    </Tab>
+    <Tab title="Environment variable">
+      ```bash theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}

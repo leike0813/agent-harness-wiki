@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-providers-default-model-doc
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-cli-reference
+locator:
+  kind: document_section
+  heading: Choose a model
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/cli-reference.md"
+excerpt: |-
+  Launch with `--model` (`-M`) to pin a model for one session. Use the `provider:model` format (for example, `openai:gpt-5.5`) or pass a bare model name when the provider is unambiguous:
+  ```bash theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+  dcode --model anthropic:claude-opus-4-8
+  dcode --model openai:gpt-5.5
+  dcode --model fireworks:accounts/fireworks/models/deepseek-v4-pro
+  ```
+  When Deep Agents Code starts without `--model`, it resolves the model in this order:
+  1. **`--model` flag** when provided.
+  2. **`[models].default`** in `~/.deepagents/config.toml`.
+  3. **`[models].recent`** in `~/.deepagents/config.toml` (written automatically when you switch models in a session).
+  4.

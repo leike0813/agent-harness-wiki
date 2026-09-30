@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-agents-general
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/agent.py
+  start: 2983
+  end: 2997
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  if not any(
+          subagent["name"] == GENERAL_PURPOSE_SUBAGENT["name"]
+          for subagent in custom_subagents
+      ):
+          general_purpose_subagent: RuntimeSubAgent = {
+              "name": GENERAL_PURPOSE_SUBAGENT["name"],
+              "description": GENERAL_PURPOSE_SUBAGENT["description"],
+              "system_prompt": GENERAL_PURPOSE_SUBAGENT["system_prompt"],
+              "middleware": _subagent_cli_middleware(has_explicit_model=False),
+          }
+          if is_env_truthy(FORKED_SUBAGENTS, default=True):
+              general_purpose_subagent["mode"] = "fork"
+          if resolved_interrupt_on is not None:
+              general_purpose_subagent["interrupt_on"] = {}
+          custom_subagents.append(general_purpose_subagent)

@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-plugins-ext-prepare
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/extensions/runtime.py
+  start: 51
+  end: 68
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  settings = load_extension_settings()
+      if not settings.enabled:
+          return None
+      project_dir = None
+      if project_root is not None and settings.trust is not TrustPolicy.NEVER:
+          trusted = (
+              project_trust_granted
+              or settings.trust is TrustPolicy.ALWAYS
+              or is_project_extensions_trusted(project_root)
+          )
+          if trusted:
+              project_dir = project_extensions_dir(project_root)
+      from deepagents_code.plugins import discover_plugins
+      plugin_result = discover_plugins()
+      for warning in plugin_result.warnings:
+          logger.warning("Plugin extension discovery: %s", warning)
+      discovery = discover_extensions(

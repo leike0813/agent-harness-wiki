@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-mcp-doc-flags
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-cli-reference
+locator:
+  kind: document_section
+  heading: MCP flags
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/cli-reference.md"
+excerpt: |-
+  Control MCP server loading at launch:
+  | Flag | Behavior |
+  | - | - |
+  | `--mcp-config PATH` | Add an explicit config as the highest-precedence source (merged on top of auto-discovered configs) |
+  | `--no-mcp` | Disable MCP entirely |
+  | `--trust-project-mcp` | Trust project-level servers without prompting for the current run. Servers denied by user policy remain disabled. |
+  `--mcp-config` and `--no-mcp` are mutually exclusive. In non-interactive mode, project servers without a matching saved or environment approval are silently skipped unless `--trust-project-mcp` is passed:
+  ```bash theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+  dcode --trust-project-mcp
+  dcode -n "run tests" --trust-project-mcp
+  ```

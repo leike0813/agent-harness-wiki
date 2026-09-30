@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-plugins-ext-order
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/extensions/discovery.py
+  start: 184
+  end: 204
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  if project_dir is not None
+          else DiscoveryResult()
+      )
+      sources = _deduplicate(
+          (
+              *user_sources,
+              *config.sources,
+              *cli.sources,
+              *_plugin_sources(plugins),
+              *entries.sources,
+              *project.sources,
+          )
+      )
+      errors = (
+          *user_errors,
+          *config.errors,
+          *cli.errors,
+          *entries.errors,
+          *project.errors,
+      )
+      return DiscoveryResult(sources, errors)

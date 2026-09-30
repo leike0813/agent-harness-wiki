@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-plugins-discover
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/plugins/discovery.py
+  start: 466
+  end: 485
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  """Discover enabled marketplace plugins from their install cache paths.
+      Returns:
+          Discovery result. Broken marketplaces/plugins are returned as warnings and
+          never abort sibling plugin loading.
+      """
+      enabled = load_enabled_plugin_ids()
+      plugins: list[PluginInstance] = []
+      warnings: list[str] = []
+      for plugin_id in sorted(enabled):
+          try:
+              plugin_name, marketplace_name = split_plugin_id(plugin_id)
+          except ValueError:
+              warnings.append(f"Ignoring invalid plugin id {plugin_id!r}")
+              continue
+          entry = get_primary_install_entry(plugin_id)
+          if entry is None:
+              warnings.append(
+                  f"Plugin {plugin_id} is enabled but not installed "

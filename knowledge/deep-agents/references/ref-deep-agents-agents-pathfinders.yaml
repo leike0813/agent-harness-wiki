@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-agents-pathfinders
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/_paths.py
+  start: 342
+  end: 349
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def get_user_agents_dir(agent_name: str) -> Path:
+      """Return the custom-subagent directory for an agent profile."""
+      return get_agent_dir(agent_name) / "agents"
+  def get_project_agents_dir(project_root: Path | None) -> Path | None:
+      """Return the project-level custom-subagent directory, when available."""
+      return None if project_root is None else project_paths(project_root).agents_dir

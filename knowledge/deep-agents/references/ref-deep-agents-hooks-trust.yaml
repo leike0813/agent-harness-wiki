@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-hooks-trust
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-hooks
+locator:
+  kind: document_section
+  heading: Trust project hooks
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/hooks.md"
+excerpt: |-
+  Project hooks come from the repository, so they load only after the workspace is trusted:
+  * Interactive sessions prompt when an untrusted workspace contains `.deepagents/hooks.json`. Trusting the workspace persists the decision for that project root under `~/.deepagents/.state/hooks_trust.json`.
+  * Denying the prompt skips project hooks for that session and continues with user and plugin hooks.
+  * Canceling the prompt with `Esc` or `Ctrl+D` aborts startup.
+  * Headless and CI runs never prompt. Pass `--trust-project-hooks` to opt in for that run.

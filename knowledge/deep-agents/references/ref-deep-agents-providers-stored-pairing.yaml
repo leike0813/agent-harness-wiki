@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-providers-stored-pairing
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/model_config.py
+  start: 2937
+  end: 2952
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  provider's own endpoint), the base URL is applied atomically with the key:
+      - A stored `base_url` is written to the provider's canonical base-URL env
+          var, and every *other* base-URL name the SDK reads is cleared so an
+          inherited gateway URL can't leak through an alternate variable.
+      - No stored `base_url` (the user left the field blank) clears *all* of the
+          provider's base-URL env vars, so the SDK falls back to the provider
+          default rather than an inherited gateway URL. This is what prevents a
+          personal key from being shipped to the gateway.
+      Only the unprefixed canonical names are written, so an explicit
+      `DEEPAGENTS_CODE_{VAR}` override still wins via `resolve_env_var`.
+      Args:
+          provider: Provider name.

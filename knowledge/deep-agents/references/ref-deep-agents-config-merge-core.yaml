@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-config-merge-core
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/configuration/resolver.py
+  start: 1163
+  end: 1175
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  continue
+          if path in union_paths:
+              lower_entries = union_entries(existing)
+              higher_entries = union_entries(value)
+              if lower_entries is not None and higher_entries is None:
+                  # A higher value that cannot hold names must never replace a
+                  # deny list: that would drop the lower layer's denials.
+                  continue
+              if lower_entries is not None and higher_entries is not None:
+                  merged[key] = union_lists(lower_entries, higher_entries)
+                  provenance[path] = _combined_source(lower_source, higher_source)
+                  continue
+          if isinstance(existing, dict) and isinstance(value, dict):

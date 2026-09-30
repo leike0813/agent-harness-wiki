@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-mcp-auth-store
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/mcp_auth.py
+  start: 237
+  end: 259
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def token_store_dir() -> Path:
+      """Return the selected profile's MCP OAuth token-store directory.
+      The deferred import lets tests redirect token storage into a temp
+      directory by patching `deepagents_code.model_config.DEFAULT_STATE_DIR`.
+      """
+      from deepagents_code.model_config import DEFAULT_STATE_DIR
+      return DEFAULT_STATE_DIR / "mcp-tokens"
+  def _token_file_stem(server_name: str, server_url: str | None) -> str:
+      """Return a path-safe storage stem for this server identity.
+      Safety of the stem depends on `server_name` already having passed
+      `_SERVER_NAME_RE` in `_validate_server_config` — the URL is hashed
+      to a hex digest, so only the server name can carry path separators.
+      """
+      if server_url is None:
+          return server_name

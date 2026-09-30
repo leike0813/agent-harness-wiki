@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-plugins-enabled
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/plugins/store.py
+  start: 308
+  end: 329
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def load_enabled_plugin_ids(*, strict: bool = False) -> frozenset[str]:
+      """Load enabled plugin ids.
+      Returns:
+          Enabled plugin ids.
+      """
+      data = _load_json(_plugin_state_path(), strict=strict)
+      enabled = data.get("enabledPlugins", {})
+      if not isinstance(enabled, dict):
+          if strict:
+              _raise_state_shape(_plugin_state_path(), "has invalid enabledPlugins data")
+          return frozenset()
+      if strict and any(
+          not isinstance(key, str) or not isinstance(value, bool)
+          for key, value in enabled.items()
+      ):
+          _raise_state_shape(_plugin_state_path(), "has malformed enabledPlugins entries")
+      return frozenset(
+          key for key, value in enabled.items() if isinstance(key, str) and value is True
+      )

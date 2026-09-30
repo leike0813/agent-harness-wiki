@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-hooks-output
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-hooks
+locator:
+  kind: document_section
+  heading: Handler output
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/hooks.md"
+excerpt: |-
+  Command handlers communicate results through their exit code, stdout, and stderr.
+  | Exit code | Meaning |
+  | - | - |
+  | `0` | Success. When stdout contains JSON, it is parsed and applied. |
+  | `2` | Blocking or feedback path for that event. See the [Events](#events) table Exit code 2 effect column. Stdout JSON is ignored, and stderr is the primary feedback channel. |
+  | Other nonzero | Non-blocking error. Deep Agents Code logs a diagnostic and continues. |
+  JSON output is only processed on exit `0` and must be the only content on stdout. Successful non-JSON stdout becomes additional context for `SessionStart` and `UserPromptSubmit`; for other events it produces a diagnostic. Stdout and stderr are each retained up to 100,000 bytes.
+  ### Universal output fields

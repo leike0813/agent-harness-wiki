@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-mcp-doc-discovery
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-mcp-tools
+locator:
+  kind: document_section
+  heading: Discovery locations
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/mcp-tools.md"
+excerpt: |-
+  Configs are checked in this order (lowest to highest precedence):
+  | Priority | Location | Scope |
+  | - | - | - |
+  | 1 (lowest) | `~/.deepagents/.mcp.json` | User-level—applies to all projects |
+  | 2 | `<project>/.deepagents/.mcp.json` | Project-level—`.deepagents` subdirectory |
+  | 3 (highest) | `<project>/.mcp.json` | Project-level—root (Claude Code compatible) |
+  The project root is the nearest parent directory containing a `.git` folder, falling back to the current working directory.
+  When multiple config files exist, their `mcpServers` entries are merged by server name. Differently named servers are preserved. If the same server name appears in more than one file, the higher-precedence definition replaces the entire earlier server object; nested fields are not deep-merged.

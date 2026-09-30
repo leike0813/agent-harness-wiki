@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-plugins-identity
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/plugins/models.py
+  start: 100
+  end: 118
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  Attributes:
+          plugin_id: Stable id in `{name}@{marketplace}` form.
+          name: Plugin namespace name.
+          marketplace: Parent marketplace used for identity and namespacing.
+          version: Version declared by the plugin manifest, if any.
+          root: Plugin root directory.
+          data_dir: Writable data directory for this plugin.
+          manifest: Parsed manifest, if any.
+          inventory: Component inventory.
+      """
+      plugin_id: str
+      name: str
+      marketplace: str
+      version: str | None
+      root: Path
+      data_dir: Path
+      manifest: PluginManifest | None
+      inventory: ComponentInventory

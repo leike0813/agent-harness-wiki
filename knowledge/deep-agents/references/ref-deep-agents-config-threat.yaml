@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-config-threat
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/THREAT_MODEL.md
+  start: 321
+  end: 324
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  #### TB13: Managed Config → Runtime
+  - **Inside**: The resolver reads one fixed OS path. The writer rejects that path, so the managed source is read-only by guard and not only by convention. Valid managed values take the highest precedence. The rules are:
+    - Tables deep-merge. Deny lists union. An explicit managed allow or trust list replaces lower-precedence grants.

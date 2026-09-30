@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-plugins-doc-marketplace
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-plugins
+locator:
+  kind: document_section
+  heading: Create a marketplace
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/plugins.md"
+excerpt: |-
+  A marketplace is a JSON catalog with a name and a `plugins` array. Store it at one of these paths in the marketplace root:
+  * `.claude-plugin/marketplace.json`
+  * `.agents/plugins/marketplace.json`
+  * `.agents/plugins/api_marketplace.json`
+  The following marketplace contains one plugin stored in the same repository:
+  ```json theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+  {
+    "name": "acme-tools",
+    "plugins": [
+      {
+        "name": "code-review",
+        "source": "./plugins/code-review",
+        "description": "Review code for correctness and maintainability"
+      }
+    ]
+  }
+  ```
+  Each plugin entry requires a `name` and `source`. It can also include `description` and `author`. Local source paths must start with `./` and stay inside the marketplace root.

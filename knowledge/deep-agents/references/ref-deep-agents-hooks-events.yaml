@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-hooks-events
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-hooks
+locator:
+  kind: document_section
+  heading: Events
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/hooks.md"
+excerpt: |-
+  Deep Agents Code emits the following events. Client-owned events run in the CLI process. Server-owned events originate in the agent execution path and round-trip to the client so command handlers run where your configuration lives.
+  | Event | Owner | Exit code 2 effect | Matches on |
+  | - | - | - | - |
+  | `SessionStart` | Client | Diagnostic | `source` |
+  | `UserPromptSubmit` | Client | Block prompt | none |
+  | `SessionEnd` | Client | Diagnostic | `reason` |
+  | `PermissionRequest` | Client | Deny | `tool_name` |
+  | `Notification` | Client | Diagnostic | `notification_type` |
+  | `PreToolUse` | Server | Deny | `tool_name` |
+  | `PostToolUse` | Server | Feedback | `tool_name` |
+  | `PreCompact` | Server | Block compaction | `trigger` |
+  | `Stop` | Server | Continue turn | none |

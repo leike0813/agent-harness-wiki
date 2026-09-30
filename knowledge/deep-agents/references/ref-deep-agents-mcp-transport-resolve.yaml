@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-mcp-transport-resolve
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/mcp_tools.py
+  start: 392
+  end: 414
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def _resolve_server_type(server_config: Mapping[str, Any]) -> str:
+      """Determine the transport type for a server config.
+      Accepts `type` or `transport` interchangeably. When neither is set, a
+      `url` field implies a remote server (defaulting to `http`) and the
+      absence of `url` implies stdio. This matches Claude Code's `.mcp.json`
+      convention where remote entries are commonly written as `{"url": "..."}`
+      alone.
+      Args:
+          server_config: Server configuration dictionary.
+      Returns:
+          Transport type string (`stdio`, `sse`, or `http`).
+      """
+      transport = server_config.get("type") or server_config.get("transport")
+      if transport is not None:
+          return _TRANSPORT_ALIASES.get(transport, transport)
+      if "url" in server_config:
+          return "http"

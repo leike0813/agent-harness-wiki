@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-plugins-doc-ext-capabilities
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-extensions
+locator:
+  kind: document_section
+  heading: Register capabilities
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/extensions.md"
+excerpt: |-
+  The extension API supports these methods:
+  | Method | Signature | Purpose |
+  | - | - | - |
+  | `register_middleware` | `(class_or_instance)` | Add LangChain `AgentMiddleware`. A middleware class must have a zero-argument constructor; otherwise, pass an instance. |
+  | `register_tool` | `(function_or_tool)` | Expose a callable or `BaseTool` to the model. dcode converts plain callables with LangChain tool-schema inference. |
+  | `register_backend_route` | `(prefix, backend)` | Make a `BackendProtocol` storage provider available under a virtual path. |
+  | `on_shutdown` | `(callback)` | Release session resources when the agent server stops. Synchronous and asynchronous callbacks are supported. |
+  The registrar also exposes this read-only context:
+  * `d.cwd`: Working directory for the session.

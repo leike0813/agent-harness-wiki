@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-hooks-handlerfields
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-hooks
+locator:
+  kind: document_section
+  heading: Handler fields
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/hooks.md"
+excerpt: |-
+  Each entry in a matcher group's `hooks` array is a command handler:
+  <ResponseField name="type" type="string" required>
+    Handler type. Only `command` is supported. A command handler runs a subprocess that receives the event JSON on stdin.
+  </ResponseField>
+  <ResponseField name="command" type="string" required>
+    Shell command to run. Always required. Pipes, redirects, globs, and environment-variable expansion are supported. The event payload is written to stdin as JSON, never interpolated into arguments. When `argv` is also set, this string is not executed through the shell.
+  </ResponseField>
+  <ResponseField name="argv" type="list[string]" post={["optional"]}>
+    Execute an argument list directly instead of interpreting `command` through a shell.

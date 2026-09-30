@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-providers-key-order-doc
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-credentials
+locator:
+  kind: document_section
+  heading: Key resolution order
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/credentials.md"
+excerpt: |-
+  When a provider's key is set in more than one place, Deep Agents Code uses the first of these that is set:
+  1. **`DEEPAGENTS_CODE_`-prefixed env var** — for example `DEEPAGENTS_CODE_OPENAI_API_KEY` as an inline shell export. The [`DEEPAGENTS_CODE_` prefix](/oss/deepagents/code/configuration#deepagents_code_-prefix) is the explicit "use this key in Deep Agents Code" override.
+  2. **App-stored key** — entered in the `/auth` credential manager.
+  3. **Plain provider env var** — for example `OPENAI_API_KEY`, from your shell or `.env` files.
+  An app-stored key wins over a plain env-var key for the same provider, but a `DEEPAGENTS_CODE_`-prefixed key wins over an app-stored key. The prefix is the way to override an already-stored key for a single run, without clearing it:

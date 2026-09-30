@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-providers-retry-middleware
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/model_retry.py
+  start: 1
+  end: 13
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  """Model-node retry middleware for the coding agent.
+  Wraps only the agent model node (not the whole agent turn) so transient model
+  connection failures are retried without re-running completed tool calls. Retry
+  counts are attached to constructed models upstream so runtime model switches
+  carry their provider-specific budget into each request. This module owns the
+  retry policy: which errors are transient, the backoff curve, and the user-facing
+  status surfaced while retrying.
+  Why not LangChain's `ModelRetryMiddleware`: it reads its retry count once at
+  construction, so it can't honor the provider-specific budget we stamp on each
+  model for runtime switches. It sleeps between attempts without saying
+  anything, which in a streaming terminal just looks frozen. When the budget

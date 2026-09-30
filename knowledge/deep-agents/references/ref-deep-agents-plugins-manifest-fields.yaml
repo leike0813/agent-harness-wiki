@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-plugins-manifest-fields
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/plugins/models.py
+  start: 66
+  end: 78
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  python_extensions: Python extension entry files declared in dcode's
+              namespaced manifest settings.
+          auto_update: Whether this plugin permits automatic updates.
+      """
+      name: str | None
+      version: str | None
+      component_paths: dict[str, tuple[Path, ...]]
+      inline_mcp: JsonObject
+      inline_hooks: JsonObject = field(default_factory=dict)
+      python_extensions: tuple[Path, ...] = ()
+      display_name: str | None = None
+      auto_update: bool = False

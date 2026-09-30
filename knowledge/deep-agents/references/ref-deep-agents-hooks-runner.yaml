@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-hooks-runner
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/hooks/runner.py
+  start: 55
+  end: 71
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  """Run one hook command with bounded time and captured output.
+      Args:
+          handler: Snapshotted command handler.
+          payload: Validated JSON sent to stdin.
+          cwd: Working directory inherited from the invocation.
+          default_timeout: Timeout used when the handler has no override.
+          max_output_bytes: Maximum retained bytes for each output stream.
+          env: Optional environment override. Defaults to a sanitized copy of the
+              process environment.
+      Returns:
+          Validated protocol output and structured diagnostics.
+      Raises:
+          asyncio.CancelledError: If the caller cancels command execution.
+      """

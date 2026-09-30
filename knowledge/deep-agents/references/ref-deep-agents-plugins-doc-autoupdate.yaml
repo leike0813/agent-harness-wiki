@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-plugins-doc-autoupdate
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-plugins
+locator:
+  kind: document_section
+  heading: Automatically update plugins
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/plugins.md"
+excerpt: |-
+  Deep Agents Code can update installed plugins in the background after the first prompt. Updates apply only to enabled plugins that opt in through their own manifest. Plugin authors opt in per plugin by adding this block to that plugin's `plugin.json`:
+  ```json theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+  {
+    "extensions": {
+      "com.langchain.deepagents.code": {
+        "autoUpdate": true
+      }
+    }
+  }
+  ```
+  The running session continues to use its current plugin version until you run `/reload`. To disable automatic plugin updates globally, set `[plugins].auto_update = false` in `config.toml` or `DEEPAGENTS_CODE_PLUGIN_AUTO_UPDATE=false` in the environment.

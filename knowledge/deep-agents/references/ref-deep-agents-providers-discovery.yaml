@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-providers-discovery
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/model_config.py
+  start: 1557
+  end: 1568
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  # Filter to models that support tool calling and text I/O.
+          models = [
+              name
+              for name, profile in profiles.items()
+              if profile.get("tool_calling", False)
+              and profile.get("text_inputs", True) is not False
+              and profile.get("text_outputs", True) is not False
+          ]
+          models.sort()
+          if models:
+              available[provider] = models

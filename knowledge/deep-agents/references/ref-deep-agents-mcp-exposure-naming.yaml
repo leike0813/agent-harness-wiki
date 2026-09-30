@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-mcp-exposure-naming
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/mcp_tools.py
+  start: 1580
+  end: 1605
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def _mcp_tool_name(server_name: str, tool_name: str) -> str:
+      """Compose a provider-safe MCP tool name.
+      Args:
+          server_name: Owning MCP server name.
+          tool_name: Server-side tool name.
+      Returns:
+          A deterministic name no longer than the strictest provider limit.
+      """
+      raw_name = f"{server_name}_{tool_name}"
+      sanitized = _MCP_TOOL_NAME_RE.sub("_", raw_name).strip("_") or "unnamed"
+      if sanitized == raw_name and len(sanitized) <= _MCP_TOOL_NAME_MAX_LENGTH:
+          return sanitized
+      digest = sha256(f"{server_name}\0{tool_name}".encode()).hexdigest()[
+          :_MCP_TOOL_NAME_HASH_LENGTH
+      ]
+      server = _MCP_TOOL_NAME_RE.sub("_", server_name).strip("_") or "unnamed"
+      tool = _MCP_TOOL_NAME_RE.sub("_", tool_name).strip("_") or "unnamed"

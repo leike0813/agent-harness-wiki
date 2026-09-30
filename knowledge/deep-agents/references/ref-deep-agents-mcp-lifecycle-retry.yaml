@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-mcp-lifecycle-retry
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/mcp_proxy.py
+  start: 111
+  end: 152
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  async def _recover(self, exc: Exception) -> MCPReauthRequiredError | None:
+          """Inspect both the call failure and the session's eventual failure.
+          Returns:
+              The login error, if present, after clearing the broken session.
+          """
+          reauth = find_reauth_required(exc)
+          session = self.backend._session_state.session_task
+          if (
+              reauth is None
+              and not _is_disconnected(exc)
+              and not (session is not None and session.done())
+          ):
+              raise exc
+          # The dispatcher may report Connection closed before the HTTP task
+          # finishes. Disconnect awaits that task, preserving its auth exception
+          # and resetting FastMCP's nesting counter before the next tool call.

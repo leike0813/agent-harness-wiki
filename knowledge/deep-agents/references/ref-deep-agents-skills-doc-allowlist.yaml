@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-skills-doc-allowlist
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-configuration
+locator:
+  kind: document_section
+  heading: Skill directory allowlist
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/configuration.md"
+excerpt: |-
+  By default, when Deep Agents Code loads skills it validates that a resolved skill file path stays inside one of the standard [skill directories](/oss/deepagents/code/configuration#skills). This prevents symlinks inside skill directories from reading arbitrary files outside those roots.
+  If you store shared skill assets in a non-standard location and use symlinks from a standard skill directory to reference them, you can add that location to the containment allowlist. This does **not** add a new skill discovery location: skills are still only discovered from the standard directories.
+  <ResponseField name="extra_allowed_dirs" type="string[]" post={["optional"]}>
+    Paths added to the skill containment allowlist. Supports `~` expansion.

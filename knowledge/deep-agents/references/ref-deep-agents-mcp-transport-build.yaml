@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-mcp-transport-build
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/mcp_tools.py
+  start: 1834
+  end: 1857
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  from fastmcp.mcp_config import RemoteMCPServer, StdioMCPServer
+      if server_type in _SUPPORTED_REMOTE_TYPES:
+          # Only pin the transport when the config actually named one. Left unset,
+          # FastMCP infers it from the URL, which is what makes a bare
+          # `{"url": ".../sse"}` entry connect over SSE instead of streamable HTTP.
+          declared = server_config.get("type") or server_config.get("transport")
+          remote_config = dict(server_config)
+          remote_config["transport"] = (
+              ("sse" if server_type == "sse" else "http") if declared else None
+          )
+          remote = RemoteMCPServer.model_validate(remote_config)
+          # The config's `auth` is a mode name (`"oauth"`), not a credential; the
+          # resolved provider replaces it.

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-skills-trust
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/skills/trust.py
+  start: 8
+  end: 31
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  This module adds an in-the-moment, persistent approval path: when a skill
+  resolves outside the trusted roots, the user is asked once to allow the
+  resolved target directory, and the decision is remembered. Trust is keyed by
+  the approved target directory — the canonical path resolved and shown to the
+  user at approval time, stored as-is and never re-resolved.
+  Two distinct post-approval swaps are caught by two distinct layers, so neither
+  grants access the user never approved:
+  * Re-pointing the *discovery* symlink (the `SKILL.md` path) at a new target is
+      caught by containment enforcement in `load_skill_content`: the new target is
+      not on the allowlist, so the read is refused and the user is re-prompted.
+      The stored trust entry — the original resolved target — is untouched.

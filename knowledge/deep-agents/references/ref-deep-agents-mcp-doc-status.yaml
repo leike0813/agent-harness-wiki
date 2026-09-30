@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-mcp-doc-status
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-mcp-tools
+locator:
+  kind: document_section
+  heading: Server status
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/mcp-tools.md"
+excerpt: |-
+  Each configured server lands in one of three states after startup:
+  | Status | Meaning |
+  | - | - |
+  | `ok` | Connected; tools are loaded and available to the agent |
+  | `unauthenticated` | OAuth login required or refresh failed — run `dcode mcp login <server>` |
+  | `error` | Pre-flight, discovery, or transport setup failed; an error message is attached |
+  A single failing server no longer aborts startup. The agent runs with whichever servers came up cleanly, and the welcome banner surfaces counts of unauthenticated and errored servers next to the tool count. Open `/mcp` in an interactive session to see per-server status, transport, tool list, and the failure reason for non-`ok` entries. The viewer live-updates as servers connect and supports `tab`/`shift+tab` navigation.

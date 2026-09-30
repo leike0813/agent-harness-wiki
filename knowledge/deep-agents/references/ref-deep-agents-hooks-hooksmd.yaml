@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-hooks-hooksmd
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/HOOKS.md
+  start: 9
+  end: 15
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  | Scope | Path | When it loads |
+  | --- | --- | --- |
+  | User | `~/.deepagents/hooks.json` | Always (when the file exists) |
+  | Project | `{project_root}/.deepagents/hooks.json` | Only after workspace trust |
+  | Plugin | `hooks/hooks.json` inside an installed plugin | Whenever the plugin is enabled |
+  Matcher groups are applied project first, then user, then plugin. Precedence decides whose answer wins, not who runs: every matching handler for an event runs concurrently, and their results are then reduced in that order, so the first handler that stops processing decides the event. A plugin handler still executes even when a project or user handler stops the event, so treat a plugin's side effects as unconditional.

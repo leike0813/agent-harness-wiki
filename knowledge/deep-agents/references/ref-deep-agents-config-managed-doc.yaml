@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-config-managed-doc
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-configuration
+locator:
+  kind: document_section
+  heading: Locate the managed config file
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/configuration.md"
+excerpt: |-
+  Deep Agents Code looks for `managed_config.toml` in a fixed location on each operating system:
+  | Operating system | Path |
+  | - | - |
+  | macOS | `/Library/Application Support/dcode/managed_config.toml` |
+  | Linux | `/etc/dcode/managed_config.toml` |
+  | Windows | `<ProgramData>\dcode\managed_config.toml` |
+  On Windows, Deep Agents Code finds ProgramData through the system registry, not the `%ProgramData%` environment variable. Environment variables cannot change the managed config location. If the registry is unavailable, Deep Agents Code checks `C:\ProgramData\dcode\managed_config.toml`. If that file is also missing, Deep Agents Code cannot determine whether an administrator configured a policy, so commands that use configuration stop instead of running without it.

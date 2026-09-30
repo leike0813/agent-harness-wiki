@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-hooks-config
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-hooks
+locator:
+  kind: document_section
+  heading: Setup
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/hooks.md"
+excerpt: |-
+  Create `~/.deepagents/hooks.json` for hooks that apply to every project, or `{project_root}/.deepagents/hooks.json` for project-scoped hooks (after you grant [workspace trust](#trust-project-hooks)). Handlers nest in three levels: event name, matcher group, then the handlers that run for that group.
+  ```json title="~/.deepagents/hooks.json" theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+  {
+    "hooks": {
+      "PreToolUse": [
+        {
+          "matcher": "Bash",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "~/.deepagents/hooks/block-rm.sh",
+              "timeout": 600
+            }
+          ]
+        }
+      ],
+      "SessionStart": [
+        {
+          "matcher": "startup|resume",
+          "hooks": [
+            {
+              "type": "command",

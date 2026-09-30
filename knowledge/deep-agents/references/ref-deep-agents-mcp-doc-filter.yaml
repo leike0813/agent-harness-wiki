@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-mcp-doc-filter
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-docs-mcp-tools
+locator:
+  kind: document_section
+  heading: Tool filtering
+official_url: "https://docs.langchain.com/oss/python/deepagents/code/mcp-tools.md"
+excerpt: |-
+  Each server may narrow the tools it exposes to the agent with one of two optional fields:
+  * `allowedTools`: keep only the listed tools; drop everything else.
+  * `disabledTools`: drop the listed tools; keep everything else.
+  Filtering applies to stdio, HTTP, and SSE servers alike. Both of the following are rejected at config load:
+  * Setting `allowedTools` and `disabledTools` on the same server.
+  * Setting either field to an empty list (would silently strip every tool, or be a no-op). Omit the field instead.
+  ```json title=".mcp.json" theme={"theme":{"light":"catppuccin-latte","dark":"catppuccin-mocha"}}
+  {
+    "mcpServers": {
+      "filesystem": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-filesystem", "/tmp"],
+        "allowedTools": ["read_file", "list_directory"]

@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-mcp-exposure-readonly
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/auto_mode.py
+  start: 683
+  end: 710
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def mcp_tool_is_coherently_read_only(tool: object) -> bool:
+      """Return whether an MCP tool has coherent read-only annotations.
+      Args:
+          tool: Wrapped MCP tool.
+      Returns:
+          `True` only for literal `readOnlyHint=true` without a destructive hint.
+      """
+      metadata = getattr(tool, "metadata", None)
+      if not isinstance(metadata, Mapping):
+          return False
+      hint_names = (
+          "readOnlyHint",
+          "destructiveHint",
+          "idempotentHint",
+          "openWorldHint",
+      )
+      if any(
+          name in metadata
+          and metadata[name] is not None
+          and not isinstance(metadata[name], bool)
+          for name in hint_names
+      ):
+          return False
+      return (
+          metadata.get("readOnlyHint") is True

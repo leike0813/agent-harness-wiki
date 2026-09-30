@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-plugins-ext-api
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/extensions/api.py
+  start: 85
+  end: 108
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  @property
+      def path(self) -> Path:
+          """Entry file for this extension."""
+          return self._source.path
+      def register_middleware(
+          self,
+          middleware: AgentMiddleware[Any, Any] | type[AgentMiddleware[Any, Any]],
+      ) -> None:
+          """Install LangChain middleware on the agent.
+          A class is instantiated without arguments. Pass an instance when
+          construction requires configuration.
+          Args:
+              middleware: Middleware class or instance.
+          Raises:
+              ExtensionError: If `middleware` is invalid or cannot be constructed.
+          """
+          self._ensure_active()
+          from langchain.agents.middleware.types import AgentMiddleware
+          try:

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-plugins-install
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/plugins/discovery.py
+  start: 204
+  end: 220
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def install_plugin(plugin_id: str) -> PluginInstance:
+      """Install a marketplace plugin into the versioned cache and enable it.
+      Copies the plugin source into `plugins/cache/{marketplace}/{plugin}/{version}/`,
+      writes `installed_plugins.json`, and enables the plugin.
+      Args:
+          plugin_id: Plugin id in `{name}@{marketplace}` form.
+      Returns:
+          Discovered plugin instance loaded from the cache path.
+      Raises:
+          MarketplaceError: If the marketplace/plugin cannot be resolved, the
+              source is unsupported, or the cached plugin fails to load.
+      """
+      load_installed_plugins(strict=True)

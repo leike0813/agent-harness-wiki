@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-agents-precedence
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/subagents.py
+  start: 259
+  end: 278
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  Project subagents override user subagents with the same name.
+      Args:
+          user_agents_dir: Path to user-level agents directory.
+          project_agents_dir: Path to project-level agents directory.
+      Returns:
+          List of subagent metadata, with project subagents taking precedence.
+      """
+      all_subagents: dict[str, SubagentMetadata] = {}
+      # Load user subagents first (lower priority)
+      if user_agents_dir is not None:
+          all_subagents.update(_load_subagents_from_dir(user_agents_dir, "user"))
+      # Load project subagents second (override user)
+      if project_agents_dir is not None:
+          all_subagents.update(_load_subagents_from_dir(project_agents_dir, "project"))
+      return list(all_subagents.values())

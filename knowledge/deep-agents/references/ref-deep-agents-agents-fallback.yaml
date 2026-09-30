@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-agents-fallback
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/subagents.py
+  start: 158
+  end: 174
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  if "name" not in frontmatter:
+          # Fallback engaged. Log it so a typo'd key (e.g. `nmae:`) that silently
+          # resolves to the folder name is at least diagnosable at debug level.
+          logger.debug(
+              "Subagent %s: 'name' omitted from frontmatter; using folder name %r.",
+              file_path,
+              name,
+          )
+      return {
+          "name": name,
+          "description": description,
+          "system_prompt": match.group(2).strip(),
+          "model": model,
+          "source": "",  # Set by caller
+          "path": str(file_path),
+      }

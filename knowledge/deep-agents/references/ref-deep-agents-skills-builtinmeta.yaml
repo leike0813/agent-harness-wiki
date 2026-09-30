@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-skills-builtinmeta
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/skills/load.py
+  start: 136
+  end: 145
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  skill_dir,
+                  )
+              for skill in skills:
+                  extra: dict[str, object] = {"source": source_label}
+                  if source_label == "built-in":
+                      extra["metadata"] = {
+                          **skill["metadata"],
+                          "deepagents-code-version": _cli_version,
+                      }
+                  extended = cast("ExtendedSkillMetadata", {**skill, **extra})

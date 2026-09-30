@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-config-writer-guard
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-repo
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/configuration/writer.py
+  start: 83
+  end: 91
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  from deepagents_code.configuration.paths import managed_config_path
+      if config_path == managed_config_path():
+          # The managed tier is read-only, and `THREAT_MODEL.md` states that as a
+          # security property. It held only because no caller passed this path;
+          # make it structural, so the claim does not depend on every future
+          # caller knowing it.
+          return WriteResult(False, False, "managed config is read-only")
+      with USER_CONFIG_WRITE_LOCK:
