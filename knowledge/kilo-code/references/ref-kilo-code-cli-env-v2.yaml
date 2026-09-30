@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-cli-env-v2
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/kilo-docs/pages/code-with-ai/platforms/cli.md
+  start: 539
+  end: 539
+official_url: https://github.com/Kilo-Org/kilocode
+excerpt: "`{env:VAR}` (and `{file:...}`) references are resolved **only** in trusted config: your global config (`~/.config/kilo`), a config passed via `KILO_CONFIG` / `KILO_CONFIG_CONTENT`, or organization/MDM-managed config. A project-level `kilo.json` / `opencode.json` committed to a repository **cannot** use `{env:VAR}` — the reference is ignored and a warning is logged. This prevents a malicious repository from exfiltrating your secrets to an attacker-controlled `baseURL` simply by being opened. `{file:...}` still works in project config, but only for files that resolve inside the project root — references that leave it (absolute paths outside the root, `../` traversal, and symlink escapes) are rejected."
