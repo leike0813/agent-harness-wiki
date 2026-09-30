@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-sdk-skills
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Skills
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  ```typescript
+  import {
+    createAgentSession,
+    DefaultResourceLoader,
+    type Skill,
+  } from "@earendil-works/pi-coding-agent";
+  const customSkill: Skill = {
+    name: "my-skill",
+    description: "Custom instructions",
+    filePath: "/path/to/SKILL.md",
+    baseDir: "/path/to",
+    source: "custom",
+  };
+  const loader = new DefaultResourceLoader({
+    skillsOverride: (current) => ({
+      skills: [...current.skills, customSkill],
+      diagnostics: current.diagnostics,
+    }),
+  });
+  await loader.reload();
+  const { session } = await createAgentSession({ resourceLoader: loader });
+  ```
+  > See [examples/sdk/04-skills.ts](../examples/sdk/04-skills.ts)

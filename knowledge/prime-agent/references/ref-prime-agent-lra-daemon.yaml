@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lra-daemon
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Daemon-Backed Sessions
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Normal interactive sessions run in resident worker processes managed by a local supervisor. The worker owns the root session, its Python kernel, scheduled jobs, and RLM descendants.
+  Closing the terminal UI detaches the client; it does not stop the worker. List and reconnect to active agents with:
+  ```bash
+  prime-agent list
+  prime-agent attach <agent>
+  ```
+  Other lifecycle commands are:
+  ```bash
+  prime-agent agents                  # Open the agents view
+  prime-agent rename <agent> <name>   # Give an agent a stable readable name
+  prime-agent stop <agent>            # Stop one agent
+  prime-agent status                  # Inspect background services
+  prime-agent doctor [--fix]          # Diagnose or repair service state
+  prime-agent shutdown [--force]      # Stop all agents and services
+  ```

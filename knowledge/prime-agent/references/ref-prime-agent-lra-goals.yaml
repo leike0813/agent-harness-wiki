@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lra-goals
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Persistent Goals
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  A goal is a durable objective that the harness continues to present across turns until it is complete, paused, budget-limited, errored, or cleared. Start one explicitly from the TUI:
+  ```text
+  /goal Ship the release and verify every published artifact
+  /goal --budget 200000 Complete the repository migration
+  ```
+  Manage its state with:
+  ```text
+  /goal status
+  /goal pause
+  /goal resume
+  /goal clear
+  ```
+  The model uses the kernel-side `goal` skill to inspect or finish the objective:
+  ```python
+  state = await goal.get()
+  await goal.complete()
+  ```
+  Goal state records token usage, elapsed time, continuation count, and an optional explicit token budget. The harness keeps prompting an active goal after ordinary assistant turns; only `goal.complete()` marks successful completion.

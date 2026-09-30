@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-rlm-state
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: "4. State is designed to outlive one turn"
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  The RLM programming model assumes useful work may take many turns or continue after the terminal UI closes:
+  - automatic compaction summarizes older context while preserving recent messages and kernel state;
+  - daemon-backed workers keep active sessions running after clients detach;
+  - child registries and session artifacts make subagents recoverable;
+  - heartbeats and scheduled prompts re-enter a session later;
+  - persistent goals continue until the objective is complete or the user changes their state; and
+  - autonomous mode adds bounded continuations and optional quality gates.
+  See [Long-Running and Background Agents](long-running-agents.md) for these lifecycle features.

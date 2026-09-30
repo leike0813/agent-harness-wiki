@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-registerprovider
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: "pi.registerProvider(name, config)"
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Register or override a model provider dynamically. Useful for proxies, custom endpoints, or team-wide model configurations.
+  Calls made during the extension factory function are queued and applied once the runner initialises. Calls made after that — for example from a command handler following a user setup flow — take effect immediately without requiring a `/reload`.
+  If you need to discover models from a remote endpoint, prefer an async extension factory over deferring the fetch to `session_start`. Prime Agent waits for the factory before startup continues, so the registered models are available immediately, including to `prime-agent model list`.
+  ```typescript
+  // Register a new provider with custom models
+  pi.registerProvider("my-proxy", {
+    name: "My Proxy",

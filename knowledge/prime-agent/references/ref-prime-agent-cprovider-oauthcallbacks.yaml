@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-cprovider-oauthcallbacks
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: OAuthLoginCallbacks
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  The `callbacks` object provides three ways to authenticate:
+  ```typescript
+  interface OAuthLoginCallbacks {
+    // Open URL in browser (for OAuth redirects)
+    onAuth(params: { url: string }): void;
+    // Show device code (for device authorization flow)
+    onDeviceCode(params: { userCode: string; verificationUri: string }): void;
+    // Prompt user for input (for manual token entry)
+    onPrompt(params: { message: string }): Promise<string>;
+  }
+  ```

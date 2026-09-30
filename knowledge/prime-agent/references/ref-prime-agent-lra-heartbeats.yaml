@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lra-heartbeats
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Heartbeats and Scheduled Prompts
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Prime Agent has three related scheduling surfaces:
+  | Surface | Owner | Purpose |
+  |---|---|---|
+  | `/heartbeat` | User | One visible recurring instruction for the current session. |
+  | `rlm_heartbeat` | Agent | Multiple programmatically managed recurring instructions internal to the current session. |
+  | `prime-agent schedule` | User or automation | General one-time or cron prompts targeted at an agent. |
+  ### User heartbeat
+  Create and manage the current session's visible heartbeat:
+  ```text
+  /heartbeat every 10m Check the deployment and report meaningful changes
+  /heartbeat status
+  /heartbeat pause
+  /heartbeat resume
+  /heartbeat clear
+  ```
+  Heartbeat delivery defaults to steering active work. Add `--follow-up` when the recurring prompt should wait until the current turn finishes.

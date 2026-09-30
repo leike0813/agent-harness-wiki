@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-sdk-model
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Model
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  ```typescript
+  import { getModel } from "@earendil-works/pi-ai";
+  import { AuthStorage, ModelRegistry } from "@earendil-works/pi-coding-agent";
+  const authStorage = AuthStorage.create();
+  const modelRegistry = ModelRegistry.create(authStorage);
+  // Find specific built-in model (doesn't check if API key exists)
+  const opus = getModel("anthropic", "claude-opus-4-5");
+  if (!opus) throw new Error("Model not found");
+  // Find any model by provider/id, including custom models from models.json
+  // (doesn't check if API key exists)
+  const customModel = modelRegistry.find("my-provider", "my-model");
+  // Get only models that have valid API keys configured
+  const available = await modelRegistry.getAvailable();
+  const { session } = await createAgentSession({
+    model: opus,

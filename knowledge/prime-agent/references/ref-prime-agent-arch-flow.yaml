@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-arch-flow
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Prompt Execution Flow
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  ```mermaid
+  sequenceDiagram
+      participant U as User interface
+      participant C as AgentConnection
+      participant S as Supervisor
+      participant W as Session worker
+      participant A as AgentSession
+      participant P as Model provider
+      participant K as Python kernel
+      participant D as Session storage
+      U->>C: prompt, steer, or follow-up
+      C->>S: versioned command
+      S->>W: route to active session
+      W->>A: enqueue prompt
+      A->>P: stream model request
+      P-->>A: text or Python tool call
+      opt Python tool call
+          A->>K: execute Python
+          alt Typed host request
+              K->>A: request host operation
+              A-->>K: host result
+          else Ordinary execution
+              K-->>A: result, stdout, or error
+          end
+      end

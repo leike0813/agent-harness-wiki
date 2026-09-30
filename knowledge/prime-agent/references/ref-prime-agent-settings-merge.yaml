@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-settings-merge
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/settings-manager.ts
+  start: 261
+  end: 287
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  /** Deep merge settings: project/overrides take precedence, nested objects merge recursively */
+  function deepMergeSettings(base: Settings, overrides: Settings): Settings {
+  	const result: Settings = { ...base };
+  	for (const key of Object.keys(overrides) as (keyof Settings)[]) {
+  		const overrideValue = overrides[key];
+  		const baseValue = base[key];
+  		if (overrideValue === undefined) {
+  			continue;
+  		}
+  		if (
+  			typeof overrideValue === "object" &&
+  			overrideValue !== null &&
+  			!Array.isArray(overrideValue) &&
+  			typeof baseValue === "object" &&
+  			baseValue !== null &&
+  			!Array.isArray(baseValue)
+  		) {
+  			(result as Record<string, unknown>)[key] = { ...baseValue, ...overrideValue };
+  		} else {
+  			(result as Record<string, unknown>)[key] = overrideValue;
+  		}
+  	}
+  	return result;
+  }

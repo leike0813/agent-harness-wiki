@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-rlrt-failures
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Failure Modes
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  | Failure | Behavior |
+  |---|---|
+  | Managed runtime is missing | Kernel bootstrap rebuilds it; a custom `PRIME_AGENT_KERNEL_PYTHON` without a current `prime-agent-runtime` is rejected at kernel startup. |
+  | Depth limit reached | The host rejects the spawn request; the error reply raises in Python. |
+  | Unsupported options | Host rejects the request. |
+  | Requested model unavailable | Spawn fails instead of substituting another model. |
+  | Host connection closed | Pending `host_request` calls fail with `RuntimeError` so awaiting cells unblock. |
+  | Child cancellation | Host aborts the child and removes failed/cancelled registry entries. |
+  | Parent teardown | Active descendants are cancelled and their runtimes are closed. |

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-code-migrations-run
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/migrations.ts
+  start: 443
+  end: 454
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  export function runMigrations(cwd: string): {
+  	migratedAuthProviders: string[];
+  	deprecationWarnings: string[];
+  } {
+  	const migratedAuthProviders = migrateAuthToAuthJson();
+  	migrateSessionsFromAgentRoot();
+  	migrateLegacySessionDirsToSessionRoot();
+  	migrateToolsToBin();
+  	migrateKeybindingsConfigFile();
+  	const deprecationWarnings = migrateExtensionSystem(cwd);
+  	return { migratedAuthProviders, deprecationWarnings };
+  }

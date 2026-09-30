@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-cprovider-quickref
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Quick Reference
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  ```typescript
+  import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+  export default function (pi: ExtensionAPI) {
+    // Override baseUrl for existing provider
+    pi.registerProvider("anthropic", {
+      baseUrl: "https://proxy.example.com"
+    });
+    // Register new provider with models
+    pi.registerProvider("my-provider", {
+      name: "My Provider",
+      baseUrl: "https://api.example.com",
+      apiKey: "MY_API_KEY",
+      api: "openai-completions",
+      models: [
+        {
+          id: "my-model",
+          name: "My Model",
+          reasoning: false,
+          input: ["text", "image"],
+          cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+          contextWindow: 128000,
+          maxTokens: 4096
+        }
+      ]
+    });
+  }
+  ```
+  The extension factory can also be `async`.

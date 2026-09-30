@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-mr-provider-schema
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/model-registry.ts
+  start: 195
+  end: 209
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  const ProviderConfigSchema = Type.Object({
+  	name: Type.Optional(Type.String({ minLength: 1 })),
+  	baseUrl: Type.Optional(Type.String({ minLength: 1 })),
+  	apiKey: Type.Optional(Type.String({ minLength: 1 })),
+  	api: Type.Optional(Type.String({ minLength: 1 })),
+  	headers: Type.Optional(Type.Record(Type.String(), Type.String())),
+  	compat: Type.Optional(ProviderCompatSchema),
+  	authHeader: Type.Optional(Type.Boolean()),
+  	models: Type.Optional(Type.Array(ModelDefinitionSchema)),
+  	modelOverrides: Type.Optional(Type.Record(Type.String(), ModelOverrideSchema)),
+  });
+  const ModelsConfigSchema = Type.Object({
+  	providers: Type.Record(Type.String(), ProviderConfigSchema),
+  });

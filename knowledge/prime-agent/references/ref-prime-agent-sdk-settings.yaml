@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-sdk-settings
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Settings Management
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  ```typescript
+  import { createAgentSession, SettingsManager, SessionManager } from "@earendil-works/pi-coding-agent";
+  // Default: loads from files (global + project merged)
+  const { session } = await createAgentSession({
+    settingsManager: SettingsManager.create(),
+  });
+  // With overrides
+  const settingsManager = SettingsManager.create();
+  settingsManager.applyOverrides({
+    compaction: { enabled: false },
+    retry: { enabled: true, maxRetries: 5 },
+  });
+  const { session } = await createAgentSession({ settingsManager });
+  // In-memory (no file I/O, for testing)
+  const { session } = await createAgentSession({
+    settingsManager: SettingsManager.inMemory({ compaction: { enabled: false } }),
+    sessionManager: SessionManager.inMemory(),
+  });
+  // Custom directories

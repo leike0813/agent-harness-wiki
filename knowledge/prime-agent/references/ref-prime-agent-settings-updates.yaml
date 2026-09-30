@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-settings-updates
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Update Checks
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Stable builds fetch the release manifest at `https://pub-728493de92a943e2a9b2d17b4719f318.r2.dev/latest.json`. Beta builds fetch `beta.json` and continue following beta updates. Override the base URL with `PRIME_AGENT_DOWNLOAD_BASE_URL`.
+  Set `PI_SKIP_VERSION_CHECK=1` to disable the Prime Agent version update check. Use `--offline` or `PI_OFFLINE=1` to disable startup network operations, including update checks and package update checks.
+  The stable `latest.json` and beta `beta.json` manifests use the same JSON shape:
+  ```json
+  {
+    "version": "0.73.1",
+    "package": "prime-agent",
+    "tarball": "releases/v0.73.1/prime-agent-0.73.1.tgz"
+  }
+  ```
+  `version` is required. `package` is optional and may also be named `packageName`; it defaults to the current package name.

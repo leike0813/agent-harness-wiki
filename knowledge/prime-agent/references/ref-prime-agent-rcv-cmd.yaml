@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-rcv-cmd
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/resolve-config-value.ts
+  start: 16
+  end: 24
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  export function resolveConfigValue(config: string): string | undefined {
+  	if (config.startsWith("!")) {
+  		return executeCommand(config);
+  	}
+  	return resolveEnvOrLiteral(config);
+  }
+  /** Unset env var: fall back to the literal string. Set-but-empty: missing credential, never the var name. */
+  function resolveEnvOrLiteral(config: string): string | undefined {

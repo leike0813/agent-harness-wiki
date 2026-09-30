@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-settings-waits
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Wait-for-usage and provider recovery
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  | Setting | Type | Default | Description |
+  |---------|------|---------|-------------|
+  | `retry.provider.waitForUsage.enabled` | boolean | `true` | Bounded wait-for-recovery loop for quota exhaustion and provider unavailability |
+  | `retry.provider.waitForUsage.baseDelayMs` | number | `1000` | First ping delay (doubles per ping) |
+  | `retry.provider.waitForUsage.maxDelayMs` | number | `300000` | Per-ping ceiling (5m) |
+  | `retry.provider.waitForUsage.maxAttempts` | number | `30` | Abort bound: maximum recovery pings |
+  | `retry.provider.waitForUsage.maxWaitMs` | number | `900000` | Abort bound: maximum total wait (15m) |
+  | `providerBackupModel` | string | none | Backup model ("provider/model-id" or bare id) used while the primary is quota-blocked or unavailable |

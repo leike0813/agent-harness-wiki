@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-mcp-states
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Connection states
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  - **Connected** — a real MCP handshake succeeded against the bound endpoint
+    with the stored credentials. Token presence alone never yields this state.
+  - **Verifying / pending** — credentials exist but the handshake has not
+    succeeded (yet), e.g. right after login or while the endpoint is unreachable.
+    The connection is usable; dispatch performs the live handshake.
+  - **Reconnect / error** — the credential was rejected (expired with no refresh
+    token, or bound to a different endpoint). Reconnecting from `/plugins` fixes
+    it; existing grants are not deleted by a failed verification.
+  - **Requires setup** — the service needs manual setup (developer app, API key,
+    tenant URL, or a stdio adapter). The card states what is needed.
+  - **Disabled** — the server entry is disabled in settings.

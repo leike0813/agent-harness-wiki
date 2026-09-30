@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lra-messaging
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Agent-to-Agent Communication
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  The daemon routes direct messages between active sessions and retained daemon-backed subagents. From a shell:
+  ```bash
+  prime-agent send <agent> "Please verify the latest migration"
+  ```
+  From the Python kernel, use the preloaded `agent_observe` and `agent_message` Python skills:
+  ```python
+  roster = await agent_observe.list_agents()
+  receipt = await agent_message.send(
+      "Recheck the endpoint after the latest edit",
+      receiver_role="sibling",
+      receiver_name="api-reviewer",
+      mode="auto",
+  )
+  print(receipt["deliveryStatus"])
+  ```
+  For the current parent's direct RLM children, prefer the parent-scoped registry:
+  ```python
+  children = await rlm.list_subagents()
+  child = next(item for item in children if item.session_name == "api-reviewer")
+  await agent_message.send(

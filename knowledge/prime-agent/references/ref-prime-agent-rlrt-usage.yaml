@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-rlrt-usage
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Usage and Cost Attribution
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  The admission handle does not contain usage or completion data. Prime Agent asynchronously folds the child's assistant usage and cost into the parent assistant turn that launched it.
+  The parent transcript persists a `child_usage_attributed` entry containing:
+  - the target parent assistant message ID;
+  - the child usage being attributed; and
+  - the resulting aggregate usage.
+  On reload, the aggregate is reapplied to the parent message. Context-tree reporting subtracts attributed child usage when showing each node's own usage, so tree-wide own usage and root aggregate totals remain reconcilable. Child work increases billable session totals but does not inflate the parent model's context-window measurement.

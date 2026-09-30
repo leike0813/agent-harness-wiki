@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-types-provider
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/extensions/types.ts
+  start: 1199
+  end: 1242
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  export interface ProviderConfig {
+  	/** Display name for the provider in UI. */
+  	name?: string;
+  	/** Base URL for the API endpoint. Required when defining models. */
+  	baseUrl?: string;
+  	/** API key or environment variable name. Required when defining models (unless oauth provided). */
+  	apiKey?: string;
+  	/** API type. Required at provider or model level when defining models. */
+  	api?: Api;
+  	/** Optional streamSimple handler for custom APIs. */
+  	streamSimple?: (model: Model<Api>, context: Context, options?: SimpleStreamOptions) => AssistantMessageEventStream;
+  	/** Custom headers to include in requests. */
+  	headers?: Record<string, string>;
+  	/** If true, adds Authorization: Bearer header with the resolved API key. */
+  	authHeader?: boolean;
+  	/** Models to register.

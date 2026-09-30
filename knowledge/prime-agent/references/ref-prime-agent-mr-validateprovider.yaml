@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-mr-validateprovider
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/model-registry.ts
+  start: 1723
+  end: 1745
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  private validateProviderConfig(providerName: string, config: ProviderConfigInput): void {
+  		if (config.streamSimple && !config.api) {
+  			throw new Error(`Provider ${providerName}: "api" is required when registering streamSimple.`);
+  		}
+  		if (!config.models || config.models.length === 0) {
+  			return;
+  		}
+  		if (!config.baseUrl) {
+  			throw new Error(`Provider ${providerName}: "baseUrl" is required when defining models.`);
+  		}
+  		if (!config.apiKey && !config.oauth) {
+  			throw new Error(`Provider ${providerName}: "apiKey" or "oauth" is required when defining models.`);
+  		}
+  		for (const modelDef of config.models) {
+  			const api = modelDef.api || config.api;
+  			if (!api) {
+  				throw new Error(`Provider ${providerName}, model ${modelDef.id}: no "api" specified.`);
+  			}
+  		}
+  	}

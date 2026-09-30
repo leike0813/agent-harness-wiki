@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-writing
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Writing an Extension
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  An extension exports a default factory function that receives `ExtensionAPI`. The factory can be synchronous or asynchronous:
+  ```typescript
+  import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+  export default function (pi: ExtensionAPI) {
+    // Subscribe to events
+    pi.on("event_name", async (event, ctx) => {
+      // ctx.ui for user interaction
+      const ok = await ctx.ui.confirm("Title", "Are you sure?");
+      ctx.ui.notify("Done!", "success");
+      ctx.ui.setStatus("my-ext", "Processing...");  // Footer status
+      ctx.ui.setWidget("my-ext", ["Line 1", "Line 2"]);  // Widget above editor (default)
+    });
+    // Register tools, commands, shortcuts, flags
+    pi.registerTool({ ... });
+    pi.registerCommand("name", { ... });
+    pi.registerShortcut("ctrl+x", { ... });

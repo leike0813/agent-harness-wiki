@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-pm-listskills
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/package-manager.ts
+  start: 2208
+  end: 2243
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  );
+  		addResources(
+  			"skills",
+  			[...collectAutoSkillEntries(userDirs.skills, "pi"), ...collectAutoSkillEntries(userAgentsSkillsDir, "agents")],
+  			userMetadata,
+  			userOverrides.skills,
+  			globalBaseDir,
+  		);
+  		if (this.bundledSkillsDir && this.settingsManager.getEnableBuiltinSkills()) {
+  			const builtinMetadata: PathMetadata = {
+  				source: "builtin",
+  				scope: "user",
+  				origin: "top-level",
+  				baseDir: this.bundledSkillsDir,
+  			};
+  			const builtinEntries = collectAutoSkillEntries(this.bundledSkillsDir, "pi");
+  			// Bundled skills must ship with the package; warn instead of silently exposing none.
+  			if (builtinEntries.length === 0) {
+  				accumulator.diagnostics.push({
+  					type: "warning",
+  					message: existsSync(this.bundledSkillsDir)

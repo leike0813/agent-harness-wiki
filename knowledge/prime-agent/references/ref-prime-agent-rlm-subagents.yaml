@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-rlm-subagents
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: "2. Subagents are native RLM calls"
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  The `rlm` object is preloaded in the kernel. Spawn a child with `rlm.spawn`, which requires a `name`:
+  ```python
+  handle = await rlm.spawn("Review the authentication flow for security issues", name="auth-reviewer")
+  print(handle.rlm_child_id, handle.name, handle.session_dir, handle.model)
+  ```
+  The call returns immediately after task admission with a child handle; it never waits for or returns the child's answer. The TypeScript host creates a normal child `AgentSession` with an independent context and session directory. The child inherits the parent model, provider configuration, skills, tools, retry policy, and resource loader unless the call requests another configured model.
+  Spawn independent children in separate calls and end the turn instead of awaiting completion:
+  ```python

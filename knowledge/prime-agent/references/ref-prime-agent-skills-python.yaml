@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-skills-python
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Python-Backed Skills
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  A Python-backed skill uses the same `SKILL.md` metadata and invocation behavior as a markdown skill, but also provides a Python package for the Python kernel.
+  ```
+  web-search/
+  ├── SKILL.md
+  ├── pyproject.toml
+  └── src/
+      └── web_search/
+          └── __init__.py
+  ```
+  Detection rules:
+  - `SKILL.md` is still required
+  - `pyproject.toml` marks the skill as Python-backed
+  - the import name is the skill name with hyphens converted to underscores
+  - `src/<import_name>/__init__.py` must exist
+  For `web-search`, Prime Agent exposes `web_search` in the Python REPL. If the module defines `run()`, the module is wrapped as an async callable:
+  ```python
+  await web_search("prime agent skills")
+  await web_search.run("prime agent skills")
+  help(web_search)
+  ```

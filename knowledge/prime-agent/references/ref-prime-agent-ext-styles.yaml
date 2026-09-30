@@ -1,0 +1,42 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-styles
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Extension Styles
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  **Single file** - simplest, for small extensions:
+  ```
+  ~/.prime/agent/extensions/
+  └── my-extension.ts
+  ```
+  **Directory with index.ts** - for multi-file extensions:
+  ```
+  ~/.prime/agent/extensions/
+  └── my-extension/
+      ├── index.ts        # Entry point (exports default function)
+      ├── tools.ts        # Helper module
+      └── utils.ts        # Helper module
+  ```
+  **Package with dependencies** - for extensions that need npm packages:
+  ```
+  ~/.prime/agent/extensions/
+  └── my-extension/
+      ├── package.json    # Declares dependencies and entry points
+      ├── package-lock.json
+      ├── node_modules/   # After npm install
+      └── src/
+          └── index.ts
+  ```
+  ```json
+  // package.json
+  {
+    "name": "my-extension",
+    "dependencies": {
+      "zod": "^3.0.0",
+      "chalk": "^5.0.0"
+    },
+    "pi": {

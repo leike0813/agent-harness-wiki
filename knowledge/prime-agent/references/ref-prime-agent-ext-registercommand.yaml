@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-registercommand
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: "pi.registerCommand(name, options)"
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Register a command.
+  If multiple extensions register the same command name, Prime Agent keeps them all and assigns numeric invocation suffixes in load order, for example `/review:1` and `/review:2`.
+  ```typescript
+  pi.registerCommand("stats", {
+    description: "Show session statistics",
+    handler: async (args, ctx) => {
+      const count = ctx.sessionManager.getEntries().length;
+      ctx.ui.notify(`${count} entries`, "info");
+    }
+  });
+  ```
+  Optional: add argument auto-completion for `/command ...`:
+  ```typescript
+  import type { AutocompleteItem } from "@earendil-works/pi-tui";
+  pi.registerCommand("deploy", {
+    description: "Deploy to an environment",
+    getArgumentCompletions: (prefix: string): AutocompleteItem[] | null => {
+      const envs = ["dev", "staging", "prod"];

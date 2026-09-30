@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-usage-modes
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Modes
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  | Flag | Description |
+  |------|-------------|
+  | default | Interactive mode |
+  | `-p`, `--print` | Print response and exit |
+  | `--mode json` | Output all events as JSON lines; see [JSON mode](json.md) |
+  | `--mode rpc` | RPC mode over stdin/stdout; see [RPC mode](rpc.md) |
+  In print mode, Prime Agent also reads piped stdin and merges it into the initial prompt:
+  ```bash
+  cat README.md | prime-agent -p "Summarize this text"
+  ```

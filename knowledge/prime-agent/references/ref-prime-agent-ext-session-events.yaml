@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-session-events
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Session Events
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  See [Session Format](session-format.md) for session storage internals and the SessionManager API.
+  #### session_start
+  Fired when a session is started, loaded, or reloaded.
+  ```typescript
+  pi.on("session_start", async (event, ctx) => {
+    // event.reason - "startup" | "reload" | "new" | "resume" | "fork"
+    // event.previousSessionFile - present for "new", "resume", and "fork"
+    ctx.ui.notify(`Session: ${ctx.sessionManager.getSessionFile() ?? "ephemeral"}`, "info");
+  });
+  ```
+  #### session_before_switch
+  Fired before starting a new session (`/new`) or switching sessions (`/resume`).
+  ```typescript
+  pi.on("session_before_switch", async (event, ctx) => {
+    // event.reason - "new" or "resume"
+    // event.targetSessionFile - session we're switching to (only for "resume")
+    if (event.reason === "new") {

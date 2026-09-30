@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lra-autonomous
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Autonomous Mode
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Autonomous mode is a bounded host policy for runs where no human input is expected. Prime Agent adds follow-up continuations until configured quality gates pass or a continuation, turn, token, or wall-clock limit is reached.
+  Enable it in an interactive session. `/autonomous on` accepts the same budget
+  options as the CLI, so an interactive run can define its own budget instead of
+  stopping at the default three continuations:
+  ```text
+  /autonomous on --max-continuations 10 --max-turns 40 --max-tokens 500000
+  /autonomous on --gate "npm run check" --gate-retries 2
+  /autonomous status
+  /autonomous off
+  ```
+  Or configure a run from the CLI:
+  ```bash
+  prime-agent \
+    --autonomous \
+    --autonomous-gate "npm run check" \
+    --autonomous-max-turns 20 \
+    "Implement and verify the requested change"
+  ```

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-cprovider-unregister
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Unregister Provider
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Use `pi.unregisterProvider(name)` to remove a provider that was previously registered via `pi.registerProvider(name, ...)`:
+  ```typescript
+  // Register
+  pi.registerProvider("my-llm", {
+    baseUrl: "https://api.my-llm.com/v1",
+    apiKey: "MY_LLM_API_KEY",
+    api: "openai-completions",
+    models: [
+      {
+        id: "my-llm-large",
+        name: "My LLM Large",
+        reasoning: true,
+        input: ["text", "image"],
+        cost: { input: 3.0, output: 15.0, cacheRead: 0.3, cacheWrite: 3.75 },
+        contextWindow: 200000,
+        maxTokens: 16384
+      }
+    ]
+  });
+  // Later, remove it
+  pi.unregisterProvider("my-llm");
+  ```
+  Unregistering removes that provider's dynamic models, API key fallback, OAuth provider registration, and custom stream handler registrations.

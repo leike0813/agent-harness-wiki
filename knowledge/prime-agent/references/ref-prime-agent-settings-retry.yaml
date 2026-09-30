@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-settings-retry
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Retry
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  | Setting | Type | Default | Description |
+  |---------|------|---------|-------------|
+  | `retry.enabled` | boolean | `true` | Enable automatic agent-level retry on transient errors |
+  | `retry.maxRetries` | number | `3` | Maximum agent-level retry attempts |
+  | `retry.baseDelayMs` | number | `2000` | Base delay for agent-level exponential backoff (2s, 4s, 8s) |
+  | `retry.provider.timeoutMs` | number | SDK default | Provider/SDK request timeout in milliseconds |
+  | `retry.provider.maxRetryDelayMs` | number | `60000` | Max server-requested retry delay before failing (60s) |
+  When a provider requests a retry delay longer than `retry.provider.maxRetryDelayMs` (e.g. a usage-limit reset hours away), auto-retry stops immediately with an informative error instead of waiting.

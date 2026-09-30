@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-cprovider-override
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Override Existing Provider
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  The simplest use case: redirect an existing provider through a proxy.
+  ```typescript
+  // All Anthropic requests now go through your proxy
+  pi.registerProvider("anthropic", {
+    baseUrl: "https://proxy.example.com"
+  });
+  // Add custom headers to OpenAI requests
+  pi.registerProvider("openai", {
+    headers: {
+      "X-Custom-Header": "value"
+    }
+  });
+  // Both baseUrl and headers
+  pi.registerProvider("google", {
+    baseUrl: "https://ai-gateway.corp.com/google",
+    headers: {
+      "X-Corp-Auth": "CORP_AUTH_TOKEN"  // env var or literal
+    }
+  });
+  ```
+  When only `baseUrl` and/or `headers` are provided (no `models`), all existing models for that provider are preserved with the new endpoint.

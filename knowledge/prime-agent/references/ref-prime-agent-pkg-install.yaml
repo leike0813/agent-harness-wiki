@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-pkg-install
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Install and Manage
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  > **Security:** Prime Agent packages run with full system access. Extensions execute arbitrary code, and skills can instruct the model to perform any action including running executables. Review source code before installing third-party packages.
+  ```bash
+  prime-agent package install npm:@foo/bar@1.0.0
+  prime-agent package install git:github.com/user/repo@v1
+  prime-agent package install https://github.com/user/repo  # raw URLs work too
+  prime-agent package install /absolute/path/to/package
+  prime-agent package install ./relative/path/to/package
+  prime-agent package remove npm:@foo/bar
+  prime-agent package list                  # show installed packages from settings
+  prime-agent package update                # update all non-pinned packages

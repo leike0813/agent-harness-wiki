@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-models-full
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Full Example
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Override defaults when you need specific values:
+  ```json
+  {
+    "providers": {
+      "ollama": {
+        "baseUrl": "http://localhost:11434/v1",
+        "api": "openai-completions",
+        "apiKey": "ollama",
+        "models": [
+          {
+            "id": "llama3.1:8b",
+            "name": "Llama 3.1 8B (Local)",
+            "reasoning": false,
+            "input": ["text"],
+            "contextWindow": 128000,
+            "maxTokens": 32000,
+            "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+          }
+        ]
+      }
+    }
+  }
+  ```
+  The file reloads each time you open `/model`. Edit during session; no restart needed.

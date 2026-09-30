@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-rcv-resolve
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/resolve-config-value.ts
+  start: 42
+  end: 63
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  if (result.error) {
+  			const error = result.error as NodeJS.ErrnoException;
+  			if (error.code === "ENOENT") {
+  				return { executed: false, value: undefined };
+  			}
+  			return { executed: true, value: undefined };
+  		}
+  		if (result.status !== 0) {
+  			return { executed: true, value: undefined };
+  		}
+  		const value = (result.stdout ?? "").trim();
+  		return { executed: true, value: value || undefined };
+  	} catch {
+  		return { executed: false, value: undefined };
+  	}
+  }
+  function executeWithDefaultShell(command: string): string | undefined {
+  	try {
+  		const output = execSyncHidden(command, {

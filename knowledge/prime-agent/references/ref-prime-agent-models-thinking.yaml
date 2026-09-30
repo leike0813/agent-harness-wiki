@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-models-thinking
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Thinking Level Map
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Use `thinkingLevelMap` on a model to describe model-specific thinking controls. Keys are Prime Agent thinking levels: `off`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max`.
+  Values are tristate:
+  | Value | Meaning |
+  |-------|---------|
+  | omitted | Level is supported and uses the provider's default mapping |
+  | string | Level is supported and this value is sent to the provider |
+  | `null` | Level is unsupported and hidden/skipped/clamped away |
+  Example for a model that only supports off, high, and max reasoning:
+  ```json
+  {
+    "id": "deepseek-v4-pro",
+    "reasoning": true,
+    "thinkingLevelMap": {
+      "minimal": null,
+      "low": null,
+      "medium": null,
+      "high": "high",
+      "xhigh": "max"
+    }
+  }
+  ```
+  Example for a model where thinking cannot be disabled:
+  ```json
+  {

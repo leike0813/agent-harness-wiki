@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-settings-paths
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/settings-manager.ts
+  start: 302
+  end: 312
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  private projectSettingsPath: string;
+  	constructor(cwd: string, agentDir: string) {
+  		this.globalSettingsPath = join(agentDir, "settings.json");
+  		this.projectSettingsPath = join(cwd, CONFIG_DIR_NAME, "settings.json");
+  	}
+  	private acquireLockSyncWithRetry(path: string): () => void {
+  		const maxAttempts = 10;
+  		const delayMs = 20;
+  		let lastError: unknown;

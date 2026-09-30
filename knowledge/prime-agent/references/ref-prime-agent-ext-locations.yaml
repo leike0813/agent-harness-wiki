@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-locations
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Extension Locations
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  > **Security:** Extensions run with your full system permissions and can execute arbitrary code. Only install from sources you trust.
+  Extensions are auto-discovered from:
+  | Location | Scope |
+  |----------|-------|
+  | `~/.prime/agent/extensions/*.ts` | Global (all projects) |
+  | `~/.prime/agent/extensions/*/index.ts` | Global (subdirectory) |
+  | `.prime/agent/extensions/*.ts` | Project-local |
+  | `.prime/agent/extensions/*/index.ts` | Project-local (subdirectory) |
+  Additional paths via `settings.json`:
+  ```json
+  {
+    "packages": [
+      "npm:@foo/bar@1.0.0",
+      "git:github.com/user/repo@v1"
+    ],
+    "extensions": [
+      "/path/to/local/extension.ts",
+      "/path/to/local/extension/dir"
+    ]
+  }
+  ```
+  To share extensions via npm or git as Prime Agent packages, see [packages.md](packages.md).

@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-settings-globalonly
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/settings-manager.ts
+  start: 1359
+  end: 1368
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  }
+  	/** MCP execution is intentionally restricted to user/global settings. */
+  	getGlobalMcpServers(): Record<string, McpServerConfig> | undefined {
+  		return structuredClone(this.globalSettings.mcpServers);
+  	}
+  	/** Declared local service-catalog source paths (unexpanded ~ allowed). */
+  	getMcpCatalogSources(): string[] {
+  		return structuredClone(this.globalSettings.mcpCatalogSources ?? []);

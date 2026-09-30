@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-mr-register
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/model-registry.ts
+  start: 1683
+  end: 1706
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  registerProvider(providerName: string, config: ProviderConfigInput): void {
+  		this.validateProviderConfig(providerName, config);
+  		this.applyProviderConfig(providerName, config);
+  		this.upsertRegisteredProvider(providerName, config);
+  	}
+  	/**
+  	 * Unregister a previously registered provider.
+  	 *
+  	 * Removes the provider from the registry and reloads models from disk so that
+  	 * built-in models overridden by this provider are restored to their original state.
+  	 * Also resets dynamic OAuth and API stream registrations before reapplying
+  	 * remaining dynamic providers.
+  	 * Has no effect if the provider was never registered.
+  	 */
+  	unregisterProvider(providerName: string): void {
+  		if (!this.registeredProviders.has(providerName)) return;
+  		this.registeredProviders.delete(providerName);

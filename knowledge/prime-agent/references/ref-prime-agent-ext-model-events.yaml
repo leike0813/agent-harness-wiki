@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-model-events
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Model Events
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  #### model_select
+  Fired when the model changes via `/model` command, model cycling (`Alt+M`), or session restore.
+  ```typescript
+  pi.on("model_select", async (event, ctx) => {
+    // event.model - newly selected model
+    // event.previousModel - previous model (undefined if first selection)
+    // event.source - "set" | "cycle" | "restore"
+    const prev = event.previousModel
+      ? `${event.previousModel.provider}/${event.previousModel.id}`
+      : "none";
+    const next = `${event.model.provider}/${event.model.id}`;
+    ctx.ui.notify(`Model changed (${event.source}): ${prev} -> ${next}`, "info");
+  });
+  ```
+  Use this to update UI elements (status bars, footers) or perform model-specific initialization when the active model changes.
+  #### thinking_level_select
+  Fired when the thinking level changes.

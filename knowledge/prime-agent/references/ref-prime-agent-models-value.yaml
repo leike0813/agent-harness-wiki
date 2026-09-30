@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-models-value
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Value Resolution
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  The `apiKey` and `headers` fields support three formats:
+  - **Shell command:** `"!command"` executes and uses stdout
+    ```json
+    "apiKey": "!security find-generic-password -ws 'anthropic'"
+    "apiKey": "!op read 'op://vault/item/credential'"
+    ```
+  - **Environment variable:** Uses the value of the named variable
+    ```json
+    "apiKey": "MY_API_KEY"
+    ```
+  - **Literal value:** Used directly
+    ```json
+    "apiKey": "sk-..."
+    ```
+  For `models.json`, shell commands are resolved at request time. Prime Agent intentionally does not apply built-in TTL, stale reuse, or recovery logic for arbitrary commands. Different commands need different caching and failure strategies, and Prime Agent cannot infer the right one.

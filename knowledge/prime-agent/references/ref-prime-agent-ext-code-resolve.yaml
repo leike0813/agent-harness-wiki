@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-code-resolve
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/extensions/loader.ts
+  start: 476
+  end: 500
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  */
+  function resolveExtensionEntries(dir: string): string[] | null {
+  	const packageJsonPath = path.join(dir, "package.json");
+  	if (fs.existsSync(packageJsonPath)) {
+  		const manifest = readPiManifest(packageJsonPath);
+  		if (manifest?.extensions?.length) {
+  			const entries: string[] = [];
+  			for (const extPath of manifest.extensions) {
+  				const resolvedExtPath = path.resolve(dir, extPath);
+  				if (fs.existsSync(resolvedExtPath)) {
+  					entries.push(resolvedExtPath);
+  				}
+  			}
+  			if (entries.length > 0) {
+  				return entries;
+  			}
+  		}
+  	}
+  	const indexTs = path.join(dir, "index.ts");
+  	const indexJs = path.join(dir, "index.js");
+  	if (fs.existsSync(indexTs)) {
+  		return [indexTs];
+  	}
+  	if (fs.existsSync(indexJs)) {

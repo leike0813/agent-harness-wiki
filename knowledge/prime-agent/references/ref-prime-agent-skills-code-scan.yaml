@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-skills-code-scan
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/skills.ts
+  start: 266
+  end: 330
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  /**
+   * Load skills from a directory.
+   *
+   * Discovery rules:
+   * - if a directory contains SKILL.md, treat it as a skill root and do not recurse further
+   * - otherwise, load direct .md children in the root
+   * - recurse into subdirectories to find SKILL.md
+   */
+  export function loadSkillsFromDir(options: LoadSkillsFromDirOptions): LoadSkillsResult {
+  	const { dir, source } = options;
+  	return loadSkillsFromDirInternal(dir, source, true);
+  }
+  function loadSkillsFromDirInternal(
+  	dir: string,
+  	source: string,
+  	includeRootFiles: boolean,
+  	ignoreMatcher?: IgnoreMatcher,
+  	rootDir?: string,
+  ): LoadSkillsResult {
+  	const skills: Skill[] = [];
+  	const diagnostics: ResourceDiagnostic[] = [];
+  	if (!existsSync(dir)) {
+  		return { skills, diagnostics };
+  	}
+  	const root = rootDir ?? dir;

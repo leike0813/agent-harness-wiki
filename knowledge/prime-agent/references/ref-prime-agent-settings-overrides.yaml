@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-settings-overrides
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Project Overrides
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Project settings (`.prime/agent/settings.json`) override global settings. Nested objects are merged:
+  ```json
+  // ~/.prime/agent/settings.json (global)
+  {
+    "theme": "dark",
+    "compaction": { "enabled": true, "reserveTokens": 16384 }
+  }
+  // .prime/agent/settings.json (project)
+  {
+    "compaction": { "reserveTokens": 8192 }
+  }
+  // Result
+  {
+    "theme": "dark",
+    "compaction": { "enabled": true, "reserveTokens": 8192 }
+  }
+  ```

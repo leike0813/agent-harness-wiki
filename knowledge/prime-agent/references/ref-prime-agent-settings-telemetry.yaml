@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-settings-telemetry
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Pseudonymous usage analytics
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Prime Agent sends pseudonymous, aggregate usage and performance events to Prime Intellect. These events include version and operating-system category, onboarding outcome and duration, execution mode (`interactive`, `print`, `json`, `rpc`, or `acp`), run outcomes, TTFT and latency, prompt and turn counts, token usage, tool success counts, retries, and compactions.
+  Every event also carries a small platform descriptor, used to decide which prebuilt binaries Prime Agent has to ship:
+  | Property | Values |
+  |----------|--------|
+  | `os_family` | `linux`, `darwin`, `win32`, ... |
+  | `architecture` | `arm64`, `x64`, ... |
+  | `install_method` | `bun-binary`, `homebrew`, `npm`, `pnpm`, `yarn`, `bun`, `unknown` |
+  | `libc` | `glibc`, `musl`, `none` (not Linux), `unknown` |

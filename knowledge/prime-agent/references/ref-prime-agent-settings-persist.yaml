@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-settings-persist
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/settings-manager.ts
+  start: 663
+  end: 700
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  private persistScopedSettings(
+  		scope: SettingsScope,
+  		snapshotSettings: Settings,
+  		modifiedFields: Set<keyof Settings>,
+  		modifiedNestedFields: Map<keyof Settings, Set<string>>,
+  	): void {
+  		this.storage.withLock(scope, (current) => {
+  			const currentFileSettings = current
+  				? SettingsManager.migrateSettings(JSON.parse(current) as Record<string, unknown>)
+  				: {};
+  			const mergedSettings: Settings = { ...currentFileSettings };
+  			for (const field of modifiedFields) {
+  				const value = snapshotSettings[field];
+  				if (modifiedNestedFields.has(field) && typeof value === "object" && value !== null) {
+  					const nestedModified = modifiedNestedFields.get(field)!;
+  					const baseNested = (currentFileSettings[field] as Record<string, unknown>) ?? {};

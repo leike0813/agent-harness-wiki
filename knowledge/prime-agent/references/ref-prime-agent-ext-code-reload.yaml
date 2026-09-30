@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-code-reload
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/extensions/runner.ts
+  start: 486
+  end: 500
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  /** True when this runner was built from exactly this extensions load (identity check). */
+  	builtFromSameExtensions(extensions: Extension[]): boolean {
+  		return this.extensions === extensions;
+  	}
+  	/** Take over the previous runner's timer host: adopted timers report through, and are gated by, this runner. */
+  	adoptHostTimers(previous: ExtensionRunner): void {
+  		this.timerHost = previous.timerHost;
+  		this.timerHost.current = this;
+  	}
+  	/** Retire a replaced runner: ctx goes stale and no host timer outlives it, while the possibly shared/reused runtime stays live. */
+  	retire(
+  		message = "This extension ctx is stale after session replacement or reload. Do not use a captured pi or command ctx after ctx.newSession(), ctx.fork(), ctx.switchSession(), or ctx.reload().

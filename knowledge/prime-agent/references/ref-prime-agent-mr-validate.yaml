@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-mr-validate
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/model-registry.ts
+  start: 702
+  end: 744
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  private validateConfig(config: ModelsConfig): void {
+  		const builtInProviders = new Set<string>(getProviders());
+  		for (const [providerName, providerConfig] of Object.entries(config.providers)) {
+  			const isBuiltIn = builtInProviders.has(providerName);
+  			const hasProviderApi = !!providerConfig.api;
+  			const models = providerConfig.models ?? [];
+  			const hasModelOverrides =
+  				providerConfig.modelOverrides && Object.keys(providerConfig.modelOverrides).length > 0;
+  			if (models.length === 0) {
+  				if (!providerConfig.baseUrl && !providerConfig.headers && !providerConfig.compat && !hasModelOverrides) {
+  					throw new Error(
+  						`Provider ${providerName}: must specify "baseUrl", "headers", "compat", "modelOverrides", or "models".`,
+  					);
+  				}
+  			} else if (!isBuiltIn) {

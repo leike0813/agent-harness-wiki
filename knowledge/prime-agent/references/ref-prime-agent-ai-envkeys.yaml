@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ai-envkeys
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/ai/src/env-api-keys.ts
+  start: 76
+  end: 126
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  }
+  			return false;
+  		}
+  		const gacPath = process.env.GOOGLE_APPLICATION_CREDENTIALS || getProcEnv("GOOGLE_APPLICATION_CREDENTIALS");
+  		if (gacPath) {
+  			cachedVertexAdcCredentialsExists = _existsSync(gacPath);
+  		} else {
+  			cachedVertexAdcCredentialsExists = _existsSync(
+  				_join(_homedir(), ".config", "gcloud", "application_default_credentials.json"),
+  			);
+  		}
+  	}
+  	return cachedVertexAdcCredentialsExists;
+  }
+  function getApiKeyEnvVars(provider: string): readonly string[] | undefined {
+  	if (provider === "github-copilot") {
+  		return ["COPILOT_GITHUB_TOKEN", "GH_TOKEN", "GITHUB_TOKEN"];
+  	}
+  	// ANTHROPIC_OAUTH_TOKEN takes precedence over ANTHROPIC_API_KEY
+  	if (provider === "anthropic") {
+  		return ["ANTHROPIC_OAUTH_TOKEN", "ANTHROPIC_API_KEY"];
+  	}
+  	const envMap: Record<string, string> = {

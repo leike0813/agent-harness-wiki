@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-settings-sessions
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Sessions
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  | Setting | Type | Default | Description |
+  |---------|------|---------|-------------|
+  | `sessionDir` | string | - | Directory where session files are stored. Accepts absolute or relative paths, plus `~`. |
+  ```json
+  { "sessionDir": ".prime/agent/sessions" }
+  ```
+  When multiple sources specify a session directory, precedence is `--session-dir`, `PRIME_AGENT_SESSION_DIR`, the legacy `PRIME_AGENT_CODING_AGENT_SESSION_DIR`, then `sessionDir` in `settings.json`.

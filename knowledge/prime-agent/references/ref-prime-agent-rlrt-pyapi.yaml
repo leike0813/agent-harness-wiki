@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-rlrt-pyapi
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Python API
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  `prime-agent-runtime` exports:
+  ```python
+  rlm
+  spawn(prompt: str, *, name: str, model: str | None = None, thinking: str | None = None)
+  find_models(query: str = "", limit: int = 8)
+  list_subagents()
+  delete_subagent(selector)
+  host_request(request_type: str, payload: dict | None = None)
+  RLMSpawnHandle
+  RLMModel
+  RLMSubagent
+  ```
+  The kernel bootstrap places the `rlm` object in the user namespace, so a cell calls `await rlm.spawn("subtask", name="worker")`. The `rlm` object itself is not callable, and the old `rlm.run` attribute is gone; both raise an error naming `rlm.spawn`.
+  `RLMSpawnHandle` contains `rlm_child_id`, `name`, `session_dir`, and `model`. It confirms admission only and never contains the child's answer.
+  `name` is required. The other `rlm.spawn` options are:

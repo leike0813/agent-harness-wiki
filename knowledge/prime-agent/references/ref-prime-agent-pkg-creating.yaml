@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-pkg-creating
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Creating a Prime Agent Package
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Add a `pi` manifest to `package.json` or use conventional directories. Include the `pi-package` keyword for discoverability.
+  ```json
+  {
+    "name": "my-package",
+    "keywords": ["pi-package"],
+    "pi": {
+      "extensions": ["./extensions"],
+      "skills": ["./skills"],
+      "prompts": ["./prompts"],
+      "themes": ["./themes"]
+    }
+  }
+  ```
+  Paths are relative to the package root. Arrays support glob patterns and `!exclusions`.
+  ### Gallery Metadata
+  The inherited `pi-package` keyword and optional `video` or `image` fields remain available as package metadata:
+  ```json
+  {
+    "name": "my-package",
+    "keywords": ["pi-package"],
+    "pi": {
+      "extensions": ["./extensions"],
+      "video": "https://example.com/demo.mp4",
+      "image": "https://example.com/screenshot.png"
+    }
+  }
+  ```

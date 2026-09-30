@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-pm-installpaths
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/package-manager.ts
+  start: 1826
+  end: 1888
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  private getNpmInstallRoot(scope: SourceScope, temporary: boolean): string {
+  		if (temporary) {
+  			return this.getTemporaryDir("npm");
+  		}
+  		if (scope === "project") {
+  			return join(this.cwd, CONFIG_DIR_NAME, "npm");
+  		}
+  		return join(this.getGlobalNpmRoot(), "..");
+  	}
+  	private getGlobalNpmRoot(): string {
+  		const npmCommand = this.getNpmCommand();
+  		const commandKey = [npmCommand.command, ...npmCommand.args].join("\0");
+  		if (this.globalNpmRoot && this.globalNpmRootCommandKey === commandKey) {
+  			return this.globalNpmRoot;
+  		}
+  		const isBunPackageManager = npmCommand.command === "bun";
+  		if (isBunPackageManager) {
+  			const binDir = this.runNpmCommandSync(["pm", "bin", "-g"]).trim();
+  			this.globalNpmRoot = join(dirname(binDir), "install", "global", "node_modules");
+  		} else {

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-sdk-extensions
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Extensions
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Extensions are loaded by the `ResourceLoader`. `DefaultResourceLoader` discovers extensions from `~/.prime/agent/extensions/`, `.prime/agent/extensions/`, and `settings.json` extension sources.
+  ```typescript
+  import { createAgentSession, DefaultResourceLoader } from "@earendil-works/pi-coding-agent";
+  const loader = new DefaultResourceLoader({
+    additionalExtensionPaths: ["/path/to/my-extension.ts"],
+    extensionFactories: [
+      (pi) => {
+        pi.on("agent_start", () => {
+          console.log("[Inline Extension] Agent starting");
+        });
+      },
+    ],
+  });
+  await loader.reload();
+  const { session } = await createAgentSession({ resourceLoader: loader });
+  ```
+  Extensions can register tools, subscribe to events, add commands, and more. See [extensions.md](extensions.md) for the full API.

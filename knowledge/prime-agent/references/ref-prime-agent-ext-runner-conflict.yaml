@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-runner-conflict
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/extensions/runner.ts
+  start: 384
+  end: 396
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  /** Get all registered tools from all extensions (first registration per name wins). */
+  	getAllRegisteredTools(): RegisteredTool[] {
+  		const toolsByName = new Map<string, RegisteredTool>();
+  		for (const ext of this.extensions) {
+  			for (const tool of ext.tools.values()) {
+  				if (!toolsByName.has(tool.definition.name)) {
+  					toolsByName.set(tool.definition.name, tool);
+  				}
+  			}
+  		}
+  		return Array.from(toolsByName.values());
+  	}

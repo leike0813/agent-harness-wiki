@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-sdk-context
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Context Files
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  ```typescript
+  import { createAgentSession, DefaultResourceLoader } from "@earendil-works/pi-coding-agent";
+  const loader = new DefaultResourceLoader({
+    agentsFilesOverride: (current) => ({
+      agentsFiles: [
+        ...current.agentsFiles,
+        { path: "/virtual/AGENTS.md", content: "# Guidelines\n\n- Be concise" },
+      ],
+    }),
+  });
+  await loader.reload();
+  const { session } = await createAgentSession({ resourceLoader: loader });
+  ```
+  > See [examples/sdk/07-context-files.ts](../examples/sdk/07-context-files.ts)

@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-runner-emit
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/extensions/runner.ts
+  start: 786
+  end: 806
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  async emit<TEvent extends RunnerEmitEvent>(event: TEvent): Promise<RunnerEmitResult<TEvent>> {
+  		let result: SessionBeforeEventResult | undefined;
+  		for (const ext of this.extensions) {
+  			const handlers = ext.handlers.get(event.type);
+  			if (!handlers || handlers.length === 0) continue;
+  			const ctx = this.createContext(ext.path);
+  			for (const handler of handlers) {
+  				try {
+  					const handlerResult = await handler(event, ctx);
+  					if (this.isSessionBeforeEvent(event) && handlerResult) {
+  						result = handlerResult as SessionBeforeEventResult;
+  						if (("cancel" in result && result.cancel) || ("skip" in result && result.skip)) {
+  							return result as RunnerEmitResult<TEvent>;
+  						}
+  					}
+  				} catch (err) {
+  					const message = err instanceof Error ? err.message : String(err);

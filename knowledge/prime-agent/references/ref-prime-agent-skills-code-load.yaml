@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-skills-code-load
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/skills.ts
+  start: 386
+  end: 430
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  function loadSkillFromFile(
+  	filePath: string,
+  	source: string,
+  ): { skill: Skill | null; diagnostics: ResourceDiagnostic[] } {
+  	const diagnostics: ResourceDiagnostic[] = [];
+  	try {
+  		const rawContent = readFileSync(filePath, "utf-8");
+  		const { frontmatter } = parseFrontmatter<SkillFrontmatter>(rawContent);
+  		const skillDir = dirname(filePath);
+  		const parentDirName = basename(skillDir);
+  		const descErrors = validateDescription(frontmatter.description);
+  		for (const error of descErrors) {
+  			diagnostics.push({ type: "warning", message: error, path: filePath });
+  		}
+  		const name = frontmatter.name || parentDirName;
+  		const nameErrors = validateName(name, parentDirName);
+  		for (const error of nameErrors) {
+  			diagnostics.push({ type: "warning", message: error, path: filePath });
+  		}

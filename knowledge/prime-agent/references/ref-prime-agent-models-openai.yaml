@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-models-openai
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: OpenAI Compatibility
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  For providers with partial OpenAI compatibility, use the `compat` field.
+  - Provider-level `compat` applies defaults to all models under that provider.
+  - Model-level `compat` overrides provider-level values for that model.
+  ```json
+  {
+    "providers": {
+      "local-llm": {
+        "baseUrl": "http://localhost:8080/v1",
+        "api": "openai-completions",
+        "compat": {
+          "supportsUsageInStreaming": false,
+          "maxTokensField": "max_tokens"
+        },
+        "models": [...]
+      }
+    }
+  }
+  ```
+  | Field | Description |
+  |-------|-------------|
+  | `supportsStore` | Provider supports `store` field |
+  | `supportsDeveloperRole` | Use `developer` vs `system` role |
+  | `supportsReasoningEffort` | Support for `reasoning_effort` parameter |

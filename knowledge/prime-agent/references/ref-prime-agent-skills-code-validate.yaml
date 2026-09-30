@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-skills-code-validate
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/skills.ts
+  start: 122
+  end: 160
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  function validateName(name: string, parentDirName: string): string[] {
+  	const errors: string[] = [];
+  	if (name !== parentDirName) {
+  		errors.push(`name "${name}" does not match parent directory "${parentDirName}"`);
+  	}
+  	if (name.length > MAX_NAME_LENGTH) {
+  		errors.push(`name exceeds ${MAX_NAME_LENGTH} characters (${name.length})`);
+  	}
+  	if (!/^[a-z0-9-]+$/.test(name)) {
+  		errors.push(`name contains invalid characters (must be lowercase a-z, 0-9, hyphens only)`);
+  	}
+  	if (name.startsWith("-") || name.endsWith("-")) {
+  		errors.push(`name must not start or end with a hyphen`);
+  	}
+  	if (name.includes("--")) {
+  		errors.push(`name must not contain consecutive hyphens`);
+  	}
+  	return errors;
+  }
+  /**
+   * Validate description per Agent Skills spec.
+   */

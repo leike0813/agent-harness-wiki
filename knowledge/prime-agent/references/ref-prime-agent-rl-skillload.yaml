@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-rl-skillload
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/resource-loader.ts
+  start: 507
+  end: 528
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  private updateSkillsFromPaths(skillPaths: string[], metadataByPath?: Map<string, PathMetadata>): void {
+  		let skillsResult: { skills: Skill[]; diagnostics: ResourceDiagnostic[] };
+  		if (this.noSkills && skillPaths.length === 0) {
+  			skillsResult = { skills: [], diagnostics: [] };
+  		} else {
+  			skillsResult = loadSkills({
+  				cwd: this.cwd,
+  				agentDir: this.agentDir,
+  				skillPaths,
+  				includeDefaults: false,
+  			});
+  		}
+  		const resolvedSkills = this.skillsOverride ? this.skillsOverride(skillsResult) : skillsResult;
+  		this.skills = resolvedSkills.skills.map((skill) => ({
+  			...skill,
+  			sourceInfo:
+  				this.findSourceInfoForPath(skill.filePath, this.extensionSkillSourceInfos, metadataByPath) ??
+  				skill.sourceInfo ??
+  				this.getDefaultSourceInfoForPath(skill.filePath),
+  		}));

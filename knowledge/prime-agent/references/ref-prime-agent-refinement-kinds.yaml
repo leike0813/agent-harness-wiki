@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-refinement-kinds
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/refinement/refinement.ts
+  start: 17
+  end: 41
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  const HARNESS_STATE_DIR_NAME = "harness";
+  const REFINEMENT_HISTORY_FILE_NAME = "refinements.jsonl";
+  const DEFAULT_OVERVIEW_ENTRY_LIMIT = 6;
+  const DEFAULT_OVERVIEW_REFINEMENT_LIMIT = 5;
+  const DEFAULT_OVERVIEW_CONTENT_LIMIT = 180;
+  export type RefinementKind = "prompt" | "memory" | "skill" | "subagent";
+  export type RefinementAction = "create" | "update" | "delete";
+  export type HarnessScope = "local" | "global";
+  export interface HarnessEntry {
+  	id: string;
+  	kind: RefinementKind;
+  	title: string;
+  	content: string;
+  	path: string;
+  	scope?: HarnessScope;
+  	reference: Record<string, unknown>;
+  	arguments: Record<string, unknown>;
+  	metadata: Record<string, unknown>;
+  	source: string;
+  	created_at: string;
+  	updated_at: string;
+  	version: number;
+  }

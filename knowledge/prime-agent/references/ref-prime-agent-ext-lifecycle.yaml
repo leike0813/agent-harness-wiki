@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-lifecycle
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Lifecycle Overview
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  ```
+  Prime Agent starts
+    │
+    ├─► session_start { reason: "startup" }
+    └─► resources_discover { reason: "startup" }
+        │
+        ▼
+  user sends prompt ─────────────────────────────────────────┐
+    │                                                        │
+    ├─► (extension commands checked first, bypass if found)  │
+    ├─► input (can intercept, transform, or handle)          │
+    ├─► (skill/template expansion if not handled)            │
+    ├─► before_agent_start (can inject message, modify system prompt)
+    ├─► agent_start                                          │
+    ├─► message_start / message_update / message_end         │
+    │                                                        │
+    │   ┌─── turn (repeats while LLM calls tools) ───┐       │

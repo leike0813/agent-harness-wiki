@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-rlm-skills
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: "3. Skills add programmatic capability"
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Prime Agent supports the Agent Skills markdown format and extends it with Python-backed skills. Both use `SKILL.md` for discovery, routing, and instructions. A Python-backed skill also contains a Python package that Prime Agent installs into the kernel environment and exposes by import name.
+  For a skill named `release-audit`, the model can call:
+  ```python
+  report = await release_audit(repository=".", target_version="0.4.0")
+  ```
+  This makes Python-backed skills a superset of instruction-only skills: they can provide guidance, scripts, references, dependencies, typed callables, and optional shell commands. They may also call `rlm.spawn(...)` themselves when a capability needs recursive delegation.
+  Only skill metadata is placed in the startup prompt.

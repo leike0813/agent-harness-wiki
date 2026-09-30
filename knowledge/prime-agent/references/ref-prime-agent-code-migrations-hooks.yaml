@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-code-migrations-hooks
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/migrations.ts
+  start: 351
+  end: 364
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  /**
+   * Check for deprecated hooks/ and tools/ directories.
+   * Note: tools/ may contain fd/rg binaries extracted by pi, so only warn if it has other files.
+   */
+  function checkDeprecatedExtensionDirs(baseDir: string, label: string): string[] {
+  	const hooksDir = join(baseDir, "hooks");
+  	const toolsDir = join(baseDir, "tools");
+  	const warnings: string[] = [];
+  	if (existsSync(hooksDir)) {
+  		warnings.push(`${label} hooks/ directory found. Hooks have been renamed to extensions.`);
+  	}
+  	if (existsSync(toolsDir)) {

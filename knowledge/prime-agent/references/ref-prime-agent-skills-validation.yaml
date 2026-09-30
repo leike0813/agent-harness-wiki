@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-skills-validation
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Validation
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Prime Agent validates skills against the Agent Skills standard. Most issues produce warnings but still load the skill:
+  - Name doesn't match parent directory
+  - Name exceeds 64 characters or contains invalid characters
+  - Name starts/ends with hyphen or has consecutive hyphens
+  - Description exceeds 1024 characters
+  Unknown frontmatter fields are ignored.
+  **Exception:** Skills with missing description are not loaded.
+  Name collisions (same name from different locations) warn and keep the first skill found.

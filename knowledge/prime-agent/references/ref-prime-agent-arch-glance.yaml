@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-arch-glance
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: System at a Glance
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  ```mermaid
+  flowchart LR
+      interactive["Interactive TUI"]
+      headless["Print · JSON · RPC clients"]
+      connection["AgentConnection<br/>client-side execution boundary"]
+      supervisor["Daemon supervisor<br/>routing · attachments · recovery"]
+      catalog["Catalog process<br/>saved-session scans"]
+      subgraph worker["Session worker · one root session tree"]
+          runtime["AgentSessionRuntime"]
+          root["Root AgentSession"]
+          scheduler["Scheduler"]
+          kernel["Root Python kernel"]
+          children["RLM child runtimes<br/>session + optional kernel"]
+          runtime --> root
+          runtime --> scheduler
+          root --> kernel
+          root --> children
+          scheduler --> root
+      end
+      providers["Model providers"]
+      storage["Session JSONL + artifacts"]

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-models-minimal
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Minimal Example
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  For local models (Ollama, LM Studio, vLLM), only `id` is required per model:
+  ```json
+  {
+    "providers": {
+      "ollama": {
+        "baseUrl": "http://localhost:11434/v1",
+        "api": "openai-completions",
+        "apiKey": "ollama",
+        "models": [
+          { "id": "llama3.1:8b" },
+          { "id": "qwen2.5-coder:7b" }
+        ]
+      }
+    }
+  }
+  ```
+  The `apiKey` is required but Ollama ignores it, so any value works.
+  Some OpenAI-compatible servers do not understand the `developer` role used for reasoning-capable models. For those providers, set `compat.supportsDeveloperRole` to `false` so Prime Agent sends the system prompt as a `system` message instead. If the server also does not support `reasoning_effort`, set `compat.supportsReasoningEffort` to `false` too.

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-providers-prime
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Prime Inference
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Prime Inference uses the production OpenAI-compatible endpoint at `https://api.pinference.ai/api/v1`. Set `PRIME_API_KEY` or use `/login` to save a key for `prime-inference` in `~/.prime/agent/auth.json`.
+  Normal startup, model discovery, inference, credential status, and team selection do not read Prime CLI credentials or URLs from `~/.prime/config.json`. If you previously relied on CLI credentials, run `/login` once. During this explicit login, Agent can reuse a CLI key only when every configured CLI URL is a canonical production URL (or absent), the resolved Agent login destinations are production, and production `/whoami` validates the key. Local or development CLI configuration falls back to the browser login flow, which defaults to production.

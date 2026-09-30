@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-refinement-dirs
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/refinement/refinement.ts
+  start: 297
+  end: 310
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  export function getGlobalHarnessStateDir(agentDir: string = getAgentDir()): string {
+  	return join(agentDir, HARNESS_STATE_DIR_NAME);
+  }
+  export function getLocalHarnessStateDir(sessionArtifactDir: string | undefined): string | undefined {
+  	return sessionArtifactDir ? join(sessionArtifactDir, HARNESS_STATE_DIR_NAME) : undefined;
+  }
+  export function getHarnessStatePath(harnessStateDir: string = getGlobalHarnessStateDir()): string {
+  	return join(harnessStateDir, "harness_state.json");
+  }
+  export function loadHarnessState(

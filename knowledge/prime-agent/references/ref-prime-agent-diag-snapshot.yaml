@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-diag-snapshot
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/modes/agent-connection/snapshot.ts
+  start: 143
+  end: 152
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  diagnostics: {
+  			skills: skillsResult.diagnostics,
+  			prompts: promptsResult.diagnostics,
+  			extensions: extensionsResult.errors.map((error) => ({
+  				type: "error",
+  				message: error.error,
+  				path: error.path,
+  			})),
+  			themes: themesResult.diagnostics,
+  		},

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-pm-overrides
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/package-manager.ts
+  start: 683
+  end: 712
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  function getOverridePatterns(entries: string[]): string[] {
+  	return entries.filter((pattern) => pattern.startsWith("!") || pattern.startsWith("+") || pattern.startsWith("-"));
+  }
+  function isEnabledByOverrides(filePath: string, patterns: string[], baseDir: string): boolean {
+  	const overrides = getOverridePatterns(patterns);
+  	const excludes = overrides.filter((pattern) => pattern.startsWith("!")).map((pattern) => pattern.slice(1));
+  	const forceIncludes = overrides.filter((pattern) => pattern.startsWith("+")).map((pattern) => pattern.slice(1));
+  	const forceExcludes = overrides.filter((pattern) => pattern.startsWith("-")).map((pattern) => pattern.slice(1));
+  	let enabled = true;
+  	if (excludes.length > 0 && matchesAnyPattern(filePath, excludes, baseDir)) {
+  		enabled = false;
+  	}

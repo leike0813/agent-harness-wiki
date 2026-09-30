@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-rlm-runtime-code
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/rlm-runtime.ts
+  start: 137
+  end: 201
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  export function normalizeRequestedRlmSubagentSessionName(value: unknown, operation = "rlm.spawn"): string | undefined {
+  	if (value === undefined) {
+  		return undefined;
+  	}
+  	if (typeof value !== "string") {
+  		throw new Error(`${operation} name must be a string`);
+  	}
+  	const name = value.trim();
+  	if (!name) {
+  		throw new Error(`${operation} name must not be empty`);
+  	}
+  	if (name.length > RLM_SUBAGENT_SESSION_NAME_MAX_LENGTH) {
+  		throw new Error(`${operation} name must be at most ${RLM_SUBAGENT_SESSION_NAME_MAX_LENGTH} characters`);
+  	}
+  	return name;
+  }
+  export function normalizeRequestedRlmSubagentThinkingLevel(
+  	value: unknown,
+  	operation = "rlm.spawn",
+  ): ThinkingLevel | undefined {
+  	if (value === undefined) {
+  		return undefined;
+  	}
+  	if (typeof value !== "string") {

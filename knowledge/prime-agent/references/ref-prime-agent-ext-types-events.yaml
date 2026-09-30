@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-types-events
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/extensions/types.ts
+  start: 1004
+  end: 1047
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  export interface ExtensionAPI {
+  	on(event: "resources_discover", handler: ExtensionHandler<ResourcesDiscoverEvent, ResourcesDiscoverResult>): void;
+  	on(event: "session_start", handler: ExtensionHandler<SessionStartEvent>): void;
+  	on(
+  		event: "session_before_switch",
+  		handler: ExtensionHandler<SessionBeforeSwitchEvent, SessionBeforeSwitchResult>,
+  	): void;
+  	on(event: "session_before_fork", handler: ExtensionHandler<SessionBeforeForkEvent, SessionBeforeForkResult>): void;
+  	on(
+  		event: "session_before_compact",
+  		handler: ExtensionHandler<SessionBeforeCompactEvent, SessionBeforeCompactResult>,
+  	): void;
+  	on(event: "session_compact", handler: ExtensionHandler<SessionCompactEvent>): void;
+  	on(
+  		event: "session_before_refine",

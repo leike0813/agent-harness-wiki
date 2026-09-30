@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-commandctx
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: ExtensionCommandContext
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Command handlers receive `ExtensionCommandContext`, which extends `ExtensionContext` with session control methods. These are only available in commands because they can deadlock if called from event handlers.
+  ### ctx.waitForIdle()
+  Wait for the agent to finish streaming:
+  ```typescript
+  pi.registerCommand("my-cmd", {
+    handler: async (args, ctx) => {
+      await ctx.waitForIdle();
+      // Agent is now idle, safe to modify session
+    },
+  });
+  ```
+  ### ctx.newSession(options?)
+  Create a new session:
+  ```typescript
+  const parentSession = ctx.sessionManager.getSessionFile();
+  const kickoff = "Continue in the replacement session";
+  const result = await ctx.newSession({
+    parentSession,
+    setup: async (sm) => {
+      sm.appendMessage({
+        role: "user",

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-mr-defaults
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/model-registry.ts
+  start: 746
+  end: 790
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  private parseModels(config: ModelsConfig): Model<Api>[] {
+  		const models: Model<Api>[] = [];
+  		const builtInProviders = new Set<string>(getProviders());
+  		const builtInDefaultsCache = new Map<string, { api: string; baseUrl: string }>();
+  		const getBuiltInDefaults = (providerName: string): { api: string; baseUrl: string } | undefined => {
+  			if (!builtInProviders.has(providerName)) return undefined;
+  			if (builtInDefaultsCache.has(providerName)) return builtInDefaultsCache.get(providerName);
+  			const builtIn = getModels(providerName as KnownProvider) as Model<Api>[];
+  			if (builtIn.length === 0) return undefined;
+  			const defaults = { api: builtIn[0].api, baseUrl: builtIn[0].baseUrl };
+  			builtInDefaultsCache.set(providerName, defaults);
+  			return defaults;
+  		};

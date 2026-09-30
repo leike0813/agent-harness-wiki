@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-tools
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Custom Tools
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Register tools the LLM can call via `pi.registerTool()`. Tools are exposed through provider tool schemas and can have custom rendering.
+  Use `promptSnippet` as short tool metadata for extensions that compose custom prompts. The default system prompt does not render a separate tool list.
+  Use `promptGuidelines` to add tool-specific bullets to the default system prompt. These bullets are included only while the tool is active (for example, after `pi.setActiveTools([...])`).
+  **Important:** `promptGuidelines` bullets are appended flat with no tool name prefix or grouping. Each guideline must name the tool it refers to — avoid "Use this tool when..." because the LLM cannot tell which tool "this" means. Write "Use my_tool when..." instead.

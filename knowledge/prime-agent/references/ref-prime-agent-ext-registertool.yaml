@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-registertool
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: "pi.registerTool(definition)"
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Register a custom tool callable by the LLM. See [Custom Tools](#custom-tools) for full details.
+  `pi.registerTool()` works both during extension load and after startup. You can call it inside `session_start`, command handlers, or other event handlers. New tools are refreshed immediately in the same session, so they appear in `pi.getAllTools()` and are callable by the LLM without `/reload`.
+  Use `pi.setActiveTools()` to enable or disable tools (including dynamically added tools) at runtime.
+  Use `promptGuidelines` to append tool-specific bullets to the default system prompt when the tool is active.
+  `promptSnippet` remains available as metadata for extensions that compose custom prompts, but the default prompt relies on provider tool schemas instead of a separate tool list.

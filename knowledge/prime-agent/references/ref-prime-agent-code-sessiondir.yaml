@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-code-sessiondir
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/config.ts
+  start: 620
+  end: 632
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  /** Get path to sessions directory */
+  export function getSessionsDir(agentDir: string = getAgentDir()): string {
+  	const envDir = getSessionDirEnvOverride();
+  	if (envDir) {
+  		return envDir;
+  	}
+  	return join(agentDir, "sessions");
+  }
+  export function getSessionDirEnvOverride(): string | undefined {
+  	const envDir = process.env[ENV_SESSION_DIR] ?? process.env[ENV_LEGACY_SESSION_DIR];
+  	return envDir ? expandTildePath(envDir) : undefined;
+  }

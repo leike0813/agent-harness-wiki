@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-skills-code-dedup
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/skills.ts
+  start: 513
+  end: 563
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  export function loadSkills(options: LoadSkillsOptions): LoadSkillsResult {
+  	const { cwd, agentDir, skillPaths, includeDefaults } = options;
+  	const resolvedAgentDir = agentDir ?? getAgentDir();
+  	const skillMap = new Map<string, Skill>();
+  	const realPathSet = new Set<string>();
+  	const pythonImportMap = new Map<string, Skill>();
+  	const allDiagnostics: ResourceDiagnostic[] = [];
+  	const collisionDiagnostics: ResourceDiagnostic[] = [];
+  	const pythonImportDiagnostics: ResourceDiagnostic[] = [];
+  	function addSkills(result: LoadSkillsResult) {
+  		allDiagnostics.push(...result.diagnostics);
+  		for (const skill of result.skills) {
+  			const realPath = canonicalizePath(skill.filePath);
+  			if (realPathSet.has(realPath)) {
+  				continue;
+  			}
+  			const existing = skillMap.get(skill.name);
+  			if (existing) {

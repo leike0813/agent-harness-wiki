@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-types-ctx
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/extensions/types.ts
+  start: 281
+  end: 320
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  */
+  export interface ExtensionContext {
+  	/** UI methods for user interaction */
+  	ui: ExtensionUIContext;
+  	/** Whether UI is available (false in print/RPC mode) */
+  	hasUI: boolean;
+  	/** Current working directory */
+  	cwd: string;
+  	/** Session manager (read-only) */
+  	sessionManager: ReadonlySessionManager;
+  	/** Model registry for API key resolution */
+  	modelRegistry: ModelRegistry;
+  	/** Current model (may be undefined) */
+  	model: Model<any> | undefined;
+  	/** Whether the agent is idle (not streaming) */
+  	isIdle(): boolean;
+  	/** The current abort signal, or undefined when the agent is not streaming. */
+  	signal: AbortSignal | undefined;
+  	/** Abort the current agent operation */
+  	abort(): void;
+  	/** Whether there are queued messages waiting */
+  	hasPendingMessages(): boolean;

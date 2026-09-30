@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-mcp-migration
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Migration from the authored wrappers
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Earlier releases shipped authored Linear/Notion Python wrapper packages
+  (`import linear`, `import notion`) and the `rlm.McpIntegration` authoring API.
+  These are removed: every service now uses the same generic `mcp` route — no
+  per-service Python packages, and adding a service is catalog data, not code.
+  Existing `mcp:linear` / `mcp:notion` credentials keep working unchanged; run
+  `await mcp.list_tools("linear")` where you previously imported `linear`.

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-code-errors
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/extensions/loader.ts
+  start: 382
+  end: 397
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  try {
+  		const factory = await loadExtensionModule(resolvedPath);
+  		if (!factory) {
+  			return { extension: null, error: `Extension does not export a valid factory function: ${extensionPath}` };
+  		}
+  		const extension = createExtension(extensionPath, resolvedPath);
+  		const api = createExtensionAPI(extension, runtime, cwd, eventBus);
+  		await factory(api);
+  		return { extension, error: null };
+  	} catch (err) {
+  		const message = err instanceof Error ? err.message : String(err);
+  		return { extension: null, error: `Failed to load extension: ${message}` };
+  	}
+  }

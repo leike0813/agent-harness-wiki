@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-models-provider
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Provider Configuration
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  | Field | Description |
+  |-------|-------------|
+  | `baseUrl` | API endpoint URL |
+  | `api` | API type (see above) |
+  | `apiKey` | API key (see value resolution below) |
+  | `headers` | Custom headers (see value resolution below) |
+  | `authHeader` | Set `true` to add `Authorization: Bearer <apiKey>` automatically |
+  | `models` | Array of model configurations |
+  | `modelOverrides` | Per-model overrides for built-in models on this provider |
+  ### Value Resolution
+  The `apiKey` and `headers` fields support three formats:
+  - **Shell command:** `"!command"` executes and uses stdout
+    ```json
+    "apiKey": "!security find-generic-password -ws 'anthropic'"
+    "apiKey": "!op read 'op://vault/item/credential'"
+    ```
+  - **Environment variable:** Uses the value of the named variable
+    ```json

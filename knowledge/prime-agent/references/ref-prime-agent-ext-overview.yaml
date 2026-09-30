@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-overview
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/extensions.md
+  start: 3
+  end: 30
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  # Extensions
+  Extensions are TypeScript modules that extend Prime Agent's behavior. They can subscribe to lifecycle events, register custom tools callable by the LLM, add commands, and more.
+  > **Placement for /reload:** Put extensions in `~/.prime/agent/extensions/` (global) or `.prime/agent/extensions/` (project-local) for auto-discovery. Use `prime-agent -e ./path.ts` only for quick tests. Extensions in auto-discovered locations can be hot-reloaded with `/reload`.
+  **Key capabilities:**
+  - **Custom tools** - Register tools the LLM can call via `pi.registerTool()`
+  - **Event interception** - Block or modify tool calls, inject context, customize compaction
+  - **User interaction** - Prompt users via `ctx.ui` (select, confirm, input, notify)

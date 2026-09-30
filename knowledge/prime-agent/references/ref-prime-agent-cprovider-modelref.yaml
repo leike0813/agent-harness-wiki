@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-cprovider-modelref
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Model Definition Reference
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  ```typescript
+  interface ProviderModelConfig {
+    /** Model ID (e.g., "claude-sonnet-4-20250514"). */
+    id: string;
+    /** Display name (e.g., "Claude 4 Sonnet"). */
+    name: string;
+    /** API type override for this specific model. */
+    api?: Api;
+    /** API endpoint URL override for this specific model. */
+    baseUrl?: string;
+    /** Whether the model supports extended thinking. */
+    reasoning: boolean;
+    /** Maps Prime Agent thinking levels to provider/model-specific values; null marks a level unsupported. */
+    thinkingLevelMap?: Partial<Record<"off" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max", string | null>>;
+    /** Supported input types. */
+    input: ("text" | "image")[];
+    /** Cost per million tokens (for usage tracking). */
+    cost: {
+      input: number;
+      output: number;

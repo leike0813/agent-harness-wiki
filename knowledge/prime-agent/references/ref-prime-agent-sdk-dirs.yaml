@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-sdk-dirs
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Directories
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  ```typescript
+  const { session } = await createAgentSession({
+    // Working directory for DefaultResourceLoader discovery
+    cwd: process.cwd(), // default
+    // Global config directory
+    agentDir: "~/.prime/agent", // default (expands ~)
+  });
+  ```
+  `cwd` is used by `DefaultResourceLoader` for:
+  - Project extensions (`.prime/agent/extensions/`)
+  - Project skills:
+    - `.prime/agent/skills/`
+    - `.agents/skills/` in `cwd` and ancestor directories (up to git repo root, or filesystem root when not in a repo)
+  - Project prompts (`.prime/agent/prompts/`)
+  - Context files (`AGENTS.md` walking up from cwd)
+  - Session storage resolution
+  `agentDir` is used by `DefaultResourceLoader` for:
+  - Global extensions (`extensions/`)
+  - Global skills:
+    - `skills/` under `agentDir` (for example `~/.prime/agent/skills/`)

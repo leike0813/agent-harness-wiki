@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-pm-identity
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/package-manager.ts
+  start: 1605
+  end: 1646
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  private getPackageIdentity(source: string, scope?: SourceScope): string {
+  		const parsed = this.parseSource(source);
+  		if (parsed.type === "npm") {
+  			return `npm:${parsed.name}`;
+  		}
+  		if (parsed.type === "git") {
+  			// Use host/path for identity to normalize SSH and HTTPS
+  			return `git:${parsed.host}/${parsed.path}`;
+  		}
+  		if (scope) {
+  			const baseDir = this.getBaseDirForScope(scope);
+  			return `local:${this.resolvePathFromBase(parsed.path, baseDir)}`;
+  		}
+  		return `local:${this.resolvePath(parsed.path)}`;
+  	}
+  	/**
+  	 * Dedupe packages: if same package identity appears in both global and project,
+  	 * keep only the project one (project wins).
+  	 */
+  	private dedupePackages(
+  		packages: Array<{ pkg: PackageSource; scope: SourceScope }>,

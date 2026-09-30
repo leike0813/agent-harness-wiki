@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-resource-events
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Resource Events
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  #### resources_discover
+  Fired after `session_start` so extensions can contribute additional skill, prompt, and theme paths.
+  The startup path uses `reason: "startup"`. Reload uses `reason: "reload"`.
+  ```typescript
+  pi.on("resources_discover", async (event, _ctx) => {
+    // event.cwd - current working directory
+    // event.reason - "startup" | "reload"
+    return {
+      skillPaths: ["/path/to/skills"],
+      promptPaths: ["/path/to/prompts"],
+      themePaths: ["/path/to/themes"],
+    };
+  });
+  ```

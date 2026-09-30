@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-pm-precedence
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/package-manager.ts
+  start: 166
+  end: 182
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  /**
+   * Compute a numeric precedence rank for a resource based on its metadata.
+   * Lower rank = higher precedence. Used to sort resolved resources so that
+   * name-collision resolution ("first wins") produces the correct outcome.
+   *
+   * Precedence (highest to lowest):
+   *   0  project + settings entry (source: "local", scope: "project")
+   *   1  project + auto-discovered (source: "auto", scope: "project")
+   *   2  user + settings entry (source: "local", scope: "user")
+   *   3  user + auto-discovered (source: "auto", scope: "user")
+   *   4  package resource (origin: "package")
+   *   5  built-in resource shipped with prime-agent (source: "builtin")
+   */
+  function resourcePrecedenceRank(m: PathMetadata): number {
+  	if (m.source === "builtin") return 5;
+  	if (m.origin === "package") return 4;

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ex-subagent-tool
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/examples/extensions/subagent/index.ts
+  start: 387
+  end: 401
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  const SubagentParams = Type.Object({
+  	agent: Type.Optional(Type.String({ description: "Name of the agent to invoke (for single mode)" })),
+  	task: Type.Optional(Type.String({ description: "Task to delegate (for single mode)" })),
+  	tasks: Type.Optional(Type.Array(TaskItem, { description: "Array of {agent, task} for parallel execution" })),
+  	chain: Type.Optional(Type.Array(ChainItem, { description: "Array of {agent, task} for sequential execution" })),
+  	agentScope: Type.Optional(AgentScopeSchema),
+  	confirmProjectAgents: Type.Optional(
+  		Type.Boolean({ description: "Prompt before running project-local agents. Default: true.", default: true }),
+  	),
+  	cwd: Type.Optional(Type.String({ description: "Working directory for the agent process (single mode)" })),
+  });

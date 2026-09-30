@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-rlrt-child
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Child Execution
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  `AgentSession.runRlmChild()` performs the following sequence:
+  1. Check `RLM_DEPTH < RLM_MAX_DEPTH`.
+  2. Resolve the requested model or inherit the parent model.
+  3. Create a `sub-xxxxxxxx` child directory under the parent artifact directory.
+  4. Admit the task into the parent registry and return its `RLMSpawnHandle`.
+  5. In detached work, create a child `SessionManager`, `Agent`, and `AgentSession`.
+  6. Reuse provider hooks, resource loader, model registry, tools, transport, retry settings, and thinking configuration.
+  7. Run the child prompt, retain its session, and update lifecycle state independently of the admission call.
+  8. Attribute child usage to the parent assistant turn and persist the attribution.

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-models-anthropic
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Anthropic Messages Compatibility
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  For providers or proxies using `api: "anthropic-messages"`, use `compat.supportsEagerToolInputStreaming` to control Anthropic fine-grained tool streaming compatibility.
+  By default Prime Agent sends per-tool `eager_input_streaming: true`. If a proxy or Anthropic-compatible backend rejects that field, set `supportsEagerToolInputStreaming` to `false`. Prime Agent will omit `tools[].eager_input_streaming` and send the legacy `fine-grained-tool-streaming-2025-05-14` beta header for tool-enabled requests instead.
+  ```json
+  {
+    "providers": {
+      "anthropic-proxy": {
+        "baseUrl": "https://proxy.example.com",
+        "api": "anthropic-messages",
+        "apiKey": "ANTHROPIC_PROXY_KEY",
+        "compat": {
+          "supportsEagerToolInputStreaming": false,
+          "supportsLongCacheRetention": true

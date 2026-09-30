@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-mcp-connecting
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Connecting a service
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  `/plugins` and bare `/mcp` open the same searchable external-service screen:
+  - Type to search (e.g. "Notion") — one canonical card per service, no duplicates.
+  - Each card shows its honest state: **Connect**, **Connected**, **Reconnect**,
+    **Verifying**, **Requires setup**, or **Disabled**.
+  - Press Enter on a **Connect** card to review and complete browser OAuth. The
+    credentials are stored locally in `~/.prime/agent/auth.json` under
+    `mcp:<service>`; Prime Agent never proxies them.
+  - After login, Prime Agent verifies the connection with a real MCP handshake
+    (initialize + `tools/list`). A stored token alone is never reported as
+    Connected: until the handshake succeeds the state stays **Verifying** or
+    **Reconnect**. On success the connection activates in the current conversation

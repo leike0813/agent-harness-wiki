@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-models-permodel
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Per-model Overrides
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Use `modelOverrides` to customize specific built-in models without replacing the provider's full model list.
+  ```json
+  {
+    "providers": {
+      "openrouter": {
+        "modelOverrides": {
+          "anthropic/claude-sonnet-4": {
+            "name": "Claude Sonnet 4 (Bedrock Route)",
+            "compat": {
+              "openRouterRouting": {
+                "only": ["amazon-bedrock"]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  ```
+  `modelOverrides` supports these fields per model: `name`, `reasoning`, `input`, `cost` (partial), `contextWindow`, `maxTokens`, `headers`, `compat`.
+  Behavior notes:
+  - `modelOverrides` are applied to built-in provider models.
+  - Unknown model IDs are ignored.
+  - You can combine provider-level `baseUrl`/`headers` with `modelOverrides`.

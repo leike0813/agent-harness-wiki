@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-cprovider-stream
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Custom Streaming API
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  For providers with non-standard APIs, implement `streamSimple`. Study the existing provider implementations before writing your own:
+  **Reference implementations:**
+  - [anthropic.ts](../../ai/src/providers/anthropic.ts) - Anthropic Messages API
+  - [mistral.ts](../../ai/src/providers/mistral.ts) - Mistral Conversations API
+  - [openai-completions.ts](../../ai/src/providers/openai-completions.ts) - OpenAI Chat Completions
+  - [openai-responses.ts](../../ai/src/providers/openai-responses.ts) - OpenAI Responses API
+  - [google.ts](../../ai/src/providers/google.ts) - Google Generative AI
+  - [amazon-bedrock.ts](../../ai/src/providers/amazon-bedrock.ts) - AWS Bedrock
+  ### Stream Pattern
+  All providers follow the same pattern:
+  ```typescript
+  import {
+    type AssistantMessage,

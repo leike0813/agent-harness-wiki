@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-models-headers
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Custom Headers
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  ```json
+  {
+    "providers": {
+      "custom-proxy": {
+        "baseUrl": "https://proxy.example.com/v1",
+        "apiKey": "MY_API_KEY",
+        "api": "anthropic-messages",
+        "headers": {
+          "x-portkey-api-key": "PORTKEY_API_KEY",
+          "x-secret": "!op read 'op://vault/item/secret'"
+        },
+        "models": [...]
+      }
+    }
+  }
+  ```

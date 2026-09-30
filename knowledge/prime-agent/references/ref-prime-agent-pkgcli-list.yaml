@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-pkgcli-list
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/package-manager-cli.ts
+  start: 1627
+  end: 1660
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  case "list": {
+  				const configuredPackages = packageManager.listConfiguredPackages();
+  				const userPackages = configuredPackages.filter((pkg) => pkg.scope === "user");
+  				const projectPackages = configuredPackages.filter((pkg) => pkg.scope === "project");
+  				if (configuredPackages.length === 0) {
+  					console.log(chalk.dim("No packages installed."));
+  					return true;
+  				}
+  				const formatPackage = (pkg: (typeof configuredPackages)[number]) => {
+  					const display = pkg.filtered ? `${pkg.source} (filtered)` : pkg.source;
+  					console.log(`  ${display}`);
+  					if (pkg.installedPath) {
+  						console.log(chalk.dim(`    ${pkg.installedPath}`));
+  					}
+  				};
+  				if (userPackages.length > 0) {
+  					console.log(chalk.bold("User packages:"));
+  					for (const pkg of userPackages) {

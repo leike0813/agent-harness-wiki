@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-rl-reload
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/resource-loader.ts
+  start: 336
+  end: 348
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  async reload(): Promise<void> {
+  		await this.settingsManager.reload();
+  		const resolvedPaths = await this.packageManager.resolve();
+  		const cliExtensionPaths = await this.packageManager.resolveExtensionSources(this.additionalExtensionPaths, {
+  			temporary: true,
+  		});
+  		const metadataByPath = new Map<string, PathMetadata>();
+  		this.extensionSkillSourceInfos = new Map();
+  		this.extensionPromptSourceInfos = new Map();
+  		this.extensionThemeSourceInfos = new Map();
+  		// Helper to extract enabled paths and store metadata

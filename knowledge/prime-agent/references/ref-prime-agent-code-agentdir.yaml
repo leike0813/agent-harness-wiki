@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-code-agentdir
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/config.ts
+  start: 523
+  end: 532
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  // =============================================================================
+  /** Get the agent config directory (e.g., ~/.prime/agent/) */
+  export function getAgentDir(): string {
+  	const envDir = process.env[ENV_AGENT_DIR];
+  	if (envDir) {
+  		return expandTildePath(envDir);
+  	}
+  	return join(homedir(), CONFIG_DIR_NAME);
+  }

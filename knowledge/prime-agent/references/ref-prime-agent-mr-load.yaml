@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-mr-load
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/model-registry.ts
+  start: 471
+  end: 485
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  readonly authStorage: AuthStorage,
+  		private modelsJsonPath: string | undefined,
+  	) {
+  		this.loadModels();
+  	}
+  	setOnOAuthProvidersReset(hook: () => void): void {
+  		this.onOAuthProvidersReset = hook;
+  	}
+  	static create(authStorage: AuthStorage, modelsJsonPath: string = join(getAgentDir(), "models.json")): ModelRegistry {
+  		return new ModelRegistry(authStorage, modelsJsonPath);
+  	}
+  	static inMemory(authStorage: AuthStorage): ModelRegistry {

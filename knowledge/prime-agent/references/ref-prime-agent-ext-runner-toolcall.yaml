@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-ext-runner-toolcall
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/extensions/runner.ts
+  start: 912
+  end: 928
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  async emitToolCall(event: ToolCallEvent): Promise<ToolCallEventResult | undefined> {
+  		let result: ToolCallEventResult | undefined;
+  		for (const ext of this.extensions) {
+  			const handlers = ext.handlers.get("tool_call");
+  			if (!handlers || handlers.length === 0) continue;
+  			const ctx = this.createContext(ext.path);
+  			for (const handler of handlers) {
+  				const handlerResult = await handler(event, ctx);
+  				if (handlerResult) {
+  					result = handlerResult as ToolCallEventResult;
+  					if (result.block) {
+  						return result;
+  					}
+  				}

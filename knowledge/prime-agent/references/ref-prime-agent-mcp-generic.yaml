@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-mcp-generic
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Generic MCP servers
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Manage generic servers from either the shell (which exits without starting an
+  agent) or the TUI. Both surfaces update only `~/.prime/agent/settings.json`:
+  ```bash
+  prime-agent mcp add remote --url https://mcp.example.com/mcp --bearer-token-env-var EXAMPLE_TOKEN
+  prime-agent mcp add local --cwd /absolute/path --env TOKEN=EXAMPLE_TOKEN -- node server.js --stdio
+  prime-agent mcp list
+  prime-agent mcp get remote
+  prime-agent mcp remove remote
+  ```
+  Use the same forms after `/mcp` in the TUI. Add `--oauth` for the existing OAuth
+  login flow and then use `/mcp login <name>`; use `--force` to replace a complete
+  existing entry. Static secret values are not accepted: bearer and stdio secrets
+  are environment-variable references. Project `.prime/agent/settings.json` MCP

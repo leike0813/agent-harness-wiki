@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-sdk-apikeys
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: API Keys and OAuth
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  API key resolution priority (handled by AuthStorage):
+  1. Runtime overrides (via `setRuntimeApiKey`, not persisted)
+  2. Stored credentials in `auth.json` (API keys or OAuth tokens)
+  3. Environment variables (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, etc.)
+  4. Fallback resolver (for custom provider keys from `models.json`)
+  ```typescript
+  import { AuthStorage, ModelRegistry } from "@earendil-works/pi-coding-agent";
+  // Default: uses ~/.prime/agent/auth.json and ~/.prime/agent/models.json
+  const authStorage = AuthStorage.create();
+  const modelRegistry = ModelRegistry.create(authStorage);
+  const { session } = await createAgentSession({
+    sessionManager: SessionManager.inMemory(),
+    authStorage,
+    modelRegistry,
+  });
+  // Runtime API key override (not persisted to disk)

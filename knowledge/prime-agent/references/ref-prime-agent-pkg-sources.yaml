@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-pkg-sources
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: document_section
+  heading: Package Sources
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  Prime Agent accepts three source types in settings and `prime-agent package install`.
+  ### npm
+  ```
+  npm:@scope/pkg@1.2.3
+  npm:pkg
+  ```
+  - Versioned specs are pinned and skipped by `prime-agent package update`.
+  - Global installs use `npm install -g`.
+  - Project installs go under `.prime/agent/npm/`.
+  - Set `npmCommand` in `settings.json` to pin npm package lookup and install operations to a specific wrapper command such as `mise` or `asdf`.
+  Example:
+  ```json
+  {
+    "npmCommand": ["mise", "exec", "node@20", "--", "npm"]
+  }
+  ```
+  ### git
+  ```
+  git:github.com/user/repo@v1
+  git:git@github.com:user/repo@v1
+  https://github.com/user/repo@v1
+  ssh://git@github.com/user/repo@v1
+  ```
+  - Without `git:` prefix, only protocol URLs are accepted (`https://`, `http://`, `ssh://`, `git://`).

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-agent-depth
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-repo
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/agent-session.ts
+  start: 1996
+  end: 2016
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  private _resolveRlmMaxDepth(): {
+  		maxDepth: number;
+  		source: RlmMaxDepthSource;
+  	} {
+  		const persisted = this._loadPersistedRlmMaxDepthState();
+  		if (persisted) {
+  			return { maxDepth: persisted.maxDepth, source: "chat" };
+  		}
+  		if (this._configuredRlmMaxDepth !== undefined) {
+  			return { maxDepth: this._configuredRlmMaxDepth, source: "inherited" };
+  		}
+  		const global = this.settingsManager.getRlmMaxDepth();
+  		if (global !== undefined && isNonNegativeInteger(global)) {
+  			return { maxDepth: global, source: "global" };
+  		}
+  		const env = process.env.RLM_MAX_DEPTH;
+  		if (env !== undefined && env !== "") {
+  			return { maxDepth: parseDepth(env, 1, "RLM_MAX_DEPTH"), source: "env" };
+  		}
+  		return { maxDepth: 2, source: "default" };
+  	}
