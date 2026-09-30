@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-config-files
+harness_id: bob
+snapshot_id: snapshot-bob-docs-configuring
+locator:
+  kind: document_section
+  heading: Settings file locations
+official_url: "https://bob.ibm.com/docs/shell/configuration/configuring"
+excerpt: |-
+  Bob Shell stores settings in two locations:
+  ScopeFile
+  User (all workspaces)~/.bob/settings/settings.json
+  Project (current workspace)<workspace>/.bob/
+   CLI flags always override file values for the current session. You can also change settings interactively with the /settings slash command inside bob chat.
+  Settings schema
+  {
+   "session": {
+   "maxTurns": 100,
+   "defaultMode": "agent",
+   "mcp": true,
+   "subagents": true
+   },
+   "logging": {
+   "logLevel": "warn"
+   },
+   "tasks": {
+   "retentionDays": 30
+   },
+   "telemetry": {
+   "enabled": true
+   }
+  }
+  SettingTypeDefaultDescription
+  session.maxTurnsnumber100Maximum agentic turns per session (0 = unlimited)
+  session.defaultModestring"agent"Default mode when starting a session
+  session.mcpbooleantrueEnable Model Context Protocol (MCP) servers by default

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-modes-project-yaml
+harness_id: bob
+snapshot_id: snapshot-bob-docs-custom-modes
+locator:
+  kind: document_section
+  heading: Project-specific modes
+official_url: "https://bob.ibm.com/docs/shell/configuration/custom-modes-bobshell"
+excerpt: |-
+  Create or edit .bob/custom_modes.yaml in your project root:
+  customModes:
+   - slug: deploy-helper
+   name: 🚀 Deployment Assistant
+   roleDefinition: You are a deployment specialist for this project's infrastructure.
+   whenToUse: Use for deployment tasks, infrastructure changes, and release management.
+   customInstructions: |-
+   Deployment guidelines:
+   - Always verify the target environment before running commands
+   - Check for running processes that might be affected
+   - Validate configuration files before applying changes
+   - Create backups before destructive operations
+   groups:
+   - read
+   - - edit
+   - fileRegex: \.(yaml|yml|sh|env)$
+   description: Configuration and script files only
+   - command
+  Command-line mode selection
+   Specify a mode when starting Bob Shell:

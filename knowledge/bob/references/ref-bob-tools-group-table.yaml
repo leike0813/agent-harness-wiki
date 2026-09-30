@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-tools-group-table
+harness_id: bob
+snapshot_id: snapshot-bob-docs-tools
+locator:
+  kind: document_section
+  heading: Available tool groups
+official_url: "https://bob.ibm.com/docs/shell/core-concepts/tools"
+excerpt: |-
+  GroupTools includedDefault in AgentDefault in PlanDefault in Ask
+  readFile reading, search, and listing tools✓✓✓
+  editFile write and diff tools✓✓✓
+  executeShell command execution tools✓——
+  mcpMCP server tools✓✓✓
+  skillSkill-related tools✓✓✓
+  todoTo-do list management tools✓✓—
+  subagentSubagent spawning tools✓——
+  modeMode-switching tools✓✓✓
+  Disabling tool groups
+   Pass --disable-tool-groups to bob run or bob chat with a comma-separated list of group names:
+  # Disable command execution and MCP tools
+  bob run --disable-tool-groups execute,mcp "Review @src/"
+  # Run in a read-only mode
+  bob run --disable-tool-groups edit,execute,mcp "Summarize the codebase"
+   You can also disable all MCP servers in one step with the dedicated flag:
+  bob run --disable-mcp "Explain @app.js"
+  How is this topic?

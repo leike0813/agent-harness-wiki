@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-config-logs
+harness_id: bob
+snapshot_id: snapshot-bob-docs-configuring
+locator:
+  kind: document_section
+  heading: Log files
+official_url: "https://bob.ibm.com/docs/shell/configuration/configuring"
+excerpt: |-
+  Logs are written to ~/.bob/logs/shell/ using rotating files (bob-<timestamp>.log). Up to 10 log files are retained; older files are pruned automatically. The maximum log file size is 5 MB before rotation.
+   Use --log-level debug (or BOB_LOG_LEVEL=debug) to capture verbose output:
+  BOB_LOG_LEVEL=debug bob chat
+  bob run --log-level debug "Explain @app.js"
+   You can also open the latest log file directly from within a session using the /logs slash command.
+  Context files
+   Context files (like AGENTS.md) provide instructions to the AI model. These files are loaded hierarchically:
+   Global context: ~/.bob/AGENTS.md (applies to all projects)
+   Project context: AGENTS.md in project root and parent directories
+   Local context: AGENTS.md in subdirectories (for component-specific instructions)

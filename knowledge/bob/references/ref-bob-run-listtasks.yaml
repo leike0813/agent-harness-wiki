@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-run-listtasks
+harness_id: bob
+snapshot_id: snapshot-bob-docs-run
+locator:
+  kind: document_section
+  heading: General utility flags
+official_url: "https://bob.ibm.com/docs/shell/getting-started/start-bobshell-non-interactive"
+excerpt: |-
+  List saved tasks for the current workspace and exit. Defaults to 20. Pass a number or all to control how many are shown.
+  --limit <n>Maximum number of tasks to display with --list-tasks.
+  --show-licenseDisplay the IBM license agreement and exit.
+  Machine-readable output
+   When stdout is not a TTY — for example, when you pipe or redirect output — --list-tasks switches from a human-readable table to NDJSON, with one JSON object per line.
+   Each line has the following shape:
+  {"id":"<uuid>","title":"<string>","status":"<string>","workspace":"<file-uri>","updatedAt":<unix-ms>}
+  FieldTypeDescription
+  idstring (UUID)Unique task identifier, usable with --resume
+  titlestringTask title, falling back to first message, then id
+  statusstringTask status (active, completed, paused)

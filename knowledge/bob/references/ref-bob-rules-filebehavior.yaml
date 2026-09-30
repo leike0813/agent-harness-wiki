@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-rules-filebehavior
+harness_id: bob
+snapshot_id: snapshot-bob-docs-rules
+locator:
+  kind: document_section
+  heading: File behavior
+official_url: "https://bob.ibm.com/docs/shell/configuration/bobshell-custom-rules"
+excerpt: |-
+  Recursive reading: Bob Shell reads all files in rules directories, including subdirectories
+   Alphabetical order: Files process in alphabetical order by filename
+   Automatic filtering: Excludes cache files (.DS_Store, *.bak, *.cache, *.log, *.tmp, Thumbs.db)
+   Symbolic links: Supported with maximum depth of 5
+   Empty files: Silently skipped
+  Team standardization
+  Project-level standards
+   Use workspace .bob/rules/ directories under version control:
+  # Add to version control
+  git add .bob/rules/
+  git commit -m "Add Bob custom rules"
+   This ensures consistent behavior across team members using Bob Shell for specific projects.
+  Organization-wide standards
+   Distribute global rules to team members:
+   Create a shared rules repository
+   Team members clone to ~/.bob/rules/

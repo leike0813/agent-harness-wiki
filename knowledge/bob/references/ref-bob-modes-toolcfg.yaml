@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-modes-toolcfg
+harness_id: bob
+snapshot_id: snapshot-bob-docs-custom-modes
+locator:
+  kind: document_section
+  heading: Command running permissions
+official_url: "https://bob.ibm.com/docs/shell/configuration/custom-modes-bobshell"
+excerpt: |-
+  Use Bob Shell's allowed tools configuration with custom modes in your settings file:
+  {
+   "tools": {
+   "allowed": [
+   "run_shell_command(git status)",
+   "run_shell_command(git log)",
+   "run_shell_command(git diff)"
+   ]
+   }
+  }
+  Interactive vs non-interactive behavior
+  Designing for both modes
+   Create modes that work well in both interactive and non-interactive sessions:
+  customModes:
+   - slug: test-runner
+   name: 🧪 Test Runner
+   roleDefinition: >-
+   You are a testing specialist who runs and analyzes test suites.
+   You adapt your output based on the running context.
+   whenToUse: Use for running tests, analyzing test results, and debugging test failures.
+   customInstructions: |-
+   Testing guidelines:
+   - In interactive mode: Provide detailed explanations and suggestions

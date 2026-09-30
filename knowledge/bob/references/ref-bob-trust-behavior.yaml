@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-trust-behavior
+harness_id: bob
+snapshot_id: snapshot-bob-docs-trusted
+locator:
+  kind: document_section
+  heading: Behavior when the feature is enabled
+official_url: "https://bob.ibm.com/docs/shell/security/trusted-folders"
+excerpt: |-
+  When the trusted folders feature is enabled, Bob Shell evaluates the trust level of the working folder before loading any project-specific content:
+   Unresolved folder (no entry in ~/.bob/trustedFolders.json): The folder is treated as trusted. Project settings and hooks load normally.
+   TRUST_FOLDER or TRUST_PARENT entry: The folder is trusted. Full functionality is available.
+   DONT_TRUST entry: Bob Shell throws an error and does not run:
+  <folder> is not a trusted folder. Pass --trust to run in this folder,
+  or run Bob Shell interactively and choose a trust level.
+   Warning:
+  Enabling the trusted folders feature alone does not block hook execution for folders with no trust decision.

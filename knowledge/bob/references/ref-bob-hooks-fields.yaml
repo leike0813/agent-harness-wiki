@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-hooks-fields
+harness_id: bob
+snapshot_id: snapshot-bob-docs-hooks
+locator:
+  kind: document_section
+  heading: Configuration fields
+official_url: "https://bob.ibm.com/docs/shell/configuration/lifecycle-hooks"
+excerpt: |-
+  FieldTypeDefaultDescription
+  type"command" | "https"(none)Required. The handler type. Use command to run a local shell command or https to send events to an HTTP endpoint.
+  commandstring(none)Required when type is command. The shell command to run. Runs via sh -c on macOS and Linux, cmd /c on Windows.
+  urlstring(none)Required when type is https. The HTTPS URL to send hook event payloads to.
+  matcherstring(none)Optional. A regex matched against the tool name (PreToolUse, PostToolUse only). Omit to match all tools.
+  timeoutnumber10Seconds before the hook is stopped. Set to 0 to disable the timeout.
+  Hook reference
+  Runs once when a new session begins, before the first turn.
+  Stdin schema
+  {
+   "event": "string",
+   "session_id": "string"
+  }
+  Example payload
+  {
+   "event": "SessionStart",

@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-context-limits
+harness_id: bob
+snapshot_id: snapshot-bob-docs-context
+locator:
+  kind: document_section
+  heading: Token limits
+official_url: "https://bob.ibm.com/docs/shell/core-concepts/context-window-management"
+excerpt: |-
+  The hard cap is 270,000 tokens per session. Bob starts condensing before you reach the limit. Condensation typically begins around 190,000 tokens of total usage.
+  Automatic context condensation
+   At the condensation threshold, Bob:
+   Preserves the most recent and relevant context.
+   Summarizes or removes older conversation segments.
+   Maintains critical system instructions, tool definitions, rules, and skills.
+   Continues with the condensed context.
+   Condensation is lossy. Details from early in Messages might not survive. Start a new session when you change topics or when Messages is large enough to hurt quality.
+  Impact on Bobcoins
+   Bobcoins track token usage. Both input and output tokens count.
+   Each message sends the full active context again, including fixed overhead.

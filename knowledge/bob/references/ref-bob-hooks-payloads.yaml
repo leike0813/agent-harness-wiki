@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-hooks-payloads
+harness_id: bob
+snapshot_id: snapshot-bob-docs-hooks
+locator:
+  kind: document_section
+  heading: Hook reference
+official_url: "https://bob.ibm.com/docs/shell/configuration/lifecycle-hooks"
+excerpt: |-
+  Runs once when a new session begins, before the first turn.
+  Stdin schema
+  {
+   "event": "string",
+   "session_id": "string"
+  }
+  Example payload
+  {
+   "event": "SessionStart",
+   "session_id": "ses_01abc123"
+  }
+  Stdout: Written to the model's context as additional session information.
+  Blocking: Exit code 2 is not supported. The session always starts. Other non-zero exits are logged and ignored.
+  Runs each time you submit a prompt, before it is sent to the model.
+  Stdin schema
+  {
+   "event": "string",
+   "session_id": "string",
+   "prompt": "string"
+  }
+  Example payload
+  {
+   "event": "UserPromptSubmit",
+   "session_id": "ses_01abc123",
+   "prompt": "Refactor the auth module"
+  }
+  Stdout: Written to the model's context alongside the prompt.
+  Blocking: Exit code 2 blocks the prompt from being sent.

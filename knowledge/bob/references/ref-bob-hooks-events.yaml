@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-hooks-events
+harness_id: bob
+snapshot_id: snapshot-bob-docs-hooks
+locator:
+  kind: document_section
+  heading: Supported hooks
+official_url: "https://bob.ibm.com/docs/shell/configuration/lifecycle-hooks"
+excerpt: |-
+  HookWhen it runsBlockingStdout behavior
+  SessionStartOnce when a session beginsNoInjected as context
+  UserPromptSubmitEach time you submit a promptYes (exit 2)Injected as context
+  PreToolUseBefore a matched tool runsYes (exit 2)Ignored
+  PostToolUseAfter a matched tool completesNoIgnored
+  PreCompactBefore context compaction beginsYes (exit 2)Ignored
+  PostCompactAfter context compaction completesNoIgnored
+  StopWhen the agent stopsNoIgnored
+  Configuration
+   Hooks are defined under the hooks key in your settings.json. Bob Shell merges hooks from two locations:
+  ScopeFile
+  Global (all workspaces)~/.bob/settings/settings.json
+  Workspace (current project).bob/settings.json
+   Global hooks always run. Workspace hooks are merged on top of global hooks and apply only to the current project.
+   Important:

@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-acp-auth
+harness_id: bob
+snapshot_id: snapshot-bob-docs-acp
+locator:
+  kind: document_section
+  heading: Authentication
+official_url: "https://bob.ibm.com/docs/shell/features/acp"
+excerpt: |-
+  Bob authenticates during ACP initialization. If BOBSHELL_API_KEY is set in the environment that launches bob acp, Bob uses the key and no further action is required.
+   Without an API key or a stored token, your editor prompts you to authenticate through SSO. Complete the browser flow once; Bob stores the token so subsequent ACP sessions on the same machine reuse it.
+  Workspace trust
+   Bob checks workspace trust before creating a session. An untrusted workspace causes session creation to fail. To trust a workspace, open a terminal in that directory and run Bob Shell interactively:
+  cd /path/to/project
+  bob
+   After trust is recorded, exit and reconnect through the editor.
+   For short-lived or disposable environments, pass --trust in your ACP arguments. For tradeoffs, see Command options.

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-run-json
+harness_id: bob
+snapshot_id: snapshot-bob-docs-run
+locator:
+  kind: document_section
+  heading: json
+official_url: "https://bob.ibm.com/docs/shell/getting-started/start-bobshell-non-interactive"
+excerpt: |-
+  Emits a single JSON object after the session completes. Use this format to capture the full result for programmatic processing.
+   Schema:
+  FieldTypeDescription
+  typestringAlways "result"
+  timestampstringISO 8601 (date-time standard) completion timestamp
+  statusstring"success" or "error"
+  statsobjectSession statistics — see fields below
+  stats.task_idstringUnique identifier for the completed task
+  stats.total_tokensnumberTotal tokens used
+  stats.input_tokensnumberInput tokens used
+  stats.output_tokensnumberOutput tokens generated
+  stats.cache_read_tokensnumberTokens read from cache
+  stats.cache_write_tokensnumberTokens written to cache
+  stats.cache_rationumberCache hit ratio
+  stats.duration_msnumberSession duration in milliseconds
+  stats.session_costsnumberTotal cost for the session

@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-hooks-exit
+harness_id: bob
+snapshot_id: snapshot-bob-docs-hooks
+locator:
+  kind: document_section
+  heading: Exit codes and blocking
+official_url: "https://bob.ibm.com/docs/shell/configuration/lifecycle-hooks"
+excerpt: |-
+  Exit codeBehaviourApplies to
+  0Success: hook ran without issueAll hooks
+  2Block: stop the current actionUserPromptSubmit, PreToolUse, PreCompact
+  Any other non-zeroNon-blocking failure: logged and ignoredAll hooks
+   Note:
+  Only UserPromptSubmit, PreToolUse, and PreCompact support blocking. Exit code 2 from SessionStart, PostToolUse, PostCompact, or Stop is treated as a non-blocking failure.
+  Command details
+   Working directory: Commands run from the task working directory (the folder Bob Shell is working in).
+   Default timeout: 10 seconds. Override per-hook with the timeout field. Set timeout to 0 to disable the timeout entirely.
+   Stderr: Written to Bob Shell's logs but does not affect the hook result.
+   Shell: Commands run via sh -c on macOS and Linux, and cmd /c on Windows.

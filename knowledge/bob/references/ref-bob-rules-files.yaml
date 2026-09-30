@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-rules-files
+harness_id: bob
+snapshot_id: snapshot-bob-docs-rules
+locator:
+  kind: document_section
+  heading: File-based configuration
+official_url: "https://bob.ibm.com/docs/shell/configuration/bobshell-custom-rules"
+excerpt: |-
+  .bobrules - General workspace rules
+   .bobrules-code - Rules for Code mode
+   .bobrules-{modeSlug} - Rules for any mode
+   Create a .bobrules file:
+  # In your project root
+  echo "Use 4 spaces for indentation" > .bobrules
+  Directory-based configuration
+   For better organization, use directories:
+   Workspace structure:
+  .bob/
+  ├── rules/ # General rules
+  │ └── coding-style.md
+  └── rules-code/ # Code mode rules
+   └── typescript.md
+   Global structure:
+   Linux/macOS: ~/.bob/rules/
+  Windows: %USERPROFILE%\.bob\rules\
+   Create workspace rules:
+  mkdir -p .bob/rules
+  echo "# Project standards" > .bob/rules/coding-style.md
+   Create global rules:
+  # Linux/macOS
+  mkdir -p ~/.bob/rules
+  echo "# Global standards" > ~/.bob/rules/coding-standards.md
+  # Windows
+  mkdir %USERPROFILE%\.bob\rules

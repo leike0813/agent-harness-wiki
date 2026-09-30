@@ -1,0 +1,43 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-mcp-stdio
+harness_id: bob
+snapshot_id: snapshot-bob-docs-mcp
+locator:
+  kind: document_section
+  heading: Stdio transport
+official_url: "https://bob.ibm.com/docs/shell/configuration/mcp/mcp-bobshell"
+excerpt: |-
+  Stdio transport runs servers locally on your machine:
+   Uses standard input/output streams for communication
+   Provides lower latency and better security
+   Runs as a child process on your machine
+   Example configuration:
+  {
+   "mcpServers": {
+   "local-server": {
+   "command": "node",
+   "args": ["server.js"],
+   "cwd": "/path/to/project",
+   "env": {
+   "API_KEY": "your_api_key"
+   },
+   "alwaysAllow": ["tool1", "tool2"]
+   }
+   }
+  }
+  SSE transport
+   SSE transport connects to remote servers over HTTP/HTTPS:
+   Uses Server-Sent Events protocol
+   Works with servers hosted on different machines
+   Requires network access
+   Example configuration:
+  {
+   "mcpServers": {
+   "remote-server": {
+   "url": "https://your-server-url.com/mcp",
+   "headers": {
+   "Authorization": "Bearer your-token"
+   },
+   "alwaysAllow": ["tool3"]
+   }

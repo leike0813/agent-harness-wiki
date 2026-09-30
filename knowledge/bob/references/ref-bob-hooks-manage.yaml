@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-hooks-manage
+harness_id: bob
+snapshot_id: snapshot-bob-docs-hooks
+locator:
+  kind: document_section
+  heading: Managing hooks
+official_url: "https://bob.ibm.com/docs/shell/configuration/lifecycle-hooks"
+excerpt: |-
+  Run /hooks to open a dialog that lists all configured global and workspace hooks. The dialog shows each hook's event type, matcher, scope, status, and command. You can toggle individual hooks on or off. The list refreshes automatically when hook settings change on disk.
+   Note:
+  To enforce hooks across all users in your organization, see EnforcedHooks.
+  Supported hooks
+  HookWhen it runsBlockingStdout behavior
+  SessionStartOnce when a session beginsNoInjected as context
+  UserPromptSubmitEach time you submit a promptYes (exit 2)Injected as context
+  PreToolUseBefore a matched tool runsYes (exit 2)Ignored
+  PostToolUseAfter a matched tool completesNoIgnored
+  PreCompactBefore context compaction beginsYes (exit 2)Ignored
+  PostCompactAfter context compaction completesNoIgnored

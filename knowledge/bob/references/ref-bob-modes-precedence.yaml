@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-modes-precedence
+harness_id: bob
+snapshot_id: snapshot-bob-docs-custom-modes
+locator:
+  kind: document_section
+  heading: Configuration precedence
+official_url: "https://bob.ibm.com/docs/shell/configuration/custom-modes-bobshell"
+excerpt: |-
+  Mode configurations are applied in this order:
+   Command-line arguments (--chat-mode=mode-slug)
+   Project-level modes (.bob/custom_modes.yaml)
+   User-level modes (~/.bob/custom_modes.yaml)
+   System-level modes (platform-specific locations)
+   Default modes
+  Sandboxing with custom modes
+   Combine custom modes with Bob Shell's sandbox feature for safe experimentation:
+  # Start a custom mode in sandbox
+  bob --chat-mode=script-dev --sandbox
+  # Use with Docker sandbox
+  bob --chat-mode=deploy-helper --sandbox
+  Migrating modes from Bob IDE
+  Key differences
+   When migrating custom modes from Bob IDE to Bob Shell:
+  AspectBob IDEBob Shell
+  UI interactionVisual interface with panelsTerminal-based interface
+  File editingIn-editor diffs and previewsCLI diff view or external editor

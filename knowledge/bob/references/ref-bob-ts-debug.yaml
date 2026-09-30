@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-ts-debug
+harness_id: bob
+snapshot_id: snapshot-bob-docs-troubleshoot
+locator:
+  kind: document_section
+  heading: Enable debug logging
+official_url: "https://bob.ibm.com/docs/shell/troubleshooting/troubleshoot"
+excerpt: |-
+  To increase log verbosity for a session, use the --log-level flag or the BOB_LOG_LEVEL environment variable:
+  bob run --log-level debug "Explain @app.js"
+  BOB_LOG_LEVEL=debug bob chat
+   You can also set a persistent log level in your settings file:
+  {
+   "logging": {
+   "logLevel": "debug"
+   }
+  }
+  Verify your version of Bob Shell
+   Run the following command to see your version of Bob Shell:
+   Interactive session:
+  /about
+   Non-interactive session:
+  bob --version
+  Log files
+   Bob Shell writes log files to ~/.bob/logs/shell/. Log files rotate automatically:
+   Maximum of 10 log files are retained
+   Each file is capped at 5 MB
+   To find the current log file for a session:
+  ls -lt ~/.bob/logs/shell/ | head
+   Share relevant log excerpts when reporting issues.
+  Workspace root resolution

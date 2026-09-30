@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-mcp-levels
+harness_id: bob
+snapshot_id: snapshot-bob-docs-mcp
+locator:
+  kind: document_section
+  heading: Configuring MCP servers
+official_url: "https://bob.ibm.com/docs/shell/configuration/mcp/mcp-bobshell"
+excerpt: |-
+  You can manage MCP server configurations at two levels:
+   Global configuration: Settings in <USER_HOME>/.bob/mcp_settings.json apply to all workspaces
+   Project-level configuration: Settings in .bob/mcp.json apply only to the current project
+   When a server name exists in both global and project configurations, the project-level configuration takes precedence.
+  Editing MCP settings files
+   Use Bob IDE, or another text editor, to modify your MCP settings files.
+   The following example shows a basic Stdio server configuration:
+  {
+   "mcpServers": {
+   "server1": {
+   "command": "python",
+   "args": ["/path/to/server.py"],
+   "env": {
+   "API_KEY": "your_api_key"
+   },
+   "alwaysAllow": ["tool1", "tool2"],
+   "disabled": false
+   }
+   }
+  }
+  Configuration properties

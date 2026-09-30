@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-modes-cli
+harness_id: bob
+snapshot_id: snapshot-bob-docs-custom-modes
+locator:
+  kind: document_section
+  heading: Command-line mode selection
+official_url: "https://bob.ibm.com/docs/shell/configuration/custom-modes-bobshell"
+excerpt: |-
+  Specify a mode when starting Bob Shell:
+  # Start Bob Shell in a specific mode
+  bob --chat-mode=shell-debug
+  # Combine with other options
+  bob --chat-mode=deploy-helper --sandbox
+  Interactive mode switching
+   In interactive mode, switch modes using slash commands:
+  # Switch to a custom mode
+  /mode shell-debug
+  # Or use the mode's slug directly
+  /shell-debug
+  Shell-specific configurations
+  Production safety mode
+   Create a safety-focused mode for production environments:
+  customModes:
+   - slug: prod-ops
+   name: 🔒 Production Operations
+   roleDefinition: >-
+   You are a production operations specialist with a strong focus on safety.
+   You never run destructive commands without explicit confirmation.
+   whenToUse: Use when working with production systems or sensitive environments.

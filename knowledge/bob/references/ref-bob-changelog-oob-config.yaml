@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-changelog-oob-config
+harness_id: bob
+snapshot_id: snapshot-bob-docs-changelog
+locator:
+  kind: document_section
+  heading: "2.0.1"
+official_url: "https://bob.ibm.com/docs/shell/changelog"
+excerpt: |-
+  Writes to .bob/settings.json and ~/.bob/*/settings.json now always require one-time explicit user approval, even when auto-approve is enabled. Auto-approve cannot be used to bypass approval for changes to Bob settings files.
+  Auto-approve blocked for Bob home directory writes
+  Tool calls that write to Bob's home directory (for example, ~/.bob/) are no longer automatically approved when auto-approve mode is on. These calls always prompt for explicit approval.
+  Workspace root resolved correctly from subdirectories
+  Bob Shell now prioritizes .git over .bob when walking up the directory tree to find the workspace root. Starting Bob Shell from inside a package subdirectory that contains its own .bob/ folder no longer causes workspace-scoped skills, rules, and modes to be silently missed.

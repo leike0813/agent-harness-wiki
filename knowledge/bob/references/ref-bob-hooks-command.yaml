@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-hooks-command
+harness_id: bob
+snapshot_id: snapshot-bob-docs-hooks
+locator:
+  kind: document_section
+  heading: Command details
+official_url: "https://bob.ibm.com/docs/shell/configuration/lifecycle-hooks"
+excerpt: |-
+  Working directory: Commands run from the task working directory (the folder Bob Shell is working in).
+   Default timeout: 10 seconds. Override per-hook with the timeout field. Set timeout to 0 to disable the timeout entirely.
+   Stderr: Written to Bob Shell's logs but does not affect the hook result.
+   Shell: Commands run via sh -c on macOS and Linux, and cmd /c on Windows.
+  Getting started
+  Open or create your global settings file at ~/.bob/settings/settings.json.
+  Add a hooks key with the hook you want to use. The example below runs a script before every write_file call:
+  {
+   "hooks": {
+   "PreToolUse": [
+   {
+   "matcher": "^write_file$",
+   "hooks": [
+   {
+   "type": "command",
+   "command": "sh ~/.bob/hooks/log-write.sh"
+   }
+   ]
+   }
+   ]
+   }
+  }
+  Create the script file.

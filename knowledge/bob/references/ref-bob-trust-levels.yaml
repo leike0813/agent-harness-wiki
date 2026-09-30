@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-trust-levels
+harness_id: bob
+snapshot_id: snapshot-bob-docs-trusted
+locator:
+  kind: document_section
+  heading: Trust levels
+official_url: "https://bob.ibm.com/docs/shell/security/trusted-folders"
+excerpt: |-
+  The ~/.bob/trustedFolders.json file stores one trust entry per folder. Each entry uses one of three trust levels:
+  Trust levelEffect
+  TRUST_FOLDERGrants full trust to the exact folder path. Project settings, hooks, modes, skills, and MCP servers all load normally.
+  TRUST_PARENTGrants full trust to the specified directory and all subdirectories beneath it. Use this level to cover a workspace root that contains multiple repos.
+  DONT_TRUSTMarks the folder as untrusted. Bob Shell runs in restricted safe mode and blocks all project-specific configurations. See Impact of untrusted folders.
+   Folders with no entry in ~/.bob/trustedFolders.json are called unresolved. How Bob Shell treats unresolved folders depends on whether the trusted folders feature is enabled.

@@ -1,0 +1,42 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-mcp-sse
+harness_id: bob
+snapshot_id: snapshot-bob-docs-mcp
+locator:
+  kind: document_section
+  heading: SSE transport
+official_url: "https://bob.ibm.com/docs/shell/configuration/mcp/mcp-bobshell"
+excerpt: |-
+  SSE transport connects to remote servers over HTTP/HTTPS:
+   Uses Server-Sent Events protocol
+   Works with servers hosted on different machines
+   Requires network access
+   Example configuration:
+  {
+   "mcpServers": {
+   "remote-server": {
+   "url": "https://your-server-url.com/mcp",
+   "headers": {
+   "Authorization": "Bearer your-token"
+   },
+   "alwaysAllow": ["tool3"]
+   }
+   }
+  }
+  Streamable HTTP transport
+   Streamable HTTP transport connects to remote servers using HTTP:
+   Uses a bidirectional HTTP connection
+   Supports both request/response and server-pushed messages
+   Works with servers hosted on different machines
+   Example configuration:
+  {
+   "mcpServers": {
+   "remote-server": {
+   "httpURL": "https://your-server-url.com/mcp"
+   }
+   }
+  }
+  Platform-specific examples
+  Windows configuration
+  {

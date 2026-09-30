@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-slash-custom
+harness_id: bob
+snapshot_id: snapshot-bob-docs-slash
+locator:
+  kind: document_section
+  heading: Creating custom commands
+official_url: "https://bob.ibm.com/docs/shell/features/slash-commands"
+excerpt: |-
+  Custom commands extend Bob's functionality by adding markdown files to specific directories:
+  LocationScopePath
+  Project-specificAvailable in current project only.bob/commands/ in your workspace root
+  GlobalAvailable in all projects~/.bob/commands/ in your home directory
+   The filename becomes the command name. For example:
+  .bob/commands/
+  ├── review.md → /review
+  ├── test-api.md → /test-api
+  └── deploy-check.md → /deploy-check
+  Command name processing
+   When creating commands through the UI, Bob Shell automatically processes command names:
+   Converts to lowercase
+   Replaces spaces with dashes
+   Removes special characters
+   Removes leading and trailing dashes
+   Example: "My Cool Command!" becomes my-cool-command
+  Basic command format
+   Create a simple command by adding a markdown file:

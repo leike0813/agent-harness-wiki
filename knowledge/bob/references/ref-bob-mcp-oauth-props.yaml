@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-mcp-oauth-props
+harness_id: bob
+snapshot_id: snapshot-bob-docs-mcp-oauth
+locator:
+  kind: document_section
+  heading: Configure an OAuth-enabled server
+official_url: "https://bob.ibm.com/docs/shell/configuration/mcp/mcp-oauth"
+excerpt: |-
+  Bob also supports the following optional OAuth properties:
+   oauth: Set to false to disable OAuth for a server, or true to explicitly enable it
+   clientId: OAuth client ID, if required by the authorization server
+   clientSecret: OAuth client secret, if required by the authorization server
+   scope: Space-separated list of OAuth scopes to request
+   Example configuration in ~/.bob/mcp_settings.json (global) or .bob/mcp.json (project):
+  {
+   "mcpServers": {
+   "my-oauth-server": {
+   "url": "https://your-server-url.com/mcp"
+   }
+   }
+  }
+   Bob detects the OAuth requirement when it connects and initiates the flow. No headers or env credentials are needed.
+   Warning:
+  Adding a static Authorization header to an OAuth-enabled server disables automatic OAuth entirely. Bob does not attempt the OAuth flow.

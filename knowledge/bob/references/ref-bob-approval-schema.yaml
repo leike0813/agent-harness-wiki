@@ -1,0 +1,52 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-approval-schema
+harness_id: bob
+snapshot_id: snapshot-bob-docs-approval
+locator:
+  kind: document_section
+  heading: Schema
+official_url: "https://bob.ibm.com/docs/shell/configuration/approval-settings"
+excerpt: |-
+  The approval key in ~/.bob/settings/settings.json controls which tool groups and individual tools are automatically approved. This file is shared with the IDE; changes made through the IDE settings UI are written to the same file.
+   Note:
+  Changes to this file take effect the next time you start a Bob Shell session.
+  Schema
+  "approval": {
+   "allowed_permissions": [
+   "mcp",
+   "mode",
+   "subtask",
+   "subagent",
+   "skill",
+   "todo",
+   "read",
+   "execute"
+   ],
+   "permissionOptions": [
+   {
+   "groupId": "read",
+   "enableOutsideWorkspace": true
+   }
+   ],
+   "allowedExecutors": [
+   {
+   "toolId": "execute_command",
+   "approvedCommands": [
+   "cat",
+   "git diff",
+   "git log",
+   "git rev-parse",
+   "git show",
+   "git status",
+   "grep",
+   "head",
+   "tail",
+   "ls",
+   "sort",
+   "wc",
+   "which",
+   "du",
+   "df"
+   ],
+   "deniedCommands": [

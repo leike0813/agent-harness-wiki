@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-hooks-scopes
+harness_id: bob
+snapshot_id: snapshot-bob-docs-hooks
+locator:
+  kind: document_section
+  heading: Configuration
+official_url: "https://bob.ibm.com/docs/shell/configuration/lifecycle-hooks"
+excerpt: |-
+  Bob Shell merges hooks from two locations:
+  ScopeFile
+  Global (all workspaces)~/.bob/settings/settings.json
+  Workspace (current project).bob/settings.json
+   Global hooks always run. Workspace hooks are merged on top of global hooks and apply only to the current project.
+   Important:
+  Workspace hooks only run in trusted folders. If the current folder is untrusted, the .bob/settings.json file is not loaded and workspace-level hooks are silently skipped. Global hooks in ~/.bob/settings/settings.json are unaffected by folder trust.
+   For details on how settings files are located and loaded, see Configuring Bob Shell.
+  Hook schema
+  {
+   "hooks": {
+   "PreToolUse": [
+   {
+   "matcher": "^write_file$",
+   "hooks": [
+   {
+   "type": "command",
+   "command": "sh .bob/hooks/check.sh",
+   "timeout": 5
+   }
+   ]
+   }
+   ]
+   }

@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-changelog-root
+harness_id: bob
+snapshot_id: snapshot-bob-docs-changelog
+locator:
+  kind: document_section
+  heading: "2.0.1"
+official_url: "https://bob.ibm.com/docs/shell/changelog"
+excerpt: |-
+  Bob Shell now prioritizes .git over .bob when walking up the directory tree to find the workspace root. Starting Bob Shell from inside a package subdirectory that contains its own .bob/ folder no longer causes workspace-scoped skills, rules, and modes to be silently missed.
+  MCP tool approval respects group-level permission
+  An MCP tool listed in the per-task allowlist is no longer auto-approved unless the mcp permission group has also been granted for the task. Previously, the per-tool allowlist could bypass the broader group approval gate.
+  Bob Shell no longer hangs on exit
+  Fixed an issue where Bob Shell did not exit cleanly after pressing Ctrl+C. The policy-watcher process is now disposed correctly on shutdown.
+  Deprecated --list-sessions and --limit flags restored
