@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-errors
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 898
+  end: 915
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  private appendErrorMessage(connection: McpConnection, error: string, level: "error" | "warn" | "info" = "error") {
+  		const MAX_ERROR_LENGTH = 1000
+  		const truncatedError =
+  			error.length > MAX_ERROR_LENGTH
+  				? `${error.substring(0, MAX_ERROR_LENGTH)}...(error message truncated)`
+  				: error
+  		// Add to error history
+  		if (!connection.server.errorHistory) {
+  			connection.server.errorHistory = []
+  		}
+  		connection.server.errorHistory.push({
+  			message: truncatedError,
+  			timestamp: Date.now(),
+  			level,
+  		})

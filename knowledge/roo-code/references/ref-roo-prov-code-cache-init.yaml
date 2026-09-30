@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-cache-init
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/providers/fetchers/modelCache.ts
+  start: 208
+  end: 231
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export async function initializeModelCacheRefresh(): Promise<void> {
+  	// Wait for extension to fully activate before refreshing
+  	setTimeout(async () => {
+  		// Providers that work without API keys
+  		const publicProviders: Array<{ provider: RouterName; options: GetModelsOptions }> = [
+  			{ provider: "openrouter", options: { provider: "openrouter" } },
+  			{ provider: "vercel-ai-gateway", options: { provider: "vercel-ai-gateway" } },
+  		]
+  		// Refresh each provider in background (fire and forget)
+  		for (const { options } of publicProviders) {
+  			refreshModels(options).catch(() => {
+  				// Silent fail - old cache remains available
+  			})
+  			// Small delay between refreshes to avoid API rate limits
+  			await new Promise((resolve) => setTimeout(resolve, 500))
+  		}
+  	}, 2000)
+  }
+  /**

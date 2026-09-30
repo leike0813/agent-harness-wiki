@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-openai
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: packages/types/src/provider-settings.ts
+  start: 239
+  end: 250
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  const openAiSchema = baseProviderSettingsSchema.extend({
+  	openAiBaseUrl: z.string().optional(),
+  	openAiApiKey: z.string().optional(),
+  	openAiR1FormatEnabled: z.boolean().optional(),
+  	openAiModelId: z.string().optional(),
+  	openAiCustomModelInfo: modelInfoSchema.nullish(),
+  	openAiUseAzure: z.boolean().optional(),
+  	azureApiVersion: z.string().optional(),
+  	openAiStreamingEnabled: z.boolean().optional(),
+  	openAiHostHeader: z.string().optional(), // Keep temporarily for backward compatibility during migration.
+  	openAiHeaders: z.record(z.string(), z.string()).optional(),
+  })

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-config-code-defaults
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/webview/ClineProvider.ts
+  start: 2024
+  end: 2055
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  autoCondenseContext: autoCondenseContext ?? true,
+  			autoCondenseContextPercent: autoCondenseContextPercent ?? 100,
+  			uriScheme: vscode.env.uriScheme,
+  			currentTaskId: currentTask?.taskId,
+  			currentTaskItem: currentTask?.taskId ? this.taskHistoryStore.get(currentTask.taskId) : undefined,
+  			clineMessages: currentTask?.clineMessages || [],
+  			currentTaskTodos: currentTask?.todoList || [],
+  			messageQueue: currentTask?.messageQueueService?.messages,
+  			taskHistory: this.taskHistoryStore.getAll().filter((item: HistoryItem) => item.ts && item.task),
+  			soundEnabled: soundEnabled ?? false,
+  			ttsEnabled: ttsEnabled ?? false,
+  			ttsSpeed: ttsSpeed ?? 1.0,
+  			enableCheckpoints: enableCheckpoints ?? true,
+  			checkpointTimeout: checkpointTimeout ?? DEFAULT_CHECKPOINT_TIMEOUT_SECONDS,

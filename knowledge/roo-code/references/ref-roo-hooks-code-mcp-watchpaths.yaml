@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-hooks-code-mcp-watchpaths
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 1189
+  end: 1240
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  // Only stdio type has args
+  		if (config.type === "stdio") {
+  			// Setup watchers for custom watchPaths if defined
+  			if (config.watchPaths && config.watchPaths.length > 0) {
+  				const watchPathsWatcher = chokidar.watch(config.watchPaths, {
+  					// persistent: true,
+  					// ignoreInitial: true,
+  					// awaitWriteFinish: true,
+  				})
+  				watchPathsWatcher.on("change", async (changedPath) => {
+  					try {
+  						// Pass the source from the config to restartConnection
+  						await this.restartConnection(name, source)
+  					} catch (error) {
+  						console.error(`Failed to restart server ${name} after change in ${changedPath}:`, error)
+  					}
+  				})
+  				watchers.push(watchPathsWatcher)
+  			}
+  			// Also setup the fallback build/index.js watcher if applicable

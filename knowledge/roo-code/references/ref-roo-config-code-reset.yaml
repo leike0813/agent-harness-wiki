@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-config-code-reset
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/config/ContextProxy.ts
+  start: 541
+  end: 560
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  public async resetAllState() {
+  		// Clear in-memory caches
+  		this.stateCache = {}
+  		this.secretCache = {}
+  		await Promise.all([
+  			...GLOBAL_STATE_KEYS.map((key) => this.originalContext.globalState.update(key, undefined)),
+  			...SECRET_STATE_KEYS.map((key) => this.originalContext.secrets.delete(key)),
+  			...GLOBAL_SECRET_KEYS.map((key) => this.originalContext.secrets.delete(key)),
+  		])
+  		await this.initialize()
+  	}
+  	private static _instance: ContextProxy | null = null
+  	static get instance() {
+  		if (!this._instance) {
+  			throw new Error("ContextProxy not initialized")
+  		}

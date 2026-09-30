@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-skills-code-override
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/skills/SkillsManager.ts
+  start: 229
+  end: 246
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  private shouldOverrideSkill(existing: SkillMetadata, newSkill: SkillMetadata): boolean {
+  		// Define source priority: project > global
+  		const sourcePriority: Record<string, number> = {
+  			project: 2,
+  			global: 1,
+  		}
+  		const existingPriority = sourcePriority[existing.source] ?? 0
+  		const newPriority = sourcePriority[newSkill.source] ?? 0
+  		// Higher priority source always wins
+  		if (newPriority > existingPriority) return true
+  		if (newPriority < existingPriority) return false
+  		// Same source: mode-specific overrides generic
+  		// A skill with modeSlugs (restricted) is more specific than one without (any mode)
+  		const existingHasModes = existing.modeSlugs && existing.modeSlugs.length > 0
+  		const newHasModes = newSkill.modeSlugs && newSkill.modeSlugs.length > 0

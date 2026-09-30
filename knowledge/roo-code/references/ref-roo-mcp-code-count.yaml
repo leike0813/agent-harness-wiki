@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-count
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: packages/types/src/mcp.ts
+  start: 157
+  end: 175
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  * if (enabledToolCount > MAX_MCP_TOOLS_THRESHOLD) {
+   *   // Show warning
+   * }
+   */
+  export function countEnabledMcpTools(servers: McpServer[]): EnabledMcpToolsCount {
+  	let serverCount = 0
+  	let toolCount = 0
+  	for (const server of servers) {
+  		// Skip disabled servers
+  		if (server.disabled) continue
+  		// Skip servers that are not connected
+  		if (server.status !== "connected") continue
+  		serverCount++
+  		// Count enabled tools on this server
+  		if (server.tools) {

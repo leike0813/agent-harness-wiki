@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-agents-code-agents-md
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/prompts/sections/custom-instructions.ts
+  start: 355
+  end: 381
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  async function loadAllAgentRulesFiles(cwd: string, enableSubfolderRules: boolean = false): Promise<string> {
+  	const agentRules: string[] = []
+  	// When subfolder rules are disabled, only load from root
+  	if (!enableSubfolderRules) {
+  		const content = await loadAgentRulesFileFromDirectory(cwd, false, cwd)
+  		if (content && content.trim()) {
+  			agentRules.push(content.trim())
+  		}
+  		return agentRules.join("\n\n")
+  	}
+  	// When enabled, load from root and all subdirectories with .roo folders
+  	const directories = await getAgentsDirectoriesForCwd(cwd)
+  	for (const directory of directories) {
+  		// Show path for all directories except the root
+  		const showPath = directory !== cwd
+  		const content = await loadAgentRulesFileFromDirectory(directory, showPath, cwd)
+  		if (content && content.trim()) {

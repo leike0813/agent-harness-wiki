@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-plugin-code-envcopy
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: packages/core/src/custom-tools/custom-tool-registry.ts
+  start: 350
+  end: 372
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  private copyEnvFiles(toolDir: string, destDir: string): void {
+  		try {
+  			const files = fs.readdirSync(toolDir)
+  			const envFiles = files.filter((f) => f === ".env" || f.startsWith(".env."))
+  			for (const envFile of envFiles) {
+  				const srcPath = path.join(toolDir, envFile)
+  				const destPath = path.join(destDir, envFile)
+  				// Only copy if source is a file (not a directory).
+  				const stat = fs.statSync(srcPath)
+  				if (stat.isFile()) {
+  					fs.copyFileSync(srcPath, destPath)
+  					console.log(`[CustomToolRegistry] copied ${envFile} to tool cache directory`)
+  				}
+  			}
+  		} catch (error) {
+  			// Non-fatal: log but don't fail if we can't copy env files.
+  			console.warn(
+  				`[CustomToolRegistry] failed to copy .env files: ${error instanceof Error ? error.message : String(error)}`,
+  			)

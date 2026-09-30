@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-agents-code-modeswitch
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/webview/ClineProvider.ts
+  start: 1255
+  end: 1300
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  public async handleModeSwitch(newMode: Mode) {
+  		const task = this.getCurrentTask()
+  		if (task) {
+  			task.emit(RooCodeEventName.TaskModeSwitched, task.taskId, newMode)
+  			try {
+  				// Update the task history with the new mode first.
+  				const taskHistoryItem =
+  					this.taskHistoryStore.get(task.taskId) ??
+  					(this.getGlobalState("taskHistory") ?? []).find((item) => item.id === task.taskId)
+  				if (taskHistoryItem) {
+  					await this.updateTaskHistory({ ...taskHistoryItem, mode: newMode })
+  				}
+  				// Only update the task's mode after successful persistence.
+  				;(task as any)._taskMode = newMode
+  			} catch (error) {
+  				// If persistence fails, log the error but don't update the in-memory state.
+  				this.log(

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-precedence
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 453
+  end: 471
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  getServers(): McpServer[] {
+  		// Only return enabled servers, deduplicating by name with project servers taking priority
+  		const enabledConnections = this.connections.filter((conn) => !conn.server.disabled)
+  		// Deduplicate by server name: project servers take priority over global servers
+  		const serversByName = new Map<string, McpServer>()
+  		for (const conn of enabledConnections) {
+  			const existing = serversByName.get(conn.server.name)
+  			if (!existing) {
+  				serversByName.set(conn.server.name, conn.server)
+  			} else if (conn.server.source === "project" && existing.source !== "project") {
+  				// Project server overrides global server with the same name
+  				serversByName.set(conn.server.name, conn.server)
+  			}

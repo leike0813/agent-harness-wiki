@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-stdio
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 718
+  end: 790
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  const args =
+  					isWindows && !isAlreadyWrapped
+  						? ["/c", configInjected.command, ...(configInjected.args || [])]
+  						: configInjected.args
+  				transport = new StdioClientTransport({
+  					command,
+  					args,
+  					cwd: configInjected.cwd,
+  					env: {
+  						...getDefaultEnvironment(),
+  						...(configInjected.env || {}),
+  					},
+  					stderr: "pipe",
+  				})
+  				// Set up stdio specific error handling
+  				transport.onerror = async (error) => {
+  					console.error(`Transport error for "${name}":`, error)
+  					const connection = this.findConnection(name, source)
+  					if (connection) {
+  						connection.server.status = "disconnected"
+  						this.appendErrorMessage(connection, error instanceof Error ? error.message : `${error}`)
+  					}
+  					await this.notifyWebviewOfServerChanges()
+  				}

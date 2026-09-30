@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-cache-ttl
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/providers/fetchers/modelCache.ts
+  start: 28
+  end: 31
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  const memoryCache = new NodeCache({ stdTTL: 5 * 60, checkperiod: 5 * 60 })
+  // Zod schema for validating ModelRecord structure from disk cache
+  const modelRecordSchema = z.record(z.string(), modelInfoSchema)

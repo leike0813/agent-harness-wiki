@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-hooks-code-settings-keys
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: packages/types/src/global-settings.ts
+  start: 81
+  end: 95
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  currentApiConfigName: z.string().optional(),
+  	listApiConfigMeta: z.array(providerSettingsEntrySchema).optional(),
+  	pinnedApiConfigs: z.record(z.string(), z.boolean()).optional(),
+  	lastShownAnnouncementId: z.string().optional(),
+  	customInstructions: z.string().optional(),
+  	taskHistory: z.array(historyItemSchema).optional(),
+  	dismissedUpsells: z.array(z.string()).optional(),
+  	// Image generation settings (experimental) - flattened for simplicity
+  	imageGenerationProvider: z.enum(["openrouter"]).optional(),
+  	openRouterImageApiKey: z.string().optional(),
+  	openRouterImageGenerationSelectedModel: z.string().optional(),
+  	customCondensingPrompt: z.string().optional(),

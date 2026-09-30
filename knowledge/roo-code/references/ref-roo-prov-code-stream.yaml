@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-stream
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/transform/stream.ts
+  start: 1
+  end: 20
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export type ApiStream = AsyncGenerator<ApiStreamChunk>
+  export type ApiStreamChunk =
+  	| ApiStreamTextChunk
+  	| ApiStreamUsageChunk
+  	| ApiStreamReasoningChunk
+  	| ApiStreamThinkingCompleteChunk
+  	| ApiStreamGroundingChunk
+  	| ApiStreamToolCallChunk
+  	| ApiStreamToolCallStartChunk
+  	| ApiStreamToolCallDeltaChunk
+  	| ApiStreamToolCallEndChunk
+  	| ApiStreamToolCallPartialChunk
+  	| ApiStreamError
+  export interface ApiStreamError {
+  	type: "error"
+  	error: string
+  	message: string
+  }

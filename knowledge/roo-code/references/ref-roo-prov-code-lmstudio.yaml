@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-lmstudio
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/providers/lm-studio.ts
+  start: 26
+  end: 37
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  constructor(options: ApiHandlerOptions) {
+  		super()
+  		this.options = options
+  		// LM Studio uses "noop" as a placeholder API key
+  		const apiKey = "noop"
+  		this.client = new OpenAI({
+  			baseURL: (this.options.lmStudioBaseUrl || "http://localhost:1234") + "/v1",
+  			apiKey: apiKey,
+  			timeout: getApiRequestTimeout(),
+  		})

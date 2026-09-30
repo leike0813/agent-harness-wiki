@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-agents-code-rules-order
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/prompts/sections/custom-instructions.ts
+  start: 399
+  end: 437
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  let modeRuleContent = ""
+  	let usedRuleFile = ""
+  	if (mode) {
+  		const modeRules: string[] = []
+  		// Use recursive discovery only if enableSubfolderRules is true
+  		const rooDirectories = enableSubfolderRules
+  			? await getAllRooDirectoriesForCwd(cwd)
+  			: getRooDirectoriesForCwd(cwd)
+  		// Check for .roo/rules-${mode}/ directories in order (global, project-local, and optionally subfolders)
+  		for (const rooDir of rooDirectories) {
+  			const modeRulesDir = path.join(rooDir, `rules-${mode}`)
+  			if (await directoryExists(modeRulesDir)) {
+  				const files = await readTextFilesFromDirectory(modeRulesDir)
+  				if (files.length > 0) {
+  					const content = formatDirectoryContent(files, cwd)
+  					modeRules.push(content)
+  				}
+  			}
+  		}

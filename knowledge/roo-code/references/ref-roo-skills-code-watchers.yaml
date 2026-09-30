@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-skills-code-watchers
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/skills/SkillsManager.ts
+  start: 648
+  end: 709
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  private async setupFileWatchers(): Promise<void> {
+  		// Skip if test environment is detected or VSCode APIs are not available
+  		if (process.env.NODE_ENV === "test" || !vscode.workspace.createFileSystemWatcher) {
+  			return
+  		}
+  		const provider = this.providerRef.deref()
+  		if (!provider?.cwd) return
+  		// Watch for changes in skills directories
+  		const globalRooDir = getGlobalRooDirectory()
+  		const globalAgentsDir = getGlobalAgentsDirectory()
+  		const projectRooDir = path.join(provider.cwd, ".roo")
+  		const projectAgentsDir = getProjectAgentsDirectoryForCwd(provider.cwd)
+  		// Watch global .roo skills directory
+  		this.watchDirectory(path.join(globalRooDir, "skills"))
+  		// Watch global .agents skills directory
+  		this.watchDirectory(path.join(globalAgentsDir, "skills"))

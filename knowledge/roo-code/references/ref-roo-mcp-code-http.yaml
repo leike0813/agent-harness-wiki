@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-http
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 783
+  end: 850
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  transport = new StreamableHTTPClientTransport(new URL(configInjected.url), {
+  					requestInit: {
+  						headers: configInjected.headers,
+  					},
+  				})
+  				// Set up Streamable HTTP specific error handling
+  				transport.onerror = async (error) => {
+  					console.error(`Transport error for "${name}" (streamable-http):`, error)
+  					const connection = this.findConnection(name, source)
+  					if (connection) {
+  						connection.server.status = "disconnected"
+  						this.appendErrorMessage(connection, error instanceof Error ? error.message : `${error}`)
+  					}
+  					await this.notifyWebviewOfServerChanges()
+  				}
+  				transport.onclose = async () => {
+  					const connection = this.findConnection(name, source)
+  					if (connection) {
+  						connection.server.status = "disconnected"
+  					}

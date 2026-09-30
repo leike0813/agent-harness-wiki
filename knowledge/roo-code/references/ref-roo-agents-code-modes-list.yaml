@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-agents-code-modes-list
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/webview/ClineProvider.ts
+  start: 2737
+  end: 2744
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  public async getModes(): Promise<{ slug: string; name: string }[]> {
+  		try {
+  			const customModes = await this.customModesManager.getCustomModes()
+  			return [...DEFAULT_MODES, ...customModes].map(({ slug, name }) => ({ slug, name }))
+  		} catch (error) {
+  			return DEFAULT_MODES.map(({ slug, name }) => ({ slug, name }))
+  		}
+  	}

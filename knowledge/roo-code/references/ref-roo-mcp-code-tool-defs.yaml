@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-tool-defs
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/prompts/tools/native-tools/mcp_server.ts
+  start: 14
+  end: 76
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export function getMcpServerTools(mcpHub?: McpHub): OpenAI.Chat.ChatCompletionTool[] {
+  	if (!mcpHub) {
+  		return []
+  	}
+  	const servers = mcpHub.getServers()
+  	const tools: OpenAI.Chat.ChatCompletionTool[] = []
+  	// Track seen tool names to prevent duplicates (e.g., when same server exists in both global and project configs)
+  	const seenToolNames = new Set<string>()
+  	for (const server of servers) {
+  		if (!server.tools) {
+  			continue
+  		}
+  		for (const tool of server.tools) {
+  			// Filter tools where tool.enabledForPrompt is not explicitly false
+  			if (tool.enabledForPrompt === false) {
+  				continue
+  			}
+  			// Build sanitized tool name for API compliance
+  			// The name is sanitized to conform to API requirements (e.g., Gemini's function name restrictions)

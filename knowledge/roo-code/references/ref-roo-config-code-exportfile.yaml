@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-config-code-exportfile
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/config/importExport.ts
+  start: 262
+  end: 279
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  const providerProfiles = await providerSettingsManager.export()
+  		const globalSettings = await contextProxy.export()
+  		// It's okay if there are no global settings, but if there are no
+  		// provider profile configured then don't export. If we wanted to
+  		// support this case then the `importSettings` function would need to
+  		// be updated to handle the case where there are no provider profiles.
+  		if (typeof providerProfiles === "undefined") {
+  			return
+  		}
+  		// OpenAI Compatible settings are now correctly stored in codebaseIndexConfig
+  		// No workaround needed - they will be exported automatically with the config
+  		const dirname = path.dirname(uri.fsPath)
+  		await fs.mkdir(dirname, { recursive: true })
+  		await safeWriteJson(uri.fsPath, { providerProfiles, globalSettings })
+  	} catch (e) {

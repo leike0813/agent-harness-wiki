@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-config-code-autoimport
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/utils/autoImportSettings.ts
+  start: 22
+  end: 38
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  const settingsPath = vscode.workspace.getConfiguration(Package.name).get<string>("autoImportSettingsPath")
+  		if (!settingsPath || settingsPath.trim() === "") {
+  			outputChannel.appendLine("[AutoImport] No auto-import settings path specified, skipping auto-import")
+  			return
+  		}
+  		// Resolve the path (handle ~ for home directory and relative paths)
+  		const resolvedPath = resolvePath(settingsPath.trim())
+  		outputChannel.appendLine(`[AutoImport] Checking for settings file at: ${resolvedPath}`)
+  		// Check if the file exists
+  		if (!(await fileExistsAtPath(resolvedPath))) {
+  			outputChannel.appendLine(`[AutoImport] Settings file not found at ${resolvedPath}, skipping auto-import`)
+  			return
+  		}

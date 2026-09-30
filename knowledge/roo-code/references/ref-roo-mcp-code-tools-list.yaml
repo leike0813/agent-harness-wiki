@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-tools-list
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 980
+  end: 1035
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  private async fetchToolsList(serverName: string, source?: "global" | "project"): Promise<McpTool[]> {
+  		try {
+  			// Use the helper method to find the connection
+  			const connection = this.findConnection(serverName, source)
+  			if (!connection || connection.type !== "connected") {
+  				return []
+  			}
+  			const response = await connection.client.request({ method: "tools/list" }, ListToolsResultSchema)
+  			// Determine the actual source of the server
+  			const actualSource = connection.server.source || "global"
+  			let configPath: string
+  			let alwaysAllowConfig: string[] = []
+  			let disabledToolsList: string[] = []
+  			// Read from the appropriate config file based on the actual source
+  			try {
+  				let serverConfigData: Record<string, any> = {}
+  				if (actualSource === "project") {

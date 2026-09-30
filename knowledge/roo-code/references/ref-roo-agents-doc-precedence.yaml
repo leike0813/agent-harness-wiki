@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-agents-doc-precedence
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: document_section
+  heading: Configuration Precedence
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  Mode configurations are applied in this order:
+  1. Project-level mode configurations (from `.roomodes` - YAML or JSON)
+  2. Global mode configurations (from `custom_modes.yaml`, then `custom_modes.json` if YAML not found)
+  3. Default mode configurations
+  **Important:** When modes with the same slug exist in both `.roomodes` and global settings, the `.roomodes` version completely overrides the global one. This applies to ALL properties, not just some. For instance, if you have a global 'code' mode and a project-specific 'code' mode in `.roomodes`, the project version will be used when working in that project, and all properties from the global version are ignored.
+  You can override any default mode by including a mode with the same slug in your global or project-specific configuration.

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-config-code-default-consts
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: packages/types/src/global-settings.ts
+  start: 23
+  end: 74
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export const DEFAULT_WRITE_DELAY_MS = 1000
+  /**
+   * Terminal output preview size options for persisted command output.
+   *
+   * Controls how much command output is kept in memory as a "preview" before
+   * the LLM decides to retrieve more via `read_command_output`. Larger previews
+   * mean more immediate context but consume more of the context window.
+   *
+   * - `small`: 5KB preview - Best for long-running commands with verbose output
+   * - `medium`: 10KB preview - Balanced default for most use cases
+   * - `large`: 20KB preview - Best when commands produce critical info early
+   *
+   * @see OutputInterceptor - Uses this setting to determine when to spill to disk
+   * @see PersistedCommandOutput - Contains the resulting preview and artifact reference
+   */

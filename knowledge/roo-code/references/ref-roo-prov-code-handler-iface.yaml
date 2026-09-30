@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-handler-iface
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/index.ts
+  start: 82
+  end: 108
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  * When provided, all tool definitions are passed to the model (so it can reference
+  	 * historical tool calls), but only the specified tools can actually be invoked.
+  	 * This is used when switching modes to prevent model errors from missing tool
+  	 * definitions while still restricting callable tools to the current mode's permissions.
+  	 * Only applies to providers that support function calling restrictions (e.g., Gemini).
+  	 */
+  	allowedFunctionNames?: string[]
+  }
+  export interface ApiHandler {
+  	createMessage(
+  		systemPrompt: string,
+  		messages: Anthropic.Messages.MessageParam[],
+  		metadata?: ApiHandlerCreateMessageMetadata,
+  	): ApiStream
+  	getModel(): { id: string; info: ModelInfo }
+  	/**
+  	 * Counts tokens for content blocks

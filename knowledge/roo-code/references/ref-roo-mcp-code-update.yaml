@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-update
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 1109
+  end: 1176
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  async updateServerConnections(
+  		newServers: Record<string, any>,
+  		source: "global" | "project" = "global",
+  		manageConnectingState: boolean = true,
+  	): Promise<void> {
+  		if (manageConnectingState) {
+  			this.isConnecting = true
+  		}
+  		this.removeAllFileWatchers()
+  		// Filter connections by source
+  		const currentConnections = this.connections.filter(
+  			(conn) => conn.server.source === source || (!conn.server.source && source === "global"),
+  		)
+  		const currentNames = new Set(currentConnections.map((conn) => conn.server.name))
+  		const newNames = new Set(Object.keys(newServers))
+  		// Delete removed servers
+  		for (const name of currentNames) {
+  			if (!newNames.has(name)) {
+  				await this.deleteConnection(name, source)
+  			}
+  		}
+  		// Update or add servers

@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-openrouter-body
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/providers/openrouter.ts
+  start: 147
+  end: 155
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  constructor(options: ApiHandlerOptions) {
+  		super()
+  		this.options = options
+  		const baseURL = this.options.openRouterBaseUrl || "https://openrouter.ai/api/v1"
+  		const apiKey = this.options.openRouterApiKey ?? "not-provided"
+  		this.client = new OpenAI({ baseURL, apiKey, defaultHeaders: DEFAULT_HEADERS })

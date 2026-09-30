@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-connect-start
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 655
+  end: 700
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  private async connectToServer(
+  		name: string,
+  		config: z.infer<typeof ServerConfigSchema>,
+  		source: "global" | "project" = "global",
+  	): Promise<void> {
+  		// Remove existing connection if it exists with the same source
+  		await this.deleteConnection(name, source)
+  		// Register the sanitized name for O(1) lookup
+  		const sanitizedName = sanitizeMcpName(name)
+  		this.sanitizedNameRegistry.set(sanitizedName, name)
+  		// Check if MCP is globally enabled
+  		const mcpEnabled = await this.isMcpEnabled()
+  		if (!mcpEnabled) {
+  			// Still create a connection object to track the server, but don't actually connect
+  			const connection = this.createPlaceholderConnection(name, config, source, DisableReason.MCP_DISABLED)
+  			this.connections.push(connection)
+  			return
+  		}

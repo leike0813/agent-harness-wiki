@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-validate
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 215
+  end: 281
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  private validateServerConfig(config: any, serverName?: string): z.infer<typeof ServerConfigSchema> {
+  		// Detect configuration issues before validation
+  		const hasStdioFields = config.command !== undefined
+  		const hasUrlFields = config.url !== undefined // Covers sse and streamable-http
+  		// Check for mixed fields (stdio vs url-based)
+  		if (hasStdioFields && hasUrlFields) {
+  			throw new Error(mixedFieldsErrorMessage)
+  		}
+  		// Infer type for stdio if not provided
+  		if (!config.type && hasStdioFields) {
+  			config.type = "stdio"
+  		}
+  		// For url-based configs, type must be provided by the user
+  		if (hasUrlFields && !config.type) {
+  			throw new Error("Configuration with 'url' must explicitly specify 'type' as 'sse' or 'streamable-http'.")
+  		}
+  		// Validate type if provided

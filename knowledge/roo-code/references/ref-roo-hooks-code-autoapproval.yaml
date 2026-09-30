@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-hooks-code-autoapproval
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/auto-approval/index.ts
+  start: 15
+  end: 40
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  // We have auto-approval actions for different categories.
+  export type AutoApprovalState =
+  	| "alwaysAllowReadOnly"
+  	| "alwaysAllowWrite"
+  	| "alwaysAllowMcp"
+  	| "alwaysAllowModeSwitch"
+  	| "alwaysAllowSubtasks"
+  	| "alwaysAllowExecute"
+  	| "alwaysAllowFollowupQuestions"
+  // Some of these actions have additional settings associated with them.
+  export type AutoApprovalStateOptions =
+  	| "autoApprovalEnabled"
+  	| "alwaysAllowReadOnlyOutsideWorkspace" // For `alwaysAllowReadOnly`.
+  	| "alwaysAllowWriteOutsideWorkspace" // For `alwaysAllowWrite`.
+  	| "alwaysAllowWriteProtected"
+  	| "followupAutoApproveTimeoutMs" // For `alwaysAllowFollowupQuestions`.
+  	| "mcpServers" // For `alwaysAllowMcp`.
+  	| "allowedCommands" // For `alwaysAllowExecute`.
+  	| "deniedCommands"
+  export type CheckAutoApprovalResult =

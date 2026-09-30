@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-doc-native-tools
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: document_section
+  heading: Native Tool Calling
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  Roo Code uses **native tool calling** exclusively. This is the only supported tool protocol -- there is no XML-based fallback.
+  At a high level:
+  - **Tool definitions** are sent to the model using OpenAI's native tools schema.
+  - **Tool calls** stream back as dedicated tool events, including the tool name, arguments, and metadata.
+  - **Tool arguments** are streamed incrementally, which reduces latency between the model deciding to use a tool and Roo Code executing it.
+  ### Requirements
+  For native tool calling to work, the model you select **must** support OpenAI-compatible tool calling. If a model does not support native tool calling, it cannot be used with Roo Code.
+  ### Example: simple native tool flow

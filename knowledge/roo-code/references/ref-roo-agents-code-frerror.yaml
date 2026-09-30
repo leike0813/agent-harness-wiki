@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-agents-code-frerror
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/shared/modes.ts
+  start: 135
+  end: 143
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export class FileRestrictionError extends Error {
+  	constructor(mode: string, pattern: string, description: string | undefined, filePath: string, tool?: string) {
+  		const toolInfo = tool ? `Tool '${tool}' in mode '${mode}'` : `This mode (${mode})`
+  		super(
+  			`${toolInfo} can only edit files matching pattern: ${pattern}${description ? ` (${description})` : ""}. Got: ${filePath}`,
+  		)
+  		this.name = "FileRestrictionError"
+  	}
+  }

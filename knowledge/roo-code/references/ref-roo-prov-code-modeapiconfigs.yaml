@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-modeapiconfigs
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/config/ProviderSettingsManager.ts
+  start: 107
+  end: 116
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  // Migrate existing installs to have per-mode API config map
+  				if (!providerProfiles.modeApiConfigs) {
+  					// Use the currently selected config for all modes initially
+  					const currentName = providerProfiles.currentApiConfigName
+  					const seedId =
+  						providerProfiles.apiConfigs[currentName]?.id ??
+  						Object.values(providerProfiles.apiConfigs)[0]?.id ??
+  						this.defaultConfigId
+  					providerProfiles.modeApiConfigs = Object.fromEntries(modes.map((m) => [m.slug, seedId]))
+  					isDirty = true

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-skills-code-dirs
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/skills/SkillsManager.ts
+  start: 567
+  end: 622
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  private async getSkillsDirectories(): Promise<
+  		Array<{
+  			dir: string
+  			source: "global" | "project"
+  			mode?: string
+  		}>
+  	> {
+  		const dirs: Array<{ dir: string; source: "global" | "project"; mode?: string }> = []
+  		const globalRooDir = getGlobalRooDirectory()
+  		const globalAgentsDir = getGlobalAgentsDirectory()
+  		const provider = this.providerRef.deref()
+  		const projectRooDir = provider?.cwd ? path.join(provider.cwd, ".roo") : null
+  		const projectAgentsDir = provider?.cwd ? getProjectAgentsDirectoryForCwd(provider.cwd) : null
+  		// Get list of modes to check for mode-specific skills
+  		const modesList = await this.getAvailableModes()
+  		// Priority rules for skills with the same name:
+  		// 1. Source level: project > global (handled by shouldOverrideSkill in getSkillsForMode)
+  		// 2.

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-approval
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/auto-approval/index.ts
+  start: 96
+  end: 108
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  try {
+  			const mcpServerUse = JSON.parse(text) as McpServerUse
+  			if (mcpServerUse.type === "use_mcp_tool") {
+  				return state.alwaysAllowMcp === true && isMcpToolAlwaysAllowed(mcpServerUse, state.mcpServers)
+  					? { decision: "approve" }
+  					: { decision: "ask" }
+  			} else if (mcpServerUse.type === "access_mcp_resource") {
+  				return state.alwaysAllowMcp === true ? { decision: "approve" } : { decision: "ask" }
+  			}
+  		} catch (error) {
+  			return { decision: "ask" }

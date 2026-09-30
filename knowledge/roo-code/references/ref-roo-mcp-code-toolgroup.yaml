@@ -1,0 +1,41 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-toolgroup
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/shared/tools.ts
+  start: 296
+  end: 325
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export const TOOL_GROUPS: Record<ToolGroup, ToolGroupConfig> = {
+  	read: {
+  		tools: ["read_file", "search_files", "list_files", "codebase_search"],
+  	},
+  	edit: {
+  		tools: ["apply_diff", "write_to_file", "generate_image"],
+  		customTools: ["edit", "search_replace", "edit_file", "apply_patch"],
+  	},
+  	command: {
+  		tools: ["execute_command", "read_command_output"],
+  	},
+  	mcp: {
+  		tools: ["use_mcp_tool", "access_mcp_resource"],
+  	},
+  	modes: {
+  		tools: ["switch_mode", "new_task"],
+  		alwaysAvailable: true,
+  	},
+  }
+  // Tools that are always available to all modes.
+  export const ALWAYS_AVAILABLE_TOOLS: ToolName[] = [
+  	"ask_followup_question",
+  	"attempt_completion",
+  	"switch_mode",
+  	"new_task",
+  	"update_todo_list",
+  	"run_slash_command",
+  	"skill",
+  ] as const

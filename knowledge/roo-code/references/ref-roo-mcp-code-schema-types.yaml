@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-schema-types
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 89
+  end: 143
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  const createServerTypeSchema = () => {
+  	return z.union([
+  		// Stdio config (has command field)
+  		BaseConfigSchema.extend({
+  			type: z.enum(["stdio"]).optional(),
+  			command: z.string().min(1, "Command cannot be empty"),
+  			args: z.array(z.string()).optional(),
+  			cwd: z.string().default(() => vscode.workspace.workspaceFolders?.at(0)?.uri.fsPath ?? process.cwd()),
+  			env: z.record(z.string()).optional(),
+  			// Ensure no SSE fields are present
+  			url: z.undefined().optional(),
+  			headers: z.undefined().optional(),
+  		})
+  			.transform((data) => ({
+  				...data,
+  				type: "stdio" as const,
+  			}))
+  			.refine((data) => data.type === undefined || data.type === "stdio", { message: typeErrorMessage }),
+  		// SSE config (has url field)
+  		BaseConfigSchema.extend({
+  			type: z.enum(["sse"]).optional(),

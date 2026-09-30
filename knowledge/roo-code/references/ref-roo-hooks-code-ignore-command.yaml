@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-hooks-code-ignore-command
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/ignore/RooIgnoreController.ts
+  start: 123
+  end: 150
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  validateCommand(command: string): string | undefined {
+  		// Always allow if no .rooignore exists
+  		if (!this.rooIgnoreContent) {
+  			return undefined
+  		}
+  		// Split command into parts and get the base command
+  		const parts = command.trim().split(/\s+/)
+  		const baseCommand = parts[0].toLowerCase()
+  		// Commands that read file contents
+  		const fileReadingCommands = [
+  			// Unix commands
+  			"cat",
+  			"less",
+  			"more",
+  			"head",
+  			"tail",
+  			"grep",
+  			"awk",
+  			"sed",
+  			// PowerShell commands and aliases
+  			"get-content",
+  			"gc",
+  			"type",
+  			"select-string",
+  			"sls",
+  		]

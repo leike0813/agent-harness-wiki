@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-cache-get
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/providers/fetchers/modelCache.ts
+  start: 111
+  end: 135
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export const getModels = async (options: GetModelsOptions): Promise<ModelRecord> => {
+  	const { provider } = options
+  	let models = getModelsFromCache(provider)
+  	if (models) {
+  		return models
+  	}
+  	try {
+  		models = await fetchModelsFromProvider(options)
+  		const modelCount = Object.keys(models).length
+  		// Only cache non-empty results to prevent persisting failed API responses.
+  		// Empty results could indicate API failure rather than "no models exist".
+  		if (modelCount > 0) {
+  			memoryCache.set(provider, models)
+  			await writeModels(provider, models).catch((err) =>
+  				console.error(`[MODEL_CACHE] Error writing ${provider} models to file cache:`, err),
+  			)
+  		}
+  		return models
+  	} catch (error) {

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-agents-code-merge
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/config/CustomModesManager.ts
+  start: 226
+  end: 246
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  private async mergeCustomModes(projectModes: ModeConfig[], globalModes: ModeConfig[]): Promise<ModeConfig[]> {
+  		const slugs = new Set<string>()
+  		const merged: ModeConfig[] = []
+  		// Add project mode (takes precedence)
+  		for (const mode of projectModes) {
+  			if (!slugs.has(mode.slug)) {
+  				slugs.add(mode.slug)
+  				merged.push({ ...mode, source: "project" })
+  			}
+  		}
+  		// Add non-duplicate global modes
+  		for (const mode of globalModes) {
+  			if (!slugs.has(mode.slug)) {
+  				slugs.add(mode.slug)
+  				merged.push({ ...mode, source: "global" })
+  			}
+  		}
+  		return merged

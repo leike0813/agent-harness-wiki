@@ -1,0 +1,43 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-agents-code-groups
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: packages/types/src/mode.ts
+  start: 9
+  end: 59
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export const groupOptionsSchema = z.object({
+  	fileRegex: z
+  		.string()
+  		.optional()
+  		.refine(
+  			(pattern) => {
+  				if (!pattern) {
+  					return true // Optional, so empty is valid.
+  				}
+  				try {
+  					new RegExp(pattern)
+  					return true
+  				} catch {
+  					return false
+  				}
+  			},
+  			{ message: "Invalid regular expression pattern" },
+  		),
+  	description: z.string().optional(),
+  })
+  export type GroupOptions = z.infer<typeof groupOptionsSchema>
+  /**
+   * GroupEntry
+   */
+  export const groupEntrySchema = z.union([toolGroupsSchema, z.tuple([toolGroupsSchema, groupOptionsSchema])])
+  export type GroupEntry = z.infer<typeof groupEntrySchema>
+  /**
+   * ModeConfig
+   */
+  /**
+   * Checks if a group entry references a deprecated tool group.

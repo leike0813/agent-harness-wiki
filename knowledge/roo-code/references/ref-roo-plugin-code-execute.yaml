@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-plugin-code-execute
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/assistant-message/presentAssistantMessage.ts
+  start: 834
+  end: 858
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  }
+  					const customTool = stateExperiments?.customTools ? customToolRegistry.get(block.name) : undefined
+  					if (customTool) {
+  						try {
+  							let customToolArgs
+  							if (customTool.parameters) {
+  								try {
+  									customToolArgs = customTool.parameters.parse(block.nativeArgs || block.params || {})
+  								} catch (parseParamsError) {
+  									const message = `Custom tool "${block.name}" argument validation failed: ${parseParamsError.message}`
+  									console.error(message)
+  									cline.consecutiveMistakeCount++
+  									await cline.say("error", message)
+  									pushToolResult(formatResponse.toolError(message))
+  									break
+  								}
+  							}
+  							const result = await customTool.execute(customToolArgs, {
+  								mode: mode ?? defaultModeSlug,
+  								task: cline,

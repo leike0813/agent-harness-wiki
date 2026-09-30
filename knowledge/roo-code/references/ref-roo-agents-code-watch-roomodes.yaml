@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-agents-code-watch-roomodes
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/config/CustomModesManager.ts
+  start: 318
+  end: 326
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  if (workspaceFolders && workspaceFolders.length > 0) {
+  			const workspaceRoot = getWorkspacePath()
+  			const roomodesPath = path.join(workspaceRoot, ROOMODES_FILENAME)
+  			const roomodesWatcher = vscode.workspace.createFileSystemWatcher(roomodesPath)
+  			const handleRoomodesChange = async () => {
+  				try {
+  					const settingsModes = await this.loadModesFromFile(settingsPath)
+  					const roomodesModes = await this.loadModesFromFile(roomodesPath)

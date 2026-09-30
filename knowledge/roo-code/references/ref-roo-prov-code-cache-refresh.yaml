@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-cache-refresh
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/providers/fetchers/modelCache.ts
+  start: 152
+  end: 175
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export const refreshModels = async (options: GetModelsOptions): Promise<ModelRecord> => {
+  	const { provider } = options
+  	// Check if there's already an in-flight refresh for this provider
+  	// This prevents race conditions where multiple concurrent refreshes might
+  	// overwrite each other's results
+  	const existingRequest = inFlightRefresh.get(provider)
+  	if (existingRequest) {
+  		return existingRequest
+  	}
+  	// Create the refresh promise and track it
+  	const refreshPromise = (async (): Promise<ModelRecord> => {
+  		try {
+  			// Force fresh API fetch - skip getModelsFromCache() check
+  			const models = await fetchModelsFromProvider(options)
+  			const modelCount = Object.keys(models).length
+  			// Get existing cached data for comparison
+  			const existingCache = getModelsFromCache(provider)

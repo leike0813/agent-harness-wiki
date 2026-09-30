@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-error
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/providers/utils/error-handler.ts
+  start: 37
+  end: 60
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export function handleProviderError(
+  	error: unknown,
+  	providerName: string,
+  	options?: {
+  		/** Custom message prefix (default: "completion") */
+  		messagePrefix?: string
+  		/** Custom message transformer */
+  		messageTransformer?: (msg: string) => string
+  	},
+  ): Error {
+  	const messagePrefix = options?.messagePrefix || "completion"
+  	if (error instanceof Error) {
+  		const anyErr = error as any
+  		const msg = anyErr?.error?.metadata?.raw || error.message || ""
+  		// Log the original error details for debugging
+  		console.error(`[${providerName}] API error:`, {
+  			message: msg,
+  			name: error.name,
+  			stack: error.stack,
+  			status: anyErr.status,
+  		})

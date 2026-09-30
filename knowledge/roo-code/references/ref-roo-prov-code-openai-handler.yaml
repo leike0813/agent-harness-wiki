@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-openai-handler
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/providers/openai.ts
+  start: 36
+  end: 60
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  constructor(options: ApiHandlerOptions) {
+  		super()
+  		this.options = options
+  		const baseURL = this.options.openAiBaseUrl || "https://api.openai.com/v1"
+  		const apiKey = this.options.openAiApiKey ?? "not-provided"
+  		const isAzureAiInference = this._isAzureAiInference(this.options.openAiBaseUrl)
+  		const urlHost = this._getUrlHost(this.options.openAiBaseUrl)
+  		const isAzureOpenAi = urlHost === "azure.com" || urlHost.endsWith(".azure.com") || options.openAiUseAzure
+  		const headers = {
+  			...DEFAULT_HEADERS,
+  			...(this.options.openAiHeaders || {}),
+  		}
+  		const timeout = getApiRequestTimeout()
+  		if (isAzureAiInference) {
+  			// Azure AI Inference Service (e.g., for DeepSeek) uses a different path structure
+  			this.client = new OpenAI({
+  				baseURL,
+  				apiKey,
+  				defaultHeaders: headers,

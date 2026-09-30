@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-skills-invocation-result
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/skills/skillInvocation.ts
+  start: 31
+  end: 50
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  description: skillContent.description,
+  	})
+  }
+  export function buildSkillResult(
+  	skillName: string,
+  	args: string | undefined,
+  	skillContent: SkillContentForFormatting,
+  ): string {
+  	let result = `Skill: ${skillName}`
+  	if (skillContent.description) {
+  		result += `\nDescription: ${skillContent.description}`
+  	}
+  	if (args) {
+  		result += `\nProvided arguments: ${args}`
+  	}
+  	result += `\nSource: ${skillContent.source}`

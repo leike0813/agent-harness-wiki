@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-skills-tool-doc-resolution
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: document_section
+  heading: How It Works
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  When the `skill` tool is invoked, it follows this process:
+  1. **Skill Resolution**: Searches for the named skill in the following locations (highest priority first):
+      - Project `.roo` mode-specific (e.g., `.roo/skills-code/`)
+      - Project `.roo` generic (`.roo/skills/`)
+      - Project `.agents` mode-specific (e.g., `.agents/skills-code/`)
+      - Project `.agents` generic (`.agents/skills/`)
+      - Global `.roo` mode-specific (e.g., `~/.roo/skills-code/`)
+      - Global `.roo` generic (`~/.roo/skills/`)
+      - Global `.agents` mode-specific (e.g., `~/.agents/skills-code/`)
+      - Global `.agents` generic (`~/.agents/skills/`)
+  2. **Skill Loading**: Loads the skill's main instruction file (typically `SKILL.md`).
+  3. **Context Injection**: Injects skill instructions into conversation context.
+  4.

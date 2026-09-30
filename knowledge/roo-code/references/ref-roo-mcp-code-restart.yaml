@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-restart
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 1254
+  end: 1294
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  async restartConnection(serverName: string, source?: "global" | "project"): Promise<void> {
+  		this.isConnecting = true
+  		// Check if MCP is globally enabled
+  		const mcpEnabled = await this.isMcpEnabled()
+  		if (!mcpEnabled) {
+  			this.isConnecting = false
+  			return
+  		}
+  		// Get existing connection and update its status
+  		const connection = this.findConnection(serverName, source)
+  		const config = connection?.server.config
+  		if (config) {
+  			vscode.window.showInformationMessage(t("mcp:info.server_restarting", { serverName }))
+  			connection.server.status = "connecting"
+  			connection.server.error = ""
+  			await this.notifyWebviewOfServerChanges()
+  			await delay(500) // artificial delay to show user that server is restarting
+  			try {

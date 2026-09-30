@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-compat-base
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/providers/openai-compatible.ts
+  start: 25
+  end: 50
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export interface OpenAICompatibleConfig {
+  	/** Provider name for identification */
+  	providerName: string
+  	/** Base URL for the API endpoint */
+  	baseURL: string
+  	/** API key for authentication */
+  	apiKey: string
+  	/** Model ID to use */
+  	modelId: string
+  	/** Model information */
+  	modelInfo: ModelInfo
+  	/** Optional custom headers */
+  	headers?: Record<string, string>
+  	/** Whether to include max_tokens in requests (default: false uses max_completion_tokens) */
+  	useMaxTokens?: boolean
+  	/** User-configured max tokens override */
+  	modelMaxTokens?: number
+  	/** Temperature setting */
+  	temperature?: number
+  }
+  /**
+   * Base class for OpenAI-compatible API providers using Vercel AI SDK.
+   * Extends BaseProvider and implements SingleCompletionHandler.
+   */

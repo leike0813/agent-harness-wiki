@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-ollama
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/providers/native-ollama.ts
+  start: 153
+  end: 180
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  constructor(options: ApiHandlerOptions) {
+  		super()
+  		this.options = options
+  	}
+  	private ensureClient(): Ollama {
+  		if (!this.client) {
+  			try {
+  				const clientOptions: OllamaOptions = {
+  					host: this.options.ollamaBaseUrl || "http://localhost:11434",
+  					// Note: The ollama npm package handles timeouts internally
+  				}
+  				// Add API key if provided (for Ollama cloud or authenticated instances)
+  				if (this.options.ollamaApiKey) {
+  					clientOptions.headers = {
+  						Authorization: `Bearer ${this.options.ollamaApiKey}`,
+  					}
+  				}
+  				this.client = new Ollama(clientOptions)
+  			} catch (error: any) {
+  				throw new Error(`Error creating Ollama client: ${error.message}`)
+  			}
+  		}
+  		return this.client
+  	}

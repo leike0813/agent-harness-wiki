@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-skills-code-modes-list
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/skills/SkillsManager.ts
+  start: 627
+  end: 638
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  private async getAvailableModes(): Promise<string[]> {
+  		const provider = this.providerRef.deref()
+  		const builtInModeSlugs = modes.map((m) => m.slug)
+  		if (!provider) {
+  			return builtInModeSlugs
+  		}
+  		try {
+  			const customModes = await provider.customModesManager.getCustomModes()
+  			const allModes = getAllModes(customModes)
+  			return allModes.map((m) => m.slug)

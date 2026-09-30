@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-global-path
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 487
+  end: 508
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  async getMcpSettingsFilePath(): Promise<string> {
+  		const provider = this.providerRef.deref()
+  		if (!provider) {
+  			throw new Error("Provider not available")
+  		}
+  		const mcpSettingsFilePath = path.join(
+  			await provider.ensureSettingsDirectoryExists(),
+  			GlobalFileNames.mcpSettings,
+  		)
+  		const fileExists = await fileExistsAtPath(mcpSettingsFilePath)
+  		if (!fileExists) {
+  			await fs.writeFile(
+  				mcpSettingsFilePath,
+  				`{
+    "mcpServers": {
+    }
+  }`,
+  			)
+  		}
+  		return mcpSettingsFilePath
+  	}

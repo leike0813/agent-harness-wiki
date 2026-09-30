@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-config-code-migrate-files
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/utils/migrateSettings.ts
+  start: 23
+  end: 45
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  const fileMigrations = [
+  		// custom_modes.json to custom_modes.yaml is handled separately below
+  		{ oldName: "cline_custom_modes.json", newName: deprecatedCustomModesJSONFilename },
+  		{ oldName: "cline_mcp_settings.json", newName: GlobalFileNames.mcpSettings },
+  	]
+  	try {
+  		const settingsDir = await getSettingsDirectoryPath(context.globalStorageUri.fsPath)
+  		// Check if settings directory exists first
+  		if (!(await fileExistsAtPath(settingsDir))) {
+  			outputChannel.appendLine("No settings directory found, no migrations necessary")
+  			return
+  		}
+  		// Process each file migration
+  		try {
+  			for (const migration of fileMigrations) {
+  				const oldPath = path.join(settingsDir, migration.oldName)
+  				const newPath = path.join(settingsDir, migration.newName)

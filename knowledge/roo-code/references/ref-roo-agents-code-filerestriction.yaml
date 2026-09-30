@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-agents-code-filerestriction
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/tools/validateToolUse.ts
+  start: 200
+  end: 233
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  // If there are no options, allow the tool
+  		if (!options) {
+  			return true
+  		}
+  		// For the edit group, check file regex if specified
+  		if (groupName === "edit" && options.fileRegex) {
+  			const filePath = toolParams?.path || toolParams?.file_path
+  			// Check if this is an actual edit operation (not just path-only for streaming)
+  			const isEditOperation = EDIT_OPERATION_PARAMS.some((param) => toolParams?.[param])
+  			// Handle single file path validation
+  			if (filePath && isEditOperation && !doesFileMatchRegex(filePath, options.fileRegex)) {
+  				throw new FileRestrictionError(mode.name, options.fileRegex, options.description, filePath, tool)
+  			}
+  			// Handle apply_patch: extract file paths from patch content and validate each

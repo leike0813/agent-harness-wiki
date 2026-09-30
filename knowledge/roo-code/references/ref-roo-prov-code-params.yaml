@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-params
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/transform/model-params.ts
+  start: 71
+  end: 110
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export function getModelParams(options: GetModelParamsOptions<"anthropic">): AnthropicModelParams
+  export function getModelParams(options: GetModelParamsOptions<"openai">): OpenAiModelParams
+  export function getModelParams(options: GetModelParamsOptions<"gemini">): GeminiModelParams
+  export function getModelParams(options: GetModelParamsOptions<"openrouter">): OpenRouterModelParams
+  export function getModelParams({
+  	format,
+  	modelId,
+  	model,
+  	settings,
+  	defaultTemperature,
+  }: GetModelParamsOptions<Format>): ModelParams {
+  	const {
+  		modelMaxTokens: customMaxTokens,
+  		modelMaxThinkingTokens: customMaxThinkingTokens,
+  		modelTemperature: customTemperature,
+  		reasoningEffort: customReasoningEffort,
+  		verbosity: customVerbosity,
+  	} = settings
+  	// Use the centralized logic for computing maxTokens

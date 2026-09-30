@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-config-code-init
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/config/ContextProxy.ts
+  start: 57
+  end: 95
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  public async initialize() {
+  		for (const key of GLOBAL_STATE_KEYS) {
+  			try {
+  				// Revert to original assignment
+  				this.stateCache[key] = this.originalContext.globalState.get(key)
+  			} catch (error) {
+  				logger.error(`Error loading global ${key}: ${error instanceof Error ? error.message : String(error)}`)
+  			}
+  		}
+  		const promises = [
+  			...SECRET_STATE_KEYS.map(async (key) => {
+  				try {
+  					this.secretCache[key] = await this.originalContext.secrets.get(key)
+  				} catch (error) {
+  					logger.error(
+  						`Error loading secret ${key}: ${error instanceof Error ? error.message : String(error)}`,
+  					)
+  				}
+  			}),
+  			...GLOBAL_SECRET_KEYS.map(async (key) => {
+  				try {
+  					this.secretCache[key] = await this.originalContext.secrets.get(key)
+  				} catch (error) {
+  					logger.error(

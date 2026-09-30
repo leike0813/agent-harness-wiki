@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-checkkey
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/shared/checkExistApiConfig.ts
+  start: 3
+  end: 30
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export function checkExistKey(config: ProviderSettings | undefined) {
+  	if (!config) {
+  		return false
+  	}
+  	// Special case for fake-ai, openai-codex, qwen-code, and roo providers which don't need any configuration.
+  	if (config.apiProvider && ["fake-ai", "openai-codex", "qwen-code"].includes(config.apiProvider)) {
+  		return true
+  	}
+  	// Check all secret keys from the centralized SECRET_STATE_KEYS array.
+  	// Filter out keys that are not part of ProviderSettings (global secrets are stored separately)
+  	const providerSecretKeys = SECRET_STATE_KEYS.filter((key) => !GLOBAL_SECRET_KEYS.includes(key as any))
+  	const hasSecretKey = providerSecretKeys.some((key) => config[key as keyof ProviderSettings] !== undefined)
+  	// Check additional non-secret configuration properties
+  	const hasOtherConfig = [

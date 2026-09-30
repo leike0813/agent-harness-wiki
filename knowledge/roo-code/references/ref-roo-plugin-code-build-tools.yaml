@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-plugin-code-build-tools
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/task/build-tools.ts
+  start: 132
+  end: 152
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  let nativeCustomTools: OpenAI.Chat.ChatCompletionFunctionTool[] = []
+  	if (experiments?.customTools) {
+  		const toolDirs = getRooDirectoriesForCwd(cwd).map((dir) => path.join(dir, "tools"))
+  		await customToolRegistry.loadFromDirectoriesIfStale(toolDirs)
+  		const customTools = customToolRegistry.getAllSerialized()
+  		if (customTools.length > 0) {
+  			nativeCustomTools = customTools.map(formatNative)
+  		}
+  	}
+  	// Combine filtered tools (for backward compatibility and for allowedFunctionNames)
+  	const filteredTools = [...filteredNativeTools, ...filteredMcpTools, ...nativeCustomTools]
+  	// If includeAllToolsWithRestrictions is true, return ALL tools but provide
+  	// allowed names based on mode filtering
+  	if (includeAllToolsWithRestrictions) {

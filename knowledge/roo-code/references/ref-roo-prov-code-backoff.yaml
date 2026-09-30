@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-backoff
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/task/Task.ts
+  start: 4267
+  end: 4300
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  // Shared exponential backoff for retries (first-chunk and mid-stream)
+  	private async backoffAndAnnounce(retryAttempt: number, error: any): Promise<void> {
+  		try {
+  			const state = await this.providerRef.deref()?.getState()
+  			const baseDelay = state?.requestDelaySeconds || 5
+  			let exponentialDelay = Math.min(
+  				Math.ceil(baseDelay * Math.pow(2, retryAttempt)),
+  				MAX_EXPONENTIAL_BACKOFF_SECONDS,
+  			)
+  			// Respect provider rate limit window
+  			let rateLimitDelay = 0
+  			const rateLimit = (state?.apiConfiguration ?? this.apiConfiguration)?.rateLimitSeconds || 0
+  			if (Task.lastGlobalApiRequestTime && rateLimit > 0) {
+  				const elapsed = performance.now() - Task.lastGlobalApiRequestTime
+  				rateLimitDelay = Math.ceil(Math.min(rateLimit, Math.max(0, rateLimit * 1000 - elapsed) / 1000))

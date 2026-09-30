@@ -1,0 +1,43 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-names
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: packages/types/src/provider-settings.ts
+  start: 99
+  end: 133
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export const providerNames = [
+  	...dynamicProviders,
+  	...localProviders,
+  	...internalProviders,
+  	...customProviders,
+  	...fauxProviders,
+  	"anthropic",
+  	"bedrock",
+  	"baseten",
+  	"deepseek",
+  	"fireworks",
+  	"gemini",
+  	"gemini-cli",
+  	"mistral",
+  	"moonshot",
+  	"minimax",
+  	"openai-codex",
+  	"openai-native",
+  	"qwen-code",
+  	"sambanova",
+  	"vertex",
+  	"xai",
+  	"zai",
+  ] as const
+  export const providerNamesSchema = z.enum(providerNames)
+  export type ProviderName = z.infer<typeof providerNamesSchema>
+  export const isProviderName = (key: unknown): key is ProviderName =>
+  	typeof key === "string" && providerNames.includes(key as ProviderName)
+  /**
+   * RetiredProviderName
+   */

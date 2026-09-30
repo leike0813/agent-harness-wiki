@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-agents-code-parse
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/config/CustomModesManager.ts
+  start: 147
+  end: 160
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  private parseYamlSafely(content: string, filePath: string): any {
+  		// Clean the content
+  		let cleanedContent = stripBom(content)
+  		cleanedContent = this.cleanInvisibleCharacters(cleanedContent)
+  		try {
+  			const parsed = yaml.parse(cleanedContent)
+  			// Ensure we never return null or undefined
+  			return parsed ?? {}
+  		} catch (yamlError) {
+  			// For .roomodes files, try JSON as fallback
+  			if (filePath.endsWith(ROOMODES_FILENAME)) {
+  				try {
+  					// Try parsing the original content as JSON (not the cleaned content)

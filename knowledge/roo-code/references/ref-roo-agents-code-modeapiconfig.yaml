@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-agents-code-modeapiconfig
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/config/ProviderSettingsManager.ts
+  start: 473
+  end: 498
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  public async setModeConfig(mode: Mode, configId: string) {
+  		try {
+  			return await this.lock(async () => {
+  				const providerProfiles = await this.load()
+  				// Ensure the per-mode config map exists
+  				if (!providerProfiles.modeApiConfigs) {
+  					providerProfiles.modeApiConfigs = {}
+  				}
+  				// Assign the chosen config ID to this mode
+  				providerProfiles.modeApiConfigs[mode] = configId
+  				await this.store(providerProfiles)
+  			})
+  		} catch (error) {
+  			throw new Error(`Failed to set mode config: ${error}`)
+  		}
+  	}
+  	/**
+  	 * Get the API config ID for a specific mode.
+  	 */
+  	public async getModeConfigId(mode: Mode) {
+  		try {
+  			return await this.lock(async () => {
+  				const { modeApiConfigs } = await this.load()
+  				return modeApiConfigs?.[mode]
+  			})

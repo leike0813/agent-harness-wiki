@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-skills-code-metadata
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/skills/SkillsManager.ts
+  start: 92
+  end: 180
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  private async loadSkillMetadata(
+  		skillDir: string,
+  		source: "global" | "project",
+  		mode?: string,
+  		skillName?: string,
+  	): Promise<void> {
+  		const skillMdPath = path.join(skillDir, "SKILL.md")
+  		if (!(await fileExists(skillMdPath))) return
+  		try {
+  			const fileContent = await fs.readFile(skillMdPath, "utf-8")
+  			// Use gray-matter to parse frontmatter
+  			const { data: frontmatter, content: body } = matter(fileContent)
+  			// Validate required fields (only name and description for now)
+  			if (!frontmatter.name || typeof frontmatter.name !== "string") {
+  				console.error(`Skill at ${skillDir} is missing required 'name' field`)
+  				return
+  			}
+  			if (!frontmatter.description || typeof frontmatter.description !== "string") {

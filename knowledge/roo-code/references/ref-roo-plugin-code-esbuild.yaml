@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-plugin-code-esbuild
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: packages/core/src/custom-tools/custom-tool-registry.ts
+  start: 300
+  end: 340
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  if (fs.existsSync(tempFile)) {
+  			this.tsCache.set(cacheKey, tempFile)
+  			return import(`file://${tempFile}`)
+  		}
+  		// Get the tool's directory to include its node_modules in resolution path.
+  		const toolDir = path.dirname(absolutePath)
+  		const toolNodeModules = path.join(toolDir, "node_modules")
+  		// Combine default nodePaths with tool-specific node_modules.
+  		// Tool's node_modules takes priority (listed first).
+  		const nodePaths = fs.existsSync(toolNodeModules) ? [toolNodeModules, ...this.nodePaths] : this.nodePaths
+  		// Bundle the TypeScript file with dependencies using esbuild CLI.
+  		// - Node.js built-ins are external (they can't be bundled and are always available)
+  		// - npm packages are bundled with CommonJS require() shim for compatibility
+  		await runEsbuild(
+  			{

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-modelinfo
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: packages/types/src/model.ts
+  start: 72
+  end: 120
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export const modelInfoSchema = z.object({
+  	maxTokens: z.number().nullish(),
+  	maxThinkingTokens: z.number().nullish(),
+  	contextWindow: z.number(),
+  	supportsImages: z.boolean().optional(),
+  	supportsPromptCache: z.boolean(),
+  	// Optional default prompt cache retention policy for providers that support it.
+  	// When set to "24h", extended prompt caching will be requested; when omitted
+  	// or set to "in_memory", the default in‑memory cache is used.
+  	promptCacheRetention: z.enum(["in_memory", "24h"]).optional(),
+  	// Capability flag to indicate whether the model supports an output verbosity parameter
+  	supportsVerbosity: z.boolean().optional(),
+  	supportsReasoningBudget: z.boolean().optional(),
+  	// Capability flag to indicate whether the model supports simple on/off binary reasoning

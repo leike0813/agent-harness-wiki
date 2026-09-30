@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-enabled-change
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 1901
+  end: 1946
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  async handleMcpEnabledChange(enabled: boolean): Promise<void> {
+  		if (!enabled) {
+  			// If MCP is being disabled, disconnect all servers with error handling
+  			const existingConnections = [...this.connections]
+  			const disconnectionErrors: Array<{ serverName: string; error: string }> = []
+  			for (const conn of existingConnections) {
+  				try {
+  					await this.deleteConnection(conn.server.name, conn.server.source)
+  				} catch (error) {
+  					const errorMessage = error instanceof Error ? error.message : String(error)
+  					disconnectionErrors.push({
+  						serverName: conn.server.name,
+  						error: errorMessage,
+  					})
+  					console.error(`Failed to disconnect MCP server ${conn.server.name}: ${errorMessage}`)
+  				}
+  			}
+  			// If there were errors, notify the user

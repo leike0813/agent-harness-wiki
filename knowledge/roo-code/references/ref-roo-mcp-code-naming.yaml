@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-naming
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/utils/mcp-name.ts
+  start: 118
+  end: 137
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  * Build a full MCP tool function name from server and tool names.
+   * The format is: mcp--{sanitized_server_name}--{sanitized_tool_name}
+   *
+   * The total length is capped at 64 characters to conform to API limits.
+   *
+   * @param serverName - The MCP server name
+   * @param toolName - The tool name
+   * @returns A sanitized function name in the format mcp--serverName--toolName
+   */
+  export function buildMcpToolName(serverName: string, toolName: string): string {
+  	const sanitizedServer = sanitizeMcpName(serverName)
+  	const sanitizedTool = sanitizeMcpName(toolName)
+  	// Build the full name: mcp--{server}--{tool}
+  	const fullName = `${MCP_TOOL_PREFIX}${MCP_TOOL_SEPARATOR}${sanitizedServer}${MCP_TOOL_SEPARATOR}${sanitizedTool}`
+  	// Truncate if necessary (max 64 chars for Gemini)

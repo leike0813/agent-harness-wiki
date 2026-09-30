@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-agents-code-modeselect
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/shared/modes.ts
+  start: 51
+  end: 68
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export function getModeBySlug(slug: string, customModes?: ModeConfig[]): ModeConfig | undefined {
+  	// Check custom modes first
+  	const customMode = customModes?.find((mode) => mode.slug === slug)
+  	if (customMode) {
+  		return customMode
+  	}
+  	// Then check built-in modes
+  	return modes.find((mode) => mode.slug === slug)
+  }
+  export function getModeConfig(slug: string, customModes?: ModeConfig[]): ModeConfig {
+  	const mode = getModeBySlug(slug, customModes)
+  	if (!mode) {
+  		throw new Error(`No mode found for slug: ${slug}`)
+  	}
+  	return mode
+  }

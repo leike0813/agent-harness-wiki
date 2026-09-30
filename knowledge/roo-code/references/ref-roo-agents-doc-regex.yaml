@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-agents-doc-regex
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: document_section
+  heading: Understanding Regex in Custom Modes
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  Regular expressions (`fileRegex`) offer fine-grained control over file editing permissions.
+  :::tip
+  **Let Roo Build Your Regex Patterns**
+  Instead of writing complex regex manually, ask Roo:
+  ```
+  Create a regex pattern that matches JavaScript files but excludes test files
+  ```
+  Roo will generate the pattern. Remember to adapt it for YAML (usually single backslashes) or JSON (double backslashes).
+  :::
+  When you specify `fileRegex`, you're creating a pattern that file paths must match.
+  **Important Rules for `fileRegex`:**
+  *   **Escaping in JSON:** In JSON strings, backslashes (`\`) must be double-escaped (e.g., `\\.md$`).
+  *   **Escaping in YAML:** In unquoted or single-quoted YAML strings, a single backslash is usually sufficient for regex special characters (e.g., `\.md$`).

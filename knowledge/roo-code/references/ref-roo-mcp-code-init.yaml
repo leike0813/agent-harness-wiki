@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-init
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 165
+  end: 182
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  constructor(provider: ClineProvider) {
+  		this.providerRef = new WeakRef(provider)
+  		this.watchMcpSettingsFile()
+  		this.watchProjectMcpFile().catch(console.error)
+  		this.setupWorkspaceFoldersWatcher()
+  		this.initializationPromise = Promise.all([
+  			this.initializeGlobalMcpServers(),
+  			this.initializeProjectMcpServers(),
+  		]).then(() => {})
+  	}
+  	/**
+  	 * Waits until all MCP servers have finished their initial connection attempts.
+  	 * Each server individually handles its own timeout, so this will not block indefinitely.
+  	 */
+  	async waitUntilReady(): Promise<void> {
+  		await this.initializationPromise

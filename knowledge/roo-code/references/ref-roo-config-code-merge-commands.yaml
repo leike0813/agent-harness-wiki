@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-config-code-merge-commands
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/webview/ClineProvider.ts
+  start: 1893
+  end: 1921
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  private mergeCommandLists(
+  		configKey: "allowedCommands" | "deniedCommands",
+  		commandType: "allowed" | "denied",
+  		globalStateCommands?: string[],
+  	): string[] {
+  		try {
+  			// Validate and sanitize global state commands
+  			const validGlobalCommands = Array.isArray(globalStateCommands)
+  				? globalStateCommands.filter((cmd) => typeof cmd === "string" && cmd.trim().length > 0)
+  				: []
+  			// Get workspace configuration commands
+  			const workspaceCommands = vscode.workspace.getConfiguration(Package.name).get<string[]>(configKey) || []
+  			// Validate and sanitize workspace commands
+  			const validWorkspaceCommands = Array.isArray(workspaceCommands)
+  				? workspaceCommands.filter((cmd) => typeof cmd === "string" && cmd.trim().length > 0)
+  				: []
+  			// Combine and deduplicate commands

@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-webview-msgs
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/webview/webviewMessageHandler.ts
+  start: 1249
+  end: 1300
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  case "openMcpSettings": {
+  			const mcpSettingsFilePath = await provider.getMcpHub()?.getMcpSettingsFilePath()
+  			if (mcpSettingsFilePath) {
+  				openFile(mcpSettingsFilePath)
+  			}
+  			break
+  		}
+  		case "openProjectMcpSettings": {
+  			if (!vscode.workspace.workspaceFolders?.length) {
+  				vscode.window.showErrorMessage(t("common:errors.no_workspace"))
+  				return
+  			}
+  			const workspaceFolder = getCurrentCwd()
+  			const rooDir = path.join(workspaceFolder, ".roo")
+  			const mcpPath = path.join(rooDir, "mcp.json")
+  			try {
+  				await fs.mkdir(rooDir, { recursive: true })
+  				const exists = await fileExistsAtPath(mcpPath)
+  				if (!exists) {
+  					await safeWriteJson(mcpPath, { mcpServers: {} }, { prettyPrint: true })
+  				}
+  				await openFile(mcpPath)
+  			} catch (error) {

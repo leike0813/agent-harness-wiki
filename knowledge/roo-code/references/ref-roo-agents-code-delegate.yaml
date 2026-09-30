@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-agents-code-delegate
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/webview/ClineProvider.ts
+  start: 2837
+  end: 2876
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  // 3) Enforce single-open invariant by closing/disposing the parent first
+  		//    This ensures we never have >1 tasks open at any time during delegation.
+  		//    Await abort completion to ensure clean disposal and prevent unhandled rejections.
+  		try {
+  			await this.removeClineFromStack({ skipDelegationRepair: true })
+  		} catch (error) {
+  			this.log(
+  				`[delegateParentAndOpenChild] Error during parent disposal (non-fatal): ${
+  					error instanceof Error ? error.message : String(error)
+  				}`,
+  			)
+  			// Non-fatal: proceed with child creation even if parent cleanup had issues
+  		}
+  		// 3) Switch provider mode to child's requested mode BEFORE creating the child task
+  		//    This ensures the child's system prompt and configuration are based on the correct mode.

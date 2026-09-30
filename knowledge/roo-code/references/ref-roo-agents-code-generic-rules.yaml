@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-agents-code-generic-rules
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/prompts/sections/custom-instructions.ts
+  start: 206
+  end: 241
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export async function loadRuleFiles(cwd: string, enableSubfolderRules: boolean = false): Promise<string> {
+  	const rules: string[] = []
+  	// Use recursive discovery only if enableSubfolderRules is true
+  	const rooDirectories = enableSubfolderRules ? await getAllRooDirectoriesForCwd(cwd) : getRooDirectoriesForCwd(cwd)
+  	// Check for .roo/rules/ directories in order (global, project-local, and optionally subfolders)
+  	for (const rooDir of rooDirectories) {
+  		const rulesDir = path.join(rooDir, "rules")
+  		if (await directoryExists(rulesDir)) {
+  			const files = await readTextFilesFromDirectory(rulesDir)
+  			if (files.length > 0) {
+  				const content = formatDirectoryContent(files, cwd)
+  				rules.push(content)
+  			}
+  		}
+  	}
+  	// If we found rules in .roo/rules/ directories, return them

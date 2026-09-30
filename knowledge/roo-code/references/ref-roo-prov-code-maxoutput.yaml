@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-prov-code-maxoutput
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/shared/api.ts
+  start: 105
+  end: 125
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  export const getModelMaxOutputTokens = ({
+  	modelId,
+  	model,
+  	settings,
+  	format,
+  }: {
+  	modelId: string
+  	model: ModelInfo
+  	settings?: ProviderSettings
+  	format?: "anthropic" | "openai" | "gemini" | "openrouter"
+  }): number | undefined => {
+  	if (shouldUseReasoningBudget({ model, settings })) {
+  		return settings?.modelMaxTokens || DEFAULT_HYBRID_REASONING_MODEL_MAX_TOKENS
+  	}
+  	const isAnthropicContext =
+  		modelId.includes("claude") ||
+  		format === "anthropic" ||
+  		(format === "openrouter" && modelId.startsWith("anthropic/"))
+  	// For "Hybrid" reasoning models, discard the model's actual maxTokens for Anthropic contexts

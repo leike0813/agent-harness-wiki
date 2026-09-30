@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-mcp-code-hub-wait
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/task/Task.ts
+  start: 3643
+  end: 3653
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  // Wait for MCP hub initialization through McpServerManager
+  			mcpHub = await McpServerManager.getInstance(provider.context, provider)
+  			if (!mcpHub) {
+  				throw new Error("Failed to get MCP hub from server manager")
+  			}
+  			// Wait for MCP servers to be connected before generating system prompt
+  			await pWaitFor(() => !mcpHub!.isConnecting, { timeout: 10_000 }).catch(() => {
+  				console.error("MCP servers failed to connect in time")
+  			})

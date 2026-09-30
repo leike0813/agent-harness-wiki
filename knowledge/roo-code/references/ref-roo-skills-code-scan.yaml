@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-skills-code-scan
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/skills/SkillsManager.ts
+  start: 58
+  end: 82
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  private async scanSkillsDirectory(dirPath: string, source: "global" | "project", mode?: string): Promise<void> {
+  		if (!(await directoryExists(dirPath))) {
+  			return
+  		}
+  		try {
+  			// Get the real path (resolves if dirPath is a symlink)
+  			const realDirPath = await fs.realpath(dirPath)
+  			// Read directory entries
+  			const entries = await fs.readdir(realDirPath)
+  			for (const entryName of entries) {
+  				const entryPath = path.join(realDirPath, entryName)
+  				// Check if this entry is a directory (follows symlinks automatically)
+  				const stats = await fs.stat(entryPath).catch(() => null)
+  				if (!stats?.isDirectory()) continue
+  				// Load skill metadata - the skill name comes from the entry name (symlink name if symlinked)

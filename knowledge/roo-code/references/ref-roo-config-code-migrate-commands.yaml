@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-config-code-migrate-commands
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-repo
+locator:
+  kind: file_lines
+  file: src/utils/migrateSettings.ts
+  start: 124
+  end: 150
+official_url: "https://github.com/RooCodeInc/Roo-Code"
+excerpt: |-
+  async function migrateDefaultCommands(
+  	context: vscode.ExtensionContext,
+  	outputChannel: vscode.OutputChannel,
+  ): Promise<void> {
+  	try {
+  		// Check if this migration has already been run
+  		const migrationKey = "defaultCommandsMigrationCompleted"
+  		if (context.globalState.get(migrationKey)) {
+  			outputChannel.appendLine("[Default Commands Migration] Migration already completed, skipping")
+  			return
+  		}
+  		const allowedCommands = context.globalState.get<string[]>("allowedCommands")
+  		if (!allowedCommands || !Array.isArray(allowedCommands)) {
+  			// Mark migration as complete even if no commands to migrate
+  			await context.globalState.update(migrationKey, true)
+  			outputChannel.appendLine("No allowed commands found in global state, marking migration as complete")
+  			return
+  		}
