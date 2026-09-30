@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-warp-settings-troubleshoot
+harness_id: warp
+snapshot_id: snapshot-warp-docs-settings
+locator:
+  kind: document_section
+  heading: Troubleshooting
+official_url: "https://docs.warp.dev/terminal/settings.md"
+excerpt: |-
+  ### ”Your settings file contains an error” banner
+  This banner appears when `settings.toml` has invalid TOML syntax or an unrecognized value. Click **Open settings file** in the banner to open the file and look for:
+  -   **Missing quotes** — String values must be wrapped in double quotes: `font_name = "Hack"`, not `font_name = Hack`.
+  -   **Missing brackets** — Section headers require square brackets: `[appearance.text]`.
+  -   **Wrong value types** — Check that numbers are numbers (`font_size = 13.0`), booleans are `true`/`false`, and enum values are valid strings.
+  ### Resetting to defaults
+  Delete `settings.toml` (or rename it) and restart Warp. Warp falls back to built-in defaults for all settings. The file is re-created the next time you change a setting through the Settings panel.
+  ```bash

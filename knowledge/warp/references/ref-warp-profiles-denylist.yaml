@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-warp-profiles-denylist
+harness_id: warp
+snapshot_id: snapshot-warp-docs-agent-profiles
+locator:
+  kind: document_section
+  heading: Command denylist
+official_url: "https://docs.warp.dev/agents/capabilities/agent-profiles-permissions.md"
+excerpt: |-
+  For safety, the Agent always prompts for confirmation before executing potentially risky commands. The default denylist includes several examples, such as:
+  -   `wget(\s.*)?` - Network downloads
+  -   `curl(\s.*)?` - Network requests
+  -   `rm(\s.*)?` - File deletion
+  -   `eval(\s.*)?` - Shell code execution
+  The denylist takes precedence over both the allowlist and `Agent decides`: if a command matches the denylist, the Agent asks for permission even when that action type is set to **Always allow**. Add your own regular expressions to this list in **Settings** > **Agents** > **Profiles** > **Command denylist**. The one exception is [Run until completion](#run-until-completion), which bypasses your denylist by default.

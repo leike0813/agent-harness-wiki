@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-warp-endpoint-network
+harness_id: warp
+snapshot_id: snapshot-warp-docs-custom-endpoint
+locator:
+  kind: document_section
+  heading: Network requirements
+official_url: "https://docs.warp.dev/agents/inference/custom-inference-endpoint.md"
+excerpt: |-
+  Warp routes inference requests through its servers, so **your endpoint must be reachable from the public internet**. `localhost`, `127.0.0.1`, and other private or local network URLs are rejected when configuring a custom inference endpoint.
+  This requirement applies to any endpoint that isn’t already publicly accessible:
+  -   **Internal gateways and proxies** - An internal LiteLLM proxy, corporate AI gateway, or other service that only resolves inside your private network or VPN can’t be reached by Warp. Expose it at a public HTTPS URL — for example, through a load balancer, an API gateway, or a tunneling service — before configuring it in Warp.

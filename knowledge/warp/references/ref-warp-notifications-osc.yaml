@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-warp-notifications-osc
+harness_id: warp
+snapshot_id: snapshot-warp-docs-notifications
+locator:
+  kind: document_section
+  heading: "Custom notification hooks (OSC 9 / OSC 777)"
+official_url: "https://docs.warp.dev/terminal/more-features/notifications.md"
+excerpt: |-
+  Warp supports pluggable notifications triggered by terminal escape sequences, so scripts and tools can raise desktop notifications without additional dependencies.
+  -   OSC 9 (body only): sends a notification with just a body.
+      -   Format: `ESC ] 9 ; <body> BEL`
+      -   Example (bash/zsh): `printf '\033]9;Build complete\007'`
+  -   OSC 777 (title + body): sends a notification with a title and body.
+      -   Format: `ESC ] 777 ; notify ; <title> ; <body> BEL`
+      -   Example (bash/zsh): `printf '\033]777;notify;Deploy;Success on prod\007'`
+  Notes:
+  -   Works on macOS, Windows, and Linux where Warp is allowed to show notifications.
+  -   Newlines and semicolons should be avoided or escaped in payloads.
+  -   This feature is enabled by default in current releases of Warp.

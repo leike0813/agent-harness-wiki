@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-warp-launch-format
+harness_id: warp
+snapshot_id: snapshot-warp-docs-launch-configs
+locator:
+  kind: document_section
+  heading: Launch Configuration YAML format
+official_url: "https://docs.warp.dev/terminal/sessions/launch-configurations.md"
+excerpt: |-
+  All Launch Configuration yaml files are stored in the following location:
+  -   [macOS](#tab-panel-832)
+  -   [Windows](#tab-panel-833)
+  -   [Linux](#tab-panel-834)
+  ```bash
+  $HOME/.warp/launch_configurations/
+  ```
+  ```powershell
+  $env:APPDATA\warp\Warp\data\launch_configurations\
+  ```
+  ```bash
+  ${XDG_DATA_HOME:-$HOME/.local/share}/warp-terminal/launch_configurations/
+  ```
+  Caution
+  The `cwd:` value in the yaml code must contain an absolute path or `""`. Note that `~` or empty paths will result in the file not being visible on the list of options for Launch Configurations.
+  ### Windows
+  Sample configuration that shows how windows are structured in launch configuration files.
+  ```yaml

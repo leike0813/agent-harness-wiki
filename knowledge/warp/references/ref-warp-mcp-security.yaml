@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-warp-mcp-security
+harness_id: warp
+snapshot_id: snapshot-warp-docs-mcp
+locator:
+  kind: document_section
+  heading: Security mitigations
+official_url: "https://docs.warp.dev/agents/capabilities/mcp.md"
+excerpt: |-
+  MCP config files can start local commands and send data to external tools. Warp adds approval gates around file-based MCP servers to reduce the risk of untrusted config changes:
+  -   **Config edits require approval** - Warp prevents edits to MCP config files unless you explicitly approve the change. This keeps an agent or automation from silently adding a server that can run commands or access data.
+  -   **Project-scoped servers never auto-spawn** - Warp detects project-scoped MCP config files in cloned repos, but requires you to start each server manually. This prevents a cloned repo from automatically starting an MCP server that runs arbitrary local commands.
+  Note
+  File-based servers that require OAuth show an authentication modal on their first spawn.

@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-warp-settings-common
+harness_id: warp
+snapshot_id: snapshot-warp-docs-settings
+locator:
+  kind: document_section
+  heading: Common configurations
+official_url: "https://docs.warp.dev/terminal/settings.md"
+excerpt: |-
+  ### Change theme and font
+  ```toml
+  [appearance.themes]
+  theme = "cyber_wave"
+  [appearance.text]
+  font_name = "Fira Code"
+  font_size = 15.0
+  ligature_rendering_enabled = true
+  font_weight = "normal"
+  ```
+  ### Configure agent permissions
+  ```toml
+  [agents.profiles]
+  agent_mode_coding_permissions = "always_allow_reading"
+  agent_mode_execute_readonly_commands = true
+  agent_mode_command_execution_allowlist = [
+    "cat(\\s.*)?",
+    "echo(\\s.*)?",
+    "find .*",
+    "grep(\\s.*)?",
+    "ls(\\s.*)?",
+    "which .*",
+  ]
+  ```
+  ### Enable Vim keybindings
+  ```toml
+  [text_editing]
+  vim_mode_enabled = true
+  vim_status_bar = true
+  ```

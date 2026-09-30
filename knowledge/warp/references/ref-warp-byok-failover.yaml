@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-warp-byok-failover
+harness_id: warp
+snapshot_id: snapshot-warp-docs-byok
+locator:
+  kind: document_section
+  heading: Failover and fallback behavior
+official_url: "https://docs.warp.dev/agents/inference/bring-your-own-api-key.md"
+excerpt: |-
+  If Warp detects an issue with your API key, you’ll see a clear error message corresponding with the AI request.
+  If your key:
+  -   Is invalid: Warp notifies you and halts the request.
+  -   Hits usage or rate limits: Warp will not retry using credits.
+  You can update or replace your keys anytime by opening **Settings** and searching for `API keys`.
+  **Failover and fallback:**
+  By default, Warp does not fall back to your credits when a BYOK request fails.
+  You can choose to enable **Warp credit fallback**. When enabled, if an agent request fails with your BYOK model (for example, due to an API error or quota limit), Warp will automatically route the request to one of Warp’s provided models. Warp always prioritizes your API keys first and only uses Warp credits when necessary.

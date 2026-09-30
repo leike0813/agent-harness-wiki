@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-warp-orchestration-messaging
+harness_id: warp
+snapshot_id: snapshot-warp-docs-orchestration
+locator:
+  kind: document_section
+  heading: Messaging between agents
+official_url: "https://docs.warp.dev/platform/orchestration.md"
+excerpt: |-
+  Orchestration is built on a durable, server-backed message bus. Every agent in an orchestration - parent and children - has its own inbox addressed by its agent ID, and the parent and children send each other short, structured messages to coordinate, hand off work, and stay in sync as they run.
+  This is how parallel agents stay consistent without sharing mutable state. Each run owns its own conversation, working directory or environment, and credit usage; agents don’t read each other’s transcripts or live working trees. Instead, they exchange explicit messages whenever they need to communicate a decision, a result, or a question.

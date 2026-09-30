@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-warp-orchestration-states
+harness_id: warp
+snapshot_id: snapshot-warp-docs-orchestration
+locator:
+  kind: document_section
+  heading: Run state transitions
+official_url: "https://docs.warp.dev/platform/orchestration.md"
+excerpt: |-
+  Each run progresses through a small set of states. The parent observes these transitions to decide what to do next - keep waiting, send a follow-up, spawn a replacement, or finish.
+  The main user-visible states a child run can reach are:
+  -   **`INPROGRESS`** - the run is actively executing (or has restarted after being blocked).
+  -   **`SUCCEEDED`** - the run completed successfully.
+  -   **`FAILED`** - the run hit a terminal failure.
+  -   **`BLOCKED`** - the run is waiting on a user action (for example, command approval or a permission request).
+  -   **`ERROR`** - the run encountered an error during startup or execution.
+  -   **`CANCELLED`** - the run was cancelled before reaching a terminal state.
+  Track run state transitions in these places:

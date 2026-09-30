@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-warp-mcp-add-multiple
+harness_id: warp
+snapshot_id: snapshot-warp-docs-mcp
+locator:
+  kind: document_section
+  heading: Adding multiple MCP servers
+official_url: "https://docs.warp.dev/agents/capabilities/mcp.md"
+excerpt: |-
+  Warp supports configuring **multiple MCP servers** using a JSON snippet. Each entry under `mcpServers` is keyed by a unique name (`filesystem`, `github`, `notes`, etc.). All servers defined in the example are added automatically — no manual setup required.
+  To add multiple MCP servers, you can click the **\+ Add** button then paste in a JSON snippet like the example below:
+  ```json
+  {
+    "mcpServers": {
+      "filesystem": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/allowed/files"]
+      },
+      "notes": {
+        "command": "npx",
+        "args": ["-y", "@modelcontextprotocol/server-notes", "--notes-dir", "/Users/you/Documents/notes"]
+      },
+      "externalDocs": {
+        "url": "http://localhost:4000/mcp/stream",
+        "headers": {
