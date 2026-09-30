@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-hooks-event-json
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-hooks
+locator:
+  kind: document_section
+  heading: Event-Specific JSON Output
+official_url: "https://docs.augmentcode.com/cli/hooks.md"
+excerpt: |-
+  #### PreToolUse Output
+  PreToolUse hooks can control tool execution:
+  | Field | Type | Description | Destination |
+  | :-: | - | :-: | :-: |
+  | `permissionDecision` | `"deny"` | Block tool execution | - |
+  | `permissionDecisionReason` | string | Reason for blocking the tool | Agent and User |
+  <Note>
+    Currently only `permissionDecision: "deny"` is supported. The `"allow"` and `"ask"` values will be
+    implemented in a future release.
+  </Note>
+  **Example: Block dangerous command**
+  ```json theme={null}
+  {
+    "hookSpecificOutput": {
+      "hookEventName": "PreToolUse",
+      "permissionDecision": "deny",
+      "permissionDecisionReason": "Command contains 'rm -rf' which is not allowed"
+    }
+  }
+  ```
+  <Note>
+    Modifying tool input via hooks (`updatedInput`) is not yet supported.

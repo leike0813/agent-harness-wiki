@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-rules-supported
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-rules
+locator:
+  kind: document_section
+  heading: Supported Rules Files
+official_url: "https://docs.augmentcode.com/cli/rules.md"
+excerpt: |-
+  Auggie looks for rules files in the following order of precedence:
+  1. **Custom rules file** (via `--rules` flag): `/path/to/custom-rules.md`
+  2. **CLAUDE.md**: Compatible with Claude Code and other AI tools
+  3. **AGENTS.md**: Compatible with Cursor and other AI development tools
+  4. **Workspace guidelines**: `<workspace_root>/.augment-guidelines`
+  5. **Workspace rules folder**: `<workspace_root>/.augment/rules/` - Recursively searches .md files in the workspace
+  6. **User rules folder**: `~/.augment/rules/` - Recursively searches .md files for user-wide rules
+  ### User Rules vs Workspace Rules
+  Rules can be defined at two levels:
+  | Scope | Location | Availability |
+  | :- | :- | :- |
+  | User | `~/.augment/rules/` | Available in all workspaces |

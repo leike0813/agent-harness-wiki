@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-agents-tools
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-subagents
+locator:
+  kind: document_section
+  heading: Tool restrictions
+official_url: "https://docs.augmentcode.com/cli/subagents.md"
+excerpt: |-
+  You can control which tools a subagent has access to using either an **allowlist** or a **denylist**:
+  * **`tools` (allowlist)**: Only the listed tools will be available. Use this when you want to give the subagent a small, specific set of tools.
+  * **`disabled_tools` (denylist)**: All tools except the listed ones will be available. Use this when you want to remove a few tools from the full set.
+  **Important notes:**
+  * If both `tools` and `disabled_tools` are specified, `disabled_tools` takes precedence and `tools` is ignored.
+  * If neither is specified, the subagent has access to all tools (default behavior).
+  Tool restrictions are useful for:
+  * **Security**: Preventing a subagent from modifying files or running commands

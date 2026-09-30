@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-mcp-http
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-integrations
+locator:
+  kind: document_section
+  heading: HTTP Transport with Headers
+official_url: "https://docs.augmentcode.com/cli/integrations.md"
+excerpt: |-
+  MCP servers using HTTP transport can include a `headers` object for authentication or custom headers:
+  ```json theme={null}
+  {
+    "mcpServers": {
+      "renderMCP": {
+        "type": "http",
+        "url": "https://mcp.render.com/mcp",
+        "headers": {
+          "Authorization": "Bearer <YOUR_API_KEY>",
+          "X-Custom-Header": "custom-value"
+        }
+      }
+    }
+  }
+  ```
+  The `headers` field accepts any valid HTTP headers as key-value pairs.
+  **Common uses**
+  * **Authentication** - `Authorization` headers with bearer tokens or API keys
+  * **Custom parameters** - Server-specific information that doesn't fit into standard request parameters
+  * **Session management** - `Mcp-Session-Id` header for managing sessions in Streamable HTTP transport
+  **Considerations**

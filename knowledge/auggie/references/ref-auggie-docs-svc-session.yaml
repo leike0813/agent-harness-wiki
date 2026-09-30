@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-svc-session
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-service-accounts
+locator:
+  kind: document_section
+  heading: Using API tokens with Auggie CLI
+official_url: "https://docs.augmentcode.com/cli/automation/service-accounts.md"
+excerpt: |-
+  In order to use a service account API token with Auggie CLI, you need to edit the `session.json` file stored under `~/.augment`. If you've downloaded a `session.json` file after creating the API token, you can simply replace the existing `session.json` file with the new one. If you've only copied the token value, you need to edit the `session.json` file with the following content and replace the `accessToken` value with the new token value.
+  ```
+  {
+    "accessToken": "<TOKEN VALUE>",
+    "tenantURL": "<TENANT URL>",
+    "scopes": [
+      "read",
+      "write"
+    ]
+  }
+  ```
+  The correct `tenantURL` value for your organization is displayed on top of the service account list in the management UI.

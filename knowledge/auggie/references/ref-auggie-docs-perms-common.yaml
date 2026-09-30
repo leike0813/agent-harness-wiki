@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-perms-common
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-permissions
+locator:
+  kind: document_section
+  heading: Common Configurations
+official_url: "https://docs.augmentcode.com/cli/permissions.md"
+excerpt: |-
+  ### Read-Only Mode
+  Allow only read operations, perfect for code review and analysis:
+  ```json theme={null}
+  {
+    "toolPermissions": [
+      { "toolName": "read", "permission": { "type": "allow" } },
+      { "toolName": "web-search", "permission": { "type": "allow" } },
+      { "toolName": "web-fetch", "permission": { "type": "allow" } },
+      { "toolName": "edit", "permission": { "type": "deny" } },
+      { "toolName": "write", "permission": { "type": "deny" } },
+      { "toolName": "terminal", "permission": { "type": "deny" } }
+    ]
+  }
+  ```
+  ### Development Mode
+  Deny potentially dangerous operations while allowing the rest:
+  ```json theme={null}
+  {
+    "toolPermissions": [
+      {
+        "toolName": "terminal",
+        "shellInputRegex": "^(rm|sudo|chmod)\\s",
+        "permission": { "type": "deny" }
+      }
+    ]
+  }
+  ```

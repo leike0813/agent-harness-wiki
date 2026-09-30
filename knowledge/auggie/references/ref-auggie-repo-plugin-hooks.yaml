@@ -1,0 +1,51 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-repo-plugin-hooks
+harness_id: auggie
+snapshot_id: snapshot-auggie-repo
+locator:
+  kind: file_lines
+  file: plugin_marketplace/warp/hooks/hooks.json
+  start: 1
+  end: 58
+official_url: "https://github.com/augmentcode/auggie"
+excerpt: |-
+  {
+    "description": "Warp terminal notifications",
+    "hooks": {
+      "SessionStart": [
+        {
+          "hooks": [
+            {
+              "type": "command",
+              "command": "${AUGMENT_PLUGIN_ROOT}/scripts/on-session-start.sh"
+            }
+          ]
+        }
+      ],
+      "Stop": [
+        {
+          "metadata": {
+            "includeConversationData": true
+          },
+          "hooks": [
+            {
+              "type": "command",
+              "command": "${AUGMENT_PLUGIN_ROOT}/scripts/on-stop.sh"
+            }
+          ]
+        }
+      ],
+      "Notification": [
+        {
+          "hooks": [
+            {
+              "type": "command",
+              "command": "${AUGMENT_PLUGIN_ROOT}/scripts/on-notification.sh"
+            }
+          ]
+        }
+      ],
+      "PostToolUse": [
+        {
+          "matcher": ".*",

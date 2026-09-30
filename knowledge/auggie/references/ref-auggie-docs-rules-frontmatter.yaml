@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-rules-frontmatter
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-rules
+locator:
+  kind: document_section
+  heading: Frontmatter Configuration for Rules
+official_url: "https://docs.augmentcode.com/cli/rules.md"
+excerpt: |-
+  Rules files in the `<workspace_root>/.augment/rules/` (workspace) directory support frontmatter to configure their behavior. Use YAML frontmatter at the beginning of your rule file to specify how the rule should be applied:
+  <Note>User rules in `~/.augment/rules/` are always treated as `always_apply` and do not support other frontmatter types. Frontmatter configuration only affects workspace rules.</Note>
+  | Frontmatter Field | Purpose | Options | Default |
+  | :- | :- | :- | :- |
+  | `type` | Controls when the rule is applied | `always_apply`, `agent_requested` | `always_apply` |
+  | `description` | Brief description of the rule's purpose (required for `agent_requested` type) | Any text | None |
+  **Rule Types:**
+  * **`always_apply`**: Rule contents are automatically included in every user prompt

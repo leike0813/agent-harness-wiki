@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-perms-advanced
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-permissions
+locator:
+  kind: document_section
+  heading: Advanced Rules
+official_url: "https://docs.augmentcode.com/cli/permissions.md"
+excerpt: |-
+  ### Shell Command Filtering
+  Control which shell commands can be executed using regex patterns:
+  ```json theme={null}
+  {
+    "toolPermissions": [
+      { "toolName": "terminal", "shellInputRegex": "^(ls|pwd|echo|cat|grep)\\s", "permission": { "type": "allow" } },
+      { "toolName": "terminal", "permission": { "type": "deny" } }
+    ]
+  }
+  ```
+  This configuration:
+  1. Allows only safe commands (ls, pwd, echo, cat, grep)
+  2. Denies all other shell commands
+  3. Rules are evaluated in order - first match wins
+  ### Blocking a Specific Command (e.g. `git merge`)
+  To hard-block a single command such as `git merge` — a common enterprise policy for Cosmos cloud agents — deny it on the `terminal` tool with a `shellInputRegex`:
+  ```json theme={null}
+  {
+    "toolPermissions": [

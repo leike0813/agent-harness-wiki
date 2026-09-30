@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-perms-how
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-permissions
+locator:
+  kind: document_section
+  heading: How Permissions Work
+official_url: "https://docs.augmentcode.com/cli/permissions.md"
+excerpt: |-
+  When Auggie attempts to use a tool, the permission system:
+  1. **Checks for matching rules** in your configuration
+  2. **Applies the first matching rule** based on tool name and optional patterns
+  3. **Rules are evaluated top-down** - first match wins
+  4. **Executes or denies** the tool call based on the matched rule
+  ### Permission Flow
+  ```
+  Tool Request → Check Rules → Apply Permission → Execute/Deny → Log Decision
+  ```
+  ### Notes on Unmatched Tools
+  * Rules are evaluated in order from top to bottom
+  * The first matching rule determines the permission
+  * If no rules match, the CLI follows its implicit runtime behavior
+  * Configure explicit rules for all tools you want to control

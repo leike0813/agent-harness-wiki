@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-hooks-matrix
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-hooks
+locator:
+  kind: document_section
+  heading: Communication Matrix
+official_url: "https://docs.augmentcode.com/cli/hooks.md"
+excerpt: |-
+  The following table shows how hook output is handled based on exit code and event type:
+  | Exit Code | Event Type | Output Stream | Shown To | Behavior |
+  | :-: | - | :-: | - | :-: |
+  | 2 | PreToolUse | stderr | Agent | Blocks tool execution, agent sees why it was blocked |
+  | 2 | SessionStart | stderr | User | Hook failed at startup, user needs to fix configuration |
+  | 0 | PreToolUse | stderr | User | Warning message shown to user |
+  | 0 | PreToolUse | stdout | User | Success message shown to user |
+  | 0 | PostToolUse | stderr | User | Warning message shown to user |
+  | 0 | PostToolUse | stdout | User | Success message shown to user |
+  | 0 | SessionStart | stdout | Agent | Inject context at session start |
+  | 0 | SessionEnd | stdout | User | Show completion message |

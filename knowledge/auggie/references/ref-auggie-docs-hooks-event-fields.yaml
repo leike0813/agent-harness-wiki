@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-hooks-event-fields
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-hooks
+locator:
+  kind: document_section
+  heading: Event-Specific Fields
+official_url: "https://docs.augmentcode.com/cli/hooks.md"
+excerpt: |-
+  #### PreToolUse / PostToolUse Events
+  Tool events include information about the tool being executed:
+  | Field | Type | Availability | Description |
+  | :- | :- | :- | :- |
+  | `tool_name` | string | Always | Name of the tool (e.g., `"launch-process"`, `"str-replace-editor"`). Use to filter which tools your hook applies to. |
+  | `tool_input` | object | Always | Input parameters passed to the tool. **Critical for security hooks** - extract and validate specific parameters. |
+  | `tool_output` | string? | PostToolUse only | Output returned by the tool (if successful). Use for auditing or providing context to the agent. |
+  | `tool_error` | string? | PostToolUse only | Error message if tool execution failed. Use to detect failures and inject troubleshooting tips. |

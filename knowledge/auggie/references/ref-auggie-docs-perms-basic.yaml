@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-perms-basic
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-permissions
+locator:
+  kind: document_section
+  heading: Basic Configuration
+official_url: "https://docs.augmentcode.com/cli/permissions.md"
+excerpt: |-
+  ### Creating Rules
+  Rules define permissions for specific tools. Each rule can specify:
+  * **Tool name** - The specific tool to control
+  * **Permission type** - `allow` or `deny`
+  * **Optional patterns** - For shell commands, use regex matching
+  ### Basic Rule Structure
+  ```json theme={null}
+  {
+    "toolPermissions": [
+      { "toolName": "terminal", "permission": { "type": "deny" } },
+      { "toolName": "read", "permission": { "type": "allow" } }
+    ]
+  }
+  ```
+  <Warning>
+    `permission` must be an **object** with a `type` field — `{ "type": "deny" }`, **not** the bare string `"deny"`. A rule with a bare-string permission is malformed and is dropped. As of the latest version, a dropped rule also emits a warning at startup so the misconfiguration is visible instead of failing silently.

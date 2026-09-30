@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-hooks-metadata-options
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-hooks
+locator:
+  kind: document_section
+  heading: Available Metadata Options
+official_url: "https://docs.augmentcode.com/cli/hooks.md"
+excerpt: |-
+  Metadata options are specified in the hook configuration (not in hook output):
+  ```json theme={null}
+  {
+    "hooks": {
+      "PreToolUse": [
+        {
+          "matcher": ".*",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "/etc/augment/hooks/analytics.sh"
+            }
+          ],
+          "metadata": {
+            "includeConversationData": true,
+            "includeMCPMetadata": true,
+            "includeUserContext": false
+          }
+        }
+      ]
+    }
+  }
+  ```
+  **Metadata flags:**
+  * **`includeUserContext`**: Include user and environment context in hook input
+    * Adds `context` field to hook event data
+    * Available for: **All event types** (PreToolUse, PostToolUse, Stop, SessionStart, SessionEnd)
+    * Fields included:

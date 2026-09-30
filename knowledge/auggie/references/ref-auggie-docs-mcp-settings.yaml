@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-mcp-settings
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-integrations
+locator:
+  kind: document_section
+  heading: Configure MCP via settings.json
+official_url: "https://docs.augmentcode.com/cli/integrations.md"
+excerpt: |-
+  You can persist MCP servers in the Augment settings file `~/.augment/settings.json`, which will initialize on startup and can be checked with `/mcp`.
+  ```json theme={null}
+  {
+    "mcpServers": {
+      "context7": {
+        "type": "http",
+        "url": "https://mcp.context7.com/mcp",
+        "headers": {
+          "CONTEXT7_API_KEY": "YOUR_API_KEY"
+        }
+      },
+      "weather": {
+        "type": "sse",
+        "url": "https://weather-mcp.example.com/v1",
+        "headers": {
+          "X-API-Key": "your_weather_api_key",
+          "Content-Type": "application/json"
+        }
+      },
+      "renderMCP": {
+        "type": "http",
+        "url": "https://mcp.render.com/mcp",
+        "headers": {
+          "Authorization": "Bearer <YOUR_API_KEY>"
+        }
+      },
+      "local-tool": {
+        "command": "/usr/local/bin/custom-mcp",

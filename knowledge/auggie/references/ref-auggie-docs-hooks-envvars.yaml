@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-hooks-envvars
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-hooks
+locator:
+  kind: document_section
+  heading: Environment Variables
+official_url: "https://docs.augmentcode.com/cli/hooks.md"
+excerpt: |-
+  Hooks have access to these environment variables during execution:
+  | Variable | Description | Example |
+  | :-: | - | :-: |
+  | `AUGMENT_PROJECT_DIR` | First workspace root directory (or `process.cwd()` if empty) | `/Users/username/project` |
+  | `AUGMENT_CONVERSATION_ID` | Current conversation ID | `conv-xyz789` |
+  | `AUGMENT_HOOK_EVENT` | Event type | `PreToolUse` |
+  | `AUGMENT_TOOL_NAME` | Tool name (PreToolUse/PostToolUse only) | `launch-process` |
+  ```bash theme={null}
+  #!/usr/bin/env bash
+  echo "Project: $AUGMENT_PROJECT_DIR, Event: $AUGMENT_HOOK_EVENT" >&2
+  exit 0
+  ```

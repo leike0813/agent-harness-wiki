@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-plugins-envvars
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-plugins
+locator:
+  kind: document_section
+  heading: Environment Variables
+official_url: "https://docs.augmentcode.com/cli/plugins.md"
+excerpt: |-
+  Plugins can use these environment variables in their configurations:
+  | Variable | Description |
+  | :- | :- |
+  | `${AUGMENT_PLUGIN_ROOT}` | Path to the plugin's root directory |
+  | `${AUGGIE_PLUGIN_ROOT}` | Alias for `AUGMENT_PLUGIN_ROOT` |
+  | `${CLAUDE_PLUGIN_ROOT}` | Alias for `AUGMENT_PLUGIN_ROOT` (for Claude Code compatibility) |
+  These variables are supported in:
+  * **Hook commands** (`hooks/hooks.json`)
+  Example usage in `hooks/hooks.json`:
+  ```json theme={null}
+  {
+    "hooks": {
+      "PostToolUse": [
+        {
+          "matcher": "Write|Edit",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "${AUGMENT_PLUGIN_ROOT}/hooks/format.sh $FILE"
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```

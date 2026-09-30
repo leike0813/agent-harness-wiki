@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-perms-policies
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-permissions
+locator:
+  kind: document_section
+  heading: Custom Policies
+official_url: "https://docs.augmentcode.com/cli/permissions.md"
+excerpt: |-
+  ### Webhook Validation
+  Use external services to validate tool requests:
+  ```json theme={null}
+  {
+    "toolPermissions": [
+      { "toolName": "terminal", "permission": { "type": "webhook-policy", "webhookUrl": "https://api.company.com/validate-tool" } }
+    ]
+  }
+  ```
+  The webhook receives a POST request with the following JSON payload:
+  ```json theme={null}
+  {
+    "tool-name": "terminal",
+    "event-type": "tool-call",
+    "details": { /* tool-specific data, see below */ },
+    "timestamp": "2025-01-01T02:41:40.580Z"
+  }
+  ```
+  **Payload fields:**
+  * **`tool-name`**: The name of the tool being invoked
+  * **`event-type`**: Either `"tool-call"` (before execution) or `"tool-response"` (after execution)
+  * **`details`**: Tool-specific data (for `tool-call`) or response data (for `tool-response`)

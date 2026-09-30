@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-hooks-metadata
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-hooks
+locator:
+  kind: document_section
+  heading: "Hook Metadata (Configuration)"
+official_url: "https://docs.augmentcode.com/cli/hooks.md"
+excerpt: |-
+  Hook metadata options are **configuration-level flags** that control what data is included in the hook input. They provide a privacy-first, opt-in model for accessing conversation data, MCP metadata, and user context.
+  ### Available Metadata Options
+  Metadata options are specified in the hook configuration (not in hook output):
+  ```json theme={null}
+  {
+    "hooks": {
+      "PreToolUse": [
+        {
+          "matcher": ".*",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "/etc/augment/hooks/analytics.sh"
+            }
+          ],
+          "metadata": {
+            "includeConversationData": true,
+            "includeMCPMetadata": true,
+            "includeUserContext": false
+          }
+        }
+      ]
+    }
+  }
+  ```
+  **Metadata flags:**

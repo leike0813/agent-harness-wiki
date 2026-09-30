@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-mcp-tool-search
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-integrations
+locator:
+  kind: document_section
+  heading: MCP Tool Search
+official_url: "https://docs.augmentcode.com/cli/integrations.md"
+excerpt: |-
+  By default, every tool from every configured MCP server is loaded into Auggie's context up front. When many MCP servers are configured, this can consume a meaningful portion of the agent's context window before your prompt is processed.
+  MCP Tool Search hides individual MCP tools from the agent and exposes two meta-tools — `find-tool` and `execute-tool` — so the agent only loads the full schema for tools it actually uses.
+  MCP Tool Search is disabled by default. Enable it with either:
+  * **Per run** — pass `--enable-tool-search` when invoking Auggie.
+  * **Persistent** — set `"enableToolSearch": true` in your Auggie `settings.json`.
+  When enabled, `find-tool` calls appear as a separate **Tool Search** activity in your usage dashboard.

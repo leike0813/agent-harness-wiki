@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-rules-hierarchical
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-rules
+locator:
+  kind: document_section
+  heading: Hierarchical Rules
+official_url: "https://docs.augmentcode.com/cli/rules.md"
+excerpt: |-
+  In addition to workspace-level rules, the agent supports **hierarchical rules** through `AGENTS.md` and `CLAUDE.md` files placed in subdirectories. When working on files in a subdirectory, Augment automatically discovers and applies rule files from that directory and all parent directories.
+  ### How Hierarchical Rules Work
+  1. When you work on a file, Augment looks for `AGENTS.md` and `CLAUDE.md` in the file's directory
+  2. It then walks up the directory tree, checking each parent directory for these files
+  3. All discovered rules are included in the context for that work session
+  4. The search stops at the workspace root (since workspace root rules are already loaded separately)
+  ### Example Directory Structure
+  ```
+  my-project/
+    AGENTS.md                  <- Always included (workspace root)

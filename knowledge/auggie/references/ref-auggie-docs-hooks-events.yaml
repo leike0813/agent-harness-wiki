@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-hooks-events
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-hooks
+locator:
+  kind: document_section
+  heading: Hook Events
+official_url: "https://docs.augmentcode.com/cli/hooks.md"
+excerpt: |-
+  ### PreToolUse
+  Runs **before** a tool executes. Can block tool execution.
+  **Common tool names:**
+  | Tool | Description |
+  | :- | :- |
+  | `launch-process` | Shell commands |
+  | `view` | File reading |
+  | `str-replace-editor` | File editing |
+  | `save-file` | File writing |
+  | `remove-files` | File deletion |
+  | `web-fetch` | Fetch web content |
+  | `web-search` | Web search |
+  | `codebase-retrieval` | Codebase search |
+  | `github-api` | GitHub integration |
+  | `linear` | Linear integration |
+  Use [PreToolUse output control](#pretooluse-output) to block tools.
+  ### PostToolUse
+  Runs immediately **after** a tool completes. Can provide feedback to the agent but cannot block execution.
+  Recognizes the same tool names as PreToolUse. Includes `tool_output` and `tool_error` in the event data.
+  ### Stop

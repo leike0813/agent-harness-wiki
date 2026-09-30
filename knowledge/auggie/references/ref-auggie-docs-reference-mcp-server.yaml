@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-reference-mcp-server
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-reference
+locator:
+  kind: document_section
+  heading: MCP Server Mode
+official_url: "https://docs.augmentcode.com/cli/reference.md"
+excerpt: |-
+  Run Auggie as an MCP server to expose the codebase-retrieval tool to external AI tools like Claude Code, Cursor, and others.
+  | Flag | Description |
+  | :- | :- |
+  | `--mcp` | Run Auggie as an MCP tool server. Uses the current working directory as the workspace by default. |
+  | `--mcp-auto-workspace` | Enable automatic workspace discovery based on client requests (added in v0.14.0) |
+  | `-w /path/to/project` | Specify a workspace to index |
+  #### Automatic Workspace Discovery
+  The `--mcp-auto-workspace` flag enables dynamic workspace discovery in MCP mode. When enabled:
+  * The `codebase-retrieval` tool accepts a `directory_path` parameter to specify which workspace to search
+  * Workspaces are indexed on-demand when first accessed

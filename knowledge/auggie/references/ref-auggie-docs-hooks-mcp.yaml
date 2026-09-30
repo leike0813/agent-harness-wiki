@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-hooks-mcp
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-hooks
+locator:
+  kind: document_section
+  heading: Working with MCP Tools
+official_url: "https://docs.augmentcode.com/cli/hooks.md"
+excerpt: |-
+  Hooks work seamlessly with [Model Context Protocol (MCP)](/setup-augment/mcp) tools. MCP tools have special naming and metadata that you can use in hooks.
+  ### MCP Tool Naming
+  MCP tools follow the naming pattern `{toolName}_{serverName}`. For example:
+  * `search_my-server` - "search" tool from "my-server"
+  * `query_database-server` - "query" tool from "database-server"
+  * `read_filesystem-mcp` - "read" tool from "filesystem-mcp"
+  <Note>
+    Both tool names and server names can contain underscores. The server name is always the suffix after the **last** underscore that matches the known server name. For reliable matching, enable `includeMCPMetadata: true` on the hook configuration and read `mcp_metadata.mcpExecutedToolServerName` from the event JSON rather than parsing the tool name.
+  </Note>

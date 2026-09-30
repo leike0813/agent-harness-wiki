@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-mcp-vars
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-integrations
+locator:
+  kind: document_section
+  heading: Variable Expansion
+official_url: "https://docs.augmentcode.com/cli/integrations.md"
+excerpt: |-
+  MCP server configurations support variable expansion for dynamic values. Currently, the `${workspaceFolder}` variable is supported, which expands to the current workspace root path when running Auggie in a workspace context.
+  **Example: Using `${workspaceFolder}` in args**
+  ```json theme={null}
+  {
+    "mcpServers": {
+      "yaml-lsp": {
+        "command": "mcp-language-server",
+        "args": [
+          "--workspace",
+          "${workspaceFolder}",
+          "--lsp",
+          "yaml-language-server",
+          "--",
+          "--stdio"
+        ]
+      }
+    }
+  }
+  ```
+  When running in workspace `/Users/username/my-project`, the args are expanded to:
+  ```
+  ["--workspace", "/Users/username/my-project", "--lsp", "yaml-language-server", "--", "--stdio"]
+  ```
+  **Supported locations for variable expansion:**

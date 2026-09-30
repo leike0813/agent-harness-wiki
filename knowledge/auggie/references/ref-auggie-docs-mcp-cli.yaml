@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-mcp-cli
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-integrations
+locator:
+  kind: document_section
+  heading: Manage MCP servers with the Auggie CLI
+official_url: "https://docs.augmentcode.com/cli/integrations.md"
+excerpt: |-
+  You can add and inspect MCP servers is via Auggie subcommands, which will persist the configuration to your `~/.augment/settings.json` file:
+  #### Usage
+  **Add MCP server:**
+  ```bash theme={null}
+  auggie mcp add <name> [options]
+  ```
+  Writes the server entry to your settings.json with interactive prompts for overwriting existing configurations.
+  Options:
+  * `--command <path>` - Executable path (for stdio transport)
+  * `--args <args>` - Arguments string for command
+  * `-e, --env <KEY=VAL>` - Environment variable (repeatable)
+  * `-t, --transport <transport>` - stdio|sse|http (default: "stdio")
+  * `-u, --url <url>` - URL (required for --transport sse or http)
+  * `-h, --header <KEY:VAL>` - HTTP header (repeatable, for http and sse transports)
+  * `-r, --replace` - Overwrite existing entry without prompt

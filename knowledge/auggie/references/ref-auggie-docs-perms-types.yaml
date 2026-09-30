@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-perms-types
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-permissions
+locator:
+  kind: document_section
+  heading: Permission Types and Precedence
+official_url: "https://docs.augmentcode.com/cli/permissions.md"
+excerpt: |-
+  There are four permission types:
+  | Type | Effect |
+  | :- | :- |
+  | `allow` | Permit the tool call. |
+  | `deny` | Block the tool call. |
+  | `webhook-policy` | Delegate the decision to an external HTTP endpoint (see [Webhook Validation](#webhook-validation)). |
+  | `script-policy` | Delegate the decision to a local script (see [Script Validation](#script-validation)). |
+  ### Precedence
+  Rules can come from more than one source — the settings files and the `--permission` CLI flag each form a **policy**:
+  * **Within a single policy**, the first matching rule wins (top-down).
+  * **Across policies**, the **most restrictive** matching permission wins, in this order (most to least restrictive):
+    `deny` > `webhook-policy` > `script-policy` > `allow`

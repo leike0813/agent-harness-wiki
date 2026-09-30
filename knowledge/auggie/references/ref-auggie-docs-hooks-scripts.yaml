@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-hooks-scripts
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-hooks
+locator:
+  kind: document_section
+  heading: Script Requirements
+official_url: "https://docs.augmentcode.com/cli/hooks.md"
+excerpt: |-
+  Hook scripts must:
+  1. **Use a supported script extension** - `.ps1`, `.cmd`, `.bat`, or `.sh`
+  2. **Be executable** - Run `chmod +x your-hook.sh` (Unix `.sh` scripts only)
+  3. **Have a valid shebang** - First line must specify the interpreter (Unix `.sh` scripts only)
+  How each extension is run:
+  | Extension | How it's executed |
+  | :- | :- |
+  | `.sh` | Executed directly on Unix; the shebang line selects the interpreter |
+  | `.ps1` | Dispatched to `powershell.exe -Command` on Windows |
+  | `.bat`, `.cmd` | Dispatched to `cmd.exe /c` on Windows |
+  <Tip>
+    Shebang-based interpreter selection (Python, Node.js, Ruby, etc.) only applies to `.sh` scripts on Unix.
+    `.ps1` files are always run with PowerShell, and `.bat`/`.cmd` files are always run with `cmd.exe` — a shebang inside those files is ignored.

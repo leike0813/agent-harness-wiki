@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-reference-env
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-reference
+locator:
+  kind: document_section
+  heading: Environment Variables
+official_url: "https://docs.augmentcode.com/cli/reference.md"
+excerpt: |-
+  | Variable | Description |
+  | - | - |
+  | `AUGMENT_SESSION_AUTH` | Authentication JSON. |
+  | `GITHUB_API_TOKEN` | GitHub API token |
+  | `AUGMENT_DISABLE_AUTO_UPDATE` | Disable automatic CLI updates |
+  ### Shell Environment
+  When Auggie executes shell commands using the `launch-process` tool, it sets the following environment variable:
+  | Variable | Description |
+  | - | - |
+  | `AUGMENT_AGENT` | Set to `1` when a command is executed by Auggie. Scripts can check for this variable to detect if they are being run by the agent. |
+  **Example usage in a script:**
+  ```sh theme={null}
+  if [ -n "$AUGMENT_AGENT" ]; then
+    echo "Running inside Auggie"
+    # Adjust behavior for agent execution
+  fi
+  ```

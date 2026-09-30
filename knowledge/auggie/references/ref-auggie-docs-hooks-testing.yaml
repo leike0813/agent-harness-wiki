@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-hooks-testing
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-hooks
+locator:
+  kind: document_section
+  heading: Testing Hooks Locally
+official_url: "https://docs.augmentcode.com/cli/hooks.md"
+excerpt: |-
+  **1. Create a test event file:**
+  ```bash theme={null}
+  cat > test-event.json << 'EOF'
+  {
+    "hook_event_name": "PreToolUse",
+    "conversation_id": "test-conv",
+    "workspace_roots": ["/Users/username/project"],
+    "tool_name": "launch-process",
+    "tool_input": { "command": "git status" }
+  }
+  EOF
+  ```
+  **2. Test your hook script:**
+  ```bash theme={null}

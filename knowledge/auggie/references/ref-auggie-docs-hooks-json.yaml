@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-hooks-json
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-hooks
+locator:
+  kind: document_section
+  heading: JSON Output Format
+official_url: "https://docs.augmentcode.com/cli/hooks.md"
+excerpt: |-
+  Hooks can return JSON on stdout (exit code 0 only) to provide structured control:
+  ```json theme={null}
+  {
+    "continue": true,
+    "stopReason": "Optional reason if continue=false",
+    "suppressOutput": false,
+    "systemMessage": "Message shown to user",
+    "hookSpecificOutput": {
+      "hookEventName": "PreToolUse",
+      "permissionDecision": "deny",
+      "permissionDecisionReason": "Security policy violation"
+    }
+  }
+  ```

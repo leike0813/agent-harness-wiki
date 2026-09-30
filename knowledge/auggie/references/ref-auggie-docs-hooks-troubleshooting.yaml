@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-hooks-troubleshooting
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-hooks
+locator:
+  kind: document_section
+  heading: Troubleshooting
+official_url: "https://docs.augmentcode.com/cli/hooks.md"
+excerpt: |-
+  <AccordionGroup>
+    <Accordion title="Hook not being triggered">
+      **Check:**
+      1. **Matcher pattern** - Verify your regex pattern matches the tool name
+      2. **Event type** - Ensure you're listening to the correct event (PreToolUse vs PostToolUse)
+      3. **Settings file location** - Verify hooks are in the correct settings file (project vs user vs system)
+      4. **Hook path** - Ensure the hook script path is correct and the file exists
+      5. **File permissions** - Make sure the hook script is executable (`chmod +x hook.sh`)
+      **Debug:**
+      ```bash theme={null}
+      # Check if hook file exists and is executable
+      ls -la /etc/augment/hooks/my-hook.sh
+      # Test matcher pattern
+      echo "launch-process" | grep -E "launch-process|str-replace-editor"  # Should match

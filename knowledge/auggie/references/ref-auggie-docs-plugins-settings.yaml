@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-plugins-settings
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-plugins
+locator:
+  kind: document_section
+  heading: Plugin Settings Reference
+official_url: "https://docs.augmentcode.com/cli/plugins.md"
+excerpt: |-
+  The following settings control plugin marketplace behavior. These can be placed in the appropriate settings file depending on their scope.
+  ### autoUpdateMarketplaces
+  Controls whether installed marketplaces are automatically updated in the background when Auggie starts in interactive mode.
+  * **Type**: `boolean`
+  * **Default**: `true`
+  * **File**: `~/.augment/settings.json` (user-level)
+  * **Configurable via**: Plugin browser (`/plugins` → Marketplaces tab → "Automatic updates" toggle)
+  When enabled, Auggie runs `git pull` on all installed marketplace repositories at startup to ensure you have the latest plugins.
+  ### recommendedMarketplaces
+  Specifies marketplaces that should be recommended to users when they open this workspace.
+  * **Type**: `array` of strings (format: `"owner/repo"`)

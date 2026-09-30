@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-hooks-security
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-hooks
+locator:
+  kind: document_section
+  heading: Security Considerations
+official_url: "https://docs.augmentcode.com/cli/hooks.md"
+excerpt: |-
+  <Warning>
+    **USE AT YOUR OWN RISK**: Hooks execute arbitrary shell commands on your system automatically. By using hooks, you acknowledge that:
+    * You are solely responsible for the commands you configure
+    * Hooks can modify, delete, or access any files your user account can access
+    * Malicious or poorly written hooks can cause data loss or system damage
+    * You should thoroughly test hooks in a safe environment before production use
+    Always review and understand any hook commands before adding them to your configuration.
+  </Warning>
+  ### Security Best Practices
+  1. **Validate and sanitize inputs** - Never trust input data blindly
+  2. **Always quote shell variables** - Use `"$VAR"` not `$VAR`
+  3. **Block path traversal** - Check for `..` in file paths
+  4.

@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-docs-perms-files
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-permissions
+locator:
+  kind: document_section
+  heading: Configuration Files
+official_url: "https://docs.augmentcode.com/cli/permissions.md"
+excerpt: |-
+  Tool permissions are configured in `settings.json`. Both the Auggie CLI and Cosmos cloud agents read from two locations:
+  | File | Scope |
+  | :- | :- |
+  | `~/.augment/settings.json` | Personal settings that apply to all your projects (user/home). |
+  | `.augment/settings.json` | Repo-level settings committed to the project, applied to any agent running in that repo. |
+  Cosmos cloud agents read both files at agent startup. Committing a `.augment/settings.json` to your repository is the recommended way to enforce an organizational policy (for example, blocking `git merge`) on every cloud agent that runs there.
