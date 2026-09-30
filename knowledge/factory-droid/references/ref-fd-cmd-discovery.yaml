@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-cmd-discovery
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-custom-commands
+locator:
+  kind: document_section
+  heading: Discovery and naming
+official_url: "https://docs.factory.com/harness/custom-slash-commands.md"
+excerpt: |-
+  | Scope | Location | Purpose |
+  | ----- | -------- | ------- |
+  | **Workspace** | `<repo>/.factory/commands` | Project-specific commands shared with teammates. Overrides a personal command with the same slug. |
+  | **Personal** | `~/.factory/commands` | Private or cross-project shortcuts available across sessions. |
+  A file is registered only when it matches one of these rules:
+  - It ends with `.md`.
+  - Its first line starts with a `#!` shebang.
+  Filenames are slugged: lowercase, spaces and non-URL characters become `-`, and the extension is dropped. `Code Review.md` becomes `/code-review`.
+  Command files may be nested in subdirectories; Droid discovers them recursively. Invoke a command with `/command-name optional arguments`.

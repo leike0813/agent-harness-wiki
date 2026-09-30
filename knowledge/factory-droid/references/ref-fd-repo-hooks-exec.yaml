@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-repo-hooks-exec
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-repo
+locator:
+  kind: document_section
+  heading: Hook Execution Details
+official_url: "https://github.com/Factory-AI/factory"
+excerpt: |-
+  * **Timeout**: 60-second execution limit by default, configurable per command.
+    * A timeout for an individual command does not affect the other commands.
+  * **Parallelization**: All matching hooks run in parallel
+  * **Deduplication**: Multiple identical hook commands are deduplicated automatically
+  * **Environment**: Runs in current directory with Droid's environment
+    * The `FACTORY_PROJECT_DIR` environment variable is available and contains the
+      absolute path to the project root directory (where Droid was started)
+  * **Input**: JSON via stdin
+  * **Output**:
+    * PreToolUse/PostToolUse/Stop/SubagentStop: Progress shown in transcript (Ctrl-R)
+    * Notification/SessionEnd: Logged to debug only (`--debug`)
+    * UserPromptSubmit/SessionStart: stdout added as context for Droid

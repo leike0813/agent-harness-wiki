@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-marketplaces-org
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-plugin-marketplaces
+locator:
+  kind: document_section
+  heading: Org-level configuration
+official_url: "https://docs.factory.com/enterprise/internal-plugin-marketplaces.md"
+excerpt: |-
+  Configure the marketplace at the organization level so it's automatically available to all users. Add to your org-managed settings:
+  ```json
+  {
+    "extraKnownMarketplaces": {
+      "acme-corp-plugins": {
+        "source": {
+          "source": "github",
+          "repo": "your-org/droid-plugins"
+        }
+      }
+    },
+    "enabledPlugins": {
+      "security-toolkit@acme-corp-plugins": true,
+      "platform-tools@acme-corp-plugins": true
+    }
+  }
+  ```
+  | Field | Purpose |
+  |-------|---------|
+  | `extraKnownMarketplaces` | Registers the marketplace so users can browse and install plugins |
+  | `enabledPlugins` | Enables plugins and installs them at org scope when missing (optional) |
+  With this configuration:
+  - The marketplace appears automatically when users run `/plugins`

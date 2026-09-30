@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-plugins-marketplaces
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-plugins
+locator:
+  kind: document_section
+  heading: Marketplaces
+official_url: "https://docs.factory.com/harness/plugins.md"
+excerpt: |-
+  A marketplace is a catalog of installable plugins. Droid reads `.factory-plugin/marketplace.json` first and falls back to `.claude-plugin/marketplace.json` for Claude Code compatibility.
+  ```text
+  your-marketplace/
+  ├── .factory-plugin/
+  │   └── marketplace.json
+  ├── plugin-one/
+  │   └── .factory-plugin/
+  │       └── plugin.json
+  └── plugin-two/
+      └── .factory-plugin/
+          └── plugin.json
+  ```
+  ```json
+  {
+    "name": "your-marketplace",
+    "description": "A collection of team plugins",
+    "owner": {
+      "name": "Platform Team"
+    },
+    "plugins": [
+      {
+        "name": "plugin-one",
+        "description": "Description of plugin one",
+        "source": "./plugin-one"
+      }
+    ]
+  }
+  ```
+  | Marketplace field | Required | Description |
+  | :---------------- | :------- | :---------- |

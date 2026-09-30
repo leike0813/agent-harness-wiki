@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-cli-updates
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-cli-reference
+locator:
+  kind: document_section
+  heading: Auto-updates
+official_url: "https://docs.factory.com/droid-cli/cli-reference.md"
+excerpt: |-
+  Standalone Droid installations check for and install CLI updates automatically. Run `droid update`
+  to trigger an update on demand.
+  To keep a standalone installation pinned, disable its in-process updater:
+  ```bash
+  export FACTORY_DROID_AUTO_UPDATE_ENABLED=false
+  ```
+  With this variable set, automatic updates are disabled and `droid update` does not install another
+  version. Set it in the environment that launches every Droid process, including `droid daemon`.
+  The npm distribution has auto-updates disabled at build time and does not require this variable.
+  Running `droid update` from an npm installation reports that auto-update is unavailable. Setting
+  `FACTORY_DROID_AUTO_UPDATE_ENABLED=true` explicitly overrides the npm build default.

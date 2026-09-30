@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-marketplaces-restrict-mp
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-plugin-marketplaces
+locator:
+  kind: document_section
+  heading: Restricting marketplaces
+official_url: "https://docs.factory.com/enterprise/internal-plugin-marketplaces.md"
+excerpt: |-
+  To prevent users from adding unapproved marketplaces, use `strictKnownMarketplaces`:
+  ```json
+  {
+    "strictKnownMarketplaces": [
+      { "source": "github", "repo": "Factory-AI/factory-plugins" }
+    ]
+  }
+  ```
+  When `strictKnownMarketplaces` is set:
+  - Users can only add marketplaces from the approved list
+  - Plugin installations from non-approved marketplaces are blocked
+  Marketplaces the organization declares in `extraKnownMarketplaces` count as approved without being repeated in the list, so `strictKnownMarketplaces` only has to name sources outside your own org settings. A local path in the list has to be absolute or start with `~`, since a relative one points at a different directory for every user, and saving one is rejected.
+  Existing-plugin provenance enforcement is rolling out separately.

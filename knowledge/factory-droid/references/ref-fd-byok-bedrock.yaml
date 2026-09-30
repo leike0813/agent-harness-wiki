@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-byok-bedrock
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-byok
+locator:
+  kind: document_section
+  heading: AWS Bedrock
+official_url: "https://docs.factory.com/model-independence/byok.md"
+excerpt: |-
+  To route an Anthropic or OpenAI custom model through AWS Bedrock, add a `bedrock` object to the model config. Credentials are resolved through the standard AWS SDK provider chain (environment variables, shared config/credentials files, or an SSO/IAM profile).
+  ```json
+  {
+    "customModels": [
+      {
+        "model": "anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "displayName": "Sonnet 4.5 [Bedrock]",
+        "provider": "anthropic",
+        "apiKey": "not-used-for-bedrock",
+        "bedrock": {
+          "awsRegion": "${AWS_REGION}",
+          "awsProfile": "${AWS_PROFILE}"
+        }
+      }
+    ]
+  }
+  ```
+  ### Bedrock fields
+  | Field | Type | Description |
+  |-------|------|-------------|
+  | `awsRegion` | `string` | AWS region for Bedrock requests.

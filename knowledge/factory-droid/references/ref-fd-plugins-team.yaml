@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-plugins-team
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-plugins
+locator:
+  kind: document_section
+  heading: Team and enterprise distribution
+official_url: "https://docs.factory.com/harness/plugins.md"
+excerpt: |-
+  Register marketplaces and enable plugins through settings when you want teams to get them automatically:
+  ```json
+  {
+    "extraKnownMarketplaces": {
+      "your-org-internal-plugins": {
+        "source": {
+          "source": "github",
+          "repo": "your-org/internal-plugins",
+          "ref": "v1.2.0"
+        }
+      }
+    },
+    "enabledPlugins": {
+      "code-standards@your-org-internal-plugins": true
+    }
+  }
+  ```
+  The installation scope follows where the setting is defined: org-managed settings install as org scope, user settings install as user scope, and project settings install as project scope.
+  Use `strictKnownMarketplaces` in managed settings when an organization wants to restrict marketplace sources to an approved list.

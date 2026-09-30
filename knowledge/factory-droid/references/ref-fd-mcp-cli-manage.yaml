@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-mcp-cli-manage
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-mcp
+locator:
+  kind: document_section
+  heading: Manage servers from the CLI
+official_url: "https://docs.factory.com/harness/mcp.md"
+excerpt: |-
+  List every configured server with its connection and authentication status:
+  ```bash
+  droid mcp list
+  ```
+  Each server reports its current status: **connected**, **connecting**, **needs authentication**, or **failed**. Servers that require OAuth show **needs authentication** until you finish the sign-in flow with `/mcp`.
+  Remove a user-configured server:
+  ```bash
+  droid mcp remove <name>
+  ```
+  ### Persistent tool permissions
+  When you approve an MCP tool, Droid can remember that approval so it persists across sessions. Each approval is bound to a stable fingerprint of the server's transport configuration (its stdio command and arguments, or its http/sse URL).

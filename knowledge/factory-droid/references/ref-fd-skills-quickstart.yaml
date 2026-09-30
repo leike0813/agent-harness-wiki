@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-skills-quickstart
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-skills
+locator:
+  kind: document_section
+  heading: Create your first skill
+official_url: "https://docs.factory.com/harness/skills.md"
+excerpt: |-
+  <Steps>
+    <Step title="Create a skill directory">
+      Put team-shared skills under `.factory/skills/` in your repository:
+      ```bash
+      mkdir -p .factory/skills/summarize-diff
+      ```
+    </Step>
+    <Step title="Add SKILL.md">
+      Add required `name` and `description` frontmatter, then write the workflow Droid should follow.
+    </Step>
+    <Step title="Invoke it">
+      Start a new Droid session if the skill is not already visible. Ask naturally for a matching task, or run `/summarize-diff` when the skill is user-invocable.
+    </Step>
+  </Steps>
+  ```markdown title=".factory/skills/summarize-diff/SKILL.md"
+  ---
+  name: summarize-diff
+  description: Summarize the staged git diff in 3-5 bullets. Use when the user asks for a summary of pending changes.
+  ---

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-plugins-add-pin
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-plugins
+locator:
+  kind: document_section
+  heading: Add and pin marketplaces
+official_url: "https://docs.factory.com/harness/plugins.md"
+excerpt: |-
+  `droid plugin marketplace add` accepts `owner/repo` shorthand, a GitHub URL, any other Git URL, or a local path. Shorthand and plain `http(s)://github.com/owner/repo[.git]` URLs become a `github` source; other non-path inputs become a `url` source. Append `#<ref>` to follow a branch or tag, or `@<40-character-sha>` to pin an exact commit:
+  ```bash
+  droid plugin marketplace add Factory-AI/factory-plugins
+  droid plugin marketplace add 'your-org/plugins#v1.2.0'
+  droid plugin marketplace add https://github.com/Factory-AI/factory-plugins
+  droid plugin marketplace add 'https://github.com/your-org/plugins#v1.2.0'
+  droid plugin marketplace add https://github.com/your-org/plugins@1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b
+  droid plugin marketplace add ./your-local-marketplace
+  ```

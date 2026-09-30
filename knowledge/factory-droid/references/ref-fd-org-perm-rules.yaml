@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-org-perm-rules
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-org-control
+locator:
+  kind: document_section
+  heading: Permission rule resolution
+official_url: "https://docs.factory.com/enterprise/hierarchical-settings-and-org-control.md"
+excerpt: |-
+  `permissionRules.rules` does not use ordinary array union. Eligible sources are ordered
+  Org, Runtime, Folder, Project, User. Higher-priority valid definitions claim repeated
+  rule IDs; different IDs accumulate. Within a folder's settings, `settings.local.json`
+  precedes `settings.json`. Project and folder rules require workspace trust. Plugins and
+  dynamic configuration cannot author native permission rules.
+  After IDs are resolved, matching blocks take precedence over requests for approval,
+  which take precedence over allows. An org allow does not cancel a project block with a
+  different ID. A disabled rule still suppresses lower-priority definitions with the same
+  ID; deleting it removes that suppression. An empty rules array does not clear inherited
+  rules.

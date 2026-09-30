@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-agents-config
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-subagents
+locator:
+  kind: document_section
+  heading: Configuration
+official_url: "https://docs.factory.com/harness/subagents.md"
+excerpt: |-
+  Each droid file is Markdown with YAML frontmatter followed by the system prompt body.
+  ```markdown title=".factory/droids/code-reviewer.md"
+  ---
+  name: code-reviewer
+  description: Focused reviewer that checks diffs for correctness risks
+  model: inherit
+  tools: read-only
+  ---
+  You are the team's senior reviewer. Examine the diff the parent agent shares and:
+  - flag correctness, security, and migration risks
+  - list targeted follow-up tasks if changes are required
+  - confirm tests or manual validation needed before merge
+  ```
+  You can also pass `tools` as an array and pin a specific model:
+  ```markdown title=".factory/droids/deep-analyzer.md"
+  ---
+  name: deep-analyzer
+  description: Thorough analysis with extended thinking
+  model: claude-sonnet-4-5-20250929
+  reasoningEffort: high

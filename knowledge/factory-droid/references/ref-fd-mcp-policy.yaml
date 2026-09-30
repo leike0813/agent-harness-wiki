@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-mcp-policy
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-mcp
+locator:
+  kind: document_section
+  heading: "Enterprise: MCP policy"
+official_url: "https://docs.factory.com/harness/mcp.md"
+excerpt: |-
+  Organizations can centrally control which MCP servers are allowed through the `mcpPolicy` setting in [org-managed settings](/enterprise/hierarchical-settings-and-org-control#mcp), so users can only connect to vetted servers. A server is allowed when any allowlist entry matches its hostname or stdio command or arguments, not its configured name.
+  | Field | Type | Description |
+  | :---- | :--- | :---------- |
+  | `enabled` | `boolean` | Whether policy enforcement is active (default: `false`). When `false` or absent, no policy is enforced and configured servers are allowed. |
+  | `allowlist` | `string[]` | Allowed hostname or stdio command matchers, applied only when the policy is enabled. HTTP/HTTPS URL entries are also accepted, but only their hostname is matched.

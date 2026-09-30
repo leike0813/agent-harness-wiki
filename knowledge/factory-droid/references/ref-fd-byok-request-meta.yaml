@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-byok-request-meta
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-byok
+locator:
+  kind: document_section
+  heading: Request metadata
+official_url: "https://docs.factory.com/model-independence/byok.md"
+excerpt: |-
+  `requestMetadata` is a map of string keys to string values that Droid sends on every Bedrock inference call for that model. AWS surfaces the tags in model-invocation logs and cost allocation, which is how you attribute Bedrock spend in your own AWS account back to Droid, a team, or a cost center:
+  ```json
+  {
+    "customModels": [
+      {
+        "model": "anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "displayName": "Sonnet 4.5 [Bedrock]",
+        "provider": "anthropic",
+        "apiKey": "not-used-for-bedrock",
+        "bedrock": {
+          "awsRegion": "us-west-2",
+          "requestMetadata": {
+            "tool": "droid",
+            "team": "platform-eng",
+            "cost_center": "${COST_CENTER}"
+          }
+        }
+      }
+    ]
+  }
+  ```

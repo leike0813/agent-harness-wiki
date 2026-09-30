@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-mcp-oauth
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-mcp
+locator:
+  kind: document_section
+  heading: OAuth overrides
+official_url: "https://docs.factory.com/harness/mcp.md"
+excerpt: |-
+  For most remote servers, OAuth works with zero configuration: Droid discovers the authorization server, registers a client automatically via Dynamic Client Registration (DCR), and uses Factory's published client metadata when the server supports Client ID Metadata Documents (CIMD). **Prefer these defaults.** Only set `oauth` overrides when a provider requires a custom trust or compatibility policy. Set `oauth: false` to disable OAuth for a server entirely.
+  The `oauth` object on an **http** or **sse** server supports:
+  | Field | Type | Description |
+  | :---- | :--- | :---------- |
+  | `scopes` | `string[]` | OAuth scopes to request instead of the discovered defaults. |

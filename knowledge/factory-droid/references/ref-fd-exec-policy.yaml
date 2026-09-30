@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-exec-policy
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-exec
+locator:
+  kind: document_section
+  heading: Command policy in automation
+official_url: "https://docs.factory.com/droid-exec/overview.md"
+excerpt: |-
+  [Permission rules](/autonomy-and-safety/permission-rules) can allow commands, require
+  approval, or block them. A one-shot run cannot collect an interactive approval, so an
+  effective `ask` is not cleared merely by using `--auto high`. A matching block has no
+  approval path, including under `--skip-permissions-unsafe`.
+  Before running an automation, validate and preview its command policy from the relevant
+  repository:
+  ```bash
+  droid rules check
+  droid rules check --command 'git push origin main' --json
+  ```
+  The preview does not execute the command or evaluate every runtime check. A successful
+  check can report `block`; inspect the decision rather than treating exit code `0` as an
+  allow verdict.
+  Legacy `commandAllowlist`, `commandDenylist`, and `commandBlocklist` settings are

@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-repo-hooks-org
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-repo
+locator:
+  kind: document_section
+  heading: Org-managed hooks
+official_url: "https://github.com/Factory-AI/factory"
+excerpt: |-
+  Organizations can centrally define authoritative hooks through the **Hooks Policy** section of [Enterprise Controls](https://app.factory.ai), stored in org-managed settings. This lets administrators ship standard hooks to every machine and, optionally, ignore all non-managed hooks.
+  | Field | Type | Description |
+  | :---- | :--- | :---------- |
+  | `hooks` | `object` | Org-defined hooks, keyed by [hook event](#hook-events). Each event maps to an array of matcher groups using the same [structure](#structure) as a `hooks.json` file. Always loaded; lower levels cannot remove or weaken them. |
+  | `allowManagedHooksOnly` | `boolean` | When `true`, only org-managed and plugin hooks load. User- and project-level hooks (including hooks from locally enabled plugins) are ignored.

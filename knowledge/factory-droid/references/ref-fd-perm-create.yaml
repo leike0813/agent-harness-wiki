@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-perm-create
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-permission-rules
+locator:
+  kind: document_section
+  heading: Create a rule
+official_url: "https://docs.factory.com/autonomy-and-safety/permission-rules.md"
+excerpt: |-
+  Add `permissionRules` to your [settings file](/droid-cli/settings):
+  - Use `~/.factory/settings.json` for personal rules.
+  - Use `<project>/.factory/settings.json` for shared project rules.
+  - Use a nested `.factory/settings.json` for folder rules.
+  - Use `settings.local.json` alongside any of these files for local overrides.
+  - Use [Enterprise Controls](/enterprise/hierarchical-settings-and-org-control#manage-permission-rules) for organization policy.
+  Project and folder rules require workspace trust. The location of a rule determines its scope; an ID such as `project/git-push` is a naming convention, not a scope selector.
+  This example requires approval before commands starting with `git push`:
+  ```json title="settings.json"
+  {
+    "permissionRules": {
+      "version": 1,
+      "rules": [
+        {

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-hooks-quickstart
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-hooks
+locator:
+  kind: document_section
+  heading: Quickstart
+official_url: "https://docs.factory.com/harness/hooks.md"
+excerpt: |-
+  This example logs every shell command Droid runs.
+  <Steps>
+    <Step title="Open the hooks manager">
+      In Droid, run:
+      ```text
+      /hooks
+      ```
+      The manager opens with **User**, **Project**, **Plugins**, and **Effective** tabs.
+    </Step>
+    <Step title="Choose a scope">
+      Select **User** to save the hook in `~/.factory/hooks.json`, or **Project** to save it
+      in `.factory/hooks.json`. The **Plugins** and **Effective** tabs are read-only.
+    </Step>
+    <Step title="Add the hook">
+      Select **Add hook command**, choose the `PreToolUse` event, and set the matcher to
+      `Execute`. Enter this command:
+      ```bash
+      jq -r '.tool_input.command' >> ~/.factory/bash-command-log.txt
+      ```
+    </Step>
+    <Step title="Save and verify">

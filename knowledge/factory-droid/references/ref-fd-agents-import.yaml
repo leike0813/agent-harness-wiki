@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-agents-import
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-subagents
+locator:
+  kind: document_section
+  heading: Import from Claude Code
+official_url: "https://docs.factory.com/harness/subagents.md"
+excerpt: |-
+  The droids menu can import agents created in Claude Code. Open `/droids`, start the import flow, and the CLI scans both `<repo>/.claude/agents/` (project scope) and `~/.claude/agents/` (personal scope). For each selected agent it:
+  - maps the agent name, description, and instructions to the droid `name`, `description`, and system prompt body
+  - maps the model family to a Factory model: `inherit` stays `inherit`, and `sonnet`, `haiku`, or `opus` map to the first available model in that family (unmatched names fall back to `inherit`)
+  - maps tool names to Factory tools, warning on any that have no equivalent
+  - saves each agent to the matching Factory location, so project agents become project droids and personal agents become personal droids
+  Agents that already exist are pre-deselected.

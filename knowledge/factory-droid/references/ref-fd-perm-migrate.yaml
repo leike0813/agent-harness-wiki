@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-perm-migrate
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-permission-rules
+locator:
+  kind: document_section
+  heading: Migrate legacy command lists
+official_url: "https://docs.factory.com/autonomy-and-safety/permission-rules.md"
+excerpt: |-
+  The three legacy list settings are **deprecated, not removed**. They remain respected for backward compatibility. Use rules for new policies; immediate migration is not required.
+  | Legacy setting | Replacement decision |
+  | :------------- | :------------------- |
+  | `commandAllowlist` | `allow` |
+  | `commandDenylist` | `ask`, not `block` |
+  | `commandBlocklist` | `block` |
+  ### How rules and legacy lists coexist
+  There is no automatic rewrite of your settings files. Recognized default entries are handled by built-in rules or runtime safeguards; custom legacy entries remain compatibility inputs.
+  For a command the engine can parse with sufficient confidence, a matching native rule can replace a custom legacy deny or block decision from the **same settings source**.

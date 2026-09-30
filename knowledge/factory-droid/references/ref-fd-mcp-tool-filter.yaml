@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-mcp-tool-filter
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-mcp
+locator:
+  kind: document_section
+  heading: Tool filtering
+official_url: "https://docs.factory.com/harness/mcp.md"
+excerpt: |-
+  A server can expose many tools, and you may not want all of them in every session. Use `disabledTools` to exclude specific tools persistently in `mcp.json`. Every tool the server reports is loaded except the listed names, and excluded tools are never registered with the model, so they do not consume context tokens.
+  ```json title="mcp.json"
+  {
+    "mcpServers": {
+      "my-server": {
+        "type": "stdio",
+        "command": "npx",
+        "args": ["-y", "@some/mcp-server"],
+        "disabledTools": ["tool_i_dont_need", "another_unused_tool"]
+      }
+    }
+  }
+  ```
+  <Tip>
+    Run `/mcp` to see the exact tool names a server exposes, then copy them into `disabledTools`.
+  </Tip>
+  <LabeledDivider label='Credentials' />

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-hooks-debug
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-hooks
+locator:
+  kind: document_section
+  heading: Debugging
+official_url: "https://docs.factory.com/harness/hooks.md"
+excerpt: |-
+  | Symptom | What to check |
+  | :------ | :------------ |
+  | Hook does not run | Confirm the event key, matcher casing, and that hooks are not disabled. Use `/hooks` to inspect the active configuration. |
+  | Hook runs for the wrong tool | Matchers are case-sensitive and can be regexes. Use exact names like `Execute`, or a narrow regex. |
+  | Script cannot be found | Use an absolute path or `"$FACTORY_PROJECT_DIR"/relative/path`. Do not rely on the shell's current directory. |
+  | JSON parsing fails | Remember that hook input arrives on stdin. Test with sample JSON before registering the command. |
+  | Hook hangs | Set a shorter `timeout`, inspect external network or process calls, and test the script outside Droid. |
+  Run `droid --debug` to inspect hook matching and execution details.
+  <RelatedLinks>

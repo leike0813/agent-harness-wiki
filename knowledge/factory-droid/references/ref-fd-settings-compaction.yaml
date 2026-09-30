@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-settings-compaction
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-settings
+locator:
+  kind: document_section
+  heading: Context and compaction
+official_url: "https://docs.factory.com/droid-cli/settings.md"
+excerpt: |-
+  Controls when and how droid compacts the conversation to stay within the model's context window.
+  <PropertyList>
+    <Property name='compactionTokenLimit' type='number' defaultValue='Model-dependent'>
+      Token threshold that triggers automatic compaction of the current session.
+    </Property>
+    <Property name='compactionTokenLimitPerModel' type='object' defaultValue='{}'>
+      Per-model overrides for `compactionTokenLimit`, as a
+      `{ "<modelId>": number }` map.
+    </Property>
+    <Property name='compactionModel' type='string' defaultValue='same'>
+      Which model performs compaction: `same` uses the current session model, or
+      specify a model ID.
+    </Property>
+    <Property name='modelFallbacks' type='object' defaultValue='{}'>

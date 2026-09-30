@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-marketplaces-version
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-plugin-marketplaces
+locator:
+  kind: document_section
+  heading: Version management
+official_url: "https://docs.factory.com/enterprise/internal-plugin-marketplaces.md"
+excerpt: |-
+  Relative-path plugins in a Git marketplace use the marketplace checkout commit as their installed version. External Git and npm sources are fetched separately when their plugin is installed or refreshed.
+  Pin a marketplace source with `ref` (branch or tag) or `sha` (full commit SHA) to control its manifest and relative-path plugins:
+  ```json
+  {
+    "extraKnownMarketplaces": {
+      "acme-corp-plugins": {
+        "source": {
+          "source": "github",
+          "repo": "your-org/droid-plugins",
+          "ref": "v2.4.0"
+        }
+      },
+      "acme-corp-plugins-frozen": {
+        "source": {
+          "source": "github",
+          "repo": "your-org/droid-plugins",
+          "sha": "1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b"
+        }
+      }
+    }
+  }
+  ```
+  Common patterns:

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-mcp-permissions
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-mcp
+locator:
+  kind: document_section
+  heading: Persistent tool permissions
+official_url: "https://docs.factory.com/harness/mcp.md"
+excerpt: |-
+  When you approve an MCP tool, Droid can remember that approval so it persists across sessions. Each approval is bound to a stable fingerprint of the server's transport configuration (its stdio command and arguments, or its http/sse URL). If a previously trusted server name is later re-pointed at a different command or URL, the stored approval no longer applies and the tool must be approved again.
+  Manage these approvals with `droid mcp permissions`:
+  ```bash
+  droid mcp permissions list
+  droid mcp permissions revoke <server> [tool]
+  droid mcp permissions clear --confirm
+  ```
+  - `list` shows all persistent permissions.
+  - `revoke <server>` removes a server's approval, including all of its per-tool approvals. Add a `tool` argument to revoke a single tool.

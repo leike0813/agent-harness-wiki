@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-marketplaces-npm
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-plugin-marketplaces
+locator:
+  kind: document_section
+  heading: npm-sourced plugins
+official_url: "https://docs.factory.com/enterprise/internal-plugin-marketplaces.md"
+excerpt: |-
+  Individual plugins in a marketplace manifest can be sourced from an **npm registry** instead of a Git path. Use the `npm` source type in a plugin's `source` field (it is a per-plugin source only, not a marketplace source):
+  ```json
+  {
+    "name": "acme-corp-plugins",
+    "plugins": [
+      {
+        "name": "security-toolkit",
+        "description": "Security review and vulnerability scanning",
+        "source": {
+          "source": "npm",
+          "package": "@acme/droid-security-toolkit",
+          "version": "^2.0.0",
+          "registry": "https://npm.internal.acme.com",
+          "authTokenEnvVar": "ACME_NPM_TOKEN"
+        }
+      }
+    ]
+  }
+  ```
+  | Field | Purpose |
+  |-------|---------|
+  | `package` | npm package name (scoped or unscoped). Required. |

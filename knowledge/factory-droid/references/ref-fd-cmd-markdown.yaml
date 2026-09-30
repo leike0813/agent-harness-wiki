@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-cmd-markdown
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-custom-commands
+locator:
+  kind: document_section
+  heading: Markdown commands
+official_url: "https://docs.factory.com/harness/custom-slash-commands.md"
+excerpt: |-
+  Markdown files render as a system notification that seeds Droid's next turn. Optional YAML frontmatter sets autocomplete metadata.
+  | Frontmatter key | Purpose |
+  | --------------- | ------- |
+  | `description` | Overrides the generated summary shown in slash suggestions. |
+  | `argument-hint` | Appends inline usage hints, such as `/code-review <branch-name>`. |
+  Tool scoping is not available for custom commands. Use [Skills](/harness/skills) or [Custom Droids](/harness/subagents) for tool policy.
+  `$ARGUMENTS` expands to everything typed after the command name. If you do not reference it, the body is sent unchanged.
+  <Note>
+  Positional placeholders like `$1` or `$2` are not supported in Markdown commands. Use `$ARGUMENTS` and parse the input inside the prompt.
+  </Note>
+  <Tip>

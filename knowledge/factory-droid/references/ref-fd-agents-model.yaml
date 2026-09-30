@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-agents-model
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-subagents
+locator:
+  kind: document_section
+  heading: Model selection
+official_url: "https://docs.factory.com/harness/subagents.md"
+excerpt: |-
+  Each subagent's model is resolved from its droid config plus the parent's complexity routing, in this order:
+  1. **Droid `model`**: a `model` pinned in the droid's frontmatter wins. Use a public model ID from [Models](/models), or `custom:` plus your BYOK `model` field. Set `model: inherit` (the default) to defer to the parent.
+  2. **Complexity-to-model routing**: when the droid's model is `inherit` and the parent passes a `complexity` tier, Droid maps that tier to a model using the routing you configure in `/settings` under **Subagents**. The **Light**, **Medium**, and **Heavy** task-model settings each map a tier to a specific model (with an optional reasoning effort) or to the Auto model router, or leave it on **Inherit** to use the spawning session's model.
+  3.

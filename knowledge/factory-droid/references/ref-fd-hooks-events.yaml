@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-hooks-events
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-hooks
+locator:
+  kind: document_section
+  heading: Hook events
+official_url: "https://docs.factory.com/harness/hooks.md"
+excerpt: |-
+  | Event | Runs when | Matcher or key fields | Common use |
+  | :---- | :-------- | :-------------------- | :--------- |
+  | `PreToolUse` | After Droid builds tool parameters and before the tool runs. | `tool_name`, `tool_input`; matcher usually targets a tool such as `Execute` or `Edit`. | Block risky operations, approve safe tools, rewrite tool input. |
+  | `PostToolUse` | Immediately after a tool completes. | `tool_name`, `tool_input`, `tool_response`; same tool matchers as `PreToolUse`. | Format files, run validation, add feedback after an edit. |
+  | `UserPromptSubmit` | Before Droid processes a submitted user prompt. | `prompt`, `has_images`. | Validate prompts or inject extra context. |
+  | `Notification` | When Droid sends a notification.

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-mcp-config
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-mcp
+locator:
+  kind: document_section
+  heading: Configuration file
+official_url: "https://docs.factory.com/harness/mcp.md"
+excerpt: |-
+  MCP server configurations are stored in `mcp.json` files at three levels:
+  | Level | Location | Purpose |
+  | :---- | :------- | :------ |
+  | **User** | `~/.factory/mcp.json` | Your personal servers, available in every project. |
+  | **Folder** | `.factory/mcp.json` in an ancestor directory of the project | Servers shared across nested projects under a common parent. |
+  | **Project** | `.factory/mcp.json` in the project root | Shared team servers, committed to the repo. |
+  Organizations can also provide servers centrally and restrict which ones are allowed through managed settings (see [Enterprise: MCP policy](#enterprise-mcp-policy)).
+  **Behaviors to know:**
+  - Servers you add with `droid mcp add` or the registry always go to your **user** config.

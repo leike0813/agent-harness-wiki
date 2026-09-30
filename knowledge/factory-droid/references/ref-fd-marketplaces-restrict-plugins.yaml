@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-marketplaces-restrict-plugins
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-plugin-marketplaces
+locator:
+  kind: document_section
+  heading: Restricting enabled plugins
+official_url: "https://docs.factory.com/enterprise/internal-plugin-marketplaces.md"
+excerpt: |-
+  By default, `enabledPlugins` entries from org, project, and user settings combine. Set `strictEnabledPlugins` to make the entries at the policy level and higher the complete list:
+  ```json
+  {
+    "strictEnabledPlugins": true,
+    "enabledPlugins": {
+      "security-toolkit@acme-corp-plugins": true,
+      "platform-tools@acme-corp-plugins": true
+    }
+  }
+  ```
+  At org level, project and user settings cannot enable or install other plugins. Their existing entries stay stored but inactive, and can reactivate if the strict policy is removed. Factory's default plugins are also disabled unless they appear in the org list.
+  <Warning>
+  Older CLI versions do not recognize or enforce `strictEnabledPlugins`. Require a supported version before relying on this policy.
+  </Warning>

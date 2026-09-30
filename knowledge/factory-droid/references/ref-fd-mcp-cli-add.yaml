@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-mcp-cli-add
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-mcp
+locator:
+  kind: document_section
+  heading: Add servers from the CLI
+official_url: "https://docs.factory.com/harness/mcp.md"
+excerpt: |-
+  For scripting and automation, use `droid mcp add`. The transport flag determines how the rest of the arguments are parsed.
+  ```bash
+  droid mcp add <name> <urlOrCommand...> --type <stdio|http|sse>
+  ```
+  - `name` is a unique server identifier.
+  - `--type` defaults to `stdio` when omitted.
+  - `--env KEY=VALUE` sets environment variables (stdio only, repeatable).
+  - `--header "KEY: VALUE"` sets HTTP headers (http/sse only, repeatable).
+  - `--no-oauth` disables OAuth for a header- or API-key-authenticated remote server (stores `oauth: false`).
+  <Tabs>
+    <Tab title="HTTP">
+      HTTP servers are remote MCP endpoints, the recommended way to connect to cloud services.
+      ```bash
+      droid mcp add linear https://mcp.linear.app/mcp --type http
+      ```

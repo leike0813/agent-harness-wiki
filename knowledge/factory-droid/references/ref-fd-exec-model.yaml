@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-exec-model
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-exec
+locator:
+  kind: document_section
+  heading: Execution model
+official_url: "https://docs.factory.com/droid-exec/overview.md"
+excerpt: |-
+  Each run is a single non-interactive pass that writes to stdout/stderr. The default is spec-mode, where the agent is only allowed to execute read-only operations; add `--auto` to enable edits and commands, with risk tiers gating what can run.
+  CLI help (excerpt):
+  ```text
+  Usage: droid exec [options] [prompt]
+  Execute a single command (non-interactive mode)
+  Arguments:
+    prompt                          The prompt to execute
+  Options:
+    -o, --output-format <format>          Output format (default: "text")
+    --input-format <format>               Input format: stream-json for multi-turn sessions; stream-jsonrpc is controlled via JSON-RPC requests
+    -f, --file <path>                     Read prompt from file
+    --auto <level>                        Autonomy level: low|medium|high

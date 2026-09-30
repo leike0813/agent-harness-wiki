@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-agents-invoke
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-subagents
+locator:
+  kind: document_section
+  heading: Invoking custom droids
+official_url: "https://docs.factory.com/harness/subagents.md"
+excerpt: |-
+  Droid calls droids through the **Task** tool. It may delegate on its own, or you can ask directly: "Use the subagent `security-sweeper` on the files I changed."
+  The Task tool accepts:
+  - `subagent_type` (required): the droid name, for example `code-reviewer`, `worker`, or `explorer`.
+  - `description` (required): a short label for the UI.
+  - `prompt` (required): the full task.
+  - `image_paths` (optional): local image file paths to attach to the subagent (paths only, never base64).
+  - `complexity` (optional): `light`, `medium`, or `heavy`. When set, model selection follows your configured complexity-to-model routing in settings.
+  - `run_in_background` (optional): when `true`, the task returns a `task_id` immediately and runs asynchronously. Retrieve the result with the `TaskOutput` tool.

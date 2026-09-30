@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-hooks-output
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-hooks
+locator:
+  kind: document_section
+  heading: Hook output
+official_url: "https://docs.factory.com/harness/hooks.md"
+excerpt: |-
+  Hooks communicate through exit codes, stderr, stdout, and optional JSON emitted on stdout.
+  | Output | Effect |
+  | :----- | :----- |
+  | Exit code `0` | Success. For `UserPromptSubmit` and `SessionStart`, stdout can add context. For other events, stdout is visible in transcript views. |
+  | Exit code `2` | Blocking or corrective feedback. `PreToolUse` blocks the tool call, `PostToolUse` and `Stop` feed stderr back to Droid, and `UserPromptSubmit` blocks prompt processing. Other lifecycle events surface stderr to the user. |
+  | Any other non-zero exit | Non-blocking error. Droid records stderr and continues where the event permits. |
+  | JSON `continue: false` | Stops processing after the hook. `stopReason` can explain why to the user. |

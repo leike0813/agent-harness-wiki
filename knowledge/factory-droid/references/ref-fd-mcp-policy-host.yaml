@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-mcp-policy-host
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-mcp
+locator:
+  kind: document_section
+  heading: Remote hostname matching
+official_url: "https://docs.factory.com/harness/mcp.md"
+excerpt: |-
+  Remote `http` and `sse` servers are matched by hostname only. You can use a bare hostname or an HTTP/HTTPS URL; a URL is parsed and reduced to its hostname. The scheme, port, credentials, path, query string, and fragment do not restrict access.
+  In a hostname, `*` matches zero or more characters, including dots, so it can span multiple subdomain levels. Other characters are literal, not regular expressions or extended glob syntax. Entries without wildcards continue to match both the hostname itself and its subdomains.
+  Each row below is evaluated on its own, with no other allowlist entries:
+  | Allowlist entry | Example allowed URLs | Example blocked URL |
+  | :-------------- | :------------------- | :------------------ |

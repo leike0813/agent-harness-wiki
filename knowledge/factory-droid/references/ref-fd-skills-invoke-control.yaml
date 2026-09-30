@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-skills-invoke-control
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-skills
+locator:
+  kind: document_section
+  heading: Control who invokes a skill
+official_url: "https://docs.factory.com/harness/skills.md"
+excerpt: |-
+  By default, both you and Droid can invoke a valid enabled skill.
+  | Configuration | User slash invocation | Droid invocation | Use when |
+  | :------------ | :-------------------- | :--------------- | :------- |
+  | Default | Yes | Yes | The skill is safe for direct and automatic use. |
+  | `disable-model-invocation: true` | Yes | No | The skill should run only when the user explicitly asks for it. |
+  | `user-invocable: false` | No | Yes | The skill is background guidance or support workflow users should not call directly. |
+  | `enabled: false` | No | No | Keep the skill on disk but turn it off. |
+  Use `disable-model-invocation: true` for manual workflows with side effects, such as deployment. Use `user-invocable: false` for background guidance where a slash command would not be meaningful.

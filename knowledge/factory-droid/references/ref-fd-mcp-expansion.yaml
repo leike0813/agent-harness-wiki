@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-mcp-expansion
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-mcp
+locator:
+  kind: document_section
+  heading: Secrets and variable expansion
+official_url: "https://docs.factory.com/harness/mcp.md"
+excerpt: |-
+  Droid expands `${NAME}` references in `mcp.json` against your current shell environment when it connects to a server. This keeps secrets out of the file itself so you can source them from a secret manager, a `.env` loader, or your shell profile. Only the `${NAME}` form is supported; there is no default-value syntax.
+  Expansion applies to credential-bearing fields only:
+  - `env` values for **stdio** servers.
+  - `headers` values for **http** and **sse** servers.
+  - `oauth.clientId` and `oauth.clientSecret` for **http** and **sse** servers.
+  It does **not** apply to `command`, `args`, or `url`.
+  ```json title="mcp.json"
+  {
+    "mcpServers": {
+      "context7": {
+        "type": "http",
+        "url": "https://mcp.context7.com/mcp",
+        "headers": {
+          "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"

@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-hooks-pretool
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-hooks
+locator:
+  kind: document_section
+  heading: PreToolUse control
+official_url: "https://docs.factory.com/harness/hooks.md"
+excerpt: |-
+  Use `hookSpecificOutput.permissionDecision` for tool-call control:
+  ```json
+  {
+    "hookSpecificOutput": {
+      "hookEventName": "PreToolUse",
+      "permissionDecision": "allow",
+      "permissionDecisionReason": "Documentation reads are safe",
+      "updatedInput": {
+        "file_path": "/Users/me/project/README.md"
+      }
+    }
+  }
+  ```
+  | Decision | Effect |
+  | :------- | :----- |
+  | `allow` | Allows the tool call and can bypass the normal permission prompt. |
+  | `deny` | Blocks the tool call and sends the reason to Droid. |
+  | `ask` | Forces a user confirmation prompt. |
+  `updatedInput` can modify tool parameters before execution. Use it carefully and only for fields you understand.

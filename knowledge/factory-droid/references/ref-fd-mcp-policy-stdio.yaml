@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-mcp-policy-stdio
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-mcp
+locator:
+  kind: document_section
+  heading: Local command matching
+official_url: "https://docs.factory.com/harness/mcp.md"
+excerpt: |-
+  For `stdio` servers, entries match substrings of the command or individual arguments after lowercasing and removing everything except ASCII letters and digits. Hostname wildcard rules do not apply to `stdio` servers.
+  For example, with `"command": "npx"` and `"args": ["-y", "figma-mcp"]`:
+  | Allowlist entry | Policy result | Why |
+  | :-------------- | :------------ | :-- |
+  | `npx` | Allowed | Matches the command, so it also allows other servers launched with `npx`. |
+  | `figma-mcp` | Allowed | Matches an argument after normalization. |
+  | `figma-*` | Allowed | Becomes `figma`, a substring of the normalized argument; `*` is removed, not expanded. |
+  | `fig*mcp` | Blocked | Becomes `figmcp`, which is not a substring of the command or any argument. |

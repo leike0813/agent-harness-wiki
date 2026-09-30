@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-plugins-test
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-plugins
+locator:
+  kind: document_section
+  heading: Test locally
+official_url: "https://docs.factory.com/harness/plugins.md"
+excerpt: |-
+  `marketplace add` takes a marketplace, not a plugin, so a plugin directory on its own is rejected with "This doesn't appear to be a valid marketplace." Wrap the plugin in a local marketplace and install from that:
+  ```text title="local-marketplace.txt"
+  my-marketplace/
+  ├── .factory-plugin/
+  │   └── marketplace.json      # lists my-plugin with "source": "./my-plugin"
+  └── my-plugin/
+      └── .factory-plugin/
+          └── plugin.json
+  ```
+  ```bash
+  droid plugin marketplace add ./my-marketplace
+  droid plugin install my-plugin@my-marketplace --scope user
+  ```
+  Before sharing, verify:
+  - The plugin installs from a clean checkout.
+  - Commands work with and without `$ARGUMENTS`.
+  - Skills and droids have clear names and routing descriptions.

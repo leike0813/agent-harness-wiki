@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-skills-allowed-tools
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-skills
+locator:
+  kind: document_section
+  heading: Declare intended tools
+official_url: "https://docs.factory.com/harness/skills.md"
+excerpt: |-
+  `allowed-tools` records the tools the skill is designed to use. Droid stores it as skill metadata and shows it in skill surfaces, but standard skill invocation is not a runtime sandbox. A skill cannot add tools that are unavailable in the current session.
+  ```yaml
+  allowed-tools:
+    - Read
+    - Grep
+    - Glob
+  ```
+  Use `allowed-tools` when it makes the skill easier to review:
+  - Read-only audit skills.
+  - Workflows that should not edit files.
+  - Workflows that should not call external systems.
+  - Team-shared skills that need a narrow, reviewable capability set.
+  Do not rely on `allowed-tools` as a security boundary for skills. To enforce tool access, use a [custom droid](/harness/subagents) with a tool policy or run the workflow in a restricted subagent.

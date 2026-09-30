@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-settings-infra
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-settings
+locator:
+  kind: document_section
+  heading: Infrastructure
+official_url: "https://docs.factory.com/droid-cli/settings.md"
+excerpt: |-
+  System-level settings for status line, worktrees, and request timeouts.
+  <PropertyList>
+    <Property name='statusLine' type='object' defaultValue='unset'>
+      Custom status line configuration. Accepts
+      `{ "command": string, "padding"?: number, "maxRows"?: number }`. The
+      `command` is executed and its stdout rendered above the input. Configure
+      interactively with `/statusline`.
+    </Property>
+    <Property name='worktreeDirectory' type='string' defaultValue='~/.factory/worktrees'>
+      Default parent directory for git worktrees created with `--worktree` /
+      `-w`.
+    </Property>
+    <Property name='llmRequestTimeout' type='number' defaultValue='Product default'>
+      Timeout in milliseconds for individual LLM requests before they are
+      aborted.
+    </Property>

@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-cli-autonomy
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-cli-reference
+locator:
+  kind: document_section
+  heading: Autonomy levels
+official_url: "https://docs.factory.com/droid-cli/cli-reference.md"
+excerpt: |-
+  `droid exec` uses tiered autonomy to control what operations the agent can perform. Only raise access when the environment is safe.
+  | Level                       | Intended for             | Notable allowances                                            |
+  | :-------------------------- | :----------------------- | :------------------------------------------------------------ |
+  | _(default)_                 | Read-only reconnaissance | File reads, git diffs, environment inspection                 |
+  | `--auto low`                | Safe edits               | Create/edit files, run formatters, non-destructive commands   |
+  | `--auto medium`             | Local development        | Install dependencies, build/test, local git commits           |

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-agents-mcp-servers
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-subagents
+locator:
+  kind: document_section
+  heading: Selecting MCP servers
+official_url: "https://docs.factory.com/harness/subagents.md"
+excerpt: |-
+  Use `mcpServers` to limit which [MCP servers](/harness/mcp) a droid can reach. The droid receives the tools from each listed server in addition to anything in `tools`; configured servers that are not listed are excluded.
+  ```markdown title=".factory/droids/issue-researcher.md"
+  ---
+  name: issue-researcher
+  description: Researches issues using repository context and tracker data
+  model: inherit
+  tools: ["Read", "Grep"]
+  mcpServers: ["linear", "github"]
+  ---
+  Investigate the issue referenced in the prompt using the codebase and the
+  selected MCP servers, then summarize findings and propose next steps.
+  ```
+  - Server names must match entries in `~/.factory/mcp.json` or `.factory/mcp.json`.
+  - Omitting `mcpServers` keeps the parent session's MCP tool availability.

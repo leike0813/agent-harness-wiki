@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-cli-rules-check
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-cli-reference
+locator:
+  kind: document_section
+  heading: Check permission rules
+official_url: "https://docs.factory.com/droid-cli/cli-reference.md"
+excerpt: |-
+  Use `droid rules check` to validate [permission rules](/autonomy-and-safety/permission-rules),
+  run their embedded matching examples, and preview a decision without executing a command.
+  ```bash
+  droid rules check
+  droid rules check --command 'git push origin main'
+  droid rules check --file rules.json --command 'npm publish' --json
+  ```
+  | Option | Behavior |
+  | :----- | :------- |
+  | `--file <path>` | Check a standalone `{version, rules}` object or bare rule array. Does not load built-ins or other settings. A full `settings.json` wrapper is not accepted. |
+  | `--command <shell-command>` | Preview the policy decision for a non-empty command. Quote it so your shell passes it as one argument. |

@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-hooks-structure
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-hooks
+locator:
+  kind: document_section
+  heading: Structure
+official_url: "https://docs.factory.com/harness/hooks.md"
+excerpt: |-
+  Standalone `hooks.json` files are keyed directly by event name. Each event contains matcher groups, and each group contains one or more shell commands.
+  ```json title="~/.factory/hooks.json"
+  {
+    "PreToolUse": [
+      {
+        "matcher": "Execute",
+        "commandRegex": "^git ",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/local/bin/audit-git-command.sh",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+  ```
+  When you declare hooks inside `settings.json` instead, wrap the same event map in a
+  top-level `hooks` key:
+  ```json title="~/.factory/settings.json"
+  {
+    "hooks": {
+      "PreToolUse": [
+        {
+          "matcher": "Execute",
+          "commandRegex": "^git ",
+          "hooks": [
+            {
+              "type": "command",

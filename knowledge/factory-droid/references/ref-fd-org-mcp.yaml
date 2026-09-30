@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-org-mcp
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-org-control
+locator:
+  kind: document_section
+  heading: MCP
+official_url: "https://docs.factory.com/enterprise/hierarchical-settings-and-org-control.md"
+excerpt: |-
+  MCP access is allowlist-only. For server configuration, see [MCP](/harness/mcp).
+  <ResponseField name="mcpPolicy" type="object">
+    Org-level MCP server access control.
+    **Properties**
+    <ResponseField name="enabled" type="boolean">
+      Whether the MCP allowlist is enforced. Defaults to `false`.
+    </ResponseField>
+    <ResponseField name="allowlist" type="string[]">
+      Allowed hostname or stdio command/argument matchers, not configured MCP server names. When enforcement is enabled, a server must match at least one entry; an empty or absent allowlist blocks all servers, even if a project or user configures them. There is no MCP blocklist.
+      Remote `http` and `sse` servers are matched by hostname only.

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-byok-config
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-byok
+locator:
+  kind: document_section
+  heading: Configuration reference
+official_url: "https://docs.factory.com/model-independence/byok.md"
+excerpt: |-
+  Add custom models to `~/.factory/settings.json` under the `customModels` array:
+  ```json
+  {
+    "customModels": [
+      {
+        "model": "your-model-id",
+        "displayName": "My Custom Model",
+        "baseUrl": "https://api.provider.com/v1",
+        "apiKey": "${PROVIDER_API_KEY}",
+        "provider": "generic-chat-completion-api",
+        "maxOutputTokens": 16384
+      }
+    ]
+  }
+  ```
+  <Tip>
+    In `settings.json` (and `settings.local.json`), `apiKey` supports environment variable references using `${VAR_NAME}` syntax. For example, `"apiKey": "${PROVIDER_API_KEY}"` reads from the environment variable named `PROVIDER_API_KEY` (for example: `export PROVIDER_API_KEY=your_key_here`).
+  </Tip>
+  <Note>
+    `apiKey` is optional for HTTP custom models.

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-skills-anatomy
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-skills
+locator:
+  kind: document_section
+  heading: Skill anatomy
+official_url: "https://docs.factory.com/harness/skills.md"
+excerpt: |-
+  Only `SKILL.md` is required. Keep supporting files beside it when they make the workflow clearer, safer, or easier to validate.
+  ```text
+  .factory/skills/review-api-change/
+    SKILL.md
+    checklists.md
+    schemas/
+      ship-check.schema.json
+    scripts/
+      verify-api-change.sh
+  ```
+  Good supporting files include:
+  - Checklists for review, shipping, or validation.
+  - Schemas that describe expected inputs or outputs.
+  - Small support scripts the skill can call.
+  - Reference files that point to existing modules, API surfaces, or run books.
+  Supporting files are not loaded automatically. Mention them from `SKILL.md` so Droid knows when to read or run them.
+  <Warning>
+    Do not copy production code, secrets, customer data, or private host names into a skill folder. Link to the source of truth instead.

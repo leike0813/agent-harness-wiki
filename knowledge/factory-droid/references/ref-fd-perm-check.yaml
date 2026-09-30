@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-perm-check
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-permission-rules
+locator:
+  kind: document_section
+  heading: Test and preview without executing
+official_url: "https://docs.factory.com/autonomy-and-safety/permission-rules.md"
+excerpt: |-
+  Every enabled rule must pass its embedded examples to become active. These tests check matching only; they never execute the example commands.
+  Validate the rules in your resolved settings:
+  ```bash
+  droid rules check
+  ```
+  Preview the effective command-policy decision:
+  ```bash
+  droid rules check --command 'git push origin main'
+  droid rules check --command 'git push origin main' --json
+  ```
+  The JSON report includes rule sources and competing matches. Use it to investigate an unexpected decision, a skipped rule, or a higher-priority definition.
+  <Note>
+    Preview covers command policy only, not hooks, sandbox permissions, autonomy, or
+    session approvals. An `allow` preview is not a guarantee that every execution check
+    will pass.

@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-hooks-input
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-hooks
+locator:
+  kind: document_section
+  heading: Hook input
+official_url: "https://docs.factory.com/harness/hooks.md"
+excerpt: |-
+  Every hook receives JSON on stdin. Common fields are also exposed as environment variables when their values are strings, booleans, or numbers.
+  ```typescript
+  {
+    session_id: string
+    transcript_path: string
+    cwd: string
+    permission_mode: "off" | "spec" | "auto-low" | "auto-medium" | "auto-high"
+    hook_event_name: string
+    message_id?: string
+  }
+  ```
+  Tool hooks add tool-specific fields:
+  ```json
+  {
+    "session_id": "abc123",
+    "transcript_path": "/Users/.../.factory/projects/.../session.jsonl",
+    "cwd": "/Users/me/project",
+    "permission_mode": "off",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Create",
+    "tool_input": {
+      "file_path": "/Users/me/project/file.txt",
+      "content": "file content"
+    }
+  }
+  ```
+  `PostToolUse` includes `tool_response` as well.

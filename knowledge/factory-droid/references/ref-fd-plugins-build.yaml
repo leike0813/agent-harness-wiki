@@ -1,0 +1,45 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-plugins-build
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-plugins
+locator:
+  kind: document_section
+  heading: Build a plugin
+official_url: "https://docs.factory.com/harness/plugins.md"
+excerpt: |-
+  A minimal native plugin looks like this:
+  ```text
+  my-plugin/
+  ├── .factory-plugin/
+  │   └── plugin.json
+  ├── commands/
+  │   └── hello.md
+  ├── skills/
+  │   └── code-review/
+  │       └── SKILL.md
+  ├── droids/
+  │   └── reviewer.md
+  ├── output-styles/
+  │   └── review-notes.md
+  ├── hooks/
+  │   ├── hooks.json
+  │   └── check.sh
+  ├── mcp.json
+  └── README.md
+  ```
+  <Warning>
+    Keep `commands/`, `skills/`, `droids/`, `output-styles/`, `hooks/`, and `mcp.json` at
+    the plugin root. Do not put them inside `.factory-plugin/`; that directory is for plugin
+    metadata.
+  </Warning>
+  ### Plugin manifest
+  Create `.factory-plugin/plugin.json`:
+  ```json
+  {
+    "name": "my-plugin",
+    "description": "A helpful plugin description",
+    "version": "1.0.0",
+    "author": {
+      "name": "Your Team"
+    },

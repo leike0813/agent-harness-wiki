@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-hooks-control
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-hooks
+locator:
+  kind: document_section
+  heading: "PostToolUse, prompt, and stop control"
+official_url: "https://docs.factory.com/harness/hooks.md"
+excerpt: |-
+  | Event | JSON fields |
+  | :---- | :---------- |
+  | `PostToolUse` | `decision: "block"` sends `reason` back to Droid after the tool ran. `hookSpecificOutput.additionalContext` adds more context. |
+  | `UserPromptSubmit` | `decision: "block"` prevents the prompt from being processed and shows `reason` to the user. `additionalContext` is appended when not blocked. |
+  | `Stop` and `SubagentStop` | `decision: "block"` prevents stopping. Include `reason` so Droid knows what to do next. |
+  | `SessionStart` | `hookSpecificOutput.additionalContext` is appended to the new session context. |
+  | `SessionEnd` | Cannot block session termination. Use it for cleanup and logging. |
+  <LabeledDivider label='Plugins and policy' />

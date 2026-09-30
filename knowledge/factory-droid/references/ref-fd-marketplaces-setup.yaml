@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-marketplaces-setup
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-plugin-marketplaces
+locator:
+  kind: document_section
+  heading: Set up an internal plugin marketplace
+official_url: "https://docs.factory.com/enterprise/internal-plugin-marketplaces.md"
+excerpt: |-
+  An internal plugin marketplace is a Git repository containing your organization's approved plugins with a marketplace manifest.
+  ### Repository structure
+  ```text
+  your-org/droid-plugins/
+  ├── .factory-plugin/
+  │   └── marketplace.json      # Marketplace manifest
+  ├── plugins/
+  │   ├── security-toolkit/     # Security team plugins
+  │   │   ├── .factory-plugin/
+  │   │   │   └── plugin.json
+  │   │   └── skills/
+  │   ├── frontend-standards/   # Frontend team plugins
+  │   │   ├── .factory-plugin/
+  │   │   │   └── plugin.json
+  │   │   └── skills/
+  │   ├── data-engineering/     # Data team plugins
+  │   │   └── ...
+  │   └── platform-tools/       # Platform/DevOps plugins
+  │       └── ...
+  └── README.md
+  ```
+  ### Marketplace manifest
+  Create `.factory-plugin/marketplace.json` to register your plugins:
+  ```json
+  {

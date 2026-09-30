@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-settings-where
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-settings
+locator:
+  kind: document_section
+  heading: Where settings live
+official_url: "https://docs.factory.com/droid-cli/settings.md"
+excerpt: |-
+  | OS            | Location                               |
+  | ------------- | -------------------------------------- |
+  | macOS / Linux | `~/.factory/settings.json`             |
+  | Windows       | `%USERPROFILE%\.factory\settings.json` |
+  If the file doesn't exist, it's created with defaults the first time you run **droid**.
+  ### Local overrides
+  You can create a `settings.local.json` alongside `settings.json` in any `.factory/` folder:
+  - `~/.factory/settings.local.json` (user-level)
+  - `<project>/.factory/settings.local.json` (project-level)
+  Local overrides merge on top of the corresponding `settings.json` at the same level and follow the same hierarchy precedence. Add `settings.local.json` to `.gitignore` if you want to keep machine-specific preferences out of version control.

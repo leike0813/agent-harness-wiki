@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-styles-create
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-output-styles
+locator:
+  kind: document_section
+  heading: Create a custom style
+official_url: "https://docs.factory.com/droid-cli/output-styles.md"
+excerpt: |-
+  Create an `output-styles` directory at the scope where you want the style to be available:
+  | Scope | Location |
+  | :---- | :------- |
+  | User | `~/.factory/output-styles/<name>.md` |
+  | Project | `<repo>/.factory/output-styles/<name>.md` |
+  | Folder | `<repo>/<project-area>/.factory/output-styles/<name>.md` |
+  | Plugin | `<plugin>/output-styles/<name>.md` |
+  Droid loads direct `.md` children of each `output-styles` directory. Nested files and other
+  file types are ignored.
+  Each file contains optional YAML frontmatter followed by the instructions Droid should apply:
+  ```markdown title="~/.factory/output-styles/review-notes.md"
+  ---
+  name: Review Notes
+  description: Put findings before the summary
+  ---
+  Start with actionable findings, ordered by severity.
+  Keep the summary to two sentences.
+  ```

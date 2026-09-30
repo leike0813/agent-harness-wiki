@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-hooks-org
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-hooks
+locator:
+  kind: document_section
+  heading: Org-managed hooks
+official_url: "https://docs.factory.com/harness/hooks.md"
+excerpt: |-
+  Organizations can define authoritative hooks in Enterprise Controls through managed settings. Org hooks always load unless hooks are globally disabled, and lower levels cannot remove them.
+  | Field | Description |
+  | :---- | :---------- |
+  | `hooks` | Org-defined hook settings keyed by event name, using the same structure as `hooks.json`. |
+  | `allowManagedHooksOnly` | When `true`, only org-managed hooks and hooks from org-enabled plugins load. User and project hooks are ignored. |
+  ```json
+  {
+    "allowManagedHooksOnly": true,
+    "hooks": {
+      "PreToolUse": [
+        {
+          "matcher": "Execute",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "/usr/local/bin/audit-command.sh",
+              "timeout": 30
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```

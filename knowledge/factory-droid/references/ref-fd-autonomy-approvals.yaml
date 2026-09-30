@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-autonomy-approvals
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-autonomy
+locator:
+  kind: document_section
+  heading: How approvals work
+official_url: "https://docs.factory.com/autonomy-and-safety/auto-run.md"
+excerpt: |-
+  Autonomy Level controls automatic approval, not which tools are available. Tool policy, MCP configuration, model support, and organization controls can still restrict tools.
+  {/* sweep-allow: term-bullets */}
+  - **Normal vs. Spec Mode**: In Normal Mode, Autonomy Level controls approvals. Spec Mode is read-only planning; after approval, Droid exits Spec Mode and returns to Normal Mode for implementation.
+  - **File changes**: Low or higher lets Droid create, edit, and patch files without asking first.
+  - **Commands and MCP tools**: Droid compares the tool risk level to your Autonomy Level. If the risk is higher, it asks before continuing.
+  - **Command policy**: An effective `allow` skips command approval, `ask` requires it even at High, and `block` rejects the command with no approval path.

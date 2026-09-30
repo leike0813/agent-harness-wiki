@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-plugins-sources
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-plugins
+locator:
+  kind: document_section
+  heading: Plugin sources
+official_url: "https://docs.factory.com/harness/plugins.md"
+excerpt: |-
+  Each marketplace plugin entry has a `source` field.
+  | Source type | Shape | Use when | Pinning |
+  | :---------- | :---- | :------- | :------ |
+  | Relative path | `"./plugin-one"` | Plugin lives inside the marketplace repository. Absolute paths and paths that escape the marketplace directory are rejected. | Pin the marketplace source. |
+  | `url` | `{ "source": "url", "url": "https://github.com/org/plugin.git" }` | Plugin has its own Git repository. | `ref` branch/tag or full 40-character `sha`. |
+  | `git-subdir` | `{ "source": "git-subdir", "url": "https://github.com/org/repo", "path": "plugins/foo" }` | Plugin lives in a subdirectory of a larger repository. | `ref` branch/tag or full 40-character `sha`. |

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-plugins-hooks
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-plugins
+locator:
+  kind: document_section
+  heading: Hooks
+official_url: "https://docs.factory.com/harness/plugins.md"
+excerpt: |-
+  Plugin hooks live at `hooks/hooks.json` and may reference scripts in the plugin:
+  ```json
+  {
+    "PostToolUse": [
+      {
+        "matcher": "Create|Edit|ApplyPatch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${DROID_PLUGIN_ROOT}/hooks/check.sh",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+  ```
+  Droid expands `${DROID_PLUGIN_ROOT}`, `$DROID_PLUGIN_ROOT`, `${CLAUDE_PLUGIN_ROOT}`, and `$CLAUDE_PLUGIN_ROOT` to the installed plugin cache path when the plugin loads. See [Hooks](/harness/hooks#plugin-hooks) for hook events, input, and output behavior.

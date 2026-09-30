@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-plugins-version
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-plugins
+locator:
+  kind: document_section
+  heading: Versioning and updates
+official_url: "https://docs.factory.com/harness/plugins.md"
+excerpt: |-
+  | Source | Tracked version | Update behavior |
+  | :----- | :-------------- | :-------------- |
+  | Relative path inside a Git marketplace | Marketplace commit hash | Update the marketplace to move the plugin. |
+  | `url` or `git-subdir` plugin source | Marketplace checkout commit hash only. The external commit is not recorded. | Updating the plugin clones the external source again at its configured `ref` or `sha`, or its default branch. |
+  | `npm` plugin source | Resolved npm package version and metadata | Each plugin update resolves the `version` spec again. |
+  | Plugin manifest `version` | Metadata only | Useful for humans and release notes, but Git-based installs are tracked by commit. |

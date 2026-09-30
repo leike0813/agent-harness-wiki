@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-plugins-npm
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-plugins
+locator:
+  kind: document_section
+  heading: npm source details
+official_url: "https://docs.factory.com/harness/plugins.md"
+excerpt: |-
+  | Field | Required | Description |
+  | :---- | :------- | :---------- |
+  | `package` | Yes | npm package name. Scoped packages such as `@scope/name` are supported. |
+  | `version` | No | Version, range, or dist-tag. Defaults to `latest`. URL, path, `file:`, `git+...`, and `npm:` alias specs are rejected. |
+  | `registry` | No | HTTPS registry URL with no embedded credentials, query string, or fragment. |
+  | `authTokenEnvVar` | No | Environment variable name containing the private registry token. Requires `registry` to have an effect. |
+  Droid installs npm-source plugins in a per-plugin scratch directory with `npm install --ignore-scripts --no-save --no-audit --no-fund`, then copies the resolved package root into the plugin cache.

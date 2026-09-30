@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-perm-scope
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-permission-rules
+locator:
+  kind: document_section
+  heading: Understand scope and precedence
+official_url: "https://docs.factory.com/autonomy-and-safety/permission-rules.md"
+excerpt: |-
+  Rule resolution has two stages:
+  1. **Resolve IDs.** Higher-priority valid definitions claim repeated IDs in this order: Org, Runtime, Folder, Project, User. Within a folder's settings, `settings.local.json` precedes `settings.json`. A valid disabled definition still claims its ID.
+  2. **Evaluate the surviving policy.** Rules with different IDs accumulate. Matching `block` decisions take precedence over `ask`, which takes precedence over `allow`. If nothing matches, normal approval handling applies.
+  For example, an org allow and a project block with different IDs result in a block. If they use the same ID, the org definition shadows the project definition before matching.
+  An empty rules array does not erase inherited rules.

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-mcp-timeouts
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-mcp
+locator:
+  kind: document_section
+  heading: MCP timeouts
+official_url: "https://docs.factory.com/harness/mcp.md"
+excerpt: |-
+  Two independent per-server settings bound how long Droid waits on an MCP server, both in milliseconds:
+  - `timeout` bounds each tool invocation. Long-running tools (large data exports, browser automations, model-backed servers) can exceed the built-in default and fail with a timeout error.
+  - `connectTimeout` bounds the initial connection and initialization handshake. Slow-starting servers (heavy `npx` installs, servers that compile on first launch) can exceed the transport default: 10 seconds for `http`/`sse` servers, 30 seconds for `stdio` servers.
+  ```json title="mcp.json"
+  {
+    "mcpServers": {
+      "slow-server": {
+        "type": "stdio",
+        "command": "my-long-running-server",
+        "connectTimeout": 60000,
+        "timeout": 120000
+      }
+    }
+  }
+  ```

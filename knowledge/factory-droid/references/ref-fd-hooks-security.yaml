@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-hooks-security
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-hooks
+locator:
+  kind: document_section
+  heading: Security considerations
+official_url: "https://docs.factory.com/harness/hooks.md"
+excerpt: |-
+  - Treat hook input as untrusted JSON. Validate and sanitize paths, prompts, and command strings.
+  - Quote shell variables, for example `"$FACTORY_PROJECT_DIR"`, to avoid word splitting.
+  - Block path traversal and sensitive paths such as `.env`, `.git/`, credentials, and deployment secrets.
+  - Prefer small scripts checked into `.factory/hooks/` over long inline one-liners.
+  - Test hooks manually before enabling them for a team or organization.
+  - Remember that hooks inherit your local environment. Avoid commands that exfiltrate data or mutate systems unexpectedly.
+  Droid snapshots hooks at startup and warns when hooks are modified externally. Review changes in the `/hooks` UI before relying on them in the current session.

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-byok-bearer
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-byok
+locator:
+  kind: document_section
+  heading: Anthropic bearer authentication
+official_url: "https://docs.factory.com/model-independence/byok.md"
+excerpt: |-
+  By default, `provider: "anthropic"` sends the credential from `apiKey` or `apiKeyHelper` in the `x-api-key` header. Some Anthropic Messages-compatible gateways require `Authorization: Bearer` instead. Set `authMode` to `bearer` for those gateways:
+  ```json
+  {
+    "customModels": [
+      {
+        "model": "claude-compatible-model",
+        "displayName": "Claude-compatible gateway",
+        "baseUrl": "https://llm-gateway.internal.example.com/anthropic",
+        "provider": "anthropic",
+        "apiKeyHelper": "/usr/local/bin/mint-gateway-token.sh",
+        "authMode": "bearer"
+      }
+    ]
+  }
+  ```
+  `authMode: "bearer"` is only valid for non-Bedrock models using `provider: "anthropic"`.
+  ---

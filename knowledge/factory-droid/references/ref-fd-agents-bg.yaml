@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-agents-bg
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-subagents
+locator:
+  kind: document_section
+  heading: Foreground and background
+official_url: "https://docs.factory.com/harness/subagents.md"
+excerpt: |-
+  - **Foreground (default)**: the parent waits for the subagent to finish. The Task tool streams live progress (tool calls, results, and `TodoWrite` updates) as the subagent runs, then returns its final message.
+  - **Background (`run_in_background: true`)**: the Task tool returns a `task_id` immediately and the subagent keeps running independently. Use it for genuinely independent work that can run in parallel. The parent is notified when it completes.
+  To retrieve or manage a background subagent, the parent uses two companion tools:
+  - **`TaskOutput`**: fetch a background task's output by `task_id`. Use `block=true` to wait for completion, or `block=false` to poll status without waiting.
+  - **`TaskStop`**: stop a running background task by `task_id` (sends `SIGTERM`, then `SIGKILL` if needed).

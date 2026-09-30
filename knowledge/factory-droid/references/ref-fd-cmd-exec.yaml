@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-cmd-exec
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-custom-commands
+locator:
+  kind: document_section
+  heading: Executable commands
+official_url: "https://docs.factory.com/harness/custom-slash-commands.md"
+excerpt: |-
+  Executable files must start with a valid shebang so the CLI can call the interpreter.
+  ```bash
+  #!/usr/bin/env bash
+  set -euo pipefail
+  echo "Preparing $1"
+  npm install
+  npm run lint
+  echo "Ready to deploy $1"
+  ```
+  - The executable receives positional arguments (`/deploy feature/login` sets `$1=feature/login`).
+  - The script runs from the current working directory and inherits your environment.
+  - Stdout and stderr (up to 64 KB) plus the script contents are posted back to the chat transcript for transparency. Failures still surface their logs.

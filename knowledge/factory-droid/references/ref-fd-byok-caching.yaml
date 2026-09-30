@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-byok-caching
+harness_id: factory-droid
+snapshot_id: snapshot-factory-droid-docs-byok
+locator:
+  kind: document_section
+  heading: Prompt caching
+official_url: "https://docs.factory.com/model-independence/byok.md"
+excerpt: |-
+  The Droid CLI automatically uses prompt caching when available to reduce API costs:
+  - **Official providers (`anthropic`, `openai`)**: Factory attempts to use prompt caching via the official APIs. Caching behavior follows each provider's implementation and requirements.
+  - **Generic providers (`generic-chat-completion-api`)**: Prompt caching support varies by provider and cannot be guaranteed. Some providers may support caching, while others may not.
+  ### Verifying prompt caching
+  To check if prompt caching is working correctly with your custom model:
+  1. Run a conversation with your custom model
+  2. Use the `/cost` command in the Droid CLI to view cost breakdowns
+  3. Look for cache hit rates and savings in the output
