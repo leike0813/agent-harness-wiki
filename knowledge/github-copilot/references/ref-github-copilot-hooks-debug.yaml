@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooks-debug
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-howto
+locator:
+  kind: document_section
+  heading: "Debugging"
+official_url: "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/use-hooks.md"
+excerpt: |-
+  You can debug hooks using the following methods:
+
+  * **Enable verbose logging** in the script to inspect the input data and trace script execution.
+
+    ```shell copy
+    #!/bin/bash
+    set -x  # Enable bash debug mode
+    INPUT=$(cat)
+    echo "DEBUG: Received input" >&2
+    echo "$INPUT" >&2
+    # ... rest of script
+    ```
+
+  * **Test hooks locally** by piping test input into your hook to validate its behavior:
+
+    ```shell copy
+    # Create test input
+    echo '{"timestamp":1704614400000,"cwd":"/tmp","toolName":"bash","toolArgs":"{\"command\":\"ls\"}"}' | ./my-hook.sh
+
+    # Check exit code
+    echo $?
+
+    # Validate output is valid JSON
+    ./my-hook.sh | jq .
+    ```

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-config-shell
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-configure
+locator:
+  kind: document_section
+  heading: "Allowing or denying shell commands"
+official_url: "https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/configure-copilot-cli.md"
+excerpt: |-
+  Use `shell(COMMAND)` to allow or deny a specific shell command.
+
+  * For example, to prevent Copilot from using any `rm` command, use:
+
+    ```shell
+    copilot --deny-tool='shell(rm)'
+    ```
+
+  For `git` and `gh` commands, specify a particular first-level subcommand to allow or deny.
+
+  * For example, to prevent Copilot from using `git push`, use:
+
+    ```shell
+    copilot --deny-tool='shell(git push)'
+    ```
+
+  The tool specification is optional. For example, `copilot --allow-tool='shell'` allows Copilot to use any shell command without individual approval.

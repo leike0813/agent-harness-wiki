@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-auth-offline
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-auth
+locator:
+  kind: document_section
+  heading: "Offline mode"
+official_url: "https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/authenticate-copilot-cli.md"
+excerpt: |-
+  If you set the `COPILOT_OFFLINE` environment variable to `true`, Copilot CLI runs without contacting GitHub's servers. In offline mode:
+
+  * No GitHub authentication is attempted.
+  * The CLI only makes network requests to your configured BYOK provider.
+  * Telemetry is fully disabled.
+
+  Offline mode is **only fully air-gapped** if your BYOK provider is local or otherwise within the same isolated environment (for example, a model running on-premises with no external network access). If `COPILOT_PROVIDER_BASE_URL` points to a remote or internet-accessible endpoint, prompts and code context will still be sent over the network to that provider. Without offline mode, even when using BYOK without GitHub authentication, telemetry is still sent normally.

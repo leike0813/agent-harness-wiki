@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cmdref-subagent-limits
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cmdref
+locator:
+  kind: document_section
+  heading: "Subagent limits"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference.md"
+excerpt: |-
+  The CLI enforces depth and concurrency limits to prevent runaway agent spawning.
+
+  | Limit | Default | Max |
+  | Max depth | `6` | `256` |
+  | Max concurrent | plan-based | `32` |
+
+  **Depth** counts how many agents are nested within one another. When the depth limit is reached, the innermost agent cannot spawn further subagents. **Concurrency** counts how many subagents are running simultaneously across the entire session tree. When the limit is reached, new subagent requests are rejected until an active agent completes.
+
+  The default concurrency limit depends on your Copilot plan:
+
+  | Plan | Max concurrent |
+  | Free / Education | `2` |
+  | Pro / Pro+ | `4` |
+  | Max | `8` |
+  | Business | `16` |
+  | Enterprise | `32` |
+  | Usage-based billing | `32` |

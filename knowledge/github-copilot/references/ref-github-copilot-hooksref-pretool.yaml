@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooksref-pretool
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: "`preToolUse` / `PreToolUse`"
+official_url: "https://docs.github.com/en/copilot/reference/hooks-reference.md"
+excerpt: |-
+  **camelCase input:**
+
+  ```typescript
+  {
+      sessionId: string;
+      timestamp: number;
+      cwd: string;
+      toolName: string;
+      toolArgs: unknown;
+  }
+  ```
+
+  **VS Code compatible input:**
+
+  When configured with the PascalCase event name `PreToolUse`, the payload uses snake\_case field names to match the VS Code Copilot extension format:
+
+  ```typescript
+  {
+      hook_event_name: "PreToolUse";
+      session_id: string;
+      timestamp: string;      // ISO 8601 timestamp
+      cwd: string;
+      tool_name: string;
+      tool_input: unknown;    // Tool arguments (parsed from JSON string when possible)
+  }
+  ```

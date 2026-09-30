@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-autherr-expired
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-auth-trouble
+locator:
+  kind: document_section
+  heading: "Token expired or revoked"
+official_url: "https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/troubleshoot-copilot-cli-auth.md"
+excerpt: |-
+  Copilot CLI displays the following error:
+
+  <!-- markdownlint-disable GHD005 -->
+
+  ```text
+  Error: Authentication failed
+
+  Your GitHub token may be invalid, expired, or lacking the required permissions.
+
+  To resolve this, try the following:
+    • Start 'copilot' and run the '${LOGIN_COMMAND}' command to re-authenticate
+    • If using a Fine-Grained PAT, ensure it has the 'Copilot Requests' permission enabled
+    • If using COPILOT_GITHUB_TOKEN, GH_TOKEN or GITHUB_TOKEN environment variable, verify the token is valid and not expired
+    • Run 'gh auth status' to check your current authentication status
+  ```
+
+  <!-- markdownlint-enable GHD005 -->
+
+  ### Cause
+
+  The token was revoked, has expired, or was created without the required permissions.
+
+  ### Fix

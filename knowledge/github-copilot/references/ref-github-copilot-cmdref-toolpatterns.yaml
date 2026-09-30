@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cmdref-toolpatterns
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cmdref
+locator:
+  kind: document_section
+  heading: "Tool permission patterns"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference.md"
+excerpt: |-
+  The `--allow-tool` and `--deny-tool` options accept permission patterns in the format `Kind(argument)`. The argument is optional—omitting it matches all tools of that kind.
+
+  | Kind | Description | Example patterns |
+  | `memory` | Storing facts to agent memory | `memory` |
+  | `read` | File or directory reads | `read`, `read(.env)` |
+  | `shell` | Shell command execution | `shell(git push)`, `shell(git:*)`, `shell` |
+  | `url` | URL access via web-fetch or shell | `url(github.com)`, `url(https://*.api.com)` |
+  | `write` | File creation or modification | `write`, `write(src/*.ts)` |
+  | SERVER-NAME | MCP server tool invocation | `MyMCP(create_issue)`, `MyMCP` |

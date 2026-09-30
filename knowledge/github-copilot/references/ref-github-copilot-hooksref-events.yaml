@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooksref-events
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: "Hook events"
+official_url: "https://docs.github.com/en/copilot/reference/hooks-reference.md"
+excerpt: |-
+  The table below lists every supported event. The **Cloud agent** column shows whether the event fires under cloud agent and notes any behavior differences.
+
+  | Event | Fires when | Output processed | Cloud agent |
+  | `agentStop` | The main agent finishes a turn. | Yes — can block and force continuation. | Fires. `decision: "block"` forces another turn, which still counts against the job's timeout. |
+  | `errorOccurred` | An error occurs during execution. | No | Fires. |

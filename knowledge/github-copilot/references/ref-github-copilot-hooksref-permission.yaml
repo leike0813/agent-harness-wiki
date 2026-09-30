@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooksref-permission
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: "`permissionRequest` decision control"
+official_url: "https://docs.github.com/en/copilot/reference/hooks-reference.md"
+excerpt: |-
+  > \[!NOTE]
+  > **Copilot CLI only.** The `permissionRequest` hook does not apply under Copilot cloud agent—tool calls there are pre-approved (see the **Interactivity** row in the Cloud agent execution environment table). Use `preToolUse` to make permission decisions in cloud agent.
+
+  The `permissionRequest` hook fires before the permission service runs—before rule checks, session approvals, auto-allow/auto-deny, and user prompting. If hooks return `behavior: "allow"` or `"deny"`, that decision short-circuits the normal permission flow. Returning nothing falls through to normal permission handling. Use it to approve or deny tool calls programmatically—especially useful in CLI pipe mode (`-p`) and other CLI CI usages where no interactive prompt is available. It does not apply to cloud agent.

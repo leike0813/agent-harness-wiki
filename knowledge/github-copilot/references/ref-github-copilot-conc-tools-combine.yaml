@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-conc-tools-combine
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cli-concept
+locator:
+  kind: document_section
+  heading: "Combining approval options"
+official_url: "https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli.md"
+excerpt: |-
+  You can use a combination of approval options to determine exactly which tools Copilot can use without asking for your approval.
+
+  For example, to prevent Copilot from using the `rm` and `git push` commands, but automatically allow all other tools, use:
+
+  ```shell
+  copilot --allow-all-tools --deny-tool='shell(rm)' --deny-tool='shell(git push)'
+  ```
+
+  To prevent Copilot from using the tool `tool_name` from the MCP server named `My-MCP-Server`, but allow all other tools from that server to be used without individual approval, use:
+
+  ```shell
+  copilot --allow-tool='My-MCP-Server' --deny-tool='My-MCP-Server(tool_name)'
+  ```

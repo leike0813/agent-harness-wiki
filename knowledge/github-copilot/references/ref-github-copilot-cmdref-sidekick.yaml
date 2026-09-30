@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cmdref-sidekick
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cmdref
+locator:
+  kind: document_section
+  heading: "Sidekick agents"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference.md"
+excerpt: |-
+  Sidekick agents run automatically in the background and publish context into the session inbox. They respond to session events rather than being explicitly invoked.
+
+  Add a `sidekick:` block to any agent definition to make it a sidekick agent:
+
+  ```yaml
+  ---
+  name: Context Gatherer
+  description: Gathers relevant context when the working directory changes
+  sidekick:
+      triggers:
+          - session.context_changed
+          - event: user.message
+            limit: 1
+      behavior: persistent
+      maxSendsPerTurn: 2
+  ---
+
+  Gather useful context about the current repository and working directory.
+  Summarize recent changes and any relevant project structure.
+  ```
+
+  ### Sidekick triggers

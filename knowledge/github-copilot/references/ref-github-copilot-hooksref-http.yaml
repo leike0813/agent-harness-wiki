@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooksref-http
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: "HTTP hooks"
+official_url: "https://docs.github.com/en/copilot/reference/hooks-reference.md"
+excerpt: |-
+  HTTP hooks send the input payload as a JSON `POST` to a URL.
+
+  > \[!NOTE]
+  >
+  > * By default, only `https://` URLs are allowed. Non-TLS `http://` requests are rejected, except for `http://localhost`, `http://127.*`, and `http://[::1]` when `COPILOT_HOOK_ALLOW_LOCALHOST=1` is set.
+  > * **Cloud agent only.** Outbound network from the sandbox is restricted by the cloud agent firewall, so `url` must target an allow-listed host.
+
+  ```json
+  {
+    "version": 1,
+    "hooks": {
+      "postToolUse": [
+        {
+          "type": "http",
+          "url": "https://hooks.example.com/copilot",
+          "headers": { "X-Source": "copilot-cli" },
+          "allowedEnvVars": ["GITHUB_TOKEN"],
+          "timeoutSec": 30
+        }
+      ]
+    }
+  }
+  ```
+
+  | Field | Type | Required | Description |

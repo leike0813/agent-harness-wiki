@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-pluginref-loading
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-plugin-ref
+locator:
+  kind: document_section
+  heading: "Loading order and precedence"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference.md"
+excerpt: |-
+  If you install multiple plugins it's possible that some custom agents, skills, MCP servers, or tools supplied via MCP servers have duplicate names. In this situation, the CLI determines which component to use based on a precedence order.
+
+  * **Agents and skills** use first-found-wins precedence.
+
+    If you have a project-level custom agent or skill with the same name or ID as one in a plugin you install, the agent or skill in the plugin is silently ignored. The plugin cannot override project-level or personal configurations. Custom agents are deduplicated using their ID, which is derived from its file name (for example, if the file is named `reviewer.agent.md`, the agent ID is `reviewer`). Skills are deduplicated by their name field inside the `SKILL.md` file.

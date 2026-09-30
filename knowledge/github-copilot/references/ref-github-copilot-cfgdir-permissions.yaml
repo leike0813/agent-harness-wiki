@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cfgdir-permissions
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cfgdir
+locator:
+  kind: document_section
+  heading: "`permissions-config.json`"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-config-dir-reference.md"
+excerpt: |-
+  Stores your saved tool and directory permission decisions, organized by project location. When you approve a tool or grant access to a directory for the current location, the CLI records the decision here so you aren't prompted again in the same repository or directory.
+
+  > \[!NOTE]
+  > If you want to reset permissions for a project, you can delete the relevant entry from this file. However, editing the file while a session is running may cause unexpected behavior. The CLI automatically removes entries whose location path no longer exists on disk.
+
+  #### File location
+
+  Copilot CLI resolves the file from the configuration directory.
+
+  | Priority | Source | File used |
+  | 1 | `--config-dir=DIRECTORY` | `DIRECTORY/permissions-config.json` |

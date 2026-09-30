@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cfgdir-mdm-sources
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cfgdir
+locator:
+  kind: document_section
+  heading: "MDM managed settings sources"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-config-dir-reference.md"
+excerpt: |-
+  Copilot CLI reads managed settings from platform-specific MDM or file-based locations.
+
+  | Platform | Source type | Location |
+  | macOS | MDM plist | `com.github.copilot` |
+  | macOS | File | `/Library/Application Support/GitHubCopilot/managed-settings.json` |
+  | Windows | MDM registry | `HKLM\SOFTWARE\Policies\GitHubCopilot` |
+  | Windows | File | `%ProgramFiles%\GitHubCopilot\managed-settings.json` |
+  | Linux | File | `/etc/github-copilot/managed-settings.json` |
+
+  > \[!NOTE]
+  > On POSIX systems, Copilot CLI rejects file-based managed settings that are symlinks, not owned by root, or world-writable.

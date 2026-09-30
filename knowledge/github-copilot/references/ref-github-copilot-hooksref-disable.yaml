@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooksref-disable
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: "Disable all hooks"
+official_url: "https://docs.github.com/en/copilot/reference/hooks-reference.md"
+excerpt: |-
+  Use `disableAllHooks` when you want to keep your hook configuration on disk but stop it from running—for example:
+
+  * Debugging an issue and you want to confirm a hook is the cause without deleting your config.
+  * Pausing automation during a sensitive task (a code review, a release branch, working with secrets) without losing the setup. (**Copilot CLI only.**)
+  * Shipping a hooks file in source control that contributors can opt out of locally by setting the option in their repository `settings.json`. (**Copilot CLI only.**)
+  * Temporarily silencing slow or noisy hooks during an interactive session. (**Copilot CLI only.**)
+
+  Set `disableAllHooks` to `true` at the top level to skip every hook in the file without deleting it.
+
+  ```json
+  {
+    "version": 1,
+    "disableAllHooks": false,
+    "hooks": {

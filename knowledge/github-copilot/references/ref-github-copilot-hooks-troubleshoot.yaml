@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooks-troubleshoot
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-howto
+locator:
+  kind: document_section
+  heading: "Troubleshooting"
+official_url: "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/use-hooks.md"
+excerpt: |-
+  If you run into problems using hooks, use the following table to troubleshoot.
+
+  | Issue | Action |
+  | Hooks are not executing | <ul><li>Verify the JSON file is in the `.github/hooks/` directory.</li><li>Check for valid JSON syntax (for example, `jq . hooks.json`).</li><li>Ensure `version: 1` is specified in your `hooks.json` file.</li><li>Verify the script you are calling from your hook is executable (`chmod +x script.sh`)</li><li>Check that the script has a proper shebang (for example, `#!/bin/bash`)</li></ul> |
+  | Hooks are timing out | <ul><li>The default timeout is 30 seconds. Increase `timeoutSec` in the configuration if needed.</li><li>Optimize script performance by avoiding unnecessary operations.</li></ul> |

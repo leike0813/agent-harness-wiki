@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-best-tools
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-best-practices
+locator:
+  kind: document_section
+  heading: "Configure allowed tools"
+official_url: "https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices.md"
+excerpt: |-
+  Manage which tools Copilot can run without asking for permission. When Copilot requests permission for an action, you can typically choose either to allow it just this time, or allow the tool to be used for the rest of the CLI session.
+
+  To reset previously approved tools, use:
+
+  ```copilot
+  /reset-allowed-tools
+  ```
+
+  You can also preconfigure allowed tools via CLI flags:
+
+  ```bash
+  copilot --allow-tool='shell(git:*)' --deny-tool='shell(git push)'
+  ```
+
+  **Common permission patterns:**
+
+  * `shell(git:*)` — Allow all Git commands
+  * `shell(npm run:*)` — Allow all npm scripts
+  * `shell(npm run test:*)` — Allow npm test commands
+  * `write` — Allow file writes

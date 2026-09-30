@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cfgdir-permissions-schema
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cfgdir
+locator:
+  kind: document_section
+  heading: "Schema"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-config-dir-reference.md"
+excerpt: |-
+  The file must contain a JSON object.
+
+  | Field | Type | Required | Default | Allowed values | Description |
+  | `locations` | Object | No | `{}` | Absolute path keys | Map of location keys to saved approvals. |
+  | `locations.<key>` | Object | No | `{}` | Any absolute location key | Saved approvals for one repository or directory. |
+  | `locations.<key>.tool_approvals` | Array | No | `[]` | Approval objects | Tools approved for this location. |
+  | `locations.<key>.allowed_directories` | Array of strings | No | `[]` | Absolute directory paths | Extra directories that the path gate can access for this location. Each directory must exist when the CLI applies the configuration. |

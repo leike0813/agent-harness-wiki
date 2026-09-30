@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooksconc-format
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-concept
+locator:
+  kind: document_section
+  heading: "Hook configuration format"
+official_url: "https://docs.github.com/en/copilot/concepts/agents/hooks.md"
+excerpt: |-
+  You configure hooks using a special JSON format. The JSON must contain a `version` field with a value of `1` and a `hooks` object containing arrays of hook definitions.
+
+  ```json copy
+  {
+    "version": 1,
+    "hooks": {
+      "sessionStart": [
+        {
+          "type": "command",
+          "bash": "string (optional)",
+          "powershell": "string (optional)",
+          "cwd": "string (optional)",
+          "env": { "KEY": "value" },
+          "timeoutSec": 30
+        }
+      ]
+    }
+  }
+  ```
+
+  The hook object can contain the following keys:
+
+  | Property | Required | Description |
+  | `type` | Yes | Must be `"command"` |
+  | `bash` | Yes (on Unix systems) | Path to the bash script to execute |
+  | `powershell` | Yes (on Windows) | Path to the PowerShell script to execute |

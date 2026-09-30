@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-pluginsconc-structure-ap1
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-plugins-concept
+locator:
+  kind: document_section
+  heading: "Agent Plugins 1.0 structure"
+official_url: "https://docs.github.com/en/copilot/concepts/agents/about-plugins.md"
+excerpt: |-
+  Agent Plugins 1.0 stores skills and MCP servers in standard locations so compatible clients can discover them. Other components, including agents, hooks, commands, and LSP servers, are client-specific. Copilot reads these components from the `com.github.copilot` directory. Other clients ignore this directory, so the same plugin can combine shared skills and MCP servers with Copilot-specific components.
+
+  An Agent Plugins 1.0 directory can look like this:
+
+  ```text
+  my-plugin/
+  ├── plugin.json               # Required manifest
+  ├── skills/                   # Skills (optional)
+  │   └── deploy/
+  │       └── SKILL.md
+  ├── mcp.json                  # MCP server config (optional)
+  └── com.github.copilot/       # Copilot components (optional)
+      ├── agents/
+      │   └── helper.agent.md
+      ├── commands/

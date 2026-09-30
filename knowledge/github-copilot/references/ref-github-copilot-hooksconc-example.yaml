@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooksconc-example
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-concept
+locator:
+  kind: document_section
+  heading: "Example hook configuration file"
+official_url: "https://docs.github.com/en/copilot/concepts/agents/hooks.md"
+excerpt: |-
+  This is an example configuration file that lives in `~/.github/hooks/project-hooks.json` within a repository.
+
+  ```json copy
+  {
+    "version": 1,
+    "hooks": {
+      "sessionStart": [
+        {
+          "type": "command",
+          "bash": "echo \"Session started: $(date)\" >> logs/session.log",
+          "powershell": "Add-Content -Path logs/session.log -Value \"Session started: $(Get-Date)\"",
+          "cwd": ".",
+          "timeoutSec": 10
+        }
+      ],
+      "userPromptSubmitted": [
+        {
+          "type": "command",
+          "bash": "./scripts/log-prompt.sh",
+          "powershell": "./scripts/log-prompt.ps1",
+          "cwd": "scripts",
+          "env": {
+            "LOG_LEVEL": "INFO"
+          }
+        }
+      ],
+      "preToolUse": [
+        {
+          "type": "command",

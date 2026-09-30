@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-instr-path
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-custom-instructions
+locator:
+  kind: document_section
+  heading: "Creating path-specific custom instructions"
+official_url: "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-custom-instructions.md"
+excerpt: |-
+  1. Create the `.github/instructions` directory if it does not already exist.
+
+  2. Optionally, create subdirectories of `.github/instructions` to organize your instruction files.
+
+  3. Create one or more `NAME.instructions.md` files, where `NAME` indicates the purpose of the instructions. The file name must end with `.instructions.md`.
+
+  4. At the start of the file, create a frontmatter block containing the `applyTo` keyword. Use glob syntax to specify what files or directories the instructions apply to.
+
+     For example:
+
+     ```markdown
+     ---
+     applyTo: "app/models/**/*.rb"
+     ---
+     ```
+
+     You can specify multiple patterns by separating them with commas. For example, to apply the instructions to all TypeScript files in the repository, you could use the following frontmatter block:

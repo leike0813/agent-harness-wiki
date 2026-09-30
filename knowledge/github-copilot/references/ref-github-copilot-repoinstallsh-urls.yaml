@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-repoinstallsh-urls
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-repo
+locator:
+  kind: file_lines
+  file: "install.sh"
+  start: 49
+  end: 76
+official_url: "https://github.com/github/copilot-cli"
+excerpt: |-
+  # Determine download URL based on VERSION
+  if [ "${VERSION}" = "latest" ] || [ -z "$VERSION" ]; then
+    DOWNLOAD_URL="https://github.com/github/copilot-cli/releases/latest/download/copilot-${PLATFORM}-${ARCH}.tar.gz"
+    CHECKSUMS_URL="https://github.com/github/copilot-cli/releases/latest/download/SHA256SUMS.txt"
+  elif [ "${VERSION}" = "prerelease" ]; then
+    # Get the latest prerelease tag
+    if ! command -v git >/dev/null 2>&1; then
+      echo "Error: git is required to install prerelease versions" >&2
+      exit 1
+    fi
+    VERSION="$(git ls-remote --tags --sort "version:refname" "$GIT_REMOTE" | tail -1 | awk -F/ '{print $NF}')"
+    if [ -z "$VERSION" ]; then
+      echo "Error: Could not determine prerelease version" >&2
+      exit 1
+    fi
+    echo "Latest prerelease version: $VERSION"

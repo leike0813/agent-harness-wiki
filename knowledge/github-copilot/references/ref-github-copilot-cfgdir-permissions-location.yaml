@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cfgdir-permissions-location
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cfgdir
+locator:
+  kind: document_section
+  heading: "File location"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-config-dir-reference.md"
+excerpt: |-
+  Copilot CLI resolves the file from the configuration directory.
+
+  | Priority | Source | File used |
+  | 1 | `--config-dir=DIRECTORY` | `DIRECTORY/permissions-config.json` |
+  | 2 | `COPILOT_HOME` | `$COPILOT_HOME/permissions-config.json` |
+  | 3 | Default | `~/.copilot/permissions-config.json` |
+
+  The CLI uses only the first applicable configuration directory in this order. It doesn't also load `permissions-config.json` from the lower-priority locations.
+
+  The `--config-dir` option is a legacy option. Prefer `COPILOT_HOME` when you need to change the configuration directory.
+
+  On Windows, the default file is typically:
+
+  ```text
+  C:\Users\YOUR-USER\.copilot\permissions-config.json
+  ```

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-pluginref-legacy-mcp
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-plugin-ref
+locator:
+  kind: document_section
+  heading: "Plugin-shipped agent MCP servers"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference.md"
+excerpt: |-
+  An agent bundled inside a plugin can declare its own `mcp-servers` in its frontmatter, scoping an MCP server to just that agent instead of exposing it through the plugin's shared `mcpServers` configuration. Within that `mcp-servers` block, `${PLUGIN_ROOT}` (or its `${CLAUDE_PLUGIN_ROOT}`/`${COPILOT_PLUGIN_ROOT}` aliases) expands to the plugin's root directory, so the server's `command` or `args` can point at a script bundled with the plugin:
+
+  ```markdown
+  ---
+  name: Plugin Linter
+  description: Runs the plugin's bundled linter via its own MCP server
+  mcp-servers:
+      plugin-linter:
+          command: node
+          args: ["${PLUGIN_ROOT}/tools/serve.js"]
+          tools: ["*"]
+  ---
+
+  You are a linting specialist for this plugin's bundled rules.
+  ```

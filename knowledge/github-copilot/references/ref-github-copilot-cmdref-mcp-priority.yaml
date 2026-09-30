@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cmdref-mcp-priority
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cmdref
+locator:
+  kind: document_section
+  heading: "MCP server loading priority"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference.md"
+excerpt: |-
+  MCP servers from different sources are merged in priority order (highest first). When servers share a name, the higher-priority source takes precedence.
+
+  1. `--additional-mcp-config` option (highest)
+  2. Plugin-provided servers
+  3. Workspace servers—`.mcp.json` and `.github/mcp.json` loaded from the working directory upward to the Git root; requires the folder to be trusted
+  4. `~/.copilot/mcp-config.json` (lowest)
+
+  > \[!NOTE]
+  > Workspace MCP servers (`.mcp.json` and `.github/mcp.json`) are loaded in both interactive and SDK server-mode sessions, provided the working directory is trusted. For more information about folder trust, see [Allowing and denying tool use](/en/copilot/how-tos/copilot-cli/use-copilot-cli/allowing-tools).

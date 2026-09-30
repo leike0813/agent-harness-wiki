@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-conc-tools-options
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cli-concept
+locator:
+  kind: document_section
+  heading: "Using the approval options"
+official_url: "https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli.md"
+excerpt: |-
+  The `--deny-tool` and `--allow-tool` options require one of the following arguments:
+
+  * `'shell(COMMAND)'`
+
+    For example, `copilot --deny-tool='shell(rm)'` prevents Copilot from using any `rm` command.
+
+    For `git` and `gh` commands, you can specify a particular first-level subcommand to allow or deny. For example:
+
+    ```shell
+    copilot --deny-tool='shell(git push)'
+    ```
+
+    The tool specification is optional. For example, `copilot --allow-tool='shell'` allows Copilot to use any shell command without individual approval.
+
+  * `'write'`
+
+    This argument allows or denies tools—other than shell commands—permission to modify files.
+
+    For example, `copilot --allow-tool='write'` allows Copilot to edit files without your individual approval.
+
+  * `'MCP_SERVER_NAME'`

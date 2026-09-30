@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooksref-inputs
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: "Hook event input payloads"
+official_url: "https://docs.github.com/en/copilot/reference/hooks-reference.md"
+excerpt: |-
+  Each hook event delivers a JSON payload to the hook handler. Two payload formats are supported, selected by the event name used in the hook configuration:
+
+  * **camelCase format** — Configure the event name in camelCase (for example, `sessionStart`). Fields use camelCase.
+  * **VS Code compatible format** — Configure the event name in PascalCase (for example, `SessionStart`). Fields use snake\_case to match the VS Code Copilot extension format.
+
+  ### `sessionStart` / `SessionStart`
+
+  **camelCase input:**
+
+  ```typescript
+  {
+      sessionId: string;
+      timestamp: number;      // Unix timestamp in milliseconds
+      cwd: string;
+      source: "startup" | "resume" | "new";
+      initialPrompt?: string;
+  }
+  ```
+
+  **VS Code compatible input:**
+
+  ```typescript
+  {
+      hook_event_name: "SessionStart";

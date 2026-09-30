@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cfgdir-mdm-permissions
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cfgdir
+locator:
+  kind: document_section
+  heading: "Managed permission rules"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-config-dir-reference.md"
+excerpt: |-
+  Add `deny`, `ask`, and `allow` rule lists under the managed `permissions` key to enforce a permission policy for everyone. This works whether or not `permissions.disableBypassPermissionsMode` is set.
+
+  ```json
+  {
+      "permissions": {
+          "deny": ["Shell(rm -rf *)", "Domain(*.evil.example)"],
+          "ask": ["Shell(git push *)"],
+          "allow": ["Read(**)"]
+      }
+  }
+  ```
+
+  | Rule family | Matches |
+  | `Bash(...)`, `Shell(...)` | Shell commands. Use `<command> *` (for example, `git push *`) to match a command prefix; otherwise the rule matches exact text. |
+  | `PowerShell(...)` | PowerShell commands, matched the same way as `Shell(...)`. |

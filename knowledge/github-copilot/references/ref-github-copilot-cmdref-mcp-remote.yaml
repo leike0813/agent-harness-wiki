@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cmdref-mcp-remote
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cmdref
+locator:
+  kind: document_section
+  heading: "Remote server configuration fields"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference.md"
+excerpt: |-
+  | Field | Required | Description |
+  | `type` | Yes | `"http"` or `"sse"` (`"streamable-http"` is also accepted as an alias for `"http"`). |
+  | `url` | Yes | Server URL. |
+  | `tools` | Yes | Tools to enable. |
+  | `headers` | No | HTTP headers. Supports variable expansion. |
+  | `oauthClientId` | No | Static OAuth client ID (skips dynamic registration). |
+  | `oauthScopes` | No | Non-empty array of OAuth scope tokens to request. Requires `oauthClientId`. A non-empty scope in the server's `WWW-Authenticate` challenge still takes precedence; otherwise this overrides the discovered `scopes_supported` metadata. |
+  | `oauthPublicClient` | No | Whether the OAuth client is public. Default: `true`. Set to `false` for confidential clients with a stored secret. |

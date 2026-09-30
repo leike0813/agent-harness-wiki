@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooksref-posttool-output
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: "`postToolUse` output"
+official_url: "https://docs.github.com/en/copilot/reference/hooks-reference.md"
+excerpt: |-
+  The `postToolUse` hook can modify the tool result or inject additional context for the model by writing a JSON object to stdout.
+
+  ```typescript
+  {
+      modifiedResult?: {
+          resultType: "success";
+          textResultForLlm: string;
+      };
+      additionalContext?: string;
+  }
+  ```
+
+  | Field | Type | Description |
+  | `modifiedResult` | object | Replacement tool result. Must have `resultType: "success"`. If returned with `resultType: "failure"`, the failure routes downstream and `postToolUseFailure` fires next. |
+  | `additionalContext` | string | Additional guidance appended to `textResultForLlm` so the model sees it after the tool output on the same turn. When multiple hooks return `additionalContext`, the results are joined with a double newline and capped at 10 KB. |

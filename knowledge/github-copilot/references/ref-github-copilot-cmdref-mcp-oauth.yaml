@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cmdref-mcp-oauth
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cmdref
+locator:
+  kind: document_section
+  heading: "OAuth re-authentication"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference.md"
+excerpt: |-
+  Remote MCP servers that use OAuth may show a `needs-auth` status when a token expires or when a different account is required. Use `/mcp auth <server-name>` to trigger a fresh OAuth flow. This opens a browser authentication prompt, allowing you to sign in or switch accounts. After completing the flow, the server reconnects automatically.
+
+  On Windows, remote MCP servers protected by Microsoft Entra ID authenticate through the OS authentication broker (Web Account Manager) instead, usually with no prompt. On other platforms, and on Windows machines without the broker library, sign-in falls back to the browser flow described above. Passing `--device-code` bypasses the broker and forces the OAuth device code flow rather than the browser flow.

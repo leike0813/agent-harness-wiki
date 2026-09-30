@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooksref-locations
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: "Hooks locations"
+official_url: "https://docs.github.com/en/copilot/reference/hooks-reference.md"
+excerpt: |-
+  The locations where hooks run, and where you can store hook configuration files, depend on the surface:
+
+  * **Copilot CLI** — hooks run on the developer's local machine in the same shell as the CLI. All hook events described in this article are supported by the CLI.
+
+    Hooks are loaded from the following sources in order (policy, then user, then project, then plugins) and combined. When the same event appears in multiple sources, all hook entries from all sources are run.
+
+    * **Policy-level hook files** — JSON files in the platform-appropriate policy directory, loaded in alphabetical order. Policy hooks are machine-wide and load before all other hooks. They cannot be disabled by `disableAllHooks` and are available regardless of folder trust state. See [Policy hooks](#policy-hooks) below.

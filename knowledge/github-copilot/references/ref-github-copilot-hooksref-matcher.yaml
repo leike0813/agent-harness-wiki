@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooksref-matcher
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: "Matcher filtering"
+official_url: "https://docs.github.com/en/copilot/reference/hooks-reference.md"
+excerpt: |-
+  Several events accept an optional `matcher` regex on each hook entry that filters which invocations the hook fires for. It is compiled as `^(?:PATTERN)$` and must match the full value. Invalid regexes cause the hook entry to be skipped.
+
+  | Event | `matcher` is matched against |
+  | `notification` | `notification_type` |
+  | `permissionRequest` | `toolName` |
+  | `postToolUse` | `toolName` |
+  | `preCompact` | `trigger` (`"manual"` or `"auto"`) |
+  | `preToolUse` | `toolName` |
+  | `subagentStart` | `agentName` |

@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-mcp-add-cli
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-mcp
+locator:
+  kind: document_section
+  heading: "Using the `copilot mcp add` subcommand"
+official_url: "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers.md"
+excerpt: |-
+  You can add MCP servers from the terminal using the `copilot mcp add` subcommand, without entering interactive mode. The server is added to the user configuration at `~/.copilot/mcp-config.json`.
+
+  For local (stdio) servers, provide the command after `--`:
+
+  ```shell copy
+  copilot mcp add SERVER-NAME -- COMMAND [ARGS...]
+  ```
+
+  For remote (HTTP/SSE) servers, specify the transport and provide the URL:
+
+  ```shell copy
+  copilot mcp add --transport http SERVER-NAME URL
+  ```
+
+  You can also pass additional options:
+
+  * `--env KEY=VALUE`: Set environment variables for the server. Repeat for multiple variables.
+  * `--header "HEADER: VALUE"`: Set HTTP headers for remote servers. Repeat for multiple headers.
+  * `--transport TRANSPORT`: Set the transport type (`stdio`, `http`, or `sse`). The default is `stdio`.

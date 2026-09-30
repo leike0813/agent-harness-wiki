@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooksref-policy
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: "Policy hooks"
+official_url: "https://docs.github.com/en/copilot/reference/hooks-reference.md"
+excerpt: |-
+  > \[!NOTE]
+  > **Copilot CLI only.** Policy hooks are not supported under Copilot cloud agent.
+
+  Policy hooks are machine-wide hooks loaded by administrators. They load before all other hooks and cannot be disabled by `disableAllHooks`.
+
+  Policy hooks are discovered from two sources:
+
+  * **Filesystem**: JSON files in the platform-appropriate policy directory, loaded in alphabetical order:
+    * Linux/macOS: `/etc/github-copilot/policy.d/*.json`
+    * Windows: `C:\ProgramData\GitHub\Copilot\policy.d\*.json`
+  * **Windows Registry**: Values under `HKLM\Software\Policies\GitHub\Copilot` (each subkey holds a `Policy` REG\_SZ value containing a JSON policy document).

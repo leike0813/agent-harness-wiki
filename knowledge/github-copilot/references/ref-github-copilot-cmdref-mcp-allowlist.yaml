@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cmdref-mcp-allowlist
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cmdref
+locator:
+  kind: document_section
+  heading: "Enterprise MCP allowlist"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference.md"
+excerpt: |-
+  GitHub Enterprise organizations can enforce an allowlist of permitted MCP servers. When active, the CLI evaluates each non-default server against the enterprise policy before connecting.
+
+  When a GitHub Enterprise registry policy is detected (or the `MCP_ENTERPRISE_ALLOWLIST` experimental feature flag is enabled), the CLI:
+
+  1. Computes a fingerprint for each configured non-default server based on its command, arguments, and remote URL.
+  2. Sends the fingerprints to the enterprise allowlist evaluate endpoint.
+  3. Allows only servers whose fingerprints are approved; all others are blocked with a message naming the enterprise.
+
+  This check is fail-closed: if the evaluate endpoint is unreachable or returns an error, non-default servers are blocked until the policy can be verified.

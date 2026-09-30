@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cmdref-mcp-migrate
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cmdref
+locator:
+  kind: document_section
+  heading: "Migrating from `.vscode/mcp.json`"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference.md"
+excerpt: |-
+  If your project uses `.vscode/mcp.json` (VS Code's MCP configuration format), migrate to `.mcp.json` for GitHub Copilot CLI. The migration remaps the `servers` key to `mcpServers`.
+
+  **POSIX shells (bash, zsh, fish, and others):**
+
+  ```shell
+  jq '{mcpServers: .servers}' .vscode/mcp.json > .mcp.json
+  ```
+
+  Requires [`jq`](https://jqlang.github.io/jq/).
+
+  **PowerShell:**
+
+  ```powershell
+  pwsh -NoProfile -Command "`$json = Get-Content '.vscode/mcp.json' -Raw | ConvertFrom-Json; `$content = ([pscustomobject]@{ mcpServers = `$json.servers } | ConvertTo-Json -Depth 100); [System.IO.File]::WriteAllText('.mcp.json', `$content, (New-Object System.Text.UTF8Encoding `$false))"
+  ```
+
+  On Windows, replace `pwsh` with `powershell` if you are using Windows PowerShell instead of PowerShell Core.

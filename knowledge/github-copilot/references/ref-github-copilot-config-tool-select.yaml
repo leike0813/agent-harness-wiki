@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-config-tool-select
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-configure
+locator:
+  kind: document_section
+  heading: "Specifying which tool you want to allow or deny"
+official_url: "https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/configure-copilot-cli.md"
+excerpt: |-
+  To use the `--deny-tool` and `--allow-tool` options, you must specify what type of tool you want to allow or deny:
+
+  * [Shell commands](#allowing-or-denying-shell-commands)
+  * ['Write' tools](#allowing-or-denying-write-tools)
+  * [MCP server tools](#allowing-or-denying-mcp-server-tools)
+
+  #### Allowing or denying shell commands
+
+  Use `shell(COMMAND)` to allow or deny a specific shell command.
+
+  * For example, to prevent Copilot from using any `rm` command, use:
+
+    ```shell
+    copilot --deny-tool='shell(rm)'
+    ```
+
+  For `git` and `gh` commands, specify a particular first-level subcommand to allow or deny.
+
+  * For example, to prevent Copilot from using `git push`, use:
+
+    ```shell
+    copilot --deny-tool='shell(git push)'
+    ```

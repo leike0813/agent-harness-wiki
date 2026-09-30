@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-autherr-none
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-auth-trouble
+locator:
+  kind: document_section
+  heading: "No authentication information found"
+official_url: "https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/troubleshoot-copilot-cli-auth.md"
+excerpt: |-
+  Copilot CLI displays the following error:
+
+  <!-- markdownlint-disable GHD005 -->
+
+  ```text
+  Error: No authentication information found
+  Copilot can be authenticated with GitHub using an OAuth Token or a Fine-Grained Personal Access Token
+  ```
+
+  <!-- markdownlint-enable GHD005 -->
+
+  ### Cause
+
+  No credentials exist in any of the checked locations.
+
+  ### Fix
+
+  Use the following steps to find where authentication is missing and restore access.
+
+  #### Check your authentication status
+
+  ```bash copy
+  gh auth status
+  ```
+
+  If you see a message indicating that you’re not logged in, log in with `gh auth login` or use the OAuth flow with `copilot login`.
+
+  #### Check whether an authentication environment variable is set

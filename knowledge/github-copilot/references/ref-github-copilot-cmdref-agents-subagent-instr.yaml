@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cmdref-agents-subagent-instr
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cmdref
+locator:
+  kind: document_section
+  heading: "Repository custom instructions for subagents"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference.md"
+excerpt: |-
+  A custom agent spawned as a subagent—through the `task` tool or the SDK's `session.startSubagent`—doesn't receive repository instruction files (`copilot-instructions.md`, `AGENTS.md`, `CLAUDE.md`) by default. Set `include-custom-instructions: true` in its frontmatter to opt in:
+
+  ```markdown
+  ---
+  name: RepoAwareReviewer
+  description: Reviews a change against this repository's conventions
+  tools: ["*"]
+  include-custom-instructions: true
+  ---
+
+  Review the change and flag anything that violates the repository's conventions.
+  ```
+
+  | Agent | Receives repository instructions |
+  | Session agent (the default agent, or a custom agent selected with `--agent`) | Yes |
+  | `general-purpose` subagent | Yes |
+  | Built-in `explore`, `task`, and `code-review` subagents | No |

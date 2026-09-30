@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cmdref-mcp
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cmdref
+locator:
+  kind: document_section
+  heading: "MCP server configuration"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference.md"
+excerpt: |-
+  MCP servers provide additional tools to the CLI agent. Configure persistent servers in `~/.copilot/mcp-config.json`. Use `--additional-mcp-config` to add servers for a single session.
+
+  Local (stdio) servers that spawn inside the sandbox (see the `/sandbox` slash command) show a `connected (sandboxed)` status in `copilot mcp list` and `/mcp list`, since remote (HTTP/SSE) servers are never sandboxed. Only available in experimental mode.
+
+  `copilot mcp list` and `/mcp list` mark a disabled server with a `(disabled)` suffix in text output, or `"enabled": false` per server in `--json` output. `copilot mcp get` shows a `Status: Enabled`/`Disabled` line.
+
+  Toggling `/sandbox` restarts only local (stdio) MCP servers, since they spawn inside the sandbox. Remote (HTTP/SSE) servers stay connected.

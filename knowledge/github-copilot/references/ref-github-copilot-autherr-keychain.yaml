@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-autherr-keychain
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-auth-trouble
+locator:
+  kind: document_section
+  heading: "Keychain access failure"
+official_url: "https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/troubleshoot-copilot-cli-auth.md"
+excerpt: |-
+  During login, the CLI prompts you about the system keychain being unavailable and asks whether to store credentials in plaintext.
+
+  ```text
+  System keychain unavailable. Store token in plaintext config file? (y/N)
+  ```
+
+  ### Cause
+
+  The system keychain is not accessible. This may occur on Linux systems without `libsecret`, headless servers, or systems with a permission issue.
+
+  ### Fix
+
+  Follow the steps for your operating system to restore secure credential storage.
+
+  #### macOS or Windows
+
+  On macOS, confirm Keychain Access app is available, and you can unlock your login keychain.
+  On Windows, confirm Credential Manager is available, and you can access the Windows Vault.

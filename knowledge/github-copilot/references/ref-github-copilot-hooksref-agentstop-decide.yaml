@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooksref-agentstop-decide
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: "`agentStop` / `subagentStop` decision control"
+official_url: "https://docs.github.com/en/copilot/reference/hooks-reference.md"
+excerpt: |-
+  | Field | Values | Description |
+  | `decision` | `"block"`, `"allow"` | `"block"` forces another agent turn using `reason` as the prompt. |
+  | `reason` | string | Prompt for the next turn when `decision` is `"block"`. |
+  | `modifiedResponse` | string | **`subagentStop` only.** Replaces the response returned to the parent when the subagent is allowed to complete—useful for redacting or reformatting subagent output. Not applicable to `agentStop`. |
+
+  `decision` and `reason` behave the same for both `agentStop` and `subagentStop`. `modifiedResponse` applies only to `subagentStop`:
+
+  * A valid `block` decision wins over `modifiedResponse`: if a hook returns both, the subagent continues and the rewrite is discarded.

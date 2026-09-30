@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cfgdir-delete
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cfgdir
+locator:
+  kind: document_section
+  heading: "What you can safely delete"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-config-dir-reference.md"
+excerpt: |-
+  | Item | Safe to delete? | Effect |
+  | `agents/`, `skills/`, `hooks/` | Not recommended | You will lose your personal customizations. Back up first. |
+  | `config.json` | With caution | Resets application state including authentication. You will need to re-authenticate and the CLI will re-detect internal state on next launch. |
+  | `copilot-instructions.md`, `instructions/` | Not recommended | You will lose your personal custom instructions. Back up first. |
+  | `extensions/` | Not recommended | You will lose your personal extensions. Back up first. |
+  | `installed-plugins/` | Not recommended | Use `copilot plugin uninstall` instead, to ensure plugin metadata in `config.json` remains accurate. |
+  | `logs/` | Yes | Log files are re-created each session. Deleting them has no functional impact. |

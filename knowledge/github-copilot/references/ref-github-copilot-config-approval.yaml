@@ -1,0 +1,43 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-config-approval
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-configure
+locator:
+  kind: document_section
+  heading: "Allowing tools to be used without manual approval"
+official_url: "https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/configure-copilot-cli.md"
+excerpt: |-
+  You can use command-line flags to designate tools that Copilot can use without asking for your approval.
+
+  #### Allowing all tools
+
+  Use the `--allow-all-tools` to allow Copilot to use any tool without asking for your approval.
+
+  * For example:
+
+    ```shell
+    copilot -p "Revert the last commit" --allow-all-tools
+    ```
+
+  #### Denying a tool
+
+  Use `--deny-tool` to prevent Copilot from using a specific tool.
+
+  * For example:
+
+    ```shell
+    copilot --deny-tool='shell(git push)'
+    ```
+
+  This option takes precedence over the `--allow-all-tools` and `--allow-tool` options.
+
+  #### Allowing a tool
+
+  Use `--allow-tool` to allow Copilot to use a specific tool without asking for your approval.
+
+  * For example:
+
+    ```shell
+    copilot --allow-tool='shell'
+    ```

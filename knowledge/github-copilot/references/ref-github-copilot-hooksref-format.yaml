@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooksref-format
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: "Hook configuration format"
+official_url: "https://docs.github.com/en/copilot/reference/hooks-reference.md"
+excerpt: |-
+  Hook configuration files use JSON format with version `1`.
+
+  > \[!NOTE]
+  > If a hook configuration file loaded from a directory (for example, `.github/hooks/`) contains a malformed hook item, only that item is dropped and logged—valid sibling hooks in the same file still load. Structural errors (invalid JSON, a bad `version`, or a non-array event list) still reject the entire file. Hooks defined inline in `settings.json` remain strict: any item-level validation error rejects the whole `hooks` field. Other configuration files always load independently.
+
+  ### Command hooks
+
+  Command hooks run shell scripts or executables and are supported on all hook types.
+
+  > \[!NOTE]

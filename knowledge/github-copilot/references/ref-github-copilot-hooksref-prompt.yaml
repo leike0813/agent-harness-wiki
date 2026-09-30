@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooksref-prompt
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: "Prompt hooks"
+official_url: "https://docs.github.com/en/copilot/reference/hooks-reference.md"
+excerpt: |-
+  Prompt hooks auto-submit text as if the user typed it. They are only supported on `sessionStart`. The text can be a natural language prompt or a slash command.
+
+  > \[!NOTE]
+  > **Copilot CLI only.** Prompt hooks fire only for **new interactive sessions**. They do not fire on resume, and they do not fire in non-interactive prompt mode (`-p`).
+
+  > \[!NOTE]
+  > **Cloud agent.** Cloud agent jobs run non-interactively (similar to `-p`), so `prompt` hook entries may not fire. Confirm the behavior in your environment before relying on them.
+
+  ```json
+  {
+    "version": 1,
+    "hooks": {
+      "sessionStart": [
+        {
+          "type": "prompt",
+          "prompt": "YOUR_PROMPT_TEXT_OR_SLASH_COMMAND"
+        }
+      ]
+    }
+  }
+  ```
+
+  | Field | Type | Required | Description |

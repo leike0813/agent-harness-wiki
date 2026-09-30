@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-pluginref-lsp
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-plugin-ref
+locator:
+  kind: document_section
+  heading: "LSP server configuration"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference.md"
+excerpt: |-
+  To include LSP (Language Server Protocol) servers in a plugin, create a `lsp-config/servers.json` file in the plugin directory, or specify a path or inline object using the `lspServers` field in `plugin.json`.
+
+  Example `lsp-config/servers.json` (or inline via `lspServers` in `plugin.json`):
+
+  ```json
+  {
+      "lspServers": {
+          "my-lsp": {
+              "command": "my-language-server",
+              "fileExtensions": { ".myext": "mylang" }
+          }
+      }
+  }
+  ```
+
+  For cross-platform support, use `bash` and `powershell` instead of `command`:
+
+  ```json
+  {
+      "lspServers": {
+          "my-lsp": {
+              "bash": "${PLUGIN_ROOT}/scripts/start-lsp.sh",
+              "powershell": "${PLUGIN_ROOT}/scripts/start-lsp.ps1",
+              "fileExtensions": { ".myext": "mylang" }
+          }
+      }
+  }
+  ```

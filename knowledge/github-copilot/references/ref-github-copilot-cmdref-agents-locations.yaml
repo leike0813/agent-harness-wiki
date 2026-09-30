@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-cmdref-agents-locations
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-cmdref
+locator:
+  kind: document_section
+  heading: "Custom agent locations"
+official_url: "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference.md"
+excerpt: |-
+  The CLI loads custom agents in the following priority order. When agents have the same ID, the first agent loaded is used.
+
+  | Priority | Scope | Location |
+  | 1 (highest) | User | `~/.copilot/agents/` |
+  | 2 | Project | `.github/agents/`, from the current working directory upward to the Git root |
+  | 3 | Project | `.claude/agents/`, from the current working directory upward to the Git root |
+  | 4 | Added root | `.github/agents/` under a directory added with `--add-dir`, `/add-dir`, or the SDK's `additionalDirectories`. Adding the directory is a trust decision: its agents are loaded as trusted configuration. |
+  | 5 | Plugin | `<plugin>/agents/` |
+  | 6 (lowest) | Remote | Organization or enterprise agents |

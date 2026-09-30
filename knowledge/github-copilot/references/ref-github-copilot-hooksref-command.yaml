@@ -1,0 +1,42 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooksref-command
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-ref
+locator:
+  kind: document_section
+  heading: "Command hooks"
+official_url: "https://docs.github.com/en/copilot/reference/hooks-reference.md"
+excerpt: |-
+  Command hooks run shell scripts or executables and are supported on all hook types.
+
+  > \[!NOTE]
+  > **Cloud agent only.** Cloud agent runs hooks in a Linux sandbox. Only the `bash` field is honored; `powershell` entries are ignored. The cross-platform `command` field is honored as a fallback.
+
+  ```json
+  {
+    "version": 1,
+    "hooks": {
+      "preToolUse": [
+        {
+          "type": "command",
+          "bash": "YOUR_BASH_COMMAND",
+          "powershell": "YOUR_POWERSHELL_COMMAND",
+          "cwd": "OPTIONAL/WORKING/DIRECTORY",
+          "env": { "VAR": "VALUE" },
+          "timeoutSec": 30
+        }
+      ]
+    }
+  }
+  ```
+
+  In Copilot CLI, you can use `exec` and `args` to run an executable directly instead of using a shell:
+
+  ```json
+  {
+    "version": 1,
+    "hooks": {
+      "preToolUse": [
+        {
+          "type": "command",

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-github-copilot-hooks-repo
+harness_id: github-copilot
+snapshot_id: snapshot-github-copilot-docs-hooks-howto
+locator:
+  kind: document_section
+  heading: "Creating a repository-level hook"
+official_url: "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/use-hooks.md"
+excerpt: |-
+  1. Create a new `NAME.json` file (where `NAME` describes the purpose of the file) in the `.github/hooks/` folder of your repository.
+
+  2. In your text editor, copy and paste the following hook template. Remove any hooks you don't plan on using from the `hooks` array.
+
+     ```json copy
+     {
+       "version": 1,
+       "hooks": {
+         "sessionStart": [...],
+         "sessionEnd": [...],
+         "userPromptSubmitted": [...],
+         "preToolUse": [...],
+         "postToolUse": [...],
+         "errorOccurred": [...]
+       }
+     }
+     ```
+
+  3. Configure your hook syntax under the `bash` and `powershell` keys, or directly reference script files you have created.
+
+     > \[!NOTE]
