@@ -589,15 +589,22 @@ products:
   - harness_id: qoder
     name: "Qoder"
     aliases: []
-    reference_ids: ["cat-qoder-site"]
+    reference_ids: ["cat-qoder-site", "cat-qoder-cli"]
     surfaces:
       - surface_id: qoder
         name: "Qoder IDE"
         kind: ide
         reference_ids: ["cat-qoder-site"]
+      - surface_id: cli
+        name: "Qoder CLI"
+        kind: cli
+        reference_ids: ["cat-qoder-cli"]
     runtimes: []
     bindings:
       - surface_id: qoder
+        status: unknown
+        reference_ids: []
+      - surface_id: cli
         status: unknown
         reference_ids: []
   - harness_id: github-copilot
@@ -949,23 +956,16 @@ products:
     reference_ids: ["cat-deep-agents-readme", "cat-deep-agents-docs", "cat-deep-agents-code-readme"]
     surfaces:
       - surface_id: cli
-        name: "Deep Agents CLI"
-        kind: cli
-        reference_ids: ["cat-deep-agents-docs"]
-      - surface_id: code
         name: "Deep Agents Code (dcode)"
         kind: cli
         reference_ids: ["cat-deep-agents-code-readme"]
       - surface_id: sdk
         name: "Deep Agents SDK"
         kind: sdk
-        reference_ids: ["cat-deep-agents-readme"]
+        reference_ids: ["cat-deep-agents-readme", "cat-deep-agents-docs"]
     runtimes: []
     bindings:
       - surface_id: cli
-        status: unknown
-        reference_ids: []
-      - surface_id: code
         status: unknown
         reference_ids: []
       - surface_id: sdk
@@ -1569,3 +1569,13 @@ references:
       archive_path: "archive/catalog/deep-agents/deep-agents-docs.html"
     locator: "Deep Agents overview - Docs by LangChain"
     excerpt: "Build agents that can plan, use subagents, and leverage file systems for complex tasks. Deep Agents overview — Docs by LangChain."
+  - reference_id: cat-qoder-cli
+    harness_id: qoder
+    official_url: "https://docs.qoder.com/cli/installation.md"
+    captured_at: "2026-09-30T19:01:11Z"
+    snapshot:
+      kind: document
+      sha256: "f503c7c1c6c92ba4add176a84c0c13b75bc735da92c60cd2146139f2bc1d83b6"
+      archive_path: "archive/catalog/qoder/qoder-cli-installation.md"
+    locator: "Installation and Upgrade"
+    excerpt: "Before installing Qoder CLI, ensure your environment meets the following requirements: Operating System: macOS, Linux, Windows (Windows Terminal is recommended). CPU Architecture: arm64, amd64. Node.js: Node.js >= 20.0.0 is required only for the legacy npm installation method. Windows (arm64) is not currently supported."
