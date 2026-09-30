@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: fixture
 edition_id: demo-open-cli-mcp-v1
 harness_id: demo-open-cli
@@ -7,40 +7,57 @@ topic: mcp
 title: demo-open-cli mcp (fictional)
 sections:
   - section_id: mcp-overview
+    surface_ids: [cli]
     source_refs: [ref-demo-open-mcp]
 questions:
   - question_id: mcp.entry
-    section_id: mcp-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-overview
+        status: unknown
+        source_refs: []
   - question_id: mcp.definition
-    section_id: mcp-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-overview
+        status: unknown
+        source_refs: []
   - question_id: mcp.transport
-    section_id: mcp-overview
-    status: partial
-    source_refs: [ref-demo-open-mcp]
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-overview
+        status: partial
+        source_refs: [ref-demo-open-mcp]
   - question_id: mcp.auth
-    section_id: mcp-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-overview
+        status: unknown
+        source_refs: []
   - question_id: mcp.lifecycle
-    section_id: mcp-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-overview
+        status: unknown
+        source_refs: []
   - question_id: mcp.capabilities
-    section_id: mcp-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-overview
+        status: unknown
+        source_refs: []
   - question_id: mcp.exposure
-    section_id: mcp-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-overview
+        status: unknown
+        source_refs: []
   - question_id: mcp.diagnostics
-    section_id: mcp-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-overview
+        status: unknown
+        source_refs: []
 ---
 ## mcp 1 {#mcp-overview}
 

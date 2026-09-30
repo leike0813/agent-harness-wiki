@@ -1,6 +1,6 @@
 ---
 name: harness-investigation
-description: 为新收录的 CLI 产品建立固定来源并采写七类主题知识章节，自检后分段发布。当维护者要求把新的 CLI 产品加入知识库时使用。
+description: 为新收录的 CLI 产品在 catalog 登记产品与界面、建立固定来源并采写七类主题知识章节，自检后分段发布。当维护者要求把新的 CLI 产品加入知识库时使用。
 disable-model-invocation: true
 ---
 
@@ -8,22 +8,24 @@ disable-model-invocation: true
 
 ## 目标
 
-把一个尚未收录的 CLI 产品接入知识库：登记产品身份与官方来源，直接固定可复核的来源身份，按 53 个固定问题采写七个主题章节，自检（高影响时另请 Agent 复核）后先构建再切换本地发布，最后用面向维护者的问题明确询问是否继续接入受管二进制。二进制接入由 [harness-binary](../harness-binary/SKILL.md) 单独执行。
+把一个尚未收录的 CLI 产品接入知识库：先在 catalog 固定产品与界面身份，登记官方来源，直接固定可复核的来源身份，按 53 个固定问题逐界面采写七个主题章节，自检（高影响时另请 Agent 复核）后先构建再切换本地发布，最后用面向维护者的问题明确询问是否继续接入受管二进制。二进制接入由 [harness-binary](../harness-binary/SKILL.md) 单独执行。
 
 首次接入不运行增量扫描，也不写来源审计 YAML：`pnpm sources:scan` 依赖已发布的当前章节，来源审计台账从维护阶段开始。
 
 ## 输入
 
-- 一个或多个要新收录的 CLI 产品名称或 ID；维护者给出的官方链接是调查线索，未给链接时由本 Skill 查找并核对官方来源，再确定稳定的 `harness_id`。多个产品逐一完成接入。
+- 一个或多个要新收录的 CLI 产品名称或 ID；维护者给出的官方链接是调查线索，未给链接时由本 Skill 查找并核对官方来源，再确定稳定的产品 id 与界面。产品 id 命名产品本身，界面用 `surface_id` 命名同一产品的一个前端。多个产品逐一完成接入。
 - 若产品已在 `registry/harnesses/` 登记且七个主题都有当前章节，改用 [harness-maintenance](../harness-maintenance/SKILL.md)；否则按本 Skill 继续接入。
 
 ## 执行流程
 
-### 1. 登记身份与官方来源
+### 1. 登记产品身份、界面与官方来源
 
 先读 [docs/PRD.md](../../../docs/PRD.md) 的产品与来源边界、[docs/topic-questions.md](../../../docs/topic-questions.md) 的固定问题与成稿规则、[docs/data-model.md](../../../docs/data-model.md) 的记录契约。
 
-- 核对产品官网、官方源码与发行渠道，在 `registry/harnesses/<harness-id>.yaml` 登记稳定 ID、产品身份、别名与 `source_refs`。
+- 先查 `catalog/harnesses.yaml`；已有候选沿用其产品 id 与界面身份。新产品核对官网、官方源码与发行渠道后登记产品 id、名称、别名、每个界面的 `surface_id`、`kind` 与名称，以及运行时和每个界面的绑定。绑定未证实时记 `unknown`；`documented` 须引用明确说明该关系的固定来源。
+- 为 catalog 的身份、界面与绑定保存官方原件到 `archive/catalog/`，在 catalog 的 `references` 记录 `reference_id`、产品、HTTPS 官方链接、抓取时间、原件 sha256、定位及不超过 800 字符的原文摘录；Git 原件还须记录精确 commit。产品、界面与运行时通过 `reference_ids` 引用这些记录。
+- 在 `registry/harnesses/<product-id>.yaml` 只登记产品 id 与 `source_refs`，不复制名称、别名或形态。
 - 在 `registry/sources/*.yaml` 逐个登记官方来源：`git_repository`、`official_documentation`，以及产品有官方 npm 包时的 `npm_registry` 来源；npm 来源只登记包名与渠道身份，不下载包字节、不写软件版本映射，供 harness-binary 核对官方包名。
 - 只登记官方来源；未登记来源不得作为章节证据。
 
@@ -39,7 +41,7 @@ disable-model-invocation: true
 
 对 `skills`、`mcp`、`custom_agents`、`custom_providers`、`hooks`、`native_plugins`、`configuration` 各写一份完整章节版本 `knowledge/<harness-id>/chapters/<edition-id>.md`：
 
-- frontmatter 按 `docs/topic-questions.md` 逐题给出该主题固定问题的状态、主要小节 ID 与本问题来源引用；七个主题合计覆盖全部 53 个问题。
+- frontmatter 用 `schema_version: 3`：每个小节列出其 `surface_ids`，每道固定问题给出 `answers`，每条答案记录 `surface_ids`、状态、主要小节 ID 与本答案来源引用。没有调查的已声明界面可以不给答案，查询会把它报为 `not_investigated`，不要写成 `unknown`；七个主题合计覆盖全部 53 个问题。
 - 正文按机制分稳定小节（`{#section-id}`），引用用 `[@reference-id]`；未知、不适用与冲突在对应小节写明理由与缺口。
 - 只有对具体软件发行版有证据时才建 `mappings/`；无证据保持来源级知识。
 
@@ -90,7 +92,7 @@ pnpm ahw publish --release-id <new-id>
 
 ## 执行参考
 
-- 产品与来源边界见 [docs/PRD.md](../../../docs/PRD.md) §1、§3、§7。
+- 产品与界面身份见 `catalog/harnesses.yaml` 与 [docs/data-model.md](../../../docs/data-model.md)；产品与来源边界见 [docs/PRD.md](../../../docs/PRD.md) §1、§3、§7。
 - 固定问题与成稿规则见 [docs/topic-questions.md](../../../docs/topic-questions.md) 与 [docs/knowledge-workflow.md](../../../docs/knowledge-workflow.md)。
 - 记录字段与校验关系见 [docs/data-model.md](../../../docs/data-model.md)。
 - 后续维护见 [harness-maintenance](../harness-maintenance/SKILL.md)；受管二进制见 [harness-binary](../harness-binary/SKILL.md)。

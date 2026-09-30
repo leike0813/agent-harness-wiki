@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: omp-skills-v2
 harness_id: omp
@@ -7,82 +7,109 @@ topic: skills
 title: OMP Skills 来源、格式与调用
 sections:
   - section_id: skills-locations
+    surface_ids: [cli]
     source_refs:
       - ref-omp-skills-providers-doc
   - section_id: skills-discovery
+    surface_ids: [cli]
     source_refs:
       - ref-omp-skills-discovery-doc
       - ref-omp-skills-providers-doc
   - section_id: skills-collision
+    surface_ids: [cli]
     source_refs:
       - ref-omp-skills-collision-doc
       - ref-omp-skills-discovery-doc
   - section_id: skills-format
+    surface_ids: [cli]
     source_refs:
       - ref-omp-skills-frontmatter-code
       - ref-omp-skills-discovery-doc
   - section_id: skills-extensions
+    surface_ids: [cli]
     source_refs:
       - ref-omp-skills-frontmatter-code
   - section_id: skills-conditions
+    surface_ids: [cli]
     source_refs:
       - ref-omp-skills-providers-doc
   - section_id: skills-loading
+    surface_ids: [cli]
     source_refs:
       - ref-omp-skills-runtime-doc
   - section_id: skills-invocation
+    surface_ids: [cli]
     source_refs:
       - ref-omp-skills-invoke-code
       - ref-omp-skills-runtime-doc
   - section_id: skills-diagnostics
+    surface_ids: [cli]
     source_refs:
       - ref-omp-skills-collision-doc
 questions:
   - question_id: skills.roots
-    section_id: skills-locations
-    status: answered
-    source_refs:
-      - ref-omp-skills-providers-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-locations
+        status: answered
+        source_refs:
+          - ref-omp-skills-providers-doc
   - question_id: skills.discovery
-    section_id: skills-discovery
-    status: answered
-    source_refs:
-      - ref-omp-skills-discovery-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-discovery
+        status: answered
+        source_refs:
+          - ref-omp-skills-discovery-doc
   - question_id: skills.collision
-    section_id: skills-collision
-    status: answered
-    source_refs:
-      - ref-omp-skills-collision-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-collision
+        status: answered
+        source_refs:
+          - ref-omp-skills-collision-doc
   - question_id: skills.format
-    section_id: skills-format
-    status: answered
-    source_refs:
-      - ref-omp-skills-frontmatter-code
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-format
+        status: answered
+        source_refs:
+          - ref-omp-skills-frontmatter-code
   - question_id: skills.extensions
-    section_id: skills-extensions
-    status: partial
-    source_refs:
-      - ref-omp-skills-frontmatter-code
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-extensions
+        status: partial
+        source_refs:
+          - ref-omp-skills-frontmatter-code
   - question_id: skills.loading
-    section_id: skills-loading
-    status: answered
-    source_refs:
-      - ref-omp-skills-runtime-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-loading
+        status: answered
+        source_refs:
+          - ref-omp-skills-runtime-doc
   - question_id: skills.invocation
-    section_id: skills-invocation
-    status: answered
-    source_refs:
-      - ref-omp-skills-invoke-code
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-invocation
+        status: answered
+        source_refs:
+          - ref-omp-skills-invoke-code
   - question_id: skills.conditions
-    section_id: skills-conditions
-    status: answered
-    source_refs:
-      - ref-omp-skills-providers-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-conditions
+        status: answered
+        source_refs:
+          - ref-omp-skills-providers-doc
   - question_id: skills.diagnostics
-    section_id: skills-diagnostics
-    status: partial
-    source_refs:
-      - ref-omp-skills-collision-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-diagnostics
+        status: partial
+        source_refs:
+          - ref-omp-skills-collision-doc
 ---
 本章材料来自源码修订 dff728c 的官方文档与 npm 包 `@oh-my-pi/pi-coding-agent` 18.3.4 的包内源码。来源集合、发现管线、过滤与合并规则来自文档，frontmatter 类型来自包内 `src/capability/skill.ts`，调用解析来自 `src/extensibility/skills.ts`。当前发布没有把任何 npm 版本映射为已验证行为，按精确版本查询会返回未验证。本轮没有在隔离 HOME 下实际放置技能并读取警告列表，改动文件后的重载时机与 omp-managed 的运行时刷新仍未取证。
 

@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-agy-custom-agents-invoke
+harness_id: antigravity
+snapshot_id: snapshot-agy-subagents-doc
+locator:
+  kind: document_section
+  heading: "Invoking Subagents"
+official_url: https://antigravity.google/docs/subagents.md
+excerpt: |-
+  The parent agent calls the `invoke_subagent` tool to spawn a new concurrent session with a dedicated role and initial prompt.
+
+  *   **Workspace Options**: The subagent can either inherit the same workspace as its parent (`inherit`), create an isolated Git worktree (`branch`), or share directory storage (`share`).
+  *   **Context Isolation**: The subagent runs using the specified model tier but does not inherit the parent’s existing conversation history (context window), starting with a clean slate.
+  *   **Execution**: Once invoked, the subagent immediately begins executing its task. A parent agent can invoke multiple subagents concurrently.

@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: claude-code-custom_agents-v1
 harness_id: claude-code
@@ -7,59 +7,76 @@ topic: custom_agents
 title: Claude Code 的自定义 agent 定义、角色与覆盖
 sections:
   - section_id: agents-entry
+    surface_ids: [cli]
     source_refs:
       - ref-cc-skills-adddir
       - ref-cc-agents-helper
       - ref-cc-agents-trust
   - section_id: agents-roles
+    surface_ids: [cli]
     source_refs:
       - ref-cc-skills-subagent
       - ref-cc-agents-plugin
       - ref-cc-mcp-pluginservers
   - section_id: agents-overrides
+    surface_ids: [cli]
     source_refs:
       - ref-cc-skills-subagent
       - ref-cc-skills-livechange
       - ref-cc-npm-readme
 questions:
   - question_id: agents.entry
-    section_id: agents-entry
-    status: partial
-    source_refs:
-      - ref-cc-skills-adddir
-      - ref-cc-agents-helper
-      - ref-cc-agents-trust
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-entry
+        status: partial
+        source_refs:
+          - ref-cc-skills-adddir
+          - ref-cc-agents-helper
+          - ref-cc-agents-trust
   - question_id: agents.format
-    section_id: agents-entry
-    status: partial
-    source_refs:
-      - ref-cc-agents-helper
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-entry
+        status: partial
+        source_refs:
+          - ref-cc-agents-helper
   - question_id: agents.roles
-    section_id: agents-roles
-    status: partial
-    source_refs:
-      - ref-cc-skills-subagent
-      - ref-cc-agents-plugin
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-roles
+        status: partial
+        source_refs:
+          - ref-cc-skills-subagent
+          - ref-cc-agents-plugin
   - question_id: agents.invocation
-    section_id: agents-roles
-    status: partial
-    source_refs:
-      - ref-cc-skills-subagent
-      - ref-cc-mcp-pluginservers
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-roles
+        status: partial
+        source_refs:
+          - ref-cc-skills-subagent
+          - ref-cc-mcp-pluginservers
   - question_id: agents.overrides
-    section_id: agents-overrides
-    status: partial
-    source_refs:
-      - ref-cc-skills-subagent
-      - ref-cc-skills-livechange
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-overrides
+        status: partial
+        source_refs:
+          - ref-cc-skills-subagent
+          - ref-cc-skills-livechange
   - question_id: agents.limits
-    section_id: agents-overrides
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-overrides
+        status: unknown
+        source_refs: []
   - question_id: agents.diagnostics
-    section_id: agents-overrides
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-overrides
+        status: unknown
+        source_refs: []
 ---
 
 ## Agent 定义入口与格式 {#agents-entry}

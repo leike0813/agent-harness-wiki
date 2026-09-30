@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: claude-code-mcp-v1
 harness_id: claude-code
@@ -7,6 +7,7 @@ topic: mcp
 title: Claude Code 的 MCP 配置、连接与暴露
 sections:
   - section_id: mcp-entry
+    surface_ids: [cli]
     source_refs:
       - ref-cc-mcp-scopes
       - ref-cc-mcp-precedence
@@ -16,6 +17,7 @@ sections:
       - ref-cc-mcp-stdio
       - ref-cc-mcp-transports
   - section_id: mcp-auth-lifecycle
+    surface_ids: [cli]
     source_refs:
       - ref-cc-mcp-auth
       - ref-cc-mcp-headershelper
@@ -26,6 +28,7 @@ sections:
       - ref-cc-mcp-runtimes
       - ref-cc-mcp-toolsearch
   - section_id: mcp-capabilities
+    surface_ids: [cli]
     source_refs:
       - ref-cc-mcp-toolavailability
       - ref-cc-mcp-resources
@@ -38,6 +41,7 @@ sections:
       - ref-cc-mcp-pluginservers
       - ref-cc-mcp-toolsearch
   - section_id: mcp-diagnostics
+    surface_ids: [cli]
     source_refs:
       - ref-cc-mcp-status
       - ref-cc-mcp-statusdetail
@@ -45,67 +49,83 @@ sections:
       - ref-cc-npm-readme
 questions:
   - question_id: mcp.entry
-    section_id: mcp-entry
-    status: answered
-    source_refs:
-      - ref-cc-mcp-scopes
-      - ref-cc-mcp-precedence
-      - ref-cc-mcp-managed
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-entry
+        status: answered
+        source_refs:
+          - ref-cc-mcp-scopes
+          - ref-cc-mcp-precedence
+          - ref-cc-mcp-managed
   - question_id: mcp.definition
-    section_id: mcp-entry
-    status: answered
-    source_refs:
-      - ref-cc-mcp-envexpansion
-      - ref-cc-mcp-credential
-      - ref-cc-mcp-stdio
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-entry
+        status: answered
+        source_refs:
+          - ref-cc-mcp-envexpansion
+          - ref-cc-mcp-credential
+          - ref-cc-mcp-stdio
   - question_id: mcp.transport
-    section_id: mcp-entry
-    status: answered
-    source_refs:
-      - ref-cc-mcp-transports
-      - ref-cc-mcp-stdio
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-entry
+        status: answered
+        source_refs:
+          - ref-cc-mcp-transports
+          - ref-cc-mcp-stdio
   - question_id: mcp.auth
-    section_id: mcp-auth-lifecycle
-    status: answered
-    source_refs:
-      - ref-cc-mcp-auth
-      - ref-cc-mcp-headershelper
-      - ref-cc-mcp-connectors
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-auth-lifecycle
+        status: answered
+        source_refs:
+          - ref-cc-mcp-auth
+          - ref-cc-mcp-headershelper
+          - ref-cc-mcp-connectors
   - question_id: mcp.lifecycle
-    section_id: mcp-auth-lifecycle
-    status: answered
-    source_refs:
-      - ref-cc-mcp-reconnect
-      - ref-cc-mcp-disable
-      - ref-cc-mcp-statusdetail
-      - ref-cc-mcp-runtimes
-      - ref-cc-mcp-toolsearch
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-auth-lifecycle
+        status: answered
+        source_refs:
+          - ref-cc-mcp-reconnect
+          - ref-cc-mcp-disable
+          - ref-cc-mcp-statusdetail
+          - ref-cc-mcp-runtimes
+          - ref-cc-mcp-toolsearch
   - question_id: mcp.capabilities
-    section_id: mcp-capabilities
-    status: answered
-    source_refs:
-      - ref-cc-mcp-toolavailability
-      - ref-cc-mcp-resources
-      - ref-cc-mcp-prompts
-      - ref-cc-mcp-limits
-      - ref-cc-mcp-dynamic
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-capabilities
+        status: answered
+        source_refs:
+          - ref-cc-mcp-toolavailability
+          - ref-cc-mcp-resources
+          - ref-cc-mcp-prompts
+          - ref-cc-mcp-limits
+          - ref-cc-mcp-dynamic
   - question_id: mcp.exposure
-    section_id: mcp-capabilities
-    status: answered
-    source_refs:
-      - ref-cc-mcp-approvals
-      - ref-cc-mcp-toolapproval
-      - ref-cc-mcp-orgcontrols
-      - ref-cc-mcp-pluginservers
-      - ref-cc-mcp-toolsearch
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-capabilities
+        status: answered
+        source_refs:
+          - ref-cc-mcp-approvals
+          - ref-cc-mcp-toolapproval
+          - ref-cc-mcp-orgcontrols
+          - ref-cc-mcp-pluginservers
+          - ref-cc-mcp-toolsearch
   - question_id: mcp.diagnostics
-    section_id: mcp-diagnostics
-    status: answered
-    source_refs:
-      - ref-cc-mcp-status
-      - ref-cc-mcp-statusdetail
-      - ref-cc-mcp-warnings
-      - ref-cc-npm-readme
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-diagnostics
+        status: answered
+        source_refs:
+          - ref-cc-mcp-status
+          - ref-cc-mcp-statusdetail
+          - ref-cc-mcp-warnings
+          - ref-cc-npm-readme
 ---
 
 ## 配置入口、作用域与 Server 定义 {#mcp-entry}

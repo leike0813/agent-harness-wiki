@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: claude-code-configuration-v2
 harness_id: claude-code
@@ -7,6 +7,7 @@ topic: configuration
 title: Claude Code 的配置来源、优先级与诊断
 sections:
   - section_id: config-sources
+    surface_ids: [cli]
     source_refs:
       - ref-cc-config-files
       - ref-cc-config-find
@@ -14,6 +15,7 @@ sections:
       - ref-cc-config-cloud
       - ref-cc-config-local
   - section_id: config-overrides
+    surface_ids: [cli]
     source_refs:
       - ref-cc-config-precedence
       - ref-cc-config-envpair
@@ -25,6 +27,7 @@ sections:
       - ref-cc-config-confirm
       - ref-cc-npm-readme
   - section_id: config-diagnostics
+    surface_ids: [cli]
     source_refs:
       - ref-cc-config-confirm
       - ref-cc-config-reload
@@ -32,48 +35,62 @@ sections:
       - ref-cc-npm-readme
 questions:
   - question_id: config.sources
-    section_id: config-sources
-    status: answered
-    source_refs:
-      - ref-cc-config-files
-      - ref-cc-config-home
-      - ref-cc-config-cloud
+    answers:
+      - surface_ids: [cli]
+        section_id: config-sources
+        status: answered
+        source_refs:
+          - ref-cc-config-files
+          - ref-cc-config-home
+          - ref-cc-config-cloud
   - question_id: config.defaults
-    section_id: config-sources
-    status: partial
-    source_refs:
-      - ref-cc-config-find
-      - ref-cc-config-local
+    answers:
+      - surface_ids: [cli]
+        section_id: config-sources
+        status: partial
+        source_refs:
+          - ref-cc-config-find
+          - ref-cc-config-local
   - question_id: config.migration
-    section_id: config-sources
-    status: partial
-    source_refs:
-      - ref-cc-config-local
+    answers:
+      - surface_ids: [cli]
+        section_id: config-sources
+        status: partial
+        source_refs:
+          - ref-cc-config-local
   - question_id: config.overrides
-    section_id: config-overrides
-    status: answered
-    source_refs:
-      - ref-cc-config-precedence
-      - ref-cc-config-lists
-      - ref-cc-config-exceptions
+    answers:
+      - surface_ids: [cli]
+        section_id: config-overrides
+        status: answered
+        source_refs:
+          - ref-cc-config-precedence
+          - ref-cc-config-lists
+          - ref-cc-config-exceptions
   - question_id: config.runtime
-    section_id: config-overrides
-    status: answered
-    source_refs:
-      - ref-cc-config-envpair
-      - ref-cc-config-onesession
+    answers:
+      - surface_ids: [cli]
+        section_id: config-overrides
+        status: answered
+        source_refs:
+          - ref-cc-config-envpair
+          - ref-cc-config-onesession
   - question_id: config.trust
-    section_id: config-overrides
-    status: answered
-    source_refs:
-      - ref-cc-config-troubleshoot
+    answers:
+      - surface_ids: [cli]
+        section_id: config-overrides
+        status: answered
+        source_refs:
+          - ref-cc-config-troubleshoot
   - question_id: config.diagnostics
-    section_id: config-diagnostics
-    status: answered
-    source_refs:
-      - ref-cc-config-confirm
-      - ref-cc-config-reload
-      - ref-cc-config-broken
+    answers:
+      - surface_ids: [cli]
+        section_id: config-diagnostics
+        status: answered
+        source_refs:
+          - ref-cc-config-confirm
+          - ref-cc-config-reload
+          - ref-cc-config-broken
 ---
 
 Claude Code 从若干 JSON 设置文件读取键值，文件所在位置决定它对谁生效；同一键出现在多处时按层级取值，环境变量与命令行在运行时介入。下面按“有哪些文件、优先级与信任、怎么排查”三段展开；固定来源为官方设置页，本章末尾说明它与已选定 npm 包快照的版本关系。

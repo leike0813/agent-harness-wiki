@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: pi-hooks-v1
 harness_id: pi
@@ -7,11 +7,13 @@ topic: hooks
 title: Pi Hooks：扩展事件回调（固定源码 781152f）
 sections:
   - section_id: hooks-events
+    surface_ids: [cli]
     source_refs:
       - ref-pi-ext-lifecycle
       - ref-pi-ext-locations
       - ref-pi-ext-register
   - section_id: hooks-io
+    surface_ids: [cli]
     source_refs:
       - ref-pi-ext-tool-call
       - ref-pi-ext-tool-result
@@ -19,6 +21,7 @@ sections:
       - ref-pi-ext-before-agent-start
       - ref-pi-ext-tool-call-behavior
   - section_id: hooks-run
+    surface_ids: [cli]
     source_refs:
       - ref-pi-ext-tool-result
       - ref-pi-ext-tool-call-behavior
@@ -30,53 +33,67 @@ sections:
       - ref-pi-ext-resources-discover
 questions:
   - question_id: hooks.events
-    section_id: hooks-events
-    status: answered
-    source_refs:
-      - ref-pi-ext-lifecycle
-      - ref-pi-ext-locations
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-events
+        status: answered
+        source_refs:
+          - ref-pi-ext-lifecycle
+          - ref-pi-ext-locations
   - question_id: hooks.entry
-    section_id: hooks-events
-    status: answered
-    source_refs:
-      - ref-pi-ext-locations
-      - ref-pi-ext-register
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-events
+        status: answered
+        source_refs:
+          - ref-pi-ext-locations
+          - ref-pi-ext-register
   - question_id: hooks.input
-    section_id: hooks-io
-    status: answered
-    source_refs:
-      - ref-pi-ext-tool-call
-      - ref-pi-ext-tool-result
-      - ref-pi-ext-input
-      - ref-pi-ext-before-agent-start
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-io
+        status: answered
+        source_refs:
+          - ref-pi-ext-tool-call
+          - ref-pi-ext-tool-result
+          - ref-pi-ext-input
+          - ref-pi-ext-before-agent-start
   - question_id: hooks.output
-    section_id: hooks-io
-    status: answered
-    source_refs:
-      - ref-pi-ext-tool-call-behavior
-      - ref-pi-ext-tool-result
-      - ref-pi-ext-input
-      - ref-pi-ext-before-agent-start
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-io
+        status: answered
+        source_refs:
+          - ref-pi-ext-tool-call-behavior
+          - ref-pi-ext-tool-result
+          - ref-pi-ext-input
+          - ref-pi-ext-before-agent-start
   - question_id: hooks.order
-    section_id: hooks-run
-    status: answered
-    source_refs:
-      - ref-pi-ext-tool-result
-      - ref-pi-ext-tool-call-behavior
-      - ref-pi-ext-lifecycle
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-run
+        status: answered
+        source_refs:
+          - ref-pi-ext-tool-result
+          - ref-pi-ext-tool-call-behavior
+          - ref-pi-ext-lifecycle
   - question_id: hooks.conditions
-    section_id: hooks-run
-    status: partial
-    source_refs:
-      - ref-pi-ext-locations
-      - ref-pi-readme-philosophy
-      - ref-pi-packages-dedupe
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-run
+        status: partial
+        source_refs:
+          - ref-pi-ext-locations
+          - ref-pi-readme-philosophy
+          - ref-pi-packages-dedupe
   - question_id: hooks.diagnostics
-    section_id: hooks-run
-    status: partial
-    source_refs:
-      - ref-pi-ext-reload
-      - ref-pi-ext-resources-discover
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-run
+        status: partial
+        source_refs:
+          - ref-pi-ext-reload
+          - ref-pi-ext-resources-discover
 body: |-
   Pi 的 hook 是扩展订阅的事件回调，不是 JSON 规则文件。以下事件与返回值来自固定来源的扩展文档，未做运行观察。
 

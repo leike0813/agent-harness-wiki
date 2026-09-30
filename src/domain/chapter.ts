@@ -1,4 +1,5 @@
 import * as z from "zod";
+import { catalogSchema, harnessRegistrationSchema } from "./catalog.js";
 import {
   artifactSchema,
   harnessSchema,
@@ -10,7 +11,7 @@ import {
 const id = z.string().regex(/^[a-z][a-z0-9_-]*$/);
 const sha256 = z.string().regex(/^[a-f0-9]{64}$/);
 const record = {
-  schema_version: z.literal(2),
+  schema_version: z.literal(3),
   record_kind: z.enum(["fixture", "production"]),
 };
 
@@ -24,6 +25,7 @@ export const chapterEditionSchema = z.strictObject({
     .array(
       z.strictObject({
         section_id: id,
+        surface_ids: z.array(id).min(1),
         source_refs: z.array(id),
       }),
     )
@@ -32,15 +34,22 @@ export const chapterEditionSchema = z.strictObject({
     .array(
       z.strictObject({
         question_id: z.string().regex(/^[a-z][a-z0-9_]*\.[a-z][a-z0-9_]*$/),
-        section_id: id,
-        status: z.enum([
-          "answered",
-          "partial",
-          "unknown",
-          "not_applicable",
-          "conflict",
-        ]),
-        source_refs: z.array(id),
+        answers: z
+          .array(
+            z.strictObject({
+              surface_ids: z.array(id).min(1),
+              section_id: id,
+              status: z.enum([
+                "answered",
+                "partial",
+                "unknown",
+                "not_applicable",
+                "conflict",
+              ]),
+              source_refs: z.array(id),
+            }),
+          )
+          .min(1),
       }),
     )
     .min(1),
@@ -48,7 +57,8 @@ export const chapterEditionSchema = z.strictObject({
 });
 
 export const sourceReferenceSchema = z.strictObject({
-  ...record,
+  schema_version: z.literal(2),
+  record_kind: record.record_kind,
   reference_id: id,
   harness_id: id,
   snapshot_id: id,
@@ -78,6 +88,7 @@ export const softwareMappingSchema = z.strictObject({
   mapping_id: id,
   edition_id: id,
   harness_id: id,
+  surface_id: id,
   software_version: z.string().min(1),
   package_snapshot_id: id,
   scope: z.enum(["section", "chapter"]),
@@ -98,8 +109,8 @@ export const chapterSelectionSchema = z.strictObject({
 });
 
 export const chapterReleaseManifestSchema = z.strictObject({
-  schema_version: z.literal(2),
-  builder_version: z.enum(["4", "5"]),
+  schema_version: z.literal(3),
+  builder_version: z.literal("6"),
   release_id: id,
   profile: z.enum(["fixture", "production"]),
   knowledge_published_at: z.iso.datetime(),
@@ -123,11 +134,12 @@ export const chapterReleaseManifestSchema = z.strictObject({
 });
 
 export const chapterPublishedKnowledgeSchema = z.strictObject({
-  schema_version: z.literal(2),
+  schema_version: z.literal(3),
   release_id: id,
   profile: z.enum(["fixture", "production"]),
   knowledge_published_at: z.iso.datetime(),
   records: z.strictObject({
+    catalog: catalogSchema,
     harnesses: z.array(harnessSchema),
     sources: z.array(sourceSchema),
     artifacts: z.array(artifactSchema),
@@ -148,6 +160,8 @@ export const chapterRecordSchemas = {
   chapter_selection: chapterSelectionSchema,
   chapter_release_manifest: chapterReleaseManifestSchema,
   chapter_published_knowledge: chapterPublishedKnowledgeSchema,
+  harness_catalog: catalogSchema,
+  harness_registration: harnessRegistrationSchema,
 } as const;
 
 export type ChapterEdition = z.infer<typeof chapterEditionSchema>;

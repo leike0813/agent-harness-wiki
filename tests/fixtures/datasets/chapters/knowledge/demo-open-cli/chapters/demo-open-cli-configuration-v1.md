@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: fixture
 edition_id: demo-open-cli-configuration-v1
 harness_id: demo-open-cli
@@ -7,36 +7,51 @@ topic: configuration
 title: demo-open-cli configuration (fictional)
 sections:
   - section_id: configuration-overview
+    surface_ids: [cli]
     source_refs: [ref-demo-open-doc]
 questions:
   - question_id: config.sources
-    section_id: configuration-overview
-    status: answered
-    source_refs: [ref-demo-open-doc]
+    answers:
+      - surface_ids: [cli]
+        section_id: configuration-overview
+        status: answered
+        source_refs: [ref-demo-open-doc]
   - question_id: config.overrides
-    section_id: configuration-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: configuration-overview
+        status: unknown
+        source_refs: []
   - question_id: config.runtime
-    section_id: configuration-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: configuration-overview
+        status: unknown
+        source_refs: []
   - question_id: config.trust
-    section_id: configuration-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: configuration-overview
+        status: unknown
+        source_refs: []
   - question_id: config.defaults
-    section_id: configuration-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: configuration-overview
+        status: unknown
+        source_refs: []
   - question_id: config.migration
-    section_id: configuration-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: configuration-overview
+        status: unknown
+        source_refs: []
   - question_id: config.diagnostics
-    section_id: configuration-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: configuration-overview
+        status: unknown
+        source_refs: []
 ---
 ## configuration 1 {#configuration-overview}
 

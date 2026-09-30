@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: opencode-mcp-v1
 harness_id: opencode
@@ -7,16 +7,19 @@ topic: mcp
 title: OpenCode 的 MCP server 机制
 sections:
   - section_id: mcp-entry
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-mcp-config
       - ref-opencode-mcp-local
       - ref-opencode-mcp-remote
   - section_id: mcp-transport
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-mcp-local
       - ref-opencode-mcp-remote
       - ref-opencode-mcp-auth
   - section_id: mcp-runtime
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-mcp-code
       - ref-opencode-mcp-lifecycle
@@ -26,51 +29,67 @@ sections:
       - ref-opencode-mcp-auth
 questions:
   - question_id: mcp.entry
-    section_id: mcp-entry
-    status: answered
-    source_refs:
-      - ref-opencode-mcp-config
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-entry
+        status: answered
+        source_refs:
+          - ref-opencode-mcp-config
   - question_id: mcp.definition
-    section_id: mcp-entry
-    status: answered
-    source_refs:
-      - ref-opencode-mcp-local
-      - ref-opencode-mcp-remote
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-entry
+        status: answered
+        source_refs:
+          - ref-opencode-mcp-local
+          - ref-opencode-mcp-remote
   - question_id: mcp.transport
-    section_id: mcp-transport
-    status: answered
-    source_refs:
-      - ref-opencode-mcp-local
-      - ref-opencode-mcp-remote
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-transport
+        status: answered
+        source_refs:
+          - ref-opencode-mcp-local
+          - ref-opencode-mcp-remote
   - question_id: mcp.auth
-    section_id: mcp-transport
-    status: answered
-    source_refs:
-      - ref-opencode-mcp-auth
-      - ref-opencode-mcp-remote
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-transport
+        status: answered
+        source_refs:
+          - ref-opencode-mcp-auth
+          - ref-opencode-mcp-remote
   - question_id: mcp.lifecycle
-    section_id: mcp-runtime
-    status: partial
-    source_refs:
-      - ref-opencode-mcp-code
-      - ref-opencode-mcp-lifecycle
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-runtime
+        status: partial
+        source_refs:
+          - ref-opencode-mcp-code
+          - ref-opencode-mcp-lifecycle
   - question_id: mcp.capabilities
-    section_id: mcp-runtime
-    status: answered
-    source_refs:
-      - ref-opencode-mcp-code
-      - ref-opencode-mcp-catalog
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-runtime
+        status: answered
+        source_refs:
+          - ref-opencode-mcp-code
+          - ref-opencode-mcp-catalog
   - question_id: mcp.exposure
-    section_id: mcp-runtime
-    status: answered
-    source_refs:
-      - ref-opencode-mcp-manage
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-runtime
+        status: answered
+        source_refs:
+          - ref-opencode-mcp-manage
   - question_id: mcp.diagnostics
-    section_id: mcp-runtime
-    status: partial
-    source_refs:
-      - ref-opencode-mcp-debug
-      - ref-opencode-mcp-auth
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-runtime
+        status: partial
+        source_refs:
+          - ref-opencode-mcp-debug
+          - ref-opencode-mcp-auth
 ---
 本章依据固定源码提交 545f51d 的官方文档与实现。该提交不等于 npm 包 opencode-ai@1.18.32 的运行时行为；以下字段、超时与命令属于固定源码知识，对 1.18.32 二进制的适用性尚未建立映射。
 

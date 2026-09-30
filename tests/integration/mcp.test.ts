@@ -66,10 +66,40 @@ test("stdio exposes exactly five chapter tools and calls all five", async () => 
     "get_source",
   ]);
   await call("list_harnesses", { limit: 1 });
+  const catalog = await call("list_harnesses", { scope: "catalog" });
+  const candidate = (
+    catalog.structuredContent as {
+      items: { registered: boolean; reference_ids: string[] }[];
+    }
+  ).items.find((x) => !x.registered)!;
+  expect(candidate).toBeDefined();
+  expect(
+    (await call("get_source", { reference_id: candidate.reference_ids[0] }))
+      .isError,
+  ).not.toBe(true);
+  expect(
+    (
+      await call("get_topic", {
+        harness: "demo-open-cli",
+        topic: "skills",
+        surface_id: "desktop",
+      })
+    ).structuredContent,
+  ).toMatchObject({ status: "not_investigated" });
+  expect(
+    (
+      await call("get_topic", {
+        harness: "demo-open-cli",
+        topic: "skills",
+        version: "9.0.0",
+      })
+    ).structuredContent,
+  ).toMatchObject({ status: "ambiguous" });
   const topic = await call("get_topic", {
     harness: "demo-open-cli",
     topic: "skills",
     version: "9.0.0",
+    surface_id: "cli",
   });
   expect((topic.structuredContent as Record<string, unknown>).status).toBe(
     "ok",
@@ -100,7 +130,10 @@ test("stdio exposes exactly five chapter tools and calls all five", async () => 
     topic: "skills",
     targets: [{ harness: "demo-open-cli" }, { harness: "demo-package-cli" }],
   });
-  await call("get_source", { reference_id: "ref-demo-open" });
+  await call("get_source", {
+    reference_id: "ref-demo-open",
+    surface_id: "cli",
+  });
   const missing = await call("get_topic", {
     harness: "absent",
     topic: "skills",

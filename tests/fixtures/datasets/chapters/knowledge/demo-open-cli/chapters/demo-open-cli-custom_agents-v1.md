@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: fixture
 edition_id: demo-open-cli-custom_agents-v1
 harness_id: demo-open-cli
@@ -7,36 +7,51 @@ topic: custom_agents
 title: demo-open-cli custom_agents (fictional)
 sections:
   - section_id: custom-agents-overview
+    surface_ids: [cli]
     source_refs: []
 questions:
   - question_id: agents.entry
-    section_id: custom-agents-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: custom-agents-overview
+        status: unknown
+        source_refs: []
   - question_id: agents.format
-    section_id: custom-agents-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: custom-agents-overview
+        status: unknown
+        source_refs: []
   - question_id: agents.roles
-    section_id: custom-agents-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: custom-agents-overview
+        status: unknown
+        source_refs: []
   - question_id: agents.invocation
-    section_id: custom-agents-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: custom-agents-overview
+        status: unknown
+        source_refs: []
   - question_id: agents.overrides
-    section_id: custom-agents-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: custom-agents-overview
+        status: unknown
+        source_refs: []
   - question_id: agents.limits
-    section_id: custom-agents-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: custom-agents-overview
+        status: unknown
+        source_refs: []
   - question_id: agents.diagnostics
-    section_id: custom-agents-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: custom-agents-overview
+        status: unknown
+        source_refs: []
 ---
 ## custom_agents 1 {#custom-agents-overview}
 

@@ -7,17 +7,17 @@ description: 为已登记官方 npm 接收渠道的 CLI 维护受管二进制环
 
 ## 目标
 
-维护每个已登记 CLI 的受管可执行环境：首次接入与后续更新统一走 `pnpm managed:packages update <id>`。候选在忽略 staging 安装并锁定，核对官方 integrity，通过隔离启动检查后才切换；失败保留旧的可启动环境。二进制结果独立于知识发布。
+维护每个已登记产品 CLI 界面（catalog 中的 `surface_id: cli`）的受管可执行环境：首次接入与后续更新统一走 `pnpm managed:packages update <id>`。候选在忽略 staging 安装并锁定，核对官方 integrity，通过隔离启动检查后才切换；失败保留旧的可启动环境。二进制结果独立于知识发布。
 
 ## 适用与不适用
 
-只处理在 `registry/sources/` 登记了官方 `npm_registry` 来源的产品。没有已核对的官方 npm 来源、或以其他方式分发的产品不适用：报告 unsupported，拒绝临时改用其他渠道，也不阻断知识发布。
+只处理在 `registry/sources/` 登记了官方 `npm_registry` 来源的产品；受管制品对应产品的 CLI 界面。没有已核对的官方 npm 来源、或以其他方式分发的产品不适用：报告 unsupported，拒绝临时改用其他渠道，也不阻断知识发布。
 
 ## 执行流程
 
 ### 1. 确认或登记官方 npm 渠道
 
-先确认 `registry/sources/` 中已有该产品的官方 `npm_registry` 来源。若已在 `src/sources/managed.ts` 的 `managedPackages` 登记，确认其 `name` 与来源一致；来源缺失或被上游改动时停止并报告，不据此登记。
+先确认 catalog 中已有该产品的 CLI 界面及其绑定状态，再确认 `registry/sources/` 中已有该产品的官方 `npm_registry` 来源。绑定可为 `unknown`，启动检查不据此证明共享后端。若已在 `src/sources/managed.ts` 的 `managedPackages` 登记，确认其 `name` 与来源一致；来源缺失或被上游改动时停止并报告，不据此登记。
 
 产品尚未登记时，先在 `managedPackages` 增加一项（注册但不选中）：
 

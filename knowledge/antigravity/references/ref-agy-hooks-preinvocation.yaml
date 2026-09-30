@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-agy-hooks-preinvocation
+harness_id: antigravity
+snapshot_id: snapshot-agy-hooks-doc
+locator:
+  kind: document_section
+  heading: "PreInvocation"
+official_url: https://antigravity.google/docs/hooks.md
+excerpt: |-
+  ### PreInvocation
+
+  Fires before the model is called.
+
+  **Schema**
+
+  **Input Fields (stdin)**:
+
+  | Field | Type | Description |
+  | :-- | :-- | :-- |
+  | `invocationNum` | integer | The 0-indexed sequence number of the current model invocation (the first invocation is 0). |
+  | `initialNumSteps` | integer | The number of steps currently in the trajectory. |
+  | _(Common Fields)_ |  | Includes `conversationId`, `workspacePaths`, `transcriptPath`, `artifactDirectoryPath`, `modelName`. |
+
+  **Output Fields (stdout)**:
+
+  | Field | Type | Description |
+  | :-- | :-- | :-- |
+  | `injectSteps` | array of objects | **Optional.** List of steps to inject into the conversation trajectory before the model is called. |

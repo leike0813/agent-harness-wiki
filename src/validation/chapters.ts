@@ -27,10 +27,12 @@ export async function loadAndValidateChapters(input: {
   root: string;
   profile: "fixture" | "production";
 }): Promise<ChapterValidationResult> {
-  const base = await loadAndValidateDataset(input);
+  const base = await loadAndValidateDataset({ ...input, chapterCatalog: true });
   const diagnostics = [...base.diagnostics];
   if (!base.ok) return { ok: false, diagnostics };
+  const catalog = base.catalog!;
   const dataset: ChapterDataset = {
+    catalog,
     harnesses: base.dataset.harnesses,
     sources: base.dataset.sources,
     artifacts: base.dataset.artifacts,
@@ -62,6 +64,7 @@ export async function loadAndValidateChapters(input: {
     });
   };
   const seen = new Set([
+    ...catalog.references.map((x) => x.reference_id),
     ...dataset.harnesses.map((x) => x.harness_id),
     ...dataset.sources.map((x) => x.source_id),
     ...dataset.artifacts.map((x) => x.artifact_id),
@@ -430,8 +433,8 @@ export async function loadAndValidateChapters(input: {
         Buffer.byteLength(
           JSON.stringify({
             section,
-            questions: chapter.questions.filter(
-              (q) => q.section_id === section.section_id,
+            questions: chapter.questions.filter((q) =>
+              q.answers.some((a) => a.section_id === section.section_id),
             ),
           }),
           "utf8",
@@ -461,6 +464,23 @@ export async function loadAndValidateChapters(input: {
           chapter.edition_id,
         );
       sectionIds.add(section.section_id);
+      const surfaceIds =
+        catalog.products
+          .find((x) => x.harness_id === chapter.harness_id)
+          ?.surfaces.map((x) => x.surface_id) ?? [];
+      if (
+        new Set(section.surface_ids).size !== section.surface_ids.length ||
+        section.surface_ids.some((id) => !surfaceIds.includes(id))
+      )
+        fail(
+          "SECTION_SURFACE_INVALID",
+          "relationship",
+          file,
+          "sections/surface_ids",
+          "Section must name unique known surfaces.",
+          "Use catalog surface IDs.",
+          chapter.edition_id,
+        );
       for (const refId of section.source_refs)
         if (refs.get(refId)?.harness_id !== chapter.harness_id)
           fail(
@@ -517,52 +537,78 @@ export async function loadAndValidateChapters(input: {
           chapter.edition_id,
         );
       seenQuestions.add(q.question_id);
-      const section = chapter.sections.find(
-        (x) => x.section_id === q.section_id,
-      );
-      const body = sectionBodies.get(q.section_id) ?? "";
-      const explanation = body
-        .replace(/^## .+ \{#[a-z][a-z0-9_-]*\}\s*/, "")
-        .replace(/\[@[a-z][a-z0-9_-]*\]/g, "")
-        .trim();
-      if (!section || !explanation)
-        fail(
-          "QUESTION_SECTION_MISMATCH",
-          "publishability",
-          file,
-          `questions/${q.question_id}`,
-          "Located section has no explanation.",
-          "Add mechanism prose to the located section.",
-          chapter.edition_id,
+      const answeredSurfaces = new Set<string>();
+      for (const answer of q.answers) {
+        for (const surface of answer.surface_ids) {
+          if (answeredSurfaces.has(surface))
+            fail(
+              "ANSWER_SURFACE_OVERLAP",
+              "relationship",
+              file,
+              "questions/answers",
+              "A question has overlapping answers for one surface.",
+              "Use one answer per surface; represent conflicts explicitly.",
+              chapter.edition_id,
+            );
+          answeredSurfaces.add(surface);
+        }
+        const section = chapter.sections.find(
+          (x) => x.section_id === answer.section_id,
         );
-      if (
-        (q.status === "answered" || q.status === "partial") &&
-        q.source_refs.length === 0
-      )
-        fail(
-          "QUESTION_SOURCE_MISSING",
-          "publishability",
-          file,
-          `questions/${q.question_id}/source_refs`,
-          "Answered question has no citation.",
-          "Cite a fixed source.",
-          chapter.edition_id,
-        );
-      for (const refId of q.source_refs)
+        if (answer.surface_ids.some((id) => !section?.surface_ids.includes(id)))
+          fail(
+            "ANSWER_SURFACE_INVALID",
+            "relationship",
+            file,
+            "questions/answers/surface_ids",
+            "Answer surface lies outside its section.",
+            "Use a section covering the answer surfaces.",
+            chapter.edition_id,
+          );
+        const body = sectionBodies.get(answer.section_id) ?? "";
+        const explanation = body
+          .replace(/^## .+ \{#[a-z][a-z0-9_-]*\}\s*/, "")
+          .replace(/\[@[a-z][a-z0-9_-]*\]/g, "")
+          .trim();
+        if (!section || !explanation)
+          fail(
+            "QUESTION_SECTION_MISMATCH",
+            "publishability",
+            file,
+            `questions/${q.question_id}`,
+            "Located section has no explanation.",
+            "Add mechanism prose to the located section.",
+            chapter.edition_id,
+          );
         if (
-          refs.get(refId)?.harness_id !== chapter.harness_id ||
-          !section?.source_refs.includes(refId) ||
-          !body.includes(`[@${refId}]`)
+          (answer.status === "answered" || answer.status === "partial") &&
+          answer.source_refs.length === 0
         )
           fail(
             "QUESTION_SOURCE_MISSING",
             "publishability",
             file,
             `questions/${q.question_id}/source_refs`,
-            "Question citation is missing, cross-product, or absent from its section.",
-            "Add the reference to the section and an inline marker.",
+            "Answered question has no citation.",
+            "Cite a fixed source.",
             chapter.edition_id,
           );
+        for (const refId of answer.source_refs)
+          if (
+            refs.get(refId)?.harness_id !== chapter.harness_id ||
+            !section?.source_refs.includes(refId) ||
+            !body.includes(`[@${refId}]`)
+          )
+            fail(
+              "QUESTION_SOURCE_MISSING",
+              "publishability",
+              file,
+              `questions/${q.question_id}/source_refs`,
+              "Question citation is missing, cross-product, or absent from its section.",
+              "Add the reference to the section and an inline marker.",
+              chapter.edition_id,
+            );
+      }
     }
     for (const id of fixed)
       if (!seenQuestions.has(id))
@@ -613,7 +659,14 @@ export async function loadAndValidateChapters(input: {
       !("kind" in packageSnapshot) ||
       packageSnapshot.kind !== "npm_release" ||
       packageSnapshot.target.harness_id !== mapping.harness_id ||
-      packageSnapshot.version !== mapping.software_version
+      packageSnapshot.version !== mapping.software_version ||
+      !catalog.products
+        .find((x) => x.harness_id === mapping.harness_id)
+        ?.surfaces.some(
+          (x) =>
+            x.surface_id === mapping.surface_id &&
+            x.kind === packageSnapshot.target.surface,
+        )
     )
       fail(
         "MAPPING_IDENTITY",
@@ -626,7 +679,7 @@ export async function loadAndValidateChapters(input: {
       );
     const ids = new Set<string>();
     for (const section of mapping.sections) {
-      const mappingKey = `${mapping.edition_id}|${mapping.software_version}|${section.section_id}`;
+      const mappingKey = `${mapping.edition_id}|${mapping.surface_id}|${mapping.software_version}|${section.section_id}`;
       if (mapped.has(mappingKey))
         fail(
           "MAPPING_DUPLICATE",
@@ -640,7 +693,11 @@ export async function loadAndValidateChapters(input: {
       mapped.add(mappingKey);
       if (
         ids.has(section.section_id) ||
-        !chapter?.sections.some((x) => x.section_id === section.section_id)
+        !chapter?.sections.some(
+          (x) =>
+            x.section_id === section.section_id &&
+            x.surface_ids.includes(mapping.surface_id),
+        )
       )
         fail(
           "MAPPING_SECTION_INVALID",
@@ -671,7 +728,10 @@ export async function loadAndValidateChapters(input: {
     if (
       mapping.scope === "chapter" &&
       chapter &&
-      ids.size !== chapter.sections.length
+      ids.size !==
+        chapter.sections.filter((x) =>
+          x.surface_ids.includes(mapping.surface_id),
+        ).length
     )
       fail(
         "MAPPING_INCOMPLETE",

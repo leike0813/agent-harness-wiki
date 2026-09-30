@@ -23,9 +23,17 @@ export const versionIdentitySchema = z.discriminatedUnion("kind", [
   z.strictObject({ kind: z.literal("commit"), value: nonempty }),
 ]);
 
+export const surfaceKindSchema = z.enum([
+  "cli",
+  "ide",
+  "desktop",
+  "web",
+  "sdk",
+]);
+
 export const targetScopeSchema = z.strictObject({
   harness_id: id,
-  surface: z.enum(["cli", "ide", "desktop"]),
+  surface: surfaceKindSchema,
   distribution: nonempty,
   os: z.enum(["linux", "windows", "macos"]),
   arch: z.enum(["x64", "arm64"]),
@@ -141,7 +149,7 @@ export const harnessSchema = z.strictObject({
   harness_id: id,
   name: nonempty,
   aliases: z.array(nonempty),
-  surfaces: z.array(z.enum(["cli", "ide", "desktop"])).min(1),
+  surfaces: z.array(surfaceKindSchema).min(1),
   source_refs: z.array(id).min(1),
 });
 
@@ -240,7 +248,7 @@ export const snapshotSchema = z.union([
     kind: z.literal("documentation"),
     artifact_id: id,
     harness_id: id,
-    surface: z.enum(["cli", "ide", "desktop"]),
+    surface: surfaceKindSchema,
     requested_url: officialUrl,
     resolved_url: officialUrl,
     raw_sha256: sha256,
@@ -401,6 +409,7 @@ export const upstreamAuditSchema = z.strictObject({
         z.string().regex(/^[a-z][a-z0-9_]*\.[a-z][a-z0-9_]*$/),
       ),
       section_ids: z.array(id),
+      surface_ids: z.array(id).optional(),
       source_refs: z.array(id),
       cross_topic_links: z.array(
         z.string().regex(/^[a-z][a-z0-9_]*\.[a-z][a-z0-9_]*$/),

@@ -12,6 +12,8 @@ import { loadAndValidateChapters } from "../validation/chapters.js";
 import {
   compileChapterDataset,
   selectChapterRelease,
+  verifyChapterRelease,
+  verifyHistoricalRelease,
 } from "./chapter-release.js";
 import { canonical } from "./projection.js";
 
@@ -55,13 +57,20 @@ async function readPointer(root: string): Promise<string | null> {
 async function readPrevious(
   root: string,
   previousId: string,
-): Promise<ChapterPublishedKnowledge> {
+): Promise<ChapterPublishedKnowledge | null> {
   if (!/^[a-z][a-z0-9_-]*$/.test(previousId))
     throw new Error("Invalid current release ID.");
+  const dir = path.join(root, previousId);
+  const manifest = JSON.parse(
+    await readFile(path.join(dir, "manifest.json"), "utf8"),
+  ) as { schema_version?: number };
+  if (manifest.schema_version !== 3) {
+    await verifyHistoricalRelease(dir);
+    return null;
+  }
+  await verifyChapterRelease(dir);
   return chapterPublishedKnowledgeSchema.parse(
-    JSON.parse(
-      await readFile(path.join(root, previousId, "knowledge.json"), "utf8"),
-    ),
+    JSON.parse(await readFile(path.join(dir, "knowledge.json"), "utf8")),
   );
 }
 
@@ -117,6 +126,14 @@ function assertReleasedRecordsFrozen(
     previous.records.mappings,
     dataset.mappings,
     (x) => x.mapping_id,
+  );
+  // Catalog references are fixed-source identity: a released reference is
+  // immutable, while catalog products stay free to grow and update metadata.
+  assertFrozen(
+    "catalog reference",
+    previous.records.catalog.references,
+    dataset.catalog.references,
+    (x) => x.reference_id,
   );
 }
 
@@ -189,7 +206,8 @@ function retainBlocked(
     for (const section of chapter.sections)
       for (const ref of section.source_refs) cited.add(ref);
     for (const question of chapter.questions)
-      for (const ref of question.source_refs) cited.add(ref);
+      for (const answer of question.answers)
+        for (const ref of answer.source_refs) cited.add(ref);
   }
   for (const mapping of mappings)
     for (const section of mapping.sections) cited.add(section.evidence_ref);
@@ -252,7 +270,8 @@ function readerVisible(dataset: ChapterDataset): unknown {
     for (const section of chapter.sections)
       for (const ref of section.source_refs) cited.add(ref);
     for (const question of chapter.questions)
-      for (const ref of question.source_refs) cited.add(ref);
+      for (const answer of question.answers)
+        for (const ref of answer.source_refs) cited.add(ref);
   }
   for (const mapping of dataset.mappings)
     for (const section of mapping.sections) cited.add(section.evidence_ref);
@@ -263,6 +282,11 @@ function readerVisible(dataset: ChapterDataset): unknown {
     ),
     chapters: byId(chapters, (x) => x.edition_id),
     mappings: byId(dataset.mappings, (x) => x.mapping_id),
+    harnesses: byId(dataset.harnesses, (x) => x.harness_id),
+    catalog: {
+      products: byId(dataset.catalog.products, (x) => x.harness_id),
+      references: byId(dataset.catalog.references, (x) => x.reference_id),
+    },
     references: byId(
       dataset.source_references.filter((x) => cited.has(x.reference_id)),
       (x) => x.reference_id,

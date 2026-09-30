@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: claude-code-custom_providers-v1
 harness_id: claude-code
@@ -7,18 +7,21 @@ topic: custom_providers
 title: Claude Code 的模型入口、鉴权与前向
 sections:
   - section_id: providers-entry
+    surface_ids: [cli]
     source_refs:
       - ref-cc-config-envpair
       - ref-cc-config-onesession
       - ref-cc-mcp-credential
       - ref-cc-skills-frontmatter
   - section_id: providers-protocol
+    surface_ids: [cli]
     source_refs:
       - ref-cc-config-exceptions
       - ref-cc-mcp-credential
       - ref-cc-mcp-toolsearch
       - ref-cc-skills-frontmatter
   - section_id: providers-responses
+    surface_ids: [cli]
     source_refs:
       - ref-cc-config-envpair
       - ref-cc-config-confirm
@@ -26,48 +29,64 @@ sections:
       - ref-cc-npm-readme
 questions:
   - question_id: providers.entry
-    section_id: providers-entry
-    status: partial
-    source_refs:
-      - ref-cc-config-envpair
-      - ref-cc-config-onesession
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-entry
+        status: partial
+        source_refs:
+          - ref-cc-config-envpair
+          - ref-cc-config-onesession
   - question_id: providers.auth
-    section_id: providers-entry
-    status: partial
-    source_refs:
-      - ref-cc-mcp-credential
-      - ref-cc-skills-frontmatter
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-entry
+        status: partial
+        source_refs:
+          - ref-cc-mcp-credential
+          - ref-cc-skills-frontmatter
   - question_id: providers.models
-    section_id: providers-entry
-    status: partial
-    source_refs:
-      - ref-cc-config-envpair
-      - ref-cc-skills-frontmatter
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-entry
+        status: partial
+        source_refs:
+          - ref-cc-config-envpair
+          - ref-cc-skills-frontmatter
   - question_id: providers.protocol
-    section_id: providers-protocol
-    status: unknown
-    source_refs:
-      - ref-cc-mcp-toolsearch
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-protocol
+        status: unknown
+        source_refs:
+          - ref-cc-mcp-toolsearch
   - question_id: providers.metadata
-    section_id: providers-protocol
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-protocol
+        status: unknown
+        source_refs: []
   - question_id: providers.forwarding
-    section_id: providers-protocol
-    status: partial
-    source_refs:
-      - ref-cc-config-exceptions
-      - ref-cc-mcp-credential
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-protocol
+        status: partial
+        source_refs:
+          - ref-cc-config-exceptions
+          - ref-cc-mcp-credential
   - question_id: providers.responses
-    section_id: providers-responses
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-responses
+        status: unknown
+        source_refs: []
   - question_id: providers.diagnostics
-    section_id: providers-responses
-    status: partial
-    source_refs:
-      - ref-cc-config-confirm
-      - ref-cc-mcp-toolsearch
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-responses
+        status: partial
+        source_refs:
+          - ref-cc-config-confirm
+          - ref-cc-mcp-toolsearch
 ---
 
 ## 模型入口、鉴权与模型清单 {#providers-entry}

@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: claude-code-native_plugins-v2
 harness_id: claude-code
@@ -7,12 +7,14 @@ topic: native_plugins
 title: Claude Code 的原生插件模型与生命周期
 sections:
   - section_id: plugins-model
+    surface_ids: [cli]
     source_refs:
       - ref-cc-skills-locations
       - ref-cc-agents-plugin
       - ref-cc-mcp-pluginservers
       - ref-cc-plugins-marketplace
   - section_id: plugins-install
+    surface_ids: [cli]
     source_refs:
       - ref-cc-config-cloud
       - ref-cc-config-troubleshoot
@@ -20,6 +22,7 @@ sections:
       - ref-cc-plugins-uninstall
       - ref-cc-skills-livechange
   - section_id: plugins-lifecycle
+    surface_ids: [cli]
     source_refs:
       - ref-cc-mcp-pluginservers
       - ref-cc-skills-livechange
@@ -28,48 +31,62 @@ sections:
       - ref-cc-npm-readme
 questions:
   - question_id: plugins.model
-    section_id: plugins-model
-    status: partial
-    source_refs:
-      - ref-cc-skills-locations
-      - ref-cc-agents-plugin
-      - ref-cc-mcp-pluginservers
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-model
+        status: partial
+        source_refs:
+          - ref-cc-skills-locations
+          - ref-cc-agents-plugin
+          - ref-cc-mcp-pluginservers
   - question_id: plugins.package
-    section_id: plugins-model
-    status: partial
-    source_refs:
-      - ref-cc-agents-plugin
-      - ref-cc-plugins-marketplace
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-model
+        status: partial
+        source_refs:
+          - ref-cc-agents-plugin
+          - ref-cc-plugins-marketplace
   - question_id: plugins.install
-    section_id: plugins-install
-    status: partial
-    source_refs:
-      - ref-cc-config-cloud
-      - ref-cc-config-troubleshoot
-      - ref-cc-plugins-marketplace
-      - ref-cc-plugins-uninstall
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-install
+        status: partial
+        source_refs:
+          - ref-cc-config-cloud
+          - ref-cc-config-troubleshoot
+          - ref-cc-plugins-marketplace
+          - ref-cc-plugins-uninstall
   - question_id: plugins.discovery
-    section_id: plugins-install
-    status: partial
-    source_refs:
-      - ref-cc-skills-livechange
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-install
+        status: partial
+        source_refs:
+          - ref-cc-skills-livechange
   - question_id: plugins.api
-    section_id: plugins-lifecycle
-    status: partial
-    source_refs:
-      - ref-cc-mcp-pluginservers
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-lifecycle
+        status: partial
+        source_refs:
+          - ref-cc-mcp-pluginservers
   - question_id: plugins.lifecycle
-    section_id: plugins-lifecycle
-    status: partial
-    source_refs:
-      - ref-cc-mcp-pluginservers
-      - ref-cc-skills-livechange
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-lifecycle
+        status: partial
+        source_refs:
+          - ref-cc-mcp-pluginservers
+          - ref-cc-skills-livechange
   - question_id: plugins.diagnostics
-    section_id: plugins-lifecycle
-    status: partial
-    source_refs:
-      - ref-cc-skills-diagnostics
-      - ref-cc-plugins-eval
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-lifecycle
+        status: partial
+        source_refs:
+          - ref-cc-skills-diagnostics
+          - ref-cc-plugins-eval
 ---
 
 插件是 Claude Code 的原生扩展单位：一个插件可以打包 skills、agents、hooks 与 MCP servers，从 marketplace 以 `名字@marketplace` 安装。固定快照里没有插件专页，插件结论来自 Skills、MCP 与设置三页的旁述，因此本章整体标记为 partial，清单字段表与插件自身的加载规则只写成缺口。

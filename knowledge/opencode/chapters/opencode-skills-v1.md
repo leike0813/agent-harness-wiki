@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: opencode-skills-v1
 harness_id: opencode
@@ -7,16 +7,19 @@ topic: skills
 title: OpenCode 的 Skills 机制
 sections:
   - section_id: skills-sources
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-skills-locations
       - ref-opencode-skills-code
       - ref-opencode-skills-builtin
   - section_id: skills-authoring
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-skills-frontmatter
       - ref-opencode-skills-listing
       - ref-opencode-skills-extensions
   - section_id: skills-runtime
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-skills-loading
       - ref-opencode-skills-permissions
@@ -25,55 +28,73 @@ sections:
       - ref-opencode-skills-diagnostics
 questions:
   - question_id: skills.roots
-    section_id: skills-sources
-    status: answered
-    source_refs:
-      - ref-opencode-skills-locations
-      - ref-opencode-skills-code
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-sources
+        status: answered
+        source_refs:
+          - ref-opencode-skills-locations
+          - ref-opencode-skills-code
   - question_id: skills.discovery
-    section_id: skills-sources
-    status: answered
-    source_refs:
-      - ref-opencode-skills-code
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-sources
+        status: answered
+        source_refs:
+          - ref-opencode-skills-code
   - question_id: skills.collision
-    section_id: skills-sources
-    status: partial
-    source_refs:
-      - ref-opencode-skills-code
-      - ref-opencode-skills-builtin
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-sources
+        status: partial
+        source_refs:
+          - ref-opencode-skills-code
+          - ref-opencode-skills-builtin
   - question_id: skills.format
-    section_id: skills-authoring
-    status: answered
-    source_refs:
-      - ref-opencode-skills-frontmatter
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-authoring
+        status: answered
+        source_refs:
+          - ref-opencode-skills-frontmatter
   - question_id: skills.extensions
-    section_id: skills-authoring
-    status: partial
-    source_refs:
-      - ref-opencode-skills-extensions
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-authoring
+        status: partial
+        source_refs:
+          - ref-opencode-skills-extensions
   - question_id: skills.loading
-    section_id: skills-runtime
-    status: answered
-    source_refs:
-      - ref-opencode-skills-loading
-      - ref-opencode-skills-listing
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-runtime
+        status: answered
+        source_refs:
+          - ref-opencode-skills-loading
+          - ref-opencode-skills-listing
   - question_id: skills.invocation
-    section_id: skills-runtime
-    status: answered
-    source_refs:
-      - ref-opencode-skills-permissions
-      - ref-opencode-skills-listing
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-runtime
+        status: answered
+        source_refs:
+          - ref-opencode-skills-permissions
+          - ref-opencode-skills-listing
   - question_id: skills.conditions
-    section_id: skills-runtime
-    status: partial
-    source_refs:
-      - ref-opencode-skills-permissions
-      - ref-opencode-skills-code
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-runtime
+        status: partial
+        source_refs:
+          - ref-opencode-skills-permissions
+          - ref-opencode-skills-code
   - question_id: skills.diagnostics
-    section_id: skills-runtime
-    status: answered
-    source_refs:
-      - ref-opencode-skills-diagnostics
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-runtime
+        status: answered
+        source_refs:
+          - ref-opencode-skills-diagnostics
 ---
 本章依据固定源码提交 545f51d 的官方文档与实现。该提交的源码树不等于 npm 包 opencode-ai@1.18.32 的运行时行为；下文路径与开关属于固定源码知识，对 1.18.32 二进制的适用性尚未建立映射，因此不给出只对某个包版本成立的配方。
 

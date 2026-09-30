@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: pi-custom_agents-v2
 harness_id: pi
@@ -7,71 +7,90 @@ topic: custom_agents
 title: Pi 自定义 Agent：核心缺失与示例扩展（固定源码 781152f）
 sections:
   - section_id: agents-core
+    surface_ids: [cli]
     source_refs:
       - ref-pi-readme-philosophy
       - ref-pi-subagent-agents
       - ref-pi-subagent-security
   - section_id: agents-definition
+    surface_ids: [cli]
     source_refs:
       - ref-pi-subagent-agents
       - ref-pi-subagent-code
   - section_id: agents-invocation
+    surface_ids: [cli]
     source_refs:
       - ref-pi-subagent-modes
       - ref-pi-subagent-security
       - ref-pi-subagent-agents
   - section_id: agents-limits
+    surface_ids: [cli]
     source_refs:
       - ref-pi-subagent-modes
       - ref-pi-subagent-limits
       - ref-pi-subagent-security
   - section_id: agents-diagnostics
+    surface_ids: [cli]
     source_refs:
       - ref-pi-subagent-limits
       - ref-pi-subagent-security
 questions:
   - question_id: agents.entry
-    section_id: agents-core
-    status: answered
-    source_refs:
-      - ref-pi-readme-philosophy
-      - ref-pi-subagent-agents
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-core
+        status: answered
+        source_refs:
+          - ref-pi-readme-philosophy
+          - ref-pi-subagent-agents
   - question_id: agents.format
-    section_id: agents-definition
-    status: answered
-    source_refs:
-      - ref-pi-subagent-agents
-      - ref-pi-subagent-code
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-definition
+        status: answered
+        source_refs:
+          - ref-pi-subagent-agents
+          - ref-pi-subagent-code
   - question_id: agents.roles
-    section_id: agents-core
-    status: partial
-    source_refs:
-      - ref-pi-readme-philosophy
-      - ref-pi-subagent-security
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-core
+        status: partial
+        source_refs:
+          - ref-pi-readme-philosophy
+          - ref-pi-subagent-security
   - question_id: agents.invocation
-    section_id: agents-invocation
-    status: answered
-    source_refs:
-      - ref-pi-subagent-modes
-      - ref-pi-subagent-security
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-invocation
+        status: answered
+        source_refs:
+          - ref-pi-subagent-modes
+          - ref-pi-subagent-security
   - question_id: agents.overrides
-    section_id: agents-invocation
-    status: answered
-    source_refs:
-      - ref-pi-subagent-agents
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-invocation
+        status: answered
+        source_refs:
+          - ref-pi-subagent-agents
   - question_id: agents.limits
-    section_id: agents-limits
-    status: answered
-    source_refs:
-      - ref-pi-subagent-modes
-      - ref-pi-subagent-limits
-      - ref-pi-subagent-security
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-limits
+        status: answered
+        source_refs:
+          - ref-pi-subagent-modes
+          - ref-pi-subagent-limits
+          - ref-pi-subagent-security
   - question_id: agents.diagnostics
-    section_id: agents-diagnostics
-    status: partial
-    source_refs:
-      - ref-pi-subagent-limits
-      - ref-pi-subagent-security
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-diagnostics
+        status: partial
+        source_refs:
+          - ref-pi-subagent-limits
+          - ref-pi-subagent-security
 ---
 固定来源为 pi-mono 仓库提交 781152fc 的 Pi coding agent 包（包内文档、源码与仓库自带示例）。Pi 核心不内置 sub-agents；本章后半描述的是一份随仓库提供的示例扩展，它不在核心范围内，也不据此断言某个 npm 安装版本已具备相同行为。本库未为 Pi 建立软件版本映射，按 source_only 阅读。
 

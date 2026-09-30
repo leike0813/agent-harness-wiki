@@ -19,7 +19,7 @@ const packageSet = "research/package-set";
 const registry = "https://registry.npmjs.org";
 
 export const managedPackages = {
-  "codex-cli": {
+  codex: {
     name: "@openai/codex",
     entry: "bin/codex.js",
     runtime: "node",

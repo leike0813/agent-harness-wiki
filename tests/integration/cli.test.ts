@@ -45,6 +45,32 @@ test("CLI chapter commands share a release and preserve uncertainty", () => {
     return JSON.parse(result.stdout);
   };
   expect(call("list").items).toHaveLength(2);
+  const catalog = call("list", "--scope", "catalog");
+  expect(
+    catalog.items.some((x: { registered: boolean }) => !x.registered),
+  ).toBe(true);
+  expect(
+    call(
+      "topic",
+      "--harness",
+      "demo-open-cli",
+      "--topic",
+      "skills",
+      "--version",
+      "9.0.0",
+    ).status,
+  ).toBe("ambiguous");
+  expect(
+    call(
+      "topic",
+      "--harness",
+      "demo-open-cli",
+      "--topic",
+      "skills",
+      "--surface-id",
+      "desktop",
+    ).status,
+  ).toBe("not_investigated");
   const topic = call(
     "topic",
     "--harness",
@@ -53,11 +79,15 @@ test("CLI chapter commands share a release and preserve uncertainty", () => {
     "skills",
     "--version",
     "9.0.0",
+    "--surface-id",
+    "cli",
   );
   expect(topic.release_id).toBe("cli-fixture");
   expect(topic.resolution.match_kind).toBe("source_only");
   expect(
-    topic.questions.some((q: { status: string }) => q.status === "unknown"),
+    topic.questions.some((q: { answers: { status: string }[] }) =>
+      q.answers.some((answer) => answer.status === "unknown"),
+    ),
   ).toBe(true);
   expect(call("search", "--topic", "skills").items.length).toBeGreaterThan(0);
   const found = call(

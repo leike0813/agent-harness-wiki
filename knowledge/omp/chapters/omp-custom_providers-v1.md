@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: omp-custom_providers-v1
 harness_id: omp
@@ -7,63 +7,82 @@ topic: custom_providers
 title: OMP 自定义 Provider 机制
 sections:
   - section_id: providers-config
+    surface_ids: [cli]
     source_refs:
       - ref-omp-providers-custom-doc
       - ref-omp-models-file-doc
       - ref-omp-models-validation-doc
       - ref-omp-providers-cred-doc
   - section_id: providers-models
+    surface_ids: [cli]
     source_refs:
       - ref-omp-models-fields-doc
       - ref-omp-models-discovery-doc
       - ref-omp-models-checks-doc
   - section_id: providers-runtime
+    surface_ids: [cli]
     source_refs:
       - ref-omp-providers-retry-code
       - ref-omp-models-code
 questions:
   - question_id: providers.entry
-    section_id: providers-config
-    status: answered
-    source_refs:
-      - ref-omp-providers-custom-doc
-      - ref-omp-models-file-doc
-      - ref-omp-models-validation-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-config
+        status: answered
+        source_refs:
+          - ref-omp-providers-custom-doc
+          - ref-omp-models-file-doc
+          - ref-omp-models-validation-doc
   - question_id: providers.auth
-    section_id: providers-config
-    status: answered
-    source_refs:
-      - ref-omp-providers-cred-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-config
+        status: answered
+        source_refs:
+          - ref-omp-providers-cred-doc
   - question_id: providers.protocol
-    section_id: providers-models
-    status: answered
-    source_refs:
-      - ref-omp-models-fields-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-models
+        status: answered
+        source_refs:
+          - ref-omp-models-fields-doc
   - question_id: providers.models
-    section_id: providers-models
-    status: answered
-    source_refs:
-      - ref-omp-models-discovery-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-models
+        status: answered
+        source_refs:
+          - ref-omp-models-discovery-doc
   - question_id: providers.metadata
-    section_id: providers-models
-    status: partial
-    source_refs:
-      - ref-omp-models-checks-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-models
+        status: partial
+        source_refs:
+          - ref-omp-models-checks-doc
   - question_id: providers.forwarding
-    section_id: providers-models
-    status: partial
-    source_refs:
-      - ref-omp-models-fields-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-models
+        status: partial
+        source_refs:
+          - ref-omp-models-fields-doc
   - question_id: providers.responses
-    section_id: providers-runtime
-    status: partial
-    source_refs:
-      - ref-omp-providers-retry-code
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-runtime
+        status: partial
+        source_refs:
+          - ref-omp-providers-retry-code
   - question_id: providers.diagnostics
-    section_id: providers-runtime
-    status: partial
-    source_refs:
-      - ref-omp-models-code
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-runtime
+        status: partial
+        source_refs:
+          - ref-omp-models-code
 ---
 ## Provider 配置入口与凭据 {#providers-config}
 

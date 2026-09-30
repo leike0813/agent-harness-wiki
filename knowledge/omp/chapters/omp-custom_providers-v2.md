@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: omp-custom_providers-v2
 harness_id: omp
@@ -7,70 +7,92 @@ topic: custom_providers
 title: OMP 自定义 Provider 与模型配置
 sections:
   - section_id: providers-file
+    surface_ids: [cli]
     source_refs:
       - ref-omp-providers-custom-doc
       - ref-omp-models-file-doc
       - ref-omp-models-validation-doc
   - section_id: providers-credentials
+    surface_ids: [cli]
     source_refs:
       - ref-omp-providers-cred-doc
   - section_id: providers-schema
+    surface_ids: [cli]
     source_refs:
       - ref-omp-models-fields-doc
       - ref-omp-models-discovery-doc
   - section_id: providers-metadata
+    surface_ids: [cli]
     source_refs:
       - ref-omp-models-checks-doc
   - section_id: providers-forwarding
+    surface_ids: [cli]
     source_refs:
       - ref-omp-models-fields-doc
   - section_id: providers-runtime
+    surface_ids: [cli]
     source_refs:
       - ref-omp-providers-retry-code
       - ref-omp-models-code
 questions:
   - question_id: providers.entry
-    section_id: providers-file
-    status: answered
-    source_refs:
-      - ref-omp-providers-custom-doc
-      - ref-omp-models-file-doc
-      - ref-omp-models-validation-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-file
+        status: answered
+        source_refs:
+          - ref-omp-providers-custom-doc
+          - ref-omp-models-file-doc
+          - ref-omp-models-validation-doc
   - question_id: providers.auth
-    section_id: providers-credentials
-    status: answered
-    source_refs:
-      - ref-omp-providers-cred-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-credentials
+        status: answered
+        source_refs:
+          - ref-omp-providers-cred-doc
   - question_id: providers.protocol
-    section_id: providers-schema
-    status: answered
-    source_refs:
-      - ref-omp-models-fields-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-schema
+        status: answered
+        source_refs:
+          - ref-omp-models-fields-doc
   - question_id: providers.models
-    section_id: providers-schema
-    status: answered
-    source_refs:
-      - ref-omp-models-discovery-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-schema
+        status: answered
+        source_refs:
+          - ref-omp-models-discovery-doc
   - question_id: providers.metadata
-    section_id: providers-metadata
-    status: partial
-    source_refs:
-      - ref-omp-models-checks-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-metadata
+        status: partial
+        source_refs:
+          - ref-omp-models-checks-doc
   - question_id: providers.forwarding
-    section_id: providers-forwarding
-    status: partial
-    source_refs:
-      - ref-omp-models-fields-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-forwarding
+        status: partial
+        source_refs:
+          - ref-omp-models-fields-doc
   - question_id: providers.responses
-    section_id: providers-runtime
-    status: partial
-    source_refs:
-      - ref-omp-providers-retry-code
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-runtime
+        status: partial
+        source_refs:
+          - ref-omp-providers-retry-code
   - question_id: providers.diagnostics
-    section_id: providers-runtime
-    status: partial
-    source_refs:
-      - ref-omp-models-code
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-runtime
+        status: partial
+        source_refs:
+          - ref-omp-models-code
 ---
 本章材料来自源码修订 dff728c 的官方文档 `docs/providers.md` 与 `docs/models.md`，以及 npm 包 `@oh-my-pi/pi-coding-agent` 18.3.4 的包内校验代码 `src/config/models-config.ts` 与凭据重试代码 `src/config/api-key-resolver.ts`。当前发布没有把任何 npm 版本映射为已验证行为，按精确版本查询会返回未验证。本轮没有发送真实模型请求，所以“模型可选”“请求已发送”“后端可用”只按文档与源码描述，未做运行观察；示例中的凭据一律是占位或环境变量名。
 

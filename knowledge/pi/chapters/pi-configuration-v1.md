@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: pi-configuration-v1
 harness_id: pi
@@ -7,6 +7,7 @@ topic: configuration
 title: Pi 配置机制：文件、覆盖与迁移（固定源码 781152f）
 sections:
   - section_id: config-sources
+    surface_ids: [cli]
     source_refs:
       - ref-pi-settings-overview
       - ref-pi-settings-resources
@@ -15,11 +16,13 @@ sections:
       - ref-pi-settings-defaults
       - ref-pi-settings-shell
   - section_id: config-overrides
+    surface_ids: [cli]
     source_refs:
       - ref-pi-settings-overrides
       - ref-pi-packages-dedupe
       - ref-pi-settings-resources
   - section_id: config-runtime
+    surface_ids: [cli]
     source_refs:
       - ref-pi-providers-resolution
       - ref-pi-settings-sessions
@@ -27,6 +30,7 @@ sections:
       - ref-pi-readme-philosophy
       - ref-pi-subagent-security
   - section_id: config-migration
+    surface_ids: [cli]
     source_refs:
       - ref-pi-settings-migration
       - ref-pi-migrations-code
@@ -36,54 +40,68 @@ sections:
       - ref-pi-ext-reload
 questions:
   - question_id: config.sources
-    section_id: config-sources
-    status: answered
-    source_refs:
-      - ref-pi-settings-overview
-      - ref-pi-settings-resources
-      - ref-pi-providers-auth
-      - ref-pi-models-json
+    answers:
+      - surface_ids: [cli]
+        section_id: config-sources
+        status: answered
+        source_refs:
+          - ref-pi-settings-overview
+          - ref-pi-settings-resources
+          - ref-pi-providers-auth
+          - ref-pi-models-json
   - question_id: config.overrides
-    section_id: config-overrides
-    status: answered
-    source_refs:
-      - ref-pi-settings-overrides
-      - ref-pi-packages-dedupe
-      - ref-pi-settings-resources
+    answers:
+      - surface_ids: [cli]
+        section_id: config-overrides
+        status: answered
+        source_refs:
+          - ref-pi-settings-overrides
+          - ref-pi-packages-dedupe
+          - ref-pi-settings-resources
   - question_id: config.runtime
-    section_id: config-runtime
-    status: partial
-    source_refs:
-      - ref-pi-providers-resolution
-      - ref-pi-settings-sessions
-      - ref-pi-settings-offline
+    answers:
+      - surface_ids: [cli]
+        section_id: config-runtime
+        status: partial
+        source_refs:
+          - ref-pi-providers-resolution
+          - ref-pi-settings-sessions
+          - ref-pi-settings-offline
   - question_id: config.trust
-    section_id: config-runtime
-    status: partial
-    source_refs:
-      - ref-pi-readme-philosophy
-      - ref-pi-subagent-security
+    answers:
+      - surface_ids: [cli]
+        section_id: config-runtime
+        status: partial
+        source_refs:
+          - ref-pi-readme-philosophy
+          - ref-pi-subagent-security
   - question_id: config.defaults
-    section_id: config-sources
-    status: answered
-    source_refs:
-      - ref-pi-settings-defaults
-      - ref-pi-settings-resources
-      - ref-pi-settings-shell
+    answers:
+      - surface_ids: [cli]
+        section_id: config-sources
+        status: answered
+        source_refs:
+          - ref-pi-settings-defaults
+          - ref-pi-settings-resources
+          - ref-pi-settings-shell
   - question_id: config.migration
-    section_id: config-migration
-    status: answered
-    source_refs:
-      - ref-pi-settings-migration
-      - ref-pi-migrations-code
+    answers:
+      - surface_ids: [cli]
+        section_id: config-migration
+        status: answered
+        source_refs:
+          - ref-pi-settings-migration
+          - ref-pi-migrations-code
   - question_id: config.diagnostics
-    section_id: config-migration
-    status: partial
-    source_refs:
-      - ref-pi-settings-overview
-      - ref-pi-settings-resources
-      - ref-pi-models-reload
-      - ref-pi-ext-reload
+    answers:
+      - surface_ids: [cli]
+        section_id: config-migration
+        status: partial
+        source_refs:
+          - ref-pi-settings-overview
+          - ref-pi-settings-resources
+          - ref-pi-models-reload
+          - ref-pi-ext-reload
 body: |-
   固定来源把 Pi 配置分成全局与项目两个 JSON 文件，另有独立的 auth.json 与 models.json。以下机制来自文档与固定源码，未做隔离运行观察。
 

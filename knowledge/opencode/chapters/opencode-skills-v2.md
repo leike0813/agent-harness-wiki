@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: opencode-skills-v2
 harness_id: opencode
@@ -7,83 +7,107 @@ topic: skills
 title: OpenCode 的 Skills 机制
 sections:
   - section_id: skills-locations
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-skills-locations
       - ref-opencode-skills-code
       - ref-opencode-skills-builtin
   - section_id: skills-authoring
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-skills-frontmatter
       - ref-opencode-skills-listing
       - ref-opencode-skills-diagnostics
   - section_id: skills-extension-paths
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-skills-extensions
       - ref-opencode-skills-diagnostics
   - section_id: skills-selection
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-skills-permissions
       - ref-opencode-skills-listing
       - ref-opencode-skills-code
   - section_id: skills-loading
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-skills-loading
       - ref-opencode-skills-listing
   - section_id: skills-diagnostics
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-skills-diagnostics
       - ref-opencode-skills-code
 questions:
   - question_id: skills.roots
-    section_id: skills-locations
-    status: answered
-    source_refs:
-      - ref-opencode-skills-locations
-      - ref-opencode-skills-code
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-locations
+        status: answered
+        source_refs:
+          - ref-opencode-skills-locations
+          - ref-opencode-skills-code
   - question_id: skills.discovery
-    section_id: skills-locations
-    status: answered
-    source_refs:
-      - ref-opencode-skills-code
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-locations
+        status: answered
+        source_refs:
+          - ref-opencode-skills-code
   - question_id: skills.collision
-    section_id: skills-locations
-    status: partial
-    source_refs:
-      - ref-opencode-skills-code
-      - ref-opencode-skills-builtin
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-locations
+        status: partial
+        source_refs:
+          - ref-opencode-skills-code
+          - ref-opencode-skills-builtin
   - question_id: skills.format
-    section_id: skills-authoring
-    status: answered
-    source_refs:
-      - ref-opencode-skills-frontmatter
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-authoring
+        status: answered
+        source_refs:
+          - ref-opencode-skills-frontmatter
   - question_id: skills.extensions
-    section_id: skills-extension-paths
-    status: partial
-    source_refs:
-      - ref-opencode-skills-extensions
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-extension-paths
+        status: partial
+        source_refs:
+          - ref-opencode-skills-extensions
   - question_id: skills.loading
-    section_id: skills-loading
-    status: answered
-    source_refs:
-      - ref-opencode-skills-loading
-      - ref-opencode-skills-listing
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-loading
+        status: answered
+        source_refs:
+          - ref-opencode-skills-loading
+          - ref-opencode-skills-listing
   - question_id: skills.invocation
-    section_id: skills-selection
-    status: answered
-    source_refs:
-      - ref-opencode-skills-permissions
-      - ref-opencode-skills-listing
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-selection
+        status: answered
+        source_refs:
+          - ref-opencode-skills-permissions
+          - ref-opencode-skills-listing
   - question_id: skills.conditions
-    section_id: skills-selection
-    status: partial
-    source_refs:
-      - ref-opencode-skills-permissions
-      - ref-opencode-skills-code
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-selection
+        status: partial
+        source_refs:
+          - ref-opencode-skills-permissions
+          - ref-opencode-skills-code
   - question_id: skills.diagnostics
-    section_id: skills-diagnostics
-    status: answered
-    source_refs:
-      - ref-opencode-skills-diagnostics
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-diagnostics
+        status: answered
+        source_refs:
+          - ref-opencode-skills-diagnostics
 ---
 本章依据固定源码提交 545f51d 的官方文档与实现。该提交的源码树不等于 npm 包 opencode-ai@1.18.32 的运行时行为；下文路径、字段与命令属于固定源码知识，对 1.18.32 二进制的适用性尚未建立映射，因此不给出只对某个包版本成立的配方。示例中的凭据一律写成占位符。
 

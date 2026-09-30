@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: pi-mcp-v1
 harness_id: pi
@@ -7,59 +7,77 @@ topic: mcp
 title: Pi MCP：核心缺失与扩展路线（固定源码 781152f）
 sections:
   - section_id: mcp-core
+    surface_ids: [cli]
     source_refs:
       - ref-pi-readme-philosophy
       - ref-pi-ext-register
   - section_id: mcp-route
+    surface_ids: [cli]
     source_refs:
       - ref-pi-readme-philosophy
       - ref-pi-ext-locations
       - ref-pi-ext-register
 questions:
   - question_id: mcp.entry
-    section_id: mcp-core
-    status: answered
-    source_refs:
-      - ref-pi-readme-philosophy
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-core
+        status: answered
+        source_refs:
+          - ref-pi-readme-philosophy
   - question_id: mcp.definition
-    section_id: mcp-core
-    status: not_applicable
-    source_refs:
-      - ref-pi-readme-philosophy
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-core
+        status: not_applicable
+        source_refs:
+          - ref-pi-readme-philosophy
   - question_id: mcp.transport
-    section_id: mcp-core
-    status: not_applicable
-    source_refs:
-      - ref-pi-readme-philosophy
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-core
+        status: not_applicable
+        source_refs:
+          - ref-pi-readme-philosophy
   - question_id: mcp.auth
-    section_id: mcp-core
-    status: not_applicable
-    source_refs:
-      - ref-pi-readme-philosophy
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-core
+        status: not_applicable
+        source_refs:
+          - ref-pi-readme-philosophy
   - question_id: mcp.lifecycle
-    section_id: mcp-core
-    status: not_applicable
-    source_refs:
-      - ref-pi-readme-philosophy
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-core
+        status: not_applicable
+        source_refs:
+          - ref-pi-readme-philosophy
   - question_id: mcp.capabilities
-    section_id: mcp-core
-    status: not_applicable
-    source_refs:
-      - ref-pi-readme-philosophy
-      - ref-pi-ext-register
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-core
+        status: not_applicable
+        source_refs:
+          - ref-pi-readme-philosophy
+          - ref-pi-ext-register
   - question_id: mcp.exposure
-    section_id: mcp-core
-    status: not_applicable
-    source_refs:
-      - ref-pi-readme-philosophy
-      - ref-pi-ext-register
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-core
+        status: not_applicable
+        source_refs:
+          - ref-pi-readme-philosophy
+          - ref-pi-ext-register
   - question_id: mcp.diagnostics
-    section_id: mcp-route
-    status: partial
-    source_refs:
-      - ref-pi-readme-philosophy
-      - ref-pi-ext-locations
-      - ref-pi-ext-register
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-route
+        status: partial
+        source_refs:
+          - ref-pi-readme-philosophy
+          - ref-pi-ext-locations
+          - ref-pi-ext-register
 body: |-
   固定来源明确说明 Pi 核心不含 MCP。逐题给出核心范围的状态；任何 MCP 能力只能由扩展或第三方包提供，不在本固定来源的结论内。
 

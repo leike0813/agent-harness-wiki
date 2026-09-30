@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-agy-hooks-schema
+harness_id: antigravity
+snapshot_id: snapshot-agy-hooks-doc
+locator:
+  kind: document_section
+  heading: "Schema and File Format"
+official_url: https://antigravity.google/docs/hooks.md
+excerpt: |-
+  The `hooks.json` file maps hook names to their event configurations.
+
+  ```
+  {
+    "my-linter-hook": {
+      "PostToolUse": [
+        {
+          "matcher": "run_command",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "./scripts/lint.sh",
+              "timeout": 10
+            }
+          ]
+        }
+      ]
+    },
+    "safety-gate": {
+      "enabled": false,
+      "PreToolUse": [

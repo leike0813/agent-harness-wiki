@@ -160,6 +160,14 @@ export async function auditSources(
   });
   if (!validated.ok) throw new Error("Production source metadata is invalid.");
   await auditArtifacts(validated.dataset.artifacts, originalsRoot);
+  if (validated.catalog) {
+    for (const ref of validated.catalog.references)
+      await checkedHash(
+        originalsRoot,
+        ref.snapshot.archive_path,
+        ref.snapshot.sha256,
+      );
+  }
   const artifacts = new Map(
     validated.dataset.artifacts.map((item) => [item.artifact_id, item]),
   );

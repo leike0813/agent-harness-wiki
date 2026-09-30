@@ -12,20 +12,21 @@ disable-model-invocation: true
 
 ## 两种调用模式
 
-**ID 模式**：维护者给出 `registry/harnesses/` 中的一个或多个精确 `harness_id`，例如 `$harness-maintenance codex-cli pi`。Skill 观察这些 Harness 登记的全部来源，并调用 [harness-binary](../harness-binary/SKILL.md) 核对这些产品的受管二进制最新版本，即使登记来源没有变化。
+**ID 模式**：维护者给出 `registry/harnesses/` 中的一个或多个精确 `harness_id`，例如 `$harness-maintenance codex pi`。Skill 观察这些 Harness 登记的全部来源，并调用 [harness-binary](../harness-binary/SKILL.md) 核对这些产品的受管二进制最新版本，即使登记来源没有变化。
 
 **定向模式**：维护者给出一个固定来源（Git commit、官方文档快照或精确 npm 版本）和要回答的具体问题。不要求 npm Target，也不要求其他来源；只针对该固定来源中可能受影响的问题与交叉引用作答，并只在维护者明确要求时调用 harness-binary。
 
-两种模式都覆盖七个主题：`skills`、`mcp`、`custom_agents`、`custom_providers`、`hooks`、`native_plugins`、`configuration`。固定问题编号与问法以 [docs/topic-questions.md](../../../docs/topic-questions.md) 为准，条目状态为 `answered`、`partial`、`unknown`、`not_applicable` 或 `conflict`。
+两种模式都覆盖七个主题：`skills`、`mcp`、`custom_agents`、`custom_providers`、`hooks`、`native_plugins`、`configuration`。固定问题编号与问法以 [docs/topic-questions.md](../../../docs/topic-questions.md) 为准，每个界面的条目状态为 `answered`、`partial`、`unknown`、`not_applicable` 或 `conflict`；已声明但未调查的界面没有答案，查询按 `not_investigated` 报告。
 
 用户同时给出多个产品或主题时逐一处理；中断后从 `audits/`、已写章节与 Git diff 恢复，不重复已完成的调查。
 
 ## 事实来源与目录
 
-- `registry/harnesses/*.yaml`：产品身份与 `source_refs`。
+- `catalog/harnesses.yaml`：产品、别名与界面（`surface_id`）身份的唯一事实源。
+- `registry/harnesses/*.yaml`：产品 id 与 `source_refs`。
 - `registry/sources/*.yaml`：Git 仓库、官方文档、npm 登记来源。
 - `knowledge/<harness-id>/snapshots/*.yaml`、`artifacts/*.yaml`：固定快照与原件身份。
-- `knowledge/<harness-id>/chapters/<edition-id>.md`：完整章节版本，frontmatter 记录产品、主题、稳定小节 ID、每个固定问题的状态与来源引用。
+- `knowledge/<product-id>/chapters/<edition-id>.md`：完整章节版本，frontmatter 记录产品、主题、每个小节的 `surface_ids`，以及每道固定问题按界面的 `answers`（状态与来源引用）。
 - `knowledge/<harness-id>/references/<reference-id>.yaml`：把可展示短摘录与文件行号、符号或文档章节绑定到快照。
 - `knowledge/<harness-id>/mappings/<mapping-id>.yaml`：精确软件版本到章节或小节的映射与逐小节证据。
 - `registry/chapter-current.yaml`：每个产品 × 主题的当前章节版本。
@@ -48,7 +49,9 @@ ID 模式：先检查仓库状态，再运行 `pnpm sources:scan <harness-id>...
 
 ### 2. 定位影响
 
-沿 `references/` 与章节 frontmatter 的 `source_refs` 反查受影响的固定问题 ID、小节 ID、跨主题链接和版本映射。只复查可能受影响的问题与交叉引用；局部改动生成新的完整章节版本，未改小节沿用原固定来源范围。
+沿 `references/` 与章节 frontmatter 的 `source_refs` 反查受影响的固定问题 ID、小节 ID、跨主题链接和版本映射；答案与映射都按界面（`surface_id`）定位。只复查可能受影响的问题与交叉引用；局部改动生成新的完整章节版本，未改小节沿用原固定来源范围和界面范围。
+
+新界面或后端关系变化先更新 catalog 的界面、运行时与绑定。新原件建立新的 catalog reference，固定链接、抓取时间、hash、定位与短摘录，保留已发布 reference；没有直接关系证据时保持 `unknown`。共用运行时不能代替各界面的配置或版本证据。
 
 共用加载入口变化或影响范围无法界定时，扩大到相关主题并把理由写进审计。npm 版本变化本身不构成章节变化或源码到包的映射；只有登记来源身份变化才触发调查，且不因初步映射未列出某主题就断定它不受影响。
 
@@ -56,7 +59,7 @@ ID 模式：先检查仓库状态，再运行 `pnpm sources:scan <harness-id>...
 
 改写正文须新建 `edition_id` 文件并保留旧文件；正文按机制分稳定小节（`{#section-id}`），引用用 `[@reference-id]`，与 [docs/topic-questions.md](../../../docs/topic-questions.md) 的成稿规则一致。新引用写入 `references/`：短摘录与原件一致，定位到文件行、符号或文档章节，官方链接为 HTTPS。
 
-只新增或修正软件版本映射时不改章节正文，只在 `mappings/` 记录精确版本、包快照、章节版本、范围与逐小节证据。整章映射要求全部小节都有依据；定向模式或来源不足以证明包版本时保持来源级知识，不制造映射。
+只新增或修正软件版本映射时不改章节正文，只在 `mappings/` 记录精确版本、`surface_id`、包快照、章节版本、范围与逐小节证据。整章映射要求该界面的全部小节都有依据；各界面可映射到不同版本，未指定界面的版本请求返回 `ambiguous`；定向模式或来源不足以证明包版本时保持来源级知识，不制造映射。
 
 固定来源明确说明不提供某项机制时，可以写出对应结论；找不到机制时记录已检查的入口与剩余缺口。来源互冲突时并列各自说法与适用边界。
 
@@ -128,6 +131,7 @@ pnpm ahw publish --release-id <new-id>
 
 ## 执行参考
 
+- 产品与界面身份见 `catalog/harnesses.yaml` 与 [docs/data-model.md](../../../docs/data-model.md)。
 - 更新流程、发布与受管边界见 [docs/PRD.md](../../../docs/PRD.md) §7。
 - 章节写作与固定问题见 [docs/topic-questions.md](../../../docs/topic-questions.md) 和 [docs/knowledge-workflow.md](../../../docs/knowledge-workflow.md)。
 - 记录字段与校验关系见 [docs/data-model.md](../../../docs/data-model.md)、`src/domain/chapter.ts`、`src/validation/chapters.ts`。

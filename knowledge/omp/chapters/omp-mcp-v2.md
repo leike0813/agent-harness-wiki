@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: omp-mcp-v2
 harness_id: omp
@@ -7,77 +7,101 @@ topic: mcp
 title: OMP MCP 配置与运行机制
 sections:
   - section_id: mcp-config-files
+    surface_ids: [cli]
     source_refs:
       - ref-omp-mcp-config-doc
   - section_id: mcp-file-shape
+    surface_ids: [cli]
     source_refs:
       - ref-omp-mcp-shape-doc
       - ref-omp-mcp-types-code
   - section_id: mcp-transports
+    surface_ids: [cli]
     source_refs:
       - ref-omp-mcp-transport-doc
       - ref-omp-mcp-shape-doc
       - ref-omp-mcp-types-code
       - ref-omp-mcp-config-doc
   - section_id: mcp-secrets
+    surface_ids: [cli]
     source_refs:
       - ref-omp-mcp-config-doc
       - ref-omp-mcp-types-code
   - section_id: mcp-auth
+    surface_ids: [cli]
     source_refs:
       - ref-omp-mcp-types-code
       - ref-omp-mcp-config-doc
   - section_id: mcp-lifecycle
+    surface_ids: [cli]
     source_refs:
       - ref-omp-mcp-lifecycle-doc
   - section_id: mcp-capabilities
+    surface_ids: [cli]
     source_refs:
       - ref-omp-mcp-exposure-doc
   - section_id: mcp-diagnostics
+    surface_ids: [cli]
     source_refs:
       - ref-omp-mcp-lifecycle-doc
       - ref-omp-mcp-config-doc
 questions:
   - question_id: mcp.entry
-    section_id: mcp-config-files
-    status: answered
-    source_refs:
-      - ref-omp-mcp-config-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-config-files
+        status: answered
+        source_refs:
+          - ref-omp-mcp-config-doc
   - question_id: mcp.definition
-    section_id: mcp-file-shape
-    status: answered
-    source_refs:
-      - ref-omp-mcp-shape-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-file-shape
+        status: answered
+        source_refs:
+          - ref-omp-mcp-shape-doc
   - question_id: mcp.transport
-    section_id: mcp-transports
-    status: answered
-    source_refs:
-      - ref-omp-mcp-transport-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-transports
+        status: answered
+        source_refs:
+          - ref-omp-mcp-transport-doc
   - question_id: mcp.auth
-    section_id: mcp-auth
-    status: partial
-    source_refs:
-      - ref-omp-mcp-types-code
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-auth
+        status: partial
+        source_refs:
+          - ref-omp-mcp-types-code
   - question_id: mcp.lifecycle
-    section_id: mcp-lifecycle
-    status: answered
-    source_refs:
-      - ref-omp-mcp-lifecycle-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-lifecycle
+        status: answered
+        source_refs:
+          - ref-omp-mcp-lifecycle-doc
   - question_id: mcp.capabilities
-    section_id: mcp-capabilities
-    status: answered
-    source_refs:
-      - ref-omp-mcp-exposure-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-capabilities
+        status: answered
+        source_refs:
+          - ref-omp-mcp-exposure-doc
   - question_id: mcp.exposure
-    section_id: mcp-capabilities
-    status: answered
-    source_refs:
-      - ref-omp-mcp-exposure-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-capabilities
+        status: answered
+        source_refs:
+          - ref-omp-mcp-exposure-doc
   - question_id: mcp.diagnostics
-    section_id: mcp-diagnostics
-    status: partial
-    source_refs:
-      - ref-omp-mcp-lifecycle-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-diagnostics
+        status: partial
+        source_refs:
+          - ref-omp-mcp-lifecycle-doc
 ---
 本章的材料来自两处固定来源：源码修订 dff728c 的官方文档，以及 npm 包 `@oh-my-pi/pi-coding-agent` 18.3.4 的包内源码。配置位置、文件形状和命令来自官方文档，字段与类型来自 18.3.4 的 `src/mcp/types.ts`。本轮调查没有启动任何 MCP server，也没有执行登录或工具调用，因此连接握手、能力发现和调用成功只按文档与源码描述，未做运行观察。当前发布没有把任何 npm 版本映射为已验证行为，按精确版本查询会返回未验证；凭据一律写成占位符或环境变量名。 [@ref-omp-mcp-config-doc]
 

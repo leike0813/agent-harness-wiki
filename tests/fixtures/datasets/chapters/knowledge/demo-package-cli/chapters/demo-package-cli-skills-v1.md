@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: fixture
 edition_id: demo-package-cli-skills-v1
 harness_id: demo-package-cli
@@ -7,44 +7,63 @@ topic: skills
 title: demo-package-cli skills (fictional)
 sections:
   - section_id: skills-overview
+    surface_ids: [cli]
     source_refs: []
 questions:
   - question_id: skills.roots
-    section_id: skills-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-overview
+        status: unknown
+        source_refs: []
   - question_id: skills.discovery
-    section_id: skills-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-overview
+        status: unknown
+        source_refs: []
   - question_id: skills.collision
-    section_id: skills-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-overview
+        status: unknown
+        source_refs: []
   - question_id: skills.format
-    section_id: skills-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-overview
+        status: unknown
+        source_refs: []
   - question_id: skills.extensions
-    section_id: skills-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-overview
+        status: unknown
+        source_refs: []
   - question_id: skills.loading
-    section_id: skills-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-overview
+        status: unknown
+        source_refs: []
   - question_id: skills.invocation
-    section_id: skills-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-overview
+        status: unknown
+        source_refs: []
   - question_id: skills.conditions
-    section_id: skills-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-overview
+        status: unknown
+        source_refs: []
   - question_id: skills.diagnostics
-    section_id: skills-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-overview
+        status: unknown
+        source_refs: []
 ---
 ## skills 1 {#skills-overview}
 

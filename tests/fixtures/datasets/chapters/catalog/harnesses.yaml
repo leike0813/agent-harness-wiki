@@ -1,0 +1,86 @@
+schema_version: 1
+record_kind: fixture
+products:
+  - harness_id: demo-open-cli
+    name: Demo Open CLI (fictional)
+    aliases:
+      - 虚构开放命令行
+    reference_ids: [ref-demo-open-catalog]
+    surfaces:
+      - surface_id: cli
+        name: Demo Open command line (fictional)
+        kind: cli
+        reference_ids: [ref-demo-open-catalog]
+      - surface_id: desktop
+        name: Demo Open desktop app (fictional)
+        kind: desktop
+        reference_ids: [ref-demo-open-catalog]
+    runtimes: []
+    bindings:
+      - surface_id: cli
+        status: unknown
+        reference_ids: []
+      - surface_id: desktop
+        status: unknown
+        reference_ids: []
+  - harness_id: demo-package-cli
+    name: Demo Package CLI (fictional)
+    aliases:
+      - 虚构插件命令行
+    reference_ids: [ref-demo-package-catalog]
+    surfaces:
+      - surface_id: cli
+        name: Demo Package command line (fictional)
+        kind: cli
+        reference_ids: [ref-demo-package-catalog]
+    runtimes: []
+    bindings:
+      - surface_id: cli
+        status: unknown
+        reference_ids: []
+  - harness_id: demo-candidate
+    name: Demo Candidate CLI (fictional)
+    aliases:
+      - 虚构候选命令行
+    reference_ids: [ref-demo-candidate-catalog]
+    surfaces:
+      - surface_id: cli
+        name: Demo Candidate command line (fictional)
+        kind: cli
+        reference_ids: [ref-demo-candidate-catalog]
+    runtimes: []
+    bindings:
+      - surface_id: cli
+        status: unknown
+        reference_ids: []
+references:
+  - reference_id: ref-demo-open-catalog
+    harness_id: demo-open-cli
+    official_url: https://example.invalid/demo-open/docs
+    captured_at: 2026-01-02T00:00:00Z
+    snapshot:
+      kind: document
+      sha256: ac2e20a2a375ca0b1f36984ddd375a9d121717a2576462f1d42f7cefe9c5cdc5
+      archive_path: archive/catalog/demo-open-cli/doc/raw.md
+    locator: Fictional configuration note
+    excerpt: Demo Open CLI reads project configuration from .demo/config.yaml.
+  - reference_id: ref-demo-package-catalog
+    harness_id: demo-package-cli
+    official_url: https://example.invalid/demo-package/source
+    captured_at: 2026-01-01T00:00:00Z
+    snapshot:
+      kind: document
+      sha256: f14352c7da5cb4ec20f71d0e7c2c46aff1749e0144b452c93b433421119e4508
+      archive_path: archive/catalog/demo-package-cli/doc/raw.txt
+    locator: Fictional package source
+    excerpt: The sample plugin is delivered by an external extension and can be loaded.
+  - reference_id: ref-demo-candidate-catalog
+    harness_id: demo-candidate
+    official_url: https://example.invalid/demo-candidate/docs
+    captured_at: 2026-02-01T00:00:00Z
+    snapshot:
+      kind: document
+      sha256: e55e46efabceaa283291a9cdb26e02914430365203d747d9ea0a23ab13b9c46d
+      archive_path: archive/catalog/demo-candidate/doc/raw.md
+    locator: Fictional candidate note
+    excerpt: Demo Candidate CLI is catalog-only and has no investigated knowledge.

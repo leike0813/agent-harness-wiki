@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: fixture
 edition_id: demo-open-cli-hooks-v1
 harness_id: demo-open-cli
@@ -7,36 +7,51 @@ topic: hooks
 title: demo-open-cli hooks (fictional)
 sections:
   - section_id: hooks-overview
+    surface_ids: [cli]
     source_refs: []
 questions:
   - question_id: hooks.events
-    section_id: hooks-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-overview
+        status: unknown
+        source_refs: []
   - question_id: hooks.entry
-    section_id: hooks-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-overview
+        status: unknown
+        source_refs: []
   - question_id: hooks.input
-    section_id: hooks-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-overview
+        status: unknown
+        source_refs: []
   - question_id: hooks.output
-    section_id: hooks-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-overview
+        status: unknown
+        source_refs: []
   - question_id: hooks.order
-    section_id: hooks-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-overview
+        status: unknown
+        source_refs: []
   - question_id: hooks.conditions
-    section_id: hooks-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-overview
+        status: unknown
+        source_refs: []
   - question_id: hooks.diagnostics
-    section_id: hooks-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-overview
+        status: unknown
+        source_refs: []
 ---
 ## hooks 1 {#hooks-overview}
 

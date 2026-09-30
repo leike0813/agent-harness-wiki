@@ -8,6 +8,7 @@ export const searchSectionSchema = z.strictObject({
   topic: topicSchema,
   edition_id: z.string(),
   section_id: z.string(),
+  surface_ids: z.array(z.string()).min(1),
   title: z.string(),
   body: z.string(),
   question_ids: z.array(z.string()),
@@ -17,7 +18,7 @@ export const searchSectionSchema = z.strictObject({
   source_refs: z.array(z.string()),
 });
 export const searchIndexSchema = z.strictObject({
-  schema_version: z.literal(1),
+  schema_version: z.literal(2),
   sections: z.array(searchSectionSchema),
 });
 export type SearchSection = z.infer<typeof searchSectionSchema>;
@@ -90,8 +91,10 @@ export function buildSearchSections(
     return chapter.sections.map((section) => {
       const body = sectionText(chapter.body, section.section_id)!;
       const title = /^## (.+) \{#[a-z][a-z0-9_-]*\}/.exec(body)?.[1] ?? "";
-      const questions = chapter.questions.filter(
-        (question) => question.section_id === section.section_id,
+      const questions = chapter.questions.filter((question) =>
+        question.answers.some(
+          (answer) => answer.section_id === section.section_id,
+        ),
       );
       const exact = new Set<string>(
         questions.map((question) => question.question_id),
@@ -107,6 +110,7 @@ export function buildSearchSections(
         topic: chapter.topic,
         edition_id: chapter.edition_id,
         section_id: section.section_id,
+        surface_ids: section.surface_ids,
         title,
         body,
         question_ids: questions.map((question) => question.question_id),
@@ -121,6 +125,10 @@ export function buildSearchSections(
           harness.harness_id,
           harness.name,
           ...harness.aliases,
+          ...knowledge.records.catalog.products
+            .find((x) => x.harness_id === chapter.harness_id)!
+            .surfaces.filter((x) => section.surface_ids.includes(x.surface_id))
+            .flatMap((x) => [x.surface_id, x.name]),
         ],
         source_refs: section.source_refs,
       };

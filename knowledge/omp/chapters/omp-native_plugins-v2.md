@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: omp-native_plugins-v2
 harness_id: omp
@@ -7,62 +7,83 @@ topic: native_plugins
 title: OMP 原生插件清单、安装与加载
 sections:
   - section_id: plugins-model
+    surface_ids: [cli]
     source_refs:
       - ref-omp-extensions-doc
   - section_id: plugins-manifest
+    surface_ids: [cli]
     source_refs:
       - ref-omp-plugins-manifest-code
   - section_id: plugins-install
+    surface_ids: [cli]
     source_refs:
       - ref-omp-plugins-command-code
   - section_id: plugins-discovery
+    surface_ids: [cli]
     source_refs:
       - ref-omp-plugins-loader-code
   - section_id: plugins-api
+    surface_ids: [cli]
     source_refs:
       - ref-omp-extensions-doc
   - section_id: plugins-lifecycle
+    surface_ids: [cli]
     source_refs:
       - ref-omp-plugins-installed-code
   - section_id: plugins-diagnostics
+    surface_ids: [cli]
     source_refs:
       - ref-omp-plugins-command-code
 questions:
   - question_id: plugins.model
-    section_id: plugins-model
-    status: answered
-    source_refs:
-      - ref-omp-extensions-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-model
+        status: answered
+        source_refs:
+          - ref-omp-extensions-doc
   - question_id: plugins.package
-    section_id: plugins-manifest
-    status: answered
-    source_refs:
-      - ref-omp-plugins-manifest-code
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-manifest
+        status: answered
+        source_refs:
+          - ref-omp-plugins-manifest-code
   - question_id: plugins.install
-    section_id: plugins-install
-    status: answered
-    source_refs:
-      - ref-omp-plugins-command-code
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-install
+        status: answered
+        source_refs:
+          - ref-omp-plugins-command-code
   - question_id: plugins.discovery
-    section_id: plugins-discovery
-    status: answered
-    source_refs:
-      - ref-omp-plugins-loader-code
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-discovery
+        status: answered
+        source_refs:
+          - ref-omp-plugins-loader-code
   - question_id: plugins.api
-    section_id: plugins-api
-    status: partial
-    source_refs:
-      - ref-omp-extensions-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-api
+        status: partial
+        source_refs:
+          - ref-omp-extensions-doc
   - question_id: plugins.lifecycle
-    section_id: plugins-lifecycle
-    status: partial
-    source_refs:
-      - ref-omp-plugins-installed-code
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-lifecycle
+        status: partial
+        source_refs:
+          - ref-omp-plugins-installed-code
   - question_id: plugins.diagnostics
-    section_id: plugins-diagnostics
-    status: partial
-    source_refs:
-      - ref-omp-plugins-command-code
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-diagnostics
+        status: partial
+        source_refs:
+          - ref-omp-plugins-command-code
 ---
 本章材料来自源码修订 dff728c 的官方文档 `docs/extensions.md` 与 npm 包 `@oh-my-pi/pi-coding-agent` 18.3.4 的包内实现 `src/extensibility/plugins/types.ts`、`src/extensibility/plugins/loader.ts` 与 `src/commands/plugin.ts`。插件模型来自文档，清单字段、加载枚举与命令动作来自包内代码。当前发布没有把任何 npm 版本映射为已验证行为，按精确版本查询会返回未验证。本轮没有真正安装或加载受管插件，所以安装、启用、加载与健康状态只按源码描述，未做运行观察。
 

@@ -30,11 +30,12 @@ const referencePath = "knowledge/demo-open-cli/references/ref-demo-open.yaml";
 const mappingPath =
   "knowledge/demo-package-cli/mappings/mapping-demo-package-plugin-remaining-142.yaml";
 const mappingYaml = [
-  "schema_version: 2",
+  "schema_version: 3",
   "record_kind: fixture",
   "mapping_id: mapping-demo-package-plugin-remaining-142",
   "edition_id: demo-package-cli-native_plugins-v1",
   "harness_id: demo-package-cli",
+  "surface_id: cli",
   "software_version: 1.4.2",
   "package_snapshot_id: snapshot-demo-package-npm-142",
   "scope: section",
@@ -74,6 +75,21 @@ async function edit(
 ): Promise<void> {
   const file = path.join(root, relative);
   await writeFile(file, update(await readFile(file, "utf8")));
+}
+async function mutateFrontmatter(
+  root: string,
+  relative: string,
+  mutate: (doc: Record<string, unknown>) => void,
+): Promise<void> {
+  const file = path.join(root, relative);
+  const text = await readFile(file, "utf8");
+  const match = /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]+)$/.exec(text)!;
+  const doc = YAML.parse(match[1]!) as Record<string, unknown>;
+  mutate(doc);
+  await writeFile(
+    file,
+    `---\n${YAML.stringify(doc).trimEnd()}\n---\n${match[2]}`,
+  );
 }
 async function addEdition(
   dataset: string,
@@ -189,13 +205,22 @@ test("ordinary source-scoped edition update stages a readable chapter", async ()
     source
       .replaceAll("demo-open-cli-skills-v1", "demo-open-cli-skills-v2")
       .replace(
-        "  - question_id: skills.roots\n    section_id: skills-overview\n    status: unknown\n    source_refs: []",
-        "  - question_id: skills.roots\n    section_id: skills-overview\n    status: answered\n    source_refs:\n      - ref-demo-open",
-      )
-      .replace(
         "**skills.roots**：skills.roots 尚未调查；需要检查相应的固定来源入口。",
         "**skills.roots**：虚构来源描述了 Skill 的根目录发现。 [@ref-demo-open]",
       ),
+  );
+  await mutateFrontmatter(
+    dataset,
+    "knowledge/demo-open-cli/chapters/demo-open-cli-skills-v2.md",
+    (doc) => {
+      const questions = doc.questions as {
+        question_id: string;
+        answers: { status: string; source_refs: string[] }[];
+      }[];
+      const roots = questions.find((x) => x.question_id === "skills.roots")!;
+      roots.answers[0]!.status = "answered";
+      roots.answers[0]!.source_refs = ["ref-demo-open"];
+    },
   );
   await select(dataset, [
     ["demo-open-cli", "skills", "demo-open-cli-skills-v2"],
@@ -228,7 +253,7 @@ test("ordinary source-scoped edition update stages a readable chapter", async ()
       path.join(result.release_dir!, "docs/harnesses/demo-open-cli/skills.md"),
       "utf8",
     ),
-  ).toContain("| `skills.roots` | answered |");
+  ).toContain("| `skills.roots` | cli | answered |");
   await expect(
     lstat(
       path.join(
@@ -261,21 +286,29 @@ test("a new fictional CLI stages only after its seven current chapters exist", a
       .replaceAll("demo-open", "demo-new")
       .replaceAll("Demo Open", "Demo New")
       .replaceAll("虚构开放命令行", "虚构新命令行");
-  for (const [directory, files] of [
-    ["registry/harnesses", [`${oldId}.yaml`]],
-    [
-      "registry/sources",
-      ["source-demo-open.yaml", "source-demo-open-doc.yaml"],
-    ],
-  ] as const) {
-    for (const file of files) {
-      const source = path.join(dataset, directory, file);
+  const catalogFile = path.join(dataset, "catalog/harnesses.yaml");
+  const catalog = YAML.parse(await readFile(catalogFile, "utf8")) as {
+    products: { harness_id: string }[];
+    references: { harness_id: string }[];
+  };
+  const clone = <T>(value: T): T =>
+    JSON.parse(rewrite(JSON.stringify(value))) as T;
+  catalog.products.push(
+    ...catalog.products.filter((x) => x.harness_id === oldId).map(clone),
+  );
+  catalog.references.push(
+    ...catalog.references.filter((x) => x.harness_id === oldId).map(clone),
+  );
+  await writeFile(catalogFile, YAML.stringify(catalog));
+  for (const directory of ["registry/harnesses", "registry/sources"])
+    for (const file of await readdir(path.join(dataset, directory))) {
+      const text = await readFile(path.join(dataset, directory, file), "utf8");
+      if (!text.includes(oldId)) continue;
       await writeFile(
         path.join(dataset, directory, rewrite(file)),
-        rewrite(await readFile(source, "utf8")),
+        rewrite(text),
       );
     }
-  }
   const oldKnowledge = path.join(dataset, "knowledge", oldId);
   const newKnowledge = path.join(dataset, "knowledge", newId);
   for (const directory of [

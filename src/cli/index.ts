@@ -95,12 +95,14 @@ async function runQuery<T>(
 }
 query
   .command("list")
+  .option("--scope <scope>", "registry or catalog")
   .option("--query <text>")
   .option("--limit <number>")
   .option("--cursor <cursor>")
   .action(async (x) =>
     runQuery((s) =>
       s.listHarnesses({
+        ...(x.scope ? { scope: x.scope } : {}),
         ...(x.query ? { query: x.query } : {}),
         ...(x.limit ? { limit: Number(x.limit) } : {}),
         ...(x.cursor ? { cursor: x.cursor } : {}),
@@ -112,12 +114,14 @@ query
   .requiredOption("--harness <name>")
   .requiredOption("--topic <topic>")
   .option("--section-id <id>")
+  .option("--surface-id <id>")
   .option("--version <version>")
   .action(async (x) =>
     runQuery((s) =>
       s.getTopic({
         harness: x.harness,
         topic: x.topic,
+        ...(x.surfaceId ? { surface_id: x.surfaceId } : {}),
         ...(x.sectionId ? { section_id: x.sectionId } : {}),
         ...(x.version ? { version: x.version } : {}),
       }),
@@ -139,6 +143,7 @@ query
   );
 query
   .command("search")
+  .option("--surface-id <id>")
   .option("--text <text>")
   .option("--harness <name>")
   .option("--topic <topic>")
@@ -147,6 +152,7 @@ query
   .action(async (x) =>
     runQuery((s) =>
       s.searchKnowledge({
+        ...(x.surfaceId ? { surface_id: x.surfaceId } : {}),
         ...(x.text ? { text: x.text } : {}),
         ...(x.harness ? { harness: x.harness } : {}),
         ...(x.topic ? { topic: x.topic } : {}),
@@ -158,8 +164,14 @@ query
 query
   .command("source")
   .requiredOption("--reference-id <id>")
+  .option("--surface-id <id>")
   .action(async (x) =>
-    runQuery((s) => s.getSource({ reference_id: x.referenceId })),
+    runQuery((s) =>
+      s.getSource({
+        reference_id: x.referenceId,
+        ...(x.surfaceId ? { surface_id: x.surfaceId } : {}),
+      }),
+    ),
   );
 try {
   await program.parseAsync(process.argv);

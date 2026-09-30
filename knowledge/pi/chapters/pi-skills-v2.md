@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: pi-skills-v2
 harness_id: pi
@@ -7,6 +7,7 @@ topic: skills
 title: Pi Skills：发现、格式、加载与调用（固定源码 781152f）
 sections:
   - section_id: skills-locations
+    surface_ids: [cli]
     source_refs:
       - ref-pi-skills-locations
       - ref-pi-skills-discovery
@@ -16,21 +17,25 @@ sections:
       - ref-pi-skills-validation
       - ref-pi-skills-code-collision
   - section_id: skills-authoring
+    surface_ids: [cli]
     source_refs:
       - ref-pi-skills-structure
       - ref-pi-skills-format
       - ref-pi-skills-validation
   - section_id: skills-extension-fields
+    surface_ids: [cli]
     source_refs:
       - ref-pi-skills-format
       - ref-pi-settings-overview
       - ref-pi-settings-resources
       - ref-pi-packages-structure
   - section_id: skills-loading
+    surface_ids: [cli]
     source_refs:
       - ref-pi-skills-loading
       - ref-pi-skills-structure
   - section_id: skills-invocation
+    surface_ids: [cli]
     source_refs:
       - ref-pi-skills-invocation
       - ref-pi-skills-format
@@ -39,6 +44,7 @@ sections:
       - ref-pi-skills-discovery
       - ref-pi-packages-dedupe
   - section_id: skills-diagnostics
+    surface_ids: [cli]
     source_refs:
       - ref-pi-skills-validation
       - ref-pi-skills-code-collision
@@ -46,69 +52,87 @@ sections:
       - ref-pi-ext-reload
 questions:
   - question_id: skills.roots
-    section_id: skills-locations
-    status: answered
-    source_refs:
-      - ref-pi-skills-locations
-      - ref-pi-skills-discovery
-      - ref-pi-res-code-project-order
-      - ref-pi-res-code-user-order
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-locations
+        status: answered
+        source_refs:
+          - ref-pi-skills-locations
+          - ref-pi-skills-discovery
+          - ref-pi-res-code-project-order
+          - ref-pi-res-code-user-order
   - question_id: skills.discovery
-    section_id: skills-locations
-    status: answered
-    source_refs:
-      - ref-pi-skills-discovery
-      - ref-pi-skills-code-discovery
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-locations
+        status: answered
+        source_refs:
+          - ref-pi-skills-discovery
+          - ref-pi-skills-code-discovery
   - question_id: skills.collision
-    section_id: skills-locations
-    status: answered
-    source_refs:
-      - ref-pi-skills-validation
-      - ref-pi-skills-code-collision
-      - ref-pi-res-code-project-order
-      - ref-pi-res-code-user-order
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-locations
+        status: answered
+        source_refs:
+          - ref-pi-skills-validation
+          - ref-pi-skills-code-collision
+          - ref-pi-res-code-project-order
+          - ref-pi-res-code-user-order
   - question_id: skills.format
-    section_id: skills-authoring
-    status: answered
-    source_refs:
-      - ref-pi-skills-structure
-      - ref-pi-skills-format
-      - ref-pi-skills-validation
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-authoring
+        status: answered
+        source_refs:
+          - ref-pi-skills-structure
+          - ref-pi-skills-format
+          - ref-pi-skills-validation
   - question_id: skills.extensions
-    section_id: skills-extension-fields
-    status: answered
-    source_refs:
-      - ref-pi-skills-format
-      - ref-pi-settings-resources
-      - ref-pi-packages-structure
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-extension-fields
+        status: answered
+        source_refs:
+          - ref-pi-skills-format
+          - ref-pi-settings-resources
+          - ref-pi-packages-structure
   - question_id: skills.loading
-    section_id: skills-loading
-    status: answered
-    source_refs:
-      - ref-pi-skills-loading
-      - ref-pi-skills-structure
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-loading
+        status: answered
+        source_refs:
+          - ref-pi-skills-loading
+          - ref-pi-skills-structure
   - question_id: skills.invocation
-    section_id: skills-invocation
-    status: answered
-    source_refs:
-      - ref-pi-skills-invocation
-      - ref-pi-skills-format
-      - ref-pi-settings-resources
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-invocation
+        status: answered
+        source_refs:
+          - ref-pi-skills-invocation
+          - ref-pi-skills-format
+          - ref-pi-settings-resources
   - question_id: skills.conditions
-    section_id: skills-invocation
-    status: answered
-    source_refs:
-      - ref-pi-skills-discovery
-      - ref-pi-settings-resources
-      - ref-pi-packages-dedupe
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-invocation
+        status: answered
+        source_refs:
+          - ref-pi-skills-discovery
+          - ref-pi-settings-resources
+          - ref-pi-packages-dedupe
   - question_id: skills.diagnostics
-    section_id: skills-diagnostics
-    status: partial
-    source_refs:
-      - ref-pi-skills-validation
-      - ref-pi-skills-code-collision
-      - ref-pi-ext-resources-discover
-      - ref-pi-ext-reload
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-diagnostics
+        status: partial
+        source_refs:
+          - ref-pi-skills-validation
+          - ref-pi-skills-code-collision
+          - ref-pi-ext-resources-discover
+          - ref-pi-ext-reload
 ---
 固定来源为 pi-mono 仓库提交 781152fc 的 Pi coding agent 包，包含包内文档与源码。本章只描述该提交记录的机制，不据此断言某个 npm 安装版本已具备相同行为；本库尚未为 Pi 建立软件版本映射，因此按 source_only 阅读。下文路径模板取自固定文档，不代表本机实际目录。
 

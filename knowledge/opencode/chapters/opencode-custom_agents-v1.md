@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: opencode-custom_agents-v1
 harness_id: opencode
@@ -7,12 +7,14 @@ topic: custom_agents
 title: OpenCode 的自定义 Agent 机制
 sections:
   - section_id: agents-definition
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-agents-json
       - ref-opencode-agents-markdown
       - ref-opencode-agents-types
       - ref-opencode-agents-options
   - section_id: agents-invocation
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-agents-invocation
       - ref-opencode-agents-json
@@ -22,54 +24,69 @@ sections:
       - ref-opencode-agents-depth
       - ref-opencode-agents-hidden
   - section_id: agents-diagnostics
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-agents-create
       - ref-opencode-agents-taskperm
       - ref-opencode-agents-hidden
 questions:
   - question_id: agents.entry
-    section_id: agents-definition
-    status: answered
-    source_refs:
-      - ref-opencode-agents-json
-      - ref-opencode-agents-markdown
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-definition
+        status: answered
+        source_refs:
+          - ref-opencode-agents-json
+          - ref-opencode-agents-markdown
   - question_id: agents.format
-    section_id: agents-definition
-    status: answered
-    source_refs:
-      - ref-opencode-agents-options
-      - ref-opencode-agents-json
-      - ref-opencode-agents-markdown
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-definition
+        status: answered
+        source_refs:
+          - ref-opencode-agents-options
+          - ref-opencode-agents-json
+          - ref-opencode-agents-markdown
   - question_id: agents.roles
-    section_id: agents-definition
-    status: answered
-    source_refs:
-      - ref-opencode-agents-types
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-definition
+        status: answered
+        source_refs:
+          - ref-opencode-agents-types
   - question_id: agents.invocation
-    section_id: agents-invocation
-    status: answered
-    source_refs:
-      - ref-opencode-agents-invocation
-      - ref-opencode-agents-json
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-invocation
+        status: answered
+        source_refs:
+          - ref-opencode-agents-invocation
+          - ref-opencode-agents-json
   - question_id: agents.overrides
-    section_id: agents-invocation
-    status: answered
-    source_refs:
-      - ref-opencode-agents-permissions
-      - ref-opencode-agents-options
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-invocation
+        status: answered
+        source_refs:
+          - ref-opencode-agents-permissions
+          - ref-opencode-agents-options
   - question_id: agents.limits
-    section_id: agents-invocation
-    status: answered
-    source_refs:
-      - ref-opencode-agents-depth
-      - ref-opencode-agents-taskperm
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-invocation
+        status: answered
+        source_refs:
+          - ref-opencode-agents-depth
+          - ref-opencode-agents-taskperm
   - question_id: agents.diagnostics
-    section_id: agents-diagnostics
-    status: partial
-    source_refs:
-      - ref-opencode-agents-create
-      - ref-opencode-agents-taskperm
-      - ref-opencode-agents-hidden
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-diagnostics
+        status: partial
+        source_refs:
+          - ref-opencode-agents-create
+          - ref-opencode-agents-taskperm
+          - ref-opencode-agents-hidden
 ---
 本章依据固定源码提交 545f51d 的官方文档与实现。该提交不等于 npm 包 opencode-ai@1.18.32 的运行时行为；以下字段属于固定源码知识，对 1.18.32 二进制的适用性尚未建立映射。
 

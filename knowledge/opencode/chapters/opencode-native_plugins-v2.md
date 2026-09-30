@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: opencode-native_plugins-v2
 harness_id: opencode
@@ -7,6 +7,7 @@ topic: native_plugins
 title: OpenCode 的原生插件机制
 sections:
   - section_id: plugins-model
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-plugins-model
       - ref-opencode-plugins-types
@@ -15,58 +16,74 @@ sections:
       - ref-opencode-plugins-install
       - ref-opencode-plugins-deprecated
   - section_id: plugins-discovery
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-hooks-loadorder
       - ref-opencode-plugins-loader
       - ref-opencode-plugins-compat
   - section_id: plugins-api
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-plugins-api
       - ref-opencode-hooks-logging
       - ref-opencode-plugins-loader
 questions:
   - question_id: plugins.model
-    section_id: plugins-model
-    status: answered
-    source_refs:
-      - ref-opencode-plugins-model
-      - ref-opencode-plugins-types
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-model
+        status: answered
+        source_refs:
+          - ref-opencode-plugins-model
+          - ref-opencode-plugins-types
   - question_id: plugins.package
-    section_id: plugins-model
-    status: answered
-    source_refs:
-      - ref-opencode-plugins-package
-      - ref-opencode-plugins-types
-      - ref-opencode-plugins-compat
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-model
+        status: answered
+        source_refs:
+          - ref-opencode-plugins-package
+          - ref-opencode-plugins-types
+          - ref-opencode-plugins-compat
   - question_id: plugins.install
-    section_id: plugins-model
-    status: partial
-    source_refs:
-      - ref-opencode-plugins-install
-      - ref-opencode-plugins-deprecated
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-model
+        status: partial
+        source_refs:
+          - ref-opencode-plugins-install
+          - ref-opencode-plugins-deprecated
   - question_id: plugins.discovery
-    section_id: plugins-discovery
-    status: answered
-    source_refs:
-      - ref-opencode-hooks-loadorder
-      - ref-opencode-plugins-loader
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-discovery
+        status: answered
+        source_refs:
+          - ref-opencode-hooks-loadorder
+          - ref-opencode-plugins-loader
   - question_id: plugins.api
-    section_id: plugins-api
-    status: answered
-    source_refs:
-      - ref-opencode-plugins-api
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-api
+        status: answered
+        source_refs:
+          - ref-opencode-plugins-api
   - question_id: plugins.lifecycle
-    section_id: plugins-discovery
-    status: partial
-    source_refs:
-      - ref-opencode-plugins-loader
-      - ref-opencode-plugins-compat
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-discovery
+        status: partial
+        source_refs:
+          - ref-opencode-plugins-loader
+          - ref-opencode-plugins-compat
   - question_id: plugins.diagnostics
-    section_id: plugins-api
-    status: partial
-    source_refs:
-      - ref-opencode-hooks-logging
-      - ref-opencode-plugins-loader
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-api
+        status: partial
+        source_refs:
+          - ref-opencode-hooks-logging
+          - ref-opencode-plugins-loader
 ---
 本章依据固定源码提交 545f51d 的官方文档与实现。OpenCode 的原生插件是 JS/TS 模块，Hook 与自定义工具都由插件提供，因此本章与 Hooks 章节共享部分证据。该提交不等于 npm 包 opencode-ai@1.18.32 的运行时行为，示例中的凭据一律写成占位符。
 

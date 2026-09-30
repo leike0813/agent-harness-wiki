@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: claude-code-hooks-v2
 harness_id: claude-code
@@ -7,6 +7,7 @@ topic: hooks
 title: Claude Code 的 Hook 入口、事件与条件
 sections:
   - section_id: hooks-entry
+    surface_ids: [cli]
     source_refs:
       - ref-cc-config-files
       - ref-cc-config-reload
@@ -16,54 +17,70 @@ sections:
       - ref-cc-mcp-stdio
       - ref-cc-hooks-elicitation
   - section_id: hooks-behavior
+    surface_ids: [cli]
     source_refs:
       - ref-cc-config-reload
       - ref-cc-config-broken
       - ref-cc-hooks-trust
   - section_id: hooks-diagnostics
+    surface_ids: [cli]
     source_refs:
       - ref-cc-config-reload
       - ref-cc-config-broken
       - ref-cc-npm-readme
 questions:
   - question_id: hooks.events
-    section_id: hooks-entry
-    status: partial
-    source_refs:
-      - ref-cc-hooks-elicitation
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-entry
+        status: partial
+        source_refs:
+          - ref-cc-hooks-elicitation
   - question_id: hooks.entry
-    section_id: hooks-entry
-    status: partial
-    source_refs:
-      - ref-cc-config-files
-      - ref-cc-skills-frontmatter
-      - ref-cc-mcp-pluginservers
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-entry
+        status: partial
+        source_refs:
+          - ref-cc-config-files
+          - ref-cc-skills-frontmatter
+          - ref-cc-mcp-pluginservers
   - question_id: hooks.input
-    section_id: hooks-entry
-    status: partial
-    source_refs:
-      - ref-cc-mcp-stdio
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-entry
+        status: partial
+        source_refs:
+          - ref-cc-mcp-stdio
   - question_id: hooks.output
-    section_id: hooks-behavior
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-behavior
+        status: unknown
+        source_refs: []
   - question_id: hooks.order
-    section_id: hooks-behavior
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-behavior
+        status: unknown
+        source_refs: []
   - question_id: hooks.conditions
-    section_id: hooks-behavior
-    status: partial
-    source_refs:
-      - ref-cc-config-reload
-      - ref-cc-config-broken
-      - ref-cc-hooks-trust
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-behavior
+        status: partial
+        source_refs:
+          - ref-cc-config-reload
+          - ref-cc-config-broken
+          - ref-cc-hooks-trust
   - question_id: hooks.diagnostics
-    section_id: hooks-diagnostics
-    status: partial
-    source_refs:
-      - ref-cc-config-reload
-      - ref-cc-config-broken
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-diagnostics
+        status: partial
+        source_refs:
+          - ref-cc-config-reload
+          - ref-cc-config-broken
 ---
 
 固定快照里没有 Hook 专页，hook 结论来自设置页、Skills 页与 MCP 页的旁述，因此本章整体标记为 partial，事件全表、输出语义与顺序规则都只能写成缺口。

@@ -195,6 +195,7 @@ test("maps changed fixed sources to cited question and section IDs", async () =>
       question_ids: ["config.sources"],
       section_ids: ["configuration-overview"],
       source_refs: ["ref-demo-open-doc"],
+      surface_ids: ["cli"],
       cross_topic_links: [],
       reason: "source-demo-open-doc: cited source changed",
     },

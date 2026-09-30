@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: opencode-configuration-v2
 harness_id: opencode
@@ -7,64 +7,82 @@ topic: configuration
 title: OpenCode 的配置机制
 sections:
   - section_id: config-sources
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-config-sources
       - ref-opencode-config-merge
       - ref-opencode-config-runtime
       - ref-opencode-config-vars
   - section_id: config-trust
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-config-trust
       - ref-opencode-config-diagnostics
   - section_id: config-defaults
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-config-schema
       - ref-opencode-config-defaults
       - ref-opencode-config-migration
   - section_id: config-diagnostics
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-config-diagnostics
       - ref-opencode-config-sources
 questions:
   - question_id: config.sources
-    section_id: config-sources
-    status: answered
-    source_refs:
-      - ref-opencode-config-sources
+    answers:
+      - surface_ids: [cli]
+        section_id: config-sources
+        status: answered
+        source_refs:
+          - ref-opencode-config-sources
   - question_id: config.overrides
-    section_id: config-sources
-    status: partial
-    source_refs:
-      - ref-opencode-config-merge
-      - ref-opencode-config-sources
+    answers:
+      - surface_ids: [cli]
+        section_id: config-sources
+        status: partial
+        source_refs:
+          - ref-opencode-config-merge
+          - ref-opencode-config-sources
   - question_id: config.runtime
-    section_id: config-sources
-    status: answered
-    source_refs:
-      - ref-opencode-config-runtime
-      - ref-opencode-config-vars
+    answers:
+      - surface_ids: [cli]
+        section_id: config-sources
+        status: answered
+        source_refs:
+          - ref-opencode-config-runtime
+          - ref-opencode-config-vars
   - question_id: config.trust
-    section_id: config-trust
-    status: answered
-    source_refs:
-      - ref-opencode-config-trust
+    answers:
+      - surface_ids: [cli]
+        section_id: config-trust
+        status: answered
+        source_refs:
+          - ref-opencode-config-trust
   - question_id: config.defaults
-    section_id: config-defaults
-    status: answered
-    source_refs:
-      - ref-opencode-config-schema
-      - ref-opencode-config-defaults
+    answers:
+      - surface_ids: [cli]
+        section_id: config-defaults
+        status: answered
+        source_refs:
+          - ref-opencode-config-schema
+          - ref-opencode-config-defaults
   - question_id: config.migration
-    section_id: config-defaults
-    status: partial
-    source_refs:
-      - ref-opencode-config-migration
+    answers:
+      - surface_ids: [cli]
+        section_id: config-defaults
+        status: partial
+        source_refs:
+          - ref-opencode-config-migration
   - question_id: config.diagnostics
-    section_id: config-diagnostics
-    status: partial
-    source_refs:
-      - ref-opencode-config-diagnostics
-      - ref-opencode-config-sources
+    answers:
+      - surface_ids: [cli]
+        section_id: config-diagnostics
+        status: partial
+        source_refs:
+          - ref-opencode-config-diagnostics
+          - ref-opencode-config-sources
 ---
 本章依据固定源码提交 545f51d 的官方文档与实现。该提交不等于 npm 包 opencode-ai@1.18.32 的运行时行为；以下路径与优先级属于固定源码知识，对 1.18.32 二进制的适用性尚未建立映射。示例中的凭据一律写成占位符。
 

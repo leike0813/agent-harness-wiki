@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: pi-custom_providers-v2
 harness_id: pi
@@ -7,12 +7,14 @@ topic: custom_providers
 title: Pi 自定义 Provider：models.json 与扩展注册（固定源码 781152f）
 sections:
   - section_id: providers-entry
+    surface_ids: [cli]
     source_refs:
       - ref-pi-models-json
       - ref-pi-cp-quick
       - ref-pi-models-merge
       - ref-pi-ext-locations
   - section_id: providers-models
+    surface_ids: [cli]
     source_refs:
       - ref-pi-models-json
       - ref-pi-models-config
@@ -21,6 +23,7 @@ sections:
       - ref-pi-cp-apis
       - ref-pi-cp-stream
   - section_id: providers-auth
+    surface_ids: [cli]
     source_refs:
       - ref-pi-providers-resolution
       - ref-pi-providers-auth
@@ -28,6 +31,7 @@ sections:
       - ref-pi-cp-auth
       - ref-pi-models-values
   - section_id: providers-behavior
+    surface_ids: [cli]
     source_refs:
       - ref-pi-cp-apis
       - ref-pi-models-merge
@@ -39,63 +43,79 @@ sections:
       - ref-pi-models-values
 questions:
   - question_id: providers.entry
-    section_id: providers-entry
-    status: answered
-    source_refs:
-      - ref-pi-models-json
-      - ref-pi-cp-quick
-      - ref-pi-models-merge
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-entry
+        status: answered
+        source_refs:
+          - ref-pi-models-json
+          - ref-pi-cp-quick
+          - ref-pi-models-merge
   - question_id: providers.auth
-    section_id: providers-auth
-    status: answered
-    source_refs:
-      - ref-pi-providers-resolution
-      - ref-pi-providers-auth
-      - ref-pi-providers-auth-file
-      - ref-pi-cp-auth
-      - ref-pi-models-values
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-auth
+        status: answered
+        source_refs:
+          - ref-pi-providers-resolution
+          - ref-pi-providers-auth
+          - ref-pi-providers-auth-file
+          - ref-pi-cp-auth
+          - ref-pi-models-values
   - question_id: providers.protocol
-    section_id: providers-models
-    status: answered
-    source_refs:
-      - ref-pi-cp-apis
-      - ref-pi-models-config
-      - ref-pi-cp-stream
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-models
+        status: answered
+        source_refs:
+          - ref-pi-cp-apis
+          - ref-pi-models-config
+          - ref-pi-cp-stream
   - question_id: providers.models
-    section_id: providers-models
-    status: answered
-    source_refs:
-      - ref-pi-models-json
-      - ref-pi-cp-quick
-      - ref-pi-models-reload
-      - ref-pi-models-config
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-models
+        status: answered
+        source_refs:
+          - ref-pi-models-json
+          - ref-pi-cp-quick
+          - ref-pi-models-reload
+          - ref-pi-models-config
   - question_id: providers.metadata
-    section_id: providers-models
-    status: answered
-    source_refs:
-      - ref-pi-models-config
-      - ref-pi-cp-apis
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-models
+        status: answered
+        source_refs:
+          - ref-pi-models-config
+          - ref-pi-cp-apis
   - question_id: providers.forwarding
-    section_id: providers-behavior
-    status: partial
-    source_refs:
-      - ref-pi-cp-apis
-      - ref-pi-models-merge
-      - ref-pi-models-config
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-behavior
+        status: partial
+        source_refs:
+          - ref-pi-cp-apis
+          - ref-pi-models-merge
+          - ref-pi-models-config
   - question_id: providers.responses
-    section_id: providers-behavior
-    status: partial
-    source_refs:
-      - ref-pi-cp-stream
-      - ref-pi-cp-quick
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-behavior
+        status: partial
+        source_refs:
+          - ref-pi-cp-stream
+          - ref-pi-cp-quick
   - question_id: providers.diagnostics
-    section_id: providers-behavior
-    status: partial
-    source_refs:
-      - ref-pi-providers-resolution
-      - ref-pi-models-reload
-      - ref-pi-models-values
-      - ref-pi-cp-quick
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-behavior
+        status: partial
+        source_refs:
+          - ref-pi-providers-resolution
+          - ref-pi-models-reload
+          - ref-pi-models-values
+          - ref-pi-cp-quick
 ---
 固定来源为 pi-mono 仓库提交 781152fc 的 Pi coding agent 包（包内文档与源码）。Pi 的 provider 扩展有两条入口：`~/.pi/agent/models.json` 的声明式配置，以及扩展里的 `pi.registerProvider`。本章机制来自该固定来源的文档，未做运行观察，也未与任何精确 npm 版本建立映射，按 source_only 阅读；示例中的凭据只用占位值或环境变量名。
 

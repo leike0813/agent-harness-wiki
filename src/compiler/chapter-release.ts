@@ -49,6 +49,12 @@ const optionsSchema = z.strictObject({
   publishedAt: z.iso.datetime(),
   releasesRoot: z.string().min(1),
   publishCurrent: z.boolean().default(true),
+  ollamaEndpoint: z
+    .url()
+    .refine((value) =>
+      ["localhost", "127.0.0.1", "[::1]"].includes(new URL(value).hostname),
+    )
+    .optional(),
 });
 export type ChapterCompileOptions = z.input<typeof optionsSchema>;
 export type ChapterReleaseManifest = z.infer<
@@ -76,6 +82,7 @@ export function projectChapters(
   publishedAt: string,
 ): ChapterPublishedKnowledge {
   const records = {
+    catalog: dataset.catalog,
     harnesses: sort(dataset.harnesses, (x) => x.harness_id),
     sources: sort(dataset.sources, (x) => x.source_id),
     artifacts: sort(dataset.artifacts, (x) => x.artifact_id),
@@ -86,7 +93,7 @@ export function projectChapters(
     current: sort(dataset.current, (x) => `${x.harness_id}|${x.topic}`),
   };
   return chapterPublishedKnowledgeSchema.parse({
-    schema_version: 2,
+    schema_version: 3,
     release_id: releaseId,
     profile,
     knowledge_published_at: publishedAt,
@@ -98,16 +105,76 @@ export function renderChapterDocs(
   knowledge: ChapterPublishedKnowledge,
 ): Map<string, string> {
   const pages = new Map<string, string>();
+  const fixture =
+    knowledge.profile === "fixture" ? "> Fictional fixture data.\n\n" : "";
   const linkedBody = (body: string, sourcesPath: string) =>
     textSafe(body).replace(
       /\[@([a-z][a-z0-9_-]*)\]/g,
       (_match, id: string) => `[[${id}](${sourcesPath}/${id}.md)]`,
     );
-  const fixture =
-    knowledge.profile === "fixture" ? "> Fictional fixture data.\n\n" : "";
+  const catalog = knowledge.records.catalog;
+  const references = new Map(
+    catalog.references.map((x) => [x.reference_id, x] as const),
+  );
+  const registered = new Set(
+    knowledge.records.harnesses.map((x) => x.harness_id),
+  );
+  const productDetails = (harnessId: string, sourcesPath: string): string => {
+    const product = catalog.products.find((x) => x.harness_id === harnessId);
+    if (!product) return "";
+    const refs = [
+      ...new Set([
+        ...product.reference_ids,
+        ...product.surfaces.flatMap((x) => x.reference_ids),
+        ...product.runtimes.flatMap((x) => x.reference_ids),
+        ...product.bindings.flatMap((x) => x.reference_ids),
+      ]),
+    ];
+    return [
+      product.aliases.length
+        ? `别名：${product.aliases.map(textSafe).join("、")}`
+        : "",
+      `界面：${product.surfaces
+        .map((x) => `\`${x.surface_id}\`（${textSafe(x.name)}，${x.kind}）`)
+        .join("、")}`,
+      product.runtimes.length
+        ? `运行时：${product.runtimes
+            .map((x) => `\`${x.runtime_id}\`（${textSafe(x.name)}）`)
+            .join("、")}`
+        : "",
+      `绑定：${product.bindings
+        .map(
+          (x) =>
+            `\`${x.surface_id}\`→${x.runtime_id ? `\`${x.runtime_id}\`` : "无"}（${x.status}）`,
+        )
+        .join("、")}`,
+      refs.length
+        ? `固定来源：${refs
+            .map((id) =>
+              references.has(id)
+                ? `[\`${id}\`](${sourcesPath}/${id}.md)`
+                : `\`${id}\``,
+            )
+            .join("、")}`
+        : "",
+    ]
+      .filter(Boolean)
+      .join("\n\n");
+  };
+  pages.set(
+    "docs/catalog.md",
+    `# Catalog\n\n${fixture}本页列出目录声明的产品与候选项，包括尚未发布知识的候选项。候选项不产生章节或事实。\n\n${catalog.products
+      .map((product) => {
+        const state = registered.has(product.harness_id)
+          ? "registered"
+          : "candidate";
+        return `## ${textSafe(product.name)}（\`${product.harness_id}\`，${state}）\n\n${productDetails(product.harness_id, "sources")}`;
+      })
+      .join("\n\n")}\n`,
+  );
   pages.set(
     "docs/index.md",
-    `# Knowledge release ${knowledge.release_id}\n\n${fixture}${knowledge.records.harnesses.map((x) => `- [${textSafe(x.name)}](harnesses/${x.harness_id}/index.md)`).join("\n")}\n\n${knowledge.records.current.map((x) => `- [${x.harness_id} / ${x.topic}](harnesses/${x.harness_id}/${x.topic}.md)`).join("\n")}\n\n## Historical editions\n\n${knowledge.records.chapters
+    `# Knowledge release ${knowledge.release_id}\n\n${fixture}目录：[全部产品与候选项](catalog.md)\n\n${knowledge.records.harnesses.map((x) => `- [${textSafe(x.name)}](harnesses/${x.harness_id}/index.md)`).join("\n")}\n\n${knowledge.records.current.map((x) => `- [${x.harness_id} / ${x.topic}](harnesses/${x.harness_id}/${x.topic}.md)`).join("\n")}\n\n## Historical editions\n\n${knowledge.records.chapters
       .filter(
         (x) =>
           !knowledge.records.current.some((y) => y.edition_id === x.edition_id),
@@ -118,18 +185,22 @@ export function renderChapterDocs(
       )
       .join("\n")}\n`,
   );
-  for (const chapter of knowledge.records.chapters)
+  for (const chapter of knowledge.records.chapters) {
+    const scope = chapter.sections
+      .map((x) => `- \`${x.section_id}\`：${x.surface_ids.join("、")}`)
+      .join("\n");
     pages.set(
       `docs/chapters/${chapter.edition_id}.md`,
-      `# ${textSafe(chapter.title)}\n\n${fixture}${chapter.body}\n`,
+      `# ${textSafe(chapter.title)}\n\n${fixture}> 历史版：\`${chapter.edition_id}\`（${chapter.harness_id} / ${chapter.topic}）\n\n${scope}\n\n${textSafe(chapter.body)}\n`,
     );
+  }
   for (const harness of knowledge.records.harnesses) {
     const selections = knowledge.records.current.filter(
       (x) => x.harness_id === harness.harness_id,
     );
     pages.set(
       `docs/harnesses/${harness.harness_id}/index.md`,
-      `# ${textSafe(harness.name)}\n\n${fixture}本页列出当前发布的七个主题。章节引用固定来源；软件版本适用性以章节映射为准。\n\n${selections.map((x) => `- [${x.topic}](./${x.topic}.md)`).join("\n")}\n`,
+      `# ${textSafe(harness.name)}\n\n${fixture}${productDetails(harness.harness_id, "../../sources")}\n\n本页列出当前发布的七个主题。章节引用固定来源；软件版本适用性以章节映射为准。\n\n${selections.map((x) => `- [${x.topic}](./${x.topic}.md)`).join("\n")}\n`,
     );
     for (const selection of selections) {
       const chapter = knowledge.records.chapters.find(
@@ -143,15 +214,33 @@ export function renderChapterDocs(
           x.topic === selection.topic &&
           x.edition_id !== chapter.edition_id,
       );
+      const declaredSurfaces =
+        catalog.products
+          .find((x) => x.harness_id === harness.harness_id)
+          ?.surfaces.map((x) => x.surface_id) ?? [];
       const questionIndex = chapter.questions
-        .map(
-          (q) =>
-            `| \`${q.question_id}\` | ${q.status} | [${q.section_id}](#${q.section_id}) |`,
-        )
+        .flatMap((q) => {
+          const covered = new Set(q.answers.flatMap((a) => a.surface_ids));
+          return [
+            ...q.answers.map(
+              (a) =>
+                `| \`${q.question_id}\` | ${a.surface_ids.join("、")} | ${a.status} | [${a.section_id}](#${a.section_id}) |`,
+            ),
+            ...declaredSurfaces
+              .filter((id) => !covered.has(id))
+              .map(
+                (id) =>
+                  `| \`${q.question_id}\` | ${id} | not_investigated | — |`,
+              ),
+          ];
+        })
+        .join("\n");
+      const sectionScope = chapter.sections
+        .map((x) => `| \`${x.section_id}\` | ${x.surface_ids.join("、")} |`)
         .join("\n");
       pages.set(
         `docs/harnesses/${harness.harness_id}/${selection.topic}.md`,
-        `# ${textSafe(chapter.title)}\n\n${fixture}当前调查版：${chapter.edition_id}。以下为固定来源知识；未列明软件版本映射时，不代表已验证的安装版本。\n\n${body}\n\n## 问题索引\n\n| 问题 | 状态 | 对应小节 |\n|---|---|---|\n${questionIndex}\n\n## 来源\n\n${refs.map((id) => `- [${id}](../../sources/${id}.md)`).join("\n")}\n\n## 历史章节\n\n${history.map((x) => `- [${x.edition_id}](../../chapters/${x.edition_id}.md)`).join("\n")}\n`,
+        `# ${textSafe(chapter.title)}\n\n${fixture}当前调查版：${chapter.edition_id}。以下为固定来源知识；未列明软件版本映射时，不代表已验证的安装版本。\n\n${body}\n\n## 小节与界面范围\n\n| 小节 | 界面 |\n|---|---|\n${sectionScope}\n\n## 问题索引\n\n| 问题 | 界面 | 状态 | 对应小节 |\n|---|---|---|---|\n${questionIndex}\n\n## 来源\n\n${refs.map((id) => `- [${id}](../../sources/${id}.md)`).join("\n")}\n\n## 历史章节\n\n${history.map((x) => `- [${x.edition_id}](../../chapters/${x.edition_id}.md)`).join("\n")}\n`,
       );
     }
   }
@@ -159,6 +248,14 @@ export function renderChapterDocs(
     pages.set(
       `docs/sources/${ref.reference_id}.md`,
       `# ${ref.reference_id}\n\n${fixture}Snapshot: ${ref.snapshot_id}\n\nLocation: ${textSafe(JSON.stringify(ref.locator))}\n\nOfficial link: ${ref.official_url}\n\n### Excerpt\n\n${ref.excerpt
+        .split("\n")
+        .map((line) => `    ${line}`)
+        .join("\n")}\n`,
+    );
+  for (const ref of catalog.references)
+    pages.set(
+      `docs/sources/${ref.reference_id}.md`,
+      `# ${ref.reference_id}\n\n${fixture}Snapshot: ${ref.snapshot.sha256}\n\nLocation: ${textSafe(JSON.stringify(ref.locator))}\n\nOfficial link: ${ref.official_url}\n\n### Excerpt\n\n${ref.excerpt
         .split("\n")
         .map((line) => `    ${line}`)
         .join("\n")}\n`,
@@ -176,6 +273,8 @@ function writeChapterSqlite(
     db.pragma("journal_mode = DELETE");
     db.pragma("foreign_keys = ON");
     db.exec(`
+      CREATE TABLE catalog_products (id TEXT PRIMARY KEY, payload_json TEXT NOT NULL);
+      CREATE TABLE catalog_references (id TEXT PRIMARY KEY, harness_id TEXT NOT NULL REFERENCES catalog_products(id), payload_json TEXT NOT NULL);
       CREATE TABLE harnesses (id TEXT PRIMARY KEY, payload_json TEXT NOT NULL);
       CREATE TABLE sources (id TEXT PRIMARY KEY, harness_id TEXT NOT NULL REFERENCES harnesses(id), payload_json TEXT NOT NULL);
       CREATE TABLE artifacts (id TEXT PRIMARY KEY, source_id TEXT NOT NULL REFERENCES sources(id), payload_json TEXT NOT NULL);
@@ -183,7 +282,7 @@ function writeChapterSqlite(
       CREATE TABLE source_references (id TEXT PRIMARY KEY, snapshot_id TEXT NOT NULL REFERENCES snapshots(id), harness_id TEXT NOT NULL REFERENCES harnesses(id), payload_json TEXT NOT NULL);
       CREATE TABLE chapters (id TEXT PRIMARY KEY, harness_id TEXT NOT NULL REFERENCES harnesses(id), topic TEXT NOT NULL, is_current INTEGER NOT NULL, payload_json TEXT NOT NULL);
       CREATE TABLE sections (chapter_id TEXT NOT NULL REFERENCES chapters(id), section_id TEXT NOT NULL, payload_json TEXT NOT NULL, PRIMARY KEY(chapter_id, section_id));
-      CREATE TABLE questions (chapter_id TEXT NOT NULL REFERENCES chapters(id), question_id TEXT NOT NULL, section_id TEXT NOT NULL, status TEXT NOT NULL, payload_json TEXT NOT NULL, PRIMARY KEY(chapter_id, question_id), FOREIGN KEY(chapter_id, section_id) REFERENCES sections(chapter_id, section_id));
+      CREATE TABLE questions (chapter_id TEXT NOT NULL REFERENCES chapters(id), question_id TEXT NOT NULL, payload_json TEXT NOT NULL, PRIMARY KEY(chapter_id, question_id));
       CREATE TABLE mappings (id TEXT PRIMARY KEY, chapter_id TEXT NOT NULL REFERENCES chapters(id), version TEXT NOT NULL, scope TEXT NOT NULL, payload_json TEXT NOT NULL);
       CREATE TABLE mapping_sections (mapping_id TEXT NOT NULL REFERENCES mappings(id), chapter_id TEXT NOT NULL, section_id TEXT NOT NULL, evidence_ref TEXT NOT NULL REFERENCES source_references(id), PRIMARY KEY(mapping_id, section_id), FOREIGN KEY(chapter_id, section_id) REFERENCES sections(chapter_id, section_id));
       CREATE TABLE current (harness_id TEXT NOT NULL REFERENCES harnesses(id), topic TEXT NOT NULL, edition_id TEXT NOT NULL REFERENCES chapters(id), payload_json TEXT NOT NULL, PRIMARY KEY(harness_id, topic));
@@ -194,6 +293,17 @@ function writeChapterSqlite(
     `);
     const r = knowledge.records;
     db.transaction(() => {
+      for (const x of r.catalog.products)
+        db.prepare("INSERT INTO catalog_products VALUES (?,?)").run(
+          x.harness_id,
+          canonical(x),
+        );
+      for (const x of r.catalog.references)
+        db.prepare("INSERT INTO catalog_references VALUES (?,?,?)").run(
+          x.reference_id,
+          x.harness_id,
+          canonical(x),
+        );
       for (const x of r.harnesses)
         db.prepare("INSERT INTO harnesses VALUES (?,?)").run(
           x.harness_id,
@@ -239,11 +349,9 @@ function writeChapterSqlite(
             canonical(s),
           );
         for (const q of x.questions)
-          db.prepare("INSERT INTO questions VALUES (?,?,?,?,?)").run(
+          db.prepare("INSERT INTO questions VALUES (?,?,?)").run(
             x.edition_id,
             q.question_id,
-            q.section_id,
-            q.status,
             canonical(q),
           );
       }
@@ -312,20 +420,17 @@ export async function verifyChapterRelease(
   )
     throw new Error("Release directory and ID differ.");
   const inventory = (await paths(dir)).filter((x) => x !== "manifest.json");
-  const requiredInventory = Object.keys(manifest.artifacts)
-    .filter((file) => file !== "semantic.json")
-    .sort();
+  const requiredInventory = Object.keys(manifest.artifacts).sort();
   if (
-    inventory.filter((file) => file !== "semantic.json").join("\n") !==
-      requiredInventory.join("\n") ||
+    inventory.join("\n") !== requiredInventory.join("\n") ||
     !inventory.includes("knowledge.json") ||
     !inventory.includes("knowledge.sqlite") ||
-    (manifest.builder_version === "5" && !inventory.includes("search.json"))
+    !inventory.includes("search.json")
   )
     throw new Error("Release artifact inventory differs from manifest.");
   for (const file of inventory) {
     if (
-      !/^(knowledge\.(json|sqlite)|search\.json|semantic\.json|docs\/(index|chapters\/[a-z0-9_-]+|sources\/[a-z0-9_-]+|harnesses\/[a-z0-9_-]+\/(index|[a-z0-9_-]+))\.md)$/.test(
+      !/^(knowledge\.(json|sqlite)|search\.json|semantic\.json|docs\/(index|catalog|chapters\/[a-z0-9_-]+|sources\/[a-z0-9_-]+|harnesses\/[a-z0-9_-]+\/(index|[a-z0-9_-]+))\.md)$/.test(
         file,
       )
     )
@@ -338,14 +443,10 @@ export async function verifyChapterRelease(
   const knowledge = chapterPublishedKnowledgeSchema.parse(
     JSON.parse(await readFile(path.join(dir, "knowledge.json"), "utf8")),
   );
-  const search =
-    manifest.builder_version === "5"
-      ? searchIndexSchema.parse(
-          JSON.parse(await readFile(path.join(dir, "search.json"), "utf8")),
-        ).sections
-      : [];
+  const search = searchIndexSchema.parse(
+    JSON.parse(await readFile(path.join(dir, "search.json"), "utf8")),
+  ).sections;
   if (
-    manifest.builder_version === "5" &&
     manifest.profile === "production" &&
     (!manifest.semantic || !manifest.artifacts["semantic.json"])
   )
@@ -374,8 +475,7 @@ export async function verifyChapterRelease(
       );
   }
   if (
-    manifest.builder_version === "5" &&
-    (search.length !==
+    search.length !==
       knowledge.records.current.reduce(
         (count, selection) =>
           count +
@@ -384,15 +484,15 @@ export async function verifyChapterRelease(
           )!.sections.length,
         0,
       ) ||
-      search.some(
-        (section) =>
-          !knowledge.records.current.some(
-            (selection) => selection.edition_id === section.edition_id,
-          ),
-      ))
+    search.some(
+      (section) =>
+        !knowledge.records.current.some(
+          (selection) => selection.edition_id === section.edition_id,
+        ),
+    )
   )
     throw new Error("Search corpus differs from current chapter selection.");
-  if (manifest.builder_version === "5") {
+  {
     const keys = new Set<string>();
     for (const section of search) {
       const key = `${section.edition_id}|${section.section_id}`;
@@ -409,11 +509,16 @@ export async function verifyChapterRelease(
         section.harness_id !== chapter.harness_id ||
         section.topic !== chapter.topic ||
         section.body !== sectionText(chapter.body, section.section_id) ||
+        canonical(section.surface_ids) !== canonical(metadata.surface_ids) ||
         canonical(section.source_refs) !== canonical(metadata.source_refs) ||
         canonical(section.question_ids) !==
           canonical(
             chapter.questions
-              .filter((question) => question.section_id === section.section_id)
+              .filter((question) =>
+                question.answers.some(
+                  (answer) => answer.section_id === section.section_id,
+                ),
+              )
               .map((question) => question.question_id),
           )
       )
@@ -453,6 +558,7 @@ export async function verifyChapterRelease(
   }
   const pagePaths = [
     "docs/index.md",
+    "docs/catalog.md",
     ...knowledge.records.harnesses.map(
       (x) => `docs/harnesses/${x.harness_id}/index.md`,
     ),
@@ -463,6 +569,9 @@ export async function verifyChapterRelease(
       (x) => `docs/chapters/${x.edition_id}.md`,
     ),
     ...knowledge.records.source_references.map(
+      (x) => `docs/sources/${x.reference_id}.md`,
+    ),
+    ...knowledge.records.catalog.references.map(
       (x) => `docs/sources/${x.reference_id}.md`,
     ),
   ];
@@ -476,31 +585,9 @@ export async function verifyChapterRelease(
     if (!index.includes(`harnesses/${item.harness_id}/${item.topic}.md`))
       throw new Error("Current chapter missing from Markdown index.");
   const expectedPages = renderChapterDocs(knowledge);
-  for (const chapter of knowledge.records.chapters) {
-    const relative = `docs/chapters/${chapter.edition_id}.md`;
-    if (
-      (await readFile(path.join(dir, relative), "utf8")) !==
-      expectedPages.get(relative)
-    )
-      throw new Error(
-        `Chapter Markdown differs from JSON: ${chapter.edition_id}`,
-      );
-  }
-  for (const ref of knowledge.records.source_references) {
-    const page = await readFile(
-      path.join(dir, `docs/sources/${ref.reference_id}.md`),
-      "utf8",
-    );
-    if (
-      !page.includes(ref.snapshot_id) ||
-      !page.includes(
-        ref.excerpt
-          .split("\n")
-          .map((line) => `    ${line}`)
-          .join("\n"),
-      )
-    )
-      throw new Error(`Source Markdown differs from JSON: ${ref.reference_id}`);
+  for (const [relative, expected] of expectedPages) {
+    if ((await readFile(path.join(dir, relative), "utf8")) !== expected)
+      throw new Error(`Markdown page differs from JSON: ${relative}`);
   }
   const db = new Database(path.join(dir, "knowledge.sqlite"), {
     readonly: true,
@@ -512,6 +599,30 @@ export async function verifyChapterRelease(
       (db.pragma("foreign_key_check") as unknown[]).length
     )
       throw new Error("SQLite integrity check failed.");
+    const catalogProducts = db
+      .prepare("SELECT id, payload_json FROM catalog_products ORDER BY id")
+      .all();
+    const catalogExpected = sort(
+      knowledge.records.catalog.products,
+      (x) => x.harness_id,
+    ).map((x) => ({ id: x.harness_id, payload_json: canonical(x) }));
+    if (canonical(catalogProducts) !== canonical(catalogExpected))
+      throw new Error("SQLite catalog products differ from JSON.");
+    const catalogReferences = db
+      .prepare(
+        "SELECT id, harness_id, payload_json FROM catalog_references ORDER BY id",
+      )
+      .all();
+    const catalogReferenceExpected = sort(
+      knowledge.records.catalog.references,
+      (x) => x.reference_id,
+    ).map((x) => ({
+      id: x.reference_id,
+      harness_id: x.harness_id,
+      payload_json: canonical(x),
+    }));
+    if (canonical(catalogReferences) !== canonical(catalogReferenceExpected))
+      throw new Error("SQLite catalog references differ from JSON.");
     const names = [
       "harnesses",
       "sources",
@@ -586,7 +697,7 @@ export async function verifyChapterRelease(
     );
     if (canonical(mappingRows) !== canonical(mappingExpected))
       throw new Error("SQLite mapping sections differ from JSON.");
-    if (manifest.builder_version === "5") {
+    {
       const rows = db
         .prepare(
           "SELECT payload_json FROM search_sections ORDER BY section_key",
@@ -633,6 +744,51 @@ export async function verifyChapterRelease(
   return manifest;
 }
 
+// A release of the previous chapter schema is only checked for intactness. Its
+// records are never parsed as the current schema and its files are never
+// rewritten; the new baseline starts from a fresh build.
+const historicalManifestSchema = z.object({
+  schema_version: z.union([z.literal(1), z.literal(2)]),
+  release_id: z.string().regex(/^[a-z][a-z0-9_-]*$/),
+  artifacts: z.record(z.string(), z.string().regex(/^[a-f0-9]{64}$/)),
+});
+export async function verifyHistoricalRelease(dir: string): Promise<void> {
+  const manifest = historicalManifestSchema.parse(
+    JSON.parse(await readFile(path.join(dir, "manifest.json"), "utf8")),
+  );
+  if (
+    path.basename(dir) !== manifest.release_id &&
+    !path.basename(dir).startsWith(".staging-")
+  )
+    throw new Error("Release directory and ID differ.");
+  const inventory = (await paths(dir)).filter((x) => x !== "manifest.json");
+  if (
+    inventory.join("\n") !==
+      Object.keys(manifest.artifacts).sort().join("\n") ||
+    !inventory.includes("knowledge.json") ||
+    !inventory.includes("knowledge.sqlite")
+  )
+    throw new Error("Historical release inventory differs from manifest.");
+  for (const file of inventory)
+    if (
+      sha256(await readFile(path.join(dir, file))) !== manifest.artifacts[file]
+    )
+      throw new Error(`Artifact hash mismatch: ${file}`);
+  const db = new Database(path.join(dir, "knowledge.sqlite"), {
+    readonly: true,
+    fileMustExist: true,
+  });
+  try {
+    if (
+      db.pragma("integrity_check", { simple: true }) !== "ok" ||
+      (db.pragma("foreign_key_check") as unknown[]).length
+    )
+      throw new Error("Historical SQLite integrity check failed.");
+  } finally {
+    db.close();
+  }
+}
+
 export async function compileChapterRelease(
   input: ChapterCompileOptions,
 ): Promise<{ releaseDir: string; manifest: ChapterReleaseManifest }> {
@@ -677,15 +833,17 @@ export async function compileChapterDataset(
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
     }
+    const embeddingRelease = previous;
     if (previous) {
       const legacy = JSON.parse(
         await readFile(path.join(root, previous, "manifest.json"), "utf8"),
       ) as { schema_version?: number };
-      if (legacy.schema_version === 1) {
-        const { verifyRelease } = await import("./release.js");
-        await verifyRelease(path.join(root, previous));
+      if (legacy.schema_version === 3)
+        await verifyChapterRelease(path.join(root, previous));
+      else {
+        await verifyHistoricalRelease(path.join(root, previous));
         previous = undefined;
-      } else await verifyChapterRelease(path.join(root, previous));
+      }
     }
     stage = await mkdtemp(path.join(root, ".staging-"));
     const knowledge = projectChapters(
@@ -704,7 +862,65 @@ export async function compileChapterDataset(
     if (options.profile === "production") {
       modelLockText = await readFile(modelLockFile, "utf8");
       const model = modelLockSchema.parse(JSON.parse(modelLockText));
-      await assertLocalModel(model);
+      await assertLocalModel(model, options.ollamaEndpoint);
+      const cached = new Map<string, number[]>();
+      if (embeddingRelease) {
+        const previousDir = path.join(root, embeddingRelease);
+        try {
+          const prior = semanticIndexSchema.parse(
+            JSON.parse(
+              await readFile(path.join(previousDir, "semantic.json"), "utf8"),
+            ),
+          );
+          if (canonical(prior.model) === canonical(model)) {
+            const oldSearch = z
+              .object({
+                sections: z.array(
+                  z.object({
+                    edition_id: z.string(),
+                    section_id: z.string(),
+                    title: z.string(),
+                    body: z.string(),
+                  }),
+                ),
+              })
+              .parse(
+                JSON.parse(
+                  await readFile(path.join(previousDir, "search.json"), "utf8"),
+                ),
+              );
+            const unchanged = new Map(
+              oldSearch.sections
+                .filter((old) =>
+                  search.some(
+                    (section) =>
+                      section.title === old.title && section.body === old.body,
+                  ),
+                )
+                .map((section) => [
+                  `${section.edition_id}|${section.section_id}`,
+                  section,
+                ]),
+            );
+            for (const passage of prior.passages) {
+              const section = unchanged.get(
+                `${passage.edition_id}|${passage.section_id}`,
+              );
+              const text =
+                section && splitPassages(section.body)[passage.ordinal];
+              if (
+                section &&
+                text !== undefined &&
+                passage.vector.length === model.dimensions &&
+                Math.abs(Math.hypot(...passage.vector) - 1) < 0.00001
+              )
+                cached.set(`${section.title}\n${text}`, passage.vector);
+            }
+          }
+        } catch (error) {
+          if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+        }
+      }
       const passages = search.flatMap((section) =>
         splitPassages(section.body).map((text, ordinal) => ({
           edition_id: section.edition_id,
@@ -713,33 +929,33 @@ export async function compileChapterDataset(
           input: `${section.title}\n${text}`,
         })),
       );
-      const vectors: number[][] = [];
-      for (let offset = 0; offset < passages.length; offset += 8) {
-        const batch = passages.slice(offset, offset + 8);
-        vectors.push(
-          ...(
-            await embedLocal(
-              model,
-              batch.map((passage) => passage.input),
-            )
-          ).map(normalizeVector),
+      const missing = [
+        ...new Set(passages.map((passage) => passage.input)),
+      ].filter((input) => !cached.has(input));
+      for (let offset = 0; offset < missing.length; offset += 8) {
+        const batch = missing.slice(offset, offset + 8);
+        const vectors = await embedLocal(model, batch, options.ollamaEndpoint);
+        batch.forEach((input, i) =>
+          cached.set(input, normalizeVector(vectors[i]!)),
         );
       }
       semantic = {
         schema_version: 1,
         model,
-        passages: passages.map((passage, i) => ({
+        passages: passages.map((passage) => ({
           edition_id: passage.edition_id,
           section_id: passage.section_id,
           ordinal: passage.ordinal,
-          vector: vectors[i]!,
+          vector: cached.get(passage.input)!,
         })),
       };
     }
     await writeFile(path.join(stage, "knowledge.json"), canonical(knowledge));
     await writeFile(
       path.join(stage, "search.json"),
-      canonical({ schema_version: 1, sections: search }),
+      canonical(
+        searchIndexSchema.parse({ schema_version: 2, sections: search }),
+      ),
     );
     if (semantic)
       await writeFile(path.join(stage, "semantic.json"), canonical(semantic));
@@ -768,8 +984,8 @@ export async function compileChapterDataset(
     for (const file of await paths(stage))
       artifacts[file] = sha256(await readFile(path.join(stage, file)));
     const manifest: ChapterReleaseManifest = {
-      schema_version: 2,
-      builder_version: "5",
+      schema_version: 3,
+      builder_version: "6",
       release_id: options.releaseId,
       profile: options.profile,
       knowledge_published_at: options.publishedAt,
@@ -856,10 +1072,8 @@ export async function selectChapterRelease(
       const oldManifest = JSON.parse(
         await readFile(path.join(oldDir, "manifest.json"), "utf8"),
       ) as { schema_version?: number };
-      if (oldManifest.schema_version === 1) {
-        const { verifyRelease } = await import("./release.js");
-        await verifyRelease(oldDir);
-      } else await verifyChapterRelease(oldDir);
+      if (oldManifest.schema_version === 3) await verifyChapterRelease(oldDir);
+      else await verifyHistoricalRelease(oldDir);
     }
     await writeFile(temporary, canonical({ release_id: releaseId }));
     await rename(temporary, path.join(root, "current.json"));

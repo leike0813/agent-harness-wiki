@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: omp-hooks-v2
 harness_id: omp
@@ -7,59 +7,79 @@ topic: hooks
 title: OMP Hook 发现、事件与执行
 sections:
   - section_id: hooks-events
+    surface_ids: [cli]
     source_refs:
       - ref-omp-hooks-events-code
   - section_id: hooks-location
+    surface_ids: [cli]
     source_refs:
       - ref-omp-hooks-discovery-doc
   - section_id: hooks-module
+    surface_ids: [cli]
     source_refs:
       - ref-omp-hooks-module-doc
   - section_id: hooks-execution
+    surface_ids: [cli]
     source_refs:
       - ref-omp-hooks-runner-code
   - section_id: hooks-conditions
+    surface_ids: [cli]
     source_refs:
       - ref-omp-hooks-status-doc
   - section_id: hooks-diagnostics
+    surface_ids: [cli]
     source_refs:
       - ref-omp-hooks-runner-code
 questions:
   - question_id: hooks.events
-    section_id: hooks-events
-    status: answered
-    source_refs:
-      - ref-omp-hooks-events-code
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-events
+        status: answered
+        source_refs:
+          - ref-omp-hooks-events-code
   - question_id: hooks.entry
-    section_id: hooks-location
-    status: answered
-    source_refs:
-      - ref-omp-hooks-discovery-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-location
+        status: answered
+        source_refs:
+          - ref-omp-hooks-discovery-doc
   - question_id: hooks.input
-    section_id: hooks-module
-    status: partial
-    source_refs:
-      - ref-omp-hooks-module-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-module
+        status: partial
+        source_refs:
+          - ref-omp-hooks-module-doc
   - question_id: hooks.output
-    section_id: hooks-execution
-    status: partial
-    source_refs:
-      - ref-omp-hooks-runner-code
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-execution
+        status: partial
+        source_refs:
+          - ref-omp-hooks-runner-code
   - question_id: hooks.order
-    section_id: hooks-execution
-    status: answered
-    source_refs:
-      - ref-omp-hooks-runner-code
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-execution
+        status: answered
+        source_refs:
+          - ref-omp-hooks-runner-code
   - question_id: hooks.conditions
-    section_id: hooks-conditions
-    status: answered
-    source_refs:
-      - ref-omp-hooks-status-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-conditions
+        status: answered
+        source_refs:
+          - ref-omp-hooks-status-doc
   - question_id: hooks.diagnostics
-    section_id: hooks-diagnostics
-    status: partial
-    source_refs:
-      - ref-omp-hooks-runner-code
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-diagnostics
+        status: partial
+        source_refs:
+          - ref-omp-hooks-runner-code
 ---
 本章材料来自源码修订 dff728c 的官方文档 `docs/hooks.md` 与 npm 包 `@oh-my-pi/pi-coding-agent` 18.3.4 的包内类型与运行器 `src/extensibility/hooks/types.ts` 与 `src/extensibility/hooks/runner.ts`。发现位置、模块形态与运行时状态来自文档，事件联合与派发实现来自包内代码。当前发布没有把任何 npm 版本映射为已验证行为，按精确版本查询会返回未验证。本轮没有实际放置 Hook 并观察执行，所以本节描述的是文档与源码定义的机制。
 

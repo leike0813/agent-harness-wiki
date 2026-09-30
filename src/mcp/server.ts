@@ -22,6 +22,7 @@ export function mcpResponse(value: Record<string, unknown>) {
           release_id: value.release_id,
           status: "response_too_large",
           harness_id: value.harness_id,
+          surface_id: value.surface_id,
           topic: value.topic,
           edition_id: value.edition_id,
           resolution: value.resolution,

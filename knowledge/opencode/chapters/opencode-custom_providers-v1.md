@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: opencode-custom_providers-v1
 harness_id: opencode
@@ -7,12 +7,14 @@ topic: custom_providers
 title: OpenCode 的 Provider 与模型机制
 sections:
   - section_id: providers-definition
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-providers-protocol
       - ref-opencode-providers-entry
       - ref-opencode-providers-auth
       - ref-opencode-providers-custom
   - section_id: providers-models
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-providers-models
       - ref-opencode-providers-metadata
@@ -20,57 +22,74 @@ sections:
       - ref-opencode-providers-custom
       - ref-opencode-providers-trouble
   - section_id: providers-diagnostics
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-providers-trouble
       - ref-opencode-providers-auth
 questions:
   - question_id: providers.entry
-    section_id: providers-definition
-    status: answered
-    source_refs:
-      - ref-opencode-providers-entry
-      - ref-opencode-providers-custom
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-definition
+        status: answered
+        source_refs:
+          - ref-opencode-providers-entry
+          - ref-opencode-providers-custom
   - question_id: providers.auth
-    section_id: providers-definition
-    status: answered
-    source_refs:
-      - ref-opencode-providers-auth
-      - ref-opencode-providers-custom
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-definition
+        status: answered
+        source_refs:
+          - ref-opencode-providers-auth
+          - ref-opencode-providers-custom
   - question_id: providers.protocol
-    section_id: providers-definition
-    status: answered
-    source_refs:
-      - ref-opencode-providers-protocol
-      - ref-opencode-providers-custom
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-definition
+        status: answered
+        source_refs:
+          - ref-opencode-providers-protocol
+          - ref-opencode-providers-custom
   - question_id: providers.models
-    section_id: providers-models
-    status: answered
-    source_refs:
-      - ref-opencode-providers-models
-      - ref-opencode-providers-custom
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-models
+        status: answered
+        source_refs:
+          - ref-opencode-providers-models
+          - ref-opencode-providers-custom
   - question_id: providers.metadata
-    section_id: providers-models
-    status: partial
-    source_refs:
-      - ref-opencode-providers-metadata
-      - ref-opencode-providers-custom
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-models
+        status: partial
+        source_refs:
+          - ref-opencode-providers-metadata
+          - ref-opencode-providers-custom
   - question_id: providers.forwarding
-    section_id: providers-models
-    status: answered
-    source_refs:
-      - ref-opencode-providers-forwarding
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-models
+        status: answered
+        source_refs:
+          - ref-opencode-providers-forwarding
   - question_id: providers.responses
-    section_id: providers-models
-    status: partial
-    source_refs:
-      - ref-opencode-providers-forwarding
-      - ref-opencode-providers-trouble
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-models
+        status: partial
+        source_refs:
+          - ref-opencode-providers-forwarding
+          - ref-opencode-providers-trouble
   - question_id: providers.diagnostics
-    section_id: providers-diagnostics
-    status: partial
-    source_refs:
-      - ref-opencode-providers-trouble
-      - ref-opencode-providers-auth
+    answers:
+      - surface_ids: [cli]
+        section_id: providers-diagnostics
+        status: partial
+        source_refs:
+          - ref-opencode-providers-trouble
+          - ref-opencode-providers-auth
 ---
 本章依据固定源码提交 545f51d 的官方文档与实现。该提交不等于 npm 包 opencode-ai@1.18.32 的运行时行为；以下字段属于固定源码知识，对 1.18.32 二进制的适用性尚未建立映射。
 

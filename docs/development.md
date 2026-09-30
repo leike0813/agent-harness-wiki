@@ -2,7 +2,7 @@
 
 使用 `package.json` 与 `.node-version` 指定的 Node.js 24.x、pnpm 11.10.0；安装依赖使用 `pnpm install --frozen-lockfile`。不执行上游来源中的命令。虚构章节数据位于 `tests/fixtures/datasets/chapters/`，与正式知识隔离。
 
-新增章节时，按 [固定问题清单](topic-questions.md)为每个问题记录状态、主要小节、具体说明和本问题来源引用。章节放在 `knowledge/<harness-id>/chapters/<edition-id>.md`；小节标题用 `{#section-id}`，引用用 `[@reference-id]`。来源引用和软件版本映射分别放在同产品的 `references/` 与 `mappings/`。另在 `registry/chapter-current.yaml` 选择当前章节。改写正文须创建新 `edition_id`，保留旧文件；新增版本映射无需修改章节。
+产品与界面身份先写在 `catalog/harnesses.yaml`；registry 只登记产品 id 与来源引用。新增章节时，按 [固定问题清单](topic-questions.md)为每个问题记录 `answers`：每条答案带 `surface_ids`、状态、主要小节、具体说明和本问题来源引用。章节放在 `knowledge/<harness-id>/chapters/<edition-id>.md`；小节标题用 `{#section-id}`，引用用 `[@reference-id]`。来源引用和软件版本映射分别放在同产品的 `references/` 与 `mappings/`。另在 `registry/chapter-current.yaml` 选择当前章节。改写正文须创建新 `edition_id`，保留旧文件；新增版本映射无需修改章节。
 
 运行 `pnpm chapters:validate` 校验虚构数据。运行 `pnpm chapters:build` 在隔离的 `var/chapter-release-fixture/releases/` 构建固定 ID `fixture-chapters`；该 ID 不可覆盖，重复构建前应改用显式命令和新 ID，例如：
 
@@ -12,7 +12,7 @@ pnpm exec tsx scripts/compile-chapters.ts --dataset-root tests/fixtures/datasets
 
 `pnpm exec vitest run tests/integration/chapter-release.test.ts tests/integration/query.test.ts tests/integration/mcp.test.ts tests/integration/site.test.ts` 检查章节发布、版本选择、来源、真实 MCP stdio 和站点。修改 schema 后运行 `pnpm schema:export`、`pnpm schema:check`、`pnpm typecheck`、`pnpm lint`、`pnpm format:check`。正式来源原件另以 `pnpm sources:audit` 显式离线核对；普通章节校验和构建不依赖忽略的原件。
 
-`pnpm verify` 验证章节读取链，`pnpm fixtures:build` 生成虚构章节发布。公共查询、MCP 与站点只读取 schema 2 发布，不适配旧 release。生产章节运行 `pnpm knowledge:validate`，用 `pnpm ahw compile --dataset-root . --profile production --release-id <new-id> --published-at <fixed-time> --stage` 先构建。验收该 release 的 CLI、MCP 与站点之后，运行 `pnpm ahw publish --release-id <new-id>` 原子切换当前指针。CLI 的 `query list/topic/search/compare/source` 与 MCP 的五个工具读取同一 release；`get_topic` 用 `section_id` 定位搜索结果。Windows 尚未实测。
+`pnpm verify` 验证章节读取链，`pnpm fixtures:build` 生成虚构章节发布。公共查询、MCP 与站点只读取 schema 3 发布，不适配旧 release；发布内嵌 catalog。生产章节运行 `pnpm knowledge:validate`，用 `pnpm ahw compile --dataset-root . --profile production --release-id <new-id> --published-at <fixed-time> --stage` 先构建。验收该 release 的 CLI、MCP 与站点之后，运行 `pnpm ahw publish --release-id <new-id>` 原子切换当前指针。CLI 的 `query list/topic/search/compare/source` 与 MCP 的五个工具读取同一 release；`get_topic` 用 `section_id` 定位搜索结果。Windows 尚未实测。
 
 生产编译前确认本机 Ollama 已有 `qwen3-embedding:4b`，且 `/api/tags` 报告的 digest 与 `registry/search-model.json` 一致；编译器会再核对 GGUF blob digest，不会自动下载模型。新发布的 `search.json` 和 SQLite FTS5 收录当前小节，`semantic.json` 收录固定模型生成的有界片段向量。搜索返回命中方式、正文片段、来源范围和 `semantic_status`；模型暂时不可用时可继续词法检索，但不能据此宣称语义验收通过。模型与索引的选择依据见 [ADR 0007](decisions/0007-offline-hybrid-search.md)。
 
@@ -20,7 +20,7 @@ pnpm exec tsx scripts/compile-chapters.ts --dataset-root tests/fixtures/datasets
 
 ## 新收录产品接入
 
-新 CLI 由维护者调用 `$harness-investigation <harness-id>`：登记 `registry/harnesses/`、`registry/sources/` 的官方来源（有 npm 包时登记 `npm_registry` 身份），直接固定 Git commit/文档 sha256 并写入 `snapshots/`、`artifacts/`、`references/`，按 [固定问题清单](topic-questions.md) 采写七章，在 `registry/chapter-current.yaml` 选入七个新版本后运行 `pnpm knowledge:validate`。发布用 `pnpm chapters:update ... --stage --blocked '[]'` 构建不可变 release，验收后 `pnpm ahw publish --release-id <new-id>` 切换；首次接入不运行 `pnpm sources:scan`，也不写审计 YAML。知识发布成功后，Skill 会明确询问是否继续接入受管二进制；同意后由 `harness-binary` 先在 `src/sources/managed.ts` 登记官方包信息，再运行 `pnpm managed:packages update <harness-id>`。
+新 CLI 由维护者调用 `$harness-investigation <harness-id>`：在 `catalog/harnesses.yaml` 固定产品与界面身份，登记 `registry/harnesses/`、`registry/sources/` 的官方来源（有 npm 包时登记 `npm_registry` 身份），直接固定 Git commit/文档 sha256 并写入 `snapshots/`、`artifacts/`、`references/`，按 [固定问题清单](topic-questions.md) 采写七章，在 `registry/chapter-current.yaml` 选入七个新版本后运行 `pnpm knowledge:validate`。发布用 `pnpm chapters:update ... --stage --blocked '[]'` 构建不可变 release，验收后 `pnpm ahw publish --release-id <new-id>` 切换；首次接入不运行 `pnpm sources:scan`，也不写审计 YAML。知识发布成功后，Skill 会明确询问是否继续接入受管二进制；同意后由 `harness-binary` 先在 `src/sources/managed.ts` 登记官方包信息，再运行 `pnpm managed:packages update <harness-id>`。
 
 ## 手动增量更新流程
 

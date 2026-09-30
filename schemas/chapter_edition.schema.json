@@ -4,7 +4,7 @@
   "properties": {
     "schema_version": {
       "type": "number",
-      "const": 2
+      "const": 3
     },
     "record_kind": {
       "type": "string",
@@ -48,6 +48,14 @@
             "type": "string",
             "pattern": "^[a-z][a-z0-9_-]*$"
           },
+          "surface_ids": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_-]*$"
+            }
+          },
           "source_refs": {
             "type": "array",
             "items": {
@@ -58,6 +66,7 @@
         },
         "required": [
           "section_id",
+          "surface_ids",
           "source_refs"
         ],
         "additionalProperties": false
@@ -73,33 +82,55 @@
             "type": "string",
             "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
           },
-          "section_id": {
-            "type": "string",
-            "pattern": "^[a-z][a-z0-9_-]*$"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "answered",
-              "partial",
-              "unknown",
-              "not_applicable",
-              "conflict"
-            ]
-          },
-          "source_refs": {
+          "answers": {
+            "minItems": 1,
             "type": "array",
             "items": {
-              "type": "string",
-              "pattern": "^[a-z][a-z0-9_-]*$"
+              "type": "object",
+              "properties": {
+                "surface_ids": {
+                  "minItems": 1,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  }
+                },
+                "section_id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]*$"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "answered",
+                    "partial",
+                    "unknown",
+                    "not_applicable",
+                    "conflict"
+                  ]
+                },
+                "source_refs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  }
+                }
+              },
+              "required": [
+                "surface_ids",
+                "section_id",
+                "status",
+                "source_refs"
+              ],
+              "additionalProperties": false
             }
           }
         },
         "required": [
           "question_id",
-          "section_id",
-          "status",
-          "source_refs"
+          "answers"
         ],
         "additionalProperties": false
       }

@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: fixture
 edition_id: demo-package-cli-native_plugins-v1
 harness_id: demo-package-cli
@@ -7,40 +7,56 @@ topic: native_plugins
 title: demo-package-cli native_plugins (fictional)
 sections:
   - section_id: plugin-behavior
+    surface_ids: [cli]
     source_refs:
       - ref-demo-package
   - section_id: plugin-remaining
+    surface_ids: [cli]
     source_refs: []
 questions:
   - question_id: plugins.model
-    section_id: plugin-behavior
-    status: answered
-    source_refs:
-      - ref-demo-package
+    answers:
+      - surface_ids: [cli]
+        section_id: plugin-behavior
+        status: answered
+        source_refs:
+          - ref-demo-package
   - question_id: plugins.package
-    section_id: plugin-remaining
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: plugin-remaining
+        status: unknown
+        source_refs: []
   - question_id: plugins.install
-    section_id: plugin-remaining
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: plugin-remaining
+        status: unknown
+        source_refs: []
   - question_id: plugins.discovery
-    section_id: plugin-remaining
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: plugin-remaining
+        status: unknown
+        source_refs: []
   - question_id: plugins.api
-    section_id: plugin-remaining
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: plugin-remaining
+        status: unknown
+        source_refs: []
   - question_id: plugins.lifecycle
-    section_id: plugin-remaining
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: plugin-remaining
+        status: unknown
+        source_refs: []
   - question_id: plugins.diagnostics
-    section_id: plugin-remaining
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: plugin-remaining
+        status: unknown
+        source_refs: []
 ---
 ## native_plugins 1 {#plugin-behavior}
 

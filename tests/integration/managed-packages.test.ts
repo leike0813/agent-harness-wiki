@@ -56,7 +56,7 @@ test.each([
         version,
         dist: { integrity },
       })) as typeof fetch;
-    const result = await observeManaged(root, "codex-cli", fetchImpl);
+    const result = await observeManaged(root, "codex", fetchImpl);
     expect(result).toMatchObject({
       channel: "latest",
       observed: version,
@@ -85,13 +85,13 @@ test("an unselected registered package is a first-admission candidate", async ()
       version: "1.0.0",
       dist: { integrity: "sha512-AAAA" },
     })) as typeof fetch;
-  const result = await observeManaged(root, "codex-cli", fetchImpl);
+  const result = await observeManaged(root, "codex", fetchImpl);
   expect(result).toMatchObject({
     selected: null,
     observed: "1.0.0",
     status: "candidate",
   });
-  const current = await checkCurrentManaged(root, "codex-cli");
+  const current = await checkCurrentManaged(root, "codex");
   expect(current).toMatchObject({ status: "blocked" });
   expect(current.reason).toContain("Package not selected");
 });
@@ -126,7 +126,7 @@ test("a failed first admission keeps the selected package set intact", async () 
       version: "1.0.0",
       dist: { integrity: "sha512-AAAA" },
     })) as typeof fetch;
-  const result = await updateManaged(root, "codex-cli", fetchImpl, candidateId);
+  const result = await updateManaged(root, "codex", fetchImpl, candidateId);
   expect(result.status).toBe("blocked");
   expect(
     JSON.parse(await readFile(path.join(selected, "package.json"), "utf8")),

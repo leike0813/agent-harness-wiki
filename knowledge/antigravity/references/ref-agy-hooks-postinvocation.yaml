@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-agy-hooks-postinvocation
+harness_id: antigravity
+snapshot_id: snapshot-agy-hooks-doc
+locator:
+  kind: document_section
+  heading: "PostInvocation"
+official_url: https://antigravity.google/docs/hooks.md
+excerpt: |-
+  Fires immediately after each model invocation completes.
+
+  **Schema**
+
+  **Input Fields (stdin)**: Same as `PreInvocation` input fields (`invocationNum` and `initialNumSteps`).
+
+  **Output Fields (stdout)**:
+
+  | Field | Type | Description |
+  | :-- | :-- | :-- |
+  | `injectSteps` | array of objects | **Optional.** List of steps to inject after the invocation completes (same schema as `PreInvocation` inject steps). |
+  | `terminationBehavior` | string | **Optional.** Controls the execution flow after injection:  
+  \- `"force_continue"`: Forces the loop to continue.  
+  \- `"terminate"`: Forces the loop to terminate.  
+  \- `""` (or omitted): Default behavior. |

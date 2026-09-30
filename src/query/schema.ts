@@ -7,6 +7,7 @@ const page = {
   cursor: z.string().max(1024).optional(),
 };
 export const listSchema = z.strictObject({
+  scope: z.enum(["registry", "catalog"]).default("registry"),
   query: z.string().trim().max(100).optional(),
   ...page,
 });
@@ -14,6 +15,7 @@ export const topicRequestSchema = z.strictObject({
   harness: z.string().min(1),
   topic: topicSchema,
   section_id: id.optional(),
+  surface_id: id.optional(),
   version: z.string().min(1).max(100).optional(),
 });
 export const compareSchema = z.strictObject({
@@ -22,6 +24,7 @@ export const compareSchema = z.strictObject({
     .array(
       z.strictObject({
         harness: z.string().min(1),
+        surface_id: id.optional(),
         version: z.string().min(1).max(100).optional(),
       }),
     )
@@ -36,9 +39,13 @@ export const searchSchema = z
     text: z.string().trim().max(256).optional(),
     harness: z.string().min(1).optional(),
     topic: topicSchema.optional(),
+    surface_id: id.optional(),
     ...page,
   })
   .refine((v) => Boolean(v.text || v.harness || v.topic), {
     message: "Search requires text, harness or topic.",
   });
-export const sourceRequestSchema = z.strictObject({ reference_id: id });
+export const sourceRequestSchema = z.strictObject({
+  reference_id: id,
+  surface_id: id.optional(),
+});

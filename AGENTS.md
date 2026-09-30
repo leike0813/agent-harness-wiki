@@ -29,7 +29,9 @@
 
 ### 当前迁移边界
 
-`docs/PRD.md` 0.3 描述目标契约；当前代码和本文件下方的 Claim、Coverage、Assessment、精确 Target 查询及旧五工具清单记录 M0 实现基线。实施新契约时，先读 [OpenSpec 实施路线](docs/openspec-implementation-roadmap.md)及当前 change 的 delta spec，再按 PRD 判断产品语义；以实际代码和验证结果报告已完成能力。
+`docs/PRD.md` 0.4 描述目标契约；当前代码和本文件下方的 Claim、Coverage、Assessment、精确 Target 查询及旧五工具清单记录 M0 实现基线。实施新契约时，先读 [OpenSpec 实施路线](docs/openspec-implementation-roadmap.md)及当前 change 的 delta spec，再按 PRD 判断产品语义；以实际代码和验证结果报告已完成能力。
+
+产品与界面的身份以 [`catalog/harnesses.yaml`](catalog/harnesses.yaml) 为唯一事实源：产品 id 命名产品，界面 id（`surface_id`）命名同一产品的一个前端，界面到运行时的绑定单独记录、未证实时记 `unknown`；`registry/harnesses/` 只登记产品 id 与来源引用，不复制名称、别名或形态。章节问题按界面记录答案；已声明但章节没有答案的界面不在章节里存状态，查询把它派生为 `not_investigated`。带 `--version` 的读取必须同时指定界面，否则返回 `ambiguous`。
 
 新知识主稿是带逐题状态和固定来源的产品 × 主题章节；新 MCP 五工具为 `list_harnesses`、`get_topic`、`search_knowledge`、`compare_topics`、`get_source`。普通更新由 Agent 自检后可发布，指定高影响情况由另一 Agent 复核；M1 的本地离线混合检索是交付门槛。受管二进制启动与知识发布分别验收：新 CLI 由 `harness-investigation` 接入七章知识、`harness-maintenance` 维护上游变化、`harness-binary` 接入受管二进制。旧格式 release 无兼容义务，新发布内的历史章节仍须可查。
 
@@ -300,6 +302,7 @@ bash-only syntax
 
 ### 6.1 知识真源
 
+- 产品、别名与界面身份以 Git 中的 `catalog/harnesses.yaml` 为唯一事实源；`registry/harnesses/` 只登记产品 id 与来源引用，名称、别名与形态不在别处复制。
 - Git 中的结构化知识是事实真源。
 - SQLite、JSON 和生成文档是构建产物。
 - 不得反向从 Markdown 提取事实作为常规更新机制。

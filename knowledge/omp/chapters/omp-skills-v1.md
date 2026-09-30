@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: omp-skills-v1
 harness_id: omp
@@ -7,14 +7,17 @@ topic: skills
 title: OMP Skills 机制
 sections:
   - section_id: skills-sources
+    surface_ids: [cli]
     source_refs:
       - ref-omp-skills-providers-doc
       - ref-omp-skills-discovery-doc
       - ref-omp-skills-collision-doc
   - section_id: skills-format
+    surface_ids: [cli]
     source_refs:
       - ref-omp-skills-frontmatter-code
   - section_id: skills-use
+    surface_ids: [cli]
     source_refs:
       - ref-omp-skills-runtime-doc
       - ref-omp-skills-invoke-code
@@ -22,50 +25,68 @@ sections:
       - ref-omp-skills-collision-doc
 questions:
   - question_id: skills.roots
-    section_id: skills-sources
-    status: answered
-    source_refs:
-      - ref-omp-skills-providers-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-sources
+        status: answered
+        source_refs:
+          - ref-omp-skills-providers-doc
   - question_id: skills.discovery
-    section_id: skills-sources
-    status: answered
-    source_refs:
-      - ref-omp-skills-discovery-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-sources
+        status: answered
+        source_refs:
+          - ref-omp-skills-discovery-doc
   - question_id: skills.collision
-    section_id: skills-sources
-    status: answered
-    source_refs:
-      - ref-omp-skills-collision-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-sources
+        status: answered
+        source_refs:
+          - ref-omp-skills-collision-doc
   - question_id: skills.format
-    section_id: skills-format
-    status: answered
-    source_refs:
-      - ref-omp-skills-frontmatter-code
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-format
+        status: answered
+        source_refs:
+          - ref-omp-skills-frontmatter-code
   - question_id: skills.extensions
-    section_id: skills-format
-    status: partial
-    source_refs:
-      - ref-omp-skills-frontmatter-code
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-format
+        status: partial
+        source_refs:
+          - ref-omp-skills-frontmatter-code
   - question_id: skills.loading
-    section_id: skills-use
-    status: answered
-    source_refs:
-      - ref-omp-skills-runtime-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-use
+        status: answered
+        source_refs:
+          - ref-omp-skills-runtime-doc
   - question_id: skills.invocation
-    section_id: skills-use
-    status: answered
-    source_refs:
-      - ref-omp-skills-invoke-code
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-use
+        status: answered
+        source_refs:
+          - ref-omp-skills-invoke-code
   - question_id: skills.conditions
-    section_id: skills-sources
-    status: answered
-    source_refs:
-      - ref-omp-skills-providers-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-sources
+        status: answered
+        source_refs:
+          - ref-omp-skills-providers-doc
   - question_id: skills.diagnostics
-    section_id: skills-use
-    status: partial
-    source_refs:
-      - ref-omp-skills-collision-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-use
+        status: partial
+        source_refs:
+          - ref-omp-skills-collision-doc
 ---
 ## Skill 来源与发现 {#skills-sources}
 

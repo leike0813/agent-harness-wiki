@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: omp-configuration-v2
 harness_id: omp
@@ -7,65 +7,86 @@ topic: configuration
 title: OMP 配置来源、优先级与诊断
 sections:
   - section_id: config-roots
+    surface_ids: [cli]
     source_refs:
       - ref-omp-config-roots-doc
       - ref-omp-settings-precedence-doc
   - section_id: config-precedence
+    surface_ids: [cli]
     source_refs:
       - ref-omp-settings-precedence-doc
       - ref-omp-settings-merge-doc
   - section_id: config-runtime
+    surface_ids: [cli]
     source_refs:
       - ref-omp-settings-provenance-code
   - section_id: config-trust
+    surface_ids: [cli]
     source_refs: []
   - section_id: config-defaults
+    surface_ids: [cli]
     source_refs:
       - ref-omp-settings-precedence-doc
   - section_id: config-migration
+    surface_ids: [cli]
     source_refs:
       - ref-omp-settings-migration-doc
   - section_id: config-diagnostics
+    surface_ids: [cli]
     source_refs:
       - ref-omp-config-command-code
       - ref-omp-settings-provenance-code
 questions:
   - question_id: config.sources
-    section_id: config-roots
-    status: answered
-    source_refs:
-      - ref-omp-config-roots-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: config-roots
+        status: answered
+        source_refs:
+          - ref-omp-config-roots-doc
   - question_id: config.overrides
-    section_id: config-precedence
-    status: answered
-    source_refs:
-      - ref-omp-settings-precedence-doc
-      - ref-omp-settings-merge-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: config-precedence
+        status: answered
+        source_refs:
+          - ref-omp-settings-precedence-doc
+          - ref-omp-settings-merge-doc
   - question_id: config.runtime
-    section_id: config-runtime
-    status: answered
-    source_refs:
-      - ref-omp-settings-provenance-code
+    answers:
+      - surface_ids: [cli]
+        section_id: config-runtime
+        status: answered
+        source_refs:
+          - ref-omp-settings-provenance-code
   - question_id: config.trust
-    section_id: config-trust
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: config-trust
+        status: unknown
+        source_refs: []
   - question_id: config.defaults
-    section_id: config-defaults
-    status: partial
-    source_refs:
-      - ref-omp-settings-precedence-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: config-defaults
+        status: partial
+        source_refs:
+          - ref-omp-settings-precedence-doc
   - question_id: config.migration
-    section_id: config-migration
-    status: answered
-    source_refs:
-      - ref-omp-settings-migration-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: config-migration
+        status: answered
+        source_refs:
+          - ref-omp-settings-migration-doc
   - question_id: config.diagnostics
-    section_id: config-diagnostics
-    status: answered
-    source_refs:
-      - ref-omp-config-command-code
-      - ref-omp-settings-provenance-code
+    answers:
+      - surface_ids: [cli]
+        section_id: config-diagnostics
+        status: answered
+        source_refs:
+          - ref-omp-config-command-code
+          - ref-omp-settings-provenance-code
 ---
 本章材料来自源码修订 dff728c 的官方文档 `docs/config-usage.md` 与 `docs/settings.md`，以及 npm 包 `@oh-my-pi/pi-coding-agent` 18.3.4 的包内实现 `src/config/settings.ts` 与命令定义 `src/commands/config.ts`。来源顺序、层级与合并规则来自文档，provenance 顺序来自包内代码，命令动作来自包内命令定义。当前发布没有把任何 npm 版本映射为已验证行为，按精确版本查询会返回未验证。
 

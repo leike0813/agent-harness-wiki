@@ -427,7 +427,9 @@ export function mapAuditImpacts(
           section.source_refs.some((id) => source_refs.includes(id)),
         );
     const directlyCited = chapter.questions.filter((question) =>
-      question.source_refs.some((id) => source_refs.includes(id)),
+      question.answers.some((answer) =>
+        answer.source_refs.some((id) => source_refs.includes(id)),
+      ),
     );
     const cross_topic_links = dataset.chapters
       .filter(
@@ -442,7 +444,9 @@ export function mapAuditImpacts(
       .filter(
         (question) =>
           unbounded ||
-          question.source_refs.some((id) => source_refs.includes(id)),
+          question.answers.some((answer) =>
+            answer.source_refs.some((id) => source_refs.includes(id)),
+          ),
       )
       .map((question) => question.question_id);
     result.push({
@@ -452,12 +456,17 @@ export function mapAuditImpacts(
         : directlyCited
       )
         .filter((question) =>
-          sections.some(
-            (section) => section.section_id === question.section_id,
+          sections.some((section) =>
+            question.answers.some(
+              (answer) => section.section_id === answer.section_id,
+            ),
           ),
         )
         .map((question) => question.question_id),
       section_ids: sections.map((section) => section.section_id),
+      surface_ids: [
+        ...new Set(sections.flatMap((section) => section.surface_ids)),
+      ],
       source_refs,
       cross_topic_links,
       reason: `${ownChanges.map((check) => check.source_id).join(", ")}: ${unbounded ? "shared or unknown impact; investigate all themes" : "cited source changed"}`,
@@ -660,6 +669,18 @@ export async function validateAuditLedger(rootInput: string): Promise<number> {
         if (!seen.has(pending))
           throw new Error(`Missing pending audit: ${audit.audit_id}`);
       for (const impact of audit.impacts) {
+        if (
+          impact.surface_ids?.some(
+            (id) =>
+              !chapterDataset.ok ||
+              !chapterDataset.dataset.catalog.products
+                .find((product) => product.harness_id === harnessId)
+                ?.surfaces.some((surface) => surface.surface_id === id),
+          )
+        )
+          throw new Error(
+            `Audit impact names an unknown surface: ${audit.audit_id}`,
+          );
         if (!chapterDataset.ok)
           throw new Error(
             `Audit impact has no chapter dataset: ${audit.audit_id}`,

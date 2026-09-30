@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-agy-hooks-matcher
+harness_id: antigravity
+snapshot_id: snapshot-agy-hooks-doc
+locator:
+  kind: document_section
+  heading: "Matcher"
+official_url: https://antigravity.google/docs/hooks.md
+excerpt: |-
+  For `PreToolUse` and `PostToolUse`, you can use a regular expression in the `matcher` field to specify which tools trigger the hook:
+
+  *   `""` or `"*"`: Match all tools.
+  *   `"run_command"`: Match exactly `run_command`.
+  *   `"run_command|view_file"`: Match either tool.
+  *   `"browser_.*"`: Match any tool starting with `browser_`.
+
+  Note
+
+  **Note**: For `PreInvocation`, `PostInvocation`, and `Stop`, the structure is simpler (a list of handlers directly under the event key) and the matcher is ignored.

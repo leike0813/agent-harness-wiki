@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: omp-hooks-v1
 harness_id: omp
@@ -7,52 +7,69 @@ topic: hooks
 title: OMP Hook 机制
 sections:
   - section_id: hooks-model
+    surface_ids: [cli]
     source_refs:
       - ref-omp-hooks-events-code
   - section_id: hooks-config
+    surface_ids: [cli]
     source_refs:
       - ref-omp-hooks-discovery-doc
       - ref-omp-hooks-status-doc
   - section_id: hooks-exec
+    surface_ids: [cli]
     source_refs:
       - ref-omp-hooks-module-doc
       - ref-omp-hooks-runner-code
 questions:
   - question_id: hooks.events
-    section_id: hooks-model
-    status: answered
-    source_refs:
-      - ref-omp-hooks-events-code
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-model
+        status: answered
+        source_refs:
+          - ref-omp-hooks-events-code
   - question_id: hooks.entry
-    section_id: hooks-config
-    status: answered
-    source_refs:
-      - ref-omp-hooks-discovery-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-config
+        status: answered
+        source_refs:
+          - ref-omp-hooks-discovery-doc
   - question_id: hooks.input
-    section_id: hooks-exec
-    status: partial
-    source_refs:
-      - ref-omp-hooks-module-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-exec
+        status: partial
+        source_refs:
+          - ref-omp-hooks-module-doc
   - question_id: hooks.output
-    section_id: hooks-exec
-    status: partial
-    source_refs:
-      - ref-omp-hooks-runner-code
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-exec
+        status: partial
+        source_refs:
+          - ref-omp-hooks-runner-code
   - question_id: hooks.order
-    section_id: hooks-exec
-    status: answered
-    source_refs:
-      - ref-omp-hooks-runner-code
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-exec
+        status: answered
+        source_refs:
+          - ref-omp-hooks-runner-code
   - question_id: hooks.conditions
-    section_id: hooks-config
-    status: answered
-    source_refs:
-      - ref-omp-hooks-status-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-config
+        status: answered
+        source_refs:
+          - ref-omp-hooks-status-doc
   - question_id: hooks.diagnostics
-    section_id: hooks-exec
-    status: partial
-    source_refs:
-      - ref-omp-hooks-runner-code
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-exec
+        status: partial
+        source_refs:
+          - ref-omp-hooks-runner-code
 ---
 ## Hook 事件 {#hooks-model}
 

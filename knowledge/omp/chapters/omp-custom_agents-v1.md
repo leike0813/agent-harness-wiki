@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: omp-custom_agents-v1
 harness_id: omp
@@ -7,13 +7,16 @@ topic: custom_agents
 title: OMP 自定义 Agent 机制
 sections:
   - section_id: agents-sources
+    surface_ids: [cli]
     source_refs:
       - ref-omp-agents-precedence-doc
   - section_id: agents-format
+    surface_ids: [cli]
     source_refs:
       - ref-omp-agents-shape-doc
       - ref-omp-agents-fields-code
   - section_id: agents-run
+    surface_ids: [cli]
     source_refs:
       - ref-omp-agents-roles-doc
       - ref-omp-agents-lookup-doc
@@ -21,40 +24,54 @@ sections:
       - ref-omp-agents-merge-doc
 questions:
   - question_id: agents.entry
-    section_id: agents-sources
-    status: answered
-    source_refs:
-      - ref-omp-agents-precedence-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-sources
+        status: answered
+        source_refs:
+          - ref-omp-agents-precedence-doc
   - question_id: agents.format
-    section_id: agents-format
-    status: answered
-    source_refs:
-      - ref-omp-agents-shape-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-format
+        status: answered
+        source_refs:
+          - ref-omp-agents-shape-doc
   - question_id: agents.roles
-    section_id: agents-run
-    status: answered
-    source_refs:
-      - ref-omp-agents-roles-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-run
+        status: answered
+        source_refs:
+          - ref-omp-agents-roles-doc
   - question_id: agents.invocation
-    section_id: agents-run
-    status: answered
-    source_refs:
-      - ref-omp-agents-lookup-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-run
+        status: answered
+        source_refs:
+          - ref-omp-agents-lookup-doc
   - question_id: agents.overrides
-    section_id: agents-format
-    status: answered
-    source_refs:
-      - ref-omp-agents-shape-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-format
+        status: answered
+        source_refs:
+          - ref-omp-agents-shape-doc
   - question_id: agents.limits
-    section_id: agents-run
-    status: answered
-    source_refs:
-      - ref-omp-agents-constraints-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-run
+        status: answered
+        source_refs:
+          - ref-omp-agents-constraints-doc
   - question_id: agents.diagnostics
-    section_id: agents-run
-    status: partial
-    source_refs:
-      - ref-omp-agents-merge-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-run
+        status: partial
+        source_refs:
+          - ref-omp-agents-merge-doc
 ---
 ## Agent 来源 {#agents-sources}
 

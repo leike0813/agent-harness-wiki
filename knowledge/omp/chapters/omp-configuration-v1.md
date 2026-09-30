@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: omp-configuration-v1
 harness_id: omp
@@ -7,14 +7,17 @@ topic: configuration
 title: OMP 配置机制
 sections:
   - section_id: config-sources
+    surface_ids: [cli]
     source_refs:
       - ref-omp-config-roots-doc
   - section_id: config-precedence
+    surface_ids: [cli]
     source_refs:
       - ref-omp-settings-precedence-doc
       - ref-omp-settings-merge-doc
       - ref-omp-settings-provenance-code
   - section_id: config-behavior
+    surface_ids: [cli]
     source_refs:
       - ref-omp-settings-migration-doc
       - ref-omp-config-command-code
@@ -22,41 +25,55 @@ sections:
       - ref-omp-settings-provenance-code
 questions:
   - question_id: config.sources
-    section_id: config-sources
-    status: answered
-    source_refs:
-      - ref-omp-config-roots-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: config-sources
+        status: answered
+        source_refs:
+          - ref-omp-config-roots-doc
   - question_id: config.overrides
-    section_id: config-precedence
-    status: answered
-    source_refs:
-      - ref-omp-settings-precedence-doc
-      - ref-omp-settings-merge-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: config-precedence
+        status: answered
+        source_refs:
+          - ref-omp-settings-precedence-doc
+          - ref-omp-settings-merge-doc
   - question_id: config.runtime
-    section_id: config-precedence
-    status: answered
-    source_refs:
-      - ref-omp-settings-provenance-code
+    answers:
+      - surface_ids: [cli]
+        section_id: config-precedence
+        status: answered
+        source_refs:
+          - ref-omp-settings-provenance-code
   - question_id: config.trust
-    section_id: config-behavior
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: config-behavior
+        status: unknown
+        source_refs: []
   - question_id: config.defaults
-    section_id: config-behavior
-    status: partial
-    source_refs:
-      - ref-omp-settings-precedence-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: config-behavior
+        status: partial
+        source_refs:
+          - ref-omp-settings-precedence-doc
   - question_id: config.migration
-    section_id: config-behavior
-    status: answered
-    source_refs:
-      - ref-omp-settings-migration-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: config-behavior
+        status: answered
+        source_refs:
+          - ref-omp-settings-migration-doc
   - question_id: config.diagnostics
-    section_id: config-behavior
-    status: answered
-    source_refs:
-      - ref-omp-config-command-code
-      - ref-omp-settings-provenance-code
+    answers:
+      - surface_ids: [cli]
+        section_id: config-behavior
+        status: answered
+        source_refs:
+          - ref-omp-config-command-code
+          - ref-omp-settings-provenance-code
 ---
 ## 配置来源 {#config-sources}
 

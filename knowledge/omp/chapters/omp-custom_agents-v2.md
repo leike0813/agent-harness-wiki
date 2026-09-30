@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: omp-custom_agents-v2
 harness_id: omp
@@ -7,60 +7,80 @@ topic: custom_agents
 title: OMP 自定义 Agent 定义与选择
 sections:
   - section_id: agents-discovery
+    surface_ids: [cli]
     source_refs:
       - ref-omp-agents-precedence-doc
   - section_id: agents-format
+    surface_ids: [cli]
     source_refs:
       - ref-omp-agents-shape-doc
       - ref-omp-agents-fields-code
   - section_id: agents-roles
+    surface_ids: [cli]
     source_refs:
       - ref-omp-agents-roles-doc
   - section_id: agents-lookup
+    surface_ids: [cli]
     source_refs:
       - ref-omp-agents-lookup-doc
   - section_id: agents-limits
+    surface_ids: [cli]
     source_refs:
       - ref-omp-agents-constraints-doc
   - section_id: agents-merge
+    surface_ids: [cli]
     source_refs:
       - ref-omp-agents-merge-doc
 questions:
   - question_id: agents.entry
-    section_id: agents-discovery
-    status: answered
-    source_refs:
-      - ref-omp-agents-precedence-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-discovery
+        status: answered
+        source_refs:
+          - ref-omp-agents-precedence-doc
   - question_id: agents.format
-    section_id: agents-format
-    status: answered
-    source_refs:
-      - ref-omp-agents-shape-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-format
+        status: answered
+        source_refs:
+          - ref-omp-agents-shape-doc
   - question_id: agents.roles
-    section_id: agents-roles
-    status: answered
-    source_refs:
-      - ref-omp-agents-roles-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-roles
+        status: answered
+        source_refs:
+          - ref-omp-agents-roles-doc
   - question_id: agents.invocation
-    section_id: agents-lookup
-    status: answered
-    source_refs:
-      - ref-omp-agents-lookup-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-lookup
+        status: answered
+        source_refs:
+          - ref-omp-agents-lookup-doc
   - question_id: agents.overrides
-    section_id: agents-format
-    status: answered
-    source_refs:
-      - ref-omp-agents-shape-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-format
+        status: answered
+        source_refs:
+          - ref-omp-agents-shape-doc
   - question_id: agents.limits
-    section_id: agents-limits
-    status: answered
-    source_refs:
-      - ref-omp-agents-constraints-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-limits
+        status: answered
+        source_refs:
+          - ref-omp-agents-constraints-doc
   - question_id: agents.diagnostics
-    section_id: agents-merge
-    status: partial
-    source_refs:
-      - ref-omp-agents-merge-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: agents-merge
+        status: partial
+        source_refs:
+          - ref-omp-agents-merge-doc
 ---
 本章材料来自源码修订 dff728c 的官方文档 `docs/task-agent-discovery.md` 与 npm 包 `@oh-my-pi/pi-coding-agent` 18.3.4 的包内解析代码 `src/discovery/helpers.ts`。发现来源、定义形态、角色映射与运行约束来自文档，必填字段的解析行为来自包内代码。当前发布没有把任何 npm 版本映射为已验证行为，按精确版本查询会返回未验证。本轮没有运行产品来观察权限或委派失败。
 

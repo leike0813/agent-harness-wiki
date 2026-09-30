@@ -38,12 +38,14 @@ test("chapter, section, source and history preserve source-only uncertainty", ()
   if (current.status !== "ok") return;
   expect(current.history).toContain("demo-open-cli-skills-v0");
   expect(
-    current.questions.find((q) => q.question_id === "skills.roots")?.status,
+    current.questions.find((q) => q.question_id === "skills.roots")?.answers[0]
+      ?.status,
   ).toBe("unknown");
   const versioned = service.getTopic({
     harness: "demo-open-cli",
     topic: "skills",
     version: "9.0.0",
+    surface_id: "cli",
     section_id: "skills-overview",
   });
   expect(versioned.status).toBe("ok");
@@ -53,6 +55,14 @@ test("chapter, section, source and history preserve source-only uncertainty", ()
   expect(versioned.body).toContain("skills.discovery");
   const source = service.getSource({ reference_id: "ref-demo-open" });
   expect(source.status).toBe("ok");
+  expect(
+    service.getSource({ reference_id: "ref-demo-open", surface_id: "cli" })
+      .status,
+  ).toBe("ok");
+  expect(
+    service.getSource({ reference_id: "ref-demo-open", surface_id: "missing" })
+      .status,
+  ).toBe("not_found");
   expect(
     service.getTopic({
       harness: "demo-open-cli",
@@ -67,6 +77,7 @@ test("section mapping resolves exact, prefix and nearest earlier without whole-c
     harness: "demo-package-cli",
     topic: "native_plugins" as const,
     section_id: "plugin-behavior",
+    surface_id: "cli",
   };
   for (const [version, kind] of [
     ["1.4.2", "exact"],
@@ -81,6 +92,7 @@ test("section mapping resolves exact, prefix and nearest earlier without whole-c
     harness: base.harness,
     topic: base.topic,
     version: "1.4.2",
+    surface_id: "cli",
   });
   expect(whole.status).toBe("ok");
   if (whole.status === "ok")
@@ -120,4 +132,84 @@ test("current search reads back by section and cursors bind normalized query", a
   });
   expect(compared.questions.length).toBeGreaterThan(0);
   expect(compared.questions[0]?.entries).toHaveLength(2);
+});
+
+test("catalog discovery and surface coverage remain separate from investigated knowledge", async () => {
+  const registry = service.listHarnesses();
+  const catalog = service.listHarnesses({ scope: "catalog" });
+  expect(registry.items).toHaveLength(2);
+  const candidate = catalog.items.find((x) => !x.registered)!;
+  expect(candidate).toBeDefined();
+  expect(candidate.topics).toEqual([]);
+  expect(
+    service.getSource({ reference_id: candidate.reference_ids[0] }).status,
+  ).toBe("ok");
+  expect(
+    service.getTopic({ harness: candidate.harness_id, topic: "skills" }).status,
+  ).toBe("not_investigated");
+  expect(
+    service.getTopic({
+      harness: "demo-open-cli",
+      topic: "skills",
+      surface_id: "missing",
+    }).status,
+  ).toBe("not_found");
+  expect(
+    service.getTopic({
+      harness: "demo-package-cli",
+      topic: "native_plugins",
+      version: "1.4.2",
+    }).status,
+  ).toBe("ambiguous");
+  const whole = service.getTopic({ harness: "demo-open-cli", topic: "skills" });
+  expect(whole.status).toBe("ok");
+  if (whole.status !== "ok") return;
+  expect(
+    whole.questions.every((q) =>
+      q.answers.some(
+        (a) =>
+          a.surface_ids.includes("desktop") && a.status === "not_investigated",
+      ),
+    ),
+  ).toBe(true);
+  const desktop = service.getTopic({
+    harness: "demo-open-cli",
+    topic: "skills",
+    surface_id: "desktop",
+  });
+  expect(desktop.status).toBe("not_investigated");
+  if (!("body" in desktop))
+    throw new Error("Expected an explicit coverage result.");
+  expect(desktop.body).toBe("");
+  const searched = await service.searchKnowledge({
+    harness: "demo-open-cli",
+    topic: "skills",
+    surface_id: "desktop",
+  });
+  expect(searched.status).toBe("not_investigated");
+  expect(searched.items).toEqual([]);
+  const cli = await service.searchKnowledge({
+    harness: "demo-open-cli",
+    surface_id: "cli",
+    limit: 1,
+  });
+  expect(cli.items[0]?.surface_ids).toEqual(["cli"]);
+  if (!("next_cursor" in cli))
+    throw new Error("Expected another scoped section.");
+  await expect(
+    service.searchKnowledge({
+      harness: "demo-open-cli",
+      surface_id: "desktop",
+      cursor: cli.next_cursor,
+    }),
+  ).rejects.toThrow(/Cursor/);
+  const compared = service.compareTopics({
+    topic: "skills",
+    targets: [{ harness: "demo-open-cli" }, { harness: "demo-package-cli" }],
+  });
+  expect(
+    compared.questions[0]?.entries[0]?.answers.some(
+      (a) => a.status === "not_investigated",
+    ),
+  ).toBe(true);
 });

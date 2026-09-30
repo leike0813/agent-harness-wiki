@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: omp-mcp-v1
 harness_id: omp
@@ -7,59 +7,78 @@ topic: mcp
 title: OMP MCP 机制
 sections:
   - section_id: mcp-config
+    surface_ids: [cli]
     source_refs:
       - ref-omp-mcp-config-doc
       - ref-omp-mcp-shape-doc
       - ref-omp-mcp-types-code
   - section_id: mcp-transport
+    surface_ids: [cli]
     source_refs:
       - ref-omp-mcp-transport-doc
       - ref-omp-mcp-lifecycle-doc
   - section_id: mcp-use
+    surface_ids: [cli]
     source_refs:
       - ref-omp-mcp-exposure-doc
       - ref-omp-mcp-lifecycle-doc
 questions:
   - question_id: mcp.entry
-    section_id: mcp-config
-    status: answered
-    source_refs:
-      - ref-omp-mcp-config-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-config
+        status: answered
+        source_refs:
+          - ref-omp-mcp-config-doc
   - question_id: mcp.definition
-    section_id: mcp-config
-    status: answered
-    source_refs:
-      - ref-omp-mcp-shape-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-config
+        status: answered
+        source_refs:
+          - ref-omp-mcp-shape-doc
   - question_id: mcp.auth
-    section_id: mcp-config
-    status: partial
-    source_refs:
-      - ref-omp-mcp-types-code
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-config
+        status: partial
+        source_refs:
+          - ref-omp-mcp-types-code
   - question_id: mcp.transport
-    section_id: mcp-transport
-    status: answered
-    source_refs:
-      - ref-omp-mcp-transport-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-transport
+        status: answered
+        source_refs:
+          - ref-omp-mcp-transport-doc
   - question_id: mcp.lifecycle
-    section_id: mcp-transport
-    status: answered
-    source_refs:
-      - ref-omp-mcp-lifecycle-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-transport
+        status: answered
+        source_refs:
+          - ref-omp-mcp-lifecycle-doc
   - question_id: mcp.capabilities
-    section_id: mcp-use
-    status: answered
-    source_refs:
-      - ref-omp-mcp-exposure-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-use
+        status: answered
+        source_refs:
+          - ref-omp-mcp-exposure-doc
   - question_id: mcp.exposure
-    section_id: mcp-use
-    status: answered
-    source_refs:
-      - ref-omp-mcp-exposure-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-use
+        status: answered
+        source_refs:
+          - ref-omp-mcp-exposure-doc
   - question_id: mcp.diagnostics
-    section_id: mcp-use
-    status: partial
-    source_refs:
-      - ref-omp-mcp-lifecycle-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-use
+        status: partial
+        source_refs:
+          - ref-omp-mcp-lifecycle-doc
 ---
 ## MCP 配置与定义 {#mcp-config}
 

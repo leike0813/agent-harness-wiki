@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-agy-hooks-common-input
+harness_id: antigravity
+snapshot_id: snapshot-agy-hooks-doc
+locator:
+  kind: document_section
+  heading: "Common Input Fields"
+official_url: https://antigravity.google/docs/hooks.md
+excerpt: |-
+  All hooks receive the following system metadata fields in their input payload on `stdin`:
+
+  | Field | Type | Description |
+  | :-- | :-- | :-- |
+  | `conversationId` | string | The unique UUID of the active agent conversation. |
+  | `workspacePaths` | array of strings | Absolute directory paths representing the user’s mounted workspaces. |
+  | `transcriptPath` | string | The absolute path to the persistent `transcript.jsonl` conversation logs.  
+  **Note**: This file lives in: `<app_data_dir>/brain/<conversationId>/.system_generated/logs/transcript.jsonl` where `<app_data_dir>` is:
+  *   `~/.gemini/antigravity` for Antigravity 2.0
+  *   `~/.gemini/antigravity-cli` for Antigravity CLI
+  *   `~/.gemini/antigravity-ide` for Antigravity IDE

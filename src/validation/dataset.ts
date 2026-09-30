@@ -2,6 +2,11 @@ import { createHash } from "node:crypto";
 import type { Dirent } from "node:fs";
 import { lstat, readFile, readdir, realpath } from "node:fs/promises";
 import path from "node:path";
+import {
+  catalogSchema,
+  harnessRegistrationSchema,
+  type HarnessCatalog,
+} from "../domain/catalog.js";
 import * as z from "zod";
 import YAML from "yaml";
 import {
@@ -32,7 +37,12 @@ export type Diagnostic = {
 };
 
 export type ValidationResult =
-  | { ok: true; dataset: Dataset; diagnostics: Diagnostic[] }
+  | {
+      ok: true;
+      dataset: Dataset;
+      catalog?: HarnessCatalog;
+      diagnostics: Diagnostic[];
+    }
   | { ok: false; diagnostics: Diagnostic[] };
 
 type Kind =
@@ -122,12 +132,63 @@ function safeRelative(value: string): boolean {
 export async function loadAndValidateDataset(input: {
   root: string;
   profile: "fixture" | "production";
+  chapterCatalog?: boolean;
 }): Promise<ValidationResult> {
   const root = await realpath(input.root);
   const dataset = emptyDataset();
   const diagnostics: Diagnostic[] = [];
   const meta = new Map<string, RecordMeta>();
   const recordFiles = new WeakMap<object, string>();
+  const hasCatalog =
+    input.chapterCatalog ??
+    (await lstat(path.join(root, "catalog/harnesses.yaml")).then(
+      () => true,
+      (error: NodeJS.ErrnoException) => {
+        if (error.code === "ENOENT") return false;
+        throw error;
+      },
+    ));
+  let catalog: HarnessCatalog | undefined;
+  if (hasCatalog) {
+    try {
+      const catalogFile = path.join(root, "catalog/harnesses.yaml");
+      const stat = await lstat(catalogFile);
+      if (!stat.isFile() || stat.size > 1024 * 1024)
+        throw new Error("Catalog must be a regular file within 1 MiB.");
+      catalog = catalogSchema.parse(
+        YAML.parse(await readFile(catalogFile, "utf8"), {
+          uniqueKeys: true,
+          customTags: [],
+          maxAliasCount: 0,
+        }),
+      );
+    } catch (error) {
+      return {
+        ok: false,
+        diagnostics: [
+          {
+            code: "CATALOG_INVALID",
+            severity: "error",
+            category: "schema",
+            file: "catalog/harnesses.yaml",
+            path: "/",
+            reason: String(error),
+            hint: "Provide a valid fixed-source catalog.",
+          },
+        ],
+      };
+    }
+  }
+  if (catalog && catalog.record_kind !== input.profile)
+    diagnostics.push({
+      code: "PROFILE_MISMATCH",
+      severity: "error",
+      category: "publishability",
+      file: "catalog/harnesses.yaml",
+      path: "/record_kind",
+      reason: "Catalog profile differs.",
+      hint: "Keep fixtures separate.",
+    });
   let totalBytes = 0;
   const fail = (diagnostic: Diagnostic): void => {
     diagnostics.push(diagnostic);
@@ -305,7 +366,34 @@ export async function loadAndValidateDataset(input: {
     }
     switch (kind) {
       case "harness":
-        addRecord(harnessSchema, raw, file, (v) => dataset.harnesses.push(v));
+        if (catalog) {
+          addRecord(harnessRegistrationSchema, raw, file, (registration) => {
+            const product = catalog.products.find(
+              (x) => x.harness_id === registration.harness_id,
+            );
+            if (!product) {
+              fail({
+                code: "HARNESS_NOT_CATALOGED",
+                severity: "error",
+                category: "relationship",
+                file,
+                path: "/harness_id",
+                reason: "Registry product is absent from catalog.",
+                hint: "Investigate and catalog the product first.",
+              });
+              return;
+            }
+            const harness = harnessSchema.parse({
+              ...registration,
+              name: product.name,
+              aliases: product.aliases,
+              surfaces: [...new Set(product.surfaces.map((x) => x.kind))],
+            });
+            recordFiles.set(harness, file);
+            dataset.harnesses.push(harness);
+          });
+        } else
+          addRecord(harnessSchema, raw, file, (v) => dataset.harnesses.push(v));
         break;
       case "source":
         addRecord(sourceSchema, raw, file, (v) => dataset.sources.push(v));
@@ -782,7 +870,9 @@ export async function loadAndValidateDataset(input: {
           snapshot.target.version_identity.value !== snapshot.version ||
           snapshot.target.distribution !==
             `npm:${snapshot.package_name}:linux-x64-glibc` ||
-          snapshot.target.surface !== "cli" ||
+          !harnesses
+            .get(harnessId)
+            ?.surfaces.includes(snapshot.target.surface) ||
           snapshot.target.os !== "linux" ||
           snapshot.target.arch !== "x64" ||
           snapshot.target.execution_mode !== "native" ||
@@ -799,7 +889,7 @@ export async function loadAndValidateDataset(input: {
             "TARGET_MISMATCH",
             snapshot.snapshot_id,
             "target",
-            "Package snapshot differs from its source, artifact, or exact Linux CLI Target.",
+            "Package snapshot differs from its source, artifact, or exact Linux Target.",
             "Use the matching package name, version, integrity, and distribution.",
           );
       }
@@ -1133,5 +1223,5 @@ export async function loadAndValidateDataset(input: {
 
   if (diagnostics.some((d) => d.severity === "error"))
     return { ok: false, diagnostics };
-  return { ok: true, dataset, diagnostics };
+  return { ok: true, dataset, ...(catalog ? { catalog } : {}), diagnostics };
 }

@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: claude-code-skills-v2
 harness_id: claude-code
@@ -7,18 +7,22 @@ topic: skills
 title: Claude Code 的 Skills：加载位置、结构、调用与诊断
 sections:
   - section_id: skills-locations
+    surface_ids: [cli]
     source_refs:
       - ref-cc-skills-locations
       - ref-cc-config-home
   - section_id: skills-discovery
+    surface_ids: [cli]
     source_refs:
       - ref-cc-skills-discovery
       - ref-cc-skills-collision
   - section_id: skills-format
+    surface_ids: [cli]
     source_refs:
       - ref-cc-skills-frontmatter
       - ref-cc-skills-supporting
   - section_id: skills-invocation
+    surface_ids: [cli]
     source_refs:
       - ref-cc-skills-lifecycle
       - ref-cc-skills-invocation
@@ -29,6 +33,7 @@ sections:
       - ref-cc-skills-synced
       - ref-cc-skills-livechange
   - section_id: skills-diagnostics
+    surface_ids: [cli]
     source_refs:
       - ref-cc-skills-diagnostics
       - ref-cc-skills-budget
@@ -36,60 +41,78 @@ sections:
       - ref-cc-npm-readme
 questions:
   - question_id: skills.roots
-    section_id: skills-locations
-    status: answered
-    source_refs:
-      - ref-cc-skills-locations
-      - ref-cc-config-home
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-locations
+        status: answered
+        source_refs:
+          - ref-cc-skills-locations
+          - ref-cc-config-home
   - question_id: skills.discovery
-    section_id: skills-discovery
-    status: answered
-    source_refs:
-      - ref-cc-skills-discovery
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-discovery
+        status: answered
+        source_refs:
+          - ref-cc-skills-discovery
   - question_id: skills.collision
-    section_id: skills-discovery
-    status: answered
-    source_refs:
-      - ref-cc-skills-collision
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-discovery
+        status: answered
+        source_refs:
+          - ref-cc-skills-collision
   - question_id: skills.format
-    section_id: skills-format
-    status: answered
-    source_refs:
-      - ref-cc-skills-frontmatter
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-format
+        status: answered
+        source_refs:
+          - ref-cc-skills-frontmatter
   - question_id: skills.extensions
-    section_id: skills-format
-    status: answered
-    source_refs:
-      - ref-cc-skills-frontmatter
-      - ref-cc-skills-supporting
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-format
+        status: answered
+        source_refs:
+          - ref-cc-skills-frontmatter
+          - ref-cc-skills-supporting
   - question_id: skills.loading
-    section_id: skills-invocation
-    status: answered
-    source_refs:
-      - ref-cc-skills-lifecycle
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-invocation
+        status: answered
+        source_refs:
+          - ref-cc-skills-lifecycle
   - question_id: skills.invocation
-    section_id: skills-invocation
-    status: answered
-    source_refs:
-      - ref-cc-skills-invocation
-      - ref-cc-skills-permissions
-      - ref-cc-skills-subagent
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-invocation
+        status: answered
+        source_refs:
+          - ref-cc-skills-invocation
+          - ref-cc-skills-permissions
+          - ref-cc-skills-subagent
   - question_id: skills.conditions
-    section_id: skills-invocation
-    status: partial
-    source_refs:
-      - ref-cc-skills-overrides
-      - ref-cc-skills-adddir
-      - ref-cc-skills-synced
-      - ref-cc-skills-livechange
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-invocation
+        status: partial
+        source_refs:
+          - ref-cc-skills-overrides
+          - ref-cc-skills-adddir
+          - ref-cc-skills-synced
+          - ref-cc-skills-livechange
   - question_id: skills.diagnostics
-    section_id: skills-diagnostics
-    status: answered
-    source_refs:
-      - ref-cc-skills-diagnostics
-      - ref-cc-skills-budget
-      - ref-cc-skills-livechange
-      - ref-cc-npm-readme
+    answers:
+      - surface_ids: [cli]
+        section_id: skills-diagnostics
+        status: answered
+        source_refs:
+          - ref-cc-skills-diagnostics
+          - ref-cc-skills-budget
+          - ref-cc-skills-livechange
+          - ref-cc-npm-readme
 ---
 
 Skill 是把一段可复用指令交给 Claude 的方式：一个目录里放一份 `SKILL.md`，Claude 在相关时自动使用它，你也可以用 `/技能名` 直接调用。它的正文只在被调用时进入对话，所以长参考资料放在里面不会像 `CLAUDE.md` 那样常驻上下文。下面按“放在哪里、如何被找到、文件怎么写、如何被调用、怎么排查”五段展开；固定来源为官方 Skills 页与设置页，本章末尾说明它与已选定 npm 包快照的版本关系。

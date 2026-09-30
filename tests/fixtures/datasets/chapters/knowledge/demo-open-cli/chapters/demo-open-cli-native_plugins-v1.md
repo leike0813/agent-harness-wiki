@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: fixture
 edition_id: demo-open-cli-native_plugins-v1
 harness_id: demo-open-cli
@@ -7,36 +7,51 @@ topic: native_plugins
 title: demo-open-cli native_plugins (fictional)
 sections:
   - section_id: native-plugins-overview
+    surface_ids: [cli]
     source_refs: []
 questions:
   - question_id: plugins.model
-    section_id: native-plugins-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: native-plugins-overview
+        status: unknown
+        source_refs: []
   - question_id: plugins.package
-    section_id: native-plugins-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: native-plugins-overview
+        status: unknown
+        source_refs: []
   - question_id: plugins.install
-    section_id: native-plugins-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: native-plugins-overview
+        status: unknown
+        source_refs: []
   - question_id: plugins.discovery
-    section_id: native-plugins-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: native-plugins-overview
+        status: unknown
+        source_refs: []
   - question_id: plugins.api
-    section_id: native-plugins-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: native-plugins-overview
+        status: unknown
+        source_refs: []
   - question_id: plugins.lifecycle
-    section_id: native-plugins-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: native-plugins-overview
+        status: unknown
+        source_refs: []
   - question_id: plugins.diagnostics
-    section_id: native-plugins-overview
-    status: unknown
-    source_refs: []
+    answers:
+      - surface_ids: [cli]
+        section_id: native-plugins-overview
+        status: unknown
+        source_refs: []
 ---
 ## native_plugins 1 {#native-plugins-overview}
 

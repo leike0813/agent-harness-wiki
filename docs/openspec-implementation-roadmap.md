@@ -2,7 +2,7 @@
 
 [PRD](PRD.md) 定义目标产品语义，[项目路线](roadmap.md)定义阶段；以下 change 提供可逐项验收的增量。旧 M0 和已归档 M1/M2 change 留作实施历史，其 Claim/Coverage、人审门禁与旧 MCP 语义不约束新契约。
 
-## 六个 change
+## 七个 change
 
 | 顺序 | Change | 主要改动与完成门槛 |
 |---|---|---|
@@ -12,6 +12,7 @@
 | 4 | [m1-managed-artifact-startup](../openspec/changes/m1-managed-artifact-startup/proposal.md) | 官方 latest 候选、锁定包集、直接入口、Linux bwrap 最小启动；失败保留旧可用环境，独立于知识发布 |
 | 5 | [m2-chapter-updates](../openspec/changes/m2-chapter-updates/proposal.md) | 手动来源观察、逐题/小节影响定位、Agent 复核及完成内容的自动本地发布；审计记录阻塞和无变化 |
 | 6 | [new-harness-onboarding](../openspec/changes/new-harness-onboarding/proposal.md) | 新 CLI 七章知识接入、上游维护 Skill 的受管二进制核对、模型调用的受管二进制 Skill；发布器只发布知识，非 npm 报告不支持 |
+| 7 | [harness-catalog-and-surfaces](../openspec/changes/harness-catalog-and-surfaces/proposal.md) | 新增 catalog 为产品与界面命名权威：registry 只留 id 与来源，章节按界面记录答案，查询可指定界面，带版本却不指定界面时返回 ambiguous；一次迁移正式产品 id（`codex-cli`→`codex`、`antigravity-cli`→`antigravity`），不把旧 id 登记为别名 |
 
 1 → 2 → 3 是知识链；4 与知识链独立，M1 总验收在 1–4 均完成后。5 依赖章节读取/发布与受管环境入口，6 依赖章节读取/发布与受管环境入口并可与 5 并行。六项规划可以同时存在，实施应依赖已归档主规格逐项推进；后续 change 的同名 delta 以其前置 change 同步后的主规格为基线核对。没有新生产 release 与验收记录，不把规划工件标成已实施。
 

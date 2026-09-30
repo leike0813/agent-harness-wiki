@@ -42,6 +42,9 @@ async function metadataCopy(): Promise<string> {
   await cp(path.join(repository, "knowledge"), path.join(root, "knowledge"), {
     recursive: true,
   });
+  await cp(path.join(repository, "catalog"), path.join(root, "catalog"), {
+    recursive: true,
+  });
   return root;
 }
 
@@ -58,14 +61,26 @@ test("production metadata validates without local originals", async () => {
   const result = await loadAndValidateDataset({ root, profile: "production" });
   expect(result.ok).toBe(true);
   if (result.ok) {
-    expect(result.dataset.harnesses).toHaveLength(5);
+    expect(result.dataset.harnesses).toHaveLength(6);
+    const npmProducts = new Set(
+      result.dataset.harnesses
+        .filter((harness) =>
+          result.dataset.sources.some(
+            (source) =>
+              source.harness_id === harness.harness_id &&
+              source.kind === "npm_registry",
+          ),
+        )
+        .map((harness) => harness.harness_id),
+    );
+    expect(npmProducts.size).toBe(5);
     expect(
       new Set(
         result.dataset.artifacts
           .filter((item) => item.kind === "managed_package")
           .map((item) => item.harness_id),
       ),
-    ).toEqual(new Set(result.dataset.harnesses.map((item) => item.harness_id)));
+    ).toEqual(npmProducts);
     const firstWaveCoverage = result.dataset.coverage.filter((item) =>
       item.target.distribution.startsWith("npm:"),
     );
@@ -87,25 +102,25 @@ test("production metadata validates without local originals", async () => {
 
 test.each([
   [
-    "knowledge/codex-cli/snapshots/snapshot-codex-cli-doc.yaml",
+    "knowledge/codex/snapshots/snapshot-codex-cli-doc.yaml",
     "artifact-codex-cli-doc",
     "artifact-codex-repo",
     "ARTIFACT_MISSING",
   ],
   [
-    "knowledge/codex-cli/artifacts/artifact-codex-cli-doc.yaml",
-    "archive/codex-cli/artifact-codex-cli-doc/raw.md",
+    "knowledge/codex/artifacts/artifact-codex-cli-doc.yaml",
+    "archive/codex/artifact-codex-cli-doc/raw.md",
     "../raw.md",
     "PATH_INVALID",
   ],
   [
-    "knowledge/codex-cli/artifacts/artifact-codex-cli-doc.yaml",
-    "harness_id: codex-cli",
+    "knowledge/codex/artifacts/artifact-codex-cli-doc.yaml",
+    "harness_id: codex",
     "harness_id: other",
     "ARTIFACT_MISSING",
   ],
   [
-    "knowledge/codex-cli/snapshots/snapshot-codex-repo.yaml",
+    "knowledge/codex/snapshots/snapshot-codex-repo.yaml",
     "distribution: source-tree",
     "distribution: packaged-cli",
     "TARGET_MISMATCH",
@@ -171,7 +186,7 @@ test("offline audit checks archived bytes and reports missing originals", async 
 
 test("offline audit checks local Git HEAD and selected file hash", async () => {
   const root = await temp();
-  const checkout = path.join(root, "upstream/codex-cli");
+  const checkout = path.join(root, "upstream/codex");
   await mkdir(checkout, { recursive: true });
   await writeFile(path.join(checkout, "README.md"), "fixed source\n");
   await git("git", ["-C", checkout, "init", "-q"]);
@@ -194,8 +209,8 @@ test("offline audit checks local Git HEAD and selected file hash", async () => {
     kind: "git_checkout" as const,
     artifact_id: "artifact-local-source",
     source_id: "source-local-source",
-    harness_id: "codex-cli",
-    checkout_path: "upstream/codex-cli",
+    harness_id: "codex",
+    checkout_path: "upstream/codex",
     commit: stdout.trim(),
     file: "README.md",
     content_sha256: sha256("fixed source\n"),
@@ -268,11 +283,11 @@ test("unversioned documentation cannot verify an exact fixture claim", async () 
       "registry/sources/source-codex-cli-doc.yaml",
     ],
     [
-      "knowledge/codex-cli/artifacts/artifact-codex-cli-doc.yaml",
+      "knowledge/codex/artifacts/artifact-codex-cli-doc.yaml",
       "knowledge/demo-open-cli/artifacts/artifact-codex-cli-doc.yaml",
     ],
     [
-      "knowledge/codex-cli/snapshots/snapshot-codex-cli-doc.yaml",
+      "knowledge/codex/snapshots/snapshot-codex-cli-doc.yaml",
       "knowledge/demo-open-cli/snapshots/snapshot-codex-cli-doc.yaml",
     ],
   ] as const) {
@@ -282,8 +297,8 @@ test("unversioned documentation cannot verify an exact fixture claim", async () 
       destination,
       (await readFile(path.join(repository, from), "utf8"))
         .replace("record_kind: production", "record_kind: fixture")
-        .replace("harness_id: codex-cli", "harness_id: demo-open-cli")
-        .replace("archive/codex-cli/", "archive/demo-open-cli/"),
+        .replace("harness_id: codex", "harness_id: demo-open-cli")
+        .replace("archive/codex/", "archive/demo-open-cli/"),
     );
   }
   const evidenceFile = path.join(
@@ -351,7 +366,7 @@ test("first-wave release publishes reviewed facts and scoped provenance", async 
   } finally {
     db.close();
   }
-  expect(knowledge.records.harnesses).toHaveLength(5);
+  expect(knowledge.records.harnesses).toHaveLength(6);
 });
 
 test("version 1 release without artifact metadata still verifies", async () => {

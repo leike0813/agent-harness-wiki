@@ -1,0 +1,84 @@
+schema_version: 1
+audit_id: audit-codex-cli-923a5028-6fb9-4e44-9974-139f4b06ce7e
+harness_id: codex
+checked_at: 2026-09-27T14:28:49.296Z
+status: blocked
+review_status: reviewed
+reviewed_by: maintainer
+reviewed_at: 2026-09-27T15:22:27Z
+pending_audit_refs: []
+checks:
+  - source_id: source-codex-repo
+    kind: git_repository
+    checked_at: 2026-09-27T14:28:06.205Z
+    status: changed
+    baseline: 67a709665ac7b50311b93e32612c9a8281684787
+    observed: 41f9084b30812db321a0b592def4f500d1e79cf4
+    remote_ref: refs/heads/main
+    candidate_path: archive/codex/git/41f9084b30812db321a0b592def4f500d1e79cf4/checkout
+    changed_paths:
+      - codex-rs/codex-api/src/endpoint/responses_websocket.rs
+      - codex-rs/core/src/stream_events_utils.rs
+  - source_id: source-codex-cli-doc
+    kind: official_documentation
+    checked_at: 2026-09-27T14:28:38.441Z
+    status: blocked
+    baseline: 4592869a38de248eef8c623816032bc34787c7797fcf7a64e41d860da83d1a5e
+    error: Cross-origin source redirect is blocked.
+  - source_id: source-codex-cli-npm
+    kind: npm_registry
+    checked_at: 2026-09-27T14:28:40.912Z
+    status: unchanged
+    baseline: 0.157.1@sha512-qJ/UZ0bmYP+/Umav1L9WpmtMYeA6q1+4r4qILSYOKQZhP7WRdjyTQWz3O0dTImZ9RT7AazZa85D87xRDHogcHw==
+    observed: 0.157.1@sha512-qJ/UZ0bmYP+/Umav1L9WpmtMYeA6q1+4r4qILSYOKQZhP7WRdjyTQWz3O0dTImZ9RT7AazZa85D87xRDHogcHw==
+  - source_id: source-codex-cli-skills-doc
+    kind: official_documentation
+    checked_at: 2026-09-27T14:28:45.760Z
+    status: blocked
+    baseline: d15791562748e64a53dfec534b8558aa522e732cec0fdedcf7257fa4ef486a20
+    error: Cross-origin source redirect is blocked.
+  - source_id: source-codex-cli-mcp-doc
+    kind: official_documentation
+    checked_at: 2026-09-27T14:28:46.779Z
+    status: blocked
+    baseline: 978cad2319d28ce8e888e890cb6bd5c5a0631d3dc0b463fc66928ba419982f1a
+    error: Cross-origin source redirect is blocked.
+  - source_id: source-codex-cli-configuration-doc
+    kind: official_documentation
+    checked_at: 2026-09-27T14:28:49.208Z
+    status: blocked
+    baseline: 0512de2624e4a441a4a557b810e724393bee8022682d0ec7cc4f04b21d2642f9
+    error: Cross-origin source redirect is blocked.
+impacts:
+  - topic: skills
+    claim_refs: []
+    reason: "source-codex-repo: broad review"
+  - topic: mcp
+    claim_refs: []
+    reason: "source-codex-repo: broad review"
+  - topic: custom_agents
+    claim_refs: []
+    reason: "source-codex-repo: broad review"
+  - topic: custom_providers
+    claim_refs: []
+    reason: "source-codex-repo: broad review"
+  - topic: hooks
+    claim_refs: []
+    reason: "source-codex-repo: broad review"
+  - topic: native_plugins
+    claim_refs: []
+    reason: "source-codex-repo: broad review"
+  - topic: configuration
+    claim_refs: []
+    reason: "source-codex-repo: broad review"
+candidate_refs:
+  - coverage-codex-repo-41f9084b-skills
+  - coverage-codex-repo-41f9084b-mcp
+  - coverage-codex-repo-41f9084b-custom-agents
+  - coverage-codex-repo-41f9084b-custom-providers
+  - coverage-codex-repo-41f9084b-hooks
+  - coverage-codex-repo-41f9084b-native-plugins
+  - coverage-codex-repo-41f9084b-configuration
+investigation_notes:
+  - "Compared 67a709665ac7b50311b93e32612c9a8281684787..41f9084b30812db321a0b592def4f500d1e79cf4: only two files changed. codex-api/src/endpoint/responses_websocket.rs:518 removes response-header logging; core/src/stream_events_utils.rs:340-344 removes the tool-call payload preview from logging. No seven-topic mechanism change is visible in this diff; full source-tree and npm behavior remain unverified."
+  - "The four documentation checks were blocked by cross-origin redirects to learn.chatgpt.com. The subsequent audit uses new registered Source identities at the resolved official URLs; historical Source and Snapshot identities remain intact."

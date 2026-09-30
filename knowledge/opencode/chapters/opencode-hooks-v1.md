@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: opencode-hooks-v1
 harness_id: opencode
@@ -7,68 +7,86 @@ topic: hooks
 title: OpenCode 的 Hook 机制
 sections:
   - section_id: hooks-entry
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-hooks-entry
       - ref-opencode-hooks-loadorder
   - section_id: hooks-events
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-hooks-interface
       - ref-opencode-hooks-toolhooks
       - ref-opencode-hooks-experimental
   - section_id: hooks-io
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-hooks-context
       - ref-opencode-hooks-toolhooks
       - ref-opencode-hooks-examples
       - ref-opencode-hooks-experimental
   - section_id: hooks-diagnostics
+    surface_ids: [cli]
     source_refs:
       - ref-opencode-hooks-context
       - ref-opencode-hooks-examples
       - ref-opencode-hooks-logging
 questions:
   - question_id: hooks.events
-    section_id: hooks-events
-    status: answered
-    source_refs:
-      - ref-opencode-hooks-interface
-      - ref-opencode-hooks-toolhooks
-      - ref-opencode-hooks-experimental
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-events
+        status: answered
+        source_refs:
+          - ref-opencode-hooks-interface
+          - ref-opencode-hooks-toolhooks
+          - ref-opencode-hooks-experimental
   - question_id: hooks.entry
-    section_id: hooks-entry
-    status: answered
-    source_refs:
-      - ref-opencode-hooks-entry
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-entry
+        status: answered
+        source_refs:
+          - ref-opencode-hooks-entry
   - question_id: hooks.input
-    section_id: hooks-io
-    status: answered
-    source_refs:
-      - ref-opencode-hooks-context
-      - ref-opencode-hooks-toolhooks
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-io
+        status: answered
+        source_refs:
+          - ref-opencode-hooks-context
+          - ref-opencode-hooks-toolhooks
   - question_id: hooks.output
-    section_id: hooks-io
-    status: answered
-    source_refs:
-      - ref-opencode-hooks-toolhooks
-      - ref-opencode-hooks-examples
-      - ref-opencode-hooks-experimental
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-io
+        status: answered
+        source_refs:
+          - ref-opencode-hooks-toolhooks
+          - ref-opencode-hooks-examples
+          - ref-opencode-hooks-experimental
   - question_id: hooks.order
-    section_id: hooks-entry
-    status: answered
-    source_refs:
-      - ref-opencode-hooks-loadorder
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-entry
+        status: answered
+        source_refs:
+          - ref-opencode-hooks-loadorder
   - question_id: hooks.conditions
-    section_id: hooks-entry
-    status: partial
-    source_refs:
-      - ref-opencode-hooks-entry
-      - ref-opencode-hooks-loadorder
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-entry
+        status: partial
+        source_refs:
+          - ref-opencode-hooks-entry
+          - ref-opencode-hooks-loadorder
   - question_id: hooks.diagnostics
-    section_id: hooks-diagnostics
-    status: partial
-    source_refs:
-      - ref-opencode-hooks-logging
-      - ref-opencode-hooks-examples
+    answers:
+      - surface_ids: [cli]
+        section_id: hooks-diagnostics
+        status: partial
+        source_refs:
+          - ref-opencode-hooks-logging
+          - ref-opencode-hooks-examples
 ---
 本章依据固定源码提交 545f51d 的官方文档与实现。在 OpenCode 里 Hook 不是独立的配置概念，而是插件返回的函数集合；这一产品专有结论决定了下面所有问题的答案形态。该提交不等于 npm 包 opencode-ai@1.18.32 的运行时行为。
 

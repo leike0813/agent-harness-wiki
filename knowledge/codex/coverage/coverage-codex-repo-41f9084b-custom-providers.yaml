@@ -1,0 +1,16 @@
+schema_version: 1
+record_kind: production
+coverage_id: coverage-codex-repo-41f9084b-custom-providers
+target:
+  harness_id: codex
+  surface: cli
+  distribution: source-tree
+  os: linux
+  arch: x64
+  execution_mode: native
+  version_identity:
+    { kind: commit, value: 41f9084b30812db321a0b592def4f500d1e79cf4 }
+topic: custom_providers
+status: partial
+snapshot_refs: [snapshot-codex-repo-41f9084b]
+investigation_notes: Compared codex-api/src/endpoint/responses_websocket.rs and core/src/stream_events_utils.rs against commit 67a709665ac7b50311b93e32612c9a8281684787. The diff removes response-header and tool-payload logging but leaves request headers and connection flow in the changed context; it does not establish provider configuration rules. Full provider behavior and npm release mapping remain unverified.

@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: pi-mcp-v2
 harness_id: pi
@@ -7,62 +7,81 @@ topic: mcp
 title: Pi MCP：核心缺失与扩展路线（固定源码 781152f）
 sections:
   - section_id: mcp-core
+    surface_ids: [cli]
     source_refs:
       - ref-pi-readme-philosophy
   - section_id: mcp-capabilities
+    surface_ids: [cli]
     source_refs:
       - ref-pi-readme-philosophy
       - ref-pi-ext-register
   - section_id: mcp-route
+    surface_ids: [cli]
     source_refs:
       - ref-pi-readme-philosophy
       - ref-pi-ext-locations
       - ref-pi-ext-register
 questions:
   - question_id: mcp.entry
-    section_id: mcp-core
-    status: answered
-    source_refs:
-      - ref-pi-readme-philosophy
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-core
+        status: answered
+        source_refs:
+          - ref-pi-readme-philosophy
   - question_id: mcp.definition
-    section_id: mcp-core
-    status: not_applicable
-    source_refs:
-      - ref-pi-readme-philosophy
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-core
+        status: not_applicable
+        source_refs:
+          - ref-pi-readme-philosophy
   - question_id: mcp.transport
-    section_id: mcp-core
-    status: not_applicable
-    source_refs:
-      - ref-pi-readme-philosophy
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-core
+        status: not_applicable
+        source_refs:
+          - ref-pi-readme-philosophy
   - question_id: mcp.auth
-    section_id: mcp-core
-    status: not_applicable
-    source_refs:
-      - ref-pi-readme-philosophy
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-core
+        status: not_applicable
+        source_refs:
+          - ref-pi-readme-philosophy
   - question_id: mcp.lifecycle
-    section_id: mcp-core
-    status: not_applicable
-    source_refs:
-      - ref-pi-readme-philosophy
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-core
+        status: not_applicable
+        source_refs:
+          - ref-pi-readme-philosophy
   - question_id: mcp.capabilities
-    section_id: mcp-capabilities
-    status: not_applicable
-    source_refs:
-      - ref-pi-readme-philosophy
-      - ref-pi-ext-register
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-capabilities
+        status: not_applicable
+        source_refs:
+          - ref-pi-readme-philosophy
+          - ref-pi-ext-register
   - question_id: mcp.exposure
-    section_id: mcp-capabilities
-    status: not_applicable
-    source_refs:
-      - ref-pi-readme-philosophy
-      - ref-pi-ext-register
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-capabilities
+        status: not_applicable
+        source_refs:
+          - ref-pi-readme-philosophy
+          - ref-pi-ext-register
   - question_id: mcp.diagnostics
-    section_id: mcp-route
-    status: partial
-    source_refs:
-      - ref-pi-readme-philosophy
-      - ref-pi-ext-locations
-      - ref-pi-ext-register
+    answers:
+      - surface_ids: [cli]
+        section_id: mcp-route
+        status: partial
+        source_refs:
+          - ref-pi-readme-philosophy
+          - ref-pi-ext-locations
+          - ref-pi-ext-register
 ---
 固定来源为 pi-mono 仓库提交 781152fc 的 Pi coding agent 包（包内文档与源码）。该来源明确说明 Pi 核心不含 MCP；本章据此给出核心范围的逐题结论。任何 MCP 能力只能由扩展或第三方包提供，不在本固定来源的结论内；本库未为 Pi 建立软件版本映射，按 source_only 阅读。
 

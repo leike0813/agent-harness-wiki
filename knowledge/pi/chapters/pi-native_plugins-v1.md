@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: pi-native_plugins-v1
 harness_id: pi
@@ -7,20 +7,24 @@ topic: native_plugins
 title: Pi 原生插件：包与扩展装载（固定源码 781152f）
 sections:
   - section_id: plugins-model
+    surface_ids: [cli]
     source_refs:
       - ref-pi-packages-structure
       - ref-pi-ext-locations
   - section_id: plugins-install
+    surface_ids: [cli]
     source_refs:
       - ref-pi-packages-manage
       - ref-pi-packages-sources
       - ref-pi-packages-structure
       - ref-pi-packages-dedupe
   - section_id: plugins-api
+    surface_ids: [cli]
     source_refs:
       - ref-pi-ext-register
       - ref-pi-cp-quick
   - section_id: plugins-lifecycle
+    surface_ids: [cli]
     source_refs:
       - ref-pi-packages-manage
       - ref-pi-packages-dedupe
@@ -29,49 +33,63 @@ sections:
       - ref-pi-cp-quick
 questions:
   - question_id: plugins.model
-    section_id: plugins-model
-    status: answered
-    source_refs:
-      - ref-pi-packages-structure
-      - ref-pi-ext-locations
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-model
+        status: answered
+        source_refs:
+          - ref-pi-packages-structure
+          - ref-pi-ext-locations
   - question_id: plugins.package
-    section_id: plugins-model
-    status: answered
-    source_refs:
-      - ref-pi-packages-structure
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-model
+        status: answered
+        source_refs:
+          - ref-pi-packages-structure
   - question_id: plugins.install
-    section_id: plugins-install
-    status: answered
-    source_refs:
-      - ref-pi-packages-manage
-      - ref-pi-packages-sources
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-install
+        status: answered
+        source_refs:
+          - ref-pi-packages-manage
+          - ref-pi-packages-sources
   - question_id: plugins.discovery
-    section_id: plugins-install
-    status: answered
-    source_refs:
-      - ref-pi-packages-structure
-      - ref-pi-packages-dedupe
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-install
+        status: answered
+        source_refs:
+          - ref-pi-packages-structure
+          - ref-pi-packages-dedupe
   - question_id: plugins.api
-    section_id: plugins-api
-    status: answered
-    source_refs:
-      - ref-pi-ext-register
-      - ref-pi-cp-quick
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-api
+        status: answered
+        source_refs:
+          - ref-pi-ext-register
+          - ref-pi-cp-quick
   - question_id: plugins.lifecycle
-    section_id: plugins-lifecycle
-    status: partial
-    source_refs:
-      - ref-pi-packages-manage
-      - ref-pi-packages-dedupe
-      - ref-pi-ext-locations
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-lifecycle
+        status: partial
+        source_refs:
+          - ref-pi-packages-manage
+          - ref-pi-packages-dedupe
+          - ref-pi-ext-locations
   - question_id: plugins.diagnostics
-    section_id: plugins-lifecycle
-    status: partial
-    source_refs:
-      - ref-pi-packages-manage
-      - ref-pi-packages-dedupe
-      - ref-pi-ext-reload
-      - ref-pi-cp-quick
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-lifecycle
+        status: partial
+        source_refs:
+          - ref-pi-packages-manage
+          - ref-pi-packages-dedupe
+          - ref-pi-ext-reload
+          - ref-pi-cp-quick
 body: |-
   Pi 的“插件”对应 pi package：把 extensions、skills、prompt templates、themes 打包共享；扩展是可执行资源，Skill 是指令资源。以下来自固定来源的包文档与扩展文档。
 

@@ -18,7 +18,6 @@ import {
   topicRequestSchema,
 } from "./schema.js";
 import {
-  buildSearchSections,
   normalizeVector,
   searchIndexSchema,
   semanticIndexSchema,
@@ -155,12 +154,9 @@ export class QueryService {
     const knowledge = chapterPublishedKnowledgeSchema.parse(
       JSON.parse(await readFile(path.join(dir, "knowledge.json"), "utf8")),
     );
-    const searchSections =
-      manifest.builder_version === "5"
-        ? searchIndexSchema.parse(
-            JSON.parse(await readFile(path.join(dir, "search.json"), "utf8")),
-          ).sections
-        : buildSearchSections(knowledge, new Map());
+    const searchSections = searchIndexSchema.parse(
+      JSON.parse(await readFile(path.join(dir, "search.json"), "utf8")),
+    ).sections;
     let semantic: SemanticIndex | undefined;
     if (manifest.semantic) {
       try {
@@ -171,13 +167,10 @@ export class QueryService {
         if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
       }
     }
-    const db =
-      manifest.builder_version === "5"
-        ? new Database(path.join(dir, "knowledge.sqlite"), {
-            readonly: true,
-            fileMustExist: true,
-          })
-        : undefined;
+    const db = new Database(path.join(dir, "knowledge.sqlite"), {
+      readonly: true,
+      fileMustExist: true,
+    });
     return new QueryService(
       releaseId,
       knowledge.records,
@@ -192,7 +185,7 @@ export class QueryService {
   }
 
   private harness(name: string) {
-    const found = this.records.harnesses.filter((x) =>
+    const found = this.records.catalog.products.filter((x) =>
       [x.harness_id, x.name, ...x.aliases].some(
         (alias) => alias.toLocaleLowerCase() === name.toLocaleLowerCase(),
       ),
@@ -202,7 +195,12 @@ export class QueryService {
   listHarnesses(input: unknown = {}) {
     const request = listSchema.parse(input),
       query = request.query?.toLocaleLowerCase() ?? "";
-    const items = this.records.harnesses
+    const items = this.records.catalog.products
+      .filter(
+        (x) =>
+          request.scope === "catalog" ||
+          this.records.harnesses.some((r) => r.harness_id === x.harness_id),
+      )
       .filter((x) =>
         [x.harness_id, x.name, ...x.aliases].some((alias) =>
           alias.toLocaleLowerCase().includes(query),
@@ -210,13 +208,37 @@ export class QueryService {
       )
       .map((x) => ({
         ...x,
+        registered: this.records.harnesses.some(
+          (r) => r.harness_id === x.harness_id,
+        ),
+        surface_coverage: x.surfaces.map((surface) => ({
+          surface_id: surface.surface_id,
+          topics: this.records.current
+            .filter(
+              (selection) =>
+                selection.harness_id === x.harness_id &&
+                this.records.chapters
+                  .find(
+                    (chapter) => chapter.edition_id === selection.edition_id,
+                  )
+                  ?.questions.some((q) =>
+                    q.answers.some((a) =>
+                      a.surface_ids.includes(surface.surface_id),
+                    ),
+                  ),
+            )
+            .map((selection) => selection.topic),
+        })),
         topics: this.records.current
           .filter((s) => s.harness_id === x.harness_id)
           .map((s) => s.topic),
       }));
     return {
       release_id: this.releaseId,
-      ...page(items, request.limit, request.cursor, this.releaseId, { query }),
+      ...page(items, request.limit, request.cursor, this.releaseId, {
+        query,
+        scope: request.scope,
+      }),
     };
   }
   private select(
@@ -224,6 +246,7 @@ export class QueryService {
     topic: string,
     version?: string,
     sectionId?: string,
+    surfaceId?: string,
   ): { chapter: ChapterEdition | undefined; resolution: Resolution } {
     const current = this.records.current.find(
       (x) => x.harness_id === harnessId && x.topic === topic,
@@ -241,6 +264,7 @@ export class QueryService {
     const mappings = this.records.mappings.filter(
       (x) =>
         x.harness_id === harnessId &&
+        x.surface_id === surfaceId &&
         this.records.chapters.some(
           (c) => c.edition_id === x.edition_id && c.topic === topic,
         ) &&
@@ -291,48 +315,120 @@ export class QueryService {
   getTopic(input: unknown) {
     const request = topicRequestSchema.parse(input),
       harness = this.harness(request.harness);
-    const empty = (status: "not_found" | "ambiguous") => ({
+    const empty = <S extends "not_found" | "ambiguous" | "not_investigated">(
+      status: S,
+    ) => ({
       release_id: this.releaseId,
       status,
       requested_version: request.version ?? null,
+      surface_id: request.surface_id ?? null,
     });
     if (harness === "ambiguous") return empty("ambiguous");
     if (!harness) return empty("not_found");
+    if (
+      request.surface_id &&
+      !harness.surfaces.some((x) => x.surface_id === request.surface_id)
+    )
+      return empty("not_found");
+    if (request.version && !request.surface_id)
+      return {
+        ...empty("ambiguous"),
+        harness_id: harness.harness_id,
+        surfaces: harness.surfaces,
+      };
     const { chapter, resolution } = this.select(
       harness.harness_id,
       request.topic,
       request.version,
       request.section_id,
+      request.surface_id,
     );
-    if (!chapter) return empty("not_found");
+    if (!chapter)
+      return {
+        ...empty("not_investigated"),
+        harness_id: harness.harness_id,
+        topic: request.topic,
+        surfaces: harness.surfaces,
+        runtimes: harness.runtimes,
+        bindings: harness.bindings,
+      };
     const section = request.section_id
       ? chapter.sections.find((x) => x.section_id === request.section_id)
       : undefined;
     if (request.section_id && !section) return empty("not_found");
-    const questions = section
-      ? chapter.questions.filter((x) => x.section_id === section.section_id)
-      : chapter.questions;
-    const refs = [
-      ...new Set(
-        section
-          ? section.source_refs
-          : chapter.sections.flatMap((x) => x.source_refs),
-      ),
-    ];
+    const selectedSurfaces = request.surface_id
+      ? [request.surface_id]
+      : harness.surfaces.map((x) => x.surface_id);
+    const selectedSections = (section ? [section] : chapter.sections).filter(
+      (x) => !request.surface_id || x.surface_ids.includes(request.surface_id),
+    );
+    const questions = chapter.questions
+      .map((question) => ({
+        question_id: question.question_id,
+        answers: [
+          ...question.answers
+            .filter(
+              (answer) =>
+                (!request.surface_id ||
+                  answer.surface_ids.includes(request.surface_id)) &&
+                (!section || answer.section_id === section.section_id),
+            )
+            .map((answer) => ({
+              ...answer,
+              surface_ids: answer.surface_ids.filter((id) =>
+                selectedSurfaces.includes(id),
+              ),
+            })),
+          ...(!section
+            ? selectedSurfaces
+                .filter(
+                  (id) =>
+                    !question.answers.some((answer) =>
+                      answer.surface_ids.includes(id),
+                    ),
+                )
+                .map((id) => ({
+                  surface_ids: [id],
+                  section_id: null,
+                  status: "not_investigated" as const,
+                  source_refs: [] as string[],
+                }))
+            : []),
+        ],
+      }))
+      .filter((q) => q.answers.length);
+    const refs = [...new Set(selectedSections.flatMap((x) => x.source_refs))];
     return {
       release_id: this.releaseId,
-      status: "ok" as const,
+      status: selectedSections.length
+        ? ("ok" as const)
+        : ("not_investigated" as const),
       harness_id: harness.harness_id,
+      surface_id: request.surface_id ?? null,
+      surfaces: harness.surfaces,
+      runtimes: harness.runtimes,
+      bindings: harness.bindings,
       topic: chapter.topic,
       edition_id: chapter.edition_id,
       title: chapter.title,
-      body: section
-        ? sectionText(chapter.body, section.section_id)!
-        : chapter.body,
-      sections: (section ? [section] : chapter.sections).map((x) => ({
+      body:
+        request.surface_id || section
+          ? selectedSections
+              .map((x) => sectionText(chapter.body, x.section_id)!)
+              .join("\n\n")
+          : chapter.body,
+      sections: selectedSections.map((x) => ({
         section_id: x.section_id,
+        surface_ids: x.surface_ids,
         question_ids: chapter.questions
-          .filter((q) => q.section_id === x.section_id)
+          .filter((q) =>
+            q.answers.some(
+              (answer) =>
+                answer.section_id === x.section_id &&
+                (!request.surface_id ||
+                  answer.surface_ids.includes(request.surface_id)),
+            ),
+          )
           .map((q) => q.question_id),
         source_refs: x.source_refs,
       })),
@@ -362,7 +458,11 @@ export class QueryService {
     const fullResults = request.targets.map((target) =>
       this.getTopic({ ...target, topic: request.topic }),
     );
-    const present = fullResults.filter((x) => x.status === "ok");
+    const present = fullResults.filter(
+      (x): x is Extract<typeof x, { questions: unknown }> =>
+        "questions" in x &&
+        (x.status === "ok" || x.status === "not_investigated"),
+    );
     const common =
       present.length === fullResults.length
         ? present[0]!.questions
@@ -379,11 +479,12 @@ export class QueryService {
       ? common.filter((id) => request.question_ids!.includes(id))
       : common;
     const results = fullResults.map((x) =>
-      x.status === "ok"
+      "questions" in x
         ? {
             release_id: x.release_id,
             status: x.status,
             harness_id: x.harness_id,
+            surface_id: x.surface_id,
             topic: x.topic,
             edition_id: x.edition_id,
             resolution: x.resolution,
@@ -400,9 +501,8 @@ export class QueryService {
           const q = r.questions.find((x) => x.question_id === question_id)!;
           return {
             harness_id: r.harness_id,
-            status: q.status,
-            section_id: q.section_id,
-            source_refs: q.source_refs,
+            surface_id: r.surface_id,
+            answers: q.answers,
             resolution: r.resolution,
           };
         }),
@@ -427,11 +527,28 @@ export class QueryService {
         items: [],
       };
     const needle = request.text?.toLocaleLowerCase() ?? "";
-    const scoped = this.searchSections.filter(
-      (section) =>
-        (!harness || section.harness_id === harness.harness_id) &&
-        (!request.topic || section.topic === request.topic),
-    );
+    if (
+      harness &&
+      request.surface_id &&
+      !harness.surfaces.some((x) => x.surface_id === request.surface_id)
+    )
+      return {
+        release_id: this.releaseId,
+        status: "not_found" as const,
+        semantic_status: "not_requested" as const,
+        items: [],
+      };
+    const scoped = this.searchSections
+      .filter(
+        (section) =>
+          (!harness || section.harness_id === harness.harness_id) &&
+          (!request.topic || section.topic === request.topic),
+      )
+      .filter(
+        (section) =>
+          !request.surface_id ||
+          section.surface_ids.includes(request.surface_id),
+      );
     const ranked = new Map<string, { score: number; reason: string }>();
     const key = (section: SearchSection) =>
       `${section.edition_id}|${section.section_id}`;
@@ -547,6 +664,7 @@ export class QueryService {
         topic: section.topic,
         edition_id: section.edition_id,
         section_id: section.section_id,
+        surface_ids: section.surface_ids,
         question_ids: section.question_ids,
         preview: section.body.slice(0, 240),
         source_refs: section.source_refs,
@@ -562,7 +680,10 @@ export class QueryService {
       }));
     return {
       release_id: this.releaseId,
-      status: "ok" as const,
+      status:
+        harness && !scoped.length
+          ? ("not_investigated" as const)
+          : ("ok" as const),
       semantic_status: semanticStatus,
       ...page(
         items,
@@ -573,6 +694,7 @@ export class QueryService {
           text: needle,
           harness: harness?.harness_id,
           topic: request.topic ?? null,
+          surface_id: request.surface_id ?? null,
           semantic: semanticStatus,
         },
         2,
@@ -581,12 +703,29 @@ export class QueryService {
   }
   getSource(input: unknown) {
     const request = sourceRequestSchema.parse(input),
-      ref = this.records.source_references.find(
-        (x) => x.reference_id === request.reference_id,
-      );
+      ref =
+        this.records.source_references.find(
+          (x) => x.reference_id === request.reference_id,
+        ) ??
+        this.records.catalog.references.find(
+          (x) => x.reference_id === request.reference_id,
+        );
+    const product = this.records.catalog.products.find(
+      (x) => x.harness_id === ref?.harness_id,
+    );
+    if (
+      request.surface_id &&
+      !product?.surfaces.some((x) => x.surface_id === request.surface_id)
+    )
+      return {
+        release_id: this.releaseId,
+        status: "not_found" as const,
+        surface_id: request.surface_id,
+      };
     return {
       release_id: this.releaseId,
       status: ref ? ("ok" as const) : ("not_found" as const),
+      surface_id: request.surface_id ?? null,
       ...(ref
         ? {
             source: {

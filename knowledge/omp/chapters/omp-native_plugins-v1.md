@@ -1,5 +1,5 @@
 ---
-schema_version: 2
+schema_version: 3
 record_kind: production
 edition_id: omp-native_plugins-v1
 harness_id: omp
@@ -7,53 +7,70 @@ topic: native_plugins
 title: OMP 原生插件机制
 sections:
   - section_id: plugins-model
+    surface_ids: [cli]
     source_refs:
       - ref-omp-extensions-doc
   - section_id: plugins-package
+    surface_ids: [cli]
     source_refs:
       - ref-omp-plugins-manifest-code
       - ref-omp-plugins-loader-code
       - ref-omp-plugins-command-code
   - section_id: plugins-lifecycle
+    surface_ids: [cli]
     source_refs:
       - ref-omp-plugins-installed-code
       - ref-omp-plugins-command-code
 questions:
   - question_id: plugins.model
-    section_id: plugins-model
-    status: answered
-    source_refs:
-      - ref-omp-extensions-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-model
+        status: answered
+        source_refs:
+          - ref-omp-extensions-doc
   - question_id: plugins.package
-    section_id: plugins-package
-    status: answered
-    source_refs:
-      - ref-omp-plugins-manifest-code
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-package
+        status: answered
+        source_refs:
+          - ref-omp-plugins-manifest-code
   - question_id: plugins.install
-    section_id: plugins-package
-    status: answered
-    source_refs:
-      - ref-omp-plugins-command-code
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-package
+        status: answered
+        source_refs:
+          - ref-omp-plugins-command-code
   - question_id: plugins.discovery
-    section_id: plugins-package
-    status: answered
-    source_refs:
-      - ref-omp-plugins-loader-code
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-package
+        status: answered
+        source_refs:
+          - ref-omp-plugins-loader-code
   - question_id: plugins.api
-    section_id: plugins-model
-    status: partial
-    source_refs:
-      - ref-omp-extensions-doc
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-model
+        status: partial
+        source_refs:
+          - ref-omp-extensions-doc
   - question_id: plugins.lifecycle
-    section_id: plugins-lifecycle
-    status: partial
-    source_refs:
-      - ref-omp-plugins-installed-code
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-lifecycle
+        status: partial
+        source_refs:
+          - ref-omp-plugins-installed-code
   - question_id: plugins.diagnostics
-    section_id: plugins-lifecycle
-    status: partial
-    source_refs:
-      - ref-omp-plugins-command-code
+    answers:
+      - surface_ids: [cli]
+        section_id: plugins-lifecycle
+        status: partial
+        source_refs:
+          - ref-omp-plugins-command-code
 ---
 ## 插件模型与 API {#plugins-model}
 
