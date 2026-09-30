@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lingma-hooks-output
+harness_id: lingma
+snapshot_id: snapshot-lingma-docs-hooks
+locator:
+  kind: document_section
+  heading: "输出"
+official_url: "https://docs.qoder.cn/user-guide/hooks.md"
+excerpt: |-
+  Hook 通过 exit code 和 stdout 控制行为。
+  <b>exit code</b> 决定基本行为：
+  | <b>Exit Code</b> | <b>含义</b> | <b>行为</b>                     |
+  | ---------------- | --------- | ----------------------------- |
+  | 0                | 成功        | 继续执行，尝试解析 stdout JSON         |
+  | 2                | 阻断        | 停止操作，stderr 内容注入对话（仅对支持阻断的事件） |
+  | 其他值              | 错误        | 继续执行，stderr 内容仅展示给用户          |
+  <b>stdout JSON</b>（仅 exit 0 时生效，可选）：
+  ```json
+  {
+    "continue": true,
+    "stopReason": "",
+    "suppressOutput": false,
+    "hookSpecificOutput": {
+      "hookEventName": "PreToolUse",
+      "permissionDecision": "allow | deny | ask",
+      "permissionDecisionReason": "说明原因"
+    }
+  }
+  ```

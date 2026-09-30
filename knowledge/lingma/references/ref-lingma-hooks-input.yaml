@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lingma-hooks-input
+harness_id: lingma
+snapshot_id: snapshot-lingma-docs-hooks
+locator:
+  kind: document_section
+  heading: "输入"
+official_url: "https://docs.qoder.cn/user-guide/hooks.md"
+excerpt: |-
+  Hook 脚本通过 stdin 接收 JSON 数据。所有事件都包含以下通用字段：
+  | <b>字段</b>         | <b>说明</b>       |
+  | ----------------- | --------------- |
+  | session\_id       | 当前会话 ID         |
+  | cwd               | 当前工作目录          |
+  | hook\_event\_name | 触发的事件名称         |
+  | transcript\_path  | 会话上下文 JSON 文件路径 |
+  不同事件会在此基础上附加额外字段（见下文事件参考）。用 jq 解析输入：
+  ```python
+  #!/bin/bash
+  input=$(cat)
+  tool_name=$(echo "$input" | jq -r '.tool_name')
+  ```

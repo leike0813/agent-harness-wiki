@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lingma-hooks-events-ref
+harness_id: lingma
+snapshot_id: snapshot-lingma-docs-hooks
+locator:
+  kind: document_section
+  heading: "事件参考"
+official_url: "https://docs.qoder.cn/user-guide/hooks.md"
+excerpt: |-
+  ### UserPromptSubmit
+  - <b>触发</b>：用户提交 Prompt 后、Agent 处理前
+  - <b>可阻断</b>：是（exit 2 阻止本次请求）
+  - <b>额外字段</b>：prompt（用户输入的原始文本）
+  ### PreToolUse
+  - <b>触发</b>：工具调用执行前
+  - <b>可阻断</b>：是（exit 2 拒绝本次工具调用）
+  - <b>匹配字段</b>：tool\_name
+  - <b>额外字段</b>：tool\_name、tool\_input
+  ### PostToolUse
+  - <b>触发</b>：工具调用成功后
+  - <b>可阻断</b>：否
+  - <b>匹配字段</b>：tool\_name
+  - <b>额外字段</b>：tool\_name、tool\_input、tool\_response
+  ### PostToolUseFailure
+  - <b>触发</b>：工具调用失败后
+  - <b>可阻断</b>：否
+  - <b>匹配字段</b>：tool\_name
+  - <b>额外字段</b>：tool\_name、tool\_input、error
+  ### Stop
+  - <b>触发</b>：Agent 完成响应时
+  - <b>可阻断</b>：否
+  - <b>额外字段</b>：stop\_hook\_active、last\_assistant\_message

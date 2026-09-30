@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lingma-hooks-config-format
+harness_id: lingma
+snapshot_id: snapshot-lingma-docs-hooks
+locator:
+  kind: document_section
+  heading: "配置格式"
+official_url: "https://docs.qoder.cn/user-guide/hooks.md"
+excerpt: |-
+  ```json
+  {
+    "hooks": {
+      "事件名": [
+        {
+          "matcher": "匹配条件",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "要执行的命令"
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```
+  | <b>字段</b> | <b>必填</b> | <b>说明</b>          |
+  | --------- | --------- | ------------------ |
+  | type      | 是         | 固定为 "command"      |
+  | command   | 是         | 要执行的 shell 命令或脚本路径 |
+  | timeout   | 否         | 超时时间（秒），默认 30      |
+  | matcher   | 否         | 匹配条件，不填则匹配该事件的所有触发 |
+  一个事件下可以配置多个 matcher 分组，每个分组可以包含多个 Hook 命令。

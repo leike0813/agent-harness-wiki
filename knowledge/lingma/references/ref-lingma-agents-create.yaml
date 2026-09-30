@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lingma-agents-create
+harness_id: lingma
+snapshot_id: snapshot-lingma-docs-custom-agent
+locator:
+  kind: document_section
+  heading: "创建自定义智能体"
+official_url: "https://docs.qoder.cn/user-guide/custom-agent.md"
+excerpt: |-
+  ### 方式1：使用 create-agent（推荐）
+  Qoder CN 提供了内置的 create-agent 技能，可以通过交互式引导帮助你快速创建符合规范的自定义智能体。<b>使用方式</b>：
+  ```themes
+  /create-agent <您的诉求，例如代码审查专家>
+  ```
+  create-agent 会引导你完成以下步骤：
+  - 定义智能体的名称和描述
+  - 选择需要的工具权限
+  - 自动生成系统提示词模板
+  - 将智能体文件保存到正确的位置
+  <Note>
+    如果你是第一次创建自定义智能体，建议使用 /create-agent 来自动生成配置文件，这样可以确保格式正确并包含所有必要的字段。
+  </Note>
+  ### 方式2：手动创建
+  你也可以手动在以下位置创建一个 .md 文件：
+  | <b>位置</b> | <b>路径</b>                                  | <b>作用域</b> |
+  | --------- | ------------------------------------------ | ---------- |
+  | 用户级       | \~/.lingma/agents/\<agentName>.md          | 所有项目       |
+  | 项目级       | $\{project}/.lingma/agents/\<agentName>.md | 仅当前项目      |
+  文件需要包含 frontmatter 区块定义基本信息，以及系统提示词内容：
+  ```themes
+  ---
+  name: code-review
+  description: 代码审查专家，检查代码质量和安全性
+  tools: Read, Grep, Glob, Bash
+  ---
+  你是一位资深代码审查员，负责确保代码质量。审查清单：

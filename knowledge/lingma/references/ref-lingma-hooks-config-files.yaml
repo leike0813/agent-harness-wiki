@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lingma-hooks-config-files
+harness_id: lingma
+snapshot_id: snapshot-lingma-docs-hooks
+locator:
+  kind: document_section
+  heading: "配置文件位置"
+official_url: "https://docs.qoder.cn/user-guide/hooks.md"
+excerpt: |-
+  Hook 配置从以下文件加载，多级配置会被合并执行（优先级从低到高）：
+  | <b>位置</b>                   | <b>作用域</b> | <b>优先级</b> | <b>可共享</b> | <b>说明</b>              |
+  | --------------------------- | ---------- | ---------- | ---------- | ---------------------- |
+  | \~/.lingma/settings.json    | 用户级        | 1（最低）      | 否          | 用户个人配置，对所有项目生效         |
+  | .lingma/settings.json       | 项目级        | 2          | 是          | 可提交到 Git，团队共享          |
+  | .lingma/settings.local.json | 项目级（本地）    | 3          | 否          | 建议加入 .gitignore，个人开发配置 |
+  <Note>
+    当前版本暂不支持热加载，修改配置文件后需要重启 IDE 才能生效。
+  </Note>

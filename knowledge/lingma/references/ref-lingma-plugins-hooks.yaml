@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lingma-plugins-hooks
+harness_id: lingma
+snapshot_id: snapshot-lingma-docs-plugins
+locator:
+  kind: document_section
+  heading: "钩子（Hooks）"
+official_url: "https://docs.qoder.cn/qoder-plugins.md"
+excerpt: |-
+  钩子配置文件为 `hooks/hooks.json`，在特定事件发生时自动执行命令。
+  ```json
+  {
+    "description": "Simple Pre-Write Check",
+    "hooks": {
+      "PreToolUse": [
+        {
+          "matcher": "Write",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "node \"${QODER_PLUGIN_ROOT}/check.js\""
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```
+  - `matcher`：过滤触发的工具名
+  - `${QODER_PLUGIN_ROOT}`：当前插件安装目录的绝对路径。用于在命令中引用插件内部的资源文件（脚本、配置等），无论插件安装在何处，路径都能正确解析
+  支持的事件类型及详细配置，请参阅 Hooks 文档。

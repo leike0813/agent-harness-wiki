@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lingma-plugins-packaging
+harness_id: lingma
+snapshot_id: snapshot-lingma-docs-plugins
+locator:
+  kind: document_section
+  heading: "打包与分发"
+official_url: "https://docs.qoder.cn/qoder-plugins.md"
+excerpt: |-
+  ### 打包格式
+  插件以 `.zip` 格式分发。要求：
+  <Steps>
+    <Step title="zip 根目录即插件根目录">
+      不要额外嵌套一层目录。
+    </Step>
+    <Step title="包含 plugin.json">
+      `.qoder-plugin/plugin.json` 必须存在。
+    </Step>
+    <Step title="规范文件名">
+      建议文件名：`{name}-{version}.zip`。
+    </Step>
+  </Steps>
+  正确结构：
+  ```plaintext
+  deploy-helper-2.0.0.zip
+  ├── .qoder-plugin/
+  │   └── plugin.json
+  ├── skills/
+  ├── hooks/
+  │   └── hooks.json
+  ├── mcp.json
+  ├── CONNECTORS.md
+  └── README.md
+  ```
+  ### 路径规则
+  - 所有相对路径必须以 `./` 开头
+  - 不允许包含 `..`（禁止路径穿越）
+  - JSON 路径必须以 `.json` 结尾
+  - Markdown 路径必须以 `.md` 结尾

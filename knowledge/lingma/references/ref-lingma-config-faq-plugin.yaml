@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lingma-config-faq-plugin
+harness_id: lingma
+snapshot_id: snapshot-lingma-docs-faq
+locator:
+  kind: document_section
+  heading: "Qoder CN 插件常见问题（JetBrains / VS Code）"
+official_url: "https://docs.qoder.cn/support/faq.md"
+excerpt: |-
+  <Note>
+    Qoder CN 插件中的相关进程仍为 Lingma，相关路径和进程名以 .lingma / Lingma.exe 为准。
+  </Note>
+  ### 1.提示"Qoder CN 启动中"怎么办？
+  如果在使用 Qoder CN 时看到"Qoder CN 启动中"的提示，您可以按照以下步骤逐一排查并解决问题。
+  1. 检查版本与运行环境：
+  - 确保您已将 Qoder CN 升级至最新版本，并确认您的操作系统和系统架构支持 Qoder CN 运行。
+  - 如果您使用的是 Jetbrains IDE，请进行以下检查：保证 IDE 的堆内存大小足够。操作步骤：依次点击 File -> Invalidate Caches，清理缓存后重启 IDE。
+  2. 网络连接与代理配置：
+  - 确保以下地址可以正常访问。如果无法访问，请联系公司 IT 部门将其加入白名单：
+    - 执行命令：
+      ```bash
+      curl https://lingma-api.tongyi.aliyun.com/algo/api/v1/ping
+      ```
+      返回值应为 pong。
+    - 执行命令：
+      ```bash
+      curl -I https://qoder.console.aliyun.com
+      ```
+      返回状态码应为 302。
+  - 如果公司防火墙限制且无法加白名单，需手动配置代理地址（具体地址请联系公司 IT 提供）：代理格式：http(s)://用户名:密码@代理服务器地址:端口
+    - 如果域名保存未生效，可手动修改配置文件：路径：C:\Users\用户名\AppData\Local.lingma\config.json修改 http\_proxy 字段后，结束 Qoder CN 进程并重启。
+  - 清理 DNS 缓存：

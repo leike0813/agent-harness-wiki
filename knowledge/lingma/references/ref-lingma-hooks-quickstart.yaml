@@ -1,0 +1,47 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lingma-hooks-quickstart
+harness_id: lingma
+snapshot_id: snapshot-lingma-docs-hooks
+locator:
+  kind: document_section
+  heading: "快速开始"
+official_url: "https://docs.qoder.cn/user-guide/hooks.md"
+excerpt: |-
+  下面以拦截 rm -rf 这类危险命令为例，演示 Hooks 的配置流程。
+  ### 步骤一：创建脚本
+  ```shell
+  mkdir -p ~/.lingma/hooks
+  cat > ~/.lingma/hooks/block-rm.sh << 'EOF'
+  #!/bin/bash
+  input=$(cat)
+  command=$(echo "$input" | jq -r '.tool_input.command')
+  if echo "$command" | grep -q 'rm -rf'; then
+    echo "危险命令已被阻止: $command" >&2
+    exit 2
+  fi
+  exit 0
+  EOF
+  chmod +x ~/.lingma/hooks/block-rm.sh
+  ```
+  ### 步骤二：添加配置
+  在 \~/.lingma/settings.json 中添加：
+  ```shell
+  {
+    "hooks": {
+      "PreToolUse": [
+        {
+          "matcher": "Bash",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "~/.lingma/hooks/block-rm.sh"
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```
+  ### 步骤三：验证效果
+  重启 IDE，在 Qoder CN 面板中让 Agent 执行包含 rm -rf 的命令。Hook 会阻止执行，并把错误信息反馈给 Agent。

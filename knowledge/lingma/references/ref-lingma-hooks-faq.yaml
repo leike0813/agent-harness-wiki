@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lingma-hooks-faq
+harness_id: lingma
+snapshot_id: snapshot-lingma-docs-hooks
+locator:
+  kind: document_section
+  heading: "常见问题"
+official_url: "https://docs.qoder.cn/user-guide/hooks.md"
+excerpt: |-
+  ### 修改配置后为什么没生效？
+  当前版本不支持热加载，修改 settings.json 后需要重启 IDE。
+  ### Hook 脚本执行超时会怎样？
+  默认 30 秒超时，超时视为错误（继续执行，stderr 展示给用户）。
+  ### 多个 Hook 执行顺序如何确定？
+  同一事件下按配置声明顺序执行；跨配置文件时，按「用户级 → 项目级 → 项目本地」优先级从低到高依次执行。
+  ### Hook 脚本能访问哪些环境变量？
+  Hook 在当前项目根目录（cwd）下以当前用户身份执行，继承 IDE 进程的环境变量。
+  ### 如何查看 Hook 执行日志？
+  Hook 的 stderr 输出会反馈给 Agent 或用户；详细调用日志可在 Qoder CN 运行时日志中查找 \[hook] 前缀的条目。

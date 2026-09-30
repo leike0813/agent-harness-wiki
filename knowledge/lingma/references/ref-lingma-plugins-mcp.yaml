@@ -1,0 +1,42 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lingma-plugins-mcp
+harness_id: lingma
+snapshot_id: snapshot-lingma-docs-plugins
+locator:
+  kind: document_section
+  heading: "MCP 服务器配置"
+official_url: "https://docs.qoder.cn/qoder-plugins.md"
+excerpt: |-
+  MCP 配置文件为 `mcp.json`（或 `.mcp.json`），顶层使用 `mcpServers` 字段。
+  <Tabs>
+    <Tab title="本地进程模式">
+      ```json
+      {
+        "mcpServers": {
+          "my-db": {
+            "command": "npx",
+            "args": ["-y", "@my-org/db-mcp-server"],
+            "env": { "DB_URL": "postgres://localhost:5432/mydb" }
+          }
+        }
+      }
+      ```
+    </Tab>
+    <Tab title="远程服务模式（声明式 Connector）">
+      当 MCP Server 需要用户个人凭证时，使用占位符 + `_setup` 引导配置：
+      ```json
+      {
+        "mcpServers": {
+          "dingtalk-log": {
+            "type": "streamable-http",
+            "url": "{{USER_CONFIG}}",
+            "_setup": {
+              "configUrl": "https://aihub.dingtalk.com/#/detail?mcpId=9639",
+              "guide": "请访问上方链接登录钉钉，获取您的个人 MCP Server URL",
+              "required": true
+            }
+          }
+        }
+      }
+      ```
