@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-manual-doc
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-docs-mcp
+locator:
+  kind: document_section
+  heading: Manual configuration
+official_url: "https://forgecode.dev/docs/mcp-integration/"
+excerpt: |-
+  If you prefer direct file editing, create or update .mcp.json.
+  {
+    "mcpServers": {
+      "browser_automation": {
+        "command": "npx",
+        "args": ["@modelcontextprotocol/server-browser"],
+        "env": {
+          "BROWSER_EXECUTABLE": "/usr/bin/chromium-browser"
+        }
+      },
+      "api_service": {
+        "command": "python",
+        "args": ["-m", "mcp_server", "--port", "3001"],
+        "env": {
+          "API_KEY": "your_api_key_here",
+          "DEBUG": "true"
+        }
+      },
+      "webhook_server": {
+        "url": "http://localhost:3000/events"
+      }
+    }
+  }

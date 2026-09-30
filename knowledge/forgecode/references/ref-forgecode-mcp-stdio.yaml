@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-stdio
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_domain/src/mcp.rs
+  start: 65
+  end: 95
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  }
+      }
+  }
+  #[derive(Default, Debug, Clone, Serialize, Deserialize, Setters, PartialEq, Hash)]
+  #[setters(strip_option, into)]
+  pub struct McpStdioServer {
+      /// Command to execute for starting this MCP server
+      #[serde(skip_serializing_if = "String::is_empty")]
+      pub command: String,
+      /// Arguments to pass to the command
+      #[serde(default, skip_serializing_if = "Vec::is_empty")]
+      pub args: Vec<String>,
+      /// Environment variables to pass to the command
+      #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+      pub env: BTreeMap<String, String>,
+      /// Timeout in seconds for tool calls to this MCP server
+      /// If not specified, uses the default FORGE_MCP_TIMEOUT or 300 seconds
+      #[serde(default, skip_serializing_if = "Option::is_none")]

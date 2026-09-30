@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-providers-oauth
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/provider/provider.json
+  start: 21
+  end: 60
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  "id": "github_copilot",
+      "api_key_vars": "GITHUB_COPILOT_API_KEY",
+      "url_param_vars": [],
+      "response_type": "OpenAI",
+      "url": "https://api.githubcopilot.com/chat/completions",
+      "models": "https://api.githubcopilot.com/models",
+      "auth_methods": [
+        {
+          "oauth_device": {
+            "auth_url": "https://github.com/login/device/code",
+            "token_url": "https://github.com/login/oauth/access_token",
+            "client_id": "Iv1.b507a08c87ecfe98",
+            "scopes": ["read:user"],
+            "use_pkce": false,
+            "token_refresh_url": "https://api.github.com/copilot_internal/v2/token",
+            "custom_headers": {
+              "User-Agent": "GitHubCopilotChat/0.26.7",
+              "Accept": "application/json",
+              "editor-version": "vscode/1.99.3",

@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-providers-cli
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_main/src/cli.rs
+  start: 805
+  end: 840
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  name: String,
+      },
+  }
+  /// Command group for provider authentication management.
+  #[derive(Parser, Debug, Clone)]
+  pub struct ProviderCommandGroup {
+      #[command(subcommand)]
+      pub command: ProviderCommand,
+      /// Output in machine-readable format.
+      #[arg(long, global = true)]
+      pub porcelain: bool,
+  }
+  #[derive(Subcommand, Debug, Clone)]
+  pub enum ProviderCommand {
+      /// Authenticate with an API provider.
+      ///
+      /// Shows an interactive menu when no provider name is specified.
+      Login {
+          /// Provider name to authenticate with.
+          provider: Option<ProviderId>,
+      },
+      /// Remove provider credentials.
+      ///
+      /// Shows an interactive menu when no provider name is specified.
+      Logout {
+          /// Provider name to log out from.

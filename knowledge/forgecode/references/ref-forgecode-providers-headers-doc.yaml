@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-providers-headers-doc
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-docs-providers
+locator:
+  kind: document_section
+  heading: Custom Headers
+official_url: "https://forgecode.dev/docs/custom-providers/"
+excerpt: |-
+  To send additional headers with every request — for example, to pass a gateway token or routing key — use a [providers.custom_headers] table directly after the provider entry:
+  [[providers]]
+  id            = "kimi_coding"
+  api_key_vars  = "KIMI_API_KEY"
+  url_param_vars = []
+  response_type = "OpenAI"
+  url           = "https://api.kimi.com/coding/v1/chat/completions"
+  models        = "https://api.kimi.com/coding/v1/models"
+  auth_methods  = ["api_key"]
+  [providers.custom_headers]
+  User-Agent = "KimiCLI/1.0.0"

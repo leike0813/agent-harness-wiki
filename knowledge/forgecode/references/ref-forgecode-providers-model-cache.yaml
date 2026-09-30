@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-providers-model-cache
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/provider/chat.rs
+  start: 28
+  end: 55
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  /// Creates a new ForgeChatRepository with the given infrastructure.
+      ///
+      /// # Arguments
+      ///
+      /// * `infra` - Infrastructure providing environment and HTTP capabilities
+      pub fn new(infra: Arc<F>) -> Self {
+          let env = infra.get_environment();
+          let config = infra.get_config().unwrap_or_default();
+          let model_cache_ttl_secs = config.model_cache_ttl_secs;
+          let openai_repo = OpenAIResponseRepository::new(infra.clone());
+          let codex_repo = OpenAIResponsesResponseRepository::new(infra.clone());
+          let anthropic_repo = AnthropicResponseRepository::new(infra.clone());
+          let bedrock_repo =
+              BedrockResponseRepository::new(Arc::new(config.retry.unwrap_or_default()));

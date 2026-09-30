@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-providers-env-fallback
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/provider/provider_repo.rs
+  start: 95
+  end: 122
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  models: Option<Models>,
+      #[merge(strategy = merge::vec::append)]
+      auth_methods: Vec<forge_domain::AuthMethod>,
+      #[serde(default)]
+      #[merge(strategy = overwrite)]
+      custom_headers: Option<std::collections::HashMap<String, String>>,
+  }
+  /// Maps new environment variable names to their legacy fallback names.
+  /// This enables backward compatibility when renaming env vars (e.g. OLLAMA_URL
+  /// → OLLAMA_HOST).
+  fn legacy_env_var_fallback(new_name: &str) -> Option<&'static str> {
+      match new_name {
+          "OLLAMA_HOST" => Some("OLLAMA_URL"),
+          "VLLM_HOST" => Some("VLLM_URL"),
+          "LM_STUDIO_HOST" => Some("LM_STUDIO_URL"),
+          "LLAMA_CPP_HOST" => Some("LLAMA_CPP_URL"),
+          "JAN_AI_HOST" => Some("JAN_AI_URL"),
+          _ => None,
+      }
+  }

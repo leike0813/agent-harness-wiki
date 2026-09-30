@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-agents-override-doc
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-docs-agents
+locator:
+  kind: document_section
+  heading: Customizing built-in agents
+official_url: "https://forgecode.dev/docs/creating-agents/"
+excerpt: |-
+  You can override ForgeCode's built-in agents (forge, muse, sage) by creating an agent file with a matching id. The built-in definition is replaced entirely.
+  Create .forge/agents/forge-frontend.md:
+  ---
+  id: "forge"
+  title: "Frontend Forge"
+  description: "Forge agent tuned for React and TypeScript"
+  tools:
+    - read
+    - write
+    - patch
+    - shell
+  temperature: 0.1
+  ---
+  You are a frontend development expert for this React TypeScript project.
+  Build modern, accessible components. Explain architectural decisions. Include TypeScript types in every example you write.
+  This override applies only to the project — global ForgeCode sessions are unaffected.

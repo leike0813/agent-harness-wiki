@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-providers-login
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_main/src/cli.rs
+  start: 425
+  end: 470
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  Provider {
+          /// Filter providers by type (e.g., llm, context_engine). Can be
+          /// specified multiple times.
+          #[arg(long = "type", short = 't')]
+          types: Vec<forge_domain::ProviderType>,
+      },
+      /// List available models.
+      #[command(alias = "models")]
+      Model,
+      /// List available commands.
+      #[command(hide = true, alias = "commands")]
+      Command {
+          /// Shows only custom commands
+          #[arg(long)]
+          custom: bool,
+      },
+      /// List configuration values.
+      #[command(alias = "configs")]
+      Config,
+      /// List tools for a specific agent.
+      #[command(alias = "tools")]
+      Tool {
+          /// Agent ID to list tools for.
+          agent: AgentId,
+      },
+      /// List MCP servers.
+      #[command(alias = "mcps")]
+      Mcp,

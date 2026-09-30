@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-agents-troubleshoot-doc
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-docs-agents
+locator:
+  kind: document_section
+  heading: Troubleshooting
+official_url: "https://forgecode.dev/docs/creating-agents/"
+excerpt: |-
+  Agent doesn't appear in :agent list
+  - Check the file has a .md extension
+  - Verify the frontmatter is valid YAML (spaces, not tabs for indentation)
+  - Confirm the id is unique — duplicate IDs cause the second agent to be silently skipped
+  - Restart ForgeCode after adding new agent files
+  YAML parse errors
+  Quote strings that contain colons, brackets, or other special characters:
+  title: "Backend: API Expert" # colon in value requires quotes
+  description: "Expert [Node.js]" # brackets require quotes
+  Use | for multiline strings:
+  description: |
+    Analyzes code for security vulnerabilities,
+    explains each risk, and provides concrete fixes.
+  Agent used as a tool by other agents isn't recognized
+  Agents can only be invoked as tools by other agents if they have a description field.

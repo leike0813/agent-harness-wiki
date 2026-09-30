@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-config-toml-doc-example
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_config/src/config.rs
+  start: 395
+  end: 440
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  "expected `top_p = 0.9` in TOML output, got:\n{toml}"
+          );
+      }
+      #[test]
+      fn test_f32_temperature_deserialize_round_trip() {
+          let fixture = ForgeConfig { temperature: Some(Decimal(0.1)), ..Default::default() };
+          let toml = toml_edit::ser::to_string_pretty(&fixture).unwrap();
+          let actual = ConfigReader::default().read_toml(&toml).build().unwrap();
+          assert_eq!(actual.temperature, fixture.temperature);
+      }
+      #[test]
+      fn test_provider_static_model_list_deserialization() {
+          let fixture = r#"
+  [[providers]]
+  id = "ollama"
+  url = "http://127.0.0.1:8000/v1/chat/completions"
+  response_type = "OpenAI"
+  auth_methods = ["api_key"]
+  [[providers.models]]
+  id = "Qwen3.6-35B-A3b-q3-mlx"
+  name = "Qwen3.5-35B"

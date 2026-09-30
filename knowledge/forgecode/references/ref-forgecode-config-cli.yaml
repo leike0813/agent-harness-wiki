@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-config-cli
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_main/src/cli.rs
+  start: 624
+  end: 665
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  pub struct ConfigCommandGroup {
+      #[command(subcommand)]
+      pub command: ConfigCommand,
+      /// Output in machine-readable format.
+      #[arg(long, global = true)]
+      pub porcelain: bool,
+  }
+  #[derive(Subcommand, Debug, Clone)]
+  pub enum ConfigCommand {
+      /// Set a configuration value.
+      Set(ConfigSetArgs),
+      /// Get a configuration value.
+      Get(ConfigGetArgs),
+      /// List configuration values.
+      List,
+      /// Print the path to the global config file.
+      Path,
+      /// Migrate the legacy ~/forge directory to ~/.forge.
+      Migrate,
+  }
+  /// Arguments for `forge config set`.
+  #[derive(Parser, Debug, Clone)]
+  pub struct ConfigSetArgs {
+      #[command(subcommand)]
+      pub field: ConfigSetField,
+  }
+  /// Arguments for `forge config get`.
+  #[derive(Parser, Debug, Clone)]

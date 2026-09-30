@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-skills-fetch
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_services/src/tool_services/skill.rs
+  start: 26
+  end: 52
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  impl<R: forge_domain::SkillRepository> SkillFetchService for ForgeSkillFetch<R> {
+      async fn fetch_skill(&self, skill_name: String) -> anyhow::Result<Skill> {
+          // Load skills from cache or repository
+          let skills = self.get_or_load_skills().await?;
+          // Find the requested skill
+          skills
+              .iter()
+              .find(|skill| skill.name == skill_name)
+              .cloned()
+              .ok_or_else(|| {
+                  anyhow!("Skill '{skill_name}' not found. Please check the available skills list.")
+              })
+      }
+      async fn list_skills(&self) -> anyhow::Result<Vec<Skill>> {
+          self.get_or_load_skills().await.cloned()
+      }
+  }
+  impl<R: forge_domain::SkillRepository> ForgeSkillFetch<R> {

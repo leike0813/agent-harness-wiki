@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-providers-retry
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/provider/retry.rs
+  start: 1
+  end: 40
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  use forge_app::domain::Error as DomainError;
+  use forge_app::dto::anthropic::Error as AnthropicError;
+  use forge_app::dto::openai::{Error, ErrorCode, ErrorResponse};
+  use forge_config::RetryConfig;
+  const TRANSPORT_ERROR_CODES: [&str; 3] = ["ERR_STREAM_PREMATURE_CLOSE", "ECONNRESET", "ETIMEDOUT"];
+  const OPENAI_RETRYABLE_ERROR_CODES: [&str; 2] = ["server_is_overloaded", "server_error"];
+  /// Converts known transient provider failures into retryable domain errors.
+  ///
+  /// # Arguments
+  ///
+  /// * `error` - The provider error to classify.
+  /// * `retry_config` - Configured retryable HTTP status codes.
+  pub fn into_retry(error: anyhow::Error, retry_config: &RetryConfig) -> anyhow::Error {
+      if let Some(code) = get_req_status_code(&error)
+          .or(get_event_req_status_code(&error))

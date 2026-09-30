@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-config-paths
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_config/src/reader.rs
+  start: 44
+  end: 80
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  /// (`~/.forge/.config.json`).
+      pub fn config_legacy_path() -> PathBuf {
+          Self::base_path().join(".config.json")
+      }
+      /// Returns the path to the primary TOML config file
+      /// (`~/.forge/.forge.toml`).
+      pub fn config_path() -> PathBuf {
+          Self::base_path().join(".forge.toml")
+      }
+      /// Returns the base directory for all Forge config files.
+      ///
+      /// Resolution order:
+      /// 1. `FORGE_CONFIG` environment variable, if set.
+      /// 2. `~/forge` (legacy path), if that directory exists, so users who have
+      ///    not yet run `forge config migrate` continue to read from their
+      ///    existing directory without disruption.
+      /// 3. `~/.forge` as the default path.
+      pub fn base_path() -> PathBuf {
+          BASE_PATH.clone()
+      }

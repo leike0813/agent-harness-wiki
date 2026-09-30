@@ -1,0 +1,44 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-import-doc
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-docs-mcp
+locator:
+  kind: document_section
+  heading: forge mcp import
+official_url: "https://forgecode.dev/docs/mcp-integration/"
+excerpt: |-
+  Import one or more MCP servers from a JSON string.
+  Usage
+  forge mcp import [OPTIONS] '<json_configuration>'
+  Options
+  - -s, --scope <SCOPE>: local or user (default: local)
+  - --porcelain: machine-readable output
+  Examples
+  Add multiple servers to local scope:
+  forge mcp import '{
+    "mcpServers": {
+      "context7": {
+        "url": "https://mcp.context7.com/sse"
+      },
+      "deepwiki": {
+        "url": "https://mcp.deepwiki.com/sse"
+      },
+      "playwright": {
+        "command": "npx",
+        "args": ["@playwright/mcp@latest"]
+      }
+    }
+  }'
+  Add a server to user scope:
+  forge mcp import --scope user '{
+    "mcpServers": {
+      "playwright": {
+        "command": "npx",
+        "args": ["@playwright/mcp@latest"]
+      }
+    }
+  }'
+  Typical output:
+  ⏺ Added MCP server 'context7'
+  ⏺ Added MCP server 'deepwiki'

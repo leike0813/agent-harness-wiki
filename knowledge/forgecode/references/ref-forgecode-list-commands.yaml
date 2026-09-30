@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-list-commands
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_main/src/cli.rs
+  start: 410
+  end: 490
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  pub porcelain: bool,
+  }
+  #[derive(Subcommand, Debug, Clone)]
+  pub enum ListCommand {
+      /// List available agents.
+      #[command(alias = "agents")]
+      Agent {
+          /// Shows only custom agents
+          #[arg(long)]
+          custom: bool,
+      },
+      /// List available API providers.
+      #[command(alias = "providers")]
+      Provider {
+          /// Filter providers by type (e.g., llm, context_engine). Can be
+          /// specified multiple times.
+          #[arg(long = "type", short = 't')]
+          types: Vec<forge_domain::ProviderType>,
+      },
+      /// List available models.
+      #[command(alias = "models")]
+      Model,
+      /// List available commands.
+      #[command(hide = true, alias = "commands")]
+      Command {
+          /// Shows only custom commands
+          #[arg(long)]
+          custom: bool,

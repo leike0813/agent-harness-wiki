@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-config-legacy
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_config/src/legacy.rs
+  start: 1
+  end: 26
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  use std::collections::HashMap;
+  use std::path::PathBuf;
+  use serde::Deserialize;
+  use crate::{ForgeConfig, ModelConfig};
+  /// Intermediate representation of the legacy `~/forge/.config.json` format.
+  ///
+  /// This format stores the active provider as a top-level string and models as
+  /// a map from provider ID to model ID, which differs from the TOML config's
+  /// nested `session`, `commit`, and `suggest` sub-objects.
+  #[derive(Debug, Deserialize)]
+  #[serde(rename_all = "camelCase")]
+  pub(crate) struct LegacyConfig {
+      /// The active provider ID (e.g. `"anthropic"`).
+      #[serde(default)]
+      provider: Option<String>,
+      /// Map from provider ID to the model ID to use with that provider.
+      #[serde(default)]
+      model: HashMap<String, String>,

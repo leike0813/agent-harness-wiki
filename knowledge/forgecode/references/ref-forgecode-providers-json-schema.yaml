@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-providers-json-schema
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/provider/provider_repo.rs
+  start: 63
+  end: 106
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  let mut spec = if options.is_empty() {
+                      URLParamSpec::new(URLParam::from(name))
+                  } else {
+                      URLParamSpec::with_options(URLParam::from(name), options)
+                  };
+                  spec.optional = optional;
+                  spec
+              }
+          }
+      }
+  }
+  #[derive(Debug, Clone, PartialEq, Deserialize, Merge)]
+  struct ProviderConfig {
+      #[merge(strategy = overwrite)]
+      id: ProviderId,
+      #[serde(default)]
+      #[merge(strategy = overwrite)]
+      provider_type: ProviderType,
+      #[serde(default)]
+      #[merge(strategy = overwrite)]
+      api_key_vars: Option<String>,
+      #[serde(default)]
+      #[merge(strategy = merge::vec::append)]
+      url_param_vars: Vec<UrlParamVarConfig>,
+      #[serde(default)]
+      #[merge(strategy = overwrite)]

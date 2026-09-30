@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-config-read-order
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_config/src/config.rs
+  start: 339
+  end: 352
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  impl ForgeConfig {
+      /// Reads and merges configuration from all sources, returning the resolved
+      /// [`ForgeConfig`].
+      ///
+      /// # Errors
+      ///
+      /// Returns an error if the config path cannot be resolved, the file cannot
+      /// be read, or deserialization fails.
+      pub fn read() -> crate::Result<ForgeConfig> {
+          ConfigReader::default()
+              .read_legacy()
+              .read_defaults()
+              .read_global()
+              .read_env()

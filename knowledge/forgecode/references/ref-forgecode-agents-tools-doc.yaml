@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-agents-tools-doc
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-docs-agents
+locator:
+  kind: document_section
+  heading: Configuring tools
+official_url: "https://forgecode.dev/docs/creating-agents/"
+excerpt: |-
+  By default, agents have no tools unless you specify them. Restrict access to exactly what the agent needs. Run :tools in a ForgeCode session to see every tool available in your environment:
+  tools:
+    - read # Read files and directories
+    - write # Create and modify files
+    - patch # Apply targeted changes
+    - shell # Execute shell commands
+    - search # Search within files
+    - fetch # Retrieve external resources
+    - remove # Delete files
+    - undo # Reverse previous changes
+  Use * to grant access to every available tool:
+  tools:
+    - "*" # All tools
+  tip
+  Do so in practice every tool definition is injected into the model's context. Granting all tools — especially when many MCP servers are configured — consumes significant context space and leaves less room for your actual work.

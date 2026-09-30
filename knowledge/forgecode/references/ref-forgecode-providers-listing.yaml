@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-providers-listing
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/provider/provider_repo.rs
+  start: 296
+  end: 336
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  .providers
+              .into_iter()
+              .map(Into::into)
+              .collect()
+      }
+      async fn get_providers(&self) -> Vec<AnyProvider> {
+          let configs = self.get_merged_configs().await;
+          let mut providers: Vec<AnyProvider> = Vec::new();
+          for config in configs {
+              // Skip Forge provider as it's handled specially
+              if config.id == ProviderId::FORGE {
+                  continue;
+              }
+              // Try to create configured template provider, fallback to
+              // unconfigured
+              let provider_entry = if let Ok(provider) = self.create_provider(&config).await {
+                  Some(provider.into())
+              } else if let Ok(provider) = self.create_unconfigured_provider(&config) {
+                  Some(provider.into())

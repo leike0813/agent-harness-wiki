@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-config-session-commands
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: README.md
+  start: 308
+  end: 333
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  ### Session & Configuration
+  Some commands change settings for the current session only. Others persist to your config file (`~/forge/.forge.toml`). The distinction matters:
+  ```zsh
+  # Session-only (reset when you close the terminal; not saved to config)
+  :model <model-id>              # Change model for this session only
+  :reasoning-effort <level>      # Set reasoning effort: none/minimal/low/medium/high/xhigh/max
+  :agent <id>                    # Switch active agent for this session
+  # Persistent (saved to config file)
+  :config-model <model-id>       # Set default model globally  (alias: :cm)
+  :config-provider               # Switch provider globally    (alias: :provider, :p)
+  :config-reasoning-effort <lvl> # Set default reasoning effort globally (alias: :cre)

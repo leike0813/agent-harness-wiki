@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-merge
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_services/src/mcp/manager.rs
+  start: 144
+  end: 166
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  }
+              None => {
+                  // Read and merge all configurations (original behavior)
+                  let env = self.infra.get_environment();
+                  let paths = vec![
+                      // Configs at lower levels take precedence, so we read them in reverse order.
+                      env.mcp_user_config().as_path().to_path_buf(),
+                      env.mcp_local_config().as_path().to_path_buf(),
+                  ];
+                  let mut config = McpConfig::default();
+                  for path in paths {
+                      if self.infra.is_file(&path).await.unwrap_or_default() {
+                          let new_config = self.read_config(&path).await.context(format!(
+                              "An error occurred while reading config at: {}",

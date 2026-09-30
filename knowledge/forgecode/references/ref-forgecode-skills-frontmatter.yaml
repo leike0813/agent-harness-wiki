@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-skills-frontmatter
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/skill.rs
+  start: 257
+  end: 292
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  #[derive(Debug, Deserialize)]
+  struct SkillMetadata {
+      /// Optional name of the skill (overrides filename if present)
+      name: Option<String>,
+      /// Optional description of the skill
+      description: Option<String>,
+  }
+  /// Extracts metadata from the skill markdown content using YAML front matter
+  ///
+  /// Parses YAML front matter from the markdown content and extracts skill
+  /// metadata. Expected format:
+  /// ```markdown
+  /// ---
+  /// name: "skill-name"
+  /// description: "Your description here"
+  /// ---
+  /// # Skill content...
+  /// ```
+  ///
+  /// Returns a tuple of (name, description) where both are Option<String>.
+  fn extract_skill(path: &str, content: &str) -> Option<Skill> {
+      let matter = Matter::<YAML>::new();
+      let result = matter.parse::<SkillMetadata>(content);

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-hooks-internal
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_domain/src/hook.rs
+  start: 1
+  end: 22
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  use async_trait::async_trait;
+  use derive_more::From;
+  use derive_setters::Setters;
+  use crate::{Agent, ChatCompletionMessageFull, Conversation, ModelId, ToolCallFull, ToolResult};
+  /// A container for lifecycle events with agent and model ID context
+  ///
+  /// This struct provides a consistent structure for all lifecycle events,
+  /// containing the agent and model ID along with event-specific payload data.
+  #[derive(Debug, PartialEq, Clone)]
+  pub struct EventData<P: Send + Sync> {
+      /// The agent associated with this event
+      pub agent: Agent,
+      /// The model ID being used
+      pub model_id: ModelId,
+      /// Event-specific payload data
+      pub payload: P,
+  }
+  impl<P: Send + Sync> EventData<P> {
+      /// Creates a new event with the given agent, model ID, and payload

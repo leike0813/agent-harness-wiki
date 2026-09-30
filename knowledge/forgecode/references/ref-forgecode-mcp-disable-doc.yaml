@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-disable-doc
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-docs-mcp
+locator:
+  kind: document_section
+  heading: Disable a server without deleting it
+official_url: "https://forgecode.dev/docs/mcp-integration/"
+excerpt: |-
+  Set "disable": true on a server entry.
+  {
+    "mcpServers": {
+      "github": {
+        "url": "https://api.githubcopilot.com/mcp/",
+        "disable": true
+      },
+      "weather": {
+        "command": "node",
+        "args": ["weather-server.js"],
+        "disable": false
+      }
+    }
+  }
+  Behavior:
+  - "disable": true: server is ignored and not loaded
+  - "disable": false or omitted: server loads normally

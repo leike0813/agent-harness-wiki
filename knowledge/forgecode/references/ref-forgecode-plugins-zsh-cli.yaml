@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-plugins-zsh-cli
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_main/src/cli.rs
+  start: 489
+  end: 512
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  pub enum ZshCommandGroup {
+      /// Generate shell plugin script
+      Plugin,
+      /// Generate shell theme
+      Theme,
+      /// Run diagnostics on shell environment
+      Doctor,
+      /// Get rprompt information (model and conversation stats) for shell
+      /// integration.
+      Rprompt,
+      /// Setup zsh integration by updating .zshrc with plugin and theme
+      Setup,
+      /// Show keyboard shortcuts for ZSH line editor
+      Keyboard,
+      /// Format buffer text by wrapping file paths in @[...] syntax.
+      ///
+      /// Used by the zsh plugin to delegate path detection and wrapping to
+      /// Rust where the logic is well-tested across all terminal environments.
+      Format {
+          /// The text buffer to format.

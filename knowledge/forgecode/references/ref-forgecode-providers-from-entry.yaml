@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-providers-from-entry
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/provider/provider_repo.rs
+  start: 166
+  end: 232
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  }
+  impl From<forge_config::ProviderEntry> for ProviderConfig {
+      fn from(entry: forge_config::ProviderEntry) -> Self {
+          let provider_type = match entry.provider_type {
+              Some(forge_config::ProviderTypeEntry::ContextEngine) => {
+                  forge_domain::ProviderType::ContextEngine
+              }
+              Some(forge_config::ProviderTypeEntry::Llm) | None => forge_domain::ProviderType::Llm,
+          };
+          let auth_methods = if entry.auth_methods.is_empty() {
+              vec![forge_domain::AuthMethod::ApiKey]
+          } else {
+              entry
+                  .auth_methods
+                  .into_iter()
+                  .map(|m| match m {
+                      forge_config::ProviderAuthMethod::ApiKey => forge_domain::AuthMethod::ApiKey,

@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-paths
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_domain/src/env.rs
+  start: 80
+  end: 104
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  }
+      pub fn mcp_user_config(&self) -> PathBuf {
+          self.base_path.join(".mcp.json")
+      }
+      /// Returns the path where the MCP trust store is persisted across restarts.
+      pub fn mcp_trust_path(&self) -> PathBuf {
+          self.base_path.join(".mcp_trust.json")
+      }
+      pub fn agent_path(&self) -> PathBuf {
+          self.base_path.join("agents")
+      }
+      pub fn agent_cwd_path(&self) -> PathBuf {
+          self.cwd.join(".forge/agents")
+      }
+      pub fn permissions_path(&self) -> PathBuf {
+          self.base_path.join("permissions.yaml")
+      }
+      pub fn mcp_local_config(&self) -> PathBuf {
+          self.cwd.join(".mcp.json")
+      }

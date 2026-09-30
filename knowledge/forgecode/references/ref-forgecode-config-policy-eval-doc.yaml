@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-config-policy-eval-doc
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-docs-permissions
+locator:
+  kind: document_section
+  heading: How ForgeCode evaluates policies
+official_url: "https://forgecode.dev/docs/permissions/"
+excerpt: |-
+  A matching allow is not always final. ForgeCode can keep scanning because a later deny or confirm may still need to stop the operation.
+  Suppose ForgeCode wants to run git status.
+  run `git status`
+    -> check rules from top to bottom
+    -> matching deny?    stop and reject
+    -> matching confirm? stop and ask
+    -> matching allow?   remember it and keep going
+    -> nothing decisive matched? ask by default
+  That last line matters: no matching policy means confirm, not allow.

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-lifecycle
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_services/src/mcp/service.rs
+  start: 103
+  end: 190
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  async fn ensure_mcp_initialized(&self) -> anyhow::Result<()> {
+          let raw_mcp = self.manager.read_mcp_config(None).await?;
+          // Fast path: if config is unchanged, skip reinitialization without
+          // acquiring the lock
+          if !self.is_config_modified(&raw_mcp).await {
+              return Ok(());
+          }
+          // Serialise concurrent initialisations so only one caller runs
+          // update_mcp at a time
+          let _guard = self.init_lock.lock().await;
+          // Double-check under the lock: a concurrent caller may have already
+          // updated
+          if !self.is_config_modified(&raw_mcp).await {
+              return Ok(());
+          }
+          // Apply the trust gate. The prompt was already shown at startup via

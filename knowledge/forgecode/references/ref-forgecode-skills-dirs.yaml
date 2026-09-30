@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-skills-dirs
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_domain/src/env.rs
+  start: 121
+  end: 138
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  /// Returns the global skills directory path (~/forge/skills)
+      pub fn global_skills_path(&self) -> PathBuf {
+          self.base_path.join("skills")
+      }
+      /// Returns the agents skills directory path (~/.agents/skills)
+      ///
+      /// Returns `None` when the home directory cannot be determined.
+      pub fn agents_skills_path(&self) -> Option<PathBuf> {
+          self.home.as_ref().map(|home| home.join(".agents/skills"))
+      }
+      /// Returns the project-local skills directory path (.forge/skills)
+      pub fn local_skills_path(&self) -> PathBuf {
+          self.cwd.join(".forge/skills")
+      }

@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-config-migrate
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_main/src/ui.rs
+  start: 4450
+  end: 4480
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  }
+              crate::cli::ConfigCommand::Migrate => {
+                  self.handle_config_migrate()?;
+              }
+          }
+          Ok(())
+      }
+      /// Rename `~/forge` to `~/.forge`.
+      ///
+      /// Errors if the legacy directory does not exist, if the new directory
+      /// already exists, or if the rename fails.
+      fn handle_config_migrate(&mut self) -> Result<()> {
+          let home = dirs::home_dir()
+              .ok_or_else(|| anyhow::anyhow!("Could not determine home directory"))?;
+          let legacy = home.join("forge");
+          let new = home.join(".forge");
+          if !legacy.exists() {
+              anyhow::bail!(
+                  "Legacy directory {} does not exist — nothing to migrate",
+                  legacy.display()
+              );
+          }
+          if new.exists() {

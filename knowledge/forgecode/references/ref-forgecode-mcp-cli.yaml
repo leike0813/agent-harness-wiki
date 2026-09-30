@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-cli
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_main/src/cli.rs
+  start: 529
+  end: 588
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  #[derive(Subcommand, Debug, Clone)]
+  pub enum McpCommand {
+      /// Import server configuration from JSON.
+      Import(McpImportArgs),
+      /// List configured servers.
+      List,
+      /// Remove a configured server.
+      Remove(McpRemoveArgs),
+      /// Show server configuration details.
+      Show(McpShowArgs),
+      /// Reload servers and rebuild caches.
+      Reload,
+      /// Authenticate with an OAuth-enabled MCP server.
+      Login(McpAuthArgs),
+      /// Remove stored OAuth credentials for an MCP server.
+      Logout(McpLogoutArgs),
+  }
+  #[derive(Parser, Debug, Clone)]
+  pub struct McpImportArgs {
+      /// JSON configuration to import.
+      #[arg()]
+      pub json: String,
+      /// Configuration scope.
+      #[arg(short = 's', long = "scope", default_value = "local")]
+      pub scope: Scope,
+  }

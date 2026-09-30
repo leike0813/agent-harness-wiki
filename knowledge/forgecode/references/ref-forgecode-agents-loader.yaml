@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-agents-loader
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/agent.rs
+  start: 59
+  end: 100
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  let dir = self.infra.get_environment().agent_path();
+          let custom_agents = self.init_agent_dir(&dir).await?;
+          agents.extend(custom_agents);
+          // Load custom agents from CWD
+          let dir = self.infra.get_environment().agent_cwd_path();
+          let cwd_agents = self.init_agent_dir(&dir).await?;
+          agents.extend(cwd_agents);
+          // Handle agent ID conflicts by keeping the last occurrence
+          // This gives precedence order: CWD > Global Custom > Built-in
+          Ok(resolve_agent_conflicts(agents))
+      }
+      async fn init_default(&self) -> anyhow::Result<Vec<AgentDefinition>> {
+          let config = self.infra.get_config()?;
+          parse_agent_iter(
+              [
+                  ("forge", include_str!("agents/forge.md")),

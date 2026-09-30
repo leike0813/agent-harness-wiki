@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-config-dotenv
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_config/src/reader.rs
+  start: 9
+  end: 32
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  /// Loads all `.env` files found while walking up from the current working
+  /// directory to the root, with priority given to closer (lower) directories.
+  /// Executed at most once per process.
+  static LOAD_DOT_ENV: LazyLock<()> = LazyLock::new(|| {
+      let cwd = std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."));
+      let mut paths = vec![];
+      let mut current = PathBuf::new();
+      for component in cwd.components() {
+          current.push(component);
+          paths.push(current.clone());
+      }
+      paths.reverse();
+      for path in paths {
+          let env_file = path.join(".env");
+          if env_file.is_file() {
+              dotenvy::from_path(&env_file).ok();
+          }
+      }
+  });

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-skills-readme
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: README.md
+  start: 334
+  end: 356
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  ### Skills
+  Skills are reusable workflows the AI can invoke as tools. Forge ships three built-in skills:
+  - **`create-skill`**: scaffold a new custom skill
+  - **`execute-plan`**: execute a plan file from `plans/`
+  - **`github-pr-description`**: generate a PR description from your diff
+  Use `:skill` to list available skills. The AI invokes them automatically when relevant, or you can ask explicitly: `: generate a PR description using the github-pr-description skill`.
+  **Custom skills** live in `SKILL.md` files with YAML front-matter. Precedence (highest first):
+  | Location | Path | Scope |
+  |---|---|---|
+  | Project-local | `.forge/skills/<name>/SKILL.md` | This project only |
+  | Global | `~/forge/skills/<name>/SKILL.md` | All projects |
+  | Built-in | Embedded in binary | Always available |

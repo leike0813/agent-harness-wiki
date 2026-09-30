@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-oauth
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_domain/src/mcp.rs
+  start: 205
+  end: 258
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  }
+          }
+          deserializer.deserialize_any(McpOAuthSettingVisitor)
+      }
+      /// Custom serializer:
+      /// - AutoDetect -> skip (handled by skip_serializing_if)
+      /// - Disabled -> `false`
+      /// - Configured -> serialize the config object
+      fn serialize_flexible<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+      where
+          S: serde::Serializer,
+      {
+          match self {
+              Self::AutoDetect => serializer.serialize_none(),
+              Self::Disabled => serializer.serialize_bool(false),
+              Self::Configured(config) => config.serialize(serializer),
+          }
+      }
+  }
+  /// MCP OAuth 2.0 configuration.
+  /// Supports automatic OAuth configuration discovery from server metadata.
+  /// When auth_url/token_url are not provided, Forge will automatically

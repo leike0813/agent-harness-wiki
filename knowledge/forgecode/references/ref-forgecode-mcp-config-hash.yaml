@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-config-hash
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_domain/src/mcp.rs
+  start: 269
+  end: 300
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  #[derive(Default, Debug, Clone, Serialize, Deserialize, PartialEq, Hash, Merge)]
+  #[serde(rename_all = "camelCase", deny_unknown_fields)]
+  pub struct McpConfig {
+      #[merge(strategy = std::collections::BTreeMap::extend)]
+      #[serde(default)]
+      pub mcp_servers: BTreeMap<ServerName, McpServerConfig>,
+  }
+  impl Deref for McpConfig {
+      type Target = BTreeMap<ServerName, McpServerConfig>;
+      fn deref(&self) -> &Self::Target {
+          &self.mcp_servers
+      }
+  }
+  impl From<BTreeMap<ServerName, McpServerConfig>> for McpConfig {
+      fn from(mcp_servers: BTreeMap<ServerName, McpServerConfig>) -> Self {
+          Self { mcp_servers }
+      }
+  }
+  impl McpConfig {
+      /// Compute a deterministic u64 identifier for this config.
+      ///

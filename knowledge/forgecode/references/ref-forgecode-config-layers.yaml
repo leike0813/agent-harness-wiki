@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-config-layers
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_config/src/reader.rs
+  start: 100
+  end: 152
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  self.read_toml(defaults)
+      }
+      /// Adds `FORGE_`-prefixed environment variables as a config source.
+      pub fn read_env(mut self) -> Self {
+          self.builder = self.builder.add_source(
+              config::Environment::with_prefix("FORGE")
+                  .prefix_separator("_")
+                  .separator("__")
+                  .try_parsing(true)
+                  .list_separator(",")
+                  .with_list_parse_key("retry.status_codes")
+                  .with_list_parse_key("http.root_cert_paths"),
+          );
+          self
+      }
+      /// Builds and deserializes all accumulated sources into a [`ForgeConfig`].
+      ///
+      /// Triggers `.env` file loading (at most once per process) by walking up
+      /// the directory tree from the current working directory, with closer

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-config-setget
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_main/src/cli.rs
+  start: 664
+  end: 720
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  /// Type-safe subcommands for `forge config set`.
+  #[derive(Subcommand, Debug, Clone)]
+  pub enum ConfigSetField {
+      /// Set the active model and provider atomically.
+      Model {
+          /// Provider ID to set as default.
+          provider: ProviderId,
+          /// Model ID to set as default.
+          model: ModelId,
+      },
+      /// Set the provider and model for commit message generation.
+      Commit {
+          /// Provider ID to use for commit message generation.
+          provider: ProviderId,
+          /// Model ID to use for commit message generation.
+          model: ModelId,
+      },
+      /// Set the provider and model for command suggestion generation.
+      Suggest {
+          /// Provider ID to use for command suggestion generation.
+          provider: ProviderId,

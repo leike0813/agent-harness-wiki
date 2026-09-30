@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-http
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_domain/src/mcp.rs
+  start: 96
+  end: 131
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  pub struct McpHttpServer {
+      /// Url of the MCP server (auto-detects HTTP vs SSE transport)
+      #[serde(skip_serializing_if = "String::is_empty", alias = "serverUrl")]
+      pub url: String,
+      /// Optional headers for HTTP requests
+      /// Supports mustache templates for environment variables: {{.env.VAR_NAME}}
+      #[serde(default, skip_serializing_if = "BTreeMap::is_empty")]
+      pub headers: BTreeMap<String, String>,
+      /// Timeout in seconds for HTTP requests to this MCP server
+      /// If not specified, uses the default FORGE_MCP_TIMEOUT or 300 seconds
+      #[serde(default, skip_serializing_if = "Option::is_none")]
+      pub timeout: Option<u64>,
+      /// Disable it temporarily without having to
+      /// remove it from the config.
+      #[serde(default)]
+      pub disable: bool,

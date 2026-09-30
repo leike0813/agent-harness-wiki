@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-tools-only
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_infra/src/mcp_client.rs
+  start: 430
+  end: 448
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
+              response_body.len(),
+              response_body
+          );
+          let _ = stream.write_all(response.as_bytes()).await;
+          Ok((code, state))
+      }
+      async fn list(&self) -> anyhow::Result<Vec<ToolDefinition>> {
+          let client = self.connect().await?;
+          let tools = client.list_tools(None).await?;
+          Ok(tools
+              .tools
+              .into_iter()
+              .filter_map(|tool| {
+                  Some(
+                      ToolDefinition::new(tool.name)
+                          .description(tool.description.unwrap_or_default())

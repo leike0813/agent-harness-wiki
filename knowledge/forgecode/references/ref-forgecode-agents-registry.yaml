@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-agents-registry
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_services/src/agent_registry.rs
+  start: 39
+  end: 76
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  /// Lazily initializes and returns the agents map
+      /// Loads agents from repository on first call, subsequent calls return
+      /// cached value
+      async fn ensure_agents_loaded(&self) -> anyhow::Result<DashMap<String, Agent>> {
+          // Check if already loaded
+          {
+              let agents_read = self.agents.read().await;
+              if let Some(agents) = agents_read.as_ref() {
+                  return Ok(agents.clone());
+              }
+          }
+          // Not loaded yet, acquire write lock and load
+          let mut agents_write = self.agents.write().await;
+          // Double-check in case another task loaded while we were waiting for
+          // write lock
+          if let Some(agents) = agents_write.as_ref() {
+              return Ok(agents.clone());
+          }
+          // Load agents

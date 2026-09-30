@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-agents-precedence
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/agent.rs
+  start: 118
+  end: 136
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  use std::collections::HashMap;
+      // Use HashMap to deduplicate by agent ID, keeping the last occurrence
+      let mut agent_map: HashMap<String, AgentDefinition> = HashMap::new();
+      for agent in agents {
+          agent_map.insert(agent.id.to_string(), agent);
+      }
+      // Convert back to vector (order is not guaranteed but doesn't matter for
+      // the service)
+      agent_map.into_values().collect()
+  }
+  fn parse_agent_iter<I, Path: AsRef<str>, Content: AsRef<str>>(
+      contents: I,
+      config: &ForgeConfig,
+  ) -> anyhow::Result<Vec<AgentDefinition>>
+  where

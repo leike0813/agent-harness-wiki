@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-providers-auth
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/provider/provider_repo.rs
+  start: 390
+  end: 432
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  }
+      /// Creates a credential from environment variables for a given config
+      fn create_credential_from_env(
+          &self,
+          config: &ProviderConfig,
+      ) -> anyhow::Result<AuthCredential> {
+          // Check API key environment variable (if specified)
+          let api_key = if let Some(api_key_var) = &config.api_key_vars {
+              self.infra
+                  .get_env_var(api_key_var)
+                  .ok_or_else(|| Error::env_var_not_found(config.id.clone(), api_key_var))?
+          } else {
+              // For context engine, we don't use env vars for API key
+              String::new()
+          };
+          // Check URL parameter environment variables
+          let mut url_params = std::collections::HashMap::new();
+          for env_var in &config.url_param_vars {

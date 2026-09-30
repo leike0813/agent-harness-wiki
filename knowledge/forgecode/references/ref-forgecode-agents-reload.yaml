@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-agents-reload
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_services/src/agent_registry.rs
+  start: 104
+  end: 120
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  async fn get_agent_infos(&self) -> anyhow::Result<Vec<AgentInfo>> {
+          self.repository.get_agent_infos().await
+      }
+      async fn get_agent(&self, agent_id: &AgentId) -> anyhow::Result<Option<Agent>> {
+          let agents = self.ensure_agents_loaded().await?;
+          Ok(agents.get(agent_id.as_str()).map(|v| v.value().clone()))
+      }
+      async fn reload_agents(&self) -> anyhow::Result<()> {
+          *self.agents.write().await = None;
+          self.ensure_agents_loaded().await?;
+          Ok(())
+      }
+  }

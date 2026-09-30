@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-skills-tool
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_services/src/tool_services/skill.rs
+  start: 8
+  end: 24
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  /// Loads specialized skills for specific task types. ALWAYS check the
+  /// available_skills list when a user request matches a skill's description or
+  /// trigger conditions. Skills provide domain-specific workflows and must be
+  /// invoked BEFORE attempting the task directly. Only invoke skills listed in
+  /// available_skills. Do not invoke a skill that is already active.
+  pub struct ForgeSkillFetch<R> {
+      repository: Arc<R>,
+      cache: OnceCell<Vec<Skill>>,
+  }
+  impl<R> ForgeSkillFetch<R> {
+      /// Creates a new skill fetch tool
+      pub fn new(repository: Arc<R>) -> Self {
+          Self { repository, cache: OnceCell::new() }
+      }
+  }

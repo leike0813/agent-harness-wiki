@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-failed-servers
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_services/src/mcp/service.rs
+  start: 26
+  end: 40
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  pub struct ForgeMcpService<M, I, C> {
+      tools: Arc<RwLock<HashMap<ToolName, ToolHolder<McpExecutor<C>>>>>,
+      failed_servers: Arc<RwLock<HashMap<ServerName, String>>>,
+      previous_config_hash: Arc<Mutex<u64>>,
+      init_lock: Arc<Mutex<()>>,
+      manager: Arc<M>,
+      infra: Arc<I>,
+  }
+  #[derive(Clone)]
+  struct ToolHolder<T> {
+      definition: ToolDefinition,
+      executable: T,
+      server_name: String,
+  }

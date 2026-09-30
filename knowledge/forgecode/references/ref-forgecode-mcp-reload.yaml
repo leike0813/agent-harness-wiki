@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-reload
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_services/src/mcp/service.rs
+  start: 220
+  end: 245
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  /// when list() or call() is invoked, avoiding interactive OAuth during
+      /// reload.
+      async fn refresh_cache(&self) -> anyhow::Result<()> {
+          // Hold init_lock so we don't race with an in-flight update_mcp: without
+          // this, clear_tools could run while connections are still being
+          // established, leaving waiters released into an empty tool map.
+          let _guard = self.init_lock.lock().await;
+          // Clear the infra cache and reset config hash to force re-init on next
+          // access
+          self.infra.cache_clear().await?;
+          *self.previous_config_hash.lock().await = Default::default();
+          self.clear_tools().await;
+          self.failed_servers.write().await.clear();
+          Ok(())
+      }
+  }
+  #[async_trait::async_trait]

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-config-proxy-doc
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-docs-proxy
+locator:
+  kind: document_section
+  heading: Setting the Proxy
+official_url: "https://forgecode.dev/docs/proxy-configuration/"
+excerpt: |-
+  ForgeCode reads two standard environment variables:
+  Environment VariableProtocolExample Value
+  HTTP_PROXYHTTPhttp://proxy.company.com:8080
+  HTTPS_PROXYHTTPShttp://proxy.company.com:8080
+  NO_PROXY—localhost,127.0.0.1,.internal.io
+  Both HTTP_PROXY and HTTPS_PROXY accept an HTTP proxy URL — even for HTTPS traffic. The connection to the target server is tunneled through the proxy using the CONNECT method, so the proxy itself doesn't see the encrypted payload.
+  There are three ways to set them, depending on how permanent you want the configuration to be.
+  ~/.env — persistent, ForgeCode-only
+  The .env file in your home directory is loaded by ForgeCode on every run. This is the right choice when you want the proxy active for ForgeCode without affecting other tools on your system:

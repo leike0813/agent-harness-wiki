@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-skills-sort
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/skill.rs
+  start: 313
+  end: 334
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  fn sort_skills(mut skills: Vec<Skill>) -> Vec<Skill> {
+      for skill in &mut skills {
+          sort_paths(&mut skill.resources);
+      }
+      skills.sort_by(|a, b| {
+          a.name
+              .cmp(&b.name)
+              .then_with(|| path_sort_key(a.path.as_deref()).cmp(&path_sort_key(b.path.as_deref())))
+              .then_with(|| a.description.cmp(&b.description))
+      });
+      skills
+  }
+  fn sort_paths(paths: &mut [PathBuf]) {
+      paths.sort_by_key(|a| path_sort_key(Some(a.as_path())));
+  }
+  fn path_sort_key(path: Option<&Path>) -> String {
+      path.map(|path| path.to_string_lossy().into_owned())
+          .unwrap_or_default()

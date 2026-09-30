@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-skills-builtin
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/skill.rs
+  start: 45
+  end: 67
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  /// Loads built-in skills that are embedded in the application
+      fn load_builtin_skills(&self) -> Vec<Skill> {
+          let builtin_skills = vec![
+              (
+                  "forge://skills/create-skill/SKILL.md",
+                  include_str!("skills/create-skill/SKILL.md"),
+              ),
+              (
+                  "forge://skills/execute-plan/SKILL.md",
+                  include_str!("skills/execute-plan/SKILL.md"),
+              ),
+              (
+                  "forge://skills/github-pr-description/SKILL.md",
+                  include_str!("skills/github-pr-description/SKILL.md"),
+              ),
+          ];
+          builtin_skills
+              .into_iter()
+              .filter_map(|(path, content)| extract_skill(path, content))
+              .collect()
+      }

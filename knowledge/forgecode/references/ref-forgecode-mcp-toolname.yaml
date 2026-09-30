@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-toolname
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_services/src/mcp/service.rs
+  start: 15
+  end: 24
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  fn generate_mcp_tool_name(server_name: &ServerName, tool_name: &ToolName) -> ToolName {
+      let sanitized_server_name = ToolName::sanitized(server_name.to_string().as_str());
+      let sanitized_tool_name = tool_name.clone().into_sanitized();
+      ToolName::new(format!(
+          "mcp_{sanitized_server_name}_tool_{sanitized_tool_name}"
+      ))
+  }

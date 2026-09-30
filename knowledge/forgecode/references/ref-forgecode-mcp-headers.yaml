@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-headers
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_infra/src/mcp_client.rs
+  start: 538
+  end: 578
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  }
+  /// Resolves mustache templates in McpHttpServer headers using Handlebars
+  /// and provided environment variables
+  fn resolve_http_templates(
+      mut http: McpHttpServer,
+      env_vars: &BTreeMap<String, String>,
+  ) -> anyhow::Result<McpHttpServer> {
+      let handlebars = forge_app::TemplateEngine::handlebar_instance();
+      // Create template data with env variables nested under "env"
+      let template_data = serde_json::json!({"env": env_vars});
+      // Resolve templates in headers
+      for value in http.headers.values_mut() {
+          // Try to render the template, but keep original value if it fails
+          if let Ok(resolved) = handlebars.render_template(value, &template_data) {
+              *value = resolved;
+          }
+      }
+      Ok(http)
+  }
+  fn build_header_map(

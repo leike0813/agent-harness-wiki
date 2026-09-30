@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-mcp-retry
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_infra/src/mcp_client.rs
+  start: 494
+  end: 540
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  Ok(ToolOutput::from(tool_contents.into_iter())
+              .is_error(result.is_error.unwrap_or_default()))
+      }
+      async fn attempt_with_retry<T, F>(&self, call: impl Fn() -> F) -> anyhow::Result<T>
+      where
+          F: Future<Output = anyhow::Result<T>>,
+      {
+          call.retry(
+              ExponentialBuilder::default()
+                  .with_max_times(5)
+                  .with_jitter(),
+          )
+          .when(|err| {
+              let is_transport = err
+                  .downcast_ref::<rmcp::ServiceError>()
+                  .map(|e| {
+                      matches!(
+                          e,
+                          rmcp::ServiceError::TransportSend(_) | rmcp::ServiceError::TransportClosed
+                      )
+                  })
+                  .unwrap_or(false);

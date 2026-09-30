@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-providers-urlvars-doc
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-docs-providers
+locator:
+  kind: document_section
+  heading: URL Template Variables
+official_url: "https://forgecode.dev/docs/custom-providers/"
+excerpt: |-
+  Both url and models support {{VAR}} placeholders. Declare the variable names to substitute in url_param_vars as a list of environment variable names:
+  [[providers]]
+  id             = "openai_compatible"
+  api_key_vars   = "OPENAI_API_KEY"
+  url_param_vars = ["OPENAI_URL"]
+  response_type  = "OpenAI"
+  url            = "{{OPENAI_URL}}/chat/completions"
+  models         = "{{OPENAI_URL}}/models"
+  auth_methods   = ["api_key"]
+  At runtime ForgeCode reads the value of each variable in url_param_vars and substitutes it into the matching {{VAR}} placeholder in url and models. If a provider has no dynamic URL segments, pass an empty list: url_param_vars = [].

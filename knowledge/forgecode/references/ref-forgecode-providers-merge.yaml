@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-providers-merge
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-repo
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/provider/provider_repo.rs
+  start: 138
+  end: 156
+official_url: "https://github.com/tailcallhq/forgecode"
+excerpt: |-
+  struct ProviderConfigs(#[merge(strategy = merge_configs)] Vec<ProviderConfig>);
+  fn merge_configs(base: &mut Vec<ProviderConfig>, other: Vec<ProviderConfig>) {
+      let mut map: std::collections::HashMap<_, _> =
+          base.drain(..).map(|c| (c.id.clone(), c)).collect();
+      for other_config in other {
+          let id = other_config.id.clone();
+          map.entry(id)
+              .and_modify(|base_config| base_config.merge(other_config.clone()))
+              .or_insert(other_config);
+      }
+      base.extend(map.into_values());
+  }
+  impl From<forge_config::ProviderUrlParam> for UrlParamVarConfig {
+      fn from(param: forge_config::ProviderUrlParam) -> Self {
+          if param.options.is_empty() && !param.optional {

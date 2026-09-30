@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-providers-models-doc
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-docs-providers
+locator:
+  kind: document_section
+  heading: Static Model List
+official_url: "https://forgecode.dev/docs/custom-providers/"
+excerpt: |-
+  Instead of a URL, models can be an inline array of model objects. This is useful when the provider doesn't expose a model-listing endpoint, or when you want to pin the exact set of models available:
+  [[providers]]
+  id             = "openai"
+  api_key_vars   = "OPENAI_API_KEY"
+  url_param_vars = []
+  response_type  = "OpenAI"
+  url            = "https://api.openai.com/v1/chat/completions"
+  auth_methods   = ["api_key"]
+  [[providers.models]]
+  id                           = "o1"
+  name                         = "O1"
+  description                  = "OpenAI's reasoning model with advanced problem-solving capabilities"
+  context_length               = 200000
+  tools_supported              = true
+  supports_parallel_tool_calls = true
+  supports_reasoning           = true
+  input_modalities             = ["text"]

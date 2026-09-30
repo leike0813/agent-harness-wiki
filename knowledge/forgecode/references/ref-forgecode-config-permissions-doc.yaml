@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-config-permissions-doc
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-docs-permissions
+locator:
+  kind: document_section
+  heading: Where the file lives
+official_url: "https://forgecode.dev/docs/permissions/"
+excerpt: |-
+  ForgeCode reads the file from its config directory:
+  - macOS/Linux: ~/.forge/permissions.yaml
+  - Windows: %USERPROFILE%\\.forge\\permissions.yaml
+  - Custom config directory: $FORGE_CONFIG/permissions.yaml
+  If restricted mode is enabled and the file does not exist yet, ForgeCode creates it with a default allow-all policy.
+  That default looks like this:
+  policies:
+    - permission: allow
+      rule:
+        read: "**/*"
+    - permission: allow
+      rule:
+        write: "**/*"
+    - permission: allow
+      rule:
+        command: "*"
+    - permission: allow
+      rule:
+        url: "*"
+  So turning on restricted mode alone does not make ForgeCode stricter. The restriction comes from the rules you write.
