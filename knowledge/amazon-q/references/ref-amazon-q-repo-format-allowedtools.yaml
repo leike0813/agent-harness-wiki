@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-format-allowedtools
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: document_section
+  heading: AllowedTools Field
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  The `allowedTools` field specifies which tools can be used without prompting the user for permission. This is a security feature that helps prevent unauthorized tool usage.
+  ```json
+  {
+    "allowedTools": [
+      "fs_read",
+      "fs_*",
+      "@git/git_status",
+      "@server/read_*",
+      "@fetch"
+    ]
+  }
+  ```
+  You can allow tools using several patterns:
+  ### Exact Matches
+  - **Built-in tools**: `"fs_read"`, `"execute_bash"`, `"knowledge"`
+  - **Specific MCP tools**: `"@server_name/tool_name"` (e.g., `"@git/git_status"`)
+  - **All tools from MCP server**: `"@server_name"` (e.g., `"@fetch"`)
+  ### Wildcard Patterns
+  The `allowedTools` field supports glob-style wildcard patterns using `*` and `?`:
+  #### Native Tool Patterns
+  - **Prefix wildcard**: `"fs_*"` → matches `fs_read`, `fs_write`, `fs_anything`

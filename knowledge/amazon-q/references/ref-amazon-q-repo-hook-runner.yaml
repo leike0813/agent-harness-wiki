@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-hook-runner
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/chat/cli/hooks.rs
+  start: 100
+  end: 140
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  /// Maps a hook name to a [`CachedHook`]
+  #[derive(Debug, Clone, Default)]
+  pub struct HookExecutor {
+      pub cache: HashMap<(HookTrigger, Hook), CachedHook>,
+  }
+  impl HookExecutor {
+      pub fn new() -> Self {
+          Self { cache: HashMap::new() }
+      }
+      /// Run and cache [`Hook`]s. Any hooks that are already cached will be returned without
+      /// executing. Hooks that fail to execute will not be returned. Returned hook order is
+      /// undefined.
+      ///
+      /// If `updates` is `Some`, progress on hook execution will be written to it.
+      /// Errors encountered with write operations to `updates` are ignored.
+      ///
+      /// Note: [`HookTrigger::AgentSpawn`] hooks never leave the cache.
+      pub async fn run_hooks(
+          &mut self,
+          hooks: HashMap<HookTrigger, Vec<Hook>>,

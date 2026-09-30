@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-paths-workspace
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/util/paths.rs
+  start: 44
+  end: 55
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  pub mod workspace {
+      //! Project-level paths (relative to current working directory)
+      pub const AGENTS_DIR: &str = ".amazonq/cli-agents";
+      pub const PROMPTS_DIR: &str = ".amazonq/prompts";
+      pub const MCP_CONFIG: &str = ".amazonq/mcp.json";
+      pub const TODO_LISTS_DIR: &str = ".amazonq/cli-todo-lists";
+      pub const SUBAGENTS_DIR: &str = ".amazonq/.subagents";
+      pub const RULES_PATTERN: &str = ".amazonq/rules/**/*.md";
+      // Default documentation files for agent resources
+      pub const DEFAULT_AGENT_RESOURCES: &[&str] = &["file://AmazonQ.md", "file://AGENTS.md", "file://README.md"];
+  }

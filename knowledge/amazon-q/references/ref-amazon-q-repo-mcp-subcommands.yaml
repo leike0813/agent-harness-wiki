@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-mcp-subcommands
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/mcp.rs
+  start: 59
+  end: 71
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  pub enum McpSubcommand {
+      /// Add or replace a configured server
+      Add(AddArgs),
+      /// Remove a server from the MCP configuration
+      #[command(alias = "rm")]
+      Remove(RemoveArgs),
+      /// List configured servers
+      List(ListArgs),
+      /// Import a server configuration from another file
+      Import(ImportArgs),
+      /// Get the status of a configured server
+      Status(StatusArgs),
+  }

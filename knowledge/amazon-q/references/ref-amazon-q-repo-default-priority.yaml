@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-default-priority
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: document_section
+  heading: Agent Selection Priority
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  Q CLI selects an agent in the following order of priority:
+  ### 1. Command-Line Specified Agent
+  The agent specified via the `--agent` flag when starting Q CLI:
+  ```bash
+  q chat --agent my-custom-agent
+  ```
+  If this agent exists, it will be used. If not, Q CLI will display an error and fall back to the next option.
+  ### 2. User-Defined Default Agent
+  The default agent configured via the settings system:
+  ```bash
+  q settings chat.defaultAgent my-preferred-agent
+  ```
+  This setting is stored in your Q CLI configuration and will be used across all sessions unless overridden by the `--agent` flag.
+  If the configured default agent cannot be found, Q CLI will display an error and fall back to the built-in default.
+  ### 3. Built-in Default Agent

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-format-toolssettings
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: document_section
+  heading: ToolsSettings Field
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  The `toolsSettings` field provides configuration for specific tools. Each tool can have its own unique configuration options.
+  Note that specifications that configure allowable patterns will be overridden if the tool is also included in `allowedTools`.
+  ```json
+  {
+    "toolsSettings": {
+      "fs_write": {
+        "allowedPaths": ["~/**"]
+      },
+      "@git/git_status": {
+        "git_user": "$GIT_USER"
+      }
+    }
+  }
+  ```
+  For built-in tool configuration options, please refer to the [built-in tools documentation](./built-in-tools.md).

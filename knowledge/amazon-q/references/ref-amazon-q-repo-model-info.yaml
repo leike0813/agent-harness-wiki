@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-model-info
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/chat/cli/model.rs
+  start: 33
+  end: 61
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  /// Actual model id to send in the API
+      pub model_id: String,
+      /// Size of the model's context window, in tokens
+      #[serde(default = "default_context_window")]
+      pub context_window_tokens: usize,
+  }
+  impl ModelInfo {
+      pub fn from_api_model(model: &Model) -> Self {
+          let context_window_tokens = model
+              .token_limits()
+              .and_then(|limits| limits.max_input_tokens())
+              .map_or(default_context_window(), |tokens| tokens as usize);
+          Self {
+              model_id: model.model_id().to_string(),
+              description: model.description.clone(),
+              model_name: model.model_name().map(|s| s.to_string()),
+              context_window_tokens,
+          }
+      }

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-tools-permissions
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: document_section
+  heading: Tool Permissions
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  Tools can be explicitly allowed in the `allowedTools` section of the agent configuration:
+  ```json
+  {
+    "allowedTools": [
+      "fs_read",
+      "knowledge",
+      "@git/git_status"
+    ]
+  }
+  ```
+  If a tool is not in the `allowedTools` list, the user will be prompted for permission when the tool is used unless an allowed `toolSettings` configuration is set.
+  Some tools have default permission behaviors:
+  - `fs_read` and `report_issue` are trusted by default
+  - `execute_bash`, `fs_write`, and `use_aws` prompt for permission by default, but can be configured to allow specific commands/paths/services

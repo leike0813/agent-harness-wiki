@@ -1,0 +1,50 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-format-example
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: document_section
+  heading: Complete Example
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  Here's a complete example of an agent configuration file:
+  ```json
+  {
+    "name": "aws-rust-agent",
+    "description": "A specialized agent for AWS and Rust development tasks",
+    "mcpServers": {
+      "fetch": {
+        "command": "fetch3.1",
+        "args": []
+      },
+      "git": {
+        "command": "git-mcp",
+        "args": []
+      }
+    },
+    "tools": [
+      "fs_read",
+      "fs_write",
+      "execute_bash",
+      "use_aws",
+      "@git",
+      "@fetch/fetch_url"
+    ],
+    "toolAliases": {
+      "@git/git_status": "status",
+      "@fetch/fetch_url": "get"
+    },
+    "allowedTools": [
+      "fs_read",
+      "@git/git_status"
+    ],
+    "toolsSettings": {
+      "fs_write": {
+        "allowedPaths": ["src/**", "tests/**", "Cargo.toml"]
+      },
+      "use_aws": {
+        "allowedServices": ["s3", "lambda"]
+      }
+    },
+    "resources": [

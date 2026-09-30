@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-format-toolaliases
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: document_section
+  heading: ToolAliases Field
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  The `toolAliases` field is an advanced feature that allows you to remap tool names. This is primarily used to resolve naming collisions between tools from different MCP servers, or to create more intuitive names for specific tools.
+  For example, if both `@github-mcp` and `@gitlab-mcp` servers provide a tool called `get_issues`, you would have a naming collision. You can use `toolAliases` to disambiguate them:
+  ```json
+  {
+    "toolAliases": {
+      "@github-mcp/get_issues": "github_issues",
+      "@gitlab-mcp/get_issues": "gitlab_issues"
+    }
+  }
+  ```
+  With this configuration, the tools will be available to the agent as `github_issues` and `gitlab_issues` instead of having a collision on `get_issues`.
+  You can also use aliases to create shorter or more intuitive names for frequently used tools:
+  ```json
+  {

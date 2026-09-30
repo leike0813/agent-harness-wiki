@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-format-hooks
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: document_section
+  heading: Hooks Field
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  The `hooks` field defines commands to run at specific trigger points during agent lifecycle and tool execution.
+  For detailed information about hook behavior, input/output formats, and examples, see the [Hooks documentation](hooks.md).
+  ```json
+  {
+    "hooks": {
+      "agentSpawn": [
+        {
+          "command": "git status"
+        }
+      ],
+      "userPromptSubmit": [
+        {
+          "command": "ls -la"
+        }
+      ],
+      "preToolUse": [
+        {
+          "matcher": "execute_bash",
+          "command": "{ echo \"$(date) - Bash command:\"; cat; echo; } >> /tmp/bash_audit_log"
+        },
+        {
+          "matcher": "use_aws",
+          "command": "{ echo \"$(date) - AWS CLI call:\"; cat; echo; } >> /tmp/aws_audit_log"
+        }
+      ],
+      "postToolUse": [
+        {
+          "matcher": "fs_write",

@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-hooks-types
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: document_section
+  heading: Hook Types
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  ### AgentSpawn
+  Runs when agent is activated. No tool context provided.
+  **Hook Event**
+  ```json
+  {
+    "hook_event_name": "agentSpawn",
+    "cwd": "/current/working/directory"
+  }
+  ```
+  **Exit Code Behavior:**
+  - **0**: Hook succeeded, STDOUT is added to agent's context
+  - **Other**: Show STDERR warning to user
+  ### UserPromptSubmit
+  Runs when user submits a prompt. Output is added to conversation context.
+  **Hook Event**
+  ```json
+  {
+    "hook_event_name": "userPromptSubmit",
+    "cwd": "/current/working/directory",
+    "prompt": "user's input prompt"
+  }
+  ```
+  **Exit Code Behavior:**
+  - **0**: Hook succeeded, STDOUT is added to agent's context
+  - **Other**: Show STDERR warning to user
+  ### PreToolUse
+  Runs before tool execution. Can validate and block tool usage.
+  **Hook Event**
+  ```json
+  {

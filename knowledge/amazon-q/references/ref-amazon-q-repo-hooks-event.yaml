@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-hooks-event
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: document_section
+  heading: Hook Event
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  Hooks receive hook event in JSON format via STDIN:
+  ```json
+  {
+    "hook_event_name": "agentSpawn",
+    "cwd": "/current/working/directory"
+  }
+  ```
+  For tool-related hooks, additional fields are included:
+  - `tool_name`: Name of the tool being executed
+  - `tool_input`: Tool-specific parameters (see individual tool documentation)
+  - `tool_response`: Tool execution results (PostToolUse only)

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-hook-struct
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/agent/hook.rs
+  start: 43
+  end: 79
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  Session,
+  }
+  impl Default for Source {
+      fn default() -> Self {
+          Self::Agent
+      }
+  }
+  #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq, JsonSchema, Hash)]
+  pub struct Hook {
+      /// The command to run when the hook is triggered
+      pub command: String,
+      /// Max time the hook can run before it throws a timeout error
+      #[serde(default = "Hook::default_timeout_ms")]
+      pub timeout_ms: u64,
+      /// Max output size of the hook before it is truncated
+      #[serde(default = "Hook::default_max_output_size")]
+      pub max_output_size: usize,
+      /// How long the hook output is cached before it will be executed again
+      #[serde(default = "Hook::default_cache_ttl_seconds")]
+      pub cache_ttl_seconds: u64,
+      /// Optional glob matcher for hook

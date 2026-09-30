@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-default-builtin
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: document_section
+  heading: Built-in Default Agent Details
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  The built-in default agent provides:
+  ### Available Tools
+  - **All tools**: Uses `"*"` wildcard to include all built-in tools and MCP server tools
+  ### Trusted Tools
+  - **fs_read only**: Only the `fs_read` tool is pre-approved and won't prompt for permission
+  - All other tools will require user confirmation before execution
+  ### Default Resources
+  The agent automatically includes these files in its context (if they exist):
+  - `AmazonQ.md` - Amazon Q documentation or notes
+  - `README.md` - Project readme file
+  - `.amazonq/rules/**/*.md` - Any markdown files in the `.amazonq/rules/` directory and subdirectories
+  ### Legacy MCP Support
+  - **Enabled**: The default agent includes MCP servers from the legacy global configuration file (`~/.aws/amazonq/mcp.json`)

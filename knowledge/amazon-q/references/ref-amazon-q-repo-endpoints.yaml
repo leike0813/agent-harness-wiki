@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-endpoints
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/api_client/endpoints.rs
+  start: 15
+  end: 60
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  impl Endpoint {
+      pub const CODEWHISPERER_ENDPOINTS: [Self; 2] = [Self::DEFAULT_ENDPOINT, Self::FRA_ENDPOINT];
+      pub const DEFAULT_ENDPOINT: Self = Self {
+          url: Cow::Borrowed("https://q.us-east-1.amazonaws.com"),
+          region: Region::from_static("us-east-1"),
+      };
+      pub const FRA_ENDPOINT: Self = Self {
+          url: Cow::Borrowed("https://q.eu-central-1.amazonaws.com/"),
+          region: Region::from_static("eu-central-1"),
+      };
+      pub fn configured_value(database: &Database) -> Self {
+          let (endpoint, region) = if let Some(Value::Object(o)) = database.settings.get(Setting::ApiCodeWhispererService)
+          {
+              // The following branch is evaluated in case the user has set their own endpoint.
+              (

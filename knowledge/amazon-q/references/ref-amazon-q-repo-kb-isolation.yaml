@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-kb-isolation
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: document_section
+  heading: Agent-Specific Knowledge Bases
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  ### Isolated Knowledge Storage
+  Each agent maintains its own isolated knowledge base, ensuring that knowledge contexts are scoped to the specific agent you're working with. This provides better organization and prevents knowledge conflicts between different agents.
+  ### Folder Structure
+  Knowledge bases are stored in the following directory structure:
+  ```
+  ~/.aws/amazonq/knowledge_bases/
+  ├── q_cli_default/          # Default agent knowledge base
+  │   ├── contexts.json       # Metadata for all contexts
+  │   ├── context-id-1/       # Individual context storage
+  │   │   ├── data.json       # Semantic search data
+  │   │   └── bm25_data.json  # BM25 search data (if using Fast index)
+  │   └── context-id-2/
+  │       ├── data.json
+  │       └── bm25_data.json

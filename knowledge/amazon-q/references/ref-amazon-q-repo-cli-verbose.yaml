@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-cli-verbose
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/mod.rs
+  start: 209
+  end: 218
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  pub struct Cli {
+      #[command(subcommand)]
+      pub subcommand: Option<RootSubcommand>,
+      /// Increase logging verbosity
+      #[arg(long, short = 'v', action = ArgAction::Count, global = true)]
+      pub verbose: u8,
+      /// Print help for all subcommands
+      #[arg(long)]
+      help_all: bool,
+  }

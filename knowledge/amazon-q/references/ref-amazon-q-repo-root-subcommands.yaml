@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-root-subcommands
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/mod.rs
+  start: 97
+  end: 119
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  pub enum RootSubcommand {
+      /// Manage agents
+      Agent(AgentArgs),
+      /// AI assistant in your terminal
+      Chat(ChatArgs),
+      /// Log in to Amazon Q
+      Login(LoginArgs),
+      /// Log out of Amazon Q
+      Logout,
+      /// Print info about the current login session
+      Whoami(WhoamiArgs),
+      /// Show the profile associated with this idc user
+      Profile,
+      /// Customize appearance & behavior
+      #[command(alias("setting"))]
+      Settings(settings::SettingsArgs),
+      /// Run diagnostic tests
+      #[command(alias("diagnostics"))]
+      Diagnostic(diagnostics::DiagnosticArgs),
+      /// Create a new Github issue
+      Issue(issue::IssueArgs),
+      /// Version
+      #[command(hide = true)]

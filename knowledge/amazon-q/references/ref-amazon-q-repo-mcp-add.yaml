@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-mcp-add
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/mcp.rs
+  start: 88
+  end: 125
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  #[derive(Debug, Clone, PartialEq, Eq, Args)]
+  pub struct AddArgs {
+      /// Name for the server
+      #[arg(long)]
+      pub name: String,
+      /// Scope. This parameter is only meaningful in the absence of agent name.
+      #[arg(long)]
+      pub scope: Option<Scope>,
+      /// The command used to launch the server
+      #[arg(long)]
+      pub command: String,
+      /// Arguments to pass to the command. Can be provided as:
+      /// 1. Multiple --args flags: --args arg1 --args arg2 --args "arg,with,commas"
+      /// 2. Comma-separated with escaping: --args "arg1,arg2,arg\,with\,commas"
+      /// 3. JSON array format: --args '["arg1", "arg2", "arg,with,commas"]'
+      #[arg(long, action = ArgAction::Append, allow_hyphen_values = true)]
+      pub args: Vec<String>,
+      /// Where to add the server to.

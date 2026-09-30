@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-migration-intro
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: document_section
+  heading: Migrating Profiles to Agents
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  All global profiles (created under `~/.aws/amazonq/profiles/`) support automatic migration to the global agents directory under `~/.aws/amazonq/cli-agents/` on initial startup.
+  If you have local MCP configuration defined under `.amazonq/mcp.json`, then you can optionally add this configuration to a global agent, or create a new workspace agent.
+  ## Creating a New Workspace Agent
+  Workspace agents are managed under the current working directory inside `.amazonq/cli-agents/`.
+  You can create a new workspace agent with `q agent create --name my-agent -d .`.
+  ## Global Context
+  Global context previously configured under `~/.aws/amazonq/global_context.json` is no longer supported. Global context will need to be manually added to agents (see the below section).
+  ## MCP Servers

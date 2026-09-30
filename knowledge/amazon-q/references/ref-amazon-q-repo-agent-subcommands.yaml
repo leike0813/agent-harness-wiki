@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-agent-subcommands
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/chat/cli/profile.rs
+  start: 58
+  end: 102
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  )]
+  /// Subcommands for managing agents in the chat CLI
+  pub enum AgentSubcommand {
+      /// List all available agents
+      List,
+      /// Create a new agent with the specified name
+      Create {
+          /// Name of the agent to be created
+          #[arg(long, short)]
+          name: String,
+          /// The directory where the agent will be saved. If not provided, the agent will be saved in
+          /// the global agent directory
+          #[arg(long, short)]
+          directory: Option<String>,
+          /// The name of an agent that shall be used as the starting point for the agent creation
+          #[arg(long, short)]
+          from: Option<String>,
+      },
+      /// Edit an existing agent configuration
+      Edit {
+          /// Name of the agent to edit
+          #[arg(long, short)]
+          name: String,
+      },

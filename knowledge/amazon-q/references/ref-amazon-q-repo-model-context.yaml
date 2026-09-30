@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-model-context
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/chat/cli/model.rs
+  start: 197
+  end: 205
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  /// Returns the context window length in tokens for the given model_id.
+  /// Uses cached model data when available
+  pub fn context_window_tokens(model_info: Option<&ModelInfo>) -> usize {
+      model_info.map_or_else(default_context_window, |m| m.context_window_tokens)
+  }
+  fn default_context_window() -> usize {
+      200_000
+  }

@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-paths-settings
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/util/paths.rs
+  start: 306
+  end: 326
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  pub fn settings_path() -> Result<PathBuf> {
+          Ok(dirs::data_local_dir()
+              .ok_or(DirectoryError::NoHomeDirectory)?
+              .join("amazon-q")
+              .join("settings.json"))
+      }
+      pub fn mcp_auth_dir(&self) -> Result<PathBuf> {
+          Ok(home_dir(self.os)?.join(".aws").join("sso").join("cache"))
+      }
+      /// Static method for settings path that doesn't require Os (to avoid circular dependency)
+      pub fn settings_path_static() -> Result<PathBuf> {
+          Ok(dirs::data_local_dir()
+              .ok_or(DirectoryError::NoHomeDirectory)?
+              .join("amazon-q")
+              .join("settings.json"))
+      }
+      /// Static method for database path that doesn't require Os (to avoid circular dependency)

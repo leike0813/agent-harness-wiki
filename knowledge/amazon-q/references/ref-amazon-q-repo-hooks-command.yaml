@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-hooks-command
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/chat/cli/hooks.rs
+  start: 396
+  end: 425
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  pub async fn execute(self, session: &mut ChatSession) -> Result<ChatState, ChatError> {
+          let Some(context_manager) = &mut session.conversation.context_manager else {
+              return Ok(ChatState::PromptUser {
+                  skip_printing_tools: true,
+              });
+          };
+          let mut out = Vec::new();
+          for (trigger, hooks) in &context_manager.hooks {
+              writeln!(&mut out, "{trigger}:")?;
+              match hooks.is_empty() {
+                  true => writeln!(&mut out, "<none>")?,
+                  false => {
+                      for hook in hooks {
+                          writeln!(&mut out, "  - {}", hook.command)?;
+                      }
+                  },
+              }
+          }
+          if out.is_empty() {
+              queue!(
+                  session.stderr,

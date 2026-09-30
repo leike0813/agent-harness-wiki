@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-docs-mcp-cli-remote
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-docs-mcp-cli
+locator:
+  kind: document_section
+  heading: Remote MCP servers
+official_url: "https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-mcp-config-CLI.md"
+excerpt: |-
+  <a name="command-line-mcp-remote-servers"></a>
+  In addition to local MCP servers that run as processes, Amazon Q Developer CLI supports remote MCP servers that communicate over HTTP. Remote servers can use OAuth authentication or be open (no authentication required).
+  ### Configuration
+  <a name="command-line-mcp-remote-config"></a>
+  Remote MCP servers are configured in your agent configuration file using the `type` and `url` fields:
+  ```
+  {
+    "mcpServers": {
+      "find-a-domain": {
+        "type": "http",
+        "url": "https://api.findadomain.dev/mcp"
+      }
+    }
+  }
+  ```
+  ### OAuth authentication flow
+  <a name="command-line-mcp-oauth-flow"></a>
+  When using remote MCP servers that require OAuth authentication:
+  1. Start your Q CLI session with an agent that includes the remote MCP server
+  1.

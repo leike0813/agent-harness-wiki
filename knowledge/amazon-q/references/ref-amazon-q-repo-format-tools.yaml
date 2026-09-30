@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-format-tools
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: document_section
+  heading: Tools Field
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  The `tools` field lists all tools that the agent can potentially use. Tools include built-in tools and tools from MCP servers.
+  - Built-in tools are specified by their name (e.g., `fs_read`, `execute_bash`)
+  - MCP server tools are prefixed with `@` followed by the server name (e.g., `@git`)
+  - To specify a specific tool from an MCP server, use `@server_name/tool_name`
+  - Use `*` as a special wildcard to include all available tools (both built-in and from MCP servers)
+  - Use `@builtin` to include all built-in tools
+  - Use `@server_name` to include all tools from a specific MCP server
+  ```json
+  {
+    "tools": [
+      "fs_read",
+      "fs_write",
+      "execute_bash",
+      "@git",
+      "@rust-analyzer/check_code"
+    ]
+  }
+  ```
+  To include all available tools, you can simply use:
+  ```json
+  {
+    "tools": ["*"]
+  }
+  ```

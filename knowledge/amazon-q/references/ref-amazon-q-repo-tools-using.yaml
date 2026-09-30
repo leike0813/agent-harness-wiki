@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-tools-using
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: document_section
+  heading: Using Tool Settings in Agent Configuration
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  Tool settings are specified in the `toolsSettings` section of the agent configuration file. Each tool's settings are specified using the tool's name as the key.
+  For MCP server tools, use the format `@server_name/tool_name` as the key:
+  ```json
+  {
+    "toolsSettings": {
+      "fs_write": {
+        "allowedPaths": ["~/projects"]
+      },
+      "@git/git_status": {
+        "git_user": "$GIT_USER"
+      }
+    }
+  }
+  ```

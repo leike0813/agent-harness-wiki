@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-agents-example
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: document_section
+  heading: Example Usage
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  To create a local agent for your current project:
+  ```bash
+  mkdir -p .amazonq/cli-agents
+  cat > .amazonq/cli-agents/project-helper.json << 'EOF'
+  {
+    "description": "Helper agent for this specific project",
+    "tools": ["fs_read", "fs_write", "execute_bash"],
+    "resources": [
+      "file://README.md",
+      "file://docs/**/*.md"
+    ]
+  }
+  EOF
+  ```
+  To create a global agent available everywhere:
+  ```bash
+  mkdir -p ~/.aws/amazonq/cli-agents
+  cat > ~/.aws/amazonq/cli-agents/general-helper.json << 'EOF'
+  {
+    "description": "General purpose assistant",
+    "tools": ["*"],
+    "allowedTools": ["fs_read"]
+  }
+  EOF
+  ```

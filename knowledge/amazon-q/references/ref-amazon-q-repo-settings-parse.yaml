@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-settings-parse
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/database/settings.rs
+  start: 145
+  end: 188
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  impl TryFrom<&str> for Setting {
+      type Error = DatabaseError;
+      fn try_from(value: &str) -> Result<Self, Self::Error> {
+          match value {
+              "telemetry.enabled" => Ok(Self::TelemetryEnabled),
+              "telemetryClientId" => Ok(Self::OldClientId),
+              "codeWhisperer.shareCodeWhispererContentWithAWS" => Ok(Self::ShareCodeWhispererContent),
+              "chat.enableThinking" => Ok(Self::EnabledThinking),
+              "chat.enableKnowledge" => Ok(Self::EnabledKnowledge),
+              "knowledge.defaultIncludePatterns" => Ok(Self::KnowledgeDefaultIncludePatterns),
+              "knowledge.defaultExcludePatterns" => Ok(Self::KnowledgeDefaultExcludePatterns),
+              "knowledge.maxFiles" => Ok(Self::KnowledgeMaxFiles),

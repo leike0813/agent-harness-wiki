@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-repo-datadir
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-repo
+locator:
+  kind: file_lines
+  file: crates/agent/src/agent/util/directories.rs
+  start: 32
+  end: 53
+official_url: "https://github.com/aws/amazon-q-developer-cli"
+excerpt: |-
+  let p = if let Ok(p) = env::var(CLI_DATA_DIR) {
+          warn!(?p, "Using override env var for data directory");
+          PathBuf::from(p)
+      } else {
+          dirs::data_local_dir()
+              .ok_or(UtilError::MissingDataLocalDir)?
+              .join(DATA_DIR_NAME)
+      };
+      DATA_DIR.set(p.clone()).expect("Setting the data directory cannot fail");
+      Ok(p)
+  }
+  pub fn database_path() -> Result<PathBuf> {
+      Ok(data_dir()?.join("data.sqlite3"))
+  }
+  pub fn settings_path() -> Result<PathBuf> {
+      Ok(data_dir()?.join("settings.json"))
+  }
