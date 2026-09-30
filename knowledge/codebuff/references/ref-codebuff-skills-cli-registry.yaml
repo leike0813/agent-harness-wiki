@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-skills-cli-registry
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/utils/skill-registry.ts
+  start: 22
+  end: 45
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  export async function initializeSkillRegistry(): Promise<void> {
+    const cwd = getProjectRoot() || process.cwd()
+    try {
+      // Load skills from both global (~/.agents/skills) and project directories
+      // The SDK handles merging, with project skills overriding global ones.
+      //
+      // includeHomeSkills is opt-in and defaults to false, because a server
+      // embedding the SDK must never read a home directory (it would be the
+      // SERVER's). The CLI is the case the flag exists for: it runs on the
+      // user's own machine, so those really are their skills.
+      skillsCache = await sdkLoadSkills({
+        cwd,
+        verbose: false,
+        includeHomeSkills: true,
+      })
+    } catch (error) {
+      logger.warn({ error }, 'Failed to load skills')
+      skillsCache = {}
+    }
+  }

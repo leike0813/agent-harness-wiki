@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-skills-command
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/commands/command-registry.ts
+  start: 784
+  end: 800
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  }
+    // Check if this is a skill command (prefixed with "skill:")
+    if (lowerCmd.startsWith('skill:')) {
+      const skillName = lowerCmd.slice('skill:'.length)
+      const skill = getSkillByName(skillName)
+      if (skill) {
+        return createSkillCommand(skill.name)
+      }
+    }
+    return undefined
+  }
+  /**
+   * Creates a dynamic command definition for a skill.
+   * When invoked, the skill's content is sent to the agent.

@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-root-toolnames
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: agents/base2/base2.ts
+  start: 205
+  end: 232
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  },
+      outputMode: 'last_message',
+      includeMessageHistory: true,
+      toolNames: buildArray(
+        'spawn_agents',
+        'read_files',
+        'read_subtree',
+        !isFast && !planOnly && 'write_todos',
+        !noAskUser && !noFollowups && 'suggest_followups',
+        // Plan mode is enforced by the toolset, not only by the prompt. Prose
+        // alone lost: a user who picked PLAN got the whole feature built and
+        // committed, because every capability a build turn has was still here
+        // and the surrounding prompt still demonstrated using it.
+        !planOnly && 'str_replace',
+        !planOnly && 'write_file',
+        !isLean && !planOnly && 'propose_str_replace',
+        !isLean && !planOnly && 'propose_write_file',
+        !noAskUser && 'ask_user',
+        'read_url',
+        'skill',

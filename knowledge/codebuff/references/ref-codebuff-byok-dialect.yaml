@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-dialect
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/impl/byok-request.ts
+  start: 20
+  end: 60
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  */
+  export type ByokReasoningDialect = 'openrouter' | 'anthropic' | 'openai'
+  export function byokReasoningDialect(
+    connection: Pick<ResolvedByokConnection, 'provider' | 'baseUrl'>,
+  ): ByokReasoningDialect {
+    const endpoint = byokCompletionUrl(connection)
+    if (endpoint.startsWith('https://openrouter.ai/')) return 'openrouter'
+    if (new URL(endpoint).hostname === 'api.anthropic.com') return 'anthropic'
+    return 'openai'
+  }
+  /**
+   * Anthropic's thinking budget per rung. The API minimum is 1,024. The budget is
+   * ADDED to `max_tokens` rather than carved out of it: Anthropic counts thinking
+   * against `max_tokens`, and a 4,096-token default output cap would otherwise
+   * leave the answer almost nothing.
+   */
+  export const BYOK_ANTHROPIC_THINKING_BUDGETS: Record<
+    ByokReasoningEffort,
+    number

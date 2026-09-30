@@ -1,0 +1,42 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-theme-plugin
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/utils/theme-config.ts
+  start: 1
+  end: 80
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  /**
+   * Theme Configuration System
+   *
+   * Provides plugin system and customization support for themes
+   */
+  import type { ChatTheme } from '../types/theme-system'
+  /**
+   * Plugin interface for extending theme system
+   * Plugins can modify themes at runtime
+   */
+  export interface ThemePlugin {
+    /** Unique plugin name */
+    name: string
+    /**
+     * Apply plugin modifications to a theme
+     * @param theme - The base theme
+     * @param mode - The detected light/dark mode
+     * @returns Partial theme to merge
+     */
+    apply: (
+      theme: ChatTheme,
+      mode: 'dark' | 'light',
+    ) => Partial<ChatTheme>
+  }
+  /**
+   * Main theme configuration interface
+   */
+  export interface ThemeConfig {
+    /** Global color overrides applied to themes */
+    customColors?: Partial<ChatTheme>

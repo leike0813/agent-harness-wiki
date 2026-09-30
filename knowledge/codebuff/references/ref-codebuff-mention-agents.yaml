@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-mention-agents
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/hooks/use-suggestion-engine.ts
+  start: 472
+  end: 495
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  // Sort by score (lower is better)
+    matches.sort((a, b) => (a.matchScore ?? 0) - (b.matchScore ?? 0))
+    return matches
+  }
+  const filterAgentMatches = (
+    agents: LocalAgentInfo[],
+    query: string,
+  ): MatchedAgentInfo[] => {
+    if (!query) {
+      return agents
+    }
+    const normalized = query.toLowerCase()
+    const matches: MatchedAgentInfo[] = []
+    const seen = new Set<string>()
+    const pushUnique = createPushUnique<MatchedAgentInfo, string>(
+      (agent) => agent.id,
+      seen,
+    )
+    // Prefix of ID or name
+    for (const agent of agents) {
+      const id = agent.id.toLowerCase()

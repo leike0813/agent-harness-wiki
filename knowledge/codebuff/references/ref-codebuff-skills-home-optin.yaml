@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-skills-home-optin
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/skills/load-skills.ts
+  start: 145
+  end: 175
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  * Off by default because the failure modes are wildly asymmetric. A host that
+     * legitimately wants home skills and forgets this flag shows the user fewer
+     * skills than they expected — loud, harmless, and immediately obvious to the
+     * person who wrote those skills. A host that must NOT read a home directory
+     * and gets one by default reads the WRONG MACHINE's files and feeds them to a
+     * model, which looks exactly like working correctly.
+     *
+     * That second case was real: Freebuff Cloud embeds the runner in the
+     * freebuff/web server process while the repo lives in a Daytona sandbox, so
+     * the old always-on home search made every Cloud turn parse the web server's
+     * `~/.claude/skills` and offer it to the model.
+     *

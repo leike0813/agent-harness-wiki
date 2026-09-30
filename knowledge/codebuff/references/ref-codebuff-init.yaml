@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-init
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/commands/init.ts
+  start: 20
+  end: 45
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  const brandName = IS_FREEBUFF ? 'Freebuff' : 'Codebuff'
+  const INITIAL_KNOWLEDGE_FILE = `# Project knowledge
+  This file gives ${brandName} context about your project: goals, commands, conventions, and gotchas.
+  ## Quickstart
+  - Setup:
+  - Dev:
+  - Test:
+  ## Architecture
+  - Key directories:
+  - Data flow:
+  ## Conventions
+  - Formatting/linting:
+  - Patterns to follow:
+  - Things to avoid:
+  `
+  const COMMON_TYPE_FILES = [
+    {
+      fileName: 'agent-definition.ts',
+      source: agentDefinitionSource,
+    },

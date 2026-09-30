@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-publisher-trust
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/agent-publisher-trust.ts
+  start: 1
+  end: 45
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  /**
+   * Publisher trust for REMOTE agent templates.
+   *
+   * A template fetched from the public agent registry is executable code: its
+   * `handleSteps` is a generator-function SOURCE STRING that
+   * `packages/agent-runtime/src/run-programmatic-step.ts` turns into a live
+   * function with `eval`, with no isolation, in the process that runs the agent
+   * (the user's machine on the CLI and Desktop). The registry GET is public, any
+   * account can create a publisher and publish without review, and `latest` is
+   * unpinned, so before this gate `--agent anyone/anything` was remote code
+   * execution by design.
+   *
+   * Local `.agents` files and the SDK's `agentDefinitions` are NOT gated: they
+   * are code the user already chose to run. Only a template that arrived over

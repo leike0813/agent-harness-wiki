@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-mcp-dirs
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/agents/load-mcp-config.ts
+  start: 89
+  end: 105
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  export const MCP_CONFIG_FILE_NAME = 'mcp.json'
+  /**
+   * Get default directories to search for mcp.json.
+   * Matches the agent loading directories for consistency.
+   */
+  const getDefaultMcpConfigDirs = (): string[] => {
+    const cwdAgents = path.join(process.cwd(), '.agents')
+    const parentAgents = path.join(process.cwd(), '..', '.agents')
+    const homeAgents = path.join(os.homedir(), '.agents')
+    return [cwdAgents, parentAgents, homeAgents]
+  }
+  /**
+   * Load MCP configuration from `mcp.json` files in `.agents` directories.
+   *
+   * By default, searches for mcp.json in:

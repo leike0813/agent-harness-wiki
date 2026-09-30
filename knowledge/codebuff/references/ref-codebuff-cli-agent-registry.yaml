@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-cli-agent-registry
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/utils/local-agent-registry.ts
+  start: 62
+  end: 105
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  export async function initializeAgentRegistry({
+    agentDirs = getDefaultAgentDirs(),
+  }: { agentDirs?: string[] } = {}): Promise<void> {
+    try {
+      userAgentsCache = await sdkLoadLocalAgents({ verbose: false, agentDirs })
+      // Build ID-to-filepath map by scanning the same agent directories
+      userAgentFilePaths = buildAgentFilePathMap(agentDirs)
+    } catch (error) {
+      // Fall back to empty cache if SDK loading fails, but log a warning
+      logger.warn(
+        { error },
+        'Failed to load user agents from .agents directories',
+      )
+      userAgentsCache = {}
+      userAgentFilePaths = new Map()
+    }
+    // Load MCP config from mcp.json files in the same .agents directories
+    try {
+      const mcpConfig = loadMCPConfigSync({
+        verbose: false,
+        configDirs: agentDirs,
+      })

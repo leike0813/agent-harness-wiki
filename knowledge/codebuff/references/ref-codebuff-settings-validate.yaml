@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-settings-validate
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/utils/settings.ts
+  start: 130
+  end: 170
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  * Validate and sanitize settings from file
+   */
+  const validateSettings = (parsed: unknown): Settings => {
+    if (typeof parsed !== 'object' || parsed === null) {
+      return {}
+    }
+    const settings: Settings = {}
+    const obj = parsed as Record<string, unknown>
+    // Validate mode; migrate the previously-saved 'FREE' value to 'LITE'.
+    if (typeof obj.mode === 'string') {
+      const normalized = obj.mode === 'FREE' ? 'LITE' : obj.mode
+      if (AGENT_MODES.includes(normalized as AgentMode)) {
+        settings.mode = normalized as AgentMode
+      }
+    }
+    // Validate adsEnabled
+    if (typeof obj.adsEnabled === 'boolean') {
+      settings.adsEnabled = obj.adsEnabled
+    }
+    // Validate freebuffModel against the current picker catalog. Server support

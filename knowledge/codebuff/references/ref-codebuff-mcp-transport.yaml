@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-mcp-transport
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: common/src/mcp/client.ts
+  start: 82
+  end: 150
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  export async function getMCPClient(config: MCPConfig): Promise<string> {
+    let key = hashConfig(config)
+    if (key in runningClients) {
+      return key
+    }
+    let transport: Transport
+    // Buffer the child process's stderr so that a server which crashes during
+    // startup produces an actionable error instead of the opaque MCP SDK message
+    // "MCP error -32000: Connection closed".
+    let stderrBuffer = ''
+    if (config.type === 'stdio') {
+      const stdioTransport = new StdioClientTransport({
+        command: config.command,
+        args: config.args,
+        env: substituteEnvInRecord(config.env),
+        stderr: 'pipe',
+      })
+      // When stderr is 'pipe' the SDK exposes a PassThrough immediately (before
+      // the process is spawned), so attaching here captures even early output

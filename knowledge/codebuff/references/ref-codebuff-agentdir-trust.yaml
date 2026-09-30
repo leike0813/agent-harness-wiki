@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agentdir-trust
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/utils/agent-dir-trust.ts
+  start: 14
+  end: 45
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  /**
+   * Trust gate for repository-scoped `.agents` directories.
+   *
+   * `loadLocalAgents` dynamically imports every `.ts`/`.js` file under
+   * `{cwd}/.agents` and `{cwd}/../.agents`, and `loadMCPConfigSync` reads an
+   * `mcp.json` there whose stdio servers are spawned on the first prompt with
+   * `$VAR` env references filled from THIS process's environment. Both run
+   * attacker-authored code the moment the CLI starts inside a cloned repository,
+   * so a directory that contains anything executable has to be trusted by the
+   * user once before it is loaded. `~/.agents` is the user's own and never
+   * needs trust; directories holding only `skills/` markdown do not either.
+   *
+   * Trust is recorded per absolute directory path in
+   * `<configDir>/trusted-agent-dirs.json` (mode 0600). Non-interactive runs

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agent-tools
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: common/src/templates/initial-agents-dir/types/agent-definition.ts
+  start: 110
+  end: 150
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  request?: number | string
+      }
+    }
+    // ============================================================================
+    // Tools and Subagents
+    // ============================================================================
+    /** MCP servers by name. Names cannot contain `/`. */
+    mcpServers?: Record<string, MCPConfig>
+    /**
+     * Tools this agent can use.
+     *
+     * By default, all tools are available from any specified MCP server. In
+     * order to limit the tools from a specific MCP server, add the tool name(s)
+     * in the format `'mcpServerName/toolName1'`, `'mcpServerName/toolName2'`,
+     * etc.
+     */
+    toolNames?: (ToolName | (string & {}))[]
+    /** Other agents this agent can spawn, like 'codebuff/file-picker@0.0.1'.
+     *

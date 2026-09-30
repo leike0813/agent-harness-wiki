@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agent-steps-default
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: common/src/constants/agents.ts
+  start: 76
+  end: 85
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  // Get unique agent names for UI display
+  export const UNIQUE_AGENT_NAMES = Array.from(
+    new Set(
+      Object.values(AGENT_PERSONAS)
+        .filter((persona) => !('hidden' in persona) || !persona.hidden)
+        .map((persona) => persona.displayName),
+    ),
+  )
+  // Map from display name back to agent types (for parsing user input)

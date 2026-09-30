@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-schema
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/byok.ts
+  start: 14
+  end: 40
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  const connectionSchema = z
+    .object({
+      id: z.uuid(),
+      revision: z.number().int().positive(),
+      name: text,
+      provider: z.enum(['openrouter', 'openai-compatible']),
+      model: text,
+      baseUrl: z.string().max(2048).optional(),
+      contextWindow: z.number().int().min(4096).max(2_000_000).optional(),
+      maxOutputTokens: z.number().int().min(1).max(1_000_000).optional(),
+      credentialRef: z
+        .string()
+        .refine(
+          (value) => envReference.test(value) || ownedReference.test(value),
+        ),
+      createdAt: z.iso.datetime(),
+      updatedAt: z.iso.datetime(),
+    })
+    .strict()
+  export type ByokConnection = z.infer<typeof connectionSchema>
+  export type ByokProvider = ByokConnection['provider']
+  /** Runtime-only. The built-in resolver makes apiKey non-enumerable. */

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agentdir-trust-prompt
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/utils/agent-dir-trust.ts
+  start: 228
+  end: 250
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  lines.push(
+      yellow(
+        'These run with your permissions and can read your environment. Only load them if you trust this repository.',
+      ),
+    )
+    lines.push('')
+    return lines.join('\n')
+  }
+  export const formatSkippedNote = (dir: string): string =>
+    `Skipped agents and mcp.json in ${dir} for this run. Re-run and answer y to trust it, or set ${TRUST_AGENT_DIRS_ENV_VAR}=1 (or pass ${TRUST_AGENTS_FLAG}).`
+  export const formatNonInteractiveNote = (dir: string): string =>
+    `Not loading agents or mcp.json from ${dir}: it has not been trusted and this is not an interactive terminal. Run ${cliName()} interactively once to trust it, or set ${TRUST_AGENT_DIRS_ENV_VAR}=1 (or pass ${TRUST_AGENTS_FLAG}).`
+  /**
+   * Plain-terminal yes/no prompt, run before the OpenTUI app mounts (the same

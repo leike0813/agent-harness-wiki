@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-mcp-env-subst
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: common/src/mcp/client.ts
+  start: 25
+  end: 50
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  /**
+   * Substitutes environment variable references ($VAR_NAME) in a string with their values.
+   * Supports both simple replacement ("$VAR_NAME") and interpolation ("Bearer $VAR_NAME").
+   */
+  function substituteEnvInValue(value: string): string {
+    return value.replace(/\$([A-Z_][A-Z0-9_]*)/g, (match, varName) => {
+      const envValue = process.env[varName]
+      if (envValue === undefined) {
+        // Return original if env var not found
+        return match
+      }
+      return envValue
+    })
+  }
+  /**
+   * Substitutes environment variable references in all values of a record.
+   */
+  function substituteEnvInRecord(
+    record: Record<string, string>,
+  ): Record<string, string> {
+    const result: Record<string, string> = {}
+    for (const [key, value] of Object.entries(record)) {

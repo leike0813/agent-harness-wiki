@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-cli-agent-merge
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/utils/local-agent-registry.ts
+  start: 330
+  end: 380
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  const userAgentIds = userAgentDefs.map((def) => def.id)
+    for (const agentDef of userAgentDefs) {
+      // User agents override bundled agents with the same ID
+      if (bundledIds.has(agentDef.id)) {
+        const idx = definitions.findIndex((d) => d.id === agentDef.id)
+        if (idx !== -1) {
+          definitions[idx] = { ...agentDef }
+        }
+      } else {
+        definitions.push({ ...agentDef })
+      }
+    }
+    // Auto-add user agent IDs to spawnableAgents of base agents
+    // This allows users to spawn their custom agents without needing to
+    // explicitly add them to the base agent's spawnableAgents list
+    if (userAgentIds.length > 0) {
+      for (const def of definitions) {
+        // Consider any agent with an ID starting with 'base' as a base agent

@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-knowledge-constants
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: common/src/constants/knowledge.ts
+  start: 1
+  end: 32
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  import path from 'path'
+  export const KNOWLEDGE_FILE_NAMES = [
+    'AGENTS.md',
+    'CLAUDE.md',
+  ] as const
+  /**
+   * Pre-computed lowercase knowledge file names for efficient matching.
+   */
+  export const KNOWLEDGE_FILE_NAMES_LOWERCASE = KNOWLEDGE_FILE_NAMES.map((name) =>
+    name.toLowerCase(),
+  )
+  /**
+   * Checks if a file path is a knowledge file.
+   * Matches:
+   * - Exact file names: AGENTS.md, CLAUDE.md (case-insensitive)
+   * - Pattern: *.knowledge.md (e.g., authentication.knowledge.md)
+   */
+  export function isKnowledgeFile(filePath: string): boolean {
+    const fileName = path.basename(filePath).toLowerCase()
+    // Check for exact matches with standard knowledge file names
+    if (KNOWLEDGE_FILE_NAMES_LOWERCASE.includes(fileName)) {
+      return true
+    }

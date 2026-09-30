@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agents-doc
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: document_section
+  heading: Agents
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  - Prompt/programmatic agents live in `.agents/` (programmatic agents use `handleSteps` generators).
+  - Generator functions are NOT sandboxed: the runtime `eval`s a `handleSteps` source string in the process that runs the agent (`packages/agent-runtime/src/run-programmatic-step.ts`); agent templates define tool access and subagents.
+  ### Registry agents with executable `handleSteps` require publisher trust
+  A template fetched from the public agent registry (`--agent publisher/agent`, a
+  registry id in a local agent's `spawnableAgents`, or a bare id falling back to
+  `codebuff/<id>`) is executable code when it carries `handleSteps`: the row's
+  `handleSteps` is a source string, validation only checks that it starts with
+  `function*`, and the runtime evals it with no isolation on the user's machine.

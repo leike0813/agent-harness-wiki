@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-defaults
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/byok.ts
+  start: 138
+  end: 200
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  if (new Set(parsed.data.map((item) => item.id)).size !== parsed.data.length) {
+      throw new Error('BYOK connection metadata contains duplicate connections')
+    }
+    for (const item of parsed.data) {
+      byokModelLimits(item)
+      normalizeByokBaseUrl(item.provider, item.baseUrl)
+      if (
+        !envReference.test(item.credentialRef) &&
+        !item.credentialRef.startsWith(`connection:${item.id}:`)
+      ) {
+        throw new Error(
+          'BYOK credential reference belongs to a different connection',
+        )
+      }
+    }
+    return parsed.data
+  }
+  /**
+   * The limits a connection gets when nobody chose any. The Desktop settings
+   * form pre-fills exactly this pair, and the store persists it, so a stored
+   * 32,768 / 4,096 almost always means "not configured" rather than a decision.
+   */

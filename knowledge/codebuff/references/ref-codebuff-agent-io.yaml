@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agent-io
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: common/src/templates/initial-agents-dir/types/agent-definition.ts
+  start: 150
+  end: 200
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  inputSchema?: {
+      prompt?: { type: 'string'; description?: string }
+      params?: JsonObjectSchema
+    }
+    /** How the agent should output a response to its parent (defaults to 'last_message')
+     *
+     * last_message: The text of the agent's last turn, without reasoning. A parent receives it as a plain string in the spawn result's `value` (or an error, 'No response from agent', if that turn had no text).
+     *
+     * all_messages: All messages from the agent, including tool calls and results.
+     *
+     * structured_output: Make the agent output a JSON object. Can be used with outputSchema or without if you want freeform json output.
+     */
+    outputMode?: 'last_message' | 'all_messages' | 'structured_output'
+    /** JSON schema for structured output (when outputMode is 'structured_output') */

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-hooks-runtime
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: packages/agent-runtime/src/tools/handlers/tool/run-file-change-hooks.ts
+  start: 1
+  end: 20
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+  import type {
+    ClientToolCall,
+    CodebuffToolCall,
+    CodebuffToolOutput,
+  } from '@codebuff/common/tools/list'
+  type ToolName = 'run_file_change_hooks'
+  export const handleRunFileChangeHooks = (async (params: {
+    previousToolCallFinished: Promise<void>
+    toolCall: CodebuffToolCall<ToolName>
+    requestClientToolCall: (
+      toolCall: ClientToolCall<ToolName>,
+    ) => Promise<CodebuffToolOutput<ToolName>>
+  }): Promise<{ output: CodebuffToolOutput<ToolName> }> => {
+    const { previousToolCallFinished, toolCall, requestClientToolCall } = params
+    await previousToolCallFinished
+    return { output: await requestClientToolCall(toolCall) }
+  }) satisfies CodebuffToolHandlerFunction<'run_file_change_hooks'>

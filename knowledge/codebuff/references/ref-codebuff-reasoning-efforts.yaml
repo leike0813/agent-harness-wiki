@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-reasoning-efforts
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: common/src/constants/reasoning-effort.ts
+  start: 20
+  end: 45
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  export const REASONING_EFFORTS = [
+    'minimal',
+    'low',
+    'medium',
+    'high',
+    'xhigh',
+    'max',
+    'ultra',
+  ] as const
+  export type ReasoningEffort = (typeof REASONING_EFFORTS)[number]
+  /** Kept explicit so a picker and a turn agree, rather than each deferring to
+   *  some CLI's own default. */
+  export const DEFAULT_REASONING_EFFORT: ReasoningEffort = 'high'
+  export function isReasoningEffort(value: unknown): value is ReasoningEffort {
+    return REASONING_EFFORTS.includes(value as ReasoningEffort)
+  }
+  /** Position on the shared ladder, or -1. Exported for tests that assert one
+   *  rung sits below another without hard-coding the list. */
+  export function reasoningEffortRank(value: unknown): number {
+    return REASONING_EFFORTS.indexOf(value as ReasoningEffort)
+  }

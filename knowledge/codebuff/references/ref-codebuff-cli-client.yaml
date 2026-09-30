@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-cli-client
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/utils/codebuff-client.ts
+  start: 52
+  end: 105
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  export async function getCodebuffClient(
+    options: { byok?: ResolvedByokConnection } = {},
+  ): Promise<CodebuffClient | null> {
+    const byokIdentity = options.byok
+      ? `${options.byok.id}:${options.byok.revision}`
+      : null
+    if (!clientInstance || byokClientIdentity !== byokIdentity) {
+      const { token: apiKey } = getAuthTokenDetails()
+      if (!apiKey && !options.byok) {
+        logger.warn(
+          {},
+          `No authentication token found. Please run the login flow or set ${API_KEY_ENV_VAR}.`,
+        )
+        return null
+      }
+      const projectRoot = getProjectRoot()
+      // Set up ripgrep path for SDK to use
+      const env = getCliEnv()
+      if (env.CODEBUFF_IS_BINARY) {
+        try {
+          const rgPath = await getRgPath()

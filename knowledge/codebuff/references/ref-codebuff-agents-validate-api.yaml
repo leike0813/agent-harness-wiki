@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agents-validate-api
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/validate-agents.ts
+  start: 18
+  end: 70
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  }
+  export interface ValidateAgentsOptions {
+    /**
+     * Whether to perform remote validation via the web API.
+     * Remote validation checks spawnable agents against the database.
+     */
+    remote?: boolean
+    /**
+     * The base URL of the Codebuff website API.
+     * Optional - defaults to NEXT_PUBLIC_CODEBUFF_APP_URL or environment-based URL.
+     * Example: 'https://codebuff.com'
+     */
+    websiteUrl?: string
+    /**
+     * Codebuff API key to send with remote validation.
+     * Optional — the endpoint is anonymous, but past its per-IP budget (shared
+     * NAT, CI runners) an authenticated caller is admitted on its own per-user
+     * budget. Defaults to the CODEBUFF_API_KEY environment variable.
+     */
+    apiKey?: string
+  }
+  /**
+   * Validates an array of agent definitions.
+   *

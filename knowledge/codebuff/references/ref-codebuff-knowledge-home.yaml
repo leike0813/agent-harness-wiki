@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-knowledge-home
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/run-state.ts
+  start: 706
+  end: 762
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  }
+  /**
+   * Loads user knowledge files from the home directory.
+   * Checks for ~/.knowledge.md, ~/.AGENTS.md, and ~/.CLAUDE.md with priority fallback.
+   * Matching is case-insensitive (e.g., ~/.KNOWLEDGE.md will match).
+   * Returns a record with the tilde-prefixed path as key (e.g., "~/.knowledge.md").
+   * @internal Exported for testing
+   */
+  export async function loadUserKnowledgeFiles(params: {
+    fs: CodebuffFileSystem
+    logger: Logger
+    /** Optional home directory override for testing */
+    homeDir?: string
+  }): Promise<Record<string, string>> {
+    const { fs, logger } = params
+    const homeDir = params.homeDir ?? os.homedir()
+    const userKnowledgeFiles: Record<string, string> = {}
+    // List home directory to find knowledge files case-insensitively
+    let entries: string[]
+    try {

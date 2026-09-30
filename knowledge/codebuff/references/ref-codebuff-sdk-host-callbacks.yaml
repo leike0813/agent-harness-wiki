@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-sdk-host-callbacks
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/run.ts
+  start: 266
+  end: 282
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  /** Optional steering hook. Drained at each agent step boundary during the run;
+     * any returned messages are appended to the conversation as user prompts (and keep
+     * the turn going) before the next LLM call. Lets a host inject messages into a
+     * running agent without aborting — i.e. "steer" it, as opposed to queuing a new
+     * prompt for after the turn finishes. Supports plain strings or { prompt, content }
+     * messages with images, and async attachment loading. */
+    drainSteeringMessages?: DrainSteeringMessages
+    costMode?: string
+    /** Extra key/values merged into each LLM request's `codebuff_metadata`.
+     *  Used by hosts (e.g. the CLI) to forward client-scoped identifiers like
+     *  `freebuff_instance_id` that server-side gates read from the request body. */

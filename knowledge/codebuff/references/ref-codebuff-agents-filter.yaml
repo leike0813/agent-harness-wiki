@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agents-filter
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/agents/load-agents.ts
+  start: 105
+  end: 168
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  /** Validation errors for agents that failed validation */
+    validationErrors: AgentValidationError[]
+  }
+  const agentFileExtensions = new Set(['.ts', '.tsx', '.js', '.mjs', '.cjs'])
+  const shouldSkipAgentDirectory = (name: string): boolean =>
+    name.startsWith('.') ||
+    name === 'node_modules' ||
+    name === 'scripts' ||
+    name === 'skills' ||
+    name.startsWith('skills-')
+  const isLoadableAgentFileName = (fileName: string): boolean => {
+    const extension = path.extname(fileName).toLowerCase()
+    return (
+      agentFileExtensions.has(extension) &&
+      !fileName.endsWith('.d.ts') &&
+      !/[./](test|spec)\.[cm]?[tj]sx?$/.test(fileName)
+    )
+  }
+  /**
+   * List every file under `dir` that `loadLocalAgents` would import: `.ts`,
+   * `.tsx`, `.js`, `.mjs` or `.cjs`, minus `.d.ts` and test files, skipping

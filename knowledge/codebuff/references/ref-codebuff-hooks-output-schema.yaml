@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-hooks-output-schema
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: common/src/tools/params/tool/run-file-change-hooks.ts
+  start: 36
+  end: 56
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  `.trim()
+  export const runFileChangeHooksParams = {
+    toolName,
+    endsAgentStep,
+    description,
+    inputSchema,
+    outputSchema: jsonToolResultSchema(
+      z
+        .union([
+          terminalCommandOutputSchema.and(
+            z.object({
+              hookName: z.string(),
+            }),
+          ),
+          z.object({
+            errorMessage: z.string(),
+          }),
+        ])
+        .array(),
+    ),

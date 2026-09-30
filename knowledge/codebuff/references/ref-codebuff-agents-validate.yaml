@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agents-validate
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/agents/load-agents.ts
+  start: 303
+  end: 345
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  error instanceof Error ? error.message : error,
+          )
+        }
+      }
+    }
+    // Validate agents if requested
+    if (validate) {
+      const validationErrors: AgentValidationError[] = []
+      if (Object.keys(agents).length > 0) {
+        const result = await validateAgents(Object.values(agents))
+        if (!result.success) {
+          // Build a map of agent IDs to their validation errors
+          // The validation error id format is "{agentId}_{index}" from validateAgents
+          const errorsByAgentId = new Map<string, string>()
+          for (const err of result.validationErrors) {
+            // Extract agent ID by removing the "_index" suffix added by validateAgents
+            const lastUnderscoreIdx = err.id.lastIndexOf('_')
+            const agentId =

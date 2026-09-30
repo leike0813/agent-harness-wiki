@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-handlesteps-eval
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: packages/agent-runtime/src/run-programmatic-step.ts
+  start: 38
+  end: 60
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  type HandleStepsFn = Exclude<AgentTemplate['handleSteps'], string | undefined>
+  // SECURITY: this evals arbitrary code in the current process with no
+  // isolation. A string `handleSteps` reaches here from two kinds of source: a
+  // template the user supplied locally (an `.agents` file or the SDK's
+  // `agentDefinitions`, code they chose to run), or a template fetched from the
+  // public agent registry — anyone can publish there without review. The ONLY
+  // thing standing between "codebuff --agent someone/anything" and remote code
+  // execution is the publisher-trust gate in the SDK's `fetchAgentFromDatabase`
+  // (sdk/src/agent-publisher-trust.ts): an untrusted publisher's executable
+  // template is refused before it can be cached or reach this function. Keep

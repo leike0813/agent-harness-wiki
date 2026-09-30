@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-efforts
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: common/src/constants/reasoning-effort.ts
+  start: 85
+  end: 99
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  * understands: OpenAI-compatible `reasoning_effort`, OpenRouter's
+   * `reasoning.effort`, Gemini's OpenAI-compatible `reasoning_effort`, and an
+   * Anthropic thinking budget per rung. There is deliberately no "default" rung
+   * here: a BYOK thread with no pick sends nothing, so the provider's own default
+   * applies — exactly the request BYOK sent before this setting existed.
+   */
+  export const BYOK_REASONING_EFFORTS = ['low', 'medium', 'high'] as const
+  export type ByokReasoningEffort = (typeof BYOK_REASONING_EFFORTS)[number]
+  export function isByokReasoningEffort(
+    value: unknown,
+  ): value is ByokReasoningEffort {
+    return BYOK_REASONING_EFFORTS.includes(value as ByokReasoningEffort)
+  }

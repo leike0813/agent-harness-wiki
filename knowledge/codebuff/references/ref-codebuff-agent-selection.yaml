@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agent-selection
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/hooks/use-send-message.ts
+  start: 110
+  end: 126
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  }
+  // Choose the agent definition by explicit selection or mode-based fallback.
+  const resolveAgent = (
+    agentMode: AgentMode,
+    agentId: string | undefined,
+    agentDefinitions: AgentDefinition[],
+  ): AgentDefinition | string => {
+    const selectedAgentDefinition =
+      agentId && agentDefinitions.length > 0
+        ? agentDefinitions.find((definition) => definition.id === agentId)
+        : undefined
+    return selectedAgentDefinition ?? agentId ?? getAgentIdForMode(agentMode)
+  }
+  // Respect bash context, but avoid sending empty prompts when only images are attached.

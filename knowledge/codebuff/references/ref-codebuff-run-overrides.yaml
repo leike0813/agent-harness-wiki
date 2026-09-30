@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-run-overrides
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/run.ts
+  start: 200
+  end: 235
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  /** Optional host process boundary that keeps terminal tools away from an
+     * interactive console. Headless consumers can omit it. */
+    terminalCommandBroker?: TerminalCommandBroker
+    handleEvent?: (event: PrintModeEvent) => void | Promise<void>
+    handleStreamChunk?: (
+      chunk:
+        | string
+        | {
+            type: 'subagent_chunk'
+            agentId: string
+            agentType: string
+            chunk: string
+          }
+        | {
+            type: 'reasoning_chunk'
+            agentId: string
+            ancestorRunIds: string[]
+            chunk: string
+          },
+    ) => void | Promise<void>
+    /** Optional filter to classify files before reading (runs before gitignore check) */
+    fileFilter?: FileFilter
+    overrideTools?: OverrideToolHandlers
+    customToolDefinitions?: CustomToolDefinition[]

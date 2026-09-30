@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-settings-path
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/utils/settings.ts
+  start: 84
+  end: 130
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  * Get the settings file path
+   */
+  export const getSettingsPath = (): string => {
+    return path.join(getConfigDir(), 'settings.json')
+  }
+  /**
+   * Ensure the config directory exists, creating it if necessary
+   */
+  const ensureConfigDirExists = (): void => {
+    const configDir = getConfigDir()
+    if (!fs.existsSync(configDir)) {
+      fs.mkdirSync(configDir, { recursive: true })
+    }
+  }
+  /**
+   * Load all settings from file system
+   * @returns The saved settings object, with defaults for missing values
+   */
+  export const loadSettings = (): Settings => {
+    const settingsPath = getSettingsPath()
+    if (!fs.existsSync(settingsPath)) {
+      ensureConfigDirExists()
+      // Create default settings file
+      fs.writeFileSync(settingsPath, JSON.stringify(DEFAULT_SETTINGS, null, 2))
+      return DEFAULT_SETTINGS
+    }
+    try {

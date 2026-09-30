@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agents-load
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/agents/load-agents.ts
+  start: 265
+  end: 300
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  if (!agentDefinition?.id || !agentDefinition?.model) {
+          if (verbose) {
+            console.error(
+              `Agent definition missing required attributes (id, model): ${fullPath}`,
+            )
+          }
+          continue
+        }
+        const processedAgentDefinition: LoadedAgentDefinition = {
+          ...agentDefinition,
+          _sourceFilePath: fullPath,
+        }
+        if (agentDefinition.handleSteps) {
+          if (typeof agentDefinition.handleSteps === 'function') {
+            // Keep the live function: the stringified form of a bundled function
+            // can reference out-of-scope bundler helpers and fail eval later.
+            processedAgentDefinition.handleStepsFn = agentDefinition.handleSteps
+          }
+          processedAgentDefinition.handleSteps =

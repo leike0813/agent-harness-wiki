@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-transform
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/impl/byok-request.ts
+  start: 152
+  end: 215
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  export function byokRequestTransform(connection: ResolvedByokConnection) {
+    const endpoint = byokCompletionUrl(connection)
+    const directLuna =
+      endpoint === 'https://api.openai.com/v1/chat/completions' &&
+      connection.model === 'gpt-5.6-luna'
+    const openRouterOpenAI =
+      endpoint === 'https://openrouter.ai/api/v1/chat/completions' &&
+      connection.model.startsWith('openai/')
+    // Standalone BYOK has no required Freebuff account. Attribute to the provider
+    // credential, not a connection UUID/revision that changes on re-creation.
+    // Domain separation keeps this fingerprint specific to this purpose; the key
+    // itself must never enter the request body or its diagnostic metadata.
+    const identifier = openRouterOpenAI
+      ? createHash('sha256')

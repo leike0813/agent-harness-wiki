@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-url
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/byok.ts
+  start: 96
+  end: 132
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  /** Validate before either storing a connection or attaching credentials to a request. */
+  export function normalizeByokBaseUrl(
+    provider: ByokProvider,
+    baseUrl?: string,
+  ): string {
+    if (provider === 'openrouter') return 'https://openrouter.ai/api/v1'
+    if (provider !== 'openai-compatible')
+      throw new Error('Unsupported BYOK provider')
+    let url: URL
+    try {
+      url = new URL(baseUrl ?? '')
+    } catch {
+      throw new Error('Enter a valid provider base URL')
+    }
+    const loopback = ['localhost', '127.0.0.1', '[::1]'].includes(url.hostname)
+    if (url.protocol !== 'https:' && !(url.protocol === 'http:' && loopback)) {
+      throw new Error(
+        'Provider endpoints require HTTPS; HTTP is allowed only on loopback',
+      )
+    }
+    if (url.username || url.password || url.search || url.hash) {

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-model
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/impl/model-provider.ts
+  start: 296
+  end: 345
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  model,
+    userId,
+    byok,
+  }: ModelRequestParams): LanguageModel {
+    if (byok) {
+      return new OpenAICompatibleChatLanguageModel(byok.model, {
+        provider: 'byok',
+        transformRequestBody: byokRequestTransform(byok),
+        url: () => byokCompletionUrl(byok),
+        headers: () => ({
+          Authorization: `Bearer ${byok.apiKey}`,
+          'user-agent': `ai-sdk/openai-compatible/${VERSION}/freebuff-byok`,
+        }),
+        // Check the durable revision before every provider attempt. The AI SDK
+        // invokes this again on retries and later tool-loop steps, so removing
+        // or replacing a connection stops subsequent inference immediately.
+        fetch: (async (...args: Parameters<typeof globalThis.fetch>) => {
+          try {
+            await byok.assertCurrent?.()

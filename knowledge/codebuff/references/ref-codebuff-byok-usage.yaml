@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-usage
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/commands/byok.ts
+  start: 22
+  end: 40
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  import type { ByokConnection, ByokProvider } from '@codebuff/sdk'
+  import type { RouterParams } from './command-registry'
+  export const BYOK_USAGE = [
+    'BYOK uses your provider account directly. Keys are read from an environment variable and never stored in Freebuff.',
+    'Use the environment-variable NAME only, for example OPENROUTER_API_KEY. Never paste an API key into this command.',
+    'Usage:',
+    '`/byok list`',
+    '`/byok add <name> <openrouter|openai-compatible> <model> <ENV_VAR> [base-url] [--context-window=N] [--max-output-tokens=N]`',
+    '`/byok update <name> <model> [base-url] [--context-window=N] [--max-output-tokens=N]`',
+    '`/byok validate <name>`',
+    '`/byok select <name>`',
+    '`/byok effort <default|low|medium|high>`',
+    '`/byok remove <name>`',
+    '`/byok off`',
+  ].join('\n')

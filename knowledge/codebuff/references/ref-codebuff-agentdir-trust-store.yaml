@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agentdir-trust-store
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/utils/agent-dir-trust.ts
+  start: 80
+  end: 105
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  // ============================================================================
+  // Trust store
+  // ============================================================================
+  export const getTrustStorePath = (configDir: string = getConfigDir()): string =>
+    path.join(configDir, TRUST_STORE_FILE_NAME)
+  /** Read the store; a missing or malformed file reads as "nothing trusted". */
+  export const readTrustStore = (storePath: string): TrustStore => {
+    let raw: string
+    try {
+      raw = fs.readFileSync(storePath, 'utf8')
+    } catch {
+      return {}
+    }
+    try {
+      const parsed: unknown = JSON.parse(raw)
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+        return {}
+      }
+      const store: TrustStore = {}
+      for (const [dir, entry] of Object.entries(

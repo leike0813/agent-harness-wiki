@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-mcp-file-schema
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/agents/load-mcp-config.ts
+  start: 12
+  end: 20
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  * Schema for the mcp.json file format.
+   * Matches the standard MCP config format used by Claude Code, Cursor, etc.
+   */
+  export const mcpFileSchema = z.object({
+    mcpServers: z.record(z.string(), mcpConfigSchema).default(() => ({})),
+  })
+  export type MCPFileConfig = z.infer<typeof mcpFileSchema>

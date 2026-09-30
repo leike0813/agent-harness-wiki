@@ -1,0 +1,42 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-skills-discover
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/skills/load-skills.ts
+  start: 48
+  end: 92
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  function discoverSkillsFromDirectory(
+    skillsDir: string,
+    verbose: boolean,
+  ): SkillsMap {
+    const skills: SkillsMap = {}
+    let entries: string[]
+    try {
+      entries = fs.readdirSync(skillsDir)
+    } catch {
+      return skills
+    }
+    for (const entry of entries) {
+      const skillDir = path.join(skillsDir, entry)
+      // Skip non-directories and invalid skill names
+      try {
+        const stat = fs.statSync(skillDir)
+        if (!stat.isDirectory()) continue
+      } catch {
+        continue
+      }
+      if (!isValidSkillName(entry)) {
+        if (verbose) {
+          console.warn(`Skipping invalid skill directory name: ${entry}`)
+        }
+        continue
+      }
+      const skillFilePath = path.join(skillDir, SKILL_FILE_NAME)
+      // Check if SKILL.md exists
+      try {
+        fs.statSync(skillFilePath)

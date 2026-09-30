@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-skills-xml
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: common/src/util/skills.ts
+  start: 1
+  end: 36
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  import type { SkillDefinition, SkillsMap } from '../types/skill'
+  export function isSkillModelInvocable(skill: SkillDefinition): boolean {
+    return skill.disableModelInvocation !== true
+  }
+  /**
+   * Escapes special XML characters in a string.
+   */
+  function escapeXml(str: string): string {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;')
+  }
+  /**
+   * Formats available skills as XML for inclusion in tool descriptions.
+   */
+  export function formatAvailableSkillsXml(skills: SkillsMap): string {
+    const skillEntries = Object.values(skills).filter(isSkillModelInvocable)
+    if (skillEntries.length === 0) {
+      return ''
+    }
+    const skillsXml = skillEntries
+      .map(
+        (skill) =>

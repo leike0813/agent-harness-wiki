@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-skills-frontmatter
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: common/src/types/skill.ts
+  start: 20
+  end: 60
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  * Zod schema for skill frontmatter (parsed from YAML).
+   */
+  export const SkillFrontmatterSchema = z.object({
+    name: z
+      .string()
+      .min(1)
+      .max(SKILL_NAME_MAX_LENGTH)
+      .regex(
+        SKILL_NAME_REGEX,
+        'Name must be lowercase alphanumeric with single hyphen separators',
+      ),
+    // clamped rather than rejected: an over-long description is a reason to show
+    // less of it, never a reason to make the skill unusable
+    description: z
+      .string()
+      .min(1)
+      .transform((d) => d.slice(0, SKILL_DESCRIPTION_MAX_LENGTH)),
+    license: z.string().optional(),
+    'disable-model-invocation': z.boolean().optional(),
+    metadata: SkillMetadataSchema.optional(),
+  })
+  export type SkillFrontmatter = z.infer<typeof SkillFrontmatterSchema>
+  /**

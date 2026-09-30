@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agents-env
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/agents/load-agents.ts
+  start: 36
+  end: 85
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  export function resolveMcpEnv(
+    env: Record<string, string> | undefined,
+    agentId: string,
+    mcpServerName: string,
+  ): Record<string, string> {
+    if (!env) return {}
+    const resolved: Record<string, string> = {}
+    for (const [key, value] of Object.entries(env)) {
+      if (value.startsWith('$')) {
+        // $VAR_NAME reference - resolve from process.env
+        const envVarName = value.slice(1) // Remove the leading $
+        // Allow dynamic process.env access
+        const envName = 'env'
+        const envValue = process[envName][envVarName]
+        if (envValue === undefined) {
+          throw new Error(
+            `Missing environment variable '${envVarName}' required by agent '${agentId}' in mcpServers.${mcpServerName}.env.${key}`,
+          )
+        }
+        resolved[key] = envValue
+      } else {

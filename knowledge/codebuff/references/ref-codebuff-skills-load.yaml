@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-skills-load
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/skills/load-skills.ts
+  start: 203
+  end: 232
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  export function loadSkillsSync(options: LoadSkillsOptions = {}): SkillsMap {
+    const {
+      cwd = process.cwd(),
+      skillsPath,
+      verbose = false,
+      includeHomeSkills = false,
+    } = options
+    const skills: SkillsMap = {}
+    const skillsDirs = resolveSkillsDirs({
+      cwd,
+      skillsPath,
+      // The ONLY `os.homedir()` call in this module. Reaching it requires an
+      // explicit opt-in, so no future caller inherits a home-directory read.
+      homeDir: includeHomeSkills ? os.homedir() : undefined,
+    })
+    for (const skillsDir of skillsDirs) {
+      const dirSkills = discoverSkillsFromDirectory(skillsDir, verbose)
+      // Later directories override earlier ones (project overrides global)
+      Object.assign(skills, dirSkills)
+    }
+    return skills
+  }

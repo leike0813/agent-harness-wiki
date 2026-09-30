@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-skills-runwire
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/run-state.ts
+  start: 983
+  end: 1035
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  }
+    // Load user knowledge files from home directory and merge with any provided ones
+    const homeKnowledgeFiles = await loadUserKnowledgeFiles({ fs, logger })
+    const userKnowledgeFiles = {
+      ...homeKnowledgeFiles,
+      ...providedUserKnowledgeFiles,
+    }
+    // Load skills. An injected loader wins outright: it is the only correct
+    // source for a host whose repo is not on this machine (see `skillsLoader`).
+    // Skills are prompt content, never control flow, so a loader that throws
+    // must degrade to "no skills" rather than take the whole turn down with it.
+    let skills: SkillsMap
+    if (skillsLoader) {
+      try {
+        skills = await skillsLoader()
+      } catch (error) {
+        logger.error(
+          { error: getErrorObject(error) },

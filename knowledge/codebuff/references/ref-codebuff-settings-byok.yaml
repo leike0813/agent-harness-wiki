@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-settings-byok
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/utils/settings.ts
+  start: 60
+  end: 84
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  byokConnection?: {
+      id: string
+      revision: number
+      provider?: 'openrouter' | 'openai-compatible'
+      model?: string
+    }
+    /** Reasoning effort for BYOK runs (`/byok effort`). Absent sends no
+     *  reasoning field, so the provider's own default applies. */
+    byokReasoningEffort?: ByokReasoningEffort
+    /** @deprecated Use server-side fallbackToALaCarte setting instead */
+    alwaysUseALaCarte?: boolean
+    /** @deprecated Use server-side fallbackToALaCarte setting instead */
+    fallbackToALaCarte?: boolean
+    /** Set once the user has submitted their first prompt. Used to gate the
+     *  first-time onboarding suggested prompts so they only show to brand-new
+     *  users and quietly retire afterwards. */
+    hasSubmittedFirstPrompt?: boolean

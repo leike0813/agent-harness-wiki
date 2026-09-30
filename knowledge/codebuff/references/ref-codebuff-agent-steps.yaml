@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agent-steps
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: common/src/templates/initial-agents-dir/types/agent-definition.ts
+  start: 240
+  end: 320
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  /** Prompt inserted at each agent step.
+     *
+     * Powerful for changing the agent's behavior, but usually not necessary for smart models.
+     * Prefer instructionsPrompt for most instructions. */
+    stepPrompt?: string
+    // ============================================================================
+    // Handle Steps
+    // ============================================================================
+    /** Programmatically step the agent forward and run tools.
+     *
+     * You can either yield:
+     * - A tool call object with toolName and input properties.
+     * - 'STEP' to run agent's model and generate one assistant message.
+     * - 'STEP_ALL' to run the agent's model until it uses the end_turn tool or stops includes no tool calls in a message.
+     *
+     * Or use 'return' to end the turn.
+     *

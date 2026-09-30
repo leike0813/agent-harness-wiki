@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-discovery
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/byok.ts
+  start: 285
+  end: 340
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  const DISCOVERY_TIMEOUT_MS = 4_000
+  /** Test seam: forget every cached discovery. */
+  export function clearByokContextWindowCache(): void {
+    discoveredWindows.clear()
+  }
+  /**
+   * Ask the provider's `/models` listing how large this model's window is.
+   * Best effort: never throws, and a miss is remembered briefly so a provider
+   * without the field is not asked on every turn. The listing is what the
+   * connection check already calls; OpenRouter's is public, so the key is sent
+   * only to an OpenAI-compatible endpoint that needs it.
+   */
+  export async function discoverByokContextWindow(
+    connection: Pick<
+      ResolvedByokConnection,
+      'provider' | 'baseUrl' | 'model' | 'apiKey'
+    >,
+    fetchImpl: typeof globalThis.fetch = globalThis.fetch,
+  ): Promise<number | undefined> {
+    let base: string

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-doc-mcp-transports
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-docs-mcp
+locator:
+  kind: document_section
+  heading: Configuration Reference
+official_url: "https://www.codebuff.com/docs/tips/mcp-servers"
+excerpt: |-
+  Configuration Reference
+  Stdio (Local Process)
+  Runs an MCP server as a local process that communicates via stdin/stdout:
+  Fields:
+  type ('stdio') -- Optional. Indicates a local process server (default)
+  command (string) -- The command to execute (e.g., 'npx', 'node', 'python')
+  args (string[]) -- Arguments passed to the command
+  env (object) -- Environment variables for the MCP server process
+  Remote (HTTP/SSE)
+  Fields:
+  type ('http' | 'sse') -- Required. 'http' for standard HTTP, 'sse' for Server-Sent Events
+  url (string) -- The URL of the remote MCP server
+  params (object) -- Query parameters to include in requests
+  headers (object) -- HTTP headers to include in requests (e.g., for authentication)

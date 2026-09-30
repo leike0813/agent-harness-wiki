@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-provider-settings
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: packages/llm-providers/src/openai-compatible/openai-compatible-provider.ts
+  start: 40
+  end: 90
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  imageModel(modelId: IMAGE_MODEL_IDS): ImageModelV2
+  }
+  export interface OpenAICompatibleProviderSettings {
+    /**
+  Base URL for the API calls.
+     */
+    baseURL: string
+    /**
+  Provider name.
+     */
+    name: string
+    /**
+  API key for authenticating requests. If specified, adds an `Authorization`
+  header to request headers with the value `Bearer <apiKey>`. This will be added
+  before any headers potentially specified in the `headers` option.
+     */
+    apiKey?: string
+    /**
+  Optional custom headers to include in requests. These will be added to request headers
+  after any headers potentially added by use of the `apiKey` option.
+     */
+    headers?: Record<string, string>
+    /**
+  Optional custom url query parameters to include in request urls.
+     */
+    queryParams?: Record<string, string>
+    /**

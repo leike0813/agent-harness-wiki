@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-skills-tool-handler
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: packages/agent-runtime/src/tools/handlers/tool/skill.ts
+  start: 106
+  end: 170
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  export const handleSkill = (async (params: {
+    previousToolCallFinished: Promise<void>
+    toolCall: CodebuffToolCall<ToolName>
+    fileContext: ProjectFileContext
+  }): Promise<{ output: CodebuffToolOutput<ToolName> }> => {
+    const { previousToolCallFinished, toolCall, fileContext } = params
+    const { name } = toolCall.input
+    await previousToolCallFinished
+    const skills = fileContext.skills ?? {}
+    // Always prefer the on-disk copy so skills installed or updated during the
+    // session (e.g. via `npx skills add`) are picked up with their latest
+    // contents. Fall back to the cache pre-loaded at session start.
+    const diskSkill = fileContext.projectRoot
+      ? await loadSkillFromDisk(
+          fileContext.projectRoot,
+          name,
+          fileContext.includeHomeSkills === true,
+        )

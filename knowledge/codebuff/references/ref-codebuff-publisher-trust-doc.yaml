@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-publisher-trust-doc
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: document_section
+  heading: "Registry agents with executable `handleSteps` require publisher trust"
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  A template fetched from the public agent registry (`--agent publisher/agent`, a
+  registry id in a local agent's `spawnableAgents`, or a bare id falling back to
+  `codebuff/<id>`) is executable code when it carries `handleSteps`: the row's
+  `handleSteps` is a source string, validation only checks that it starts with
+  `function*`, and the runtime evals it with no isolation on the user's machine.
+  The registry GET is public, any account can create a publisher and publish
+  without review, and `latest` is unpinned. So the SDK's `fetchAgentFromDatabase`
+  refuses a registry template with a string `handleSteps` unless its publisher is
+  trusted (`sdk/src/agent-publisher-trust.ts`), and throws an
+  `UntrustedAgentPublisherError` whose message names `publisher/agent@version`
+  and the knob to set.

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-mcp-names
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: packages/agent-runtime/src/mcp.ts
+  start: 20
+  end: 40
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  /**
+   * The tool name the model sees for one MCP tool.
+   *
+   * `server__tool` exactly as before whenever that is already a legal name, so
+   * nothing changes for the common case (no prompt-cache churn). A server key or
+   * tool name carrying anything else (`.`, a space, `/`, `:`) used to produce a
+   * name every provider rejects — "Invalid 'tools[89].name': string does not
+   * match pattern" — failing the whole turn, every turn, for that user. Those are
+   * sanitized, truncated with a stable hash when too long, and the caller records
+   * the original server/tool on the definition (`mcpOrigin`) for execution.
+   */
+  export function mcpExposedToolName(server: string, tool: string): string {
+    const raw = server + MCP_TOOL_SEPARATOR + tool
+    if (LEGACY_VALID_TOOL_NAME.test(raw)) return raw

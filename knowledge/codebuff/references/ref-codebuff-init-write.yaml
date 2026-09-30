@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-init-write
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/commands/init.ts
+  start: 56
+  end: 100
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  export function handleInitializationFlowLocally(): {
+    postUserMessage: PostUserMessageFn
+  } {
+    const projectRoot = getProjectRoot()
+    const knowledgePath = path.join(projectRoot, KNOWLEDGE_FILE_NAMES[0])
+    const messages: string[] = []
+    if (existsSync(knowledgePath)) {
+      messages.push(`📋 \`${KNOWLEDGE_FILE_NAMES[0]}\` already exists.`)
+    } else {
+      writeFileSync(knowledgePath, INITIAL_KNOWLEDGE_FILE)
+      messages.push(`✅ Created \`${KNOWLEDGE_FILE_NAMES[0]}\``)
+      // Track knowledge file creation
+      trackEvent(AnalyticsEvent.KNOWLEDGE_FILE_UPDATED, {
+        action: 'created',
+        fileName: KNOWLEDGE_FILE_NAMES[0],
+        fileSizeBytes: Buffer.byteLength(INITIAL_KNOWLEDGE_FILE, 'utf8'),
+      })
+    }
+    const agentsDir = path.join(projectRoot, '.agents')

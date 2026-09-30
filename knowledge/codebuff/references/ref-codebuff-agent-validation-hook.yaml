@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agent-validation-hook
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/hooks/use-agent-validation.ts
+  start: 52
+  end: 80
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  */
+  export const useAgentValidation = (): UseAgentValidationResult => {
+    const [validationErrors, setValidationErrors] = useState<ValidationError[]>(
+      [],
+    )
+    const [isValidating, setIsValidating] = useState(false)
+    // Validate agents and update state
+    // Returns validation result with success status and any errors
+    const validate = useCallback(async (): Promise<ValidationCheckResult> => {
+      setIsValidating(true)
+      try {
+        const agentDefinitions = loadAgentDefinitions()
+        // Read selection at send time so changing provider never leaves a stale
+        // render using the hosted validation endpoint.
+        const validationResult = await validateSelectedAgentDefinitions(
+          agentDefinitions,
+        )
+        if (validationResult.success) {
+          setValidationErrors([])

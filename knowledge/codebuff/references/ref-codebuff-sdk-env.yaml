@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-sdk-env
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/env.ts
+  start: 28
+  end: 55
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  * Composes from getBaseEnv() + SDK-specific vars.
+   */
+  export const getSdkEnv = (): SdkEnv => ({
+    ...getBaseEnv(),
+    // SDK-specific paths
+    CODEBUFF_RG_PATH: process.env.CODEBUFF_RG_PATH,
+    CODEBUFF_WASM_DIR: process.env.CODEBUFF_WASM_DIR,
+    // Registry publishers whose executable (handleSteps) agents may run
+    CODEBUFF_TRUSTED_AGENT_PUBLISHERS:
+      process.env.CODEBUFF_TRUSTED_AGENT_PUBLISHERS,
+    // Build flags
+    VERBOSE: process.env.VERBOSE,
+    OVERRIDE_TARGET: process.env.OVERRIDE_TARGET,
+    OVERRIDE_PLATFORM: process.env.OVERRIDE_PLATFORM,
+    OVERRIDE_ARCH: process.env.OVERRIDE_ARCH,
+  })
+  export const getCodebuffApiKeyFromEnv = (): string | undefined => {
+    return process.env[API_KEY_ENV_VAR]
+  }
+  /**
+   * Rejected overrides already warned about, keyed by variable and origin, so a

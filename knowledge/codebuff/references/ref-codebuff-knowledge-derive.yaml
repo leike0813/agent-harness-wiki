@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-knowledge-derive
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/run-state.ts
+  start: 804
+  end: 826
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  /**
+   * Auto-derives knowledge files from project files if knowledgeFiles is undefined.
+   * Implements fallback priority: AGENTS.md > CLAUDE.md per directory.
+   */
+  function deriveKnowledgeFiles(
+    projectFiles: Record<string, string>,
+  ): Record<string, string> {
+    const allFilePaths = Object.keys(projectFiles)
+    const selectedFilePaths = selectKnowledgeFilePaths(allFilePaths)
+    const knowledgeFiles: Record<string, string> = {}
+    for (const filePath of selectedFilePaths) {
+      knowledgeFiles[filePath] = projectFiles[filePath]
+    }
+    return knowledgeFiles
+  }
+  async function loadKnowledgeFilesFromPaths(params: {
+    cwd: string
+    filePaths: string[]
+    fs: CodebuffFileSystem
+    logger: Logger
+  }): Promise<Record<string, string>> {

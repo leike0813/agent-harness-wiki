@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-cli-flags
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/cli-args.ts
+  start: 55
+  end: 105
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  .name('freebuff')
+        .description('Freebuff - Free AI coding assistant')
+        .version(version, '-v, --version', 'Print the CLI version')
+        .option(
+          '--continue [conversation-id]',
+          'Continue from a previous conversation (optionally specify a conversation id)',
+        )
+        .option(
+          '--cwd <directory>',
+          'Set the working directory (default: current directory)',
+        )
+        .option(
+          '--trust-agents',
+          "Load this repository's .agents files and mcp.json without asking (for CI)",
+        )
+        .addArgument(
+          new Argument('[command]', 'Command to run').choices(['login']),
+        )
+        .helpOption('-h, --help', 'Show this help message')
+    } else {
+      // Codebuff: full CLI with all options
+      program
+        .name('codebuff')

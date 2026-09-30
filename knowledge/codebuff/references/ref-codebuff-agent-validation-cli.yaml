@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agent-validation-cli
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/hooks/use-agent-validation.ts
+  start: 20
+  end: 50
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  errors: ValidationError[]
+  }
+  /** BYOK runs validate local agent definitions without sending them to Freebuff. */
+  export const shouldValidateAgentsRemotely = (
+    isFreebuff = IS_FREEBUFF,
+  ): boolean => !isFreebuff || !hasSelectedByokConnection()
+  /**
+   * Invoke SDK validation using the inference source selected when a send starts.
+   * The auth token rides along so a logged-in CLI behind a shared NAT is
+   * admitted on its own per-user budget once the endpoint's per-IP budget is
+   * spent; the endpoint itself stays anonymous.
+   */
+  export const validateSelectedAgentDefinitions = (
+    agentDefinitions: AgentDefinition[],
+    options?: { isFreebuff?: boolean },
+  ) =>
+    validateAgents(agentDefinitions, {
+      remote: shouldValidateAgentsRemotely(options?.isFreebuff),
+      apiKey: getAuthToken(),
+    })

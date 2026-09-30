@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-cli-startup
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/index.tsx
+  start: 292
+  end: 320
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  // When --agent is provided, skip local .agents to avoid overrides.
+    // Repository-scoped .agents directories (cwd and its parent) execute code
+    // on import and spawn mcp.json servers, so they pass the trust gate first;
+    // ~/.agents is the user's own and is always loaded.
+    if (isPublishCommand || !hasAgentOverride) {
+      const { agentDirs, skippedDirs } = await resolveTrustedAgentDirs({
+        candidateDirs: getDefaultAgentDirs(),
+        homeAgentsDir: path.join(os.homedir(), '.agents'),
+        interactive: Boolean(process.stdin.isTTY && process.stdout.isTTY),
+        trustAll:
+          trustAgents || isTruthyOptIn(getCliEnv().CODEBUFF_TRUST_AGENT_DIRS),
+        storePath: getTrustStorePath(),
+        prompt: promptForAgentDirTrust,
+        notify: (message) => {

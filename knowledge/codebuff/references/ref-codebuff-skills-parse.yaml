@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-skills-parse
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: common/src/util/parse-skill.ts
+  start: 25
+  end: 65
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  export function parseSkillFileContent(
+    content: string,
+    options: { directoryName: string; filePath: string; verbose?: boolean },
+  ): SkillDefinition | null {
+    const { directoryName, filePath, verbose = false } = options
+    const parsed = parseFrontmatter(content)
+    if (!parsed) {
+      if (verbose) {
+        console.error(`Invalid frontmatter in skill file: ${filePath}`)
+      }
+      return null
+    }
+    const result = SkillFrontmatterSchema.safeParse(parsed.frontmatter)
+    if (!result.success) {
+      if (verbose) {
+        console.error(
+          `Invalid skill frontmatter in ${filePath}: ${result.error.message}`,
+        )
+      }
+      return null
+    }
+    const frontmatter = result.data
+    // The name has to match the directory, or the loader cannot address the

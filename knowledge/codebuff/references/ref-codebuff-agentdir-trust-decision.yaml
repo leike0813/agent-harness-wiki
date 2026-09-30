@@ -1,0 +1,41 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agentdir-trust-decision
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/utils/agent-dir-trust.ts
+  start: 285
+  end: 340
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  trustAll,
+    storePath,
+    prompt,
+    notify,
+    now = () => new Date(),
+  }: {
+    candidateDirs: string[]
+    homeAgentsDir: string
+    interactive: boolean
+    trustAll: boolean
+    storePath: string
+    prompt: (inventory: AgentDirInventory) => Promise<boolean>
+    notify: (message: string) => void
+    now?: () => Date
+  }): Promise<AgentDirTrustResult> {
+    const agentDirs: string[] = []
+    const skippedDirs: string[] = []
+    const normalizedHome = normalizeAgentDir(homeAgentsDir)
+    let store: TrustStore | null = null
+    for (const dir of candidateDirs) {
+      if (normalizeAgentDir(dir) === normalizedHome) {
+        agentDirs.push(dir)
+        continue
+      }
+      const inventory = inspectAgentDir(dir)
+      if (!inventory.needsTrust) {
+        agentDirs.push(dir)
+        continue
+      }

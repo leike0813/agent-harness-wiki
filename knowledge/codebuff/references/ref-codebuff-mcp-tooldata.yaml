@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-mcp-tooldata
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: packages/agent-runtime/src/mcp.ts
+  start: 41
+  end: 110
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  export async function getMCPToolData(
+    params: OptionalFields<
+      {
+        toolNames: AgentTemplate['toolNames']
+        mcpServers: AgentTemplate['mcpServers']
+        writeTo: ProjectFileContext['customToolDefinitions']
+        requestMcpToolData: RequestMcpToolDataFn
+        logger?: Logger
+      },
+      'writeTo'
+    >,
+  ): Promise<CustomToolDefinitions> {
+    const withDefaults = { writeTo: {}, ...params }
+    const { toolNames, mcpServers, writeTo, requestMcpToolData, logger } =
+      withDefaults
+    // User-facing toolNames use '/' as separator (e.g., 'supabase/list_tables')
+    // but internally we use MCP_TOOL_SEPARATOR ('__') for LLM API compatibility
+    const USER_INPUT_SEPARATOR = '/'
+    const requestedToolsByMcp: Record<string, string[] | undefined> = {}
+    for (const t of toolNames) {

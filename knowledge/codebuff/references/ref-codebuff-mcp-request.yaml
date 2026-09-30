@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-mcp-request
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/run.ts
+  start: 815
+  end: 835
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  requestMcpToolData: async ({ mcpConfig, toolNames }) => {
+        const mcpClientId = await getMCPClient(mcpConfig)
+        const listToolsResult = await listMCPTools(mcpClientId)
+        const tools = listToolsResult.tools
+        const filteredTools: typeof tools = []
+        for (const tool of tools) {
+          if (!toolNames) {
+            filteredTools.push(tool)
+            continue
+          }
+          if (toolNames.includes(tool.name)) {
+            filteredTools.push(tool)
+            continue
+          }
+        }
+        return filteredTools
+      },
+      requestFiles: ({ filePaths, fileWindows }) =>
+        readFiles({
+          filePaths,

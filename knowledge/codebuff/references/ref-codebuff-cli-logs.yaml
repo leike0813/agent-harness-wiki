@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-cli-logs
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/utils/logger.ts
+  start: 98
+  end: 125
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  },
+      fileStream, // <-- no worker thread involved
+    )
+  }
+  export function clearLogFile(): void {
+    const projectRoot = getProjectRoot()
+    const debugDir = path.join(projectRoot, 'debug')
+    const targets = new Set<string>()
+    if (logPath) {
+      targets.add(logPath)
+    }
+    targets.add(path.join(debugDir, 'cli.jsonl'))
+    targets.add(path.join(debugDir, 'trace.jsonl'))
+    for (const target of targets) {
+      try {
+        if (existsSync(target)) {
+          unlinkSync(target)
+        }
+      } catch {
+        // Ignore errors when clearing logs
+      }
+    }
+    logPath = undefined
+    pinoLogger = undefined

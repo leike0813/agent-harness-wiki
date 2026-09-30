@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-validate
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/byok.ts
+  start: 651
+  end: 690
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  value: () =>
+              exclusive(async () => {
+                await lookup(id, revision)
+              }),
+            enumerable: false,
+          })
+          return Object.freeze(result)
+        }),
+      async validate(selection) {
+        const resolved = await store.resolve(selection)
+        const connection = { ...resolved }
+        try {
+          await resolved.assertCurrent?.()
+          const response = await fetchImpl(
+            normalizeByokBaseUrl(resolved.provider, resolved.baseUrl) +
+              (resolved.provider === 'openrouter' ? '/key' : '/models'),
+            {
+              headers: { Authorization: `Bearer ${resolved.apiKey}` },
+              redirect: 'error',
+              signal: AbortSignal.timeout(10_000),
+            },
+          )

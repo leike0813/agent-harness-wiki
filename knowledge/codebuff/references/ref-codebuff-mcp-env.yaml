@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-mcp-env
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: sdk/src/agents/load-mcp-config.ts
+  start: 38
+  end: 70
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  */
+  // Bypass env architecture check - this file legitimately needs process.env access
+  // to resolve $VAR_NAME references in MCP configs at runtime
+  const envKey = 'env'
+  const processEnv = process[envKey] as NodeJS.ProcessEnv
+  function resolveMcpEnv(
+    env: Record<string, string> | undefined,
+    mcpServerName: string,
+  ): Record<string, string> {
+    if (!env) return {}
+    const resolved: Record<string, string> = {}
+    for (const [key, value] of Object.entries(env)) {
+      if (value.startsWith('$')) {
+        // $VAR_NAME reference - resolve from process.env
+        const envVarName = value.slice(1) // Remove the leading $
+        const envValue = processEnv[envVarName]
+        if (envValue === undefined) {
+          throw new Error(

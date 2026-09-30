@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agent-modes
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/utils/constants.ts
+  start: 128
+  end: 175
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  /**
+   * Which harness the CLI's DEFAULT and LITE modes run.
+   *
+   * base3 runs Codebuff DEFAULT and LITE plus every Freebuff picker model. MAX
+   * and PLAN remain on their purpose-built base2 roots below.
+   *
+   * Unlike Web and Cloud, the CLI has no server-side base3 kill switch: changing
+   * this routing after release requires another CLI release. The earlier Flash
+   * benchmark and rollback rationale remain documented in
+   * docs/freebuff-base3-harness.md so future harness changes preserve that
+   * context.
+   */
+  export const CLI_HARNESS: 'base2' | 'base3' = 'base3'
+  /** The only two modes that follow CLI_HARNESS. MAX and PLAN never moved, so
+   *  they are not in here — listing them per harness would invite editing one row
+   *  and not the other. */
+  const HARNESS_MODE_IDS = {

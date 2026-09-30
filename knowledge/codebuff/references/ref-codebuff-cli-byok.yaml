@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-cli-byok
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/utils/byok.ts
+  start: 30
+  end: 60
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  */
+    setupOpen: boolean
+    setSelected: (connection: SelectedByokConnection | undefined) => void
+    setSetupOpen: (open: boolean) => void
+  }
+  /** React-visible selection, initialized once from the non-secret settings file. */
+  export const useByokSelectionStore = create<ByokSelectionStore>((set) => ({
+    selected: loadSettings().byokConnection,
+    setupOpen: false,
+    setSelected: (selected) => set({ selected }),
+    setSetupOpen: (setupOpen) => set({ setupOpen }),
+  }))
+  export function openByokSetup(): void {
+    useByokSelectionStore.getState().setSetupOpen(true)
+  }
+  export function closeByokSetup(): void {
+    useByokSelectionStore.getState().setSetupOpen(false)
+  }
+  export function isByokSetupOpen(): boolean {
+    return useByokSelectionStore.getState().setupOpen
+  }
+  /**

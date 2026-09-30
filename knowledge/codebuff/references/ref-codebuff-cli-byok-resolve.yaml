@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-cli-byok-resolve
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-repo
+locator:
+  kind: file_lines
+  file: cli/src/utils/byok.ts
+  start: 118
+  end: 132
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  /** Resolve only at run start so the secret never reaches chat state or logs.
+   *  Untouched default limits become the provider-reported window (see
+   *  withEffectiveByokLimits), so a run does not compact every few tool calls.
+   *  The `/byok effort` pick rides along; none sends no reasoning field. */
+  export async function resolveByokConnection(
+    selected: SelectedByokConnection,
+  ): Promise<ResolvedByokConnection> {
+    return withByokReasoningEffort(
+      await withEffectiveByokLimits(await getCliByokStore().resolve(selected)),
+      loadSettings().byokReasoningEffort,
+    )
+  }
+  export function describeByokConnection(connection: Pick<ByokConnection, 'name' | 'provider' | 'model'>): string {
+    const provider = connection.provider === 'openrouter'
