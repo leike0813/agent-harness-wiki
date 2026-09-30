@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-skills-discovery
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/skills/utils.py
+  start: 307
+  end: 347
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def find_skill_md_directories(skill_dir: Path) -> list[Path]:
+      """Find AgentSkills-style directories containing SKILL.md files.
+      Args:
+          skill_dir: Path to the skills directory.
+      Returns:
+          List of paths to SKILL.md files.
+      """
+      results: list[Path] = []
+      if not skill_dir.exists():
+          return results
+      for subdir in skill_dir.iterdir():
+          if subdir.is_dir():
+              skill_md = find_skill_md(subdir)
+              if skill_md:
+                  results.append(skill_md)
+      return results
+  def find_regular_md_files(skill_dir: Path, exclude_dirs: set[Path]) -> list[Path]:
+      """Find regular .md skill files, excluding SKILL.md and files in excluded dirs.
+      Args:
+          skill_dir: Path to the skills directory.

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-hooks-executor
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/hooks/executor.py
+  start: 360
+  end: 400
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  if usage_id in self.conversation_stats.usage_to_metrics:
+                  existing = self.conversation_stats.usage_to_metrics[usage_id]
+                  if existing is not metrics:
+                      existing.merge(metrics)
+              else:
+                  self.conversation_stats.usage_to_metrics[usage_id] = metrics.deep_copy()
+      def execute(
+          self,
+          hook: HookDefinition,
+          event: HookEvent,
+          env: dict[str, str] | None = None,
+      ) -> HookResult:
+          """Execute a single hook."""
+          if hook.type == HookType.AGENT:
+              return self._execute_agent_hook(hook, event)
+          if hook.type == HookType.PROMPT:
+              event_type = (
+                  event.event_type
+                  if isinstance(event.event_type, str)

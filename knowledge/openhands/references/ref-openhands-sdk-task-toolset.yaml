@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-task-toolset
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-tools/openhands/tools/task/definition.py
+  start: 198
+  end: 265
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  class TaskToolSet(ToolDefinition[TaskAction, TaskObservation]):
+      """Task tool set.
+      Creates the Task tool backed by a shared TaskManager.
+      Usage:
+          from openhands.tools.task import TaskToolSet
+          agent = Agent(
+              llm=llm,
+              tools=[
+                  Tool(name=TerminalTool.name),
+                  Tool(name=FileEditorTool.name),
+                  Tool(name=TaskToolSet.name),
+              ],
+          )
+      """
+      @classmethod
+      def create(
+          cls,
+          conv_state: "ConversationState",  # noqa: ARG003
+          confirmation_handler: "ConfirmationHandler | None" = None,
+      ) -> list[ToolDefinition]:
+          """Create the task tool.
+          Args:
+              conv_state: Conversation state for workspace info.

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-agents-register
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/conversation/impl/local_conversation.py
+  start: 744
+  end: 765
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def _register_file_based_agents(self) -> None:
+          """Discover and register file-based agents into the agent registry.
+          Agents are loaded from Markdown definition files and registered via
+          `register_agent_if_absent`, so they never overwrite agents that were
+          already registered programmatically or by plugins.
+          Registration order (highest to lowest priority):
+            1. Programmatic `register_agent()` calls (already in the registry)
+            2. Plugin agents (registered during plugin loading, i.e.,
+                  in _ensure_plugins_loaded())
+            3. Project-level file agents (`{project}/.agents/agents/*.md`,
+                  then `{project}/.openhands/agents/*.md`)
+            4. User-level file agents (`~/.agents/agents/*.md`,

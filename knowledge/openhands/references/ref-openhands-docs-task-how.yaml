@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-task-how
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-task-tool
+locator:
+  kind: document_section
+  heading: How It Works
+official_url: "https://docs.openhands.dev/sdk/guides/task-tool-set.md"
+excerpt: |-
+  The agent calls the task tool with a prompt and a sub-agent type. The TaskManager creates (or resumes) a sub-agent conversation, runs it to completion, and returns the result to the parent.
+  ```mermaid theme={null}
+  sequenceDiagram
+      participant P as Parent Agent
+      participant T as TaskManager
+      participant S as Sub-Agent
+      P->>T: task(prompt, type)
+      activate T
+      T->>S: create / resume
+      activate S
+      Note over S: runs autonomously
+      S->>T: result
+      deactivate S
+      T->>P: TaskObservation
+      deactivate T
+      Note right of T: persists for resume
+  ```
+  ### Task Lifecycle
+  1. **Creation**: A fresh sub-agent and conversation are created
+  2. **Running**: The sub-agent processes the prompt autonomously
+  3. **Completion**: The final response is extracted and returned
+  4.

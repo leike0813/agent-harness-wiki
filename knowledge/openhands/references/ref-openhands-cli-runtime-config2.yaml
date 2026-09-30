@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-runtime-config2
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/stores/agent_store.py
+  start: 437
+  end: 480
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  def _apply_runtime_config(
+          self,
+          agent: Agent,
+          session_id: str | None = None,
+          *,
+          critic_disabled: bool = False,
+      ) -> Agent:
+          updated_tools = self._resolve_tools(session_id)
+          updated_llm = self._with_llm_metadata(
+              agent.llm, session_id=session_id, llm_type="agent"
+          )
+          agent_context = self._build_agent_context()
+          enabled_servers = list_enabled_servers()
+          mcp_config = {"mcpServers": enabled_servers} if enabled_servers else {}
+          condenser = self._maybe_build_condenser(agent, session_id=session_id)
+          critic = None
+          if not critic_disabled:
+              cli_settings = CliSettings.load()
+              critic = get_default_critic(

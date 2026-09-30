@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-entrypoint
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/entrypoint.py
+  start: 90
+  end: 200
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  def main() -> None:
+      """Main entry point for the OpenHands CLI.
+      Raises:
+          ImportError: If agent chat dependencies are missing
+          Exception: On other error conditions
+      """
+      parser = create_main_parser()
+      args = parser.parse_args()
+      # Handle --json flag (only works with --headless)
+      json_mode = args.json and args.headless
+      # Validate headless mode requirements
+      if args.headless and not args.task and not args.file:
+          parser.error("--headless requires either --task or --file to be specified")
+      # Automatically set exit_without_confirmation when headless mode is used
+      if args.headless:
+          args.exit_without_confirmation = True
+      # Handle --override-with-envs flag
+      env_overrides_enabled = getattr(args, "override_with_envs", False)

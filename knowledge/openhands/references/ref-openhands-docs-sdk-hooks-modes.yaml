@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-sdk-hooks-modes
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-sdk-hooks
+locator:
+  kind: document_section
+  heading: Execution Modes
+official_url: "https://docs.openhands.dev/sdk/guides/hooks.md"
+excerpt: |-
+  Hook definitions support three execution modes:
+  | `type` | Evaluator | Tool access | Best for |
+  | - | - | - | - |
+  | `command` (default) | Shell command | Through the script | Deterministic checks and integrations |
+  | `prompt` | One LLM completion | No | Semantic decisions based only on the hook event |
+  | `agent` | Short-lived sub-agent | Optional allowlist | Decisions that require workspace investigation |
+  Use the least powerful mode that can make the decision. Command hooks are the
+  most deterministic. Prompt hooks add model judgment with one completion. Agent
+  hooks add an agent loop and tools when the event payload is not enough.

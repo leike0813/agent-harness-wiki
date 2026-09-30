@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-agents-fields
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/subagent/schema.py
+  start: 151
+  end: 235
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  class AgentDefinition(BaseModel):
+      """Agent definition loaded from Markdown file.
+      Agents are specialized configurations that can be triggered based on
+      user input patterns. They define custom system prompts and tool access.
+      """
+      name: str = Field(description="Agent name (from frontmatter or filename)")
+      description: str = Field(default="", description="Agent description")
+      model: str = Field(
+          default="inherit", description="Model to use ('inherit' uses parent model)"
+      )
+      color: str | None = Field(default=None, description="Display color for the agent")
+      tools: list[str] = Field(
+          default_factory=list, description="List of allowed tools for this agent"
+      )
+      skills: list[str] = Field(
+          default_factory=list,

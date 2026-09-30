@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-skills-merge
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/skills/skill.py
+  start: 1224
+  end: 1245
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def merge_skills_by_name(
+      primary: Iterable[Skill], secondary: Iterable[Skill]
+  ) -> list[Skill]:
+      """Merge two skill collections by name.
+      ``primary`` skills are authoritative: they take precedence on name conflicts
+      and keep their order. Each ``secondary`` skill is appended only when its name
+      is not already provided by ``primary``.
+      """
+      merged = list(primary)
+      seen = {skill.name for skill in merged}
+      for skill in secondary:
+          if skill.name not in seen:
+              seen.add(skill.name)
+              merged.append(skill)
+      return merged
+  def to_prompt(skills: list[Skill], max_description_length: int = 1024) -> str:
+      """Generate XML prompt block for available skills.
+      Creates an `<available_skills>` XML block suitable for inclusion

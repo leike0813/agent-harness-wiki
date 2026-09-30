@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-agents-registry
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/subagent/registry.py
+  start: 160
+  end: 285
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def agent_definition_to_factory(
+      agent_def: AgentDefinition,
+      work_dir: str | Path | None = None,
+  ) -> Callable[["LLM"], "Agent"]:
+      """Create an agent factory closure from an `AgentDefinition`.
+      The returned callable accepts the parent agent's LLM and produces a
+      fully-configured `Agent`.
+      - Tool names from `agent_def.tools` are mapped to `Tool` objects.
+      - Skill names from `agent_def.skills` are resolved to `Skill` objects
+        from project and user skill directories (project takes priority).
+      - The system prompt is set as the `system_message_suffix` on the
+        `AgentContext`.
+      - `model: inherit` preserves the parent LLM; an explicit model name
+        creates a copy via `model_copy(update=...)`.
+      Note: Callers (e.g. TaskManager) are responsible for

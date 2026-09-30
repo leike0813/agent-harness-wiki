@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-llm-errors
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/llm/exceptions/mapping.py
+  start: 28
+  end: 90
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def map_provider_exception(exception: Exception) -> Exception:
+      """
+      Map provider/LiteLLM exceptions to SDK-typed exceptions.
+      Returns original exception if no mapping applies.
+      """
+      # Context window exceeded first (highest priority among normal retries)
+      if is_context_window_exceeded(exception):
+          return LLMContextWindowExceedError(str(exception))
+      # Malformed prompt history is distinct from context-window exhaustion even
+      # though the recovery path still uses condensation.
+      if looks_like_malformed_conversation_history_error(exception):
+          return LLMMalformedConversationHistoryError(str(exception))
+      # Auth-like errors often appear as BadRequest/OpenAIError with specific text
+      if looks_like_auth_error(exception):

@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-plugins-components
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-plugins
+locator:
+  kind: document_section
+  heading: Plugin Components Explained
+official_url: "https://docs.openhands.dev/overview/plugins.md"
+excerpt: |-
+  <AccordionGroup>
+    <Accordion title="Skills">
+      Skills in plugins work identically to standalone skills. Each skill has its own directory with a SKILL.md file:
+      ```
+      skills/
+      ├── linting/
+      │   ├── SKILL.md
+      │   └── scripts/
+      └── testing/
+          └── SKILL.md
+      ```
+      See [Skills Documentation](/overview/skills) for skill creation details.
+    </Accordion>
+    <Accordion title="Hooks">
+      Hooks are event handlers that run during tool lifecycle events:
+      ```json theme={null}
+      {
+        "hooks": {
+          "PostToolUse": [
+            {
+              "matcher": "file_editor",
+              "hooks": [
+                {
+                  "type": "command",
+                  "command": "ruff check $OPENHANDS_PROJECT_DIR",
+                  "timeout": 10
+                }
+              ]

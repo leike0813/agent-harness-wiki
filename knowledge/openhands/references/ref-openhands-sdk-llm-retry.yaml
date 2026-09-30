@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-llm-retry
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/llm/llm.py
+  start: 144
+  end: 155
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  LLM_RETRY_EXCEPTIONS: Final[tuple[type[Exception], ...]] = (
+      APIConnectionError,
+      RateLimitError,
+      ServiceUnavailableError,
+      LiteLLMTimeout,
+      InternalServerError,
+      LLMNoResponseError,
+  )
+  # Minimum context window size required for OpenHands to function properly.
+  # Based on typical usage: system prompt (~2k) + conversation history (~4k)
+  # + tool definitions (~2k) + working memory (~8k) = ~16k minimum.

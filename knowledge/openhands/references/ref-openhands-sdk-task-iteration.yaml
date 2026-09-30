@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-task-iteration
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-tools/openhands/tools/task/manager.py
+  start: 235
+  end: 265
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def _create_task(
+          self,
+          subagent_type: str,
+          description: str | None,
+      ) -> Task:
+          """Create a fresh task.
+          The iteration limit is resolved with the following precedence:
+          1. ``factory.definition.max_iteration_per_run`` (from the agent definition)
+          2. The parent conversation's ``max_iteration_per_run``
+          """
+          factory = get_agent_factory(subagent_type)
+          worker_agent = self._get_sub_agent_from_factory(factory)
+          effective_max_iter = (
+              factory.definition.max_iteration_per_run
+              if factory.definition.max_iteration_per_run
+              else self.parent_conversation.max_iteration_per_run
+          )
+          with self._tasks_lock:
+              task_id, conversation_id = self._generate_ids()

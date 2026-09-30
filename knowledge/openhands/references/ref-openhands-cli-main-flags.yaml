@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-main-flags
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/argparsers/main_parser.py
+  start: 19
+  end: 115
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  def create_main_parser() -> argparse.ArgumentParser:
+      """Create the main argument parser with CLI as default and serve as subcommand.
+      Returns:
+          The configured argument parser
+      """
+      parser = argparse.ArgumentParser(
+          description="OpenHands CLI - Terminal User Interface for OpenHands AI Agent",
+          formatter_class=argparse.RawDescriptionHelpFormatter,
+          epilog="""
+              By default, OpenHands runs in textual UI mode (terminal interface)
+              with 'always-ask' confirmation mode, where all agent actions
+              require user confirmation.
+              Use 'serve' subcommand to launch the GUI server instead.
+              Examples:
+                  openhands                           # Start textual UI mode

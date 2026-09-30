@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-skills-load
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/skills/skill.py
+  start: 674
+  end: 740
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def load_skills_from_dir(
+      skill_dir: str | Path,
+  ) -> tuple[dict[str, Skill], dict[str, Skill], dict[str, Skill]]:
+      """Load all skills from the given directory.
+      Supports both formats:
+      - OpenHands format: skills/*.md files
+      - AgentSkills format: skills/skill-name/SKILL.md directories
+      Note, legacy repo instructions will not be loaded here.
+      Args:
+          skill_dir: Path to the skills directory (e.g. .openhands/skills)
+      Returns:
+          Tuple of (repo_skills, knowledge_skills, agent_skills) dictionaries.
+          - repo_skills: Skills with trigger=None (permanent context)
+          - knowledge_skills: Skills with KeywordTrigger or TaskTrigger (progressive)
+          - agent_skills: AgentSkills standard SKILL.md files (separate category)
+      """

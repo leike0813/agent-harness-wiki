@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-mcp-utils
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/mcp/mcp_utils.py
+  start: 1
+  end: 45
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  """MCP configuration management module.
+  This module provides functionality to manage MCP server configurations
+  similar to Claude's MCP command line interface.
+  """
+  from pathlib import Path
+  from typing import Any, Literal, cast
+  from fastmcp.exceptions import ValidationError
+  from fastmcp.mcp_config import MCPConfig, RemoteMCPServer, StdioMCPServer
+  from pydantic import ValidationError as PydanticValidationError
+  def _get_mcp_config_path() -> Path:
+      """Get the MCP configuration file path.
+      This function dynamically resolves the path to ensure it works
+      correctly when PERSISTENCE_DIR is patched in tests.
+      """
+      # Import the module and get the current value to support patching
+      import openhands_cli.locations as locations

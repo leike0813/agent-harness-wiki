@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-hooks-load
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/hooks/config.py
+  start: 273
+  end: 302
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def load(
+          cls, path: str | Path | None = None, working_dir: str | Path | None = None
+      ) -> "HookConfig":
+          """Load config from path or search .openhands/hooks.json locations.
+          Args:
+              path: Explicit path to hooks.json file. If provided, working_dir is ignored.
+              working_dir: Project directory for discovering .openhands/hooks.json.
+                  Falls back to cwd if not provided.
+          """
+          if path is None:
+              # Search for hooks.json in standard locations
+              base_dir = Path(working_dir) if working_dir else Path.cwd()
+              search_paths = [
+                  base_dir / ".openhands" / "hooks.json",
+                  Path.home() / ".openhands" / "hooks.json",
+              ]
+              for search_path in search_paths:

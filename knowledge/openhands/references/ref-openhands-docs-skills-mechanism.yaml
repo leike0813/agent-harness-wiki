@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-skills-mechanism
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-skills
+locator:
+  kind: document_section
+  heading: Choose the Right Mechanism
+official_url: "https://docs.openhands.dev/overview/skills.md"
+excerpt: |-
+  | Need | Use | Recommended Location | Loading Behavior |
+  | - | - | - | - |
+  | Instructions for every task in a repository | `AGENTS.md` | Repository root | Full content is included in the initial system prompt |
+  | Reusable expertise or a workflow for a specific task | Agent Skills `SKILL.md` | `.agents/skills/<skill-name>/SKILL.md` | Name and description are advertised first; the agent invokes the full skill when relevant |
+  | Automatic activation for specific words or commands | `SKILL.md` with `triggers` | `.agents/skills/<skill-name>/SKILL.md` | The skill remains available for model invocation and its content is also injected when a trigger matches |

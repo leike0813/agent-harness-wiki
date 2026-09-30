@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-mcp-tool-def
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/mcp/tool.py
+  start: 126
+  end: 160
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  wraps all dynamic fields, which we don't want here.
+      - "Action" because Action inherits from DiscriminatedUnionMixin,
+        which includes `kind` field that is not needed here.
+      .from_mcp_schema simply defines a new Pydantic model class
+      that inherits from the given base class.
+      We may want to use the returned class to convert fields definitions
+      to openai tool schema.
+      """
+      # Tool.name should be unique, so we can cache the created types.
+      mcp_action_type = _mcp_dynamic_action_type.get(action_type.name)
+      if mcp_action_type:
+          return mcp_action_type
+      model_name = f"MCP{to_camel_case(action_type.name)}Action"
+      mcp_action_type = Schema.from_mcp_schema(model_name, action_type.inputSchema)
+      _mcp_dynamic_action_type[action_type.name] = mcp_action_type

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-hooks-input
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-hooks
+locator:
+  kind: document_section
+  heading: Input
+official_url: "https://docs.openhands.dev/openhands/usage/customization/hooks.md"
+excerpt: |-
+  Hook scripts receive a JSON payload on **stdin** with details about the event:
+  ```json theme={null}
+  {
+    "event_type": "PreToolUse",
+    "tool_name": "terminal",
+    "tool_input": { "command": "rm -rf /tmp/data" },
+    "session_id": "abc-123",
+    "working_dir": "/workspace"
+  }
+  ```
+  <Note>
+    Additional fields may be present depending on the hook event type (e.g., `tool_response` for PostToolUse, `message` for UserPromptSubmit).
+  </Note>
+  The following **environment variables** are also set:
+  | Variable | Description |
+  | - | - |
+  | `OPENHANDS_EVENT_TYPE` | The hook event type (e.g., `PreToolUse`) |
+  | `OPENHANDS_TOOL_NAME` | The tool being used (for tool hooks) |
+  | `OPENHANDS_PROJECT_DIR` | The project working directory |
+  | `OPENHANDS_SESSION_ID` | The current session ID |

@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-agent-delegation
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-agent-file-based
+locator:
+  kind: document_section
+  heading: Using with Delegation
+official_url: "https://docs.openhands.dev/sdk/guides/agent-file-based.md"
+excerpt: |-
+  File-based agents are designed to work with the [`TaskToolSet`](/sdk/guides/task-tool-set). Once registered, the orchestrating agent can delegate tasks to them by name through the task tool's `subagent_type` parameter:
+  ```python icon="python" focus={6, 9-12, 14-18} theme={null}
+  from openhands.sdk import Agent, Conversation, Tool
+  from openhands.sdk.subagent import register_file_agents
+  from openhands.tools.delegate import DelegationVisualizer
+  from openhands.tools.task import TaskToolSet
+  register_file_agents("/path/to/project")  # Register .agents/agents/*.md

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-task-manager
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-tools/openhands/tools/task/manager.py
+  start: 92
+  end: 160
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  class TaskManager:
+      """Manage sub-agent tasks."""
+      def __init__(
+          self,
+          confirmation_handler: ConfirmationHandler | None = None,
+      ):
+          self._parent_conversation: LocalConversation | None = None
+          self._confirmation_handler = confirmation_handler
+          self._tasks: dict[str, Task] = {}
+          self._tasks_lock = threading.Lock()
+          # Set once in _ensure_parent: uses the parent's subagents dir
+          # when the parent persists, otherwise a temporary directory.
+          self._persistence_dir: Path | None = None
+      def attach_parent(self, conversation: LocalConversation) -> None:
+          """Attach the parent conversation used to create sub-agent tasks.
+          Idempotent: if a parent conversation is already attached, subsequent

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-skills-project
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/skills/skill.py
+  start: 853
+  end: 935
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def load_project_skills(work_dir: str | Path) -> list[Skill]:
+      """Load skills from project-specific directories.
+      Searches for skills in {work_dir}/.agents/skills/, {work_dir}/.openhands/skills/,
+      and {work_dir}/.openhands/microagents/ (legacy).
+      If the working directory is inside a Git repository, this function also loads
+      skills from the Git repo root, so running from a subdirectory still picks up
+      repo-level guidance (e.g., AGENTS.md).
+      Skills are merged in priority order, with the *working directory* taking
+      precedence over the Git repo root when duplicates exist.
+      Use .agents/skills for new skills. .openhands/skills is the legacy OpenHands
+      location, and .openhands/microagents is deprecated.

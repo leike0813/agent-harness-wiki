@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-mcp-status
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/mcp/mcp_utils.py
+  start: 375
+  end: 410
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  def get_config_status() -> dict[str, Any]:
+      """Get the status of the MCP configuration file.
+      Returns:
+          Dictionary with status information:
+          {
+              'exists': bool,
+              'valid': bool,
+              'servers': dict,
+              'message': str
+          }
+      """
+      config_path = _get_mcp_config_path()
+      if not config_path.exists():
+          return {
+              "exists": False,
+              "valid": False,
+              "servers": {},
+              "message": f"MCP configuration file not found at {config_path}",
+          }
+      try:
+          config = load_mcp_config()
+          servers = config.to_dict().get("mcpServers", {})
+          return {
+              "exists": True,
+              "valid": True,
+              "servers": servers,

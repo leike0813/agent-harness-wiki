@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-setup-conversation
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/setup.py
+  start: 124
+  end: 160
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  console.print("Initializing agent...", style="white")
+      # Register built-in subagent types (default, explore, bash) so the
+      # delegate tool can spawn them.  Uses register_agent_if_absent, so
+      # user/project-level definitions still take priority.
+      # enable_browser=False because CLI mode doesn't provide browser tools.
+      register_builtins_agents(enable_browser=False)
+      agent = load_agent_specs(
+          str(conversation_id),
+          env_overrides_enabled=env_overrides_enabled,
+          critic_disabled=critic_disabled,
+      )
+      # Prepare callbacks list
+      callbacks = [event_callback] if event_callback else None
+      # Load hooks from ~/.openhands/hooks.json or {working_dir}/.openhands/hooks.json
+      hook_config = HookConfig.load(working_dir=get_work_dir())

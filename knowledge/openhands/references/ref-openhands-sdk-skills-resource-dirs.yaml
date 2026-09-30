@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-skills-resource-dirs
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/skills/utils.py
+  start: 27
+  end: 40
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  # Standard resource directory names per AgentSkills spec
+  RESOURCE_DIRECTORIES = ("scripts", "references", "assets")
+  # Regex pattern for valid AgentSkills names
+  # - 1-64 characters
+  # - Lowercase alphanumeric + hyphens only (a-z, 0-9, -)
+  # - Must not start or end with hyphen
+  # - Must not contain consecutive hyphens (--)
+  SKILL_NAME_PATTERN = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
+  def find_skill_md(skill_dir: Path) -> Path | None:
+      """Find SKILL.md file in a directory (case-insensitive).

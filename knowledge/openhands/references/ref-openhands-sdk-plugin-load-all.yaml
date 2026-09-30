@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-plugin-load-all
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/plugin/plugin.py
+  start: 300
+  end: 355
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  Raises:
+              FileNotFoundError: If the plugin directory doesn't exist.
+              ValueError: If the plugin manifest is invalid.
+          """
+          plugin_dir = Path(plugin_path).resolve()
+          if not plugin_dir.is_dir():
+              raise FileNotFoundError(f"Plugin directory not found: {plugin_dir}")
+          # Load manifest
+          manifest = _load_manifest(plugin_dir)
+          # Load skills
+          skills = _load_skills(plugin_dir)
+          # Load hooks
+          hooks = _load_hooks(plugin_dir)
+          # Load MCP config
+          mcp_config = _load_mcp_config(plugin_dir)
+          # Load agents
+          agents = _load_agents(plugin_dir)
+          # Load commands
+          commands = _load_commands(plugin_dir)
+          return cls(
+              manifest=manifest,

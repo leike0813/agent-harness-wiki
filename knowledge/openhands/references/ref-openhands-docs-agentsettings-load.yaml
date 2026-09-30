@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-agentsettings-load
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-agent-settings
+locator:
+  kind: document_section
+  heading: Load Persisted Settings
+official_url: "https://docs.openhands.dev/sdk/guides/agent-settings.md"
+excerpt: |-
+  `model_validate` only accepts payloads that already match the current schema. Use `from_persisted` for data written by an older SDK version: it applies the registered schema migrations first, then validates the migrated payload against the class you call it on.
+  ```python icon="python" focus={1} theme={null}
+  restored = OpenHandsAgentSettings.from_persisted(payload)
+  ```
+  `from_persisted` is defined on `AgentSettingsBase`, so it is a concrete-variant loader: `OpenHandsAgentSettings.from_persisted()` returns an `OpenHandsAgentSettings` and `ACPAgentSettings.from_persisted()` returns an `ACPAgentSettings`. When you do not know which variant a payload holds, use `validate_agent_settings` (also in `openhands.sdk.settings`) instead — it dispatches across the settings union.

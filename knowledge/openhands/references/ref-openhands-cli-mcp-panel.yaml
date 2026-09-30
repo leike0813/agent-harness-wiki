@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-mcp-panel
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/tui/panels/mcp_side_panel.py
+  start: 125
+  end: 150
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  content_parts.append(
+                  f"[{OPENHANDS_THEME.error}]Invalid config file"
+                  f"[/{OPENHANDS_THEME.error}]"
+              )
+          else:
+              content_parts.append(
+                  f"[{OPENHANDS_THEME.accent}]Config: {len(status['servers'])} "
+                  f"server(s)[/{OPENHANDS_THEME.accent}]"
+              )
+              # Show incoming servers if different from current
+              incoming_servers = status.get("servers", {})
+              if incoming_servers:
+                  content_parts.append("")
+                  content_parts.append("[bold]Incoming on Restart:[/bold]")
+                  # Find new and changed servers
+                  current_names = set(current_servers.keys())
+                  incoming_names = set(incoming_servers.keys())

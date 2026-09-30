@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-agentplugins-invalid
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-agent-plugins
+locator:
+  kind: document_section
+  heading: When Something Is Invalid
+official_url: "https://docs.openhands.dev/overview/agent-plugins.md"
+excerpt: |-
+  Failures are contained as narrowly as the specification allows, so a partly broken
+  package still contributes what is valid:
+  | Problem | Result |
+  | - | - |
+  | Invalid manifest | The package does not load |
+  | Unknown top-level manifest field | Reported and ignored |
+  | Invalid `mcp.json` document | The package loads with no MCP servers |
+  | Invalid or unsupported MCP entry | That entry is skipped; the others load |
+  | Invalid skill | That skill is skipped; the others load |
+  | Unknown component type or extension namespace | Ignored |
+  Loading decisions are logged, so the log is the place to look when a component you
+  expect is missing.

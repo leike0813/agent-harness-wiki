@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-acp-mcp
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/acp_impl/utils/mcp.py
+  start: 1
+  end: 60
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  """Utility functions for MCP in ACP implementation."""
+  from collections.abc import Sequence
+  from typing import Any
+  from acp.schema import (
+      HttpMcpServer,
+      McpServerStdio,
+      SseMcpServer,
+  )
+  ACPMCPServerType = McpServerStdio | HttpMcpServer | SseMcpServer
+  def _convert_env_to_dict(env: Sequence[dict[str, str]]) -> dict[str, str]:
+      """
+      Convert environment variables from serialized EnvVariable format to a dictionary.
+      When Pydantic models are dumped to dict, EnvVariable objects become dicts
+      with 'name' and 'value' keys.
+      Args:
+          env: List of dicts with 'name' and 'value' keys (serialized EnvVariable objects)
+      Returns:
+          Dictionary mapping environment variable names to values
+      """
+      env_dict: dict[str, str] = {}
+      for env_var in env:

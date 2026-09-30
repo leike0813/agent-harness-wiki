@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-llm-profile-store
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/llm/llm_profile_store.py
+  start: 26
+  end: 100
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  _DEFAULT_PROFILE_DIR: Final[Path] = Path.home() / ".openhands" / "profiles"
+  _LOCK_TIMEOUT_SECONDS: Final[float] = 30.0
+  # Profile names: 1-64 chars, must start with alphanumeric, then alphanumerics
+  # or '.', '_', '-'. Blocks empty names, path separators, leading dots
+  # (hidden files / path traversal), and shell-special characters.
+  PROFILE_NAME_PATTERN: Final[str] = r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"
+  PROFILE_NAME_REGEX: Final[re.Pattern[str]] = re.compile(PROFILE_NAME_PATTERN)
+  logger = get_logger(__name__)
+  class ProfileLimitExceeded(Exception):
+      """Raised when saving would exceed the configured profile limit."""
+  class LLMProfileStore:
+      """Standalone utility for persisting LLM configurations."""
+      def __init__(self, base_dir: Path | str | None = None) -> None:

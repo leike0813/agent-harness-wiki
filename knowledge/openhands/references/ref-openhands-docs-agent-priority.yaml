@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-agent-priority
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-agent-file-based
+locator:
+  kind: document_section
+  heading: Overall Priority
+official_url: "https://docs.openhands.dev/sdk/guides/agent-file-based.md"
+excerpt: |-
+  When the same agent name is defined in multiple places, the highest-priority source wins. Registration is first-come first-win.
+  | Priority | Source | Description |
+  | - | - | - |
+  | 1 (highest) | **Programmatic** `register_agent()` | Registered first, never overwritten |
+  | 2 | **Plugin agents** (`Plugin.agents`) | Loaded from plugin `agents/` directories |
+  | 3 | **Project-level** file-based agents | `.agents/agents/*.md` or `.openhands/agents/*.md` |
+  | 4 (lowest) | **User-level** file-based agents | `~/.agents/agents/*.md` or `~/.openhands/agents/*.md` |

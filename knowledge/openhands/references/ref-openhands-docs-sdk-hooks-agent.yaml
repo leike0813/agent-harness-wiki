@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-sdk-hooks-agent
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-sdk-hooks
+locator:
+  kind: document_section
+  heading: Agent-based Hooks
+official_url: "https://docs.openhands.dev/sdk/guides/hooks.md"
+excerpt: |-
+  Besides shell scripts, a hook can delegate its decision to an LLM-driven
+  sub-agent by setting `type="agent"`. The sub-agent receives the lifecycle event
+  as JSON, reasons about it semantically, and replies with a decision payload:
+  ```json theme={null}
+  {"decision": "allow" | "deny", "reason": "<short explanation>"}
+  ```
+  This is useful when a syntactic blacklist is not enough — for example, a
+  `PreToolUse` reviewer that recognises `awk '{print}' /etc/passwd` as *reading a
+  sensitive file* even though no obvious keyword (`cat`, `/etc/shadow`) appears.
+  Key fields on an agent `HookDefinition`:
+  * `name` — a label for the hook; identifies it in logs, events, and its
+    `agent-hook:<name>` metrics bucket.
+  * `system_prompt` — the policy the reviewer agent follows.

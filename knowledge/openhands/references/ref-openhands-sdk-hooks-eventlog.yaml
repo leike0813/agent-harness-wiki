@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-hooks-eventlog
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/event/hook_execution.py
+  start: 22
+  end: 90
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  class HookExecutionEvent(Event):
+      """Event emitted when a hook is executed.
+      This event provides observability into hook execution, including:
+      - Which hook type was triggered
+      - The command that was run
+      - The result (success/blocked/error)
+      - Any output from the hook
+      This allows clients to track hook execution via the event stream.
+      """
+      source: SourceType = Field(
+          default="hook", description="Source is always 'hook' for hook execution events"
+      )
+      # Hook identification
+      hook_event_type: HookEventType = Field(
+          ..., description="The type of hook event that triggered this execution"
+      )
+      hook_command: str = Field(..., description="The hook command that was executed")
+      tool_name: str | None = Field(
+          default=None,

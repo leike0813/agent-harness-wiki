@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-hooks-config
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/hooks/config.py
+  start: 159
+  end: 210
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  class HookConfig(BaseModel):
+      """Configuration for all hooks.
+      Hooks can be configured either by loading from `.openhands/hooks.json` or
+      by directly instantiating with typed fields:
+          # Direct instantiation with typed fields (recommended):
+          config = HookConfig(
+              pre_tool_use=[
+                  HookMatcher(
+                      matcher="terminal",
+                      hooks=[HookDefinition(command="block_dangerous.sh")]
+                  )
+              ]
+          )
+          # Load from JSON file:
+          config = HookConfig.load(".openhands/hooks.json")
+      """
+      model_config = {
+          "extra": "forbid",
+      }
+      pre_tool_use: list[HookMatcher] = Field(
+          default_factory=list,
+          description="Hooks that run before tool execution",
+      )

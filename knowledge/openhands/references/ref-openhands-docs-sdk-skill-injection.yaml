@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-sdk-skill-injection
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-sdk-skills
+locator:
+  kind: document_section
+  heading: Skill Injection Behavior
+official_url: "https://docs.openhands.dev/sdk/guides/skill.md"
+excerpt: |-
+  Understanding where skill content appears in the prompt is critical. The behavior differs based on skill format and trigger configuration:
+  | Skill Format | Trigger | Where Content Appears | Model Mediated? |
+  | - | - | - | - |
+  | **AgentSkills** (`SKILL.md`) | Any | `<available_skills>` (description only) | ✅ Yes — agent calls `invoke_skill()` |
+  | **AgentSkills** (`SKILL.md`) | Has triggers | `<available_skills>` + auto-inject on match | ✅ Yes |
+  | **Legacy** (inline/`*.md`) | `None` | **`<REPO_CONTEXT>` (full content in the initial system prompt; included in LLM context for each turn)** | ❌ No |
+  | **Legacy** (inline/`*.md`) | Has triggers | `<available_skills>` + auto-inject on match | ✅ Yes |

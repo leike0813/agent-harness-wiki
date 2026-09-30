@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-plugin-states
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/extensions/installation/manager.py
+  start: 214
+  end: 265
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def enable(self, name: str) -> bool:
+          """Enable an installed extension by name."""
+          return self._set_enabled(name, True)
+      def disable(self, name: str) -> bool:
+          """Disable an installed extension by name."""
+          return self._set_enabled(name, False)
+      def list_installed(self) -> list[InstallationInfo]:
+          """List all installed extensions.
+          Self-healing: the metadata file is updated to remove entries whose
+          directories have been deleted and to add entries for extension
+          directories that were manually copied into the installation directory.
+          Returns:
+              List of InstallationInfo for each installed extension.
+          """
+          if not self.installation_dir.exists():
+              return []

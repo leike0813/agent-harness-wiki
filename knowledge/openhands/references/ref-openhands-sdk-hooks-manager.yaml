@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-hooks-manager
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/hooks/manager.py
+  start: 24
+  end: 100
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def __init__(
+          self,
+          config: HookConfig | None = None,
+          working_dir: str | None = None,
+          session_id: str | None = None,
+          llm: "LLM | None" = None,
+          llm_getter: "Callable[[], LLM | None] | None" = None,
+          persistence_dir: str | None = None,
+          visualizer: type[ConversationVisualizerBase]
+          | ConversationVisualizerBase
+          | None = None,
+          conversation_stats: "ConversationStats | None" = None,
+      ):
+          self.config = config or HookConfig.load(working_dir=working_dir)
+          self.executor = HookExecutor(
+              working_dir=working_dir,
+              llm=llm,
+              llm_getter=llm_getter,
+              persistence_dir=persistence_dir,
+              visualizer=visualizer,

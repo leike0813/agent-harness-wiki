@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-preset-builtins
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-tools/openhands/tools/preset/default.py
+  start: 98
+  end: 130
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def register_builtins_agents(enable_browser: bool = True) -> list[str]:
+      """Load and register builtin agents from ``subagent/*.md``.
+      They are registered via `register_agent_if_absent` and will not
+      overwrite agents already registered by programmatic calls, plugins,
+      or project/user-level file-based definitions.
+      Args:
+          enable_browser: Whether browser tools are available. When False,
+              agents that require browser tools (e.g. web researcher) are
+              skipped.
+      Returns:
+          List of agents which were actually registered.
+      """
+      register_default_tools(enable_browser=enable_browser)
+      subagent_dir = Path(__file__).parent / "subagents"
+      builtins_agents_def = load_agents_from_dir(subagent_dir)

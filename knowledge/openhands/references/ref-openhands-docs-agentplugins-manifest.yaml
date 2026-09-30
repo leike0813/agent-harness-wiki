@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-agentplugins-manifest
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-agent-plugins
+locator:
+  kind: document_section
+  heading: Manifest
+official_url: "https://docs.openhands.dev/overview/agent-plugins.md"
+excerpt: |-
+  `plugin.json` sits at the package root and must declare both `$schema` and
+  `name`:
+  ```json theme={null}
+  {
+    "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+    "name": "code-quality",
+    "version": "1.2.0",
+    "description": "Linting and review skills with a code analysis MCP server",
+    "author": { "name": "Your Team" },
+    "homepage": "https://example.com/code-quality",
+    "repository": "https://github.com/example/code-quality",
+    "license": "Apache-2.0",
+    "keywords": ["linting", "review"]
+  }
+  ```
+  The `$schema` value must be exactly the 1.0.0 plugin schema identifier above.
+  OpenHands validates the manifest against a vendored copy of that schema and never
+  fetches it over the network while loading.
+  Unknown top-level fields are reported in the logs and ignored.

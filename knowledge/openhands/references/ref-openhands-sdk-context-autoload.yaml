@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-context-autoload
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/context/agent_context.py
+  start: 196
+  end: 218
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def _load_auto_skills(self):
+          """Load user and/or public skills if enabled."""
+          if not self.load_user_skills and not self.load_public_skills:
+              return self
+          auto_skills = load_available_skills(
+              work_dir=None,
+              include_user=self.load_user_skills,
+              include_project=False,
+              include_public=self.load_public_skills,
+              marketplace_path=self.marketplace_path,
+          )
+          # Explicit skills are authoritative; auto-loaded skills only fill gaps.
+          explicit_names = {skill.name for skill in self.skills}
+          for name in auto_skills:
+              if name in explicit_names:
+                  logger.debug(
+                      f"Skipping auto-loaded skill '{name}' (already in explicit skills)"
+                  )

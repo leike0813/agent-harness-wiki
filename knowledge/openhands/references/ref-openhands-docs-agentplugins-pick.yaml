@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-agentplugins-pick
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-agent-plugins
+locator:
+  kind: document_section
+  heading: How OpenHands Picks the Format
+official_url: "https://docs.openhands.dev/overview/agent-plugins.md"
+excerpt: |-
+  OpenHands supports two plugin layouts and chooses between them by looking for a
+  manifest at the package root:
+  | Manifest location | Format used |
+  | - | - |
+  | `plugin.json` at the package root | Agent Plugins |
+  | `.plugin/plugin.json` or `.claude-plugin/plugin.json` | [OpenHands / Claude Code](/overview/plugins) |
+  A root `plugin.json` takes precedence. Its presence alone decides the format: a
+  package whose manifest is present but invalid is rejected as an Agent Plugins
+  package rather than falling back to the other layout.

@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-mcp-connect
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/mcp/utils.py
+  start: 43
+  end: 80
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def create_mcp_tools(
+      config: dict | MCPConfig,
+      timeout: float = 30.0,
+  ) -> MCPClient:
+      """Create MCP tools from MCP configuration.
+      Returns an MCPClient with tools populated. Use as a context manager:
+          with create_mcp_tools(config) as client:
+              for tool in client.tools:
+                  # use tool
+          # Connection automatically closed
+      """
+      if isinstance(config, dict):
+          config = MCPConfig.model_validate(config)
+      client = MCPClient(config, log_handler=log_handler)
+      try:
+          client.call_async_from_sync(
+              _connect_and_list_tools, timeout=timeout, client=client
+          )
+      except TimeoutError as e:
+          client.sync_close()
+          # Extract server names from config for better error message
+          server_names = (

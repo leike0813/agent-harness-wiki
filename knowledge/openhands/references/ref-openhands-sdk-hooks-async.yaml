@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-hooks-async
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/hooks/executor.py
+  start: 72
+  end: 155
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  class AsyncProcessManager:
+      """Manages background hook processes for cleanup.
+      Tracks async hook processes and ensures they are terminated when they
+      exceed their timeout or when the session ends. Prevents zombie processes
+      by properly waiting for termination.
+      """
+      def __init__(self):
+          self._processes: list[tuple[subprocess.Popen, float, int]] = []
+      def add_process(self, process: subprocess.Popen, timeout: int) -> None:
+          """Track a background process for cleanup.
+          Args:
+              process: The subprocess to track
+              timeout: Maximum runtime in seconds before termination
+          """
+          self._processes.append((process, time.time(), timeout))
+      def _terminate_process(self, process: subprocess.Popen) -> None:

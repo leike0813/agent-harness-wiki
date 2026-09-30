@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-restart-notice
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/tui/textual_app.py
+  start: 404
+  end: 420
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  def _notify_restart_required(self) -> None:
+          """Notify user that CLI restart is required for agent settings changes.
+          Only shows notification if a conversation has been created, meaning a
+          conversation has already started with the previous settings.
+          Note: This callback is only registered for `action_open_settings` (existing
+          users), not for `_show_initial_settings` (first-time setup). Additionally,
+          during first-time setup, is_conversation_created is False, so even if
+          this method were called, no notification would be shown.
+          """
+          if self.conversation_state.is_conversation_created:
+              self.notify(
+                  "Settings saved. Please restart the CLI for changes to take effect.",

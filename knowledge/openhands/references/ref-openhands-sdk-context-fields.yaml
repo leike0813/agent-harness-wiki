@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-context-fields
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/context/agent_context.py
+  start: 62
+  end: 100
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  """  # noqa: E501
+      skills: list[Skill] = Field(
+          default_factory=list,
+          description="List of available skills that can extend the user's input.",
+          json_schema_extra={"acp_compatible": True},
+      )
+      system_message_suffix: str | None = Field(
+          default=None,
+          description="Optional suffix to append to the system prompt.",
+          json_schema_extra={"acp_compatible": True},
+      )
+      user_message_suffix: str | None = Field(
+          default=None,
+          description="Optional suffix to append to the user's message.",
+          json_schema_extra={"acp_compatible": True},
+      )
+      load_user_skills: bool = Field(
+          default=False,
+          description=(
+              "Whether to automatically load user skills from ~/.openhands/skills/ "

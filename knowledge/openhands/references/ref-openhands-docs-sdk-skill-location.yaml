@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-sdk-skill-location
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-sdk-skills
+locator:
+  kind: document_section
+  heading: Skill Location in Prompts
+official_url: "https://docs.openhands.dev/sdk/guides/skill.md"
+excerpt: |-
+  The `<location>` element in `<available_skills>` follows the AgentSkills standard, allowing agents to read the full skill content on demand. When a triggered skill is activated, the content is injected with the location path:
+  ```
+  <EXTRA_INFO>
+  The following information has been included based on a keyword match for "encrypt".
+  Skill location: /path/to/rot13-encryption
+  (Use this path to resolve relative file references in the skill content below)
+  [skill content from SKILL.md]
+  </EXTRA_INFO>
+  ```
+  This enables skills to reference their own scripts and resources using relative paths like `./scripts/encrypt.sh`.

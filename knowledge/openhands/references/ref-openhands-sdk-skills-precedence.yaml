@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-skills-precedence
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/skills/skill.py
+  start: 1168
+  end: 1222
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def load_available_skills(
+      work_dir: str | Path | None = None,
+      *,
+      include_user: bool = False,
+      include_project: bool = False,
+      include_public: bool = False,
+      marketplace_path: str | None = DEFAULT_MARKETPLACE_PATH,
+  ) -> dict[str, Skill]:
+      """Load and merge skills from SDK-level sources with consistent precedence.
+      Precedence (later overrides earlier via dict updates):
+          public (lowest) → user → project (highest)
+      This is the single entry-point for building a merged skill catalog from
+      the three SDK-shipped sources. Server-only sources (sandbox, org) are
+      layered on top by the caller.
+      Args:
+          work_dir: Project/working directory for project skills. When None,
+              project skills are skipped regardless of *include_project*.

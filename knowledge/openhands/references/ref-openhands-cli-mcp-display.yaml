@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-mcp-display
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/mcp/mcp_display_utils.py
+  start: 1
+  end: 60
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  """Utility functions for displaying MCP server information.
+  This module provides shared utilities for formatting MCP server
+  configuration details across different display contexts (CLI, TUI, etc.).
+  """
+  from typing import Any
+  from fastmcp.mcp_config import RemoteMCPServer, StdioMCPServer
+  def normalize_server_object(
+      server: StdioMCPServer | RemoteMCPServer | dict[str, Any],
+  ) -> StdioMCPServer | RemoteMCPServer:
+      """Convert dict format to FastMCP server object if needed.
+      Handles both FastMCP objects and legacy dict format for compatibility.
+      Detects server type based on transport field or presence of command vs url.
+      Args:
+          server: Server configuration as FastMCP object or dict
+      Returns:
+          FastMCP server object (StdioMCPServer or RemoteMCPServer)
+      """

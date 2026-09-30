@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-hooks-format
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-hooks
+locator:
+  kind: document_section
+  heading: "`hooks.json` Format"
+official_url: "https://docs.openhands.dev/openhands/usage/customization/hooks.md"
+excerpt: |-
+  The `.openhands/hooks.json` file maps hook event types to matchers and commands using `snake_case` keys:
+  ```json theme={null}
+  {
+    "pre_tool_use": [
+      {
+        "matcher": "terminal",
+        "hooks": [
+          { "command": ".openhands/hooks/block_dangerous.sh", "timeout": 10 }
+        ]
+      }
+    ],
+    "stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          { "command": ".openhands/hooks/require_tests.sh", "timeout": 120 }
+        ]
+      }
+    ]
+  }
+  ```

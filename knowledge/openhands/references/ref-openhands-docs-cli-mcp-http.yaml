@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-cli-mcp-http
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-cli-mcp
+locator:
+  kind: document_section
+  heading: HTTP/SSE Servers
+official_url: "https://docs.openhands.dev/openhands/usage/cli/mcp-servers.md"
+excerpt: |-
+  Add remote servers with HTTP or SSE transport:
+  ```bash theme={null}
+  openhands mcp add <name> --transport http <url>
+  ```
+  #### With Bearer Token Authentication
+  ```bash theme={null}
+  openhands mcp add my-api --transport http \
+    --header "Authorization: Bearer your-token" \
+    https://api.example.com/mcp
+  ```
+  #### With API Key Authentication
+  ```bash theme={null}
+  openhands mcp add weather-api --transport http \
+    --header "X-API-Key: your-api-key" \
+    https://weather.api.com
+  ```
+  #### With Multiple Headers
+  ```bash theme={null}
+  openhands mcp add secure-api --transport http \
+    --header "Authorization: Bearer token123" \
+    --header "X-Client-ID: client456" \
+    https://api.example.com
+  ```
+  #### With OAuth Authentication
+  ```bash theme={null}
+  openhands mcp add notion-server --transport http \

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-sdkplugins-components
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-sdk-plugins
+locator:
+  kind: document_section
+  heading: Using Plugin Components
+official_url: "https://docs.openhands.dev/sdk/guides/plugins.md"
+excerpt: |-
+  > The ready-to-run example is available [here](#ready-to-run-example)!
+  Brief explanation on how to use a plugin with an agent.
+  <Steps>
+    <Step>
+      ### Loading a Plugin
+      First, load the desired plugins.
+      ```python icon="python" theme={null}
+      from openhands.sdk.plugin import Plugin
+      # Load a single plugin
+      plugin = Plugin.load("/path/to/plugin")
+      # Load all plugins from a directory
+      plugins = Plugin.load_all("/path/to/plugins")
+      ```
+    </Step>
+    <Step>
+      ### Accessing Components
+      You can access the different plugin components to see which ones are available.
+      ```python icon="python" theme={null}
+      # Skills
+      for skill in plugin.skills:
+          print(f"Skill: {skill.name}")
+      # Hooks configuration
+      if plugin.hooks:

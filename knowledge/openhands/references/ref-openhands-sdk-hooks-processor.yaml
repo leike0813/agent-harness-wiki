@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-hooks-processor
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/hooks/conversation_hooks.py
+  start: 49
+  end: 130
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  class HookEventProcessor:
+      """Processes events and runs hooks at appropriate points.
+      Call set_conversation_state() after creating Conversation for blocking to work.
+      HookExecutionEvent is emitted for each hook execution when emit_hook_events=True,
+      providing full observability into hook execution for clients.
+      """
+      def __init__(
+          self,
+          hook_manager: HookManager,
+          original_callback: Any = None,
+          emit_hook_events: bool = True,
+      ):
+          self.hook_manager = hook_manager
+          self.original_callback = original_callback
+          self._conversation_state: ConversationState | None = None
+          self.emit_hook_events = emit_hook_events
+      def set_conversation_state(self, state: "ConversationState") -> None:

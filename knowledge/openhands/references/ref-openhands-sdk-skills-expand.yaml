@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-skills-expand
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/skills/utils.py
+  start: 90
+  end: 165
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def expand_mcp_variables(
+      config: dict,
+      variables: dict[str, str],
+      get_secret: SecretLookup | None = None,
+      *,  # keyword-only after this (PEP 3102)
+      expand_defaults: bool = True,
+  ) -> dict:
+      """Expand variables in MCP configuration.
+      Supports variable expansion similar to Claude Code:
+      - ${VAR} - Environment variables, provided variables, or secrets
+      - ${VAR:-default} - With default value
+      Resolution order:
+      1. Provided variables (e.g., SKILL_ROOT)
+      2. Secrets (via get_secret callback, if provided)
+      3. Environment variables
+      4. Default value (if specified and expand_defaults=True)
+      Args:
+          config: MCP configuration dictionary. May contain Pydantic model objects

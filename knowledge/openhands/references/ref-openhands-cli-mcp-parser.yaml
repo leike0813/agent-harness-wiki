@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-mcp-parser
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/argparsers/mcp_parser.py
+  start: 126
+  end: 165
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  "add",
+          help="Add a new MCP server",
+          description=add_description,
+          formatter_class=argparse.RawDescriptionHelpFormatter,
+      )
+      # Optional arguments first
+      add_parser.add_argument(
+          "--transport",
+          choices=["http", "sse", "stdio"],
+          required=True,
+          help="Transport type for the MCP server",
+      )
+      add_parser.add_argument(
+          "--header",
+          action="append",
+          help="HTTP header for http/sse transports (format: 'key: value')",
+      )
+      add_parser.add_argument(
+          "--env",
+          action="append",
+          help="Environment variable for stdio transport (format: KEY=value)",
+      )
+      add_parser.add_argument(
+          "--auth",
+          choices=["oauth"],
+          help="Authentication method for the MCP server",
+      )

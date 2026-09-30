@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-sdkplugins-lifecycle
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-sdk-plugins
+locator:
+  kind: document_section
+  heading: Installed Plugin Lifecycle
+official_url: "https://docs.openhands.dev/sdk/guides/plugins.md"
+excerpt: |-
+  The ready-to-run example above already demonstrates the full
+  installed-plugin lifecycle, including toggling the persistent `enabled`
+  flag in `.installed.json` before uninstalling the plugin.
+  Use the same APIs directly when you need a narrower flow:
+  ```python icon="python" theme={null}
+  from openhands.sdk.plugin import (
+      disable_plugin,
+      enable_plugin,
+      install_plugin,
+      list_installed_plugins,
+      load_installed_plugins,
+      uninstall_plugin,
+  )
+  info = install_plugin(source="/path/to/plugin")
+  tracked_plugins = list_installed_plugins()
+  disable_plugin(info.name)
+  enabled_plugins = load_installed_plugins()
+  enable_plugin(info.name)
+  uninstall_plugin(info.name)
+  ```

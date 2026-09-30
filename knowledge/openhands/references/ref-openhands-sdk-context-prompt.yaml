@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-context-prompt
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/context/agent_context.py
+  start: 274
+  end: 330
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def get_system_message_suffix(
+          self,
+          llm_model: str | None = None,
+          llm_model_canonical: str | None = None,
+          additional_secret_infos: list[dict[str, str | None]] | None = None,
+      ) -> str | None:
+          """Get the system message with repo skill content and custom suffix.
+          Custom suffix can typically includes:
+          - Repository information (repo name, branch name, PR number, etc.)
+          - Runtime information (e.g., available hosts, current date)
+          - Conversation instructions (e.g., user preferences, task details)
+          - Repository-specific instructions (collected from repo skills)
+          - Available skills list (for AgentSkills-format and triggered skills)
+          Args:

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-skills-user
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/skills/skill.py
+  start: 741
+  end: 786
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  Path.home() / ".agents" / "skills",
+      Path.home() / ".openhands" / "skills",
+      Path.home() / ".openhands" / "microagents",  # Legacy support
+  ]
+  def load_user_skills() -> list[Skill]:
+      """Load skills from user's home directory.
+      Searches for skills in ~/.agents/skills/, ~/.openhands/skills/, and
+      ~/.openhands/microagents/ (legacy). Skills from all directories are merged,
+      with earlier entries in USER_SKILLS_DIRS taking precedence for duplicate
+      names.
+      Also loads enabled installed skills from ~/.openhands/skills/installed/
+      (managed via install_skill/uninstall_skill). Installed skills have lower
+      precedence than user skills from the directories above.
+      Returns:
+          List of Skill objects loaded from user directories.

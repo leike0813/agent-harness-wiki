@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-skills-public
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/skills/skill.py
+  start: 1015
+  end: 1062
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def load_public_skills(
+      repo_url: str = PUBLIC_SKILLS_REPO,
+      ref: str = PUBLIC_SKILLS_REF,
+      marketplace_path: str | None = DEFAULT_MARKETPLACE_PATH,
+  ) -> list[Skill]:
+      """Load skills from the public OpenHands skills repository.
+      This function maintains a local git clone of the public skills registry at
+      https://github.com/OpenHands/extensions. On first run, it clones the repository
+      to ~/.openhands/skills-cache/. On subsequent runs within the same process, it
+      returns cached results. For branch refs it re-fetches after the cache TTL; for
+      tags and commit SHAs (immutable refs) the cache never expires so no further
+      network calls are made.
+      By default, only skills listed in the default marketplace
+      (marketplaces/default.json) are loaded.

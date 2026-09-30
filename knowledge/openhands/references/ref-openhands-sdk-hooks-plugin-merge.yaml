@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-hooks-plugin-merge
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/plugin/plugin.py
+  start: 439
+  end: 460
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def _load_hooks(plugin_dir: Path) -> HookConfig | None:
+      """Load hooks configuration from hooks/hooks.json."""
+      hooks_json = plugin_dir / "hooks" / "hooks.json"
+      if not hooks_json.exists():
+          return None
+      try:
+          hook_config = HookConfig.load(path=hooks_json)
+          # If hooks.json exists but is invalid, HookConfig.load() returns an empty
+          # config and logs the validation error. Keep that distinct from "file not
+          # present" (None).
+          if hook_config.is_empty():
+              logger.info(f"No hooks configured in {hooks_json}")
+              return HookConfig()
+          logger.info(f"Loaded hooks from {hooks_json}")
+          return hook_config
+      except Exception as e:
+          logger.warning(f"Failed to load hooks from {hooks_json}: {e}")

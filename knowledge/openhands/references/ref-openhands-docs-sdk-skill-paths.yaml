@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-sdk-skill-paths
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-sdk-skills
+locator:
+  kind: document_section
+  heading: Path-Triggered Rules
+official_url: "https://docs.openhands.dev/sdk/guides/skill.md"
+excerpt: |-
+  A **rule** is a skill with a `PathTrigger` (`paths:` glob frontmatter). Its content is injected
+  **deterministically** when the agent reads, edits, or creates a file whose workspace-relative path
+  matches one of the globs — no reliance on the model choosing a skill. See [Path-Triggered Rules](/overview/skills/path)
+  for the conceptual overview.
+  Rules add **zero baseline cost**: they are excluded from `<available_skills>` and `<REPO_CONTEXT>`
+  and are never model-invocable (`disable_model_invocation` is forced on). Nothing is loaded until a
+  matching file is touched, and each rule is injected only once per conversation.
+  ```python icon="python" focus={6} theme={null}
+  from openhands.sdk.skills import PathTrigger, Skill
+  Skill(
+      name="api-validation",

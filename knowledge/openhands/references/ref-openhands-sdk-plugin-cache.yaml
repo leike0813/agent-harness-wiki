@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-plugin-cache
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/plugin/fetch.py
+  start: 15
+  end: 40
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  )
+  from openhands.sdk.git.cached_repo import GitHelper
+  DEFAULT_CACHE_DIR = Path.home() / ".openhands" / "cache" / "plugins"
+  class PluginFetchError(Exception):
+      """Raised when fetching a plugin fails."""
+  def fetch_plugin(
+      source: str,
+      cache_dir: Path | None = None,
+      ref: str | None = None,
+      update: bool = True,
+      repo_path: str | None = None,
+      git_helper: GitHelper | None = None,
+  ) -> Path:
+      """Fetch a plugin from a remote source and return the local cached path.
+      Args:
+          source: Plugin source - can be:
+              - Any git URL (GitHub, GitLab, Bitbucket, Codeberg, self-hosted, etc.)
+                e.g., "https://gitlab.com/org/repo", "git@bitbucket.org:team/repo.git"
+              - "github:owner/repo" - GitHub shorthand (convenience syntax)

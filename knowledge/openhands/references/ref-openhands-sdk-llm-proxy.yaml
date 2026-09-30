@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-llm-proxy
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/llm/utils/openhands_provider.py
+  start: 9
+  end: 80
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  OPENHANDS_PROVIDER_PREFIX: Final[str] = "openhands/"
+  LITELLM_PROXY_PREFIX: Final[str] = "litellm_proxy/"
+  OPENHANDS_LLM_PROXY_BASE_URL: Final[str] = "https://llm-proxy.app.all-hands.dev"
+  class LiteLLMCallKwargs(TypedDict):
+      model: str
+      api_base: str | None
+  _OPENHANDS_PROXY_BASE_URLS: Final[frozenset[str]] = frozenset(
+      {
+          "https://llm-proxy.app.all-hands.dev",
+          "https://llm-proxy.app.all-hands.dev/v1",
+      }
+  )
+  def is_openhands_provider_model(model: str | None) -> bool:
+      return bool(model and model.startswith(OPENHANDS_PROVIDER_PREFIX))
+  def is_litellm_proxy_model(model: str | None) -> bool:
+      return bool(model and model.startswith(LITELLM_PROXY_PREFIX))
+  def _normalize_base_url(base_url: str) -> str:
+      parsed = urlsplit(base_url.strip())

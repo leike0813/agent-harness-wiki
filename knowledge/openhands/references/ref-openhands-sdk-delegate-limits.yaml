@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-delegate-limits
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-tools/openhands/tools/delegate/impl.py
+  start: 41
+  end: 52
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def __init__(
+          self,
+          max_children: int = 5,
+          confirmation_handler: ConfirmationHandler | None = None,
+      ):
+          self._parent_conversation: LocalConversation | None = None
+          # Map from user-friendly identifier to conversation
+          self._sub_agents: dict[str, LocalConversation] = {}
+          self._max_children: int = max_children
+          self._confirmation_handler = confirmation_handler
+      @property

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-settings-version
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/settings/model.py
+  start: 549
+  end: 560
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def _default_llm_settings() -> LLM:
+      model = LLM.model_fields["model"].get_default()
+      assert isinstance(model, str)
+      return LLM(model=model)
+  _RequestT = TypeVar("_RequestT")
+  AGENT_SETTINGS_SCHEMA_VERSION = 4
+  CONVERSATION_SETTINGS_SCHEMA_VERSION = 1

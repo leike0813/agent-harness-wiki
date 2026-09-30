@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-runtime-config
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/stores/agent_store.py
+  start: 317
+  end: 360
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  def load_or_create(
+          self,
+          session_id: str | None = None,
+          *,
+          env_overrides_enabled: bool = False,
+          critic_disabled: bool = False,
+      ) -> Agent | None:
+          """Load an Agent and apply runtime configuration.
+          Invariant:
+          - If a persisted agent exists:
+              * Load it from disk.
+              * Apply any env overrides that are present (even partial).
+          - If no persisted agent exists:
+              * Require a full env spec (LLM_API_KEY + LLM_MODEL) to create
+                  a default Agent.
+              * Otherwise, raise an error.
+          Runtime configuration (tools, context, MCP, metadata, critic) is
+          always applied last.
+          Args:
+              session_id: Optional session ID used for tool restoration and

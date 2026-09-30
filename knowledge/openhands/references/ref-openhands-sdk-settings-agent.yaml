@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-settings-agent
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/settings/model.py
+  start: 938
+  end: 1010
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  class OpenHandsAgentSettings(AgentSettingsBase):
+      """Settings for a standard LLM-backed :class:`Agent`.
+      This is the long-standing ``AgentSettings`` shape; fields here build
+      the default ``Agent`` (LLM + tools + MCP + condenser + critic).
+      """
+      agent_kind: Literal["openhands"] = Field(
+          default="openhands",
+          description=(
+              "Discriminator for the ``AgentSettings`` union. ``'openhands'`` selects "
+              "the standard built-in OpenHands agent."
+          ),
+      )
+      agent: str = Field(
+          default="CodeActAgent",
+          description="Agent class to use.",
+          json_schema_extra={
+              SETTINGS_METADATA_KEY: SettingsFieldMetadata(
+                  label="Agent",
+                  prominence=SettingProminence.MAJOR,

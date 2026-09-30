@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-env-flag
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/argparsers/util.py
+  start: 28
+  end: 45
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  def add_env_override_args(parser: argparse.ArgumentParser) -> None:
+      """Add environment variable override arguments to a parser.
+      Args:
+          parser: The argument parser to add env override arguments to
+      """
+      parser.add_argument(
+          "--override-with-envs",
+          action="store_true",
+          help=(
+              "Override LLM settings with environment variables "
+              "(LLM_API_KEY, LLM_BASE_URL, LLM_MODEL). "
+              "By default, environment variables are ignored."
+          ),
+      )
+  def add_resume_args(parser: argparse.ArgumentParser) -> None:

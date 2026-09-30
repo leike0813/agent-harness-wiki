@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-mcp-crud
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/mcp/mcp_utils.py
+  start: 135
+  end: 180
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  def add_server(
+      name: str,
+      transport: str,
+      target: str,
+      args: list[str] | None = None,
+      headers: list[str] | None = None,
+      env_vars: list[str] | None = None,
+      auth: str | None = None,
+      enabled: bool = True,
+  ) -> None:
+      """Add a new MCP server configuration.
+      Args:
+          name: Name of the MCP server
+          transport: Transport type (http, sse, stdio)
+          target: URL for http/sse or command for stdio
+          args: Additional arguments for stdio transport
+          headers: HTTP headers for http/sse transports
+          env_vars: Environment variables for stdio transport
+          auth: Authentication method (e.g., "oauth")
+          enabled: Whether the server is enabled (defaults to True)
+      Raises:

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-cli-mcp-troubleshooting
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-cli-mcp
+locator:
+  kind: document_section
+  heading: Troubleshooting
+official_url: "https://docs.openhands.dev/openhands/usage/cli/mcp-servers.md"
+excerpt: |-
+  ### Server Not Appearing
+  1. Verify the server is enabled:
+     ```bash theme={null}
+     openhands mcp list
+     ```
+  2. Check the configuration:
+     ```bash theme={null}
+     openhands mcp get <server-name>
+     ```
+  3. Restart the conversation to load new configurations
+  ### Server Fails to Start
+  1. Test the command manually:
+     ```bash theme={null}
+     # For stdio servers
+     python -m my_mcp_server
+     # For HTTP servers, check the URL is reachable
+     curl https://api.example.com/mcp
+     ```
+  2. Check environment variables and credentials
+  3. Review error messages in the CLI output
+  ### Configuration File Location
+  The MCP configuration is stored at:
+  * **Config file**: `~/.openhands/mcp.json`

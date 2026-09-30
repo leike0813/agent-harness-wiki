@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-agent-dirs
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-agent-file-based
+locator:
+  kind: document_section
+  heading: Directory Conventions
+official_url: "https://docs.openhands.dev/sdk/guides/agent-file-based.md"
+excerpt: |-
+  Place agent files in these directories, scanned in **priority order** (first match wins):
+  | Priority | Location | Scope |
+  | - | - | - |
+  | 1 | `{project}/.agents/agents/*.md` | Project-level (primary) |
+  | 2 | `{project}/.openhands/agents/*.md` | Project-level (secondary) |
+  | 3 | `~/.agents/agents/*.md` | User-level (primary) |
+  | 4 | `~/.openhands/agents/*.md` | User-level (secondary) |
+  <Tree>
+    <Tree.Folder name="my-project/" defaultOpen>
+      <Tree.Folder name=".agents" defaultOpen>
+        <Tree.Folder name="agents" defaultOpen>
+          <Tree.File name="code-reviewer.md" />
+          <Tree.File name="tech-writer.md" />
+          <Tree.File name="security-auditor.md" />
+        </Tree.Folder>
+      </Tree.Folder>
+      <Tree.File name="src/" />
+      <Tree.File name="..." />
+    </Tree.Folder>
+  </Tree>

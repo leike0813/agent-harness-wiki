@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-canvas-acp-what
+harness_id: openhands
+snapshot_id: snapshot-openhands-repo
+locator:
+  kind: document_section
+  heading: "What is an ACP agent?"
+official_url: "https://github.com/All-Hands-AI/OpenHands"
+excerpt: |-
+  The [Agent Client Protocol (ACP)](https://agentclientprotocol.com/protocol/overview)
+  is a standard for talking to coding agents over JSON-RPC on stdio. Instead of
+  Agent Canvas calling an LLM directly, the Agent Server spawns the agent's own CLI
+  as a subprocess and relays each turn to it. The external agent manages its own
+  LLM, tools, and execution; Agent Canvas sends messages and renders what comes
+  back.
+  ```mermaid
+  flowchart LR
+      canvas["Agent Canvas<br/>(this UI)"]
+      server["Agent Server"]
+      acp["ACP subprocess<br/>(e.g. claude-agent-acp)"]
+      llm["LLM provider<br/>(Anthropic / OpenAI / Google)"]
+      canvas -- "PATCH /api/settings<br/>(agent_kind, acp_*)" --> server
+      canvas -- "conversation turns" --> server
+      server -- "spawn + JSON-RPC over stdio" --> acp

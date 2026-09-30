@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-cli-model
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-cli-commands
+locator:
+  kind: document_section
+  heading: Changing Your Model
+official_url: "https://docs.openhands.dev/openhands/usage/cli/command-reference.md"
+excerpt: |-
+  ### Via Settings UI
+  1. Press `Ctrl+P` to open the command palette
+  2. Select **Settings**
+  3. Choose your LLM provider and model
+  4. Save changes (no restart required)
+  ### Via Configuration File
+  Edit `~/.openhands/agent_settings.json` and change the `model` field:
+  ```json theme={null}
+  {
+    "llm": {
+      "model": "claude-sonnet-4-5-20250929",
+      "api_key": "...",
+      "base_url": "..."
+    }
+  }
+  ```
+  ### Via Environment Variables
+  Temporarily override your model without changing saved configuration:
+  ```bash theme={null}
+  export LLM_MODEL="gpt-4o"
+  export LLM_API_KEY="your-api-key"
+  openhands --override-with-envs
+  ```
+  Changes made with `--override-with-envs` are not persisted.

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-llm-fallback
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/llm/fallback_strategy.py
+  start: 39
+  end: 110
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  class FallbackStrategy(BaseModel):
+      """Encapsulates fallback behavior for LLM calls.
+      When the primary LLM fails with a transient error (after retries),
+      this strategy tries alternate LLMs loaded from LLMProfileStore profiles.
+      Fallback is per-call: each new request starts with the primary model.
+      """
+      fallback_llms: list[str] = Field(
+          description="Ordered list of LLM profile names to try on transient failure."
+      )
+      profile_store_dir: str | Path | None = Field(
+          default=None,
+          description="Path to directory containing profiles. "
+          "If not specified, defaults to `.openhands/profiles`.",
+      )
+      # Private: lazily resolved LLM instances
+      _resolved: list[Any] | None = PrivateAttr(default=None)

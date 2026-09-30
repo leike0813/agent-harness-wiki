@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-hooks-matchers
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-hooks
+locator:
+  kind: document_section
+  heading: Matcher Patterns
+official_url: "https://docs.openhands.dev/openhands/usage/customization/hooks.md"
+excerpt: |-
+  The `matcher` field determines which tools trigger the hook (only relevant for `PreToolUse` and `PostToolUse`):
+  | Pattern | Description | Example |
+  | - | - | - |
+  | `*` | Matches all tools | `"matcher": "*"` |
+  | Exact name | Matches a specific tool | `"matcher": "terminal"` |
+  | Regex | Auto-detected or wrapped in `/` | `"matcher": "/terminal\|browser/"` |
+  For hooks that aren't tool-specific (`Stop`, `UserPromptSubmit`, `SessionStart`, `SessionEnd`), set the matcher to `"*"` or omit it.

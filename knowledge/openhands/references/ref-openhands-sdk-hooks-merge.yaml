@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-hooks-merge
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/conversation/impl/local_conversation.py
+  start: 700
+  end: 720
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  agents=all_plugin_agents,
+                  work_dir=self.workspace.working_dir,
+              )
+          # Combine explicit hook_config with plugin hooks
+          # Explicit hooks run first (before plugin hooks)
+          final_hook_config = self._pending_hook_config
+          if all_plugin_hooks:
+              plugin_hooks = HookConfig.merge(all_plugin_hooks)
+              if plugin_hooks is not None:
+                  if final_hook_config is not None:
+                      final_hook_config = HookConfig.merge(
+                          [final_hook_config, plugin_hooks]
+                      )
+                  else:
+                      final_hook_config = plugin_hooks
+          # Set up hook processor with the combined config
+          if final_hook_config is not None:

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-agentplugins-layout
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-agent-plugins
+locator:
+  kind: document_section
+  heading: Package Layout
+official_url: "https://docs.openhands.dev/overview/agent-plugins.md"
+excerpt: |-
+  ```
+  plugin-name/
+  ├── plugin.json              # Required manifest
+  ├── skills/                  # Agent Skills (optional)
+  │   └── skill-name/
+  │       └── SKILL.md
+  ├── mcp.json                 # MCP servers, no leading dot (optional)
+  └── dev.openhands/           # OpenHands extensions (optional)
+      ├── commands/
+      ├── agents/
+      └── hooks/hooks.json
+  ```
+  Everything except `plugin.json` is optional, and a missing directory is a valid
+  absence rather than an error. Every path a package refers to must stay inside the
+  package directory; paths that resolve outside it are refused.

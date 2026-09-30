@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-plugins-structure
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-plugins
+locator:
+  kind: document_section
+  heading: Plugin Structure
+official_url: "https://docs.openhands.dev/overview/plugins.md"
+excerpt: |-
+  A complete plugin follows this directory structure:
+  ```
+  plugin-name/
+  ├── .plugin/                     # or .claude-plugin/
+  │   └── plugin.json              # Required: Plugin metadata
+  ├── skills/
+  │   └── skill-name/
+  │       └── SKILL.md             # Individual skills
+  ├── hooks/
+  │   └── hooks.json               # Tool lifecycle hooks
+  ├── agents/
+  │   └── agent-name.md            # Specialized agents
+  ├── commands/
+  │   └── command-name.md          # Slash commands
+  ├── .mcp.json                    # MCP server config
+  └── README.md                    # Documentation
+  ```
+  ### Required Components
+  Only one file is required:
+  * **`plugin-name/.plugin/plugin.json`** or **`plugin-name/.claude-plugin/plugin.json`**: Plugin metadata
+  All other components are optional—include only what your plugin needs.

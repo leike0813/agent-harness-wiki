@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-skills-model
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/skills/skill.py
+  start: 112
+  end: 165
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  class Skill(BaseModel):
+      """A skill provides specialized knowledge or functionality.
+      Skill behavior depends on format (is_agentskills_format) and trigger:
+      AgentSkills format (SKILL.md files):
+      - Always listed in <available_skills> with name, description, location
+      - Agent reads full content on demand (progressive disclosure)
+      - If has triggers: content is ALSO auto-injected when triggered
+      Legacy OpenHands format:
+      - With triggers: Listed in <available_skills>, content injected on trigger
+      - Without triggers (None): Full content in <REPO_CONTEXT>, always active
+      This model supports both OpenHands-specific fields and AgentSkills standard
+      fields (https://agentskills.io/specification) for cross-platform compatibility.
+      """
+      name: str
+      content: str

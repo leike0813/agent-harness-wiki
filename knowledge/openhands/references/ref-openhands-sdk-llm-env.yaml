@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-llm-env
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/llm/llm.py
+  start: 2496
+  end: 2550
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def load_from_env(cls, prefix: str = "LLM_") -> LLM:
+          TRUTHY = {"true", "1", "yes", "on"}
+          def _unwrap_type(t: Any) -> Any:
+              origin = get_origin(t)
+              if origin is None:
+                  return t
+              args = [a for a in get_args(t) if a is not type(None)]
+              return args[0] if args else t
+          def _cast_value(raw: str, t: Any) -> Any:
+              t = _unwrap_type(t)
+              if t is SecretStr:
+                  return SecretStr(raw)
+              if t is bool:
+                  return raw.lower() in TRUTHY
+              if t is int:
+                  try:
+                      return int(raw)
+                  except ValueError:
+                      return None
+              if t is float:
+                  try:
+                      return float(raw)

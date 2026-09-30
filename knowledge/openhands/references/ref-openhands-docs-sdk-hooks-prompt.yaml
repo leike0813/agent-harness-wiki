@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-sdk-hooks-prompt
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-sdk-hooks
+locator:
+  kind: document_section
+  heading: Prompt-based Hooks
+official_url: "https://docs.openhands.dev/sdk/guides/hooks.md"
+excerpt: |-
+  Set `type="prompt"` to evaluate a hook event with one LLM completion. Prompt
+  hooks are useful when a decision needs semantic judgment but all required
+  context is already present in the `HookEvent` payload. For example, a
+  `PreToolUse` policy can evaluate the intent of a terminal command without
+  starting a tool-using sub-agent.
+  ```python theme={null}
+  HookDefinition(
+      type=HookType.PROMPT,
+      name="terminal-safety",
+      prompt="Deny terminal commands that recursively delete files ...",
+      timeout=30,
+  )
+  ```
+  Key fields on a prompt `HookDefinition`:
+  * `name` — identifies the hook in logs, events, and its stable
+    `prompt-hook:<name>` metrics bucket.
+  * `prompt` — the trusted policy used to evaluate each matching event.
+  * `timeout` — the timeout applied to the copied hook LLM.

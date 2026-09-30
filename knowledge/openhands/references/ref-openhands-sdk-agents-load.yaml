@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-agents-load
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/subagent/load.py
+  start: 40
+  end: 120
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  from openhands.sdk.logger import get_logger
+  from openhands.sdk.subagent.schema import AgentDefinition
+  logger = get_logger(__name__)
+  # Directories to scan for agent definitions, in priority order.
+  # First match wins when the same agent name appears in multiple directories.
+  _FILE_BASED_AGENTS_DIR: Final[list[str]] = [
+      ".agents/agents",
+      ".openhands/agents",
+  ]
+  # File to skip analyzing when searching for agents
+  _SKIP_FILES: Final[set[str]] = {"README.md", "readme.md"}
+  def load_project_agents(project_dir: str | Path) -> list[AgentDefinition]:
+      """Load agent definitions from project-level directories.
+      Searches for
+          - project_dir/.agents/agents and
+          - project_dir/.openhands/agents (in that order).

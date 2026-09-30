@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-llm-fields
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/llm/llm.py
+  start: 262
+  end: 320
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  )
+      openrouter_app_name: str = Field(
+          default="OpenHands",
+      )
+      num_retries: int = Field(default=5, ge=0)
+      retry_multiplier: float = Field(default=8.0, ge=0)
+      retry_min_wait: int = Field(default=8, ge=0)
+      retry_max_wait: int = Field(default=64, ge=0)
+      timeout: int | None = Field(
+          default=300,
+          ge=0,
+          description="HTTP timeout in seconds. Default is 300s (5 minutes). "
+          "Set to None to disable timeout (not recommended for production).",
+      )
+      max_message_chars: int = Field(
+          default=30_000,
+          ge=1,
+          description="Approx max chars in each event/content sent to the LLM.",
+      )
+      temperature: float | None = Field(
+          default=None,
+          ge=0,
+          description=(

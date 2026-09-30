@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-hooks-quickstart
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-hooks
+locator:
+  kind: document_section
+  heading: Quick Start
+official_url: "https://docs.openhands.dev/openhands/usage/customization/hooks.md"
+excerpt: |-
+  <Steps>
+    <Step>
+      ### Create the Hooks Directory
+      In your repository root, create the `.openhands` directory if it doesn't already exist:
+      ```bash theme={null}
+      mkdir -p .openhands/hooks
+      ```
+    </Step>
+    <Step>
+      ### Write a Hook Script
+      Create a shell script for your hook. For example, a Stop hook that requires linting to pass before the agent can finish:
+      ```bash .openhands/hooks/lint_check.sh theme={null}
+      #!/bin/bash
+      # Stop hook: Don't let the agent stop if linting fails
+      cd "$OPENHANDS_PROJECT_DIR"
+      # Run your linter
+      if ! npm run lint 2>&1; then
+          echo '{"decision": "deny", "reason": "Linting failed. Please fix the issues before finishing."}'
+          exit 2
+      fi
+      exit 0
+      ```
+      Make the script executable:
+      ```bash theme={null}

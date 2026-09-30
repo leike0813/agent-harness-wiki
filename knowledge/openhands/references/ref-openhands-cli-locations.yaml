@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-locations
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/locations.py
+  start: 1
+  end: 46
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  import hashlib
+  import os
+  def get_persistence_dir() -> str:
+      """Get the persistence directory for storing agent settings and CLI configuration.
+      Can be overridden via OPENHANDS_PERSISTENCE_DIR environment variable.
+      """
+      return os.environ.get(
+          "OPENHANDS_PERSISTENCE_DIR", os.path.expanduser("~/.openhands")
+      )
+  def get_conversations_dir() -> str:
+      """Get the conversations directory for storing conversation data.
+      Can be overridden via OPENHANDS_CONVERSATIONS_DIR environment variable.
+      """
+      return os.environ.get(
+          "OPENHANDS_CONVERSATIONS_DIR",
+          os.path.join(get_persistence_dir(), "conversations"),
+      )
+  def get_work_dir() -> str:
+      """Get the working directory for agent operations.

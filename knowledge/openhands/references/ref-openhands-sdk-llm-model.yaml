@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-llm-model
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/llm/llm.py
+  start: 180
+  end: 230
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  class LLM(BaseModel, RetryMixin, NonNativeToolCallingMixin):
+      """Language model interface for OpenHands agents.
+      The LLM class provides a unified interface for interacting with various
+      language models through the litellm library. It handles model configuration,
+      API authentication, retry logic, and tool calling capabilities.
+      Attributes:
+          model: Model name (e.g., "gpt-5.5").
+          api_key: API key for authentication.
+          base_url: Custom API base URL.
+          num_retries: Number of retry attempts for failed requests.
+          timeout: Request timeout in seconds.
+      Example:
+          ```python
+          from openhands.sdk import LLM
+          from pydantic import SecretStr
+          llm = LLM(
+              model="gpt-5.5",
+              api_key=SecretStr("your-api-key"),

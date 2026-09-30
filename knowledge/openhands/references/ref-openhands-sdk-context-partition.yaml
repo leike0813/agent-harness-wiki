@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-context-partition
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/context/agent_context.py
+  start: 251
+  end: 272
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def _partition_skills(self) -> tuple[list[Skill], list[Skill]]:
+          """Split skills into repo-context and available-skills lists.
+          Categorization rules (shared by system-message and ACP adapters):
+          - AgentSkills-format: available_skills unless direct model invocation is
+            disabled. Triggers still auto-inject via ``get_user_message_suffix``.
+          - Legacy with ``trigger=None``: full content in REPO_CONTEXT (always active).
+          - Legacy with triggers: listed in available_skills unless direct model
+            invocation is disabled, injected on trigger.
+          Returns:
+              ``(repo_skills, available_skills)`` tuple.
+          """
+          repo_skills: list[Skill] = []
+          available_skills: list[Skill] = []
+          for s in self.skills:

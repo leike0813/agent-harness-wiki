@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-canvas-skills-scope
+harness_id: openhands
+snapshot_id: snapshot-openhands-repo
+locator:
+  kind: file_lines
+  file: src/utils/skill-scope.ts
+  start: 1
+  end: 40
+official_url: "https://github.com/All-Hands-AI/OpenHands"
+excerpt: |-
+  import type { SkillInfo } from "#/types/settings";
+  export type SkillScope = "project" | "personal" | "public";
+  export const SKILL_SCOPE_ORDER: SkillScope[] = [
+    "project",
+    "personal",
+    "public",
+  ];
+  // `.openhands/microagents/` is the pre-rename skills directory. The SDK still
+  // loads skills from it for backward compatibility, so it keeps reporting those
+  // paths as a skill's `source` — this marker is what maps them to a scope.
+  // Dropping it would silently misfile legacy skills as "public".
+  const USER_SKILL_DIR_MARKERS = [
+    "/.agents/skills/",
+    "/.openhands/skills/",
+    "/.openhands/microagents/",
+  ] as const;
+  function normalizePath(path: string): string {
+    return path.replace(/\\/g, "/");
+  }
+  function isPublicSource(source: string): boolean {

@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-plugins-using
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-plugins
+locator:
+  kind: document_section
+  heading: Using Plugins
+official_url: "https://docs.openhands.dev/overview/plugins.md"
+excerpt: |-
+  How you use plugins depends on your platform:
+  <Tabs>
+    <Tab title="CLI">
+      **Via configuration file:**
+      Create `~/.openhands/config.toml`:
+      ```toml theme={null}
+      [plugins]
+      sources = [
+        "/path/to/local/plugin",
+        "github:org/plugin-repo",
+      ]
+      ```
+      **Via command line:**
+      ```bash theme={null}
+      openhands --plugin /path/to/plugin
+      openhands --plugin github:org/plugin-repo
+      ```
+      Plugins are loaded when OpenHands starts.
+    </Tab>
+    <Tab title="SDK">
+      Load plugins programmatically:
+      ```python theme={null}
+      from openhands.sdk import LLM, Agent, Conversation
+      from openhands.sdk.plugin import PluginSource
+      from pydantic import SecretStr
+      llm = LLM(model="claude-sonnet-4-20250514", api_key=SecretStr("your-api-key"))

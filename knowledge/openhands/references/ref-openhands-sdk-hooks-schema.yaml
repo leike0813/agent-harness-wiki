@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-hooks-schema
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/hooks/config.py
+  start: 47
+  end: 110
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  class HookDefinition(BaseModel):
+      """A single hook definition."""
+      type: HookType = HookType.COMMAND
+      name: str | None = None
+      # `command` is kept a non-nullable string that is always present in the
+      # serialized output and reported as required in the JSON schema (see
+      # __get_pydantic_json_schema__). This preserves the published REST response
+      # contract for ConversationInfo.hook_config: making it optional/nullable
+      # would be flagged as a breaking change by the oasdiff REST API check.
+      # Command-less hook types (PROMPT/AGENT) simply leave it as "".
+      command: str = ""
+      prompt: str | None = None
+      system_prompt: str | None = None
+      tools: list[str] = Field(default_factory=list)
+      timeout: int = 60
+      max_iterations: int = 3

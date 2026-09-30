@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-plugin-loader
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/plugin/loader.py
+  start: 28
+  end: 115
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def load_plugins(
+      plugin_specs: list[PluginSource],
+      agent: AgentBase,
+      max_skills: int = 100,
+      get_secret: SecretLookup | None = None,
+  ) -> tuple[AgentBase, HookConfig | None]:
+      """Load multiple plugins and merge them into the agent.
+      This is the canonical function for plugin loading, used by:
+      - LocalConversation (for SDK-direct users)
+      - ConversationService (for agent-server users)
+      Plugins are loaded in order and their contents are merged with these semantics:
+      - Skills: Override by name (last plugin wins)
+      - MCP config: Override by key (last plugin wins)
+      - Hooks: Concatenate (all hooks run)
+      Args:
+          plugin_specs: List of plugin sources to load.
+          agent: Agent to merge plugins into.

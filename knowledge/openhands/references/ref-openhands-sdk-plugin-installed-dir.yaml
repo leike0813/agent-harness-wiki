@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-plugin-installed-dir
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/plugin/installed.py
+  start: 20
+  end: 50
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  InstalledPluginInfo = InstallationInfo
+  DEFAULT_INSTALLED_PLUGINS_DIR = Path.home() / ".openhands" / "plugins" / "installed"
+  def get_installed_plugins_dir() -> Path:
+      """Get the default directory for installed plugins."""
+      return DEFAULT_INSTALLED_PLUGINS_DIR
+  # ---------------------------------------------------------------------------
+  # Internal helpers
+  # ---------------------------------------------------------------------------
+  class PluginInstallationInterface(InstallationInterface[Plugin]):
+      @staticmethod
+      def load_from_dir(extension_dir: Path) -> Plugin:
+          return Plugin.load(extension_dir)
+  def _resolve_installed_dir(installed_dir: Path | None) -> Path:
+      return installed_dir if installed_dir is not None else DEFAULT_INSTALLED_PLUGINS_DIR

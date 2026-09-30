@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-cli-settings
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/stores/cli_settings.py
+  start: 23
+  end: 70
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  class CriticSettings(BaseModel):
+      """Model for critic-related settings."""
+      enable_critic: bool = True
+      enable_iterative_refinement: bool = False
+      critic_threshold: float = DEFAULT_CRITIC_THRESHOLD
+      issue_threshold: float = DEFAULT_ISSUE_THRESHOLD
+      max_refinement_iterations: int = DEFAULT_MAX_REFINEMENT_ITERATIONS
+      @field_validator("critic_threshold", "issue_threshold")
+      @classmethod
+      def validate_threshold(cls, v: float) -> float:
+          """Validate that threshold is between 0.0 and 1.0."""
+          if not 0.0 <= v <= 1.0:
+              raise ValueError(f"Threshold must be between 0.0 and 1.0, got {v}")
+          return v
+      @field_validator("max_refinement_iterations")
+      @classmethod
+      def validate_max_iterations(cls, v: int) -> int:

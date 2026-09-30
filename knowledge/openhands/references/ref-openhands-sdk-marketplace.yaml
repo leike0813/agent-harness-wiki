@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-marketplace
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/marketplace/types.py
+  start: 225
+  end: 270
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  Returns:
+              Loaded Marketplace instance.
+          Raises:
+              FileNotFoundError: If the marketplace directory or manifest doesn't exist.
+              ValueError: If the marketplace manifest is invalid.
+          """
+          marketplace_dir = Path(marketplace_path).resolve()
+          if not marketplace_dir.is_dir():
+              raise FileNotFoundError(
+                  f"Marketplace directory not found: {marketplace_dir}"
+              )
+          # Find manifest file
+          manifest_path = None
+          for manifest_dir in MARKETPLACE_MANIFEST_DIRS:
+              candidate = marketplace_dir / manifest_dir / MARKETPLACE_MANIFEST_FILE
+              if candidate.exists():
+                  manifest_path = candidate
+                  break
+          if manifest_path is None:

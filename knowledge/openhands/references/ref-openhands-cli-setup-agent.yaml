@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-setup-agent
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/setup.py
+  start: 29
+  end: 92
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  def load_agent_specs(
+      conversation_id: str | None = None,
+      mcp_servers: dict[str, dict[str, Any]] | None = None,
+      skills: list[Skill] | None = None,
+      *,
+      env_overrides_enabled: bool = False,
+      critic_disabled: bool = False,
+  ) -> Agent:
+      """Load agent specifications.
+      Args:
+          conversation_id: Optional conversation ID for session tracking
+          mcp_servers: Optional dict of MCP servers to augment agent configuration
+          skills: Optional list of skills to include in the agent configuration
+          env_overrides_enabled: If True, environment variables will override
+              stored LLM settings, and agent can be created from env vars if no
+              disk config exists.
+          critic_disabled: If True, critic functionality will be disabled.
+      Returns:

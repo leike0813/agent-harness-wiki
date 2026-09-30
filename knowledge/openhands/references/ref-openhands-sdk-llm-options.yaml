@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-llm-options
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/llm/options/chat_options.py
+  start: 9
+  end: 80
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def select_chat_options(
+      llm, user_kwargs: dict[str, Any], has_tools: bool
+  ) -> dict[str, Any]:
+      """Behavior-preserving extraction of _normalize_call_kwargs.
+      This keeps the exact provider-aware mappings and precedence.
+      """
+      # First pass: apply simple defaults without touching user-supplied values
+      max_output_tokens = llm.effective_max_output_tokens
+      defaults: dict[str, Any] = {
+          "top_k": llm.top_k,
+          "top_p": llm.top_p,
+          "temperature": llm.temperature,
+          # OpenAI-compatible param is `max_completion_tokens`
+          "max_completion_tokens": max_output_tokens,
+      }
+      out = apply_defaults_if_absent(user_kwargs, defaults)
+      # Azure -> uses max_tokens instead
+      if llm.model.startswith("azure"):
+          if "max_completion_tokens" in out:

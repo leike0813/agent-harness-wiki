@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-hooks-script
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: ".openhands/hooks/on_stop.sh"
+  start: 1
+  end: 39
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  #!/bin/bash
+  # Stop hook: runs pre-commit on all files before allowing agent to finish
+  set -o pipefail
+  PROJECT_DIR="${OPENHANDS_PROJECT_DIR:-$(pwd)}"
+  cd "$PROJECT_DIR" || {
+      >&2 echo "⚠️  Failed to cd to project directory: $PROJECT_DIR, skipping checks"
+      echo '{"decision": "allow", "reason": "Invalid project directory - hook skipped"}'
+      exit 0
+  }
+  >&2 echo "=== Stop Hook: Running pre-commit ==="
+  # Check if pre-commit is available
+  if command -v uv &> /dev/null && uv run pre-commit --version &> /dev/null; then
+      PRECOMMIT_CMD="uv run pre-commit"
+  elif command -v pre-commit &> /dev/null; then
+      PRECOMMIT_CMD="pre-commit"
+  else
+      >&2 echo "⚠️  pre-commit is not installed, skipping checks"
+      echo '{"decision": "allow", "reason": "pre-commit not installed - hook skipped"}'

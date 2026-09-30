@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-hooks-example
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: ".openhands/hooks.json"
+  start: 1
+  end: 14
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  {
+    "stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".openhands/hooks/on_stop.sh",
+            "timeout": 300
+          }
+        ]
+      }
+    ]
+  }

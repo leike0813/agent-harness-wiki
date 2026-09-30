@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-skills-progressive
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-skills
+locator:
+  kind: document_section
+  heading: How Progressive Disclosure Works
+official_url: "https://docs.openhands.dev/overview/skills.md"
+excerpt: |-
+  Agent Skills use three levels of context:
+  1. **Discovery**: OpenHands loads each skill's `name` and `description` into the available-skills catalog.
+  2. **Invocation**: When a task matches the description, the agent invokes the skill by name and receives the full `SKILL.md` instructions.
+  3. **Resources**: The agent reads referenced files from `scripts/`, `references/`, or `assets/` only when needed.
+  This keeps the initial prompt smaller than loading every skill in full. Write the description to explain both what the skill does and when it applies; the agent uses that metadata to decide whether to invoke it.
+  OpenHands supports two deterministic activation paths:
+  * `triggers` injects the skill when a keyword or command appears in a user message.

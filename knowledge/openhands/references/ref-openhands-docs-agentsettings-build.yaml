@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-agentsettings-build
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-agent-settings
+locator:
+  kind: document_section
+  heading: Build Settings
+official_url: "https://docs.openhands.dev/sdk/guides/agent-settings.md"
+excerpt: |-
+  Create an `OpenHandsAgentSettings` object with the same ingredients you would normally pass to an `Agent`.
+  ```python icon="python" focus={8, 11, 12, 13} theme={null}
+  from pydantic import SecretStr
+  from openhands.sdk import LLM, Tool
+  from openhands.sdk.settings import CondenserSettings, OpenHandsAgentSettings
+  from openhands.tools.file_editor import FileEditorTool
+  from openhands.tools.terminal import TerminalTool
+  settings = OpenHandsAgentSettings(
+      llm=LLM(
+          model="anthropic/claude-sonnet-4-5-20250929",
+          api_key=SecretStr("your-api-key"),
+      ),
+      tools=[
+          Tool(name=TerminalTool.name),
+          Tool(name=FileEditorTool.name),
+      ],
+      condenser=CondenserSettings(enabled=True, max_size=50),
+  )
+  ```

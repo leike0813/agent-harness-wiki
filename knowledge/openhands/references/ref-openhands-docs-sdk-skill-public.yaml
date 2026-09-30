@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-sdk-skill-public
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-sdk-skills
+locator:
+  kind: document_section
+  heading: Loading Public Skills
+official_url: "https://docs.openhands.dev/sdk/guides/skill.md"
+excerpt: |-
+  OpenHands maintains a [public skills repository](https://github.com/OpenHands/extensions) with community-contributed skills. You can automatically load these skills without waiting for SDK updates.
+  ### Automatic Loading via AgentContext
+  Enable public skills loading in your `AgentContext`:
+  ```python icon="python" focus={2} theme={null}
+  agent_context = AgentContext(
+      load_public_skills=True,  # Auto-load from public registry
+      skills=[
+          # Your custom skills here
+      ]
+  )
+  ```
+  When enabled, the SDK will:
+  1. Clone or update the public skills repository to `~/.openhands/cache/skills/` on first run
+  2. Load all available skills from the repository
+  3. Merge them with your explicitly defined skills
+  ### Skill Naming and Triggers

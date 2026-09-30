@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-skills-parse
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/skills/skill.py
+  start: 287
+  end: 350
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  """Load a skill from a markdown file with frontmatter.
+          The agent's name is derived from its path relative to skill_base_dir,
+          or from the directory name for AgentSkills-style SKILL.md files.
+          Supports both OpenHands-specific frontmatter fields and AgentSkills
+          standard fields (https://agentskills.io/specification).
+          Args:
+              path: Path to the skill file.
+              skill_base_dir: Base directory for skills (used to derive relative names).
+              strict: If True, enforce strict AgentSkills name validation.
+                  If False, allow relaxed naming (e.g., for plugin compatibility).
+          """
+          path = Path(path) if isinstance(path, str) else path
+          with open(path, encoding="utf-8") as f:
+              file_content = f.read()

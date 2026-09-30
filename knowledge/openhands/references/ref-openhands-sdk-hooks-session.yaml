@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-hooks-session
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/hooks/conversation_hooks.py
+  start: 324
+  end: 386
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def run_session_start(self) -> None:
+          """Run SessionStart hooks. Call after conversation is created."""
+          hooks = self.hook_manager.config.get_hooks_for_event(
+              HookEventType.SESSION_START
+          )
+          results = self.hook_manager.run_session_start()
+          for hook, result in zip(hooks, results, strict=False):
+              self._emit_hook_execution_event(
+                  hook_event_type=HookEventType.SESSION_START,
+                  hook_command=hook.display_command,
+                  result=result,
+              )
+              if result.error:
+                  logger.warning(f"SessionStart hook error: {result.error}")
+      def run_session_end(self) -> None:
+          """Run SessionEnd hooks. Call before conversation is closed."""

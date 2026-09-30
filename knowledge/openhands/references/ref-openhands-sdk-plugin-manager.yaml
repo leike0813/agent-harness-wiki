@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-plugin-manager
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/extensions/installation/manager.py
+  start: 53
+  end: 135
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def install(
+          self,
+          source: str | Path,
+          ref: str | None = None,
+          repo_path: str | None = None,
+          force: bool = False,
+      ) -> InstallationInfo:
+          """Install an extension from a source.
+          Fetches the extension from the source, copies it to the installation
+          directory, and records installation metadata.  When ``force=True``
+          overwrites an existing installation, the previous ``enabled`` state is
+          preserved.
+          Args:
+              source: Extension source — can be a ``"github:owner/repo"``
+                  shorthand, any git URL, or a local filesystem path.
+              ref: Optional branch, tag, or commit to install.
+              repo_path: Subdirectory path within the repository (for monorepos).

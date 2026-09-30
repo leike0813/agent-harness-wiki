@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-default-tools
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/utils.py
+  start: 171
+  end: 205
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  def get_default_cli_tools(*, use_delegate_tool: bool = False) -> list[Tool]:
+      """Get the default tool specifications for CLI mode (browser disabled).
+      Args:
+          use_delegate_tool: If True, use the legacy delegate tool name instead
+              of TaskToolSet. This supports existing conversation metadata that
+              already references delegate events. Defaults to False (use TaskToolSet).
+      Returns:
+          List of Tool specifications for the CLI agent.
+      """
+      task_tool_name = (
+          LEGACY_DELEGATE_TOOL_NAME if use_delegate_tool else TaskToolSet.name
+      )
+      return [
+          Tool(name=TerminalTool.name),
+          Tool(name=FileEditorTool.name),
+          Tool(name=TaskTrackerTool.name),
+          Tool(name=task_tool_name),
+      ]

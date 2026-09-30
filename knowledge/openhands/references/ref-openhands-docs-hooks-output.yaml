@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-hooks-output
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-hooks
+locator:
+  kind: document_section
+  heading: Output
+official_url: "https://docs.openhands.dev/openhands/usage/customization/hooks.md"
+excerpt: |-
+  Hook scripts communicate results through **exit codes** and optional **JSON on stdout**:
+  **Exit codes:**
+  * `0` - Success. The operation proceeds normally.
+  * `2` - Block. The operation is denied.
+  * Any other code - Error. The operation proceeds, but the error is logged.
+  **JSON output (optional):**
+  ```json theme={null}
+  {
+    "decision": "deny",
+    "reason": "rm -rf commands are blocked for safety",
+    "additionalContext": "Extra context to pass to the agent"
+  }
+  ```
+  | Field | Description |
+  | - | - |
+  | `decision` | `"allow"` or `"deny"` - overrides the exit code |
+  | `reason` | Human-readable explanation shown in the UI |
+  | `additionalContext` | Additional context injected into the agent's prompt |

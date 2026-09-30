@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-skills-cache
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/skills/utils.py
+  start: 383
+  end: 430
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  def get_skills_cache_dir() -> Path:
+      """Get the local cache directory for public skills repository.
+      Returns:
+          Path to the skills cache directory (~/.openhands/cache/skills).
+      """
+      cache_dir = Path.home() / ".openhands" / "cache" / "skills"
+      cache_dir.mkdir(parents=True, exist_ok=True)
+      return cache_dir
+  def update_skills_repository(
+      repo_url: str,
+      ref: str,
+      cache_dir: Path,
+  ) -> Path | None:
+      """Clone or update the local skills repository.
+      Uses the shared git caching infrastructure from openhands.sdk.git.cached_repo.
+      When updating, performs: fetch -> checkout ref -> reset --hard to origin/ref.
+      Args:
+          repo_url: URL of the skills repository.
+          ref: Branch name, tag, or full commit SHA to checkout.

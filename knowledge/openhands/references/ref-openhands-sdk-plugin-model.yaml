@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-plugin-model
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/plugin/plugin.py
+  start: 33
+  end: 110
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  # Directories to check for plugin manifest
+  PLUGIN_MANIFEST_DIRS = [".plugin", ".claude-plugin"]
+  PLUGIN_MANIFEST_FILE = "plugin.json"
+  class Plugin(BaseModel):
+      """A plugin that bundles skills, hooks, MCP config, agents, and commands.
+      Plugins follow the Claude Code plugin structure for compatibility:
+      ```
+      plugin-name/
+      ├── .claude-plugin/           # or .plugin/
+      │   └── plugin.json          # Plugin metadata
+      ├── commands/                # Slash commands (optional)
+      ├── agents/                  # Specialized agents (optional)
+      ├── skills/                  # Agent Skills (optional)
+      ├── hooks/                   # Event handlers (optional)
+      │   └── hooks.json
+      ├── .mcp.json                # External tool configuration (optional)

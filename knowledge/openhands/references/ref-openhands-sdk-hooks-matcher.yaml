@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-hooks-matcher
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/hooks/config.py
+  start: 113
+  end: 157
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  class HookMatcher(BaseModel):
+      """Matches events to hooks based on patterns.
+      Supports exact match, wildcard (*), and regex (auto-detected or /pattern/).
+      """
+      matcher: str = "*"
+      hooks: list[HookDefinition] = Field(default_factory=list)
+      # Regex metacharacters that indicate a pattern should be treated as regex
+      _REGEX_METACHARACTERS = set("|.*+?[]()^$\\")
+      def matches(self, tool_name: str | None) -> bool:
+          """Check if this matcher matches the given tool name."""
+          # Wildcard matches everything
+          if self.matcher == "*" or self.matcher == "":
+              return True
+          if tool_name is None:
+              return self.matcher in ("*", "")
+          # Check for explicit regex pattern (enclosed in /)
+          is_regex = (

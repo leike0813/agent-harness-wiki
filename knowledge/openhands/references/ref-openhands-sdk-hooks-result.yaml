@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-hooks-result
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/hooks/executor.py
+  start: 28
+  end: 70
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  class HookResult(BaseModel):
+      """Result from executing a hook.
+      Exit-code semantics (matching Claude Code's hook contract):
+      - **Exit 0**: success. ``stdout`` is parsed as JSON for structured output
+        (``decision``, ``reason``, ``additionalContext``, ``continue``).
+      - **Exit 2**: blocking error. The operation is denied / the agent is
+        prevented from stopping. ``stderr`` should explain why.
+      - **Any other non-zero exit code**: non-blocking error. ``success`` is set
+        to ``False`` and the error is logged, but the operation still proceeds.
+        In particular, exit code ``1`` does **not** block — only ``2`` does.
+        Hooks intended to enforce a policy must exit with ``2``.
+      For agent / prompt hooks, ``success=True`` means the hook produced a

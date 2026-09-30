@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-conversation-persistence
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/stores/agent_store.py
+  start: 41
+  end: 90
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  console = Console(highlight=False, soft_wrap=True)
+  stderr_console = Console(stderr=True, highlight=False, soft_wrap=True)
+  def get_persisted_conversation_tools(conversation_id: str) -> list[Tool] | None:
+      """Get tools from a persisted conversation's base_state.json.
+      When resuming a conversation, we should use the tools that were available
+      when the conversation was created, not the current default tools. This
+      ensures consistency and prevents issues with tools that weren't available
+      in the original conversation (e.g., delegate tool).
+      Args:
+          conversation_id: The conversation ID to look up
+      Returns:
+          List of Tool objects from the persisted conversation, or None if
+          the conversation doesn't exist or can't be read
+      """

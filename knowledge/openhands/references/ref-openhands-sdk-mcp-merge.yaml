@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-mcp-merge
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: openhands-sdk/openhands/sdk/conversation/impl/local_conversation.py
+  start: 668
+  end: 690
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  # - Variables referencing secrets injected via API are expanded to secret values
+          # - Variables with defaults that don't have secrets fall back to their defaults
+          # - This is the ONLY place where defaults are applied (plugin loading preserves
+          #   placeholders with expand_defaults=False to avoid double-expansion)
+          if merged_mcp:
+              # Pass the registry's lookup method as a callback - secrets are retrieved
+              # lazily, one at a time, only when actually referenced in the config
+              merged_mcp = expand_mcp_variables(
+                  merged_mcp,
+                  {},
+                  get_secret=self._state.secret_registry.get_secret_value,
+                  expand_defaults=True,
+              )

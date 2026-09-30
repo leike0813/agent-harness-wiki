@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-sdk-mcp-namespacing
+harness_id: openhands
+snapshot_id: snapshot-openhands-sdk-repo
+locator:
+  kind: file_lines
+  file: tests/sdk/mcp/test_create_mcp_tool.py
+  start: 210
+  end: 245
+official_url: "https://github.com/OpenHands/software-agent-sdk"
+excerpt: |-
+  "http_server": {
+                  "transport": "http",
+                  "url": f"http://127.0.0.1:{http_mcp_server.port}/mcp",
+              },
+              "sse_server": {
+                  "transport": "sse",
+                  "url": f"http://127.0.0.1:{sse_mcp_server.port}/sse",
+              },
+          }
+      }
+      tools = create_mcp_tools(config, timeout=10.0)
+      # Should have tools from both servers (prefixed with server name)
+      assert len(tools) == 4
+      tool_names = {t.name for t in tools}
+      assert "http_server_greet" in tool_names
+      assert "http_server_add_numbers" in tool_names
+      assert "sse_server_echo" in tool_names
+      assert "sse_server_multiply" in tool_names
+  def test_create_mcp_tools_http_schema_validation(http_mcp_server: MCPTestServer):

@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-agentsettings-serialize
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-agent-settings
+locator:
+  kind: document_section
+  heading: Serialize and Restore Settings
+official_url: "https://docs.openhands.dev/sdk/guides/agent-settings.md"
+excerpt: |-
+  Because `OpenHandsAgentSettings` is a Pydantic model, you can dump it to JSON-compatible data and restore it later.
+  ```python icon="python" focus={1, 2} theme={null}
+  payload = settings.model_dump(mode="json")
+  restored = OpenHandsAgentSettings.model_validate(payload)
+  ```
+  This is useful when:
+  * Saving agent configuration in a database
+  * Sending settings through an API
+  * Letting users edit agent configuration in a form-based UI
+  * Rehydrating the same agent setup in another process

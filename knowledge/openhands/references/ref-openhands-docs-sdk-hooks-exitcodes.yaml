@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-docs-sdk-hooks-exitcodes
+harness_id: openhands
+snapshot_id: snapshot-openhands-docs-sdk-hooks
+locator:
+  kind: document_section
+  heading: Exit Codes
+official_url: "https://docs.openhands.dev/sdk/guides/hooks.md"
+excerpt: |-
+  Command hooks (shell scripts) signal their result through their exit code.
+  [Prompt-based hooks](#prompt-based-hooks) and
+  [agent-based hooks](#agent-based-hooks) return a JSON decision instead. The SDK matches the
+  [Claude Code hook contract](https://docs.claude.com/en/docs/claude-code/hooks):
+  * **`0` — success.** The operation proceeds. `stdout` is parsed as JSON for
+    structured output (`decision`, `reason`, `additionalContext`, `continue`).
+  * **`2` — block.** The operation is denied. For `PreToolUse` and
+    `UserPromptSubmit` this rejects the action; for `Stop` it prevents the
+    agent from finishing and the conversation continues. `stderr` / `reason`
+    is surfaced as feedback.
+  * **Any other non-zero exit code — non-blocking error.** `success` is set to

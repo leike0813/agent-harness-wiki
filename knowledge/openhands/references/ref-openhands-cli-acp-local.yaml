@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-cli-acp-local
+harness_id: openhands
+snapshot_id: snapshot-openhands-cli-repo
+locator:
+  kind: file_lines
+  file: openhands_cli/acp_impl/agent/local_agent.py
+  start: 112
+  end: 200
+official_url: "https://github.com/OpenHands/OpenHands-CLI"
+excerpt: |-
+  working_dir: str | None = None,
+          mcp_servers: dict[str, dict[str, Any]] | None = None,
+      ) -> LocalConversation:
+          """Set up a local conversation with event streaming support."""
+          # Register built-in subagent types (default, explore, bash) so the
+          # delegate tool can spawn them.
+          # enable_browser=False because CLI mode doesn't provide browser tools.
+          register_builtins_agents(enable_browser=False)
+          try:
+              agent = load_agent_specs(
+                  conversation_id=session_id,
+                  mcp_servers=mcp_servers,
+                  skills=[RESOURCE_SKILL],
+              )
+              streaming_enabled = (
+                  self._streaming_enabled and not agent.llm.uses_responses_api()
+              )
+              if streaming_enabled:
