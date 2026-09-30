@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-plugins-state
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/plugin-system/plugin/runtime/repository.ts
+  start: 47
+  end: 67
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export interface OfficialPluginInstallationRecord {
+    readonly name: string;
+    readonly installed: boolean;
+    readonly enabled: boolean;
+    /** Missing in legacy schema-v1 JSON and normalized to USER_MANAGED. */
+    readonly installationPolicy?: PluginInstallationPolicyType;
+    /**
+     * Current catalog package. Older persisted schema-v1 rows may omit it; the
+     * next full or target reconciliation fills it without a DB migration.
+     */
+    readonly package?: OfficialPluginPackageIdentity;
+    readonly cachedPackages: readonly CachedPluginPackage[];
+  }
+  export function effectiveInstallationPolicy(
+    installation: Pick<OfficialPluginInstallationRecord, 'installationPolicy'>,
+  ): PluginInstallationPolicyType {

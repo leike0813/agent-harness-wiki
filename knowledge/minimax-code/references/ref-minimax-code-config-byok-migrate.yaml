@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-byok-migrate
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/config/src/byok-config.ts
+  start: 185
+  end: 200
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export interface LegacyByokProviderMigrationResult {
+    migrated: boolean;
+    migratedProviders: Record<string, string>;
+    backupPath?: string;
+  }
+  const LEGACY_BYOK_MIGRATION_KEY = 'byok_legacy_provider_to_custom_provider_v1';
+  const LEGACY_BYOK_BACKUP_PREFIX = 'config.yaml.bak.byok-legacy-provider.';
+  const RESERVED_CUSTOM_PROVIDER_KEYS = new Set([
+    'minimax',
+    'minimax_api',
+    'provider',
+    'custom_provider',
+  ]);
+  const SIMPLE_ASCII_NAME = /^[A-Za-z0-9 _-]+$/;

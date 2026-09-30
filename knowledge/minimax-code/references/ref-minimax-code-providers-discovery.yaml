@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-discovery
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/model-system/connectivity/discover-models.ts
+  start: 33
+  end: 45
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  const [primaryUrl, ...fallbackUrls] = providerModelsUrls(target.api, target.baseUrl);
+      const primary = await this.discoverAt(primaryUrl, target);
+      if (primary.ok || !isMissingModelsEndpoint(primary)) return primary;
+      for (const url of fallbackUrls) {
+        const result = await this.discoverAt(url, target);
+        if (result.ok || !isMissingModelsEndpoint(result)) return result;
+      }
+      return MISSING_MODELS_ENDPOINT;
+    }
+    private async discoverAt(
+      url: string,
+      target: ModelDiscoveryTarget,

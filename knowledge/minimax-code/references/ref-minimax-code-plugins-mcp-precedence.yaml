@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-plugins-mcp-precedence
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-modules/mcp/src/runtime/name-registry.ts
+  start: 242
+  end: 260
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export function pluginMcpNameKey(source: string, plugin: string, server: string): string {
+    return JSON.stringify(['plugin', source, plugin, server]);
+  }
+  // Preserve the previous configured > official > local ownership on a fresh registry.
+  function sourcePriority(key: string): number {
+    try {
+      const identity: unknown = JSON.parse(key);
+      if (Array.isArray(identity)) {
+        if (identity[0] === 'configured') return 0;
+        if (identity[0] === 'plugin' && identity[1] === 'OFFICIAL') return 1;
+      }
+    } catch {
+      /* Tool keys are original names, not structured server identities. */
+    }
+    return 2;
+  }

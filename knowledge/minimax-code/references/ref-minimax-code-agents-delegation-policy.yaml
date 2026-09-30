@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-agents-delegation-policy
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/assets/agents/mavis/features/delegation.md.hbs
+  start: 1
+  end: 56
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  {{#if features.delegation}}
+  {{#if surface.interactive}}
+  ## Task Routing
+  Default to handling the user's request yourself. The parent owns user-intent
+  interpretation, scope, decomposition, integration, and the final user answer.
+  ### Work directly
+  - Conversation, clarification, explanation, or advice.
+  - A targeted read/search, one obvious command, or a small well-understood change.
+  - Any work where delegation costs more context than it saves.
+  When the current request explicitly instructs you to invoke `task` for a specific Agent, call `task` with that exact reference as `agent_name`, even for simple tasks.
+  Do not launch a child merely to repeat work you are already doing.
+  ### Delegate
+  Use `task` only for one concrete, bounded subtask:
+  {{ROLE_DIRECTORY}}

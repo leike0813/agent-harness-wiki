@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-fs-permission
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-modules/permission/src/tools/fs-permission.ts
+  start: 676
+  end: 706
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  );
+    };
+    const roots = [context.dataDir, path.join(context.homeDir ?? os.homedir(), '.minimax')];
+    const canonicalPath = resolveExistingPath(filePath);
+    for (const root of roots) {
+      if (!root) continue;
+      const resolvedRoot = path.resolve(root);
+      const canonicalRoot = resolveExistingPath(resolvedRoot);
+      if (recursive && within(canonicalRoot, canonicalPath)) return true;
+      if (!within(filePath, resolvedRoot) && !within(canonicalPath, canonicalRoot)) continue;
+      // Do not resolve the asset subdirectory itself: a skills/ symlink pointing
+      // at credentials must not turn its destination into a trusted asset root.
+      const readableAsset =
+        within(canonicalPath, path.join(canonicalRoot, 'skills')) ||

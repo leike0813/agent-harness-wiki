@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-mcp-disclosure
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/turn-system/agent-host/assembly/local-turn-tool-catalog.ts
+  start: 503
+  end: 521
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export function resolveLocalMcpDisclosureOptions(
+    raw: LocalMcpToolSearchConfig | undefined,
+    env: Readonly<Record<string, string | undefined>> = process.env,
+  ): McpDisclosureOptions {
+    return {
+      enabled: resolveOption(env.MAVIS_MCP_TOOL_SEARCH_ENABLED, raw?.enabled, true, parseBoolean),
+      modelWhitelist: resolveModelWhitelist(env.MAVIS_MCP_TOOL_SEARCH_WHITELIST, raw),
+      thresholdPct: resolveOption(
+        env.MAVIS_MCP_TOOL_SEARCH_THRESHOLD_PCT,
+        raw?.thresholdPct,
+        0.15,
+        parseNumber,
+      ),
+      minDeferCount: resolveOption(
+        env.MAVIS_MCP_TOOL_SEARCH_MIN_DEFER_COUNT,
+        raw?.minDeferCount,
+        1,
+        parseNumber,
+      ),

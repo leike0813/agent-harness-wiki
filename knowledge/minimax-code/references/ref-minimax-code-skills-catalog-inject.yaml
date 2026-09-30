@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-skills-catalog-inject
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/turn-system/agent-host/preparation/config/local-agent-config-builder.ts
+  start: 740
+  end: 760
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  : buildIdentityPrompt({ agent, layers, profile, interactiveSurface });
+    return composePromptParts([
+      contentPrompt,
+      { text: environmentContextBlock(scope) },
+      ...(customPrompt === undefined && !interactiveSurface
+        ? [
+            { text: '# Session Context' },
+            { text: profile?.surfacePrompt.trim() ?? '' },
+            { text: layers.sessionPrompt.trim() },
+          ]
+        : []),
+      ...layers.memoryBlocks.map((text) => ({ text, kind: 'MEMORY' as const })),
+      { text: layers.catalog.trim(), kind: 'SKILLS' },
+    ]);
+  }
+  function buildIdentityPrompt(scope: {
+    readonly agent: AgentExecutionSnapshot;
+    readonly layers: LoadedPromptLayers;
+    readonly profile: LocalAgentExecutionProfile | undefined;
+    readonly interactiveSurface: boolean;

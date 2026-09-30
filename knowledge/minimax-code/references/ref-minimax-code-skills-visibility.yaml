@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-skills-visibility
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime/src/skills/registry-family.ts
+  start: 174
+  end: 211
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  ): boolean {
+    const requiresBeta =
+      frontmatterString(entry.frontmatter.requiresBeta) ??
+      frontmatterString(entry.frontmatter.requires_beta);
+    return !requiresBeta || betaFlags[requiresBeta] === true;
+  }
+  export function filterInjectableRegistrySkills(
+    entries: SkillViewEntry[],
+    options: {
+      agentName?: string;
+      compatibleAgentNames?: readonly string[];
+      builtinSkillNames?: ReadonlySet<string>;
+      ambiguousSkillNames?: ReadonlySet<string>;
+      betaFlags?: Readonly<Record<string, boolean | undefined>>;
+      injectableBuiltinSkillNames?: ReadonlySet<string>;
+      mcpServerNames?: ReadonlySet<string>;
+      /** Canonical selector for all standalone Skills; the ready inventory is still the upper bound. */
+      allowedSkillNames?: ReadonlySet<string>;

@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-sandbox-defaults
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/config/src/sandbox-settings.ts
+  start: 13
+  end: 16
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  /** Default to full access with deletion protection off on every platform; retain the platform parameter for shared callers. */
+  export function getDefaultSandboxSettings(_platform: string): SandboxSettingsSnapshot {
+    return { enabled: false, filesystemMode: 'full_access' };
+  }

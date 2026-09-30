@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-skills-lint
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime/assets/skills/skill-creator/scripts/lint-skill.js
+  start: 10
+  end: 20
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
+  import { join, basename, resolve } from 'node:path';
+  const FORBIDDEN_FILES = ['README.md', 'CHANGELOG.md', 'INSTALLATION.md', 'INSTALLATION_GUIDE.md', 'QUICK_REFERENCE.md'];
+  const FORBIDDEN_FRONTMATTER_KEYS = ['allowed-tools', 'license', 'model'];
+  const MAX_BODY_LINES = 500;
+  const REDUNDANT_WHEN_TO_USE_HEADINGS = [
+    '## When to use',
+    '## When to use this skill',
+    '## When this skill should be used',
+  ];

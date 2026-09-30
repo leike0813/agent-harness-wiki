@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-plugins-caps
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/plugin-system/plugin/package/minimax-reader.ts
+  start: 377
+  end: 395
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  function readManifestCapabilities(
+    value: Record<string, unknown>,
+  ): Pick<MiniMaxManifest, 'apps' | 'mcpServers' | 'skills' | 'hooks' | 'hostBindings'> {
+    const apps = referenceArray(value.apps, 'apps', APP_PATH);
+    const mcpServers = referenceArray(value.mcpServers, 'mcpServers', MCP_PATH);
+    const skills = referenceArray(value.skills, 'skills', SKILL_PATH);
+    const hooks = value.hooks === undefined ? [] : referenceArray(value.hooks, 'hooks', HOOK_PATH);
+    const hostBindings =
+      value.hostBindings === undefined
+        ? []
+        : referenceArray(value.hostBindings, 'hostBindings', HOST_BINDING_PATH);
+    return { apps, mcpServers, skills, hooks, hostBindings };
+  }
+  function referenceArray(value: unknown, label: string, pattern: RegExp): string[] {

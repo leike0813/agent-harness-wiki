@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-agents-capabilities
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/agent/builtin/definitions.ts
+  start: 105
+  end: 134
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  }
+  export function canonicalBuiltinName(name: string): string {
+    const normalized = name.trim().toLowerCase();
+    return normalized === LEGACY_PRIMARY_AGENT_NAME ? PRIMARY_AGENT_NAME : normalized;
+  }
+  export function legacyNamesFor(name: string): readonly string[] {
+    return name === PRIMARY_AGENT_NAME ? [LEGACY_PRIMARY_AGENT_NAME] : [];
+  }
+  export function resolveCanonicalCapabilities(
+    configured: AgentCapabilityConfig | ResolvedAgentCapabilities | undefined,
+    override: AgentCapabilityConfig | undefined,
+  ): ResolvedAgentCapabilities {
+    const base = isResolvedCapabilities(configured)
+      ? configured
+      : resolveAgentCapabilities(configured);
+    if (!override) return base;
+    return {
+      persona: { enabled: base.persona.enabled && override.persona?.enabled !== false },

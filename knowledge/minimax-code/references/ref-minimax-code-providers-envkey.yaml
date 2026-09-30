@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-envkey
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/tui/src/cli/provider-command.ts
+  start: 56
+  end: 62
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  if (request.action === 'add') {
+        const envName = request.apiKeyEnv?.trim() || 'MCODE_PROVIDER_API_KEY';
+        const apiKey = (options.environment ?? process.env)[envName]?.trim();
+        if (!apiKey) {
+          throw new Error(
+            `Provider API key is missing. Set ${envName} or pass --api-key-env <name>.`,
+          );

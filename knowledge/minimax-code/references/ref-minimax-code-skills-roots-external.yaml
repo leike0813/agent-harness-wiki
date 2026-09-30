@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-skills-roots-external
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime/src/skills/roots.ts
+  start: 76
+  end: 120
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  const skillsConfig = config.skills ?? DEFAULT_SKILLS_CONFIG;
+    const external = skillsConfig.external;
+    if (!external.enabled) return [];
+    const roots = workspaceRootsToScan(workspaceRoot, external.walkUp);
+    const rootCount = roots.length;
+    return roots.flatMap((rootPath, index) => {
+      const nearestPriorityBonus = (rootCount - index) / 1000;
+      return [
+        externalSkillRoot(
+          'workspace-minimax',
+          join(rootPath, '.minimax', 'skills'),
+          'workspace',
+          skillsConfig,
+          nearestPriorityBonus,
+        ),
+        externalSkillRoot(
+          'workspace-cc',
+          join(rootPath, '.claude', 'skills'),
+          'workspace',
+          skillsConfig,
+          nearestPriorityBonus,
+        ),
+        externalSkillRoot(
+          'workspace-agents',

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-create
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/model-system/management/service-custom-provider-operations.ts
+  start: 73
+  end: 88
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  }
+    const apiFormat = normalizeApiFormat(input.apiFormat);
+    const headers = normalizeHeaders(input.headers);
+    const name = input.name?.trim();
+    let providerKey = '';
+    await context.deps.updateByokConfig((draft) => {
+      const tree = (draft.custom_provider ?? {}) as LocalCustomProvidersConfig;
+      providerKey = generateProviderKey({
+        displayName: name,
+        existingKeys: Object.keys(tree),
+        ...(context.deps.randomHex ? { randomHex: context.deps.randomHex } : {}),
+      });
+      tree[providerKey] = {
+        ...(name ? { name } : {}),
+        kind: 'custom',
+        enabled: true,

@@ -1,0 +1,41 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-inspect
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/tui/src/tui/features/inspection/product-inspection.ts
+  start: 380
+  end: 455
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  {
+              label: 'Status',
+              value: valid ? 'Valid' : 'Needs attention',
+              tone: statusTone,
+            },
+            {
+              label: 'Path',
+              value: safe(diagnostics.configPath ?? 'unavailable'),
+            },
+            { label: 'File', value: presence(diagnostics.configPresent) },
+          ],
+        },
+        ...(valid
+          ? [
+              {
+                title: 'Model',
+                rows: [
+                  {
+                    label: 'Default model',
+                    value: safe(diagnostics.defaultModel ?? 'not configured'),
+                  },
+                  { label: 'Provider', value: safe(diagnostics.providerId ?? 'unknown') },
+                ],
+              },
+            ]
+          : []),
+        ...(issues.length > 0
+          ? [
+              {

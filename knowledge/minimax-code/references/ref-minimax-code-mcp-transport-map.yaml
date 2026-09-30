@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-mcp-transport-map
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/mcp/runtime/config.ts
+  start: 16
+  end: 43
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export function configToTransportConfig(config: LocalMcpServerConfig): TransportConfig | undefined {
+    const type = config.type;
+    if (type === 'stdio' || (!type && config.command)) {
+      if (!config.command) return undefined;
+      return {
+        type: 'stdio',
+        command: config.command,
+        args: config.args ?? [],
+        ...(config.env ? { env: config.env } : {}),
+      };
+    }
+    return remoteTransport(config);
+  }
+  function remoteTransport(config: LocalMcpServerConfig): TransportConfig | undefined {
+    const type = config.type;
+    if (type === 'sse' && config.url)
+      return { type: 'sse', url: config.url, ...(config.headers ? { headers: config.headers } : {}) };
+    if (type === 'http' || type === 'streamable-http' || (!type && config.url)) {
+      if (!config.url) return undefined;

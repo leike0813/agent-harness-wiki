@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-mcp-http
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-modules/mcp/src/runtime/transport/http.ts
+  start: 31
+  end: 40
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  ...(requestInit ? { requestInit } : {}),
+      ...(fetchImpl ? { fetch: fetchImpl } : {}),
+    };
+    if (config.type === 'sse') {
+      return new SSEClientTransport(url, transportOptions);
+    }
+    return new StreamableHTTPClientTransport(url, transportOptions);
+  }
+  function protectConfiguredHeadersOnRedirect(

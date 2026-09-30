@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-asr-retired
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/config/src/asr.ts
+  start: 105
+  end: 122
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  warnLegacy(
+        'Ignoring legacy `asr.seed.*` in config — Seed ASR was retired from the daemon; only Amadeus remains. Remove `asr.seed` from config.yaml.',
+      );
+    }
+    if (rawSlotHasCredential(obj.qwen)) {
+      warnLegacy(
+        'Ignoring legacy `asr.qwen.apiKey` in config — Qwen ASR was retired from the daemon; only Amadeus remains. Remove `asr.qwen` from config.yaml.',
+      );
+    }
+    if (rawHasString(obj.mode) || rawHasString(obj.proxyBaseUrl)) {
+      warnLegacy(
+        'Ignoring legacy `asr.mode` / `asr.proxyBaseUrl` in config — the daemon no longer runs the shared asr-proxy WebSocket path. The Amadeus HTTP proxy is managed by the application environment. Remove these keys from config.yaml.',
+      );
+    }
+    if (rawHasString(obj.primaryProvider) || rawHasString(obj.fallbackProvider)) {

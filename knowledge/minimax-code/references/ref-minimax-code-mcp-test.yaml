@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-mcp-test
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/mcp/runtime/local-mcp.service.ts
+  start: 500
+  end: 540
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  const file = await this.readFileWithinMutation(true);
+        const next = normalizeServerConfig(config);
+        const serverConfig: LocalMcpServerConfig = {
+          ...file.mcpServers[serverName],
+          ...next,
+          enabled: next.enabled ?? true,
+          configured: next.configured ?? true,
+        };
+        file.mcpServers[serverName] = serverConfig;
+        await this.writeConfiguredMutation(serverName, file);
+        const tools = readConfiguredTools(serverConfig);
+        return {
+          name: serverName,
+          transport: inferTransport(serverConfig),
+          authStatus: inferAuthStatus(serverConfig),
+          skillStatus: tools.length > 0 ? 'active' : 'not_generated',
+          enabled: serverConfig.enabled !== false,
+          configured: serverConfig.configured !== false,

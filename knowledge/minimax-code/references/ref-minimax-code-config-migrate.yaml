@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-migrate
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/config/src/data-dir.ts
+  start: 285
+  end: 300
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  }
+  function resolveDataDirPair(
+    newDir: string,
+    legacyDir: string,
+    logger: DataDirMigrationLogger,
+    nowMs: () => number,
+  ): string {
+    const newState = pathState(newDir);
+    const legacyState = pathState(legacyDir);
+    if (newState.kind === 'inaccessible') {
+      logger.warn(`Primary data dir ${newDir} is inaccessible; not treating it as missing`);
+      return newDir;
+    }

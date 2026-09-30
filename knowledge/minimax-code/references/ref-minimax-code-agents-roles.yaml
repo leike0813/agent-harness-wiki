@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-agents-roles
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/shared/src/subagent-roles.ts
+  start: 1
+  end: 23
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export type CanonicalSubagentRole = 'explore' | 'worker' | 'verifier';
+  export interface LocalSubagentRoleDefinition {
+    whenToUse: string;
+  }
+  /** Single source of truth for canonical desktop SubAgent role names. */
+  export const SUBAGENT_ROLES = {
+    explore: {
+      whenToUse:
+        'Read-only mapping for unfamiliar, cross-file, or evidence-heavy questions; it can use Bash for read-only Git and code investigation, but cannot create or edit files.',
+    },
+    worker: {
+      whenToUse:
+        'Bounded production work with explicit scope, ownership, deliverable, and acceptance.',
+    },
+    verifier: {
+      whenToUse:
+        'Independently validate an existing deliverable and report findings; no project-file changes. Temporary validation artifacts require an explicitly designated temporary location.',
+    },

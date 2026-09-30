@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-hooks-output-semantics
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-modules/plugin-hooks/src/contracts.ts
+  start: 139
+  end: 189
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  readonly type: 'addRules' | 'replaceRules' | 'removeRules';
+        readonly rules: readonly PluginHookPermissionRuleValue[];
+        readonly behavior: 'allow' | 'deny' | 'ask';
+        readonly destination: PluginHookPermissionUpdateDestination;
+      }
+    | {
+        readonly type: 'setMode';
+        readonly mode: PluginHookPermissionUpdateMode;
+        readonly destination: PluginHookPermissionUpdateDestination;
+      }
+    | {
+        readonly type: 'addDirectories' | 'removeDirectories';
+        readonly directories: readonly string[];
+        readonly destination: PluginHookPermissionUpdateDestination;
+      };
+  export interface PluginHookDecision {
+    readonly decision: PluginHookPermissionDecision;
+    /**
+     * PermissionRequest-specific resolution. An omitted Hook output is `abstain`;

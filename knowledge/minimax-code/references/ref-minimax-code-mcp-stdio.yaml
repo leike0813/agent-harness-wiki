@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-mcp-stdio
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-modules/mcp/src/runtime/transport/stdio.ts
+  start: 34
+  end: 50
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  ): Transport {
+    return new SafeStdioClientTransport({
+      command: config.command,
+      args: config.args,
+      env: buildProcessEnv(config.env, options?.env),
+      cwd: config.cwd ?? homedir(),
+      stderr: 'pipe',
+    });
+  }
+  class SafeStdioClientTransport extends StdioClientTransport {
+    override async start(): Promise<void> {
+      await super.start();
+      const childProcess = (
+        this as unknown as {
+          _process?: { stderr?: NodeJS.ReadableStream | null };
+        }

@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-hooks-documents
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/plugin-system/plugin/package/hook/documents.ts
+  start: 1
+  end: 70
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  import {
+    isRecord,
+    pluginPathExists,
+    readPluginJsonObject,
+    resolvePluginFile,
+    type CanonicalPluginRoot,
+  } from '../filesystem.js';
+  export interface PluginHookDocument {
+    readonly sourcePath: string;
+    readonly value: unknown;
+  }
+  export async function loadPluginHookDocuments(
+    root: CanonicalPluginRoot,
+    declared: unknown,
+    options: { readonly defaultPath?: string; readonly manifestPath?: string },
+  ): Promise<PluginHookDocument[]> {
+    if (isRecord(declared) && !isPathDeclaration(declared)) {
+      return [{ sourcePath: options.manifestPath ?? '<manifest>', value: declared }];
+    }
+    const { paths, invalid } = readPathDeclaration(declared);
+    await addDefaultPath(root, declared, options.defaultPath, paths);
+    const documents: PluginHookDocument[] = [];
+    if (invalid) {

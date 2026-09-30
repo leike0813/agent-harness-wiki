@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-skills-acp
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/tui/src/acp/commands.ts
+  start: 46
+  end: 73
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export function availableSkillCommands(result: TuiSkillList): acp.AvailableCommand[] {
+    const seen = new Set<string>(TUI_ACP_AVAILABLE_COMMANDS.map((command) => command.name));
+    return (result.skills ?? [])
+      .flatMap((skill): acp.AvailableCommand[] => {
+        const name = skill.name.trim().toLowerCase();
+        if (
+          skill.enabled === false ||
+          seen.has(name) ||
+          name.length > 128 ||
+          !/^[a-z0-9][a-z0-9._-]*(?::[a-z0-9][a-z0-9._-]*)?$/u.test(name)
+        )
+          return [];
+        seen.add(name);
+        const description = sanitizeTerminalText(
+          skill.displayDescription ?? skill.description ?? '',
+        ).trim();
+        return [
+          {
+            name,
+            description: description ? `[Skill] ${description}` : '[Skill]',

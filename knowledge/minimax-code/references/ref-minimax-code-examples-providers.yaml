@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-examples-providers
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: docs/examples.md
+  start: 70
+  end: 120
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  --context-limit 32768 --output-limit 4096 --use
+  pnpm mcode provider list --json
+  ```
+  `--context-limit` and `--output-limit` each accept a positive safe integer (at most `9007199254740991`). Either flag can be used independently. The same limits apply to every repeated `--model`; only the first model is tested and selected by `--use`. The JSON list shows the configured values as `contextLimit` and `maxOutputTokens`. Without these flags, the existing defaults remain unchanged (unknown custom models currently fall back to 200,000 context tokens and 16,384 output tokens). Model discovery does not infer your local server's context size.

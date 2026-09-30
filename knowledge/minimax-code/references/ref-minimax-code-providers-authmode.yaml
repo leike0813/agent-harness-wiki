@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-authmode
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/config/src/provider-auth-mode.ts
+  start: 54
+  end: 90
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export function resolveProviderAuthMode(
+    input: ResolveProviderAuthModeInput | undefined,
+  ): ResolvedProviderAuthMode {
+    const baseURL = typeof input?.baseURL === 'string' ? input.baseURL.trim() : '';
+    const managedBaseURL = baseURL.length > 0 && isManagedProviderBaseUrl(baseURL);
+    const explicitAuthMode = parseExplicitAuthMode(input?.authMode);
+    const warnings: string[] = [];
+    if (typeof input?.authMode === 'string' && !explicitAuthMode) {
+      warnings.push(
+        `Unknown provider authMode "${input.authMode}"; falling back to compatibility resolution.`,
+      );
+    }
+    if (explicitAuthMode) {
+      if (
+        explicitAuthMode === 'managed-login' &&
+        baseURL.length > 0 &&
+        !managedBaseURL &&
+        !input?.allowManagedBaseURLOverride
+      ) {
+        warnings.push(

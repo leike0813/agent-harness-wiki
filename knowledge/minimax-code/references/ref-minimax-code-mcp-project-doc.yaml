@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-mcp-project-doc
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/docs/project-mcp.md
+  start: 19
+  end: 51
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  }
+  ```
+  ## 自动加载与连接
+  - Runtime 从 session 的 canonical `workspaceDir` 读取配置。不会因为客户端类型不同而跳过项目文件；项目路径不依赖启动 Runtime 进程时的 cwd。
+  - 读取配置或展示列表不会启动 MCP。实际 turn 工具发现或调用时，Runtime 自动连接有效且未禁用的 server。
+  - stdio 连接会执行项目配置里的命令，远程连接会访问配置的 URL；这是项目配置自动加载的产品约定。工具调用仍走原有权限策略，但工具权限确认发生在连接之后，不替代进程启动控制。
+  - 工具发现和调用前重新读取配置。文件内容或展开后的环境变量变化时，中止旧 project 调用、关闭旧连接，后续请求自动使用新配置，不再弹出批准窗口。
+  - 可以在 `.mcp.json` 中设置 `enabled: false` 停用条目。删除文件或整份文件无效时，移除项目层并恢复同名 profile 配置。
+  - 文件始终只读，不会导入或写回 profile 的 `mcp.json`，不持久化项目配置授权。
+  ## 项目边界与格式
+  - 只读取主工作目录的 `.mcp.json`，不向上搜索、不扫描 `/add-dir`。从子目录启动且 session 主目录就是该子目录时，只读取子目录内的文件。
+  - 支持 stdio、`http`、`streamable-http`、`sse`；不支持的 transport 显示错误。
+  - `command`、`args`、`env`、`url`、`headers` 支持 `${VAR}`、`${VAR:-default}`。变量缺失时停用该 server 并显示变量名，不回显变量值。

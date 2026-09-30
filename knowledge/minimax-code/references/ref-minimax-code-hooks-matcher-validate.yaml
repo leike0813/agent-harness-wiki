@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-hooks-matcher-validate
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-modules/plugin-hooks/src/parser.ts
+  start: 284
+  end: 299
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  function isValidMatcher(
+    event: PluginHookEventName,
+    matcher: string | undefined,
+    sourceFormat: PluginHookSourceFormat,
+  ): boolean {
+    if (matcher === undefined) return true;
+    if (matcher.length > MAX_MATCHER_LENGTH) return false;
+    if (matcher.trim() === '*' || event === 'UserPromptSubmit' || event === 'Stop') return true;
+    if (sourceFormat === 'CODEX') {
+      if (/^[A-Za-z0-9_|]+$/u.test(matcher)) return true;
+    } else {
+      const alternatives = matcher.split(/[|,]/u).map((part) => part.trim());
+      if (alternatives.every((part) => /^[A-Za-z0-9_.:/-]+$/u.test(part))) return true;
+    }
+    return isSafePluginHookMatcher(matcher);
+  }

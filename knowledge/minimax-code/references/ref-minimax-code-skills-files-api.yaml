@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-skills-files-api
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime/src/skills/registry-operations.ts
+  start: 396
+  end: 440
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  async function listSkillFilesFromDir(baseDir: string, relativeDir = ''): Promise<SkillFileInfo[]> {
+    const absoluteDir = relativeDir ? join(baseDir, relativeDir) : baseDir;
+    const entries = await readdir(absoluteDir, { withFileTypes: true }).catch(() => []);
+    const nested = await Promise.all(
+      entries
+        .filter((entry) => !entry.name.startsWith('.'))
+        .sort((left, right) => {
+          if (left.isDirectory() !== right.isDirectory()) return left.isDirectory() ? -1 : 1;
+          return left.name.localeCompare(right.name);
+        })
+        .map(async (entry) => {
+          const path = relativeDir ? join(relativeDir, entry.name) : entry.name;
+          const file: SkillFileInfo = { name: entry.name, path, isDir: entry.isDirectory() };
+          return entry.isDirectory()

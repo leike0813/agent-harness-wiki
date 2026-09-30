@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-agents-capability-keys
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/config/src/agent-capabilities.ts
+  start: 69
+  end: 92
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  ] as const;
+  export type AgentBuiltinSkillId = (typeof AGENT_BUILTIN_SKILL_IDS)[number];
+  export const AGENT_CAPABILITY_OWNED_SKILL_IDS = [
+    'control-in-app-browser',
+    'cu-desktop',
+    'resume-codex',
+    'mavis',
+    'create-agent',
+    'minimax-code-product',
+    'miniapp-creator',
+  ] as const;
+  export interface AgentCapabilityConfig {
+    /** Saved model configuration used by delegated child agents by default. */
+    modelConfigId?: string;
+    persona?: { enabled?: boolean };
+    /** Undefined keeps every currently available Builtin Tool; [] selects none. */
+    tools?: AgentBuiltinToolId[];
+    /** Undefined keeps every standalone Builtin Matrix MCP Tool; [] selects none. */
+    builtinTools?: AgentBuiltinMcpToolId[];
+    /** Undefined keeps every compatible standalone Builtin Skill; [] selects none. */

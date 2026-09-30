@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-skills-enabled
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime/src/skills/registry.ts
+  start: 461
+  end: 500
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  const handle = await resolveSkillHandle(input);
+        if (!handle) return undefined;
+        const registry = await handle.registryPromise;
+        const identity = resolveRegistrySkillIdentity(registry, input);
+        const deleted = await deleteRegistrySkill(registry, input);
+        if (deleted && deleted !== 'protected') {
+          if (identity) await enabledState.forget(identity.locationUri);
+          await refreshHandle(handle);
+        }
+        return deleted;
+      },
+      async setSkillEnabled(input, enabled) {
+        const handle = await resolveSkillHandle(input);
+        if (!handle) return undefined;
+        const registry = await handle.registryPromise;
+        const identity = resolveRegistrySkillIdentity(registry, input);
+        if (!identity) return undefined;

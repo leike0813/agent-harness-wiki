@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-plugins-compat-reader
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/plugin-system/plugin/package/compatibility-reader.ts
+  start: 28
+  end: 47
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  ): Promise<ReadPluginPackage> {
+    const root = await canonicalizePluginRoot(packageRoot, { rejectSymlink: true });
+    const kind = options.kind ?? 'CLAUDE_CODE';
+    const manifestRelativePath = kind === 'CODEX' ? CODEX_MANIFEST_PATH : CLAUDE_MANIFEST_PATH;
+    const { path: manifestPath, value: manifest } = await readPluginJsonObject(
+      root,
+      manifestRelativePath,
+    );
+    const name = stringValue(manifest.name);
+    if (!name) readerFail('MANIFEST_SCHEMA_INVALID', 'Compatible Plugin name is required');
+    const skills = await readCompatibleSkills(root, manifest.skills);
+    const mcp = await readCompatibleMcp(root, manifest.mcpServers);
+    const iconPath = await readOptionalIcon(root, manifest.icon);
+    const author = readAuthor(manifest.author);

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-plugins-local-scan
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/plugin-system/plugin/runtime/package-storage.ts
+  start: 150
+  end: 170
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  acceptImported: (stagingRoot, pluginName) =>
+          this.acceptImportedLocalRoot(stagingRoot, pluginName),
+      });
+    }
+    async scanLocalPackages(): Promise<readonly LocalPluginPackageSnapshotEntry[]> {
+      const startedAt = Date.now();
+      try {
+        const scan = await scanLocalPluginPackages(path.join(this.options.dataDir, 'plugins'));
+        const materialized = await Promise.allSettled(
+          scan.plugins.map((entry) => this.materializeHookPackage(entry)),
+        );
+        const plugins = materialized.flatMap((result) =>
+          result.status === 'fulfilled' ? [result.value] : [],
+        );
+        await this.collectHookCacheGarbage();
+        const diagnosticCount =
+          scan.diagnostics.length +
+          materialized.filter((result) => result.status === 'rejected').length;

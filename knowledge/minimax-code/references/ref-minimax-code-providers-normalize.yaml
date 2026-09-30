@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-normalize
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/model-system/connectivity/provider-request.ts
+  start: 81
+  end: 95
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export function normalizeProviderBaseUrl(api: ModelProviderApi, baseUrl: string): string {
+    let base = baseUrl.replace(/\/+$/u, '');
+    if (api === 'anthropic-messages') {
+      if (base.endsWith('/v1/messages')) base = base.slice(0, -'/v1/messages'.length);
+      else if (base.endsWith('/messages')) base = base.slice(0, -'/messages'.length);
+      if (base.endsWith('/v1')) base = base.slice(0, -'/v1'.length);
+      return base;
+    }
+    if (base.endsWith('/chat/completions')) base = base.slice(0, -'/chat/completions'.length);
+    else if (base.endsWith('/responses')) base = base.slice(0, -'/responses'.length);
+    return base;
+  }
+  export function mergeProviderHeaders(
+    ...records: Array<Record<string, string> | undefined>

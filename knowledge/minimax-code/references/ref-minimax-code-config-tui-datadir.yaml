@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-tui-datadir
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/tui/src/runtime/data-dir.ts
+  start: 20
+  end: 37
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  _buildEnv: McodeDataEnvironment,
+    getPrimaryDataDir: typeof getPrimaryDataDirPath = getPrimaryDataDirPath,
+    getCurrentProfile: typeof getProfile = getProfile,
+  ): string {
+    return getPrimaryDataDir(undefined, getCurrentProfile());
+  }
+  function getDefaultTuiDataDir(): string {
+    return resolveDefaultTuiDataDir(resolveMcodeDataEnvironment());
+  }
+  function readDataDirOverride(environment: TuiDataDirEnvironment): string | undefined {
+    const minimaxDataDir = environment.MINIMAX_DATA_DIR?.trim();
+    if (minimaxDataDir) return minimaxDataDir;
+    const mavisDataDir = environment.MAVIS_DATA_DIR?.trim();
+    return mavisDataDir || undefined;
+  }

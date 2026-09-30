@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-headers
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/model-system/connectivity/provider-request.ts
+  start: 20
+  end: 49
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  [MESSAGES_VERSION_HEADER]: '2023-06-01',
+          }
+        : {
+            'content-type': 'application/json',
+            Authorization: `Bearer ${input.apiKey}`,
+          };
+    const headers = new Headers(defaults);
+    const attributedHeaders = withOpenCodeGoHeaders(
+      input.baseUrl,
+      withOpenRouterAttributionHeaders(input.baseUrl, input.headers),
+    );
+    for (const [name, value] of Object.entries(attributedHeaders ?? {})) {
+      headers.set(name, value);
+    }
+    return headers;
+  }
+  export function buildModelDiscoveryHeaders(input: {
+    api: ModelProviderApi;
+    apiKey: string;
+    baseUrl?: string;
+    headers?: Record<string, string>;
+  }): Headers {
+    const headers = buildProviderHeaders(input);
+    if (!headers.has('authorization')) headers.set('authorization', `Bearer ${input.apiKey}`);

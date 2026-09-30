@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-probe
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/model-system/connectivity/test-connection.ts
+  start: 6
+  end: 22
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  import { buildProviderHeaders, providerCompletionUrl } from './provider-request.js';
+  import {
+    resolveMiniMaxM3ThinkingProtocol,
+    resolveModelThinkingProtocol,
+  } from '../resolution/model-ref.js';
+  import { byokEffectiveOutputLimit } from '../resolution/model-resolver-byok.js';
+  import type {
+    ModelConnectionTestResult,
+    ModelConnectionTestTarget,
+    ModelProviderTestApi,
+  } from '../contracts.js';
+  export interface ModelConnectionTesterOptions {
+    fetchImpl?: typeof fetch;
+    timeoutMs?: number;
+  }

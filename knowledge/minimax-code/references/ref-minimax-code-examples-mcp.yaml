@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-examples-mcp
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: docs/examples.md
+  start: 216
+  end: 279
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  ## 5. Connect an authenticated project MCP server
+  Choose a service you trust and review what you will send before starting a task.
+  Enabled project servers connect automatically during tool discovery or calls;
+  connecting exposes the canonical workspace root through MCP `roots/list`, even
+  to a remote server. Tool calls send their arguments to that service. A tool
+  permission prompt happens after connection and does not prevent this initial
+  contact. This optional configuration leaves built-in search unchanged.
+  Create `.mcp.json` in the workspace root you will launch MCode from:
+  ```json
+  {
+    "mcpServers": {
+      "research": {
+        "type": "http",
+        "url": "https://mcp.example.com/mcp",
+        "headers": {
+          "Authorization": "Bearer ${RESEARCH_MCP_API_KEY}"
+        }
+      }
+    }
+  }
+  ```

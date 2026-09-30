@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-hooks-matcher-run
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-modules/plugin-hooks/src/runner.ts
+  start: 1796
+  end: 1806
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  );
+  }
+  function matches(handler: PluginHookCommandHandler, input: PluginHookEventInput): boolean {
+    if (input.event === 'UserPromptSubmit' || input.event === 'Stop') return true;
+    const pattern = handler.matcher;
+    const values = matcherValues(handler, input);
+    if (!pattern || pattern === '*') return true;
+    if (pattern.length > 256) return false;
+    if (values.length === 0 || values.some((value) => value.length > 256)) return false;
+    if (handler.sourceFormat === 'CODEX' && /^[A-Za-z0-9_|]+$/u.test(pattern)) {

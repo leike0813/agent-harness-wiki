@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-plugins-hostbinding
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/plugin-system/plugin/package/types.ts
+  start: 64
+  end: 82
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  interface PluginHostCapabilityReference {
+    readonly id: string;
+    readonly version: number;
+  }
+  /**
+   * Declarative request for a MiniMax Plugin to reuse a Host-owned capability.
+   * The package supplies no executable implementation and receives no permission
+   * by declaring this record; resolution remains a Host policy decision.
+   */
+  export interface PluginHostBinding {
+    readonly schemaVersion: 1;
+    readonly bindingId: string;
+    readonly logicalToolName: string;
+    readonly hostCapability: PluginHostCapabilityReference;
+    readonly requiredSkills: readonly string[];
+    readonly allowedSurfaces: readonly PluginHostBindingSurface[];
+    readonly sourcePath: string;
+  }

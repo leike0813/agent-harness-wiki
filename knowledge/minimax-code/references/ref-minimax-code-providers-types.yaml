@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-types
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/config/src/config.ts
+  start: 1168
+  end: 1180
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  * User-created external provider ("Custom Model" settings tab). Reuses the
+   * ProviderConfig field vocabulary. Map keys (`provider_key`) are generated
+   * once from the display name at creation time and are immutable afterwards —
+   * renames only change `name`.
+   */
+  export interface CustomProviderConfig extends ProviderConfig {
+    /** Provider kind; user-created providers are always 'custom'. */
+    kind?: string;
+    /** Disabled providers keep their config but drop out of the effective model list. */
+    enabled?: boolean;
+  }
+  export type CustomProvidersConfig = Record<string, CustomProviderConfig>;

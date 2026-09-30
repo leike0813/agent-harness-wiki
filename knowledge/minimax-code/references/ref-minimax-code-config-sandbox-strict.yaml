@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-sandbox-strict
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/config/src/sandbox-config.ts
+  start: 104
+  end: 118
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  const settings = normalizeSandboxSettings({
+      enabled,
+      filesystemMode: filesystemMode as SandboxFilesystemModeName,
+    });
+    return {
+      enabled: settings.enabled,
+      filesystem: {
+        policy: { mode: settings.filesystemMode },
+        denyRead:
+          filesystem.denyRead === undefined
+            ? [...defaults.filesystem.denyRead]
+            : stringArray(filesystem.denyRead, 'sandbox.filesystem.denyRead'),
+        denyWrite:

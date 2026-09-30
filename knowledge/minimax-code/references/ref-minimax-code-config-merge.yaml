@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-merge
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/config/src/config.ts
+  start: 1893
+  end: 1905
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export function resolveConfigFromRaw(
+    raw: Record<string, unknown>,
+    dataDir: string,
+  ): Config {
+    const rawSSEErrorPush = raw.sseErrorPush;
+    const sseErrorPush =
+      rawSSEErrorPush != null &&
+      typeof rawSSEErrorPush === "object" &&
+      !Array.isArray(rawSSEErrorPush)
+        ? (rawSSEErrorPush as Record<string, unknown>)
+        : undefined;
+    // devPort resolution (kept in Config for UI dev server)

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-plugins-conflicts
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/plugin-system/plugin/runtime/snapshot-builder.ts
+  start: 435
+  end: 486
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  function acceptPluginName(input: PackageCapabilityAcceptanceInput): boolean {
+    const { plugin } = input;
+    if (!isDetailPathSegment(plugin.name)) {
+      input.diagnostics.push(freeze({ code: 'PLUGIN_NAME_INVALID', pluginName: plugin.name }));
+      return false;
+    }
+    if (!input.pluginNames.has(collisionKey(plugin.name))) return true;
+    input.diagnostics.push(
+      freeze({
+        code: conflictCode(input.sourceKind, 'PLUGIN'),
+        pluginName: plugin.name,
+      }),
+    );
+    return false;
+  }
+  function acceptPackageSkills(input: PackageCapabilityAcceptanceInput): PluginSkill[] {
+    const accepted: PluginSkill[] = [];
+    const packageSkillKeys = new Set<string>();
+    for (const skill of input.plugin.skills) {

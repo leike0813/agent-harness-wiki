@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-skills-frontmatter
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-modules/skills/src/registry.ts
+  start: 846
+  end: 900
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  function parseFrontmatter(
+    content: string,
+    diagnostics: SkillDiagnostic[],
+    rootId: string,
+    fileLocation: string,
+  ): {
+    frontmatter: Record<string, string | number | boolean>;
+    displayNames?: Record<string, string>;
+    descriptions?: Record<string, string>;
+    body: string;
+  } {
+    const startMatch = /^---\r?\n/.exec(content);
+    if (!startMatch) {
+      return { frontmatter: {}, body: content };
+    }
+    const frontmatterStart = startMatch[0].length;
+    const closingMatch = /(?:^|\r?\n)---(?:\r?\n|$)/.exec(content.slice(frontmatterStart));
+    if (!closingMatch || closingMatch.index === undefined) {
+      diagnostics.push({
+        level: 'error',
+        code: 'frontmatter_unclosed',
+        rootId,
+        locationUri: locationUriFromFilePath(fileLocation),

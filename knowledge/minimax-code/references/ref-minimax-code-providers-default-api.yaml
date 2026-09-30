@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-default-api
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/model-system/resolution/model-resolver-byok.ts
+  start: 139
+  end: 146
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  function resolveCustomProviderApi(value: unknown): Api {
+    if (
+      typeof value === 'string' &&
+      (isModelProviderApi(value) || value === 'openai-codex-responses')
+    ) {
+      return value;
+    }
+    return 'anthropic-messages';

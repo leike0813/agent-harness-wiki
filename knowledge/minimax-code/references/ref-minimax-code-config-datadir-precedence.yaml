@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-datadir-precedence
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/config/src/config.ts
+  start: 1479
+  end: 1509
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export function getDataDir(): string {
+    // Data-dir resolution priority (mirrors port resolution in getConfig):
+    // 0. ${RUNTIME_ENV_PREFIX}_DISABLE_GIT_AUTO_CONFIG=1 → skip repo auto-detection entirely
+    //    and fall back to the explicit env/default "user mode" resolution below.
+    // 1. Explicit profile-scoped data dir (service/supervisor) → fixed data dir
+    // 2. Git auto-detection (any branch in mavis repo) → profile-scoped dir
+    //    This takes highest priority because the parent daemon process injects
+    //    ${RUNTIME_ENV_PREFIX}_DATA_DIR into child process environments, which would
+    //    incorrectly override the per-branch isolation that git detection provides.
+    // 3. ${RUNTIME_ENV_PREFIX}_DATA_DIR env var → used only when git detection is not active
+    // 4.

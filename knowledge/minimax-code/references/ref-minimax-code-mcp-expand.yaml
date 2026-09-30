@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-mcp-expand
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/mcp/project-config.ts
+  start: 141
+  end: 152
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  if (resolved === undefined) throw new Error(`Missing environment variable: ${name}.`);
+        return resolved;
+      },
+    );
+  }
+  function expandRecord(value: unknown, env: NodeJS.ProcessEnv): Record<string, string> {
+    if (value === undefined) return {};
+    const record = readRecord(value);
+    if (!record) throw new Error('MCP env and headers must be string maps.');
+    return Object.fromEntries(Object.entries(record).map(([key, item]) => [key, expand(item, env)]));
+  }

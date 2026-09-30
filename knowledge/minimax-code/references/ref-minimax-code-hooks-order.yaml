@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-hooks-order
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-modules/plugin-hooks/src/runner.ts
+  start: 2274
+  end: 2293
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  function compareHandlers(left: PluginHookCommandHandler, right: PluginHookCommandHandler): number {
+    return (
+      left.pluginName.localeCompare(right.pluginName) ||
+      left.sourcePath.localeCompare(right.sourcePath) ||
+      left.declarationOrder - right.declarationOrder
+    );
+  }
+  function runDiagnostic(
+    handler: PluginHookCommandHandler,
+    code: PluginHookRunDiagnostic['code'],
+  ): PluginHookRunDiagnostic {
+    return {
+      code,
+      pluginName: handler.pluginName,
+      sourcePath: handler.sourcePath,
+      event: handler.event,
+      declarationOrder: handler.declarationOrder,
+    };
+  }

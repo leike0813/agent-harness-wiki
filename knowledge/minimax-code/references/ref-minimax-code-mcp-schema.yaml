@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-mcp-schema
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/mcp/contracts.ts
+  start: 65
+  end: 79
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export interface LocalMcpNativeToolInfo extends LocalMcpToolInfo {
+    server: string;
+    toolName: string;
+    nativeName: string;
+    transport: string;
+    builtin: boolean;
+    configured: boolean;
+    source: 'builtin-matrix' | 'builtin' | 'configured';
+  }
+  export interface LocalMcpServerConfig {
+    command?: string;
+    args?: string[];
+    env?: Record<string, string>;

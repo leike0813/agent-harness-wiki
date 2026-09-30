@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-hooks-input
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-modules/plugin-hooks/src/runner.ts
+  start: 1688
+  end: 1710
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  function serializeHookInput(input: PluginHookEventInput): string | undefined {
+    try {
+      const serialized = JSON.stringify({
+        ...(input.payload ?? {}),
+        hook_event_name: input.event,
+        session_id: input.sessionId,
+        ...(input.turnId ? { turn_id: input.turnId } : {}),
+        ...(input.promptId ? { prompt_id: input.promptId } : {}),
+        transcript_path: input.transcriptPath ?? null,
+        cwd: input.cwd,
+        ...(input.model ? { model: input.model } : {}),
+        ...(input.permissionMode ? { permission_mode: input.permissionMode } : {}),
+        ...(input.effort ? { effort: input.effort } : {}),
+      });
+      return Buffer.byteLength(serialized) <= MAX_INPUT_BYTES ? serialized : undefined;
+    } catch {
+      return undefined;
+    }
+  }

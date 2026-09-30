@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-wire-headers
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/model-system/resolution/model-resolver-helpers.ts
+  start: 13
+  end: 33
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export function buildLocalProviderHeaders(input: {
+    readonly headers?: Record<string, string>;
+    readonly managedProvider: boolean;
+    readonly routingContext?: ManagedBackendRoutingContext;
+    readonly sessionId: string;
+    readonly agentId: string;
+  }): Record<string, string> {
+    const headers: Record<string, string> = {
+      ...(input.headers ?? {}),
+      'X-Mavis-Session-Id': input.sessionId,
+      'X-Mavis-Agent-Id': input.agentId,
+      'X-Mavis-Timezone-Offset': String(new Date().getTimezoneOffset() * -60),
+    };
+    if (input.managedProvider) {
+      for (const key of Object.keys(headers)) {
+        if (key.toLowerCase() === 'bedrock-lane') delete headers[key];
+      }
+      headers['User-Agent'] = MANAGED_PROVIDER_USER_AGENT;

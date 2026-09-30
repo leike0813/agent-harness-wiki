@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-agents-resolve
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/agent/application/agent.service.ts
+  start: 472
+  end: 504
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  private async resolveAgentReadScopeRaw(requestRef: string): Promise<AgentReadScope> {
+      const requested = normalizeRequestRef(requestRef);
+      const metas = await this.options.repository.list();
+      const explicitName = parseExplicitName(requested);
+      if (explicitName !== undefined)
+        return this.resolveExplicitReadScope(requested, explicitName, metas);
+      const stableRequested = validateLookupName(requested);
+      const primaryScope = this.resolvePrimaryReadScope(requested, stableRequested, metas);
+      if (primaryScope) return primaryScope;
+      const role = resolveCanonicalSubagentRole(stableRequested);
+      if (role) return this.resolveRoleReadScope(stableRequested, role, metas);
+      const exact = metas.find((meta) => meta.name === stableRequested);

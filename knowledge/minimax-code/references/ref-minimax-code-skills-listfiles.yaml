@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-skills-listfiles
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-modules/skills/src/registry.ts
+  start: 481
+  end: 553
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  async function listSkillFiles(
+    root: CanonicalRoot,
+    diagnostics: SkillDiagnostic[],
+  ): Promise<SkillFileCandidate[]> {
+    let children;
+    try {
+      children = await fs.readdir(root.canonicalPath, { withFileTypes: true });
+    } catch (error) {
+      diagnostics.push({
+        level: 'warning',
+        code: 'root_unreadable',
+        rootId: root.id,
+        message: `Unable to read skill root: ${error instanceof Error ? error.message : String(error)}`,
+      });
+      return [];
+    }
+    const files: SkillFileCandidate[] = [];
+    for (const child of children) {
+      if (!child.isDirectory() && !child.isSymbolicLink()) continue;
+      const entryDir = path.join(root.canonicalPath, child.name);
+      let contentDir = entryDir;
+      let allowOutsideRoot = false;
+      if (child.isSymbolicLink()) {
+        try {

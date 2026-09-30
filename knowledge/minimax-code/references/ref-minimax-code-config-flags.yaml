@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-flags
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/config/src/config.ts
+  start: 1221
+  end: 1236
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  function cliArgValue(name: string): string | undefined {
+    const flag = `--${name}`;
+    for (let i = 2; i < process.argv.length; i++) {
+      const arg = process.argv[i];
+      if (arg === flag) return process.argv[i + 1];
+      if (arg?.startsWith(`${flag}=`)) return arg.slice(flag.length + 1);
+    }
+    return undefined;
+  }
+  function hasCliFlag(name: string): boolean {
+    const flag = `--${name}`;
+    return process.argv
+      .slice(2)
+      .some((arg) => arg === flag || arg.startsWith(`${flag}=`));
+  }

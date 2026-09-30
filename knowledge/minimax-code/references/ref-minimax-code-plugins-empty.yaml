@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-plugins-empty
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/plugin-system/plugin/package/minimax-reader.ts
+  start: 117
+  end: 132
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  const miniapp = await readOptionalMiniAppContribution(
+      root.path,
+      mcpServers.map((server) => server.name),
+    );
+    assertRequiredMiniApp(miniapp, options.requireMiniApp);
+    if (
+      apps.length +
+        mcpServers.length +
+        skills.length +
+        hostBindings.length +
+        hookResult.hooks.length ===
+        0 &&
+      !miniapp
+    ) {
+      readerFail('MANIFEST_SCHEMA_INVALID', 'MiniMax Plugin has no executable capability');
+    }

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-mcp-store-validate
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/mcp/runtime/settings-config.ts
+  start: 253
+  end: 266
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  return Object.fromEntries(normalized);
+  }
+  export async function replacementFileMode(filePath: string): Promise<number> {
+    if (process.platform === 'win32') return 0o600;
+    try {
+      const existingMode = (await fs.promises.stat(filePath)).mode & 0o777;
+      return existingMode & 0o600;
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === 'ENOENT') return 0o600;
+      throw error;
+    }
+  }

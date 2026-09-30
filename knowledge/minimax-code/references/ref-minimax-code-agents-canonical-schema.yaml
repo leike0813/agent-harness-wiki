@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-agents-canonical-schema
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/agent/storage/canonical-agent-config.ts
+  start: 16
+  end: 30
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export interface CanonicalAgentConfig {
+    readonly name: string;
+    readonly description: string;
+    readonly model?: string;
+    readonly effort?: string;
+    /** `undefined` inherits the runtime inventory; [] explicitly disables it. */
+    readonly tools?: readonly string[];
+    readonly disallowedTools?: readonly string[];
+    readonly mcpServers?: readonly string[];
+    readonly skills?: readonly string[];
+    readonly xMavis?: CanonicalAgentMavisConfig;
+    readonly systemPrompt: string;
+    /** Unknown keys are retained in the file and only surfaced as diagnostics. */
+    readonly diagnostics: readonly AgentConfigDiagnostic[];
+  }

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-sandbox-network
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/config/src/sandbox-config.ts
+  start: 135
+  end: 150
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  throw new Error(`Invalid sandbox.localAccess "${String(root.localAccess)}"`);
+              })(),
+    };
+  }
+  function strictRecord(
+    value: unknown,
+    path: string,
+    allowedKeys: readonly string[],
+  ): Record<string, unknown> {
+    if (value == null || typeof value !== 'object' || Array.isArray(value)) {
+      throw new Error(`Invalid ${path}: expected object`);
+    }
+    const record = value as Record<string, unknown>;
+    const unknown = Object.keys(record).find((key) => !allowedKeys.includes(key));
+    if (unknown) throw new Error(`Unknown ${path}.${unknown}`);

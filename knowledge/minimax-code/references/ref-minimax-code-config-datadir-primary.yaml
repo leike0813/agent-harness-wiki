@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-datadir-primary
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/config/src/data-dir.ts
+  start: 36
+  end: 45
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  function basenameForProfile(base: string, profile?: string | null): string {
+    return profile ? `${base}-${profile}` : base;
+  }
+  export function getPrimaryDataDirPath(homeDir?: string, profile?: string | null): string {
+    return path.join(resolveHomeDir(homeDir), basenameForProfile(NEW_DATA_DIR_BASENAME, profile));
+  }
+  export function getLegacyDataDirPath(homeDir?: string, profile?: string | null): string {
+    return path.join(resolveHomeDir(homeDir), basenameForProfile(LEGACY_DATA_DIR_BASENAME, profile));

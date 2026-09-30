@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-hooks-warnings
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/turn-system/agent-host/assembly/local-turn-plugin-hooks.ts
+  start: 134
+  end: 160
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  warning.category === 'system-message' || !seen.has(warningDedupeKey(input, warning)),
+        )
+        .slice(0, MAX_PLUGIN_HOOK_WARNINGS_PER_EVENT);
+      if (uniqueWarnings.length === 0) return;
+      try {
+        await reporter.appendEvents(
+          uniqueWarnings.map((warning) => {
+            const eventId = reporter.nextEventId('runtime_warning');
+            return buildRuntimeWarningEvent({
+              sessionId: input.sessionId,
+              turnId: input.turnId,
+              eventId,
+              runtimeSeq: reporter.nextRuntimeSeq(),
+              message: warning.message,
+              source: 'plugin-hook',
+              category: warning.category,
+              hookEvent: input.event,
+              ...(warning.code ? { code: warning.code } : {}),

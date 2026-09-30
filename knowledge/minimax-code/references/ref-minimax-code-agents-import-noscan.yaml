@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-agents-import-noscan
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/agent/application/agent-import.ts
+  start: 49
+  end: 61
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  const SECURITY_FIELD =
+    /(?:permission|sandbox|hook|security|credential|secret|token|password|authorization)/iu;
+  const SOURCE_NAME_SEPARATOR = /[^a-z0-9]+/gu;
+  const INLINE_SECRET_LITERAL =
+    /(?:\b(?:sk-[a-z0-9_-]{8,}|ghp_[a-z0-9]{20,}|github_pat_[a-z0-9_]{20,}|xox[baprs]-[a-z0-9-]{10,}|akia[0-9a-z]{16})\b|\bbearer\s+[a-z0-9._~+/=-]{12,}\b)/iu;
+  const INLINE_SECRET_ASSIGNMENT =
+    /^\s*["']?[a-z0-9_.-]*(?:api[_-]?key|access[_-]?key|secret|token|password|credential|authorization)[a-z0-9_.-]*["']?\s*(?:=|:)\s*(?<value>[^#\n]+?)\s*(?:#.*)?$/imu;
+  /**
+   * Stateless, content-only import normalization. This class intentionally has
+   * no filesystem dependency: the renderer submits bytes from its explicitly
+   * selected file and the Runtime never scans external tool directories.
+   */

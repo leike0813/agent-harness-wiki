@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-skills-slash
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/tui/src/tui/controller/run/active-run-flow.ts
+  start: 91
+  end: 126
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export function buildTuiSkillCommands(result: TuiSkillList): TuiCommand[] {
+    const builtinNames = new Set(
+      [...MINIMAX_CODE_COMMANDS, ...MINIMAX_CODE_ACTIVE_RUN_COMMANDS].flatMap((command) =>
+        [command.name, ...(command.aliases ?? [])].map((name) => name.toLocaleLowerCase()),
+      ),
+    );
+    const seen = new Set<string>();
+    return (result.skills ?? [])
+      .flatMap((skill): TuiCommand[] => {
+        const name = skill.name.trim().toLocaleLowerCase();
+        if (
+          skill.enabled === false ||
+          builtinNames.has(name) ||
+          seen.has(name) ||
+          !name ||
+          name.length > 128 ||
+          name !== sanitizeTerminalText(name) ||
+          /[\s/]/u.test(name)
+        ) {
+          return [];
+        }
+        seen.add(name);
+        return [
+          {
+            name,

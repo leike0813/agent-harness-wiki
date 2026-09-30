@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-agents-tool-ceilings
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-tools/src/desktop/canonical-tool-policy.ts
+  start: 31
+  end: 71
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  * owners cannot drift on Explore/Verifier/Worker semantics.
+   */
+  export function filterCanonicalNativeToolCeiling<T extends RuntimeTool>(
+    tools: readonly T[],
+    canonicalRole?: string,
+    builtinAgent = false,
+  ): T[] {
+    if (!builtinAgent || !canonicalRole || !isCanonicalSubagentRole(canonicalRole)) {
+      return [...tools];
+    }
+    if (canonicalRole === 'worker') {
+      return tools.filter((tool) => !DELEGATION_TOOL_NAMES.has(tool.def.name));
+    }
+    return tools.filter(
+      (tool) =>
+        !READ_ONLY_CANONICAL_BLOCKED_TOOL_NAMES.has(tool.def.name) &&
+        !isComputerUseRuntimeToolName(tool.def.name) &&
+        (canonicalRole !== 'explore' ||
+          !['task_query', 'task_output', 'task_stop'].includes(tool.def.name)),
+    );
+  }
+  /**

@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-skills-spi
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-extension/src/skills.ts
+  start: 84
+  end: 93
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  const DEFAULT_HEADER = '<available_skills>';
+  const DEFAULT_HEADER_CLOSE = '</available_skills>';
+  function wrapCatalog(catalog: string, header: string | null | undefined): string {
+    if (catalog.length === 0) return '';
+    if (header === null) return catalog;
+    if (header === undefined) return `${DEFAULT_HEADER}\n${catalog}\n${DEFAULT_HEADER_CLOSE}`;
+    const tagName = header.replace(/^<|>$/g, '').replace(/\s.*$/, '');
+    return `${header}\n${catalog}\n</${tagName}>`;
+  }

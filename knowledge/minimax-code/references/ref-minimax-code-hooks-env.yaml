@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-hooks-env
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-modules/plugin-hooks/src/runner.ts
+  start: 1771
+  end: 1796
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  function safeHookEnvironment(): NodeJS.ProcessEnv {
+    const inherited = [
+      'PATH',
+      'HOME',
+      'LANG',
+      'TERM',
+      'SHELL',
+      'USER',
+      'TMPDIR',
+      'TEMP',
+      'TMP',
+      'PATHEXT',
+      'SystemRoot',
+      'ComSpec',
+      'USERPROFILE',
+      'HOMEDRIVE',
+      'HOMEPATH',
+      'APPDATA',
+      'LOCALAPPDATA',
+    ];
+    return Object.fromEntries(
+      inherited.flatMap((name) => {
+        const value = process.env[name];
+        return value === undefined ? [] : [[name, value]];
+      }),
+    );

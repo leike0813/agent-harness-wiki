@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-mcp-profile-write
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/mcp/runtime/configuration.repository.ts
+  start: 60
+  end: 90
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  handle = await fs.promises.open(tempPath, 'wx', 0o600);
+      await handle.writeFile(`${JSON.stringify(file, null, 2)}\n`, 'utf8');
+      await handle.sync();
+      if (process.platform !== 'win32') await handle.chmod(targetMode);
+      await handle.close();
+      handle = undefined;
+      await fs.promises.rename(tempPath, filePath);
+    } catch {
+      try {
+        await handle?.close();
+      } catch {
+        /* Preserve storage error. */
+      }
+      try {
+        await fs.promises.unlink(tempPath);
+      } catch {
+        /* Preserve storage error. */
+      }
+      throw new LocalMcpSettingsError(
+        500,
+        'The MCP configuration could not be saved.',
+        'MCP_STORAGE_WRITE_FAILED',
+      );
+    }
+  }
+  function normalizeDocument(root: Record<string, unknown>, failClosed: boolean) {

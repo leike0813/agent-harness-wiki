@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-agents-task-control
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-tools/src/desktop/builtin-defs.ts
+  start: 618
+  end: 704
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  Read the work with task_output(task_id) after the owning conversation is woken
+  up by <background-task-finished>, and stop it with task_stop(task_id). Once the
+  append is admitted, ending or aborting the parent turn does not cancel the child.
+  Only the owner of the task may append to it, and only while its child Session
+  still exists and is not archived. Use the native mavis tool with command
+  "session send" when you want a synchronous reply from a Session by session_id
+  instead.`;
+  export const LocalTaskAppendToolDef = {
+    name: 'task_append',
+    executionMode: 'sequential',
+    description: LOCAL_TASK_APPEND_TOOL_DESCRIPTION,
+    schema: Type.Object({
+      task_id: Type.String({
+        description: 'The local task id to continue, as returned by task, task_append or task_query.',
+      }),

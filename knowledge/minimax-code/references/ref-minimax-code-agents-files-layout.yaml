@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-agents-files-layout
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/agent/storage/agent-files.ts
+  start: 113
+  end: 128
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  builtinAgentDir(name: string): string {
+      return join(this.dataDir, 'agents', '.builtin', name);
+    }
+    async ensureLayout(name: string): Promise<void> {
+      // New Custom Agents own only their canonical file (and optional avatar or
+      // skills supplied by the user).  Historical workspace/memory/session
+      // directories are never recreated by the V2 runtime.
+      await this.ensureSafeAgentDirectory(this.agentDir(name));
+    }
+    /**
+     * File truth for Custom Agents. Only direct child directories containing a
+     * fully valid canonical file become part of the public roster.
+     */
+    async listCanonicalCustomAgents(): Promise<readonly CanonicalCustomAgentFile[]> {

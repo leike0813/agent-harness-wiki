@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-agents-telemetry
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime/src/agent/subagent-telemetry.ts
+  start: 13
+  end: 32
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  */
+  export const SUBAGENT_TELEMETRY_EVENT = {
+    resolve: 'subagent.resolve',
+    nameCompatResolve: 'agent_name_compat.resolve',
+    resourceAmbiguity: 'agent_name_compat.resource_ambiguity',
+    agentRoleObservation: 'agent_role.observation',
+    primaryProfileOverlay: 'agent_name_compat.primary_profile_overlay',
+    toolPolicy: 'subagent.tool_policy',
+    finish: 'subagent.finish',
+  } as const;
+  const SUBAGENT_TELEMETRY_METRIC = {
+    [SUBAGENT_TELEMETRY_EVENT.resolve]: 'subagent_resolve_total',
+    [SUBAGENT_TELEMETRY_EVENT.nameCompatResolve]: 'agent_name_compat_resolve_total',
+    [SUBAGENT_TELEMETRY_EVENT.resourceAmbiguity]: 'agent_name_compat_resource_ambiguity_total',
+    [SUBAGENT_TELEMETRY_EVENT.agentRoleObservation]: 'agent_role_observation_total',

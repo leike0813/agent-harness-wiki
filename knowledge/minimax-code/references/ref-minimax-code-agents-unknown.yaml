@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-agents-unknown
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime/src/api/local-task-runner.ts
+  start: 52
+  end: 56
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  const conversation = requireTaskConversation(input.host);
+    const target = await resolveLocalTaskAgentTarget(input.host, taskInput.agent_name);
+    if (!target) {
+      // No runnable target, so there is nothing to track: the failure carries no
+      // task handle because no task row was ever created.

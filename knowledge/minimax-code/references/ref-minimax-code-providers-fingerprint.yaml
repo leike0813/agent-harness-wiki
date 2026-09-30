@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-fingerprint
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/model-system/catalog/config-fingerprint.ts
+  start: 11
+  end: 59
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  mergeProviderHeaders,
+    normalizeProviderBaseUrl,
+    type ModelProviderApi,
+  } from '../connectivity/provider-request.js';
+  export function byokModelTestStatus(
+    config: LocalRuntimeConfig,
+    cache: ModelCacheData,
+    providerId: string,
+    modelId: string,
+  ): ModelCacheStatusEntry | undefined {
+    const parsed = parseProviderId(providerId);
+    if (parsed?.source === 'minimax_api') {
+      return minimaxModelTestStatus(config, cache, modelId);
+    }
+    if (parsed?.source !== 'custom_provider') return undefined;
+    return customModelTestStatus({
+      config,
+      cache,
+      providerId,
+      providerKey: parsed.providerKey,
+      modelId,
+    });
+  }
+  function minimaxModelTestStatus(
+    config: LocalRuntimeConfig,
+    cache: ModelCacheData,
+    modelId: string,
+  ): ModelCacheStatusEntry | undefined {

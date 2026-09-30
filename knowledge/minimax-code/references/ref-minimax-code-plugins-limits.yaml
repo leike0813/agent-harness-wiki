@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-plugins-limits
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/plugin-system/plugin/package/package-contract.ts
+  start: 7
+  end: 20
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  import { isMiniAppRuntimePayloadExcludedPath, isPathCoveredByRoots } from './miniapp/path.js';
+  export const PLUGIN_PACKAGE_V1_LIMITS = {
+    maxArchiveBytes: 64 * 1024 * 1024,
+    maxArchiveEntries: 2_048,
+    maxFiles: 1_024,
+    maxFileBytes: 16 * 1024 * 1024,
+    maxTotalBytes: 64 * 1024 * 1024,
+    maxPathBytes: 512,
+    maxSegmentBytes: 128,
+    maxPathSegments: 16,
+  } as const;
+  const CONTENT_MAGIC = Buffer.from('MINIMAX-PLUGIN-CONTENT-DIGEST\0', 'ascii');

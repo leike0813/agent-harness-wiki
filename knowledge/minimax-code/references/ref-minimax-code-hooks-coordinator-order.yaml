@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-hooks-coordinator-order
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-modules/plugin-hooks/src/coordinator.ts
+  start: 322
+  end: 345
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  if (compactIdentities) {
+        state.pendingCompactPluginIdentities = undefined;
+        if (compacting.length > 0) {
+          compactResult = await this.runner.run(
+            compacting.flatMap(([, plugin]) => plugin.handlers),
+            eventInput('SessionStart', input, { source: 'compact' }, 'compact'),
+            input.signal,
+          );
+          startResults.push(compactResult);
+          if (stopsTurnLifecycle(compactResult)) {
+            return mergeRunResults(startResults);
+          }
+        }
+      }
+      let activationResult: PluginHookRunResult | undefined;
+      if (starting.length > 0) {
+        activationResult = await this.runner.run(
+          starting.flatMap(([, plugin]) => plugin.handlers),
+          eventInput('SessionStart', input, { source: startSource }, startSource),

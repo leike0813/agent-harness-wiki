@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-skills-watch
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-modules/skills/src/registry.ts
+  start: 302
+  end: 340
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  const runScheduledFlush = () => {
+        if (closed || refreshInFlight || pendingRoots.size === 0) return;
+        refreshInFlight = true;
+        void flushChanges();
+      };
+      const scheduleFlush = () => {
+        if (closed || refreshInFlight) return;
+        if (debounceTimer) clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(runScheduledFlush, WATCH_DEBOUNCE_MS);
+        maxWaitTimer ??= setTimeout(runScheduledFlush, WATCH_MAX_WAIT_MS);
+      };
+      const scheduleChange = (root: SkillSourceRoot) => {
+        if (closed) return;
+        pendingRoots.set(root.id, root);
+        scheduleFlush();
+      };
+      armWatchers();
+      return {
+        rearm() {
+          armWatchers();
+        },
+        close() {
+          closed = true;
+          clearFlushTimers();
+          closeWatchers();
+        },
+      };
+    }

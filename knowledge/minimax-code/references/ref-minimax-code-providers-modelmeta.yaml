@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-modelmeta
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/config/src/config.ts
+  start: 1085
+  end: 1130
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export interface ModelConfig {
+    id?: string;
+    name?: string;
+    enabled?: boolean;
+    family?: string;
+    release_date?: string;
+    configuration_source?: ModelConfigurationSource;
+    attachment?: boolean;
+    reasoning?: boolean;
+    temperature?: boolean;
+    tool_call?: boolean;
+    interleaved?: true | { field: "reasoning_content" | "reasoning_details" };
+    cost?: ModelCost;
+    limit?: ModelLimit;
+    /** Ordered context choices advertised by the managed model catalog. */
+    contextWindowOptions?: number[];
+    /** Derived by managed catalogue sync; never read from a selection request. */
+    parameterErrors?: { contextOptions?: true; effortOptions?: true };
+    /** Semantic UI hints keyed by decimal context-window size. */
+    contextWindowOptionHints?: Record<string, ModelContextWindowOptionHint>;

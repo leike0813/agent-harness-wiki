@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-skills-catalog-render
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime/src/skills/catalog.ts
+  start: 347
+  end: 356
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  function renderCatalog(
+    skills: readonly PreparedSkill[],
+    descriptionLengths: readonly number[],
+    notice?: string,
+  ): string {
+    const entries = skills.map((skill, index) => {
+      const description = skill.description.slice(0, descriptionLengths[index] ?? 0).join('');
+      return description ? `- ${skill.name}: ${description}` : `- ${skill.name}`;
+    });
+    return `<available_skills>\n${[...(notice ? [notice] : []), ...entries].join('\n')}\n</available_skills>`;

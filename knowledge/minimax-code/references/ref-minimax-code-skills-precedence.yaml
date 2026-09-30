@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-skills-precedence
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-modules/skills/src/registry.ts
+  start: 1025
+  end: 1067
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  function resolvePrecedence(entries: SkillEntry[]): {
+    winners: SkillViewEntry[];
+    losers: SkillLoser[];
+  } {
+    const byName = new Map<string, SkillEntry[]>();
+    for (const entry of entries) {
+      const group = byName.get(entry.name) ?? [];
+      group.push(entry);
+      byName.set(entry.name, group);
+    }
+    const winners: SkillViewEntry[] = [];
+    const losers: SkillLoser[] = [];
+    for (const group of byName.values()) {
+      const sorted = sortEntries(group);
+      const [winner, ...shadowed] = sorted;
+      if (!winner) {
+        continue;
+      }
+      const winnerLosers: SkillLoser[] = shadowed.map((entry) => ({
+        entry,
+        reason: `Shadowed by ${winner.rootKind} source ${winner.locationUri}`,
+        winnerLocationUri: winner.locationUri,
+      }));
+      losers.push(...winnerLosers);

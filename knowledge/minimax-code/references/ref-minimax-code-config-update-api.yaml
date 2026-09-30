@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-update-api
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime/src/config/update.ts
+  start: 9
+  end: 25
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  // BYOK trees ('minimax_api', 'custom_provider') are intentionally excluded
+  // from both whitelists below: they hold plaintext API keys and must only be
+  // written through the dedicated ModelProvider API. Allowing them here would
+  // reopen the masked-value read-modify-write hazard — GET /config returns
+  // masked keys, so writing that payload back would clobber the real keys.
+  const LOCAL_CONFIG_MUTABLE_FIELDS = new Set([
+    'permissionMode',
+    'defaultModel',
+    'defaultModelVariant',
+    'defaultLightModel',
+    'provider',
+    'asr',
+    'sseErrorPush',
+    'beta',
+    'nexus',
+    'thinking',

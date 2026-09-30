@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-plugins-snapshot
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/plugin-system/plugin/runtime/snapshot-builder.ts
+  start: 243
+  end: 296
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  function appendOfficialPackages(
+    packages: readonly OfficialSnapshotPackageInput[],
+    state: SnapshotBuildState,
+  ): void {
+    const sorted = [...packages].sort(
+      (left, right) =>
+        collisionKey(left.plugin.name).localeCompare(collisionKey(right.plugin.name)) ||
+        left.contentDigest.localeCompare(right.contentDigest),
+    );
+    for (const entry of sorted) {
+      const accepted = acceptPackageCapabilities({
+        plugin: entry.plugin,
+        packageContentDigest: entry.contentDigest,
+        sourceKind: 'official',
+        includeRuntimeCapabilities: true,
+        ...capabilityCollisionState(state),
+      });
+      if (!accepted) continue;
+      state.officialPackages.push(
+        freeze({
+          name: entry.plugin.name,
+          ...(entry.plugin.version ? { version: entry.plugin.version } : {}),

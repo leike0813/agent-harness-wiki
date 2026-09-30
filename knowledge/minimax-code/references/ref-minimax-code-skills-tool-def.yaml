@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-skills-tool-def
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-tools/src/desktop/builtin-defs.ts
+  start: 254
+  end: 271
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export const LocalSkillToolDef = {
+    name: 'skill',
+    executionMode: 'parallel',
+    description:
+      'Loads the complete SKILL.md instructions for an available local or plugin skill.\n\n' +
+      '- Load a skill when the user explicitly names it (including `/name`), or its name and description in `available_skills` clearly match the request or linked resource. Do not load unrelated skills.\n' +
+      '- Set `name` to an exact catalog name or one the user explicitly provided, without a leading slash; preserve any `plugin:skill` prefix. Do not guess names or invoke built-in CLI commands such as `/help` or `/clear`.\n' +
+      '- Before related task actions, make this the first and only tool call in the assistant step.

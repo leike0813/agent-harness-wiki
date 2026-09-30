@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-doc-faq-acp
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-docs-faq
+locator:
+  kind: document_section
+  heading: ACP and plugins
+official_url: "https://agent.minimax.io/docs/cli/faq.md"
+excerpt: |-
+  ## ACP and plugins
+    <AccordionGroup>
+      <Accordion title="Why does an ACP client receive malformed responses?">
+        `mcode acp` reserves stdin/stdout for ACP protocol messages; logs and diagnostics go to stderr. Do not write natural language directly to the ACP process or mix wrapper logs into stdout. If the editor cannot find `mcode`, configure the absolute executable path and restart the editor.
+      </Accordion>
+      <Accordion title="What should I do when a plugin install or refresh fails?">
+        Run `mcode plugin marketplace list` and `mcode plugin list --available` first. Specify `<plugin>@official` or `<plugin>@local` when names collide. Refresh marketplace snapshots with `mcode plugin marketplace upgrade`; the local source is the `plugins` directory under the data directory.

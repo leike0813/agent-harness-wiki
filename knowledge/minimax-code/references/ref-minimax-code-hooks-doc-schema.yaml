@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-hooks-doc-schema
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: docs/hooks.md
+  start: 11
+  end: 31
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  script can use `console.log(JSON.stringify({ systemMessage: "Checks complete." }))`.
+  This is the script's output, not the Hook registration document.
+  For a MiniMax-format Plugin, reference the Hook file in the manifest's `hooks`
+  array, for example `"hooks": ["hooks/notify.json"]`. A registration document for
+  an existing Plugin with a `scripts/notice.cjs` file looks like this:
+  ```json
+  {
+    "hooks": {
+      "Stop": [{
+        "hooks": [{
+          "type": "command",
+          "command": "node \"${PLUGIN_ROOT}/scripts/notice.cjs\"",
+          "timeout": 5
+        }]
+      }]
+    }
+  }
+  ```

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-mcp-name-registry
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/agent-modules/mcp/src/runtime/name-registry.ts
+  start: 55
+  end: 101
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export class McpNameRegistry {
+    private state: State = { version: 1, servers: [] };
+    constructor(private readonly filePath?: string) {}
+    assignServers(candidates: readonly McpNameCandidate[]): McpNameAssignments {
+      return this.transaction(() => {
+        const existing = new Map(this.state.servers.map((entry) => [entry.key, entry]));
+        const result = allocate(
+          candidates,
+          new Map(this.state.servers.map((entry) => [entry.key, entry.segment])),
+          'server',
+          MCP_RUNTIME_SERVER_SEGMENT_MAX_LENGTH,
+        );
+        for (const candidate of candidates) {
+          const segment = result.names.get(candidate.key);
+          if (segment && !existing.has(candidate.key)) {
+            const entry = { key: candidate.key, raw: candidate.name, segment, tools: [] };

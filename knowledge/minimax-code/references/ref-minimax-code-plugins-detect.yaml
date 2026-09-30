@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-plugins-detect
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/plugin-system/plugin/package/package-readers.ts
+  start: 142
+  end: 165
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  };
+    }
+  }
+  async function detectLocalPluginPackage(
+    rootPath: string,
+    root: Awaited<ReturnType<typeof canonicalizePluginRoot>>,
+  ): Promise<ReadPluginPackage | undefined> {
+    if (await pluginPathExists(root, 'plugin.json', 'file')) {
+      const agentPlugin = await tryReadAgentPluginPackage(rootPath);
+      if (agentPlugin) return agentPlugin;
+    }
+    const compatibleManifestPath = '.\u0063\u006c\u0061\u0075\u0064\u0065-plugin/plugin.json';
+    const manifests = {
+      hasMiniMax: await pluginPathExists(root, '.minimax-plugin/plugin.json', 'file'),
+      hasCompatible: await pluginPathExists(root, compatibleManifestPath, 'file'),
+      hasCodex: await pluginPathExists(root, '.codex-plugin/plugin.json', 'file'),
+    };

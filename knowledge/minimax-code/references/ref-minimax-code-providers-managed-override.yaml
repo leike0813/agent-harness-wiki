@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-managed-override
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/config/src/byok-config.ts
+  start: 288
+  end: 301
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  // config.yaml lives in the user-writable dataDir, so the provider tree cannot
+  // be trusted as-is: the builtin managed provider may be deleted or hand-edited.
+  // In managed runtime every read restores a usable `provider.minimax`: a missing
+  // or gutted entry is rebuilt from the current preset and missing models/npm are
+  // backfilled. Protected builds additionally force `baseURL` and `authMode` back
+  // to the current preset with managed-login. Test builds deliberately preserve
+  // existing connection fields so developers can route the builtin provider
+  // through a local fault-injection proxy. In non-managed dev/runtime, an existing
+  // `provider.minimax` that explicitly points at a managed preset gateway still
+  // gets the built-in model table only when its managed snapshot is absent, but

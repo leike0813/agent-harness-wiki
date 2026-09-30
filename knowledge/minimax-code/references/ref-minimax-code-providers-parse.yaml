@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-parse
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo
+locator:
+  kind: file_lines
+  file: packages/config/src/byok-config.ts
+  start: 97
+  end: 106
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  export function parseCustomProvidersConfig(raw: unknown): CustomProvidersConfig | undefined {
+    if (raw == null || typeof raw !== 'object' || Array.isArray(raw)) return undefined;
+    const entries = Object.entries(raw as Record<string, unknown>).filter(
+      ([, value]) => value != null && typeof value === 'object' && !Array.isArray(value),
+    );
+    if (entries.length === 0) return undefined;
+    return Object.fromEntries(
+      entries.map(([providerKey, provider]) => [
+        providerKey,
+        normalizeLegacyThinkingEffort(provider as Record<string, unknown>),
