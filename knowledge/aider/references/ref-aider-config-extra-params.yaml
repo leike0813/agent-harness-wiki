@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-config-extra-params
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: document_section
+  heading: Passing extra params to litellm.completion
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  The `extra_params` attribute of model settings is used to pass arbitrary
+  extra parameters to the `litellm.completion()` call when sending data
+  to the given model.
+  For example:
+  ```yaml
+  - name: some-provider/my-special-model
+    extra_params:
+      extra_headers:
+        Custom-Header: value
+      max_tokens: 8192
+  ```
+  You can use the special model name `aider/extra_params` to define
+  `extra_params` that will be passed to `litellm.completion()` for all models.
+  Only the `extra_params` dict is used from this special model name.
+  For example:
+  ```yaml
+  - name: aider/extra_params
+    extra_params:
+      extra_headers:
+        Custom-Header: value
+      max_tokens: 8192
+  ```
+  These settings will be merged with any model-specific settings, with the

@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-main-search-path
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/main.py
+  start: 305
+  end: 332
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def generate_search_path_list(default_file, git_root, command_line_file):
+      files = []
+      files.append(Path.home() / default_file)  # homedir
+      if git_root:
+          files.append(Path(git_root) / default_file)  # git root
+      files.append(default_file)
+      if command_line_file:
+          files.append(command_line_file)
+      resolved_files = []
+      for fn in files:
+          try:
+              resolved_files.append(Path(fn).resolve())
+          except OSError:
+              pass
+      files = resolved_files
+      files.reverse()
+      uniq = []
+      for fn in files:
+          if fn not in uniq:
+              uniq.append(fn)
+      uniq.reverse()
+      files = uniq
+      files = list(map(str, files))
+      files = list(dict.fromkeys(files))
+      return files

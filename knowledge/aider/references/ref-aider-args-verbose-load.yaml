@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-args-verbose-load
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/args.py
+  start: 765
+  end: 780
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  group.add_argument(
+          "-v",
+          "--verbose",
+          action="store_true",
+          help="Enable verbose output",
+          default=False,
+      )
+      group.add_argument(
+          "--load",
+          metavar="LOAD_FILE",
+          help="Load and execute /commands from a file on launch",
+      ).complete = shtab.FILE
+      group.add_argument(
+          "--encoding",
+          default="utf-8",
+          help="Specify the encoding for input and output (default: utf-8)",

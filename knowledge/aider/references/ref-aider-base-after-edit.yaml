@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-base-after-edit
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/coders/base_coder.py
+  start: 1598
+  end: 1628
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  if edited and self.auto_lint:
+              lint_errors = self.lint_edited(edited)
+              self.auto_commit(edited, context="Ran the linter")
+              self.lint_outcome = not lint_errors
+              if lint_errors:
+                  ok = self.io.confirm_ask("Attempt to fix lint errors?")
+                  if ok:
+                      self.reflected_message = lint_errors
+                      return
+          shared_output = self.run_shell_commands()
+          if shared_output:
+              self.cur_messages += [
+                  dict(role="user", content=shared_output),
+                  dict(role="assistant", content="Ok"),
+              ]
+          if edited and self.auto_test:
+              test_errors = self.commands.cmd_test(self.test_cmd)
+              self.test_outcome = not test_errors

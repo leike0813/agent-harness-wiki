@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-main-verbose-model
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/main.py
+  start: 875
+  end: 884
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  if args.verbose:
+          io.tool_output("Model metadata:")
+          io.tool_output(json.dumps(main_model.info, indent=4))
+          io.tool_output("Model settings:")
+          for attr in sorted(fields(ModelSettings), key=lambda x: x.name):
+              val = getattr(main_model, attr.name)
+              val = json.dumps(val, indent=4)
+              io.tool_output(f"{attr.name}: {val}")

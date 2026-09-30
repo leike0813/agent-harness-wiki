@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-main-env-writes
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/main.py
+  start: 589
+  end: 636
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  # Process any environment variables set via --set-env
+      if args.set_env:
+          for env_setting in args.set_env:
+              try:
+                  name, value = env_setting.split("=", 1)
+                  os.environ[name.strip()] = value.strip()
+              except ValueError:
+                  io.tool_error(f"Invalid --set-env format: {env_setting}")
+                  io.tool_output("Format should be: ENV_VAR_NAME=value")
+                  return 1
+      # Process any API keys set via --api-key
+      if args.api_key:
+          for api_setting in args.api_key:
+              try:
+                  provider, key = api_setting.split("=", 1)
+                  env_var = f"{provider.strip().upper()}_API_KEY"
+                  os.environ[env_var] = key.strip()
+              except ValueError:

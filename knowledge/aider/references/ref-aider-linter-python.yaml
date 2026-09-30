@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-linter-python
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/linter.py
+  start: 119
+  end: 145
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  basic_res = basic_lint(rel_fname, code)
+          compile_res = lint_python_compile(fname, code)
+          flake_res = self.flake8_lint(rel_fname)
+          text = ""
+          lines = set()
+          for res in [basic_res, compile_res, flake_res]:
+              if not res:
+                  continue
+              if text:
+                  text += "\n"
+              text += res.text
+              lines.update(res.lines)
+          if text or lines:
+              return LintResult(text, lines)
+      def flake8_lint(self, rel_fname):
+          fatal = "E9,F821,F823,F831,F406,F407,F701,F702,F704,F706"
+          flake8_cmd = [
+              sys.executable,
+              "-m",
+              "flake8",
+              f"--select={fatal}",
+              "--show-source",
+              "--isolated",
+              rel_fname,

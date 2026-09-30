@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-cmd-test-run
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/commands.py
+  start: 993
+  end: 1055
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def cmd_test(self, args):
+          "Run a shell command and add the output to the chat on non-zero exit code"
+          if not args and self.coder.test_cmd:
+              args = self.coder.test_cmd
+          if not args:
+              return
+          if not callable(args):
+              if type(args) is not str:
+                  raise ValueError(repr(args))
+              return self.cmd_run(args, True)
+          errors = args()
+          if not errors:
+              return
+          self.io.tool_output(errors)
+          return errors
+      def cmd_run(self, args, add_on_nonzero_exit=False):
+          "Run a shell command and optionally add the output to the chat (alias: !)"
+          exit_status, combined_output = run_cmd(
+              args, verbose=self.verbose, error_print=self.io.tool_error, cwd=self.coder.root

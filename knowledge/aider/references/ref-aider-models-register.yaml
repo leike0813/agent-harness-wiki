@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-models-register
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/models.py
+  start: 1085
+  end: 1110
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def register_models(model_settings_fnames):
+      files_loaded = []
+      for model_settings_fname in model_settings_fnames:
+          if not os.path.exists(model_settings_fname):
+              continue
+          if not Path(model_settings_fname).read_text().strip():
+              continue
+          try:
+              with open(model_settings_fname, "r") as model_settings_file:
+                  model_settings_list = yaml.safe_load(model_settings_file)
+              for model_settings_dict in model_settings_list:
+                  model_settings = ModelSettings(**model_settings_dict)
+                  # Remove all existing settings for this model name
+                  MODEL_SETTINGS[:] = [ms for ms in MODEL_SETTINGS if ms.name != model_settings.name]
+                  # Add the new settings

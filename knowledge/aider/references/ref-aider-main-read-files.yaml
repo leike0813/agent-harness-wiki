@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-main-read-files
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/main.py
+  start: 682
+  end: 694
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  for fn in args.read or []:
+          path = Path(fn).expanduser().resolve()
+          if path.is_dir():
+              read_only_fnames.extend(str(f) for f in path.rglob("*") if f.is_file())
+          else:
+              read_only_fnames.append(str(path))
+      if len(all_files) > 1:
+          good = True
+          for fname in all_files:
+              if Path(fname).is_dir():
+                  io.tool_error(f"{fname} is a directory, not provided alone.")
+                  good = False

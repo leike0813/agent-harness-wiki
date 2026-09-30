@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-config-reasoning-tag
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: document_section
+  heading: Thinking tokens in XML tags
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  There is also a `reasoning_tag` setting, which takes the name of an XML tag
+  that the model uses to wrap its reasoning/thinking output.
+  For example when using DeepSeek R1 from Fireworks, the reasoning comes back inside
+  `<think>...</think>` tags, so aider's settings
+  include `reasoning_tag: think`.
+  ```
+  <think>
+  The user wants me to greet them!
+  </think>
+  Hello!
+  ```
+  Aider will display the thinking/reasoning output,
+  but it won't be used for file editing instructions, added to the chat history, etc.
+  Aider will rely on the non-thinking output for instructions on how to make code changes, etc.
+  ### Model-specific reasoning tags
+  Different models use different XML tags for their reasoning:

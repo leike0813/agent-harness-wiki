@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-main-config-load
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/main.py
+  start: 464
+  end: 506
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  conf_fname = Path(".aider.conf.yml")
+      default_config_files = []
+      try:
+          default_config_files += [conf_fname.resolve()]  # CWD
+      except OSError:
+          pass
+      if git_root:
+          git_conf = Path(git_root) / conf_fname  # git root
+          if git_conf not in default_config_files:
+              default_config_files.append(git_conf)
+      default_config_files.append(Path.home() / conf_fname)  # homedir
+      default_config_files = list(map(str, default_config_files))
+      parser = get_parser(default_config_files, git_root)
+      try:
+          args, unknown = parser.parse_known_args(argv)
+      except AttributeError as e:
+          if all(word in str(e) for word in ["bool", "object", "has", "no", "attribute", "strip"]):
+              if check_config_files_for_yes(default_config_files):

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-config-metadata
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: document_section
+  heading: Context window size and token costs
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  In most cases, you can safely ignore aider's warning about unknown context
+  window size and model costs.
+  {: .note }
+  Aider never *enforces* token limits, it only *reports* token limit errors
+  from the API provider.
+  You probably don't need to
+  configure aider with the proper token limits
+  for unusual models.
+  But, you can register context window limits and costs for models that aren't known
+  to aider. Create a `.aider.model.metadata.json` file in one of these locations:
+  - Your home directory.
+  - The root if your git repo.
+  - The current directory where you launch aider.
+  - Or specify a specific file with the `--model-metadata-file <filename>` switch.
+  If the files above exist, they will be loaded in that order.
+  Files loaded last will take priority.

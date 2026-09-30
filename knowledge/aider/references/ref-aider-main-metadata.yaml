@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-main-metadata
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/main.py
+  start: 390
+  end: 420
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def register_litellm_models(git_root, model_metadata_fname, io, verbose=False):
+      model_metadata_files = []
+      # Add the resource file path
+      resource_metadata = importlib_resources.files("aider.resources").joinpath("model-metadata.json")
+      model_metadata_files.append(str(resource_metadata))
+      model_metadata_files += generate_search_path_list(
+          ".aider.model.metadata.json", git_root, model_metadata_fname
+      )
+      try:
+          model_metadata_files_loaded = models.register_litellm_models(model_metadata_files)
+          if len(model_metadata_files_loaded) > 0 and verbose:
+              io.tool_output("Loaded model metadata from:")
+              for model_metadata_file in model_metadata_files_loaded:
+                  io.tool_output(f"  - {model_metadata_file}")  # noqa: E221

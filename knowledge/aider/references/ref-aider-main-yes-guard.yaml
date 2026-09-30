@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-main-yes-guard
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/main.py
+  start: 43
+  end: 57
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def check_config_files_for_yes(config_files):
+      found = False
+      for config_file in config_files:
+          if Path(config_file).exists():
+              try:
+                  with open(config_file, "r") as f:
+                      for line in f:
+                          if line.strip().startswith("yes:"):
+                              print("Configuration error detected.")
+                              print(f"The file {config_file} contains a line starting with 'yes:'")
+                              print("Please replace 'yes:' with 'yes-always:' in this file.")
+                              found = True
+              except Exception:
+                  pass
+      return found

@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-base-create
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/coders/base_coder.py
+  start: 125
+  end: 200
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def create(
+          self,
+          main_model=None,
+          edit_format=None,
+          io=None,
+          from_coder=None,
+          summarize_from_coder=True,
+          **kwargs,
+      ):
+          import aider.coders as coders
+          if not main_model:
+              if from_coder:
+                  main_model = from_coder.main_model
+              else:
+                  main_model = models.Model(models.DEFAULT_MODEL_NAME)
+          if edit_format == "code":
+              edit_format = None
+          if edit_format is None:
+              if from_coder:
+                  edit_format = from_coder.edit_format
+              else:
+                  edit_format = main_model.edit_format
+          if not io and from_coder:
+              io = from_coder.io
+          if from_coder:

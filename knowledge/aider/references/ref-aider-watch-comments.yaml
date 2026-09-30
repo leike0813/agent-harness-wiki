@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-watch-comments
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/watch.py
+  start: 257
+  end: 282
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def get_ai_comments(self, filepath):
+          """Extract AI comment line numbers, comments and action status from a file"""
+          line_nums = []
+          comments = []
+          has_action = None  # None, "!" or "?"
+          content = self.io.read_text(filepath, silent=True)
+          if not content:
+              return None, None, None
+          for i, line in enumerate(content.splitlines(), 1):
+              if match := self.ai_comment_pattern.search(line):
+                  comment = match.group(0).strip()
+                  if comment:
+                      line_nums.append(i)
+                      comments.append(comment)
+                      comment = comment.lower()
+                      comment = comment.lstrip("/#-;")  # Added semicolon for Lisp comments
+                      comment = comment.strip()

@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-linter-errors
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/linter.py
+  start: 70
+  end: 80
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def errors_to_lint_result(self, rel_fname, errors):
+          if not errors:
+              return
+          linenums = []
+          filenames_linenums = find_filenames_and_linenums(errors, [rel_fname])
+          if filenames_linenums:
+              filename, linenums = next(iter(filenames_linenums.items()))
+              linenums = [num - 1 for num in linenums]
+          return LintResult(text=errors, lines=linenums)

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-config-reasoning-limits
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: document_section
+  heading: "Temperature, streaming and system prompt"
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  Reasoning models often have specific requirements for these settings:
+  | Setting | Description | Common Restrictions |
+  |---------|-------------|---------------------|
+  | `use_temperature` | Whether to use temperature sampling | Many reasoning models require this set to `false` |
+  | `streaming` | Whether to stream responses | Some reasoning models don't support streaming |
+  | `use_system_prompt` | Whether to use system prompt | Some reasoning models don't support system prompts |
+  It may be helpful to find one of the
+  [existing model setting configuration entries](https://github.com/Aider-AI/aider/blob/main/aider/resources/model-settings.yml)
+  for the model you are interested in, say o3-mini:
+  ```yaml
+  - name: o3-mini
+    edit_format: diff
+    weak_model_name: gpt-4o-mini
+    use_repo_map: true

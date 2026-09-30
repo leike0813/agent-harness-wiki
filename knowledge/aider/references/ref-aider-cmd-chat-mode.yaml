@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-cmd-chat-mode
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/commands.py
+  start: 138
+  end: 210
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def cmd_chat_mode(self, args):
+          "Switch to a new chat mode"
+          from aider import coders
+          ef = args.strip()
+          valid_formats = OrderedDict(
+              sorted(
+                  (
+                      coder.edit_format,
+                      coder.__doc__.strip().split("\n")[0] if coder.__doc__ else "No description",
+                  )
+                  for coder in coders.__all__
+                  if getattr(coder, "edit_format", None)
+              )
+          )
+          show_formats = OrderedDict(
+              [
+                  ("help", "Get help about using aider (usage, config, troubleshoot)."),
+                  ("ask", "Ask questions about your code without making any changes."),
+                  ("code", "Ask for changes to your code (using the best edit format)."),

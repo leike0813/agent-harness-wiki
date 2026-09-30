@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-models-configure
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/models.py
+  start: 395
+  end: 425
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  # Initialize accepts_settings if it's None
+          if self.accepts_settings is None:
+              self.accepts_settings = []
+          model = model.lower()
+          # If no exact match, try generic settings
+          if not exact_match:
+              self.apply_generic_model_settings(model)
+          # Apply override settings last if they exist
+          if (
+              self.extra_model_settings
+              and self.extra_model_settings.extra_params
+              and self.extra_model_settings.name == "aider/extra_params"
+          ):
+              # Initialize extra_params if it doesn't exist
+              if not self.extra_params:
+                  self.extra_params = {}
+              # Deep merge the extra_params dicts
+              for key, value in self.extra_model_settings.extra_params.items():

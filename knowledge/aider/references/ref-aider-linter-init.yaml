@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-linter-init
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/linter.py
+  start: 22
+  end: 37
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def __init__(self, encoding="utf-8", root=None):
+          self.encoding = encoding
+          self.root = root
+          self.languages = dict(
+              python=self.py_lint,
+          )
+          self.all_lint_cmd = None
+      def set_linter(self, lang, cmd):
+          if lang:
+              self.languages[lang] = cmd
+              return
+          self.all_lint_cmd = cmd

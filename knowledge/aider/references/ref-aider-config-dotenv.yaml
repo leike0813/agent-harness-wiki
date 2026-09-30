@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-config-dotenv
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: document_section
+  heading: Config with .env
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  You can use a `.env` file to store API keys and other settings for the
+  models you use with aider.
+  You can also set many general aider options
+  in the `.env` file.
+  Aider will look for a `.env` file in these locations:
+  - Your home directory.
+  - The root of your git repo.
+  - The current directory.
+  - As specified with the `--env-file <filename>` parameter.
+  If the files above exist, they will be loaded in that order. Files loaded last will take priority.
+  {% include keys.md %}
+  ## Sample .env file
+  Below is a sample `.env` file, which you
+  can also
+  [download from GitHub](https://github.com/Aider-AI/aider/blob/main/aider/website/assets/sample.env).
+  <!--[[[cog
+  from aider.args import get_sample_dotenv
+  from pathlib import Path
+  text=get_sample_dotenv()

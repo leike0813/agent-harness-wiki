@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-base-lint-edited
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/coders/base_coder.py
+  start: 1681
+  end: 1700
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def lint_edited(self, fnames):
+          res = ""
+          for fname in fnames:
+              if not fname:
+                  continue
+              errors = self.linter.lint(self.abs_root_path(fname))
+              if errors:
+                  res += "\n"
+                  res += errors
+                  res += "\n"
+          if res:
+              self.io.tool_warning(res)
+          return res
+      def __del__(self):
+          """Cleanup when the Coder object is destroyed."""
+          self.ok_to_warm_cache = False

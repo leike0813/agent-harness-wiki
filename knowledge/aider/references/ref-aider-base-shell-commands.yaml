@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-base-shell-commands
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/coders/base_coder.py
+  start: 2434
+  end: 2480
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def run_shell_commands(self):
+          if not self.suggest_shell_commands:
+              return ""
+          done = set()
+          group = ConfirmGroup(set(self.shell_commands))
+          accumulated_output = ""
+          for command in self.shell_commands:
+              if command in done:
+                  continue
+              done.add(command)
+              output = self.handle_shell_commands(command, group)
+              if output:
+                  accumulated_output += output + "\n\n"
+          return accumulated_output
+      def handle_shell_commands(self, commands_str, group):
+          commands = commands_str.strip().splitlines()
+          command_count = sum(
+              1 for cmd in commands if cmd.strip() and not cmd.strip().startswith("#")
+          )

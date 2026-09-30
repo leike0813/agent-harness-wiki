@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-config-editor
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: document_section
+  heading: Editor configuration
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  Aider allows you to configure your preferred text editor for use with the `/editor` command. The editor must be capable of running in "blocking mode", meaning the command line will wait until you close the editor before proceeding.
+  ## Using `--editor`
+  You can specify the text editor with the `--editor` switch or using
+  `editor:` in aider's
+  [YAML config file](https://aider.chat/docs/config/aider_conf.html).
+  ## Environment variables
+  Aider checks the following environment variables in order to determine which editor to use:
+  1. `AIDER_EDITOR`
+  2. `VISUAL`
+  3. `EDITOR`
+  ## Default behavior
+  If no editor is configured, aider will use these platform-specific defaults:
+  - Windows: `notepad`
+  - macOS: `vim`
+  - Linux/Unix: `vi`
+  ## Using a custom editor

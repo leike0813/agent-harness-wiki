@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-config-accepts
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: document_section
+  heading: "How `accepts_settings` works"
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  Models define which reasoning settings they accept using the `accepts_settings` property:
+  ```yaml
+  - name: a-fancy-reasoning-model
+    edit_format: diff
+    use_repo_map: true
+    accepts_settings:                  # <---
+      - reasoning_effort               # <---
+  ```
+  This configuration:
+  1. Tells Aider that the model accepts the `reasoning_effort` setting
+  2. Indicates the model does NOT accept `thinking_tokens` (since it's not listed)
+  3. Causes Aider to ignore any `--thinking-tokens` value passed for this model
+  4. Generates a warning if you try to use `--thinking-tokens` with this model
+  You can override this behavior with `--no-check-model-accepts-settings`, which will:
+  1. Force Aider to apply all settings passed via command line
+  2. Skip all compatibility checks
+  3.

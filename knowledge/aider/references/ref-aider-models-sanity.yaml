@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-models-sanity
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/models.py
+  start: 1164
+  end: 1200
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def sanity_check_model(io, model):
+      show = False
+      if model.missing_keys:
+          show = True
+          io.tool_warning(f"Warning: {model} expects these environment variables")
+          for key in model.missing_keys:
+              value = os.environ.get(key, "")
+              status = "Set" if value else "Not set"
+              io.tool_output(f"- {key}: {status}")
+          if platform.system() == "Windows":
+              io.tool_output(
+                  "Note: You may need to restart your terminal or command prompt for `setx` to take"
+                  " effect."
+              )
+      elif not model.keys_in_environment:
+          show = True
+          io.tool_warning(f"Warning for {model}: Unknown which environment variables are required.")
+      # Check for model-specific dependencies

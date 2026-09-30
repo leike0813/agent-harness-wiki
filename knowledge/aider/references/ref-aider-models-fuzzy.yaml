@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-models-fuzzy
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/models.py
+  start: 1227
+  end: 1268
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def fuzzy_match_models(name):
+      name = name.lower()
+      chat_models = set()
+      model_metadata = list(litellm.model_cost.items())
+      model_metadata += list(model_info_manager.local_model_metadata.items())
+      for orig_model, attrs in model_metadata:
+          model = orig_model.lower()
+          if attrs.get("mode") != "chat":
+              continue
+          provider = attrs.get("litellm_provider", "").lower()
+          if not provider:
+              continue
+          provider += "/"
+          if model.startswith(provider):
+              fq_model = orig_model
+          else:
+              fq_model = provider + orig_model
+          chat_models.add(fq_model)
+          chat_models.add(orig_model)
+      chat_models = sorted(chat_models)
+      # exactly matching model
+      # matching_models = [

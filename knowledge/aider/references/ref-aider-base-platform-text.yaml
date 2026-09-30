@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-base-platform-text
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/coders/base_coder.py
+  start: 1146
+  end: 1180
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  if self.repo:
+              platform_text += "- The user is operating inside a git repository\n"
+          if self.lint_cmds:
+              if self.auto_lint:
+                  platform_text += (
+                      "- The user's pre-commit runs these lint commands, don't suggest running"
+                      " them:\n"
+                  )
+              else:
+                  platform_text += "- The user prefers these lint commands:\n"
+              for lang, cmd in self.lint_cmds.items():
+                  if lang is None:
+                      platform_text += f"  - {cmd}\n"
+                  else:
+                      platform_text += f"  - {lang}: {cmd}\n"
+          if self.test_cmd:
+              if self.auto_test:
+                  platform_text += (

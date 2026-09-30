@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-linter-lint
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/linter.py
+  start: 82
+  end: 118
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def lint(self, fname, cmd=None):
+          rel_fname = self.get_rel_fname(fname)
+          try:
+              code = Path(fname).read_text(encoding=self.encoding, errors="replace")
+          except OSError as err:
+              print(f"Unable to read {fname}: {err}")
+              return
+          if cmd:
+              cmd = cmd.strip()
+          if not cmd:
+              lang = filename_to_lang(fname)
+              if not lang:
+                  return
+              if self.all_lint_cmd:
+                  cmd = self.all_lint_cmd
+              else:
+                  cmd = self.languages.get(lang)
+          if callable(cmd):
+              lintres = cmd(fname, rel_fname, code)
+          elif cmd:
+              lintres = self.run_cmd(cmd, rel_fname, code)
+          else:
+              lintres = basic_lint(rel_fname, code)

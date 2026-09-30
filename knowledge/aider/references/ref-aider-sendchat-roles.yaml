@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-sendchat-roles
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/sendchat.py
+  start: 1
+  end: 16
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  from aider.dump import dump  # noqa: F401
+  from aider.utils import format_messages
+  def sanity_check_messages(messages):
+      """Check if messages alternate between user and assistant roles.
+      System messages can be interspersed anywhere.
+      Also verifies the last non-system message is from the user.
+      Returns True if valid, False otherwise."""
+      last_role = None
+      last_non_system_role = None
+      for msg in messages:
+          role = msg.get("role")
+          if role == "system":
+              continue

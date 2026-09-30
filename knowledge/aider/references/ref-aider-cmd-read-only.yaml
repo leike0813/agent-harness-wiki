@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-cmd-read-only
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/commands.py
+  start: 1328
+  end: 1365
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def cmd_read_only(self, args):
+          "Add files to the chat that are for reference only, or turn added files to read-only"
+          if not args.strip():
+              # Convert all files in chat to read-only
+              for fname in list(self.coder.abs_fnames):
+                  self.coder.abs_fnames.remove(fname)
+                  self.coder.abs_read_only_fnames.add(fname)
+                  rel_fname = self.coder.get_rel_fname(fname)
+                  self.io.tool_output(f"Converted {rel_fname} to read-only")
+              return
+          filenames = parse_quoted_filenames(args)
+          all_paths = []
+          # First collect all expanded paths
+          for pattern in filenames:
+              expanded_pattern = expanduser(pattern)
+              path_obj = Path(expanded_pattern)

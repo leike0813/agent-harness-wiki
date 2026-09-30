@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-cmd-load
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/commands.py
+  start: 1465
+  end: 1495
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def cmd_load(self, args):
+          "Load and execute commands from a file"
+          if not args.strip():
+              self.io.tool_error("Please provide a filename containing commands to load.")
+              return
+          try:
+              with open(args.strip(), "r", encoding=self.io.encoding, errors="replace") as f:
+                  commands = f.readlines()
+          except FileNotFoundError:
+              self.io.tool_error(f"File not found: {args}")
+              return
+          except Exception as e:
+              self.io.tool_error(f"Error reading file: {e}")
+              return
+          for cmd in commands:
+              cmd = cmd.strip()
+              if not cmd or cmd.startswith("#"):
+                  continue
+              self.io.tool_output(f"\nExecuting: {cmd}")
+              try:

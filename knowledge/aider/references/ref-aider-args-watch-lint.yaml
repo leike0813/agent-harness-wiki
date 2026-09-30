@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-args-watch-lint
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/args.py
+  start: 520
+  end: 561
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  group.add_argument(
+          "--watch-files",
+          action=argparse.BooleanOptionalAction,
+          default=False,
+          help="Enable/disable watching files for ai coding comments (default: False)",
+      )
+      group = parser.add_argument_group("Fixing and committing")
+      group.add_argument(
+          "--lint",
+          action="store_true",
+          help="Lint and fix provided files, or dirty files if none provided",
+          default=False,
+      )
+      group.add_argument(
+          "--lint-cmd",
+          action="append",
+          help=(
+              'Specify lint commands to run for different languages, eg: "python: flake8'
+              ' --select=..." (can be used multiple times)'
+          ),
+          default=[],
+      )
+      group.add_argument(
+          "--auto-lint",

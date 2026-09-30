@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-args-model-files
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/args.py
+  start: 119
+  end: 134
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  )
+      group.add_argument(
+          "--model-settings-file",
+          metavar="MODEL_SETTINGS_FILE",
+          default=".aider.model.settings.yml",
+          help="Specify a file with aider model settings for unknown models",
+      ).complete = shtab.FILE
+      group.add_argument(
+          "--model-metadata-file",
+          metavar="MODEL_METADATA_FILE",
+          default=".aider.model.metadata.json",
+          help="Specify a file with context window and costs for unknown models",
+      ).complete = shtab.FILE
+      group.add_argument(
+          "--alias",
+          action="append",

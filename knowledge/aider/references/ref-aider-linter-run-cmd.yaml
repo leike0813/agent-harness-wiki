@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-linter-run-cmd
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/linter.py
+  start: 47
+  end: 68
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def run_cmd(self, cmd, rel_fname, code):
+          cmd += " " + oslex.quote(rel_fname)
+          returncode = 0
+          stdout = ""
+          try:
+              returncode, stdout = run_cmd_subprocess(
+                  cmd,
+                  cwd=self.root,
+                  encoding=self.encoding,
+              )
+          except OSError as err:
+              print(f"Unable to execute lint command: {err}")
+              return
+          errors = stdout
+          if returncode == 0:
+              return  # zero exit status
+          res = f"## Running: {cmd}\n\n"
+          res += errors
+          return self.errors_to_lint_result(rel_fname, res)

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-args-parser
+harness_id: aider
+snapshot_id: snapshot-aider-repo
+locator:
+  kind: file_lines
+  file: aider/args.py
+  start: 35
+  end: 46
+official_url: "https://github.com/Aider-AI/aider"
+excerpt: |-
+  def get_parser(default_config_files, git_root):
+      parser = configargparse.ArgumentParser(
+          description="aider is AI pair programming in your terminal",
+          add_config_file_help=True,
+          default_config_files=default_config_files,
+          config_file_parser_class=configargparse.YAMLConfigFileParser,
+          auto_env_var_prefix="AIDER_",
+      )
+      # List of valid edit formats for argparse validation & shtab completion.
+      # Dynamically gather them from the registered coder classes so the list
+      # stays in sync if new formats are added.
+      from aider import coders as _aider_coders
