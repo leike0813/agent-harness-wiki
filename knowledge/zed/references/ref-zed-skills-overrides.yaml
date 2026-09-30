@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-overrides
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent/src/agent.rs
+  start: 3888
+  end: 3925
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  /// Project-local skills override same-named global skills. Returns a
+  /// new list with at most one entry per name. Two skills of the same
+  /// source colliding (e.g. two globals or two project-locals) keep the
+  /// first one to match the historical behavior.
+  ///
+  /// This is the projection of `state.skills` used by everything the
+  /// model interacts with: the system-prompt catalog, the `SkillTool`'s
+  /// name resolver, and slash-command invocation. The autocomplete popup
+  /// deliberately does *not* go through this — it shows the full list so
+  /// users can see what's shadowed.
+  fn apply_skill_overrides(skills: &[Skill]) -> Vec<Skill> {
+      let mut result: Vec<Skill> = Vec::new();
+      // Borrow names from the input slice so the dedup index doesn't
+      // need to allocate a `String` per skill.

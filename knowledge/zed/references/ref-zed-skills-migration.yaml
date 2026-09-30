@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-migration
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/prompt_store/src/rules_to_skills_migration.rs
+  start: 1
+  end: 32
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  //! One-time migration from Rules (stored in the user's `PromptStore`
+  //! LMDB database) to two destinations:
+  //!
+  //! * **Non-Default Rules → global Agent Skills** under
+  //!   `~/.agents/skills/<slug>/SKILL.md`. Non-Default Rules were only ever
+  //!   included in a conversation when the user explicitly invoked them by
+  //!   name, which maps cleanly onto Skills with
+  //!   `disable-model-invocation: true` (slash-only, never auto-suggested
+  //!   to the model). See [`migrate_non_default_rules_to_skills`].
+  //!
+  //! * **Default Rules → global AGENTS.md** at the platform-appropriate
+  //!   path (see [`paths::agents_file`]). Default Rules were auto-included
+  //!   in every conversation; the global AGENTS.md is loaded into the
+  //!   system prompt of every conversation, so the migration target

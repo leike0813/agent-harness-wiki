@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-mcp-reload
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent/src/tools/context_server_registry.rs
+  start: 166
+  end: 190
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  _tools_updated_subscription: tools_updated_subscription,
+          }
+      }
+      fn reload_tools_for_server(&mut self, server_id: ContextServerId, cx: &mut Context<Self>) {
+          let Some(server) = self.server_store.read(cx).get_running_server(&server_id) else {
+              return;
+          };
+          let Some(client) = server.client() else {
+              return;
+          };
+          if !client.capable(context_server::protocol::ServerCapability::Tools) {
+              return;
+          }
+          let registered_server = self.get_or_register_server(&server_id, cx);
+          registered_server.load_tools = cx.spawn(async move |this, cx| {
+              let response = client
+                  .request::<context_server::types::requests::ListTools>(())
+                  .await;

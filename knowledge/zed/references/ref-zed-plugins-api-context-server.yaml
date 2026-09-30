@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-plugins-api-context-server
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/extension_api/src/extension_api.rs
+  start: 180
+  end: 205
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  }
+      /// Returns the command used to start a context server.
+      fn context_server_command(
+          &mut self,
+          _context_server_id: &ContextServerId,
+          _project: &Project,
+      ) -> Result<Command> {
+          Err("`context_server_command` not implemented".to_string())
+      }
+      /// Returns the configuration options for the specified context server.
+      fn context_server_configuration(
+          &mut self,
+          _context_server_id: &ContextServerId,
+          _project: &Project,
+      ) -> Result<Option<ContextServerConfiguration>> {
+          Ok(None)
+      }
+      /// Returns a list of package names as suggestions to be included in the
+      /// search results of the `/docs` slash command.
+      ///
+      /// This can be used to provide completions for known packages (e.g., from the

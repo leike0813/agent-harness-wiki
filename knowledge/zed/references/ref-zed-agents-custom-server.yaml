@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-agents-custom-server
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent_servers/src/custom.rs
+  start: 15
+  end: 45
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  use ui::IconName;
+  pub const GEMINI_ID: &str = "gemini";
+  pub const CLAUDE_AGENT_ID: &str = "claude-acp";
+  pub const CODEX_ID: &str = "codex-acp";
+  pub const CURSOR_ID: &str = "cursor";
+  /// A generic agent server implementation for custom user-defined agents
+  pub struct CustomAgentServer {
+      agent_id: AgentId,
+  }
+  impl CustomAgentServer {
+      pub fn new(agent_id: AgentId) -> Self {
+          Self { agent_id }
+      }
+  }
+  impl AgentServer for CustomAgentServer {
+      fn agent_id(&self) -> AgentId {
+          self.agent_id.clone()
+      }
+      fn logo(&self) -> IconName {
+          IconName::Terminal
+      }
+      fn default_mode(&self, cx: &App) -> Option<acp::SessionModeId> {
+          let settings = cx.read_global(|settings: &SettingsStore, _| {
+              settings

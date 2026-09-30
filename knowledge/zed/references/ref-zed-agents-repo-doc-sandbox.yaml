@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-agents-repo-doc-sandbox
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: docs/src/ai/sandboxing.md
+  start: 30
+  end: 55
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  ## Sandboxed Tools {#sandboxed-tools}
+  Zed Agent sandboxing currently applies to the `terminal` and `fetch` tools.
+  | Tool       | What sandboxing limits                                                                                |
+  | ---------- | ----------------------------------------------------------------------------------------------------- |
+  | `terminal` | Filesystem writes and outbound network access for commands the agent runs; Git metadata is protected. |
+  | `fetch`    | Hosts which can be accessed.                                                                          |
+  Tools are still governed by [Tool Permissions](./tool-permissions.md), [Agent
+  Profiles](./agent-profiles.md), and project trust, but they are not currently
+  run inside this OS sandbox.

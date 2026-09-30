@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-scope
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent_skills/agent_skills.rs
+  start: 131
+  end: 190
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  /// an empty prefix (so the inserted text is `/:<name>`), and
+      /// project-local skills use their worktree root name (so the
+      /// inserted text is `/<worktree>:<name>`).
+      ///
+      /// Using an empty prefix for globals rather than a literal
+      /// `global` means a worktree literally named `global` is no
+      /// longer ambiguous with the global source: the global skill is
+      /// invoked as `/:<name>`, and the worktree's skill is invoked as
+      /// `/global:<name>`. The two grammars never collide on the
+      /// inserted text.
+      /// Human-readable label for this source, used in the UI to
+      /// distinguish skills from different origins.
+      pub fn display_label(&self) -> &str {
+          match self {
+              Self::BuiltIn => "built-in",
+              Self::Global => "global",

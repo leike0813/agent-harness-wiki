@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-mcp-settings-struct
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/settings_content/src/project.rs
+  start: 500
+  end: 545
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  /// language and MCP servers are downloaded and started automatically.
+      ///
+      /// Default: false
+      pub trust_all_worktrees: Option<bool>,
+  }
+  #[derive(Deserialize, Serialize, Clone, PartialEq, Eq, JsonSchema, MergeFrom, Debug)]
+  #[serde(untagged, rename_all = "snake_case")]
+  pub enum ContextServerSettingsContent {
+      Stdio {
+          /// Whether the context server is enabled.
+          #[serde(default = "default_true")]
+          enabled: bool,
+          /// Whether to run the context server on the remote server when using remote development.
+          ///
+          /// If this is false, the context server will always run on the local machine.
+          ///
+          /// Default: false
+          #[serde(default)]
+          remote: bool,
+          #[serde(flatten)]
+          command: ContextServerCommand,

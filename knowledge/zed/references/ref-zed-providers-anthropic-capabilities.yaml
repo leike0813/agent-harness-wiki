@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-providers-anthropic-capabilities
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/settings_content/src/language_model.rs
+  start: 72
+  end: 90
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, JsonSchema, MergeFrom)]
+  pub struct AnthropicCompatibleModelCapabilities {
+      pub tools: bool,
+      pub images: bool,
+      /// Whether to send explicit `cache_control` breakpoints for prompt caching.
+      /// Leave disabled if the provider rejects requests containing them.
+      pub prompt_caching: bool,
+  }
+  impl Default for AnthropicCompatibleModelCapabilities {
+      fn default() -> Self {
+          Self {
+              tools: true,
+              images: false,
+              prompt_caching: false,
+          }
+      }
+  }

@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-plugins-doc-manifest
+harness_id: zed
+snapshot_id: snapshot-zed-docs-plugins
+locator:
+  kind: document_section
+  heading: Directory Structure of a Zed Extension
+official_url: "https://zed.dev/docs/extensions/developing-extensions.md"
+excerpt: |-
+  A Zed extension is a Git repository that contains an `extension.toml`. This file must contain some
+  basic information about the extension:
+  ```toml
+  id = "my-extension"
+  name = "My extension"
+  version = "0.0.1"
+  schema_version = 1
+  authors = ["Your Name <you@example.com>"]
+  description = "Example extension"
+  repository = "https://github.com/your-name/my-zed-extension"
+  ```
+  In addition to this, there are several other optional files and directories that can be used to add functionality to a Zed extension. An example directory structure of an extension that provides all capabilities is as follows:
+  ```
+  my-extension/
+    extension.toml
+    Cargo.toml
+    src/
+      lib.rs
+    languages/
+      my-language/
+        config.toml
+        highlights.scm
+    themes/
+      my-theme.json
+    snippets/
+      snippets.json
+      rust.json

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-providers-anthropic-compatible
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/settings_content/src/language_model.rs
+  start: 41
+  end: 48
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  #[with_fallible_options]
+  #[derive(Clone, Debug, Serialize, Deserialize, PartialEq, JsonSchema, MergeFrom)]
+  pub struct AnthropicCompatibleSettingsContent {
+      pub api_url: String,
+      pub available_models: Vec<AnthropicCompatibleAvailableModel>,
+      pub custom_headers: Option<HashMap<String, String>>,
+  }

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-agents-custom-read
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent_servers/src/custom.rs
+  start: 95
+  end: 112
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  .get_or_insert_default()
+                  .entry(agent_id.0.to_string())
+                  .or_insert_with(default_settings_for_agent);
+              match settings {
+                  settings::CustomAgentServerSettings::Custom {
+                      favorite_config_option_values,
+                      ..
+                  }
+                  | settings::CustomAgentServerSettings::Registry {
+                      favorite_config_option_values,
+                      ..
+                  } => {
+                      let entry = favorite_config_option_values
+                          .entry(config_id.clone())
+                          .or_insert_with(Vec::new);
+                      if should_be_favorite {

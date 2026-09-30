@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-agents-profile-content
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/settings_content/src/agent.rs
+  start: 586
+  end: 606
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  #[with_fallible_options]
+  #[derive(Debug, PartialEq, Clone, Serialize, Deserialize, JsonSchema, MergeFrom)]
+  pub struct AgentProfileContent {
+      pub name: Arc<str>,
+      #[serde(default)]
+      pub tools: IndexMap<Arc<str>, bool>,
+      /// Whether all context servers are enabled by default.
+      pub enable_all_context_servers: Option<bool>,
+      #[serde(default)]
+      pub context_servers: IndexMap<Arc<str>, ContextServerPresetContent>,
+      /// The default language model selected when using this profile.
+      pub default_model: Option<LanguageModelSelection>,
+  }
+  #[with_fallible_options]
+  #[derive(Debug, PartialEq, Clone, Default, Serialize, Deserialize, JsonSchema, MergeFrom)]
+  pub struct ContextServerPresetContent {
+      pub tools: IndexMap<Arc<str>, bool>,
+  }

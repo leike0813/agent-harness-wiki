@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-tool-name
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent/src/tools/skill_tool.rs
+  start: 138
+  end: 148
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  impl AgentTool for SkillTool {
+      type Input = SkillToolInput;
+      type Output = SkillToolOutput;
+      const NAME: &'static str = "skill";
+      fn kind() -> acp::ToolKind {
+          // The `Read` kind would map to a magnifying-glass icon in the UI,
+          // which reads as "search" — misleading for a skill activation.
+          // `Other` maps to the hammer icon, the generic "this is a tool"
+          // visual, which fits skill activations better.

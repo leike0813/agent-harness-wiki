@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-tool-auth
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent/src/tools/skill_tool.rs
+  start: 213
+  end: 236
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  error: e.to_string(),
+                      }
+                  })?
+              };
+              let rendered = render_skill_envelope(&skill, &body);
+              // Built-in skills ship with Zed and are trusted by default,
+              // so they skip the authorization prompt. User-installed skills
+              // go through the standard Allow-Once / Always-Allow UX.
+              let is_builtin = skill.source == agent_skills::SkillSource::BuiltIn;
+              if !is_builtin {
+                  let authorize = cx.update(|cx| {
+                      let context =
+                          crate::ToolPermissionContext::new(Self::NAME, vec![skill_file_path]);
+                      event_stream.authorize(self.initial_title(Ok(input), cx), context, cx)
+                  });

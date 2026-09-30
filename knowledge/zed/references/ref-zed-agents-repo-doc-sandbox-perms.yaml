@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-agents-repo-doc-sandbox-perms
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: docs/src/ai/sandboxing.md
+  start: 152
+  end: 180
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  ## Persistent Sandbox Permissions {#persistent-sandbox-permissions}
+  If you want to pre-approve common sandbox requests, add persistent permissions to your settings file:
+  ```json [settings]
+  {
+    "agent": {
+      "sandbox_permissions": {
+        "network_hosts": ["github.com", "*.npmjs.org"],
+        "write_paths": ["/Users/you/.cache/my-tool"]
+      }
+    }
+  }
+  ```
+  The available options are:
+  | Setting              | Description                                                                                                       |
+  | -------------------- | ----------------------------------------------------------------------------------------------------------------- |
+  | `network_hosts`      | Hosts that sandboxed tools may reach without prompting.

@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-config-repo-doc-trust
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: docs/src/worktree-trust.md
+  start: 16
+  end: 44
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  Zed still trusts tools it installs globally. Global MCP servers and global language servers such as Prettier and Copilot are installed and started as usual, independent of worktree trust.
+  If a worktree is not trusted, Zed will indicate this with an exclamation mark icon in the title bar. Clicking this icon or using the `workspace::ToggleWorktreeSecurity` action will bring up the security modal that allows the user to trust the worktree.
+  Trusting a worktree persists that decision between restarts. You can clear all trusted worktrees with the `workspace::ClearTrustedWorktrees` command.
+  This command will restart Zed, to ensure no untrusted settings, language servers or MCP servers persist.
+  This feature works locally and on SSH and WSL remote hosts.

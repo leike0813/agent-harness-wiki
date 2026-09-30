@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-hooks-local-tasks
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/paths/src/paths.rs
+  start: 501
+  end: 506
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  }
+  /// Returns the relative path to a `tasks.json` file within a project.
+  pub fn local_tasks_file_relative_path() -> &'static RelPath {
+      static CACHED: LazyLock<&'static RelPath> =
+          LazyLock::new(|| RelPath::from_unix_str(".zed/tasks.json").unwrap());

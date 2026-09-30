@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-mcp-command
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/settings_content/src/project.rs
+  start: 594
+  end: 604
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  #[with_fallible_options]
+  #[derive(Deserialize, Serialize, Clone, PartialEq, Eq, JsonSchema, MergeFrom)]
+  pub struct ContextServerCommand {
+      #[serde(rename = "command")]
+      pub path: PathBuf,
+      #[serde(default)]
+      pub args: Vec<String>,
+      pub env: Option<HashMap<String, String>>,
+      /// Timeout for tool calls in seconds. Defaults to 60 if not specified.
+      pub timeout: Option<u64>,
+  }

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-config-file-precedence
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/settings/src/settings_store.rs
+  start: 186
+  end: 215
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  /// Sorted in order of precedence
+  impl Ord for SettingsFile {
+      fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+          use SettingsFile::*;
+          use std::cmp::Ordering;
+          match (self, other) {
+              (User, User) => Ordering::Equal,
+              (Server, Server) => Ordering::Equal,
+              (Default, Default) => Ordering::Equal,
+              (Project((id1, rel_path1)), Project((id2, rel_path2))) => id1
+                  .cmp(id2)
+                  .then_with(|| rel_path1.cmp(rel_path2).reverse()),
+              (Project(_), _) => Ordering::Less,
+              (_, Project(_)) => Ordering::Greater,
+              (Server, _) => Ordering::Less,
+              (_, Server) => Ordering::Greater,
+              (User, _) => Ordering::Less,
+              (_, User) => Ordering::Greater,

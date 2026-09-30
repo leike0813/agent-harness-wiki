@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-providers-openai-capabilities
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/settings_content/src/language_model.rs
+  start: 444
+  end: 470
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  #[with_fallible_options]
+  #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, JsonSchema, MergeFrom)]
+  pub struct OpenAiCompatibleModelCapabilities {
+      pub tools: bool,
+      pub images: bool,
+      pub parallel_tool_calls: bool,
+      pub prompt_cache_key: bool,
+      #[serde(default = "default_true")]
+      pub chat_completions: bool,
+      #[serde(default)]
+      pub interleaved_reasoning: bool,
+      #[serde(default)]
+      pub max_tokens_parameter: bool,
+  }
+  impl Default for OpenAiCompatibleModelCapabilities {
+      fn default() -> Self {
+          Self {
+              tools: true,
+              images: false,
+              parallel_tool_calls: false,
+              prompt_cache_key: false,
+              chat_completions: default_true(),
+              interleaved_reasoning: false,

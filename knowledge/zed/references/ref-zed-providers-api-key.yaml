@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-providers-api-key
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/language_model/src/api_key.rs
+  start: 14
+  end: 35
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  /// Manages a single API key for a language model provider. API keys either come from environment
+  /// variables or the system keychain.
+  ///
+  /// Keys from the system keychain are associated with a provider URL, and this ensures that they are
+  /// only used with that URL.
+  pub struct ApiKeyState {
+      pub url: SharedString,
+      env_var: EnvVar,
+      load_status: LoadStatus,
+      load_task: Option<future::Shared<Task<()>>>,
+  }
+  #[derive(Debug, Clone)]
+  pub enum LoadStatus {
+      NotPresent,
+      Error(String),
+      Loaded(ApiKey),
+  }
+  #[derive(Debug, Clone)]
+  pub struct ApiKey {
+      source: ApiKeySource,

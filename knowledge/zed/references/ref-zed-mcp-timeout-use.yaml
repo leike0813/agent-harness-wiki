@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-mcp-timeout-use
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/project/src/context_server_store.rs
+  start: 1198
+  end: 1212
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  worktree_id.map(|id| SettingsLocation {
+                  worktree_id: id,
+                  path: &RelPath::empty(),
+              }),
+              cx,
+          )
+          .context_server_timeout
+      }
+      /// Initiate the OAuth browser flow for a server in the `AuthRequired` state.
+      ///
+      /// This starts a loopback HTTP callback server on an ephemeral port, builds
+      /// the authorization URL, opens the user's browser, waits for the callback,
+      /// exchanges the code for tokens, persists them in the keychain, and restarts
+      /// the server with the new token provider.

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-frontmatter
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent_skills/agent_skills.rs
+  start: 204
+  end: 215
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  /// Just the frontmatter, used for parsing
+  #[derive(Debug, Clone, Serialize, Deserialize)]
+  pub struct SkillMetadata {
+      pub name: String,
+      pub description: String,
+      #[serde(default, rename = "disable-model-invocation")]
+      pub disable_model_invocation: bool,
+  }
+  /// Minimal skill info for system prompt.
+  ///
+  /// `Serialize` is required for handlebars rendering of the system prompt

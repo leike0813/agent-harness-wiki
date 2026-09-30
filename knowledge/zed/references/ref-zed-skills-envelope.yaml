@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-envelope
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent/src/tools/skill_tool.rs
+  start: 39
+  end: 80
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  /// hostile skill body cannot break out of the wrapper by embedding closing
+  /// tags.
+  ///
+  /// `body` is the SKILL.md body (read on demand via
+  /// `agent_skills::read_skill_body`). It's accepted as a parameter rather
+  /// than stored on `Skill` so that loading N skills costs O(total
+  /// frontmatter), not O(total file size).
+  pub fn render_skill_envelope(skill: &Skill, body: &str) -> String {
+      let source = match &skill.source {
+          agent_skills::SkillSource::BuiltIn => "built-in",
+          agent_skills::SkillSource::Global => "global",
+          agent_skills::SkillSource::ProjectLocal { .. } => "project-local",
+      };
+      let worktree = match &skill.source {
+          agent_skills::SkillSource::BuiltIn | agent_skills::SkillSource::Global => None,

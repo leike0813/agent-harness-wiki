@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-plugins-extensions-dir
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/paths/src/paths.rs
+  start: 346
+  end: 352
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  ///
+  /// This is where installed extensions are stored.
+  pub fn extensions_dir() -> &'static PathBuf {
+      static EXTENSIONS_DIR: OnceLock<PathBuf> = OnceLock::new();
+      EXTENSIONS_DIR.get_or_init(|| data_dir().join("extensions"))
+  }

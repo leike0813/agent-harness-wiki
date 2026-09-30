@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-plugins-capability-enum
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/extension/src/capabilities.rs
+  start: 12
+  end: 20
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
+  #[serde(tag = "kind", rename_all = "snake_case")]
+  pub enum ExtensionCapability {
+      #[serde(rename = "process:exec")]
+      ProcessExec(ProcessExecCapability),
+      DownloadFile(DownloadFileCapability),
+      #[serde(rename = "npm:install")]
+      NpmInstallPackage(NpmInstallPackageCapability),
+  }

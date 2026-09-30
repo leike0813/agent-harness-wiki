@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-precedence
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent_skills/agent_skills.rs
+  start: 97
+  end: 130
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  pub enum SkillSource {
+      /// Compiled into the Zed binary. These are always available and have
+      /// the lowest override priority (global and project-local skills can
+      /// shadow them).
+      BuiltIn,
+      /// From ~/.agents/skills/
+      Global,
+      /// From {project}/.agents/skills/
+      ProjectLocal {
+          worktree_id: SkillScopeId,
+          worktree_root_name: Arc<str>,
+      },
+  }
+  impl SkillSource {
+      /// Precedence for resolving same-named skills. Higher values shadow
+      /// lower ones: `ProjectLocal` > `Global` > `BuiltIn`. Two sources
+      /// returning equal precedence (e.g. two project-local skills from
+      /// different worktrees) leave the winner up to the caller, which by
+      /// convention keeps the first one in iteration order.
+      ///

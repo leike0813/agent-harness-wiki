@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-config-config-dir
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/paths/src/paths.rs
+  start: 120
+  end: 138
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  /// Returns the path to the configuration directory used by Zed.
+  pub fn config_dir() -> &'static PathBuf {
+      CONFIG_DIR.get_or_init(|| {
+          if let Some(custom_dir) = CUSTOM_DATA_DIR.get() {
+              custom_dir.join("config")
+          } else if cfg!(target_os = "windows") {
+              dirs::config_dir()
+                  .expect("failed to determine RoamingAppData directory")
+                  .join(APP_NAME)
+          } else if cfg!(any(target_os = "linux", target_os = "freebsd")) {
+              if let Ok(flatpak_xdg_config) = std::env::var("FLATPAK_XDG_CONFIG_HOME") {
+                  flatpak_xdg_config.into()
+              } else {
+                  dirs::config_dir().expect("failed to determine XDG_CONFIG_HOME directory")
+              }
+              .join(APP_NAME_LOWERCASE)

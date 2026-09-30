@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-mcp-repo-doc-extension
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: docs/src/extensions/mcp-extensions.md
+  start: 12
+  end: 44
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  ## Defining MCP Extensions
+  A given extension may provide one or more MCP servers.
+  Each MCP server must be registered in the `extension.toml`:
+  ```toml
+  [context_servers.my-context-server]
+  ```
+  Then, in the Rust code for your extension, implement the `context_server_command` method on your extension:
+  ```rust
+  impl zed::Extension for MyExtension {
+      fn context_server_command(
+          &mut self,
+          context_server_id: &ContextServerId,
+          project: &zed::Project,
+      ) -> Result<zed::Command> {
+          Ok(zed::Command {
+              command: get_path_to_context_server_executable()?,
+              args: get_args_for_context_server()?,
+              env: get_env_for_context_server()?,
+          })
+      }
+  }
+  ```

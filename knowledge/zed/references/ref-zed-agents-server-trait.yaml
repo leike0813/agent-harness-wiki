@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-agents-server-trait
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent_servers/src/agent_servers.rs
+  start: 45
+  end: 60
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  loading_status: loading_status_tx,
+          }
+      }
+  }
+  pub trait AgentServer: Send {
+      fn logo(&self) -> ui::IconName;
+      fn agent_id(&self) -> AgentId;
+      fn connect(
+          &self,
+          delegate: AgentServerDelegate,
+          project: Entity<Project>,
+          cx: &mut App,
+      ) -> Task<Result<Rc<dyn AgentConnection>>>;
+      fn into_any(self: Rc<Self>) -> Rc<dyn Any>;

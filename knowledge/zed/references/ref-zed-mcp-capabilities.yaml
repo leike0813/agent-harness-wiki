@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-mcp-capabilities
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent/src/tools/context_server_registry.rs
+  start: 128
+  end: 160
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  ) -> RegisteredContextServer {
+          let tools_updated_subscription = server_store
+              .read(cx)
+              .get_running_server(server_id)
+              .and_then(|server| {
+                  let client = server.client()?;
+                  if !client.capable(context_server::protocol::ServerCapability::Tools) {
+                      return None;
+                  }
+                  let server_id = server.id();
+                  let this = cx.entity().downgrade();
+                  Some(client.on_notification(
+                      "notifications/tools/list_changed",
+                      Box::new(move |_params, cx: AsyncApp| {
+                          let server_id = server_id.clone();
+                          let this = this.clone();
+                          cx.spawn(async move |cx| {

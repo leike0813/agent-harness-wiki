@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-plugins-doc-wasm
+harness_id: zed
+snapshot_id: snapshot-zed-docs-plugins
+locator:
+  kind: document_section
+  heading: Rust and WebAssembly
+official_url: "https://zed.dev/docs/extensions/developing-extensions.md"
+excerpt: |-
+  > Please note that most extensions will work properly without any Rust code present. In particular, only language server, context server and debugger extensions require the presence of custom Rust in order to function properly.
+  Procedural parts of extensions are written in Rust and compiled to WebAssembly. To develop an extension that includes custom code, include a `Cargo.toml` like this:
+  ```toml
+  [package]
+  name = "my-extension"
+  version = "0.0.1"
+  edition = "2021"
+  [lib]
+  crate-type = ["cdylib"]
+  [dependencies]
+  zed_extension_api = "0.1.0"
+  ```
+  Use the latest version of the [`zed_extension_api`](https://crates.io/crates/zed_extension_api) available on crates.io.

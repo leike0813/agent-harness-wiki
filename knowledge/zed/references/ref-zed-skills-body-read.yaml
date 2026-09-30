@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-body-read
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent_skills/agent_skills.rs
+  start: 666
+  end: 684
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  /// `---`. Called only when a skill is being materialized for the model
+  /// (via `SkillTool` or a slash invocation). The body is intentionally
+  /// NOT kept in memory between materializations.
+  pub async fn read_skill_body(
+      fs: &dyn Fs,
+      skill_file_path: &Path,
+  ) -> Result<String, SkillLoadError> {
+      let content = fs.load(skill_file_path).await.map_err(|e| SkillLoadError {
+          path: skill_file_path.to_path_buf(),
+          message: format!("Failed to read file: {}", e),
+      })?;
+      read_skill_body_from_content(skill_file_path, &content)
+  }
+  pub fn read_skill_body_from_content(
+      skill_file_path: &Path,
+      content: &str,
+  ) -> Result<String, SkillLoadError> {

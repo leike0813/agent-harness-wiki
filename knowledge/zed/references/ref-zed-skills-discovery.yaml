@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-discovery
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent_skills/agent_skills.rs
+  start: 577
+  end: 600
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  /// Find every `<skills_root>/<name>/SKILL.md` directly under `directory`.
+  ///
+  /// Discovery is intentionally one level deep: a skill is the immediate
+  /// child directory of the skills root, and `SKILL.md` is the file that
+  /// names it. See `crates/agent_skills/README.md` for why we don't recurse.
+  async fn find_skill_files(fs: &Arc<dyn Fs>, directory: &Path) -> Vec<PathBuf> {
+      let Ok(mut entries) = fs.read_dir(directory).await else {
+          return Vec::new();
+      };
+      let mut entry_paths = Vec::new();
+      while let Some(entry) = entries.next().await {
+          if let Ok(entry_path) = entry {
+              entry_paths.push(entry_path);
+          }
+      }
+      futures::stream::iter(entry_paths)
+          .map(|entry_path| {
+              let fs = fs.clone();
+              async move {

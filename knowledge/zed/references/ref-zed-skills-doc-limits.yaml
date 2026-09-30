@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-doc-limits
+harness_id: zed
+snapshot_id: snapshot-zed-docs-skills
+locator:
+  kind: document_section
+  heading: "Limitations {#limitations}"
+official_url: "https://zed.dev/docs/ai/skills.md"
+excerpt: |-
+  - **Flat layout only.** Skills must be direct children of the skills root. Nested folders like `~/.agents/skills/group/my-skill/` are not discovered.
+  - **50KB catalog budget.** The total size of all skill names and descriptions is capped at 50KB. Skills that don't fit are dropped from the catalog with a warning in the UI. Keep descriptions concise.
+  - **No remote registry.** Zed does not discover or load skills from remote locations at runtime, and custom search paths are not supported. (You can still import a skill once from a GitHub URL — see [Create your own](#create-your-own).) Skills are loaded from `~/.agents/skills/` and `<worktree>/.agents/skills/` only. Use a symlink if you need to point at another location.

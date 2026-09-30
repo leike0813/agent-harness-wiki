@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-providers-openai-model
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/settings_content/src/language_model.rs
+  start: 430
+  end: 442
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  #[with_fallible_options]
+  #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, JsonSchema, MergeFrom)]
+  pub struct OpenAiCompatibleAvailableModel {
+      pub name: String,
+      pub display_name: Option<String>,
+      pub max_tokens: u64,
+      pub max_output_tokens: Option<u64>,
+      pub max_completion_tokens: Option<u64>,
+      pub reasoning_effort: Option<OpenAiReasoningEffort>,
+      #[serde(default)]
+      pub capabilities: OpenAiCompatibleModelCapabilities,
+  }

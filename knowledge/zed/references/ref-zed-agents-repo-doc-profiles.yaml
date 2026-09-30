@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-agents-repo-doc-profiles
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: docs/src/ai/agent-profiles.md
+  start: 35
+  end: 64
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  ## Profiles and Settings {#settings}
+  Profiles are stored under `agent.profiles` in your settings.
+  ```json [settings]
+  {
+    "agent": {
+      "profiles": {
+        "ask": {
+          "name": "Ask",
+          "tools": {
+            "read_file": true,
+            "grep": true,
+            "terminal": false,
+            "edit_file": false
+          },
+          "enable_all_context_servers": false,
+          "context_servers": {},
+          "default_model": {
+            "provider": "zed.dev",
+            "model": "claude-sonnet-4-5"
+          }
+        }
+      }
+    }
+  }
+  ```
+  The exact model IDs and provider IDs depend on your configured [LLM Providers](./llm-providers.md).

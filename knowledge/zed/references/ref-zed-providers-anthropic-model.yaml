@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-providers-anthropic-model
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/settings_content/src/language_model.rs
+  start: 49
+  end: 71
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  #[with_fallible_options]
+  #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, JsonSchema, MergeFrom)]
+  pub struct AnthropicCompatibleAvailableModel {
+      /// The model's name in the provider's API. e.g. claude-3-5-sonnet-latest
+      pub name: String,
+      /// The model's name in Zed's UI, such as in the model selector dropdown menu in the assistant panel.
+      pub display_name: Option<String>,
+      /// The model's context window size.
+      pub max_tokens: u64,
+      /// A model `name` to substitute when calling tools, in case the primary model doesn't support tool calling.
+      pub tool_override: Option<String>,
+      pub max_output_tokens: Option<u64>,
+      #[serde(serialize_with = "crate::serialize_optional_f32_with_two_decimal_places")]
+      pub default_temperature: Option<f32>,

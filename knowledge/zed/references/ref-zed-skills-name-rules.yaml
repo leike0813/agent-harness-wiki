@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-name-rules
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent_skills/agent_skills.rs
+  start: 497
+  end: 545
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  ///   already guarantees this for its output, so requiring it in the
+  ///   validator keeps hand-written `SKILL.md` files consistent with
+  ///   slugifier output
+  ///
+  /// Error messages are returned as `&'static str` (interpolated at
+  /// compile time via `formatcp!`) so that UI surfaces can store them in
+  /// `Option<&'static str>` fields without allocating, and loader callers
+  /// can convert them to `anyhow::Error` via `anyhow::Error::msg`.
+  pub fn validate_name(name: &str) -> Result<(), &'static str> {
+      if name.is_empty() {
+          return Err("Skill name cannot be empty");
+      }
+      if name.len() > MAX_SKILL_NAME_LEN {
+          return Err(formatcp!(
+              "Skill name must be at most {MAX_SKILL_NAME_LEN} characters"
+          ));
+      }

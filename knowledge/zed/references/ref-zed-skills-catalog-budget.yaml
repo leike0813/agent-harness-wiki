@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-catalog-budget
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent/src/agent.rs
+  start: 3684
+  end: 3745
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  Ok(self
+              .terminal
+              .read_with(cx, |term, _cx| term.was_stopped_by_user()))
+      }
+  }
+  /// Build the catalog the model sees in its system prompt: filter out hidden
+  /// (`disable_model_invocation`) skills, then drop the rest if they would push
+  /// the catalog past the description budget.
+  ///
+  /// Returns `SkillSummary` values rather than full `Skill`s so that the
+  /// (potentially ~100KB) skill bodies aren't cloned just to be discarded by
+  /// `ProjectContext::new`, which only needs the summary fields.
+  fn select_catalog_skills(skills: &[Skill]) -> (Vec<SkillSummary>, Vec<SkillLoadingIssueData>) {
+      let mut kept = Vec::new();
+      let mut issues = Vec::new();
+      let mut dropped: Vec<&Skill> = Vec::new();
+      let mut total_size = 0usize;
+      let mut budget_exceeded = false;

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-config-channel-overrides
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/settings_content/src/settings_content.rs
+  start: 456
+  end: 470
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  settings_overrides! {
+      #[with_fallible_options]
+      #[derive(Debug, Default, PartialEq, Clone, Serialize, Deserialize, JsonSchema, MergeFrom)]
+      pub struct ReleaseChannelOverrides { dev, nightly, preview, stable }
+  }
+  settings_overrides! {
+      #[with_fallible_options]
+      #[derive(Debug, Default, PartialEq, Clone, Serialize, Deserialize, JsonSchema, MergeFrom)]
+      pub struct PlatformOverrides { macos, linux, windows }
+  }
+  /// Determines what settings a profile starts from before applying its overrides.
+  #[derive(
+      Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize, JsonSchema, MergeFrom,

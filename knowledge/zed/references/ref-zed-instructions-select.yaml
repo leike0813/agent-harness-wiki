@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-instructions-select
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent/src/agent.rs
+  start: 1319
+  end: 1350
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  fn load_worktree_rules_file(
+          worktree: Entity<Worktree>,
+          project: Entity<Project>,
+          cx: &mut App,
+      ) -> Option<Task<Result<RulesFileContext>>> {
+          let worktree = worktree.read(cx);
+          let worktree_id = worktree.id();
+          let selected_rules_file = RULES_FILE_REL_PATHS
+              .iter()
+              .filter_map(|name| {
+                  worktree
+                      .entry_for_path(name)
+                      .filter(|entry| entry.is_file())
+                      .map(|entry| entry.path.clone())
+              })
+              .next();
+          // Note that Cline supports `.clinerules` being a directory, but that is not currently
+          // supported. This doesn't seem to occur often in GitHub repositories.
+          selected_rules_file.map(|path_in_worktree| {

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-mcp-timeout-default
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/project/src/project_settings.rs
+  start: 726
+  end: 732
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  .clone()
+                  .into_iter()
+                  .map(|(key, value)| (key, value.into()))
+                  .collect(),
+              context_server_timeout: project.context_server_timeout.unwrap_or(60),
+              lsp: project
+                  .lsp

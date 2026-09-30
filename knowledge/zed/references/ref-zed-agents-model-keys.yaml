@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-agents-model-keys
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/settings_content/src/agent.rs
+  start: 280
+  end: 292
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  ///
+      /// Default: 850
+      pub max_content_width: Option<crate::PixelSetting>,
+      /// The default model to use when creating new chats and for other features when a specific model is not specified.
+      pub default_model: Option<LanguageModelSelection>,
+      /// The model to use for subagents spawned via the `spawn_agent` tool. Defaults to the parent agent's model when not specified.
+      pub subagent_model: Option<LanguageModelSelection>,
+      /// Favorite models to show at the top of the model selector.
+      #[serde(default)]
+      pub favorite_models: Vec<LanguageModelSelection>,
+      /// Model to use for the inline assistant. Defaults to default_model when not specified.
+      pub inline_assistant_model: Option<LanguageModelSelection>,

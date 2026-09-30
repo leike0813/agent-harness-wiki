@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-mcp-oauth-flow
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/context_server/src/oauth.rs
+  start: 1
+  end: 20
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  //! OAuth 2.0 authentication for MCP servers using the Authorization Code +
+  //! PKCE flow, per the MCP spec's OAuth profile.
+  //!
+  //! The flow is split into two phases:
+  //!
+  //! 1. **Discovery** ([`discover`]) fetches Protected Resource Metadata and
+  //!    Authorization Server Metadata. This can happen early (e.g. on a 401
+  //!    during server startup) because it doesn't need the redirect URI yet.
+  //!
+  //! 2. **Client registration** ([`resolve_client_registration`]) is separate
+  //!    because DCR requires the actual loopback redirect URI, which includes an
+  //!    ephemeral port that only exists once the callback server has started.
+  //!
+  //! After authentication, the full state is captured in [`OAuthSession`] which
+  //! is persisted to the keychain. On next startup, the stored session feeds

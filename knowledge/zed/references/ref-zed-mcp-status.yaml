@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-mcp-status
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/project/src/context_server_store.rs
+  start: 48
+  end: 72
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  );
+  #[derive(Debug, Clone, PartialEq, Eq, Hash)]
+  pub enum ContextServerStatus {
+      Starting,
+      Running,
+      Stopped,
+      Error(Arc<str>),
+      /// The server returned 401 and OAuth authorization is needed. The UI
+      /// should show an "Authenticate" button.
+      AuthRequired,
+      /// The server has a pre-registered OAuth client_id, but a client_secret
+      /// is needed and not available in settings or the keychain.
+      ClientSecretRequired {
+          error: Option<Arc<str>>,
+      },
+      /// The OAuth browser flow is in progress — the user has been redirected
+      /// to the authorization server and we're waiting for the callback.
+      Authenticating,
+  }
+  impl ContextServerStatus {
+      fn from_state(state: &ContextServerState) -> Self {
+          match state {

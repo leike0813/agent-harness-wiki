@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-hooks-tasks-file
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/paths/src/paths.rs
+  start: 306
+  end: 311
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  /// Returns the path to the `tasks.json` file.
+  pub fn tasks_file() -> &'static PathBuf {
+      static TASKS_FILE: OnceLock<PathBuf> = OnceLock::new();
+      TASKS_FILE.get_or_init(|| config_dir().join("tasks.json"))
+  }

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-instructions-worktree-context
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent/src/agent.rs
+  start: 1280
+  end: 1296
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  worktree: Entity<Worktree>,
+          project: Entity<Project>,
+          cx: &mut App,
+      ) -> Task<(WorktreeContext, Option<RulesLoadingError>)> {
+          let tree = worktree.read(cx);
+          let root_name = tree.root_name_str().into();
+          let abs_path = tree.abs_path();
+          let scan_complete = tree.as_local().map(|local| local.scan_complete());
+          let mut context = WorktreeContext {
+              root_name,
+              abs_path,
+              rules_file: None,
+          };
+          cx.spawn(async move |cx| {
+              if let Some(scan_complete) = scan_complete {

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-share-link
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent_skills/agent_skills.rs
+  start: 810
+  end: 826
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  /// Build a shareable `zed://skill?data=…` link that fully embeds the given
+  /// `SKILL.md` file contents.
+  ///
+  /// The contents are base64url-encoded (no padding) so the link is
+  /// self-contained and URL-safe: the recipient doesn't need the skill to be
+  /// hosted anywhere. Recover the contents with [`decode_skill_share_link`].
+  pub fn encode_skill_share_link(skill_file_content: &str) -> String {
+      use base64::Engine as _;
+      let data =
+          base64::engine::general_purpose::URL_SAFE_NO_PAD.encode(skill_file_content.as_bytes());
+      let mut url = Url::parse(SKILL_SHARE_LINK_PREFIX).expect("skill share link prefix is valid");
+      url.query_pairs_mut()
+          .append_pair(SKILL_SHARE_LINK_DATA_PARAM, &data);
+      url.into()
+  }

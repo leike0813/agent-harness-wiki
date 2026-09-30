@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-config-watch
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/settings/src/settings_store.rs
+  start: 353
+  end: 380
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  pub fn watch_settings_files(
+          &mut self,
+          fs: Arc<dyn Fs>,
+          cx: &mut App,
+          settings_changed: impl 'static + Fn(SettingsFile, SettingsParseResult, &mut App),
+      ) {
+          let (mut user_settings_file_rx, user_settings_watcher) = crate::watch_config_file(
+              cx.background_executor(),
+              fs.clone(),
+              paths::settings_file().clone(),
+          );
+          let (mut global_settings_file_rx, global_settings_watcher) = crate::watch_config_file(
+              cx.background_executor(),
+              fs,
+              paths::global_settings_file().clone(),
+          );
+          let global_content = cx
+              .foreground_executor()
+              .block_on(global_settings_file_rx.next())
+              .unwrap();
+          let user_content = cx

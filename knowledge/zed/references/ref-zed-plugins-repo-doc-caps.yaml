@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-plugins-repo-doc-caps
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: docs/src/extensions/capabilities.md
+  start: 10
+  end: 40
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  ## Restricting capabilities
+  As a user, you have the option of restricting the capabilities that are granted to extensions.
+  This is controlled via the `granted_extension_capabilities` setting.
+  Restricting or removing a capability will cause an error to be returned when an extension attempts to call the corresponding extension API without sufficient capabilities.
+  For example, to restrict downloads to files from GitHub, set `host` for the `download_file` capability:
+  ```diff
+  {
+    "granted_extension_capabilities": [
+      { "kind": "process:exec", "command": "*", "args": ["**"] },
+  -   { "kind": "download_file", "host": "*", "path": ["**"] },
+  +   { "kind": "download_file", "host": "github.com", "path": ["**"] },
+      { "kind": "npm:install", "package": "*" }
+    ]
+  }
+  ```

@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-hooks-doc-hooks
+harness_id: zed
+snapshot_id: snapshot-zed-docs-hooks
+locator:
+  kind: document_section
+  heading: Hooks
+official_url: "https://zed.dev/docs/tasks.md"
+excerpt: |-
+  In addition to being spawned manually, tasks can be configured to run automatically in response to certain Zed events by adding a hook to the `hooks` field on a task template. A task with a matching hook will be resolved and spawned when that event fires.
+  The following hooks are currently supported:
+  - `create_worktree` — runs after Zed creates a new linked Git worktree, either directly through the CLI or from the [worktree picker](./git.md#git-worktrees). The task is spawned with `ZED_WORKTREE_ROOT` pointing at the newly created worktree and `ZED_MAIN_GIT_WORKTREE` pointing at the original repository's working directory, which makes these hooks well-suited to copying untracked files (such as `.env` files) or running per-worktree setup commands.

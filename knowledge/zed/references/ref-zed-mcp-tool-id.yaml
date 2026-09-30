@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-mcp-tool-id
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent/src/tools/context_server_registry.rs
+  start: 15
+  end: 25
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  const MAX_INLINE_ARG_LEN: usize = 120;
+  /// Generates a tool ID for an MCP tool that can be used in settings.
+  ///
+  /// The format is `mcp:<server_id>:<tool_name>` to avoid collisions with built-in tools.
+  pub fn mcp_tool_id(server_id: &str, tool_name: &str) -> String {
+      format!("mcp:{}:{}", server_id, tool_name)
+  }
+  pub struct ContextServerPrompt {
+      pub server_id: ContextServerId,

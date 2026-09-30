@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-providers-doc-headers
+harness_id: zed
+snapshot_id: snapshot-zed-docs-providers
+locator:
+  kind: document_section
+  heading: "Custom Headers {#custom-headers}"
+official_url: "https://zed.dev/docs/ai/use-api-access.md"
+excerpt: |-
+  You can attach extra HTTP headers to every request Zed makes to supported HTTP-based providers. This is useful in corporate environments or for observability tooling.
+  Configure them with `language_models.<provider>.custom_headers`:
+  ```json
+  {
+    "language_models": {
+      "openai": {
+        "custom_headers": {
+          "Fancy-Auth": "Bearer <your-fancy-key>",
+          "X-My-Tag": "zed"
+        }
+      }
+    }
+  }
+  ```
+  `custom_headers` is supported by Amazon Bedrock, Anthropic, DeepSeek, Google AI, LM Studio, Mistral, Ollama, OpenAI, OpenAI-compatible providers, OpenCode, OpenRouter, [Vercel AI Gateway](./use-a-gateway.md), and xAI.

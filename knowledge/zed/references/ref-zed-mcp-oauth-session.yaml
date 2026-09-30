@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-mcp-oauth-session
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/context_server/src/oauth.rs
+  start: 204
+  end: 216
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  /// The persisted OAuth session for a context server.
+  ///
+  /// Stored in the keychain so startup can restore a refresh-capable provider
+  /// without another browser flow. Deliberately excludes the full discovery
+  /// metadata to keep the serialized size well within keychain item limits.
+  #[derive(Clone, Serialize, Deserialize)]
+  pub struct OAuthSession {
+      pub token_endpoint: Url,
+      pub resource: Url,
+      pub client_registration: OAuthClientRegistration,
+      pub tokens: OAuthTokens,
+  }

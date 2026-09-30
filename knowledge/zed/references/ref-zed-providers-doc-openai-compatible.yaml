@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-providers-doc-openai-compatible
+harness_id: zed
+snapshot_id: snapshot-zed-docs-providers
+locator:
+  kind: document_section
+  heading: "OpenAI-Compatible Endpoints {#openai-compatible}"
+official_url: "https://zed.dev/docs/ai/use-api-access.md"
+excerpt: |-
+  Use an OpenAI-compatible endpoint when you have a custom base URL, model ID, and API key.
+  You can add a custom OpenAI-compatible provider from Agent Settings with <code class="hljs">agent: open settings</code>. Look for `Add Provider` in the LLM Providers section and fill in the provider name, API URL, model ID, and context window.
+  You can also configure the provider in your settings file:
+  ```json
+  {
+    "language_models": {
+      "openai_compatible": {
+        "my-provider": {
+          "api_url": "https://example.com/v1",
+          "available_models": [
+            {
+              "name": "my-model",
+              "display_name": "My Model",
+              "max_tokens": 128000
+            }
+          ]
+        }
+      }
+    }
+  }
+  ```
+  By default, OpenAI-compatible models inherit these capabilities:
+  - `tools`: `true`

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-builtin
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/agent_skills/agent_skills.rs
+  start: 692
+  end: 705
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  }
+  /// Content of the built-in `create-skill` SKILL.md, embedded at compile time.
+  const CREATE_SKILL_CONTENT: &str = include_str!("builtin/create-skill/SKILL.md");
+  /// Returns the set of skills that are compiled into the Zed binary.
+  pub fn builtin_skills() -> Vec<Skill> {
+      let mut skills = Vec::new();
+      if let Ok(skill) = parse_builtin_skill("create-skill", CREATE_SKILL_CONTENT) {
+          skills.push(skill);
+      }
+      skills
+  }

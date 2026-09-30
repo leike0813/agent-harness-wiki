@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-config-user-content
+harness_id: zed
+snapshot_id: snapshot-zed-repo
+locator:
+  kind: file_lines
+  file: crates/settings_content/src/settings_content.rs
+  start: 497
+  end: 511
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  #[with_fallible_options]
+  #[derive(Debug, Default, PartialEq, Clone, Serialize, JsonSchema, MergeFrom)]
+  pub struct UserSettingsContent {
+      #[serde(flatten)]
+      pub content: Box<SettingsContent>,
+      #[serde(flatten)]
+      pub release_channel_overrides: ReleaseChannelOverrides,
+      #[serde(flatten)]
+      pub platform_overrides: PlatformOverrides,
+      #[serde(default)]
+      pub profiles: IndexMap<String, SettingsProfile>,
+  }
