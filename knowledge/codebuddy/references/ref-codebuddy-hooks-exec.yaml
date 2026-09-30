@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-hooks-exec
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "Hook 执行详情"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  - **超时**：默认 60 秒执行限制，可按命令配置
+  - **并行化**：所有匹配的 hooks 并行运行
+  - **去重**：多个相同的 hook 命令会自动去重
+  - **执行 Shell**：
+    - **macOS/Linux**：使用用户默认 shell（`$SHELL` 环境变量，通常为 bash 或 zsh），回退到 `/bin/sh`
+    - **Windows**：**强制使用 Git Bash**（不支持 cmd.exe 或 PowerShell）。如果未找到 Git Bash，会报错提示安装 [Git for Windows](https://git-scm.com/download/win)。可通过 `CODEBUDDY_CODE_GIT_BASH_PATH` 环境变量指定 bash.exe 路径
+    - 可通过 `CODEBUDDY_CODE_SHELL` 环境变量覆盖默认 shell（仅支持 POSIX shell：bash、zsh、sh）
+  - **环境**：在当前目录中使用 CodeBuddy Code 的环境运行
+    - `CODEBUDDY_PROJECT_DIR` 环境变量包含项目根目录的绝对路径
+  - **输入**：通过 stdin 的 JSON
+  - **输出**:
+    - PreToolUse/PostToolUse/Stop/SubagentStop：在 transcript 中显示进度(Ctrl-R)
+    - Notification/SessionEnd：仅记录到调试(`--debug`)
+    - UserPromptSubmit/SessionStart: stdout 作为上下文添加给 CodeBuddy

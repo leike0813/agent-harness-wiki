@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-env-debug
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "调试和诊断"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  | 环境变量 | 说明 |
+  |---------|------|
+  | `CODEBUDDY_DEBUG` | 设置为 `1`/`true`/`yes`/`on` 启用调试模式（等同于 `--debug`）|
+  | `CODEBUDDY_DEBUG_SDK` | 设置为 `1`/`true`/`yes`/`on` 启用 SDK 调试 |
+  | `CODEBUDDY_DEBUG_REQUEST` | 设置为 `1` 启用请求调试 |
+  | `CODEBUDDY_STARTUP_PROFILE` | 设置为 `1` 时自动保存启动性能的 Markdown 和 JSON 报告；详见[启动性能采集](./startup-profiling.md) |
+  | `CODEBUDDY_CODE_HEAP_SNAPSHOT_NEAR_LIMIT_PCT` | **OOM 取证**（默认关闭）。开启后当进程堆越过 V8 堆上限高水位时，自动写一份 heap snapshot 到 `~/.codebuddy/diagnostics/<date>/oom-nearlimit-<pid>-<ts>.heapsnapshot`（进程内只写一次）。取值：`on`/`true`/`1` 按默认 85% 水位；`0.9` 或 `90` 自定义水位；未设 / `0` / `off` / `false` 关闭。⚠️ 快照文件≈当时 heapUsed 的 1.5 倍（GB 级堆会写出数 GB 文件），仅排查 OOM 时开启。详见[故障排查 · OOM](troubleshooting.md#内存溢出-oom-排查) |

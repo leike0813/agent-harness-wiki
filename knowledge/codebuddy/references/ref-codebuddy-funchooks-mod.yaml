@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-funchooks-mod
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "Mod = plugin.json + register.ts"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  一个 Mod 的物理形态：
+  ```
+  my-mod/
+  ├── .codebuddy-plugin/plugin.json     # 身份 { name, version, description, author, types? }
+  ├── hooks/
+  │   ├── hooks.json                    # { description, modules: ["./register.ts"] }
+  │   └── register.ts                   # export function register(on, options)
+  ├── types/index.d.ts                  # 可选：为 $ 增加自有 noun 的契约（纯类型）
+  └── tests/*.test.ts                   # 可选：单元测试
+  ```
+  `register` 是唯一入口：
+  ```ts
+  import type { On, PluginOptions } from 'codebuddy-code';
+  export function register(on: On, options: PluginOptions): void {
+    // 用 on(...) 挂 hooks
+  }
+  ```
+  `options` 由宿主注入，来源是 `plugin.json` 或用户配置里的键值对，只能是 `string | number | boolean | readonly string[]`。

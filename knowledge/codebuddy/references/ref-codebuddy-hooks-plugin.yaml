@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-hooks-plugin
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "插件 Hooks"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  插件可以提供与用户和项目 hooks 无缝集成的 hooks。启用插件时，插件 hooks 会自动与你的配置合并。
+  **插件 hooks 的工作方式：**
+  - 插件 hooks 在插件的 `hooks/hooks.json` 文件中定义，或在 hooks 字段提供的自定义路径的文件中定义
+  - 当插件启用时，其 hooks 会与用户和项目 hooks 合并
+  - 来自不同来源的多个 hooks 可以响应同一事件
+  - 插件 hooks 使用 `${CODEBUDDY_PLUGIN_ROOT}` 环境变量来引用插件文件
+  插件 hook 配置示例：
+  ```json
+  {
+    "description": "Automatic code formatting",
+    "hooks": {
+      "PostToolUse": [
+        {
+          "matcher": "Write|Edit",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "${CODEBUDDY_PLUGIN_ROOT}/scripts/format.sh",
+              "timeout": 30
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```

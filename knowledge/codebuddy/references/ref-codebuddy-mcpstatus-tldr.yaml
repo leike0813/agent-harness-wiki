@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-mcpstatus-tldr
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "TL;DR"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  1. 以 stream-json 长连接启动（**不要带 `-p`**）：
+     ```bash
+     codebuddy --input-format stream-json --output-format stream-json -y \
+       --mcp-config /path/to/mcp.json --strict-mcp-config
+     ```
+  2. 想让某个 MCP 的加载被展示，就让它**真正阻塞首个 prompt**——在 `mcp.json` 里给它加
+     `"alwaysLoad": true`（或 `"defer_loading": false`）。纯 defer 的 MCP 首轮不阻塞、也不展示。
+  3. 调大首轮预热窗口（stdio 默认 **2000ms**）：
+     ```bash
+     CODEBUDDY_FIRST_RUN_MCP_PREWAIT_TIMEOUT_MS=30000 codebuddy --input-format stream-json ...
+     ```
+  4. 发出第一条 user 消息后，stdout会按ndjson 逐条吐出：
+     `{type:"system", subtype:"mcp_status", event:"start"|"server"|"finish", ...}`。
+  ---

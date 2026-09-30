@@ -1,0 +1,46 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-agents-mcp
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "子代理专属 MCP server"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  `mcpServers` 用于给某个子代理声明只在该子代理运行期间可见的 MCP server。它不会写入全局 MCP 配置, 也不会让主对话或其他子代理自动看到。
+  支持两种写法。
+  **引用已有全局 MCP server**:
+  ```yaml
+  ---
+  name: docs-searcher
+  description: 使用已有 docs MCP 做检索
+  tools:
+    - Read
+  mcpServers:
+    - docs
+  ---
+  ```
+  这里的 `docs` 必须已经是全局已连接的 MCP server。子代理只借用它, 子代理结束时不会关闭它。
+  **声明 inline MCP server**:
+  ```yaml
+  ---
+  name: browser-checker
+  description: 使用私有 MCP 做浏览器检查
+  tools:
+    - ToolSearch
+    - DeferExecuteTool
+  mcpServers:
+    - browser_private:
+        type: stdio
+        command: node
+        args:
+          - /absolute/path/to/browser-mcp-server.js
+        defer_loading: true
+  ---
+  ```
+  inline MCP server 只在该子代理 session 内创建, 子代理结束时自动关闭。它不会进入全局 MCP 池。
+  #### 安全策略
+  | 来源 | `mcpServers` 行为 |
+  |---|---|
+  | 用户子代理: `~/.codebuddy/agents/*.md` | 允许 inline MCP。 |

@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-hooksguide-start
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "快速开始"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  在本快速开始中，你将添加一个 hook 来记录 CodeBuddy Code 运行的 shell 命令。
+  ### 前置条件
+  安装 jq 用于在命令行中处理 JSON。
+  ### 步骤 1：打开 hooks 配置
+  运行 `/hooks` 斜杠命令并选择 PreToolUse hook 事件。PreToolUse hooks 在工具调用之前运行，可以阻止它们并向 CodeBuddy 反馈应该如何做不同的操作。
+  ### 步骤 2：添加匹配器
+  选择 **+ Add new matcher…** 以仅在 Bash 工具调用时运行你的 hook。为匹配器输入 `Bash`。
+  你可以使用 `*` 来匹配所有工具。
+  ### 步骤 3：添加 hook
+  选择 **+ Add new hook…** 并输入此命令：
+  ```bash
+  jq -r '"\(.tool_input.command) ~ \(.tool_input.description // "No description")"' >> ~/.codebuddy/bash-command.log
+  ```
+  ### 步骤 4：保存配置
+  对于存储位置，选择 **User settings**，因为你正在记录到主目录。这样 hook 将应用于所有项目，而不仅仅是当前项目。然后按 Esc 键直到返回 REPL。你的 hook 现在已注册！
+  ### 步骤 5：验证 hook
+  再次运行 `/hooks` 或检查 `~/.codebuddy/settings.json` 以查看你的配置：
+  ```json
+  {
+    "hooks": {
+      "PreToolUse": [
+        {
+          "matcher": "Bash",
+          "hooks": [
+            {

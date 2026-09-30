@@ -1,0 +1,45 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-settings-plugins
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "插件设置"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  `settings.json` 中的插件相关设置：
+  ```json
+  {
+    "enabledPlugins": {
+      "formatter@company-tools": true,
+      "deployer@company-tools": true,
+      "analyzer@security-plugins": false
+    },
+    "extraKnownMarketplaces": {
+      "company-tools": {
+        "source": {
+          "source": "github",
+          "repo": "company/codebuddy-plugins"
+        }
+      }
+    }
+  }
+  ```
+  #### `enabledPlugins`
+  控制启用哪些插件。格式：`"plugin-name@marketplace-name": true/false`
+  **作用域**：
+  * **用户设置** (`~/.codebuddy/settings.json`)：个人插件偏好
+  * **项目设置** (`.codebuddy/settings.json`)：与团队共享的项目特定插件
+  * **本地设置** (`.codebuddy/settings.local.json`)：每台机器的覆盖（不提交）
+  **示例**:
+  ```json
+  {
+    "enabledPlugins": {
+      "code-formatter@team-tools": true,
+      "deployment-tools@team-tools": true,
+      "experimental-features@personal": false
+    }
+  }
+  ```
+  #### `extraKnownMarketplaces`

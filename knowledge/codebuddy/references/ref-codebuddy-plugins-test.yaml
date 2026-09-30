@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-plugins-test
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "本地测试插件"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  使用 `--plugin-dir` 参数在开发过程中测试插件。这会直接加载你的插件，无需安装。
+  ```bash
+  codebuddy --plugin-dir ./my-plugin
+  ```
+  当 `--plugin-dir` 插件与已安装的市场插件同名时，本地副本在该会话中优先使用。这让你可以测试已安装插件的改动而无需卸载它。通过托管设置强制启用的市场插件是唯一的例外，不能被覆盖。
+  在修改插件时，运行 `/reload-plugins` 无需重启即可获取更新。这会重新加载插件、技能、代理、钩子、插件 MCP 服务器和插件 LSP 服务器。测试你的插件组件：
+  - 使用 `/plugin-name:skill-name` 尝试技能
+  - 在 `/agents` 中检查代理是否出现
+  - 验证钩子是否按预期工作
+  > 可以通过多次指定参数同时加载多个插件：
+  >
+  > ```bash
+  > codebuddy --plugin-dir ./plugin-one --plugin-dir ./plugin-two
+  > ```

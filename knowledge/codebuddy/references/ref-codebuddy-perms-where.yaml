@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-perms-where
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "在哪里管理规则"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  ### `/permissions` 命令
+  会话里输入 `/permissions` 打开权限管理面板，可以查看当前所有 allow / ask / deny 规则、它们来自哪一层 settings，并临时增删（写到 user / project 或 project-local 任一作用域）。
+  弹窗里勾选 **"Yes, don't ask again"** 时，CodeBuddy 会把当前命令对应的最稳前缀写入对应作用域 settings 的 `allow` 数组。
+  ### CLI 启动参数
+  | 参数 | 作用 |
+  | :--- | :--- |
+  | `--allowedTools <tools...>` | 进程级临时 allow 规则。空格或逗号分隔。例：`--allowedTools "Bash(git:*) Edit"` |
+  | `--disallowedTools <tools...>` | 进程级临时 deny 规则。同上 |
+  | `--add-dir <path>` | 把额外目录加入信任目录范围（影响 Read 是否需要弹询问） |
+  | `-y` / `--dangerously-skip-permissions` | 等价于 `--permission-mode bypassPermissions`。HIGH/CRITICAL 仍可能询问。隔离沙箱 full pass：`export CODEBUDDY_IS_SANDBOX=1 && codebuddy -y`（高危，仅进程环境，详见[沙箱 full pass（高危）](./env-vars.md#沙箱-full-pass-高危)） |
+  ### 配置文件
+  详见 [Settings 配置](settings.md)。CodeBuddy 按这 4 个作用域合并：
+  | 作用域 | 路径 |

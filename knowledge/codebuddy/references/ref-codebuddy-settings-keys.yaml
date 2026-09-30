@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-settings-keys
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "可用设置"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  `settings.json` 支持以下选项：
+  | 配置键 | 描述 | 示例 |
+  |:------|:-----|:-----|
+  | `language` | 首选响应语言，设置后 CodeBuddy Code 将使用指定语言进行回复。留空则自动根据用户输入判断语言 | `"简体中文"` |
+  | `apiKeyHelper` | 自定义脚本，在 `/bin/sh` 中执行，生成认证值。此值将作为模型请求的 `X-Api-Key` 和 `Authorization: Bearer` 头发送 | `/bin/generate_temp_api_key.sh` |
+  | `textToImageModel` | 文生图功能使用的模型 ID | `"your-image-model"` |
+  | `imageToImageModel` | 图生图功能使用的模型 ID | `"your-edit-model"` |
+  | `cleanupPeriodDays` | 根据最后活动日期本地保留聊天记录的时长(默认:30 天) | `20` |
+  | `env` | 应用于每个会话的环境变量 | `{"FOO": "bar"}` |
+  | `includeCoAuthoredBy` | 是否在 git 提交和拉取请求中包含 `co-authored-by CodeBuddy` 署名(默认:`true`） | `false` |
+  | `permissions` | 权限配置，见下表 | |
+  | `autoMode` | `auto` 权限模式的分类器规则，见 [Auto Mode 配置](#auto-mode-配置) | `{"allow": ["$defaults", "允许 dev 环境发布"]}` |

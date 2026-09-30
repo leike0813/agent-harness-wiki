@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-memory-automemory
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "Auto Memory 系统"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  Auto Memory 是 CodeBuddy Code 的自动记忆系统，允许 CodeBuddy 在会话之间自动保存和检索持久化记忆。与 CODEBUDDY.md 的静态记忆不同，Auto Memory 由 CodeBuddy 在工作过程中自主决定保存什么内容。
+  ### 存储位置
+  - **项目记忆**：`~/.codebuddy/memories/{project-id}/`
+  - **全局记忆**：`~/.codebuddy/memories/global/`
+  每个项目都有一个 `MEMORY.md` 索引文件，其前 200 行会自动加载到会话上下文。详细的记忆内容应存储在独立的主题文件中（如 `preferences.md`、`decisions.md`），并从 MEMORY.md 链接引用。
+  ### 启用与禁用
+  - 通过 `/config` 面板切换 Auto Memory 开关
+  - 通过 `/memory` 命令面板切换
+  - 通过 `settings.json` 配置：`"memory": { "autoMemoryEnabled": false }`
+  - 通过环境变量：`CODEBUDDY_DISABLE_AUTO_MEMORY=1`
+  ### Typed Memory 模式
+  Typed Memory 是 Auto Memory 的增强版本，提供结构化的记忆类型系统（默认启用）。记忆文件使用 YAML frontmatter 和 4 种类型进行管理。
+  **4 种记忆类型：**
+  | 类型 | 用途 | 示例 |
+  |------|------|------|
+  | `user` | 用户的角色、目标、偏好和知识背景 | “用户是高级后端工程师，擅长 Go” |

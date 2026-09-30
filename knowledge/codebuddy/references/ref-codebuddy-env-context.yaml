@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-env-context
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "上下文和内存"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  | 环境变量 | 说明 |
+  |---------|------|
+  | `CODEBUDDY_AUTOCOMPACT_PCT_OVERRIDE` | 设置自动压缩触发的上下文容量百分比（1-100）。默认由产品配置决定（通常 70-92%）。使用更低的值（如 `50`）来更早压缩 |
+  | `CODEBUDDY_AUTO_COMPACT_WINDOW` | 自动压缩计算的上下文窗口基准值（token）。触发点 = `min(该值, 模型有效预算) × 阈值`，clamp 到 [100k, 1M] 且不超过模型实际窗口。优先级高于 settings 项 `autoCompactWindow`（env > settings）。留空跟随模型窗口 |
+  | `CODEBUDDY_PRE_MESSAGE_COMPACT` | 强制控制 pre-message 压缩开关。`true`/`1` 启用，`false`/`0` 禁用。优先级高于产品配置的 `enablePreMessageCompact` 和 `ContextSummaryAgent` 开关 |
+  | `CODEBUDDY_PRE_MESSAGE_COMPACT_PCT` | 设置用户发消息前预检压缩的上下文容量百分比（1-100）。默认 10%。当上下文超过此阈值时，在处理用户新消息前自动压缩 |
+  | `CODEBUDDY_DISABLE_AUTO_MEMORY` | 设置为 `1` 禁用自动内存，设置为 `0` 启用 |
+  | `CODEBUDDY_MEMORY_ENABLED` | 设置为 `true` 或 `1` 启用记忆功能 |
+  | `CODEBUDDY_TYPED_MEMORY_ENABLED` | 设置为 `true` 或 `1` 启用分类记忆模式 |

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-install-troubleshoot
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "🔧 故障排查"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  ### 命令不可用
+  **问题：** 安装后提示 `codebuddy: command not found`
+  **解决方案：**
+  1. 检查安装路径是否在 `PATH` 环境变量中：
+     ```bash
+     echo $PATH
+     ```
+  2. 将 CodeBuddy 安装路径添加到 `PATH`（参考上方[验证安装](#验证安装)部分）
+  3. 重启终端或重新加载配置文件：
+     ```bash
+     source ~/.bashrc  # 或 ~/.zshrc
+     ```
+  ### 更新后仍是旧版本
+  **问题：** `npm install -g` 显示安装成功，但 `codebuddy --version` 仍为旧版本
+  这通常是系统中存在多个 `codebuddy` 可执行文件（如同时通过 npm 和 Homebrew 安装、nvm 切换了 Node 版本等）导致。详细排查步骤请参考 [故障排查 - npm 安装成功但执行的仍是旧版本](./troubleshooting.md#npm-安装成功但执行的仍是旧版本)。
+  ### 网络问题
+  **问题：** 安装或更新时网络连接失败
+  **解决方案：**
+  1. 检查网络连接
+  2. 配置 npm 镜像源（如果使用 npm 安装）：
+     ```bash
+     npm config set registry https://registry.npmmirror.com
+     ```

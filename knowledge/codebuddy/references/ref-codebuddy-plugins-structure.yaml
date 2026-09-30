@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-plugins-structure
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "插件结构概述"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  你已经创建了一个包含技能的插件，但插件还可以包含更多内容：自定义代理、钩子、MCP 服务器和 LSP 服务器。
+  > **常见错误**：不要将 `commands/`、`agents/`、`skills/` 或 `hooks/` 放在 `.codebuddy-plugin/` 目录内。只有 `plugin.json` 放在 `.codebuddy-plugin/` 内。所有其他目录必须在插件根目录层级。
+  | 目录 | 位置 | 用途 |
+  |------|------|------|
+  | `.codebuddy-plugin/` | 插件根目录 | 包含 `plugin.json` 清单 |
+  | `commands/` | 插件根目录 | Markdown 格式的斜杠命令 |
+  | `agents/` | 插件根目录 | 自定义代理定义 |
+  | `skills/` | 插件根目录 | 包含 `SKILL.md` 文件的代理技能 |
+  | `hooks/` | 插件根目录 | `hooks.json` 事件处理器 |
+  | `.mcp.json` | 插件根目录 | MCP 服务器配置 |
+  | `.lsp.json` | 插件根目录 | LSP 服务器配置（代码智能） |
+  | `bin/` | 插件根目录 | 插件启用时添加到 Bash 工具 `PATH` 的可执行文件 |
+  | `settings.json` | 插件根目录 | 插件启用时应用的默认[设置](settings.md) |
+  **示例完整结构**：
+  ```
+  my-plugin/
+  ├── .codebuddy-plugin/        # 元数据目录（必需）
+  │   └── plugin.json           # 插件清单文件
+  ├── commands/                  # 命令目录（可选）

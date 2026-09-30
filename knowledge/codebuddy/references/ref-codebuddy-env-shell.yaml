@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-env-shell
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "Shell 配置"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  | 环境变量 | 说明 |
+  |---------|------|
+  | `CODEBUDDY_CODE_SHELL` | 覆盖自动 shell 检测。支持的值：`bash`、`zsh`、`sh`、`powershell` |
+  | `CODEBUDDY_CODE_SHELL_PREFIX` | 包装所有 shell 命令的命令前缀（如用于日志或审计） |
+  | `CODEBUDDY_CODE_GIT_BASH_PATH` | Windows 下显式指定 Git Bash 路径；若指定的路径无效则启动失败 |
+  | `CODEBUDDY_SKIP_GIT_BASH_CHECK` | 设置为 `1` 跳过启动时的 Windows Git Bash 检测和提示（适用于上游已管理 shell 的场景） |
+  | `CODEBUDDY_DISABLE_CHILD_PROCESS_CONTAINMENT` | Windows 退出时回收后代进程的启动开关。`1` / `true` 关闭，未设置 / 空串 / `0` / `false` 开启。仅启动时读取，修改后需重启 CLI（包括预热进程）。macOS/Linux 不受影响 |
+  | `CODEBUDDY_INTERNAL_DAEMON_CHANNEL` | Windows daemon supervisor 使用的一次性内部 IPC 标记，启动时消费并删除；不是用户配置项，不向普通子进程传递 |
+  | `CODEBUDDY_POWERSHELL_PATH` | 显式指定 PowerShell 可执行文件路径（优先于自动检测） |
+  | `CODEBUDDY_USE_POWERSHELL_TOOL` | 控制 PowerShell 工具启用状态。Windows 上默认启用，设为 `0` 可禁用 |

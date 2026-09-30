@@ -1,0 +1,50 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-mcp-format
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "配置文件格式"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  MCP 配置文件支持 **JSONC (JSON with Comments)** 格式，允许在配置中添加注释，提升可读性和可维护性。
+  #### JSONC 支持的特性
+  - **单行注释**：使用 `//` 添加行内或行尾注释
+  - **多行注释**：使用 `/* */` 添加块注释
+  - **尾随逗号**：数组和对象的最后一个元素后可以添加逗号
+  #### 基础配置格式
+  ```jsonc
+  {
+    // MCP 服务器配置
+    "mcpServers": {
+      "server-name": {
+        "type": "stdio|sse|http",
+        "command": "命令路径",
+        "args": ["参数1", "参数2"],
+        "env": {
+          "ENV_VAR": "value"
+        },
+        "url": "http://example.com/mcp",
+        "headers": {
+          "Authorization": "Bearer token"
+        },
+        "description": "服务器描述"
+      }
+    },
+    // projects 字段仅在 user 作用域的文件里有效，用于识别 local 作用域的配置
+    "projects": {
+      "/path/to/project": {
+        "mcpServers": {
+          "local-server": {
+            "type": "stdio",
+            "command": "./local-tool"
+          }
+        }
+      }
+    }
+  }
+  ```
+  #### 带注释的完整示例
+  ```jsonc
+  {

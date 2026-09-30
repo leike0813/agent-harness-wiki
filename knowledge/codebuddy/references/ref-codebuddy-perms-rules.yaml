@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-perms-rules
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "规则的三种行为"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  `permissions` 对象下三个数组对应三种行为：
+  ```json
+  {
+    "permissions": {
+      "allow": ["Bash(npm test)", "Read(/tmp/data/**)"],
+      "ask":   ["WebFetch"],
+      "deny":  ["Bash(rm -rf *)", "Edit(.git/**)"]
+    }
+  }
+  ```
+  - **`allow`**：CodeBuddy 可使用且无需弹审批
+  - **`ask`**：每次使用都弹审批
+  - **`deny`**：绝不能使用

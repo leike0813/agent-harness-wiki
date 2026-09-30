@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-plugins-quickstart
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "快速开始"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  本快速开始将引导你创建一个包含自定义技能的插件。你将创建一个清单文件（定义插件的配置文件）、添加一个技能，并使用 `--plugin-dir` 参数在本地测试。
+  ### 前提条件
+  - 已[安装并认证](quickstart.md) CodeBuddy Code
+  > 如果看不到 `/plugin` 命令，请将 CodeBuddy Code 更新到最新版本。参见[故障排除](troubleshooting.md)获取升级说明。
+  ### 创建你的第一个插件
+  #### 第 1 步：创建插件目录
+  每个插件都有自己的目录，包含清单文件和你的技能、代理或钩子。现在创建一个：
+  ```bash
+  mkdir my-first-plugin
+  ```
+  #### 第 2 步：创建插件清单
+  清单文件位于 `.codebuddy-plugin/plugin.json`，定义插件的身份信息：名称、描述和版本。CodeBuddy Code 使用这些元数据在插件管理器中展示你的插件。
+  在插件目录内创建 `.codebuddy-plugin` 目录：
+  ```bash
+  mkdir my-first-plugin/.codebuddy-plugin
+  ```
+  然后创建 `my-first-plugin/.codebuddy-plugin/plugin.json`，内容如下：
+  ```json
+  {
+    "name": "my-first-plugin",
+    "description": "A greeting plugin to learn the basics",
+    "version": "1.0.0",
+    "author": {
+      "name": "Your Name"
+    }
+  }
+  ```
+  | 字段 | 用途 |
+  |------|------|

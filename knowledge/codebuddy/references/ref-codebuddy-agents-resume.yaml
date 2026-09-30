@@ -1,0 +1,42 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-agents-resume
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "可恢复的子代理"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  子代理可以被恢复以继续之前的对话，这对于需要在多个调用中继续的长期运行的研究或分析任务特别有用。
+  **工作原理：**
+  * 每个子代理执行都被分配一个唯一的 `agentId`
+  * 代理的对话存储在单独的记录文件中：`agent-{agentId}.jsonl`
+  * 您可以通过 `resume` 参数提供其 `agentId` 来恢复之前的代理
+  * 恢复时，代理继续使用其之前对话的完整上下文
+  **示例工作流：**
+  初始调用：
+  ```
+  > 使用 code-analyzer 代理开始审查身份验证模块
+  [代理完成初始分析并返回 agentId: "abc123"]
+  ```
+  恢复代理：
+  ```
+  > 恢复代理 abc123 并继续分析授权逻辑
+  [代理继续使用之前对话的完整上下文]
+  ```
+  **用例：**
+  * **长期运行的研究**：将大型代码库分析分解为多个会话
+  * **迭代细化**：继续细化子代理的工作而不失去上下文
+  * **多步工作流**：让子代理在保持上下文的同时顺序处理相关任务
+  **技术细节：**
+  * 子代理的对话历史和工具结果存储在父 session 的 `subagents/` 子目录中
+  * 在恢复期间禁用记录以避免重复消息
+  * 同步代理和[后台代理](#后台代理）都可以被恢复
+  * `resume` 参数接受来自之前执行的代理 ID
+  **运行时数据存储目录：**
+  ```
+  ~/.codebuddy/projects/{projectDir}/
+    └── {parentSessionId}/
+        ├── tool-results/                          ← 主 session 的工具输出文件
+        └── subagents/                             ← 子代理数据

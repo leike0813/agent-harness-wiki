@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-cli-purge
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "清理项目本地数据"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  `codebuddy project purge [path]` 用于删除 CodeBuddy 为项目保存在本机的运行时状态。省略 `[path]` 时，交互式终端会先弹出项目选择器；传 `--all` 则清理所有项目的本地状态。
+  ### 常用选项
+  | 选项 | 说明 |
+  | :--- | :--- |
+  | `[path]` | 指定要清理的项目路径；省略时在交互式终端中选择项目 |
+  | `--dry-run` | 只预览 purge plan，不执行删除 |
+  | `-y`, `--yes` | 跳过最终确认，直接执行删除 |
+  | `-i`, `--interactive` | 按清理类别逐项确认是否删除 |
+  | `--all` | 清理所有项目的本地状态 |
+  | `-h`, `--help` | 打印命令用法 |
+  > **约束**：`-i/--interactive` 与 `--all` 不能同时使用。交互时最多按 Project state、Prompt history、Project configuration、Project trust 四个逻辑类别确认；每个类别内部仍逐个安全删除底层 target。项目选择器和逐项确认仅在完整交互式 CLI 中可用；headless 环境请显式传入 `[path]` 或 `--all`。非 TTY 环境执行实际删除时还需配合 `--yes`，也可先用 `--dry-run` 预览。
+  ### 单项目模式会清理什么
+  - 已验证归属到该项目的 transcript、子代理 transcript 关联产物、任务列表、debug 日志、文件编辑历史和 file rollback sidecar
+  - `~/.codebuddy/history.jsonl` 中属于该项目的输入历史行

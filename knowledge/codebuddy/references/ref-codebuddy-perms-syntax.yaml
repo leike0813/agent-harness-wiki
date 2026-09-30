@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-perms-syntax
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "规则语法"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  规则形态：`Tool` 或 `Tool(specifier)`。
+  ### 整体匹配某个工具
+  去掉括号匹配工具的所有调用：
+  | 规则 | 含义 |
+  | :--- | :--- |
+  | `Bash` | 所有 Bash 命令 |
+  | `WebFetch` | 所有 web 抓取 |
+  | `Read` | 所有文件读 |
+  | `Edit` | 所有文件编辑 |
+  `*` 也可以单独作为规则，相当于全匹配通配（但不覆盖 MCP 工具，见 [MCP 工具](#mcp-工具)）。
+  ### 加 specifier 做细粒度
+  在括号里写参数：
+  | 规则 | 匹配 |
+  | :--- | :--- |
+  | `Bash(npm run build)` | 精确匹配 `npm run build` |
+  | `Bash(npm:*)` 或 `Bash(npm *)` | `npm` 开头的所有命令 |
+  | `Read(./.env)` | 当前目录的 `.env` |
+  | `Edit(/src/**/*.ts)` | 项目根下 `src/**/*.ts` |
+  | `Read(~/.zshrc)` | 用户目录的 `.zshrc` |
+  | `Read(//tmp/scratch.txt)` | 文件系统绝对路径 `/tmp/scratch.txt` |
+  | `WebFetch(domain:example.com)` | 抓取 example.com |
+  | `mcp__puppeteer__navigate` | MCP 工具 puppeteer 服务的 navigate |
+  | `Agent(Explore)` | 子代理 Explore |

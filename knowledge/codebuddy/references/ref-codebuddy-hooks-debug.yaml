@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-hooks-debug
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "调试"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  ### 基本故障排除
+  如果你的 hooks 不工作：
+  1. **检查配置** - 运行 `/hooks` 查看你的 hook 是否已注册
+  2. **验证语法** - 确保你的 JSON 设置有效
+  3. **测试命令** - 首先手动运行 hook 命令
+  4. **检查权限** - 确保脚本可执行
+  5. **查看日志** - 使用 `codebuddy --debug` 查看 hook 执行详情
+  **常见问题：**
+  - 引号未转义 - 在 JSON 字符串中使用 `\"`
+  - 错误的匹配器 - 检查工具名称是否完全匹配（区分大小写）
+  - 找不到命令 - 为脚本使用完整路径
+  ### 高级调试
+  对于复杂的 hook 问题：
+  1. **检查 hook 执行** - 使用 `codebuddy --debug` 查看详细的 hook 执行
+  2. **验证 JSON 模式** - 使用外部工具测试 hook 输入/输出
+  3. **检查环境变量** - 验证 CodeBuddy Code 的环境是否正确
+  4. **测试边缘情况** - 尝试使用不寻常的文件路径或输入的 hooks
+  5. **监控系统资源** - 检查 hook 执行期间的资源耗尽
+  6. **使用结构化日志** - 在你的 hook 脚本中实现日志记录
+  ### 调试输出示例
+  **注：该功能暂未支持。**
+  使用 `codebuddy --debug` 查看 hook 执行详情：
+  ```text
+  [DEBUG] Executing hooks for PostToolUse:Write
+  [DEBUG] Getting matching hook commands for PostToolUse with query: Write
+  [DEBUG] Found 1 hook matchers in settings

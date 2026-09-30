@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-marketplaces-runtime
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "运行时投影与管理所有权"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  Agent CLI 的首轮插件投影是 cache-first 的：进程只读取各设置作用域中的
+  `enabledPlugins`、`installed_plugins.json` registry，以及 registry 指向的不可变插件
+  cache。首轮投影不会扫描 Marketplace、访问远端或修复/迁移磁盘状态；已启用插件的
+  依赖闭包也只从同一份 registry 与 cache 中解析。
+  具备管理权限的 Agent CLI runtime 会在首轮投影提交后启动一次后台 reconcile。它负责
+  同步 Marketplace、补齐插件、迁移旧 cache、应用策略和清理孤儿状态；提交后通过同一条
+  串行事务队列提交 Plugin 活动快照，避免多轮管理和投影交叉。事务内会并行准备
+  MCP/LSP 与 Product 投影；Product 提交后，Command、Output Style 和 Agent 并行重建。
+  后台 reconcile 的活动快照没有变化时不重投下游；发生变化时也只刷新受影响的组件。首轮
+  投影接管管理所有权后，`enabledPlugins` 或 `extraKnownMarketplaces` 的持久化内容发生变化时，
+  同一长驻 runtime 会立即排队执行完整 configured reconcile；进程外直接编辑 settings 文件也由
+  ConfigWatchService 清缓存并补发同一个 settings change。多次连续改动通过 generation +
+  single-flight 收敛，不需要等到创建下一项任务才物化 cache。
+  `install` 与 `enable` 是不同语义。显式 `plugin install` 会同步解析依赖、写入版本化

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-perms-tools
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "工具特定规则"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  ### Bash
+  Bash 规则支持三种语法：
+  | 语法 | 含义 | 示例 |
+  | :--- | :--- | :--- |
+  | 精确匹配 | pattern 完全等于命令 | `Bash(npm run build)` 仅匹配 `npm run build` |
+  | `:*` 前缀 | pattern 末尾 `:*` → 匹配命令第一个词 / 多词前缀 | `Bash(git:*)` 匹配 `git status` / `git push origin main` |
+  | 通配符 | pattern 含 `*` 时按 bash glob 模式匹配（**`*` 可跨 `/`**） | `Bash(npm run *)` 匹配 `npm run build`；`Bash(ls *)` 匹配 `ls -al /tmp/x` |
+  > 通配符模式刻意让 `*` 能跨越 `/` —— 否则 `ls *` 无法匹配 `ls -al /xxx`，这是用户最常踩的坑。
+  #### 复合命令
+  CodeBuddy 会解析 shell 操作符 `&&` / `||` / `;` / `|`，对每个子命令独立判定：
+  - **deny / ask 规则**：任一子命令命中即触发
+  - **allow 规则**：要求**所有子命令都命中**才放行 —— 一个命中、一个不命中的复合命令仍会询问，避免攻击者把危险命令藏在被允许的命令旁边
+  举例：
+  ```text
+  allow: ["Bash(git:*)"]
+  git status         → 允许
+  git status && rm * → 询问（rm * 不在 allow 内,需所有子命令都命中)
+  git status; rm *   → 询问（同上)
+  ```
+  #### 重定向

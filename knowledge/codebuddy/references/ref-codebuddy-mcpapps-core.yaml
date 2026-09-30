@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-mcpapps-core
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "协议核心概念"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  ### UI Resource
+  MCP Apps widget 是一份 HTML，作为 MCP Resource 暴露：
+  - **URI** 必须以 `ui://` 开头，例如 `ui://my-server/dashboard`
+  - **MIME 必须** 是 `text/html;profile=mcp-app`
+  - 资源的 `_meta.ui` 可声明 CSP / 权限 / 边框偏好
+  ### App Tool
+  让 host 知道某个 tool 关联了 widget，需要在 tool 定义里加 `_meta.ui.resourceUri` 指向 UI Resource。模型调用这个 tool 时，host 自动渲染对应 widget。
+  ### Sandbox iframe
+  Host 把 widget HTML 跑在**异源 sandbox iframe** 里，与主页面隔离。iframe 由 host 自供的 `sandbox_proxy.html` 中转，只允许 `allow-scripts allow-same-origin allow-forms`。CSP 由资源 `_meta.ui.csp` 控制。
+  ### AppBridge / postMessage

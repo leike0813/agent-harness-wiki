@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-marketplaces-auto
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "配置自动更新"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  CodeBuddy Code 可以在启动时自动更新市场及其已安装的插件。启用市场自动更新后，CodeBuddy Code 会刷新市场数据并将已安装插件更新到最新版本。如果任何插件被更新，你会看到提示运行 `/reload-plugins` 的通知。
+  **通过 UI 为单个市场切换自动更新**：
+  1. 运行 `/plugin` 打开插件管理器
+  2. 选择**市场**
+  3. 从列表中选择一个市场
+  4. 选择**启用自动更新**或**禁用自动更新**
+  官方市场默认启用自动更新。第三方和本地开发市场默认禁用自动更新。
+  **禁用所有自动更新**：
+  设置 `DISABLE_AUTOUPDATER` 环境变量可以禁用 CodeBuddy Code 和所有插件的自动更新。参见[自动更新](./env-vars.md#遥测和报告)。
+  **保持插件自动更新，禁用 CodeBuddy 自动更新**：
+  设置 `FORCE_AUTOUPDATE_PLUGINS=1` 和 `DISABLE_AUTOUPDATER=1`：
+  ```bash
+  export DISABLE_AUTOUPDATER=1
+  export FORCE_AUTOUPDATE_PLUGINS=1
+  ```
+  这样你可以手动管理 CodeBuddy Code 更新，同时自动接收插件更新。

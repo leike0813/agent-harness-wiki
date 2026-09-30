@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-hooks-frontmatter
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: Agent / Skill Frontmatter Hooks
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  除了在 `~/.codebuddy/settings.json` 中全局配置 hooks 外，还可以直接在自定义 Agent 的 `.md` 文件或 Skill 的 `SKILL.md` 的 YAML frontmatter 里声明 `hooks` 字段。这种方式让 Hook 与 Agent / Skill 一起作为"原子单位"分发，scope 自动随 subagent 生命周期开闭，不污染主会话。
+  ### 字段格式
+  `hooks` 字段结构和 settings.json 完全一致——按事件名分组，每个事件下若干个 `{matcher?, hooks[]}` 配置；hook `type` 支持 `command` / `prompt` / `agent` / `http` 四种：
+  ```yaml
+  ---
+  name: my-reviewer
+  description: Code reviewer with pre-tool-use guard
+  hooks:
+    PreToolUse:
+      - matcher: Bash
+        hooks:
+          - type: command
+            command: ./guard.sh
+            once: true
+    SubagentStop:
+      - hooks:
+          - type: command
+            command: echo "reviewer finished"
+          - type: http
+            url: https://example.com/notify
+            method: POST
+  ---
+  ```
+  ### 生命周期与作用域

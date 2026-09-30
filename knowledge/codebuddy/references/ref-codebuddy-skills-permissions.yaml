@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-skills-permissions
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "权限控制"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  ### allowed-tools 白名单
+  通过 `allowed-tools` 字段限制 Skill 可以使用的工具：
+  ```yaml
+  allowed-tools: Read, Write, Bash(git:*), Grep
+  ```
+  支持的工具模式匹配：
+  - `Bash(git:*)` - 只允许 git 相关命令
+  - `Edit(src/**/*.ts)` - 只允许编辑特定路径文件
+  ### 工作目录限制
+  每个 Skill 都有自己的 `baseDirectory`（SKILL.md 所在目录），可以在 Skill 指令中引用：
+  ```markdown
+  当处理文件时，优先在 {baseDirectory} 目录下查找相关资源。
+  ```

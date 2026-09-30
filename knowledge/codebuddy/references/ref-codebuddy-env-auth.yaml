@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-env-auth
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "认证相关"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  | 环境变量 | 说明 |
+  |---------|------|
+  | `CODEBUDDY_API_KEY` | API 密钥。设置此密钥用于模型接口调用。在非交互模式 (`-p`) 下始终使用此密钥 |
+  | `CODEBUDDY_AUTH_TOKEN` | CodeBuddy 平台认证令牌，用于所有平台接口调用 |
+  | `CODEBUDDY_CUSTOM_HEADERS` | 自定义 HTTP 请求头。格式：`Name: Value`，多个请求头用换行符或 `\n` 分隔 |
+  | `CODEBUDDY_PASSTHROUGH_HEADER_PREFIXES` | 允许调用方（stream-json / print 链路，及 ACP 链路——workbuddy 端侧 spawn cbc 子进程后经 ACP `session/prompt` 驱动，均经 `_meta['codebuddy.ai'].customPassthroughHeaders`）逐轮透传到官方 model gateway 的自定义 header 前缀白名单。逗号分隔、大小写不敏感（如 `x-wb-,x-mobile-`）。**默认空 = 功能关闭**（安全 kill-switch）；即安全边界，须选与内部 `X-*` header 命名空间不相交的前缀。仅对官方模型生效，第三方/自定义模型不下发 |

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-pluginsref-env
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "环境变量"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  CodeBuddy 提供三个 Claude Code 兼容路径变量。它们会在技能、命令和代理内容、钩子配置、MCP 或 LSP 服务器配置中内联替换，也会作为环境变量导出到钩子、MCP 与 LSP 子进程。每个 `CLAUDE_*` 名称都有对应的 `CODEBUDDY_*` 别名。
+  **`${CODEBUDDY_PLUGIN_ROOT}`**：插件安装目录的绝对路径。用于引用插件捆绑的脚本、二进制文件和配置文件。此路径在插件更新时会变化，因此写入此处的文件不会在更新后保留。
+  **兼容性**：同时支持 `${CLAUDE_PLUGIN_ROOT}` 变量名以兼容 Claude Code 插件。
+  **`${CODEBUDDY_PLUGIN_DATA}`**：用于插件状态的持久化目录，在更新后保留。用于已安装的依赖项（如 `node_modules` 或 Python 虚拟环境）、生成的代码、缓存以及任何需要跨插件版本持久化的文件。首次被占位符引用或导出到插件子进程时自动创建该目录。
+  **兼容性**：同时支持 `${CLAUDE_PLUGIN_DATA}` 变量名。
+  **`${CODEBUDDY_PROJECT_DIR}`**：当前工作区根目录。用于插件脚本定位用户项目，不应写入插件自身的持久化状态。
+  **兼容性**：同时支持 `${CLAUDE_PROJECT_DIR}` 变量名。
+  插件子进程还会收到以下选项环境变量：
+  - `CLAUDE_PLUGIN_OPTION_<KEY>`：Claude Code 标准名称
+  - `CODEBUDDY_PLUGIN_OPTION_<KEY>`：CodeBuddy 别名
+  - `PLUGIN_OPT_<KEY>`：为已有 CodeBuddy 插件保留的兼容名称
+  ```json
+  {
+    "hooks": {

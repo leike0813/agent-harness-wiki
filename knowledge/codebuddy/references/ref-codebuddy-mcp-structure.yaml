@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-mcp-structure
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "配置结构详解"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  根据不同的传输类型，MCP 服务器配置具有不同的结构：
+  #### STDIO 类型配置
+  通过标准输入输出与本地进程通信。
+  | 字段 | 类型 | 必填 | 说明 |
+  |------|------|------|------|
+  | `type` | string | 是 | 固定值 `"stdio"` |
+  | `command` | string | 是 | 可执行文件路径或命令 |
+  | `args` | Array&lt;string&gt; | 否 | 命令行参数列表 |
+  | `env` | Object | 否 | 环境变量键值对 |
+  | `defer_loading` | boolean | 否 | 是否延迟加载工具（默认 false）|
+  | `tools` | Object | 否 | 工具级别配置，可覆盖服务器级别设置 |
+  **示例**：
+  ```json
+  {
+    "type": "stdio",
+    "command": "python",
+    "args": ["-m", "my_mcp_server"],
+    "env": {
+      "PYTHONPATH": "/path/to/tools",
+      "DEBUG": "true"
+    }
+  }
+  ```
+  #### SSE 类型配置
+  通过 Server-Sent Events 与远程服务通信。
+  | 字段 | 类型 | 必填 | 说明 |
+  |------|------|------|------|
+  | `type` | string | 是 | 固定值 `"sse"` |
+  | `url` | string | 是 | SSE 服务端点 URL |
+  | `headers` | Object | 否 | HTTP 请求头键值对 |

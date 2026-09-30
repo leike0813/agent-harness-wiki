@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-dir-priority
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "配置优先级"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  多层配置按以下优先级应用（高优先级覆盖低优先级）：
+  ```
+  命令行参数                         （最高优先级）
+      ↓
+  .codebuddy/settings.local.json    （项目本地，不提交版本控制）
+      ↓
+  .codebuddy/settings.json          （项目共享，团队统一）
+      ↓
+  ~/.codebuddy/settings.json        （用户全局，个人偏好）
+      ↓
+  产品内置默认配置                   （最低优先级）
+  ```
+  代理/技能/规则的优先级：**项目级 > 用户级 > 插件级**，同名时项目级优先。

@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-funchooks-tier
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "Tier 与 `next`"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  Mod 组织成一条**中间件链**。链上分五层（tier），外层先执行：
+  ```
+  prepend → user → append → builtin → core
+  ```
+  | Tier | 谁在这里 |
+  |---|---|
+  | `prepend` | 企业**强制最外层**策略（预先绑定） |
+  | `user` | 用户 / 项目 `--plugin-dir` 装载的 mod |
+  | `append` | 企业**兜底**策略（预先绑定） |
+  | `builtin` | 引擎自带 mod（`cbc-sec-default` / `cbc-telemetry`） |
+  | `core` | 引擎自己的行为 |
+  每个 hook 签名都是**中间件**：
+  ```ts
+  type Hook<E> = ($: EngineInterface, e: E, next: Next<E>) => Result | Promise<Result>;
+  ```
+  `next` 的可选动作：
+  | 用法 | 作用 |
+  |---|---|
+  | `next(e)` | 透传，让下一层继续处理 |
+  | `next({ ...e, mut })` | 改写事件参数后继续 |
+  | `return { deny: '原因' }` | **短路拒绝**，宿主不再落地 |
+  | `return { value: ... }` | **短路替换**（op 事件专用） |
+  | `return { result: ... }` | 顶替 middleware 事件结果 |
+  | `next.to(e, 'append')` | 跳到指定 tier（只能往内跳） |
+  | `next.origin` | **调用方**身份 `{ plugin, tier }`，不是自己的 tier |

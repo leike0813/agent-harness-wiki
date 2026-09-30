@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-agents-format
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "文件格式"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  每个子代理在具有以下结构的 Markdown 文件中定义：
+  ```markdown
+  ---
+  name: your-sub-agent-name
+  description：描述何时应该调用此子代理
+  tools: tool1, tool2, tool3  # 可选 - 省略则继承所有工具
+  model: gpt-5.1-codex  # 可选 - 指定模型别名或 'inherit'
+  permissionMode: default  # 可选 - 子代理的权限模式
+  skills: skill1, skill2  # 可选 - 自动加载的技能
+  ---
+  在这里编写子代理的系统提示。可以包含多个段落，
+  应该清晰地定义子代理的角色、能力和解决问题的方法。
+  包含具体的说明、最佳实践以及子代理应该遵循的任何约束。
+  ```
+  #### 配置字段
+  | 字段             | 必需 | 描述                                                                                                                                             |
+  | :--------------- | :--- | :----------------------------------------------------------------------------------------------------------------------------------------------- |

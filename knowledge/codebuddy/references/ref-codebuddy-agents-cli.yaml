@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-agents-cli
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "基于 CLI 的配置"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  您也可以使用 `--agents` CLI 标志动态定义子代理，该标志接受 JSON 对象：
+  ```bash
+  codebuddy --agents '{
+    "code-reviewer": {
+      "description": "代码审查专家。在代码更改后主动使用。",
+      "prompt": "你是一位高级代码审查员。专注于代码质量、安全性和最佳实践。",
+      "tools": ["Read", "Grep", "Glob", "Bash"],
+      "model": "gemini-3.0-flash"
+    }
+  }'
+  ```
+  **优先级**：CLI 定义的子代理的优先级低于项目级别的子代理，但高于用户级别的子代理。
+  **用例**：此方法适用于：
+  * 快速测试子代理配置
+  * 不需要保存的会话特定子代理
+  * 需要自定义子代理的自动化脚本
+  * 在文档或脚本中共享子代理定义
+  有关 JSON 格式和所有可用选项的详细信息，请参阅 [CLI 参考文档](cli-reference.md)。

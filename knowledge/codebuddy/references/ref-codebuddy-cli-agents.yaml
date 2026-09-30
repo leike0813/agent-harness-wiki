@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-cli-agents
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "Agents 参数格式"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  `--agents` 参数接受定义一个或多个自定义子代理的 JSON 对象。每个子代理需要一个唯一的名称（作为键）和一个包含以下字段的定义对象：
+  | 字段              | 必需 | 说明                                                                           |
+  | :---------------- | :--- | :----------------------------------------------------------------------------- |
+  | `description`     | 是   | 何时应调用子代理的自然语言描述                                                 |
+  | `prompt`          | 是   | 指导子代理行为的系统提示词                                                     |
+  | `tools`           | 否   | 子代理可以使用的特定工具数组（如 `["Read", "Edit", "Bash"]`)。省略则继承所有工具 |
+  | `disallowedTools` | 否   | 子代理禁止使用的工具数组（黑名单），与 session 级 `--disallowedTools` 取并集生效 |
+  | `model`           | 否   | 模型 ID、名称或别名、场景变体 `lite` / `reasoning`，或 `inherit` / `default`。省略或设为 `inherit` / `default` 时，继续通过正常的子代理解析链选择模型 |

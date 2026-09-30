@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-plugins-model
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "何时使用插件 vs 独立配置"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  CodeBuddy Code 支持两种添加自定义技能、代理和钩子的方式：
+  | 方式 | 技能名称 | 适用场景 |
+  |------|----------|----------|
+  | **独立配置**（`.codebuddy/` 目录） | `/hello` | 个人工作流、项目特定定制、快速实验 |
+  | **插件**（含 `.codebuddy-plugin/plugin.json` 的目录） | `/plugin-name:hello` | 团队共享、社区分发、版本化发布、跨项目复用 |
+  **使用独立配置的场景**：
+  - 为单个项目定制 CodeBuddy Code
+  - 配置是个人的，不需要共享
+  - 在打包为插件之前实验技能或钩子
+  - 需要简短的技能名称，如 `/hello` 或 `/deploy`
+  **使用插件的场景**：
+  - 需要与团队或社区共享功能
+  - 需要在多个项目中使用相同的技能/代理
+  - 需要版本控制和便捷的更新机制
+  - 通过市场分发
+  - 可以接受命名空间化的技能名称如 `/my-plugin:hello`（命名空间防止插件间冲突）
+  > **提示**：先在 `.codebuddy/` 中使用独立配置快速迭代，准备共享时再[转换为插件](#将现有配置转换为插件)。

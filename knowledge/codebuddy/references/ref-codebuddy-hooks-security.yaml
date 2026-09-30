@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-hooks-security
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "安全注意事项"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  ### 免责声明
+  **使用风险自负**: CodeBuddy Code hooks 会在你的系统上自动执行任意 shell 命令。通过使用 hooks，你承认：
+  - 你对所配置的命令负全部责任
+  - Hooks 可以修改、删除或访问你的用户账户可以访问的任何文件
+  - 恶意或编写不当的 hooks 可能导致数据丢失或系统损坏
+  - Tencent Cloud 不提供任何保证，并对因使用 hooks 而导致的任何损害不承担任何责任
+  - 你应该在安全环境中彻底测试 hooks，然后再在生产环境中使用
+  ### 安全最佳实践
+  1. **验证和清理输入** - 永远不要盲目信任输入数据
+  2. **始终引用 shell 变量** - 使用 `"$VAR"` 而不是 `$VAR`
+  3. **阻止路径遍历** - 检查文件路径中的 `..`
+  4. **使用绝对路径** - 为脚本指定完整路径（对项目路径使用 `"$CODEBUDDY_PROJECT_DIR"`)
+  5. **跳过敏感文件** - 避免 `.env`、`.git/`、密钥等
+  ### 配置安全
+  直接编辑设置文件中的 hooks 不会立即生效。CodeBuddy Code:
+  1. 在启动时捕获 hooks 的快照
+  2. 在整个会话期间使用此快照
+  3. 如果 hooks 在外部被修改，会发出警告
+  4. 需要在 `/hooks` 菜单中审查才能应用更改

@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-skills-fork
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: Context Fork
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  `context: fork` 使 Skill 在隔离的子代理上下文中运行，不访问对话历史。
+  ```yaml
+  ---
+  name: deep-research
+  description: 深入研究某个主题
+  context: fork
+  agent: Explore
+  ---
+  研究 $ARGUMENTS：
+  1. 使用 Glob 和 Grep 查找相关文件
+  2. 读取并分析代码
+  3. 总结发现并附加具体文件引用
+  ```
+  ### 可用 Agent 类型
+  | 类型 | 说明 |
+  |-----|------|
+  | `general-purpose` | 通用（默认） |
+  | `Explore` | 只读工具，优化代码库探索 |
+  | `Plan` | 规划和分析 |
+  | 自定义 | `.codebuddy/agents/` 中定义的 agent |
+  ### 隐藏 Skill（user-invocable）
+  `user-invocable: false` 使 Skill 从 `/` 菜单中隐藏，适用于：
+  - 背景知识类 Skill（如项目规范、编码标准）
+  - 仅供其他 Skill 或 AI 内部引用的辅助 Skill
+  ```yaml
+  ---
+  name: project-guidelines
+  description: 项目编码规范和最佳实践
+  user-invocable: false
+  ---

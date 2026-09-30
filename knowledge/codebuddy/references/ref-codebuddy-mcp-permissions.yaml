@@ -1,0 +1,43 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-mcp-permissions
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "工具权限管理"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  MCP 工具支持完整的权限管理系统，可以精确控制哪些工具可以被使用：
+  #### 权限规则类型
+  权限系统支持三种规则类型（按优先级排序）：
+  1. **拒绝规则 （deny)** - 阻止使用指定工具（最高优先级）
+  2. **询问规则 （ask)** - 使用工具前需要用户确认（覆盖允许规则）
+  3. **允许规则 （allow)** - 允许工具使用而无需手动批准
+  #### MCP 权限规则格式
+  MCP 工具名的格式是 `mcp__<服务器名>__<工具名>`，用双下划线 `__` 分段（名字里的单下划线只是普通字符）。规则有三种写法：
+  ##### 服务器级权限
+  ```
+  mcp__服务器名
+  ```
+  匹配以 `mcp__服务器名__` 为前缀的全部工具，也就是这个服务器的所有工具。等价写法：`mcp__服务器名__*`。
+  ##### 工具级权限
+  ```
+  mcp__服务器名__工具名
+  ```
+  只匹配这一个工具。
+  ##### 所有 MCP 工具
+  ```
+  mcp__*
+  ```
+  匹配全部 MCP 工具，只在 `deny` 和 `ask` 里有效；放进 `allow` 等于没写，批量放开请按服务器逐个列出。
+  注意：
+  - 规则不区分大小写；连字符、点号等符号按下划线处理，`mcp__web-search` 与 `mcp__web_search` 等价
+  - `*` 只能整段替换最后一节。`mcp__git*`、`mcp__github__get_*` 匹配不到任何工具，而且不会报错
+  - MCP 工具只认 `mcp__` 开头的规则，裸 `*` 对它无效；要全部禁用请写 `"deny": ["mcp__*"]`
+  #### 配置示例
+  ##### 批准服务器的所有工具
+  放行所有以 `mcp__github__` 为前缀的工具。
+  ```json
+  {
+    "permissions": {

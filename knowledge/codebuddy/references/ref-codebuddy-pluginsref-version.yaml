@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-pluginsref-version
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "语义化版本控制"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  遵循语义化版本控制进行插件发布：
+  ```json
+  {
+    "name": "my-plugin",
+    "version": "2.1.0"
+  }
+  ```
+  **版本格式**: `MAJOR.MINOR.PATCH`
+  - **MAJOR**: 不兼容的 API 更改
+  - **MINOR**: 向后兼容的功能添加
+  - **PATCH**: 向后兼容的错误修复
+  **最佳实践**:
+  - 第一个稳定版本从 `1.0.0` 开始
+  - 分发更改前更新 `plugin.json` 中的版本
+  - 在 `CHANGELOG.md` 文件中记录变更
+  - 使用预发布版本（如 `2.0.0-beta.1`）进行测试
+  > **注意**: CodeBuddy 使用版本来判断是否需要更新插件。如果更改了插件代码但未更新 `plugin.json` 中的版本，由于缓存机制，现有用户不会看到变更。
+  >
+  > 如果插件在[市场](plugin-marketplaces.md)目录中，可以通过 `marketplace.json` 管理版本，并从 `plugin.json` 中省略 `version` 字段。

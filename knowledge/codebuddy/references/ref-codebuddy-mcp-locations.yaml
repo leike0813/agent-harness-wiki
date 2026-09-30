@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-mcp-locations
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "配置文件位置"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  配置文件使用优先级机制，系统会按优先级顺序查找第一个存在的文件进行读取。写入时，如果文件已存在，会写入第一个存在的文件；如果都不存在，会创建最高优先级的文件。
+  #### USER 作用域
+  优先级顺序（从高到低）：
+  1. `~/.codebuddy/.mcp.json`（推荐）
+  2. `~/.codebuddy/mcp.json`（已废弃）
+  3. `~/.codebuddy.json`（旧版配置文件）
+  **读取规则**：系统会按上述顺序查找第一个存在的文件并读取其内容。
+  **写入规则**：
+  - 如果上述文件中存在任意一个，写入第一个存在的文件
+  - 如果都不存在，创建 `~/.codebuddy/.mcp.json`（最高优先级）
+  #### PROJECT 作用域
+  优先级顺序（从高到低）：
+  1. `<项目根目录>/.mcp.json`（推荐）
+  2. `<项目根目录>/mcp.json`（已废弃）
+  **读取规则**：系统会按上述顺序查找第一个存在的文件并读取其内容。
+  **写入规则**：
+  - 如果上述文件中存在任意一个，写入第一个存在的文件
+  - 如果都不存在，创建 `<项目根目录>/.mcp.json`（最高优先级）
+  #### LOCAL 作用域
+  local 作用域的配置实际上保存在 user 作用域的配置文件中，通过 `projects` 字段来区分不同项目的 local 配置。
+  文件路径：`~/.codebuddy.json#/projects/<workspace_path>`
+  `#/projects/<workspace_path>` 使用的是 JSON Pointer 语法，用于指向 JSON 文档中的特定位置。关于 JSON Pointer 的详细说明，请参考：https://datatracker.ietf.org/doc/html/rfc6901
+  **注意**：

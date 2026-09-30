@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-mcp-large
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "超大响应处理"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  当 MCP 工具返回的内容超过 `MAX_MCP_OUTPUT_TOKENS`（默认 20000 tokens，约 80KB 字符数）时，CodeBuddy 会自动处理以避免占用过多上下文：
+  - **默认行为（落盘）**：把完整响应保存到当前会话的 `~/.codebuddy/projects/<project-hash>/<session-id>/tool-results/mcp-<server>-<tool>-<timestamp>-<rand>.txt`，返回给模型一段读取指引（包含文件路径、格式说明、分段读取要求）。模型可以通过 Read 工具按 `offset` / `limit` 参数分段读取完整内容，或用 `jq` 对 JSON 结构做结构化查询。
+  - **截断降级**：以下场景会直接截断内容到 `MAX_MCP_OUTPUT_TOKENS * 4` 字符上限，而不落盘：
+    - 响应包含图片块（避免 base64 payload 写入 `.txt` 文件丢失图片渲染）
+    - 当前无会话上下文（避免产生孤儿文件）
+    - 落盘失败（目录不可写、磁盘满等）
+    - 设置了环境变量 `CODEBUDDY_DISABLE_MCP_LARGE_OUTPUT_FILES=1`
+  截断时会在内容尾部追加 `[OUTPUT TRUNCATED - exceeded N token limit]` 标记，并告知模型哪些类型的块被丢弃（例如 `[Dropped 2 audio blocks due to size limit]`），方便模型改用分页或过滤参数重试。

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-trouble-logs
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "权限确认框无响应 / ESC 才能关"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  **症状**：TUI 弹出工具权限确认框，按数字键 / 回车确认后弹框不消失，但 ESC 能正常关闭，且关闭后任务实际已在执行。
+  ### 日志位置
+  ```bash
+  ls -t ~/.codebuddy/logs/codebuddy-*.log | head -1   # 最新一份
+  ```
+  可通过 `CODEBUDDY_CONFIG_DIR` 环境变量整体迁移配置目录。
+  ### 关键 TAG（按时序）
+  正常确认走完应该看到这一串（`grep -E '\[Approve\]|\[Reject\]|\[dequeue\]|\[tool-permission\]'`）：
+  | TAG | 含义 |
+  |---|---|
+  | `[tool-permission] ASK ...` | 工具被拦下来要审批 |
+  | `[HandleInterruptions] Approval dialog shown` | TUI 已显示弹框 |
+  | `[Approve] User approved tool: <name>` | 用户点了确认 |
+  | `[Approve] Deferred resolved` | 后端 promise 已 resolve（任务此时开始执行）|
+  | `[dequeue] Queue empty, clearing interruptionSubject` | `pending$` 清空，弹框应消失 |
+  | `[Approve] Success: ... interruption dequeued` | 全流程结束 |
+  ESC 路径把 `[Approve]` 替换为 `[Reject]`。
+  ### 现象 → 推断
+  | 看到 | 推断 |
+  |---|---|
+  | 整套 TAG 都有但弹框不消失 | UI 渲染卡住（如 IDE closeTab RPC 阻塞 await）|

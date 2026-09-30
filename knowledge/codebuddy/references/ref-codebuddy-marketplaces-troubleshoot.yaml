@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-marketplaces-troubleshoot
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "故障排除"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  ### /plugin 命令未识别
+  如果看到"未知命令"或 `/plugin` 命令不出现：
+  1. **检查版本**：运行 `codebuddy --version` 查看已安装的版本
+  2. **更新 CodeBuddy Code**：
+     * **npm**：`npm update -g @tencent-ai/codebuddy-code`
+     * **本地安装器**：重新运行[安装](./installation.md)中的安装命令
+  3. **重启 CodeBuddy Code**：更新后，重启终端并再次运行 `codebuddy`
+  ### 常见问题
+  * **市场无法加载**：验证 URL 可访问且路径中存在 `.codebuddy-plugin/marketplace.json`
+  * **插件安装失败**：检查插件源 URL 可访问且仓库为公开（或你有访问权限）
+  * **安装后文件未找到**：插件被复制到缓存，所以引用插件目录外的文件路径无法工作
+  * **插件技能不显示**：清除缓存 `rm -rf ~/.codebuddy/plugins/cache`，重启 CodeBuddy Code 并重新安装插件
+  更多故障排除方案参见[完整故障排除指南](./troubleshooting.md)。调试工具参见[调试和开发工具](./plugins-reference.md#七-调试和开发工具)
+  ### 代码智能问题
+  * **语言服务器未启动**：验证二进制文件已安装且在 `$PATH` 中。检查 `/plugin` 错误标签页了解详情

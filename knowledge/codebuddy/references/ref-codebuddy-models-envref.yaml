@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-models-envref
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "安全配置：使用环境变量引用"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  为避免 API 密钥明文存储在配置文件中，`apiKey` 和 `url` 字段支持环境变量引用语法 `${VAR_NAME}`。
+  **语法格式：**
+  ```
+  ${环境变量名}
+  ```
+  **配置示例：**
+  ```json
+  {
+    "models": [
+      {
+        "id": "gpt-4o",
+        "name": "GPT-4o",
+        "vendor": "OpenAI",
+        "apiKey": "${OPENAI_API_KEY}",
+        "url": "https://api.openai.com/v1/chat/completions"
+      }
+    ]
+  }
+  ```
+  **设置环境变量：**
+  ```bash

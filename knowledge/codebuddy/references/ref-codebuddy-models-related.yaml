@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-models-related
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "配置关联模型"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  CodeBuddy Code 在一次会话中会根据场景切换模型，避免用大模型处理简单任务、或用通用模型处理需要推理 / 视觉 / 长上下文的请求。这些场景通过模型条目的 `relatedModels` 字段声明。
+  **支持的场景（variant type）：**
+  | 场景 | 用途 | 当前状态 |
+  |------|------|---------|
+  | `lite` | 轻量快速模型，用于后台提取、摘要等低价值请求；也是 Agent 工具 `model: "lite"` 参数对应的模型 | **已生效** |
+  | `reasoning` | 推理增强模型，用于需要深度思考的复杂推理；Agent 工具 `model: "reasoning"` 参数对应的模型 | **已生效** |
+  | `subagent` | 子代理和团队成员默认使用的模型 | **预留未启用**——子代理使用独立的 `subagents` 解析链，不读取本字段 |
+  | `vision` | 视觉理解模型，用于需要处理图片的请求 | **预留未启用**——类型已定义，尚无调用点消费此 variant |
+  | `longContext` | 长上下文模型，用于上下文超长的请求 | **预留未启用**——类型已定义，尚无调用点消费此 variant |
+  > **当前实际可用**：只有 `lite` 和 `reasoning` 两个 variant 在 agent-manager 中被消费并映射到模型切换逻辑。`subagent` / `vision` / `longContext` 三项仅保留在类型定义中，为后续迭代预留，现在写进 `relatedModels` 不会报错但也不会生效。
+  **关键规则（自定义模型必读）：**

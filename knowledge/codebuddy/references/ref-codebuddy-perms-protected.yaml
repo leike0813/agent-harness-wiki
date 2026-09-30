@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-perms-protected
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "受保护文件 / 路径"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  任意模式下，CodeBuddy 都会对一组关键路径加额外保护（与 [权限模式](permission-modes.md#受保护的关键文件) 一致）：
+  - 仓库自身：`.git`、`.gitconfig`、`.gitmodules`
+  - shell 配置：`.bashrc` / `.zshrc` / `.envrc` 等
+  - 包管理：`.npmrc` / `.yarnrc` / `bunfig.toml` 等
+  - IDE 工具：`.vscode` / `.idea` / `.husky` / `.devcontainer`
+  - CodeBuddy 自身：`.codebuddy`（除 `.codebuddy/worktrees`）
+  - MCP / 配置：`.mcp.json` / `.codebuddy.json`
+  `bypassPermissions` 模式仍然会让其中绝大部分通过，但 `rm -rf /` / `rm -rf ~` 这类"灾难性命令"会被强制询问。

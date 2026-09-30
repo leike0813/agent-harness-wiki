@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-skills-overrides
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "从设置覆盖 Skill 可见性（skillOverrides）"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  `skillOverrides` 设置让你在**不修改 SKILL.md** 的情况下，从 settings 控制单个 Skill 的可见性，适用于你不方便改动的 Skill（例如提交进共享仓库的项目 Skill）。
+  配置位于 settings 的 `skillOverrides`，按 Skill 名索引，每个值为四态之一：
+  | 值 | 对模型可见 | 在 `/` 菜单 | 说明 |
+  |---|---|---|---|
+  | `on` | 名称 + 描述 | 是 | 不覆盖，回退 SKILL.md frontmatter 现状 |
+  | `name-only` | 仅名称 | 是 | 折叠描述，省 context 预算 |
+  | `user-invocable-only` | 隐藏 | 是 | 对模型隐藏（不进清单），用户与模型按名调用仍放行 |
+  | `off` | 隐藏 | 隐藏 | 对模型与菜单都隐藏，按名调用返回禁用提示 |
+  `/skills` 菜单把 `user-invocable-only` 状态标注为 **`user-only`**；这只是**显示用短标签**，写进配置文件的仍是规范值 `user-invocable-only`。
+  未列出的 Skill 视为 `on`。示例：
+  ```json
+  {
+    "skillOverrides": {
+      "legacy-context": "name-only",
+      "deploy": "off"
+    }
+  }
+  ```
+  设为 `off` 后，`/skill-name` 及模型按名调用都会被拦截并提示：
+  ```
+  Skill "<name>" is disabled via skillOverrides.

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-pluginsref-paths
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "路径行为规则"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  对于 `commands`、`agents`、`skills` 和 `outputStyles`，自定义路径会**替换**默认目录。如果清单指定了 `commands`，则不会扫描默认的 `commands/` 目录。Hooks、MCP servers 和 LSP servers 对处理多个来源有不同的语义。
+  - 所有路径必须相对于插件根目录并以 `./` 开头
+  - 自定义路径中的组件使用相同的命名和命名空间规则
+  - 可以将多个路径指定为数组
+  - 要保留默认目录并添加更多路径，在数组中包含默认目录：`"commands": ["./commands/", "./extras/deploy.md"]`
+  **路径示例**:
+  ```json
+  {
+    "commands": [
+      "./specialized/deploy.md",
+      "./utilities/batch-process.md"
+    ],
+    "agents": [
+      "./custom-agents/reviewer.md",
+      "./custom-agents/tester.md"
+    ]
+  }
+  ```

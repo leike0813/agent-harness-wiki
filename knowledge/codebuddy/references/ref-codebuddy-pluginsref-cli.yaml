@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-pluginsref-cli
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "六、CLI 命令参考"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  CodeBuddy 提供 CLI 命令用于非交互式插件管理，适用于脚本和自动化。
+  ### plugin install
+  从可用市场安装插件。
+  ```bash
+  codebuddy plugin install <plugin> [options]
+  ```
+  **参数**:
+  - `<plugin>`: 插件名称或 `plugin-name@marketplace-name`（指定特定市场）
+  **选项**:
+  | 选项 | 描述 | 默认 |
+  |------|------|------|
+  | `-s, --scope <scope>` | 安装作用域：`user`、`project` 或 `local` | `user` |
+  | `-h, --help` | 显示命令帮助 | |
+  作用域决定已安装插件添加到哪个设置文件。例如 `--scope project` 写入 `.codebuddy/settings.json` 中的 `enabledPlugins`，使插件对所有克隆该项目仓库的人可用。
+  **示例**:
+  ```bash

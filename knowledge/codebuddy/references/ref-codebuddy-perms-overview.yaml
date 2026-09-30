@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-perms-overview
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "权限系统概览"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  CodeBuddy Code 的权限不是“只看当前 mode”，而是一条分层求值链。每次工具调用，大致按下面顺序判定：
+  | 阶段 | 检查项 | 命中后行为 |
+  | :--- | :--- | :--- |
+  | 0 | **Hooks / 交互型工具特例** | `PreToolUse` 可直接 allow / deny / ask；`AskUserQuestion` 这类工具本身就要求交互 |
+  | 1 | **Deny 规则** | 立刻拒绝，最高优先级 |
+  | 2 | **可信 Allow 规则**（user / CLI / session / policy / 已信任项目规则 / `--allowedTools`） | 立刻放行，且**可越过交互态危险命令检查** |
+  | 3 | **命令安全检查**（仅交互式） | 高危 Bash 命令强制进入 ask |
+  | 4 | **Ask 规则** | 强制 ask |
+  | 5 | **Bypass 模式短路** | `bypassPermissions` 在这里放行大多数动作；若已被禁用则退化 |
+  | 6 | **不可信 Allow 规则**（未信任项目规则、command / sandbox 来源） | 可放行，但**不能**越过上一步危险命令检查 |
+  | 7 | **权限模式基线策略** | 由当前 [权限模式](permission-modes.md) 决定默认是 allow 还是 ask |
+  | 8 | **非交互兜底** | 无法弹审批框时，把 unresolved `ask` 转成 `deny` |
+  | 9 | **`dontAsk` / `auto` 最终收口** | `dontAsk` 把 ask 改写为 deny；`auto` 只接管 ask 并交给分类器 |

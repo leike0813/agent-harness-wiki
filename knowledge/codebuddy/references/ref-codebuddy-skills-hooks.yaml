@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-skills-hooks
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "在 Skill 中配置 Hooks"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  > **版本要求**：Skill frontmatter `hooks` 字段需要 CodeBuddy Code 支持 Frontmatter Hooks 的版本（Beta）。
+  除了在 `~/.codebuddy/settings.json` 中全局配置 Hooks，Skill 还可以直接在 SKILL.md 的 frontmatter 里声明 `hooks` 字段，把 Hook 与 Skill 自身打包在一起。这对于 fork 类 Skill 尤其有用——可以在 fork subagent 内部加守卫、日志、回调，且不污染主会话。
+  ### 适用范围
+  - **仅 `context: fork` 生效**：注入路径（默认 inline 模式）的 Skill 没有清晰的生命周期边界，frontmatter hooks 会被解析但不会注册到运行时。
+  - **生命周期与 fork subagent 绑定**：fork subagent 启动时注册 hooks，结束时自动清理，不影响主会话和其他 Skill。
+  - **`Stop` 自动转 `SubagentStop`**：在 frontmatter 中写 `Stop` event 会被自动重写为 `SubagentStop`，对齐 subagent 完成的真实事件。
+  ### 字段格式
+  `hooks` 字段的结构和 `settings.json` 中的 `hooks` 完全一致——按事件名分组、每条配置可带 `matcher` 和 `hooks[]` 数组：
+  ```yaml
+  ---
+  name: secure-reviewer
+  description: 代码审查 Skill，在执行前检查文件白名单
+  context: fork
+  agent: Explore
+  hooks:
+    PreToolUse:

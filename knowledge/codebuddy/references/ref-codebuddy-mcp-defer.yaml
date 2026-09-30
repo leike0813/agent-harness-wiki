@@ -1,0 +1,51 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-mcp-defer
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "延迟加载 (defer_loading)"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  当 MCP 服务器提供大量工具时，可以使用 `defer_loading` 配置来延迟加载工具，减少上下文消耗并提高模型工具选择的准确性。
+  #### 工作原理
+  - 设置 `defer_loading: true` 的工具不会在初始请求时加载到模型上下文
+  - 模型可以通过 `ToolSearch` 工具搜索这些延迟加载的工具
+  - 搜索到的工具会被激活，并在后续请求中可用
+  - 激活状态在当前会话中保持
+  #### 服务器级别配置
+  将服务器的所有工具设为延迟加载：
+  ```json
+  {
+    "mcpServers": {
+      "my-server": {
+        "type": "stdio",
+        "command": "my-mcp-server",
+        "defer_loading": true
+      }
+    }
+  }
+  ```
+  #### 工具级别配置
+  可以为单个工具覆盖服务器级别的设置：
+  ```json
+  {
+    "mcpServers": {
+      "my-server": {
+        "type": "stdio",
+        "command": "my-mcp-server",
+        "defer_loading": true,
+        "tools": {
+          "frequently_used_tool": {
+            "defer_loading": false
+          }
+        }
+      }
+    }
+  }
+  ```
+  #### 继承规则
+  | 服务器 defer_loading | 工具 defer_loading | 最终结果 |
+  |---------------------|-------------------|---------|
+  | true | 未设置 | true（继承） |

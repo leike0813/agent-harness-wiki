@@ -1,0 +1,43 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-dir-project
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "项目目录 `.codebuddy/`"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  放置于项目根目录，可以提交到版本控制以供团队共享：
+  ```
+  .codebuddy/
+  ├── settings.json              # 项目共享配置
+  ├── settings.local.json        # 本地个人配置（.gitignore 自动忽略）
+  ├── CODEBUDDY.md               # 项目级记忆文件
+  │
+  ├── agents/                    # 项目级自定义子代理
+  ├── rules/                     # 项目级规则文件
+  ├── skills/                    # 项目级技能
+  ├── commands/                  # 自定义斜杠命令
+  ```
+  ### 配置文件
+  #### `settings.json`
+  项目共享配置，通过版本控制与团队同步。适合配置项目统一的模型、权限规则、插件等：
+  ```json
+  {
+    "permissions": {
+      "allow": ["Read", "Edit", "Bash(git:*)", "Bash(npm:*)"],
+      "deny": ["Read(./.env)", "Read(./secrets/**)"]
+    },
+    "enabledPlugins": {
+      "pr-review-toolkit@company-tools": true
+    },
+    "extraKnownMarketplaces": {
+      "company-tools": {
+        "source": {
+          "source": "github",
+          "repo": "myorg/codebuddy-plugins"
+        }
+      }
+    }
+  }

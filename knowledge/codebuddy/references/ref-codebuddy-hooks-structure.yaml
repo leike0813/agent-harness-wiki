@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-hooks-structure
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "结构"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  Hooks 按匹配器组织，每个匹配器可以有多个 hooks:
+  ```json
+  {
+    "hooks": {
+      "EventName": [
+        {
+          "matcher": "ToolPattern",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "your-command-here"
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```
+  **关键字段：**
+  - **matcher**：用于匹配工具名称的正则表达式模式，区分大小写（仅适用于 PreToolUse 和 PostToolUse)
+    - 简单字符串匹配：`Write` 会匹配任何包含 "Write" 的工具名（如 `Write`、`NotebookWrite`）
+    - 精确匹配：使用 `^Write$` 仅匹配 Write 工具
+    - 多工具匹配：`Edit|Write` 或 `Web.*`
+    - 匹配所有工具：以下三种方式等效
+      - 使用 `*` 字符
+      - 使用空字符串 `""`
+      - 省略 matcher 字段
+  - **hooks**：当模式匹配时执行的 hooks 数组
+    - **type**: Hook 执行类型 - `"command"` 用于 shell 命令，或 `"prompt"` 用于基于 LLM 的评估

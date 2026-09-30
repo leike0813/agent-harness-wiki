@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-agents-model
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "模型选择"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  `model` 字段允许您控制子代理使用的 [AI 模型](models.md)：
+  * **模型 ID、名称或别名**：直接选择一个可用模型
+  * **场景变体**：使用 `lite` 或 `reasoning`，再由 `/model` 或 `variantModels` 映射到具体模型
+  * **`inherit` / `default`，或省略**：不强制具体模型，继续按环境变量、单次调用、按子代理设置、内置声明和主对话模型的顺序解析
+  > **注意**：使用 `inherit` 时，如果没有更高优先级的配置，子代理最终会继承主对话模型，有助于保持功能和响应风格一致。

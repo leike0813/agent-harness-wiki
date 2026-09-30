@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-settings-permissions
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "权限设置"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  | 配置键 | 描述 | 示例 |
+  |:------|:-----|:-----|
+  | `allow` | [权限规则](iam.md#配置权限)数组,允许工具使用。**注意:** Bash 规则使用前缀匹配,不是正则表达式 | `[ "Bash(git diff:*)" ]` |
+  | `ask` | [权限规则](iam.md#配置权限)数组,在工具使用时询问确认 | `[ "Bash(git push:*)" ]` |
+  | `deny` | [权限规则](iam.md#配置权限)数组,拒绝工具使用。用于排除 CodeBuddy Code 访问敏感文件。**注意:** Bash 模式是前缀匹配,可以被绕过(参见 [Bash 权限限制](iam.md#工具特定的权限规则)) | `[ "WebFetch", "Bash(curl:*)", "Read(./.env)", "Read(./secrets/**)" ]` |
+  | `additionalDirectories` | CodeBuddy 可以访问的额外[工作目录](iam.md#工作目录) | `[ "../docs/" ]` |
+  | `defaultMode` | 打开 CodeBuddy Code 时的默认[权限模式](permission-modes.md)。常用值：`default`、`acceptEdits`、`auto`、`dontAsk`、`plan`、`bypassPermissions` | `"acceptEdits"` |

@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-plugins-defaults
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "携带默认设置"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  插件可以在根目录包含 `settings.json` 文件，在插件启用时应用默认配置。目前仅支持 `agent` 键。
+  设置 `agent` 会将插件的一个[自定义代理](sub-agents.md)激活为主线程，应用其系统提示词、工具限制和模型。这让插件在启用时可以改变 CodeBuddy Code 的默认行为。
+  ```json
+  {
+    "agent": "security-reviewer"
+  }
+  ```
+  此示例激活插件 `agents/` 目录中定义的 `security-reviewer` 代理。`settings.json` 中的设置优先于 `plugin.json` 中声明的 `settings`。未知键会被静默忽略。

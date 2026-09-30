@@ -1,0 +1,44 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-hooks-mcp
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "使用 MCP 工具"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  CodeBuddy Code hooks 与模型上下文协议(MCP)工具无缝配合。
+  ### MCP 工具命名
+  MCP 工具遵循 `mcp__<server>__<tool>` 模式，例如：
+  - `mcp__memory__create_entities` - Memory 服务器的创建实体工具
+  - `mcp__filesystem__read_file` - Filesystem 服务器的读取文件工具
+  - `mcp__github__search_repositories` - GitHub 服务器的搜索工具
+  ### 为 MCP 工具配置 Hooks
+  你可以针对特定的 MCP 工具或整个 MCP 服务器：
+  ```json
+  {
+    "hooks": {
+      "PreToolUse": [
+        {
+          "matcher": "mcp__memory__.*",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "echo 'Memory operation initiated' >> ~/mcp-operations.log"
+            }
+          ]
+        },
+        {
+          "matcher": "mcp__.*__write.*",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "python3 /home/user/scripts/validate-mcp-write.py"
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```

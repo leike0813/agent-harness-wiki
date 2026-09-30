@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-hooks-output
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "Hook 输出"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  Hooks 有两种方式将输出返回给 CodeBuddy Code。
+  ### 简单方式： 退出代码
+  Hooks 通过退出代码、stdout 和 stderr 传达状态：
+  - **退出代码 0**：成功。stdout 在 transcript 模式(CTRL-R)中显示给用户，但 UserPromptSubmit 和 SessionStart 除外，其中 stdout 会添加到上下文中。
+  - **退出代码 2**：阻塞错误。消息来源优先级：stdout（JSON 的 `reason`/`stopReason` 字段或纯文本）> stderr。即 **stderr 仅作为 fallback**，只有当 stdout 没有输出任何内容时才会传递给 CodeBuddy。因此调试日志可以安全地写入 stderr，不会污染给 Agent 的反馈消息。
+  - **其他退出代码**：非阻塞错误。stderr 显示给用户，执行继续。
+  #### 退出代码 2 的行为
+  > **注意**：下表中"显示消息"指的是按优先级从 stdout 或 stderr 获取的消息（参见上文 fallback 说明）。
+  | Hook 事件 | 行为 |
+  |------------|----------|
+  | PreToolUse | 阻止工具调用，向 CodeBuddy 显示消息 |
+  | PostToolUse | 向 CodeBuddy 显示消息（工具已运行，用于补充上下文）；可用 `updatedToolOutput` 替换工具结果 |
+  | Notification | N/A，仅向用户显示消息 |
+  | UserPromptSubmit | 阻止提示词处理，清除提示词，仅向用户显示消息 |
+  | Stop | 阻止停止，向 CodeBuddy 显示消息并继续对话 |

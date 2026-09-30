@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-env-settings
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "在 settings.json 中配置"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  环境变量也可以在 `settings.json` 的 `env` 字段中设置：
+  > **例外**：`CODEBUDDY_IS_SANDBOX` **不会**从这里注入。必须在启动进程的环境里设置，例如 `export CODEBUDDY_IS_SANDBOX=1 && codebuddy -y`。详见[沙箱 full pass（高危）](#沙箱-full-pass-高危)。
+  ```json
+  {
+    "env": {
+      "CODEBUDDY_API_KEY": "your-api-key",
+      "HTTPS_PROXY": "https://proxy.example.com:8080",
+      "MAX_THINKING_TOKENS": "10000",
+      "CODEBUDDY_DISABLE_AUTO_MEMORY": "0"
+    }
+  }
+  ```

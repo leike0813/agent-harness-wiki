@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-settings-exclude
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "排除敏感文件"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  为防止 CodeBuddy Code 访问包含敏感信息的文件（如 API 密钥、秘密、环境文件），在 `.codebuddy/settings.json` 文件中使用 `permissions.deny` 设置：
+  ```json
+  {
+    "permissions": {
+      "deny": [
+        "Read(./.env)",
+        "Read(./.env.*)",
+        "Read(./secrets/**)",
+        "Read(./config/credentials.json)",
+        "Read(./build)"
+      ]
+    }
+  }
+  ```
+  匹配这些模式的文件将对 CodeBuddy Code 完全不可见，防止任何敏感数据的意外泄露。

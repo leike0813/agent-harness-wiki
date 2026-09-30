@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-iam-auth
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "认证方法"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  ### 快速开始
+  根据你的场景选择认证方式：
+  | 场景 | 推荐方式 | 如何获取凭据 |
+  |:-----|:--------|:------------|
+  | 个人开发者 | `CODEBUDDY_API_KEY` | [从平台获取 API Key](#个人用户-获取-api-key) |
+  | 企业/团队（OAuth 集成） | `apiKeyHelper` | [创建应用获取 Client ID/Secret](#企业用户-oauth-认证) |
+  | CI/CD 已有 OAuth token | `CODEBUDDY_AUTH_TOKEN` | 直接使用已有 token |
+  | 第三方模型服务 | `CODEBUDDY_API_KEY` + `BASE_URL` | 从第三方服务商获取 |
+  > 当多个认证方式同时配置时，按以下优先级生效：**CODEBUDDY_AUTH_TOKEN > apiKeyHelper > CODEBUDDY_API_KEY**
+  ---
+  ### 个人用户：获取 API Key
+  适用于个人开发者快速上手，使用 CodeBuddy 平台提供的模型服务。
+  **第 1 步：获取 API Key**
+  访问对应平台获取你的 API Key：
+  | 版本 | 获取地址 |
+  |:----|:--------|
+  | 海外版 | <https://www.codebuddy.ai/profile/keys> |
+  | 中国版 | <https://copilot.tencent.com/profile/> |
+  | iOA 版 | <https://tencent.sso.copilot.tencent.com/profile/keys> |
+  **第 2 步：配置环境变量**

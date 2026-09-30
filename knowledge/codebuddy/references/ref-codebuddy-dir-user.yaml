@@ -1,0 +1,41 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-dir-user
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "用户级扩展目录"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  #### `agents/`
+  存放对所有项目生效的用户级自定义子代理。每个代理为一个 `.md` 文件：
+  ```
+  ~/.codebuddy/agents/
+  ├── code-reviewer.md      # 代码审查代理
+  └── translator.md         # 翻译代理
+  ```
+  文件格式（YAML frontmatter + 系统提示）：
+  ```markdown
+  ---
+  name: code-reviewer
+  description: 代码审查专家，在编写代码后主动使用
+  tools: Read, Grep, Glob, Bash
+  model: inherit
+  ---
+  你是一位高级代码审查员，专注于代码质量、安全性和最佳实践...
+  ```
+  详见 [子代理文档](sub-agents.md)。
+  #### `rules/`
+  存放对所有项目生效的用户级规则文件。所有 `.md` 文件自动加载，支持子目录：
+  ```
+  ~/.codebuddy/rules/
+  ├── preferences.md        # 个人编码偏好
+  └── workflows.md          # 常用工作流规范
+  ```
+  规则文件支持 frontmatter 控制加载行为：
+  ```markdown
+  ---
+  alwaysApply: false
+  paths: src/**/*.ts
+  ---

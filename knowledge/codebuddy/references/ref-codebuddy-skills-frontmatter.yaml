@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-skills-frontmatter
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "Frontmatter 字段"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  | 字段 | 必填 | 说明 | 示例 |
+  |-----|------|------|------|
+  | `name` | 否 | Skill 名称，未指定时使用目录名 | `pdf` |
+  | `description` | 否 | Skill 描述，帮助 AI 理解何时使用 | `PDF 文档处理专家 （project)` |
+  | `allowed-tools` | 否 | 允许使用的工具白名单，逗号分隔 | `Read, Write, Bash` |
+  | `disable-model-invocation` | 否 | 设置为 `true` 时，Skill 不会出现在 Skill 工具中，只能通过 `/skill-name` 手动触发 | `true` |
+  | `user-invocable` | 否 | 设置为 `false` 时，Skill 从 `/` 菜单中隐藏，仅供 AI 内部调用或其他 Skill 引用，默认 `true` | `false` |
+  | `context` | 否 | 设置为 `fork` 时，Skill 在独立的 subagent 上下文中执行 | `fork` |
+  | `agent` | 否 | 指定 subagent 类型，仅在 `context: fork` 时有效 | `Explore` |
+  | `model` | 否 | 指定 Skill 执行时使用的模型（仅 `context: fork` 时生效，未配置时回退到 agent 默认模型） | `claude-sonnet-4` |
+  | `hooks` | 否 | 在 SKILL.md 中声明 Skill 专属的 Hooks，仅 `context: fork` 时生效，详见 [在 Skill 中配置 Hooks](#在-skill-中配置-hooks) | 见下文 |

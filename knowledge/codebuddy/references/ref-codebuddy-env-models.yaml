@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-env-models
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "模型配置"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  | 环境变量 | 说明 |
+  |---------|------|
+  | `CODEBUDDY_MODEL` | 覆盖默认代理模型 |
+  | `CODEBUDDY_SMALL_FAST_MODEL` | 覆盖 `lite`（轻量快速）场景变体的模型；优先级高于 `variantModels.lite` 设置项 |
+  | `CODEBUDDY_BIG_SLOW_MODEL` | 覆盖 `reasoning`（推理增强）场景变体的模型；优先级高于 `variantModels.reasoning` 设置项 |
+  | `CODEBUDDY_CODE_SUBAGENT_MODEL` | **一刀切**覆盖所有内置子代理的模型（优先级最高，压过 `subagents` 设置项）。仅需按子代理独立配置时，改用 `/agents` 面板或 `settings.json` 的 `subagents.agents.<子代理名>.model` |
+  | `MAX_THINKING_TOKENS` | 启用扩展思考并设置思考过程的 token 预算。默认禁用 |
+  > **env 与 settings 的关系**：模型相关环境变量用于运维或 CI 级覆盖。
+  >
+  > - 内置子代理：`CODEBUDDY_CODE_SUBAGENT_MODEL` > 本次 Agent 工具调用的 `model` 入参 > 项目级 `subagents` > 用户全局 `subagents` > 产品内置声明 > 主模型。
+  > - 场景变体：对应的变体环境变量 > 项目级 `variantModels` > 用户全局 `variantModels` > 主模型的 `relatedModels` > 适用的产品内置默认 > 主模型。
+  >

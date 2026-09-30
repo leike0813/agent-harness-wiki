@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-slash-custom
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "自定义斜杠命令 （Custom Slash Commands)"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  这是 CodeBuddy Code 最强大的功能之一。您可以将常用的提示(Prompts)、脚本和工作流封装成可复用的自定义命令，从而极大地提升效率。
+  > 💡 **另请参阅**：[Skills 技能系统](skills.md) - 如果您需要创建 AI 自动识别并调用的专业能力模板，而不是用户手动触发的命令，请查看 Skills 文档。
+  ### 创建自定义命令
+  自定义命令通过在特定目录中创建 `.md` (Markdown) 文件来定义。
+  1.  **项目级命令**：在您的项目根目录下创建 `.codebuddy/commands/` 文件夹。此处的命令对所有项目协作者可用。
+  2.  **个人全局命令**：在您的用户主目录下创建 `~/.codebuddy/commands/` 文件夹。此处的命令在您所有的项目中都可用。
+  创建一个命令，只需在上述任一目录中添加一个 `.md` 文件即可。例如,`test.md` 文件会自动注册为 `/test` 命令。
+  #### 子目录中的命令命名
+  您可以在 `commands/` 目录下创建子目录来组织您的命令。子目录中的命令会使用冒号分隔的层级命名结构：
+  - `commands/test.md` → `/test`
+  - `commands/frontend/build.md` → `/frontend:build`
+  - `commands/backend/deploy/staging.md` → `/backend:deploy:staging`
+  这种命名方式让您可以：
+  - 按功能模块组织命令（如 `frontend`、`backend`、`database` 等）
+  - 创建层级化的命令结构
+  - 避免命名冲突，提高命令的可维护性
+  ### Frontmatter 与元数据

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-hooks-events
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "事件类型"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  | 事件 | 触发时机 | matcher 字段 | 典型场景 |
+  | --- | --- | --- | --- |
+  | `PreToolUse` | 工具执行前 | 支持（工具名） | 校验命令、二次审批、日志记录 |
+  | `PostToolUse` | 工具成功执行后 | 支持 | 自动格式化、补充上下文、压缩/替换工具结果 |
+  | `Notification` | 权限请求或 60 秒无输入提醒 | 部分支持 | 桌面提示、IM 通知 |
+  | `UserPromptSubmit` | 用户提交消息时<br/>**注：不包括内部命令** | 不支持 | 内容审查、上下文注入 |
+  | `Stop` | 主代理响应结束时 | 不支持 | 要求继续执行、追加提醒 |
+  | `SubagentStop` | 子代理（TaskTool）结束时 | 不支持 | 子任务继续执行或补充说明 |
+  | `PreCompact` | 执行上下文压缩前 | 支持（`manual`/`auto`） | 保留关键信息、防止压缩 |
+  | `PostCompact` | 成功完成上下文压缩后 | 不支持 | 记录压缩摘要、同步外部状态 |
+  | `SessionStart` | 会话创建或恢复时 | 支持（`startup`/`resume`/`clear`/`compact`） | 环境初始化、变量注入 |
+  | `SessionEnd` | 会话结束时 | 支持（`clear`/`logout`/`prompt_input_exit`/`other`） | 清理资源、持久化日志 |

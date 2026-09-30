@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-mcp-envexpand
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "环境变量扩展"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  MCP 配置支持环境变量扩展，允许您在配置中引用系统环境变量。这对于在团队间共享配置、管理敏感信息（如 API 密钥、令牌）以及支持环境特定配置（开发、测试、生产）非常有用。
+  #### 支持的语法
+  - **`${VAR_NAME}`** - 展开为环境变量 VAR_NAME 的值
+  - **`${VAR_NAME:-default_value}`** - 如果 VAR_NAME 未设置，使用默认值
+  #### 变量命名规则
+  - 变量名必须以大写字母或下划线 `[A-Z_]` 开头
+  - 后续字符只能是大写字母、数字或下划线 `[A-Z0-9_]*`
+  - 小写字母、混合大小写以及以数字开头的变量不会被展开
+  #### 支持的配置字段
+  环境变量可以在以下配置字段中展开：
+  **STDIO 类型配置**：
+  - `command` - 可执行文件路径或命令
+  - `args` - 命令行参数列表中的每个参数
+  - `env` - 环境变量值（键不会被展开）
+  **SSE/HTTP/Remote 类型配置**：
+  - `url` - 服务端点 URL
+  - `headers` - HTTP 请求头值（键不会被展开）
+  #### 错误处理
+  **环境变量未设置的行为**：
+  - 如果环境变量未设置且**有默认值**，使用默认值
+  - 如果环境变量未设置且**无默认值**，保留原始占位符（`${VAR}`），并在诊断中报告 WARNING 消息
+  这意味着配置不会因缺失的环境变量而失败，而是保留占位符并发出警告。
+  #### 示例配置
+  **示例 1：STDIO 类型服务器，使用环境变量**
+  ```json
+  {
+    "mcpServers": {
+      "python-tools": {
+        "type": "stdio",
+        "command": "${PYTHON_PATH:-python}",

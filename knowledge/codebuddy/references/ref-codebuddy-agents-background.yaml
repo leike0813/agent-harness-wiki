@@ -1,0 +1,47 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-agents-background
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "后台代理"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  后台代理允许您在后台运行子代理任务，而不阻塞主对话。这对于长时间运行的任务特别有用，您可以继续与 CodeBuddy Code 交互，同时任务在后台执行。
+  **工作原理：**
+  * 使用 `run_in_background: true` 参数启动后台代理
+  * 任务立即返回一个任务 ID，不会阻塞主对话
+  * 后台代理在分离模式下运行，中间消息不会干扰主对话
+  * 使用 `TaskOutput` 工具获取后台任务的状态和结果
+  **启动后台代理：**
+  ```
+  > 在后台运行 code-analyzer 代理来审查整个代码库
+  [任务已在后台启动。任务 ID: task-abc123]
+  **获取后台任务输出：**
+  使用 `TaskOutput` 工具查询后台任务的状态和结果：
+  ```
+  > 查看后台任务 task-abc123 的状态
+  任务 ID: task-abc123
+  状态： running
+  耗时： 2m 30s
+  提示词：
+  审查整个代码库的代码质量问题
+  响应：
+  （任务仍在运行中）
+  ```
+  **后台任务状态：**
+  | 状态 | 说明 |
+  | :--- | :--- |
+  | `pending` | 任务已创建，等待执行 |
+  | `running` | 任务正在执行中 |
+  | `completed` | 任务已成功完成 |
+  | `failed` | 任务执行失败 |
+  | `cancelled` | 任务被用户取消 |
+  | `killed` | 任务被强制终止 |
+  **程序化用法：**
+  如果您使用 Agent SDK 或直接与 Agent 工具交互，可以传递 `run_in_background` 参数：
+  ```typescript
+  {
+    "description": "分析代码库",
+    "prompt": "审查所有 TypeScript 文件的潜在问题",

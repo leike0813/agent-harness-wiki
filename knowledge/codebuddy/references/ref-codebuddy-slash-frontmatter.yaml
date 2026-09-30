@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-slash-frontmatter
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "Frontmatter 与元数据"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  您可以在 Markdown 文件的顶部使用 YAML Frontmatter 来定义命令的元数据。
+  ```markdown
+  ---
+  description: "为我的项目运行单元测试并报告结果。"
+  argument-hint: "[test-file]"
+  allowed-tools: Bash(npm run:*)
+  model: gemini-3.1-pro
+  ---
+  请为我运行 `npm run test -- $1` 命令，并总结测试结果。如果未提供测试文件，则运行所有测试。
+  ```
+  支持的元数据字段：
+  | 字段 | 描述 | 示例 |
+  |------|------|------|
+  | `description` | 命令的简短描述,会在自动补全提示中显示。| `"运行单元测试"` |
+  | `argument-hint` | 描述命令需要的参数,为用户提供输入提示。| `"[test-file]"` 或 `"[pr-number] [priority] [assignee]"` |
+  | `model` | 指定执行该命令时使用的 AI 模型。| `gemini-3.1-pro` |
+  | `allowed-tools` | 该命令可以使用的工具列表,支持工具细粒度权限控制。| `Bash(git:*), Read` |
+  | `disable-model-invocation` | 设置为 `true` 时，命令不会出现在 Skill 工具中，只能通过 `/command-name` 手动触发。| `true` |
+  > 💡 **注意**：如果指定了 `allowed-tools`,命令只能使用列出的工具。使用 `Bash(git:*)` 表示允许所有 git 命令,`Bash(git add:*)` 表示仅允许 `git add` 命令。

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-pluginsref-cache
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "四、插件缓存和文件解析"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  插件有两种指定方式：
+  - 通过 `codebuddy --plugin-dir`，仅在会话期间有效
+  - 通过市场安装，适用于未来会话
+  出于安全和验证目的，CodeBuddy 将**市场**插件复制到用户的本地**版本化插件缓存**（`~/.codebuddy/plugins/cache/<marketplace>/<plugin>/<version>`），而不是原地使用。市场源码仍保存在 `~/.codebuddy/plugins/marketplaces/<marketplace>`，理解此行为对于开发引用外部文件的插件很重要。
+  ### 路径遍历限制
+  已安装的插件无法引用其目录之外的文件。遍历到插件根目录之外的路径（如 `../shared-utils`）在安装后不会工作，因为那些外部文件不会被复制到缓存中。
+  ### 使用外部依赖
+  如果插件需要访问同一 marketplace 中的共享文件，可以在插件目录中创建符号链接。缓存复制时按目标位置处理：
+  - 指向插件自身目录内：保留为相对符号链接。
+  - 指向同一 marketplace 的其他位置：解引用并复制目标内容。
+  - 指向 marketplace 外部：跳过该符号链接。
+  ```bash

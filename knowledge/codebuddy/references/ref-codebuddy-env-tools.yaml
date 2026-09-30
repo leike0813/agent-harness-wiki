@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-env-tools
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "工具和功能开关"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  | 环境变量 | 说明 |
+  |---------|------|
+  | `CODEBUDDY_DISABLE_HOT_RELOAD` | 设置为 `1` 禁用热更新系统 |
+  | `CODEBUDDY_SKIP_BUILTIN_MARKETPLACE` | 设置为 `1` 跳过内置插件市场加载 |
+  | `CODEBUDDY_AUTO_UPDATE_THIRD_PARTY_MARKETPLACES` | 设置为 `true` 或 `1` 启用第三方插件市场自动更新（默认：禁用） |
+  | `CODEBUDDY_MARKETPLACE_AUTO_UPDATE_INTERVAL_MS` | 覆盖插件市场自动更新的刷新窗口（毫秒），默认 `86400000`（24 小时）。设为更小的值（如 `3600000` 即 1 小时）可缩短自动更新检测间隔，便于测试/调试；非法值（非数字或 ≤0）回退默认值 |
+  | `CODEBUDDY_PLUGIN_DIRS` | 冒号分隔的本地插件目录路径列表（等同于 `--plugin-dir`），插件的 `bin/` 目录会自动注入到 `PATH` |
+  | `CODEBUDDY_DISABLE_EXTENDED_PLUGIN_HOOKS` | 设置为 `1` 或 `true` 时，插件 Hook 配置仅接受 `command` 类型；包含 `prompt`、`agent` 或 `http` 类型的配置会按不兼容处理。用于宿主临时回退插件 Hook 契约；默认不设置 |
+  | `CODEBUDDY_PLUGIN_STATUS_REPORT_ENABLED` | 设置为 `true` 或 `1` 开启 `plugin_status` 状态上报。默认关闭，仅 CLI UI 版本在未显式配置时默认开启；开启时同一账号在同一台机器上每个自然日最多成功上报一次 |

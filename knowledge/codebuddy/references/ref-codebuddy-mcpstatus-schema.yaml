@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-mcpstatus-schema
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "4. stdout 事件 schema（`system/mcp_status`）"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  三类事件，均为 ndjson（每行一个 JSON 对象）。
+  ### event: "start" —— 首轮开始，带阻塞集合
+  ```json
+  {
+    "type": "system", "subtype": "mcp_status", "event": "start",
+    "servers": ["slow-mcp"],       // ★ 正在阻塞首个 prompt 的 MCP 名单
+    "total_count": 1,
+    "uuid": "...", "__timestamp": "2026-08-07T09:13:00.000Z"
+  }
+  ```
+  ### event: "server" —— 单个 MCP 状态过渡
+  ```json
+  {
+    "type": "system", "subtype": "mcp_status", "event": "server",
+    "name": "slow-mcp",
+    "state": "connecting",// connecting | ready | failed | timeout
+    "error": "...",                // 仅 failed 时可能有
+    "completed": 0, "total": 1,
+    "uuid": "...", "__timestamp": "..."
+  }
+  ```
+  `state` 取值：
+  - `connecting`：正在连接
+  - `ready`：连接成功（正常终态）
+  - `failed`：连接失败（异常终态）
+  - `timeout`：预热窗口结束仍未连上（异常终态）
+  ### event: "finish" —— 首轮结束，汇总异常
+  ```json
+  {

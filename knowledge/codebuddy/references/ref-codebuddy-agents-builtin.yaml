@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-agents-builtin
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "内置子代理"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  CodeBuddy Code 包括开箱即用的内置子代理：
+  ### General-Purpose 子代理
+  General-Purpose 子代理是一个功能强大的代理，适用于需要探索和操作的复杂多步骤任务。与 Explore 子代理不同，它可以修改文件并执行更广泛的操作。
+  **主要特征：**
+  * **模型**：使用默认编排，可通过 `/agents` 为该子代理独立调整
+  * **工具**：可以访问所有工具
+  * **模式**：可以读写文件、执行命令、进行修改
+  * **用途**：复杂的研究任务、多步骤操作、代码修改
+  **CodeBuddy Code 何时使用它：**
+  CodeBuddy Code 在以下情况下委派给 General-Purpose 子代理：
+  * 任务需要同时进行探索和修改
+  * 需要复杂推理来解释搜索结果
+  * 如果初始搜索失败可能需要多种策略
+  * 任务有多个相互依赖的步骤
+  **示例场景：**
+  ```
+  用户： 找到所有处理身份验证的地方，并更新它们以使用新的令牌格式
+  CodeBuddy Code: [调用 general-purpose 子代理]
+  [代理在代码库中搜索身份验证相关代码]
+  [代理读取并分析多个文件]
+  [代理进行必要的编辑]
+  [返回所做更改的详细说明]
+  ```
+  ### Plan 子代理
+  Plan 子代理是一个专门的内置代理，设计用于计划模式期间使用。当 CodeBuddy Code 在计划模式（非执行模式）中运行时，它使用 Plan 子代理进行研究并收集有关您的代码库的信息，然后再呈现计划。
+  **主要特征：**
+  * **模型**：使用默认编排，可通过 `/agents` 为该子代理独立调整
+  * **工具**：可以访问 Read、Glob、Grep 和 Bash 工具以进行代码库探索
+  * **用途**：搜索文件、分析代码结构和收集上下文

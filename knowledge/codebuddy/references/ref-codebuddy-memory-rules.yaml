@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-memory-rules
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "使用 `.codebuddy/rules/` 实现模块化规则"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  对于较大的项目，您可以使用 `.codebuddy/rules/` 目录将指令组织到多个文件中。这允许团队维护专注的、组织良好的规则文件，而不是一个庞大的 CODEBUDDY.md。
+  ### 基本结构
+  将 markdown 文件放在项目的 `.codebuddy/rules/` 目录中：
+  ```
+  your-project/
+  ├── .codebuddy/
+  │   ├── CODEBUDDY.md           # 主要项目指令
+  │   └── rules/
+  │       ├── code-style.md      # 代码风格指南
+  │       ├── testing.md         # 测试规范
+  │       └── security.md        # 安全要求
+  ```
+  `.codebuddy/rules/` 中的所有 `.md` 文件都会自动作为项目记忆加载，优先级与 `.codebuddy/CODEBUDDY.md` 相同。
+  > **注意**：项目级规则仅从当前工作目录（workDir）的 `.codebuddy/rules/` 加载，不会加载父目录的规则文件夹。这确保规则的作用域清晰明确。
+  ### 规则控制字段
+  规则文件支持以下 YAML frontmatter 字段来控制加载和应用行为：
+  | 字段 | 类型 | 默认值 | 说明 |
+  |------|------|--------|------|
+  | `enabled` | boolean | `true` | 是否加载此规则。设为 `false` 时规则完全不加载 |
+  | `alwaysApply` | boolean | `true` | 是否始终应用此规则 |
+  | `paths` | string/string[] | - | 触发规则的文件路径 glob 模式 |

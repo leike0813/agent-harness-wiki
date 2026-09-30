@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-skills-shell
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs
+locator:
+  kind: document_section
+  heading: "执行 Shell 命令"
+official_url: "https://cnb.cool/codebuddy/codebuddy-code"
+excerpt: |-
+  与[斜杠命令](slash-commands.md)一样，Skills 也支持在 SKILL.md 中使用 `!`command`` 语法内联执行 Shell 命令。当 Skill 被触发时（无论是 AI 自动调用还是用户通过 `/skill-name` 手动触发），这些命令会被执行，输出结果会替换到 Skill 内容中，供 AI 后续分析。
+  **示例**：
+  ```markdown
+  ---
+  description: 项目状态分析
+  ---
+  ### 当前工作目录
+  !`echo "CWD=$(pwd)"`
+  ### Git 状态
+  !`git status --short`
+  ### 最近提交
+  !`git log --oneline -5`
+  请基于以上信息分析项目当前状态。
+  ```
+  ### 支持的特性
+  - **`$ARGUMENTS` 参数替换**：在 Shell 命令执行前，`$ARGUMENTS` 会被替换为用户传入的参数
+  - **`@file` 文件引用**：Shell 命令执行后，`@file` 引用会按大小和 token 上限处理；小文件直接注入，较长内容会截断并附继续读取提示，超大文件保留原始引用
+  - **错误隔离**：单个命令执行失败不会影响其他命令，失败的命令会被替换为空字符串
+  > 💡 **处理管道**：`$ARGUMENTS` 替换 → `!`command`` 执行 → `@file` 引用处理，与斜杠命令的处理顺序一致。
