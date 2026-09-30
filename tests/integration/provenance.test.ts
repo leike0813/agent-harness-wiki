@@ -72,14 +72,18 @@ test("production metadata validates without local originals", async () => {
         )
         .map((harness) => harness.harness_id),
     );
-    expect(npmProducts.size).toBe(5);
-    expect(
-      new Set(
-        result.dataset.artifacts
-          .filter((item) => item.kind === "managed_package")
-          .map((item) => item.harness_id),
-      ),
-    ).toEqual(npmProducts);
+    const managedProducts = new Set(
+      result.dataset.artifacts
+        .filter((item) => item.kind === "managed_package")
+        .map((item) => item.harness_id),
+    );
+    // A managed package must belong to a product that registered an official npm
+    // channel. The converse does not hold: a candidate can still be blocked (it
+    // needs a network download or an install script) or the vendor may ship no
+    // directly runnable Linux entry, which harness-binary reports instead.
+    expect([...managedProducts].every((id) => npmProducts.has(id))).toBe(true);
+    for (const first of ["codex", "claude-code", "opencode", "pi", "omp"])
+      expect(managedProducts.has(first)).toBe(true);
     const firstWaveCoverage = result.dataset.coverage.filter((item) =>
       item.target.distribution.startsWith("npm:"),
     );
