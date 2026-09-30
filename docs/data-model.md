@@ -17,7 +17,7 @@ Catalog 的 `references` 单独固定产品身份与界面关系：每条记录�
 
 ## 发布
 
-新建发布使用 `schema_version: 3`、`builder_version: 6`，并在 `records.catalog` 内嵌 catalog；旧格式发布只校验完整、不重写。一个 `releases/<id>/` 包含 `manifest.json`、`knowledge.json`、`knowledge.sqlite`、`search.json`、`docs/`；生产发布还包含 `semantic.json`。JSON 的 `records.current` 是当前章节索引，`records.chapters` 保留历史章节；`search.json` 只含当前小节、固定问法、配置键、路径和别名，SQLite 的 FTS5 与它逐项核对。`semantic.json` 把有界片段的向量绑定到小节；manifest 固定模型 digest、维度、片段数、归一化方式及索引 hash。模型原件由本机 Ollama 保管，不进入 Git 或发布。语义文件或模型缺失时词法查询仍可返回，并标明 `semantic_unavailable`。
+新建发布使用 `schema_version: 3`、`builder_version: 6`，并在 `records.catalog` 内嵌 catalog；旧格式发布只校验完整、不重写。一个 `releases/<id>/` 包含 `manifest.json`、`knowledge.json`、`knowledge.sqlite`、`search.json`、`docs/`；生产发布还包含 `semantic.jsonl`。JSON 的 `records.current` 是当前章节索引，`records.chapters` 保留历史章节；`search.json` 只含当前小节、固定问法、配置键、路径和别名，SQLite 的 FTS5 与它逐项核对。`semantic.jsonl` 把有界片段的向量绑定到小节；manifest 固定模型 digest、维度、片段数、归一化方式及索引 hash。模型原件由本机 Ollama 保管，不进入 Git 或发布。语义文件或模型缺失时词法查询仍可返回，并标明 `semantic_unavailable`。
 
 SQLite 还对 catalog 产品与界面、章节、小节、问题、来源引用和软件版本映射建索引，并开启外键。生成 Markdown 与 JSON 同源，来源摘录作为惰性文本展示。发布先在 staging 中验证 hash、JSON、SQLite 和页面；`--stage` 保留旧当前指针，验收后 `ahw publish` 原子切换。新映射可以引用相同章节版本并复用相同 Markdown 字节。
 

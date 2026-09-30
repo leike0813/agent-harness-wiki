@@ -28,7 +28,6 @@ import {
   normalizeVector,
   searchIndexSchema,
   searchableText,
-  semanticIndexSchema,
   sectionText,
   splitPassages,
   type SearchSection,
@@ -39,6 +38,11 @@ import {
   embedLocal,
   modelLockSchema,
 } from "../query/ollama.js";
+import {
+  readSemanticIndex,
+  semanticFileName,
+  writeSemanticIndex,
+} from "../query/semantic-file.js";
 import { loadAndValidateChapters } from "../validation/chapters.js";
 import { canonical, sha256 } from "./projection.js";
 
@@ -438,7 +442,7 @@ export async function verifyChapterRelease(
     throw new Error("Release artifact inventory differs from manifest.");
   for (const file of inventory) {
     if (
-      !/^(knowledge\.(json|sqlite)|search\.json|semantic\.json|docs\/(index|catalog|chapters\/[a-z0-9_-]+|sources\/[a-z0-9_-]+|harnesses\/[a-z0-9_-]+\/(index|[a-z0-9_-]+))\.md)$/.test(
+      !/^(knowledge\.(json|sqlite)|search\.json|semantic\.jsonl?|docs\/(index|catalog|chapters\/[a-z0-9_-]+|sources\/[a-z0-9_-]+|harnesses\/[a-z0-9_-]+\/(index|[a-z0-9_-]+))\.md)$/.test(
         file,
       )
     )
@@ -454,15 +458,18 @@ export async function verifyChapterRelease(
   const search = searchIndexSchema.parse(
     JSON.parse(await readFile(path.join(dir, "search.json"), "utf8")),
   ).sections;
+  const semanticArtifact = manifest.artifacts[semanticFileName]
+    ? semanticFileName
+    : manifest.artifacts["semantic.json"]
+      ? "semantic.json"
+      : undefined;
   if (
     manifest.profile === "production" &&
-    (!manifest.semantic || !manifest.artifacts["semantic.json"])
+    (!manifest.semantic || !semanticArtifact)
   )
     throw new Error("Production semantic index is missing from manifest.");
-  if (inventory.includes("semantic.json")) {
-    const semantic = semanticIndexSchema.parse(
-      JSON.parse(await readFile(path.join(dir, "semantic.json"), "utf8")),
-    );
+  if (semanticArtifact && inventory.includes(semanticArtifact)) {
+    const semantic = await readSemanticIndex(dir, semanticArtifact);
     if (
       !manifest.semantic ||
       semantic.model.digest !== manifest.semantic.model_digest ||
@@ -875,11 +882,7 @@ export async function compileChapterDataset(
       if (embeddingRelease) {
         const previousDir = path.join(root, embeddingRelease);
         try {
-          const prior = semanticIndexSchema.parse(
-            JSON.parse(
-              await readFile(path.join(previousDir, "semantic.json"), "utf8"),
-            ),
-          );
+          const prior = await readSemanticIndex(previousDir);
           if (canonical(prior.model) === canonical(model)) {
             const oldSearch = z
               .object({
@@ -965,8 +968,7 @@ export async function compileChapterDataset(
         searchIndexSchema.parse({ schema_version: 2, sections: search }),
       ),
     );
-    if (semantic)
-      await writeFile(path.join(stage, "semantic.json"), canonical(semantic));
+    if (semantic) await writeSemanticIndex(stage, semantic);
     writeChapterSqlite(path.join(stage, "knowledge.sqlite"), knowledge, search);
     for (const [file, content] of renderChapterDocs(knowledge)) {
       const target = path.join(stage, file);

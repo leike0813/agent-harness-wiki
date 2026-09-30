@@ -20,12 +20,12 @@ import {
 import {
   normalizeVector,
   searchIndexSchema,
-  semanticIndexSchema,
   sectionText,
   type SearchSection,
   type SemanticIndex,
 } from "./search-index.js";
 import { assertLocalModel, embedLocal, OLLAMA_ENDPOINT } from "./ollama.js";
+import { readSemanticIndex, semanticFileName } from "./semantic-file.js";
 
 type Records = ChapterPublishedKnowledge["records"];
 const searchStopwords = new Set([
@@ -158,11 +158,14 @@ export class QueryService {
       JSON.parse(await readFile(path.join(dir, "search.json"), "utf8")),
     ).sections;
     let semantic: SemanticIndex | undefined;
-    if (manifest.semantic) {
+    const semanticFile = manifest.artifacts[semanticFileName]
+      ? semanticFileName
+      : manifest.artifacts["semantic.json"]
+        ? "semantic.json"
+        : undefined;
+    if (manifest.semantic && semanticFile) {
       try {
-        semantic = semanticIndexSchema.parse(
-          JSON.parse(await readFile(path.join(dir, "semantic.json"), "utf8")),
-        );
+        semantic = await readSemanticIndex(dir, semanticFile);
       } catch (error) {
         if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
       }

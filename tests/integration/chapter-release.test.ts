@@ -498,10 +498,13 @@ test("production compile reuses unchanged semantic vectors and re-embeds only ne
       };
       return compileChapterRelease(options);
     };
-    const semantic = async (dir: string): Promise<SemanticFile> =>
-      JSON.parse(
-        await readFile(path.join(dir, "semantic.json"), "utf8"),
-      ) as SemanticFile;
+    const semantic = async (dir: string): Promise<SemanticFile> => {
+      const lines = (await readFile(path.join(dir, "semantic.jsonl"), "utf8"))
+        .split("\n")
+        .filter((line) => line.trim());
+      const [header, ...passages] = lines.map((line) => JSON.parse(line));
+      return { ...(header as SemanticFile), passages } as SemanticFile;
+    };
     const keyOf = (passage: SemanticFile["passages"][number]): string =>
       `${passage.edition_id}|${passage.section_id}|${passage.ordinal}`;
 
@@ -537,8 +540,8 @@ test("production compile reuses unchanged semantic vectors and re-embeds only ne
     expect(embedded.length).toBe(embeddedBeforeCatalog);
     expect(embedRequests).toBe(requestsBeforeCatalog);
     expect(
-      await readFile(path.join(catalogRelease.releaseDir, "semantic.json")),
-    ).toEqual(await readFile(path.join(first.releaseDir, "semantic.json")));
+      await readFile(path.join(catalogRelease.releaseDir, "semantic.jsonl")),
+    ).toEqual(await readFile(path.join(first.releaseDir, "semantic.jsonl")));
 
     // A fresh edition with a changed body re-embeds only that edition.
     const skillsV1 = await readFile(
@@ -593,8 +596,8 @@ test("production compile reuses unchanged semantic vectors and re-embeds only ne
     const repeat = await compile("prod-edition-again");
     expect(embedded.length).toBe(embeddedBeforeRepeat);
     expect(
-      await readFile(path.join(repeat.releaseDir, "semantic.json")),
-    ).toEqual(await readFile(path.join(edition.releaseDir, "semantic.json")));
+      await readFile(path.join(repeat.releaseDir, "semantic.jsonl")),
+    ).toEqual(await readFile(path.join(edition.releaseDir, "semantic.jsonl")));
   } finally {
     await new Promise<void>((resolve) => server.close(() => resolve()));
   }

@@ -4,7 +4,7 @@
 Git：Catalog（产品与界面）/ Harness / Source / Artifact / Snapshot + 章节 Markdown / 来源引用 / 版本映射 / 当前选择
   → 领域 schema 与跨记录校验
   → 单一规范化章节投影
-  → knowledge.json + knowledge.sqlite + search.json + semantic.json + docs/ + manifest.json
+  → knowledge.json + knowledge.sqlite + search.json + semantic.jsonl + docs/ + manifest.json
   → staging 完整性验证 → 不可变 release → 当前指针
 ```
 
