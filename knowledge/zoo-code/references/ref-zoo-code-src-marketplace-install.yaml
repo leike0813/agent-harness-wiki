@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-marketplace-install
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/marketplace/SimpleInstaller.ts
+  start: 95
+  end: 140
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  const existing = await fs.readFile(filePath, "utf-8")
+  			const parsed = yaml.parse(existing)
+  			// Ensure we have a valid object with customModes array
+  			existingData = parsed && typeof parsed === "object" ? parsed : { customModes: [] }
+  		} catch (error: any) {
+  			if (error.code === "ENOENT") {
+  				// File doesn't exist, use default structure - this is fine
+  				existingData = { customModes: [] }
+  			} else if (error.name === "YAMLParseError" || error.message?.includes("YAML")) {
+  				// YAML parsing error - don't overwrite the file!
+  				const fileName = target === "project" ? ".roomodes" : "custom-modes.yaml"
+  				throw new Error(
+  					`Cannot install mode: The ${fileName} file contains invalid YAML. ` +
+  						`Please fix the syntax errors in the file before installing new modes.`,
+  				)

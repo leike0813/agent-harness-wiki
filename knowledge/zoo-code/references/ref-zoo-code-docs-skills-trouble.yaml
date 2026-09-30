@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-docs-skills-trouble
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-docs
+locator:
+  kind: document_section
+  heading: "Skill isn't loading"
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code-Docs"
+excerpt: |-
+  **Symptom**: Zoo doesn't use your skill even when you request something matching the description.
+  **Causes & fixes**:
+  1. **Name mismatch**: The frontmatter `name` field must exactly match the directory name
+     ```markdown
+     # ✗ Wrong - directory is "pdf-processing"
+     ---
+     name: pdf_processing
+     ---
+     # ✓ Correct
+     ---
+     name: pdf-processing
+     ---
+     ```
+  2. **Missing required fields**: Both `name` and `description` are required in frontmatter
+  3. **Wrong mode**: If the skill is in `skills-code/` but you're in Architect mode, it won't load. Move to `skills/` for all modes or create mode-specific variants.
+  4. **Description too vague**: Make descriptions specific so Zoo can match them to requests
+     ```markdown
+     # ✗ Vague
+     description: Handle files
+     # ✓ Specific

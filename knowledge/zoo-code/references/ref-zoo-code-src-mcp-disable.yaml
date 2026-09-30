@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-mcp-disable
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 697
+  end: 712
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  // Check if MCP is globally enabled
+  		const mcpEnabled = await this.isMcpEnabled()
+  		if (!mcpEnabled) {
+  			// Still create a connection object to track the server, but don't actually connect
+  			const connection = this.createPlaceholderConnection(name, config, source, DisableReason.MCP_DISABLED)
+  			this.connections.push(connection)
+  			return
+  		}
+  		// Skip connecting to disabled servers
+  		if (config.disabled) {
+  			// Still create a connection object to track the server, but don't actually connect
+  			const connection = this.createPlaceholderConnection(name, config, source, DisableReason.SERVER_DISABLED)
+  			this.connections.push(connection)
+  			return
+  		}

@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-roo-dirs-for-cwd
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/roo-config/index.ts
+  start: 274
+  end: 282
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  export function getRooDirectoriesForCwd(cwd: string): string[] {
+  	const directories: string[] = []
+  	// Add global directory first
+  	directories.push(getGlobalRooDirectory())
+  	// Add project-local directory second
+  	directories.push(getProjectRooDirectoryForCwd(cwd))

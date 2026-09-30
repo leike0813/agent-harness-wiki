@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-error-handler
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/providers/utils/error-handler.ts
+  start: 1
+  end: 60
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  /**
+   * General error handler for API provider errors
+   * Transforms technical errors into user-friendly messages while preserving metadata
+   *
+   * This utility ensures consistent error handling across all API providers:
+   * - Preserves HTTP status codes for UI-aware error display
+   * - Maintains error details for retry logic (e.g., RetryInfo for 429 errors)
+   * - Provides consistent error message formatting
+   * - Enables telemetry and debugging with complete error context
+   */
+  import i18n from "../../../i18n/setup"
+  /**
+   * Handles API provider errors and transforms them into user-friendly messages
+   * while preserving important metadata for retry logic and UI display.
+   *
+   * @param error - The error to handle
+   * @param providerName - The name of the provider for context in error messages

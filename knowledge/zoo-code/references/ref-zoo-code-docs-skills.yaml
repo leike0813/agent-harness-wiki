@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-docs-skills
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-docs
+locator:
+  kind: document_section
+  heading: How Skills Work
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code-Docs"
+excerpt: |-
+  Skills use **progressive disclosure** to efficiently load content only when needed:
+  **Level 1: Discovery** - Zoo reads each `SKILL.md` file and parses its frontmatter to extract `name` and `description`. Only this metadata is stored for matching—the full content isn't held in memory until needed.
+  **Level 2: Instructions** - When your request matches a skill's description, Zoo uses [`read_file`](/advanced-usage/available-tools/read-file) to load the full SKILL.md instructions into context.
+  **Level 3: Resources** - The prompt tells Zoo it may access bundled files (scripts, templates, references) alongside the skill. There's no separate resource manifest—Zoo discovers these files on-demand when the instructions reference them.

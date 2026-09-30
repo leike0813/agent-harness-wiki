@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-custom-tools-bundle
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: packages/core/src/custom-tools/custom-tool-registry.ts
+  start: 274
+  end: 350
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  private async import(filePath: string): Promise<Record<string, CustomToolDefinition>> {
+  		const absolutePath = path.resolve(filePath)
+  		const ext = path.extname(absolutePath)
+  		if (ext === ".js" || ext === ".mjs") {
+  			return import(`file://${absolutePath}`)
+  		}
+  		const stat = fs.statSync(absolutePath)
+  		const cacheKey = `${absolutePath}:${stat.mtimeMs}`
+  		// Check if we have a cached version in memory.
+  		if (this.tsCache.has(cacheKey)) {
+  			const cachedPath = this.tsCache.get(cacheKey)!
+  			return import(`file://${cachedPath}`)
+  		}
+  		const hash = createHash("sha256").update(cacheKey).digest("hex").slice(0, 16)
+  		// Use a tool-specific subdirectory to avoid .env file conflicts between tools.
+  		const toolCacheDir = path.join(this.cacheDir, hash)

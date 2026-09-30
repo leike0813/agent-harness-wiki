@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-docs-boomerang-faq
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-docs
+locator:
+  kind: document_section
+  heading: Frequently Asked Questions
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code-Docs"
+excerpt: |-
+  ### Why can't Orchestrator mode read files, write files, call MCPs, or run commands?
+  The Orchestrator mode is intentionally limited to focus on high-level workflow management. Giving it the ability to read files by default causes the context to become filled with file reads, hampering its ability to remain focused on orchestration. The design philosophy is that subtasks should handle the detailed work and return only the necessary information (via their completion summaries) for the orchestrator to delegate further tasks effectively.
+  This limitation helps prevent [context poisoning](/advanced-usage/context-poisoning), where irrelevant or excessive information contaminates the model's active context, leading to degraded performance and task deviation.

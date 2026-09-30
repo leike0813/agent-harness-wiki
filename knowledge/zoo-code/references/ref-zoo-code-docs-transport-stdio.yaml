@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-docs-transport-stdio
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-docs
+locator:
+  kind: document_section
+  heading: STDIO Transport
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code-Docs"
+excerpt: |-
+  STDIO transport runs locally on your machine and communicates via standard input/output streams.
+  ### How STDIO Transport Works
+  1. The client (Zoo Code) spawns an MCP server as a child process
+  2. Communication happens through process streams: client writes to server's STDIN, server responds to STDOUT
+  3. Each message is delimited by a newline character
+  4. Messages are formatted as JSON-RPC 2.0
+  ```
+  Client                    Server
+    |                         |
+    |---- JSON message ------>| (via STDIN)
+    |                         | (processes request)
+    |<---- JSON message ------| (via STDOUT)
+    |                         |
+  ```
+  ### STDIO Characteristics
+  * **Locality**: Runs on the same machine as Zoo Code
+  * **Performance**: Very low latency and overhead (no network stack involved)

@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-modes-merge
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/config/CustomModesManager.ts
+  start: 360
+  end: 400
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  if (this.cachedModes && now - this.cachedAt < CustomModesManager.cacheTTL) {
+  			return this.cachedModes
+  		}
+  		// Get modes from settings file.
+  		const settingsPath = await this.getCustomModesFilePath()
+  		const settingsModes = await this.loadModesFromFile(settingsPath)
+  		// Get modes from .roomodes if it exists.
+  		const roomodesPath = await this.getWorkspaceRoomodes()
+  		const roomodesModes = roomodesPath ? await this.loadModesFromFile(roomodesPath) : []
+  		// Create maps to store modes by source.
+  		const projectModes = new Map<string, ModeConfig>()
+  		const globalModes = new Map<string, ModeConfig>()
+  		// Add project modes (they take precedence).
+  		for (const mode of roomodesModes) {
+  			projectModes.set(mode.slug, { ...mode, source: "project" as const })
+  		}
+  		// Add global modes.

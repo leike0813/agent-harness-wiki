@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-marketplace-config
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/marketplace/ConfigLoader.ts
+  start: 18
+  end: 32
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  items: z.array(mcpMarketplaceItemSchema),
+  })
+  export class ConfigLoader {
+  	private readonly marketplacePath: string
+  	constructor(extensionPath: string) {
+  		this.marketplacePath = path.join(extensionPath, "assets", "marketplace")
+  	}
+  	async loadAllItems(): Promise<MarketplaceItem[]> {
+  		const [modes, mcps] = await Promise.all([this.fetchModes(), this.fetchMcps()])
+  		return [...modes, ...mcps]
+  	}

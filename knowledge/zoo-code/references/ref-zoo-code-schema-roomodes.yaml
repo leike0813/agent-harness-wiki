@@ -1,0 +1,51 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-schema-roomodes
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: schemas/roomodes.json
+  start: 1
+  end: 90
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  {
+  	"type": "object",
+  	"properties": {
+  		"customModes": {
+  			"type": "array",
+  			"items": {
+  				"type": "object",
+  				"properties": {
+  					"slug": {
+  						"type": "string",
+  						"pattern": "^[a-zA-Z0-9-]+$"
+  					},
+  					"name": {
+  						"type": "string",
+  						"minLength": 1
+  					},
+  					"roleDefinition": {
+  						"type": "string",
+  						"minLength": 1
+  					},
+  					"whenToUse": {
+  						"type": "string"
+  					},
+  					"description": {
+  						"type": "string"
+  					},
+  					"customInstructions": {
+  						"type": "string"
+  					},
+  					"source": {
+  						"type": "string",
+  						"enum": ["global", "project"]
+  					},
+  					"allowedMcpServers": {
+  						"type": "array",
+  						"items": {
+  							"type": "string"
+  						},
+  						"description": "Optional list of MCP server names to include.

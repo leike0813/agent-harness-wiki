@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-new-task
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/tools/NewTaskTool.ts
+  start: 100
+  end: 135
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  tool: "newTask",
+  				mode: targetMode.name,
+  				content: message,
+  				todos: todoItems,
+  			})
+  			const pendingActionId = toolCallId ? sanitizeToolUseId(toolCallId) : undefined
+  			if (pendingActionId) {
+  				const pendingAction: PendingTaskAction = {
+  					kind: "create_subtask",
+  					actionId: pendingActionId,
+  					approvalText: toolMessage,
+  					mode,
+  					message: unescapedMessage,
+  					todos: todoItems,
+  				}
+  				await provider.setPendingTaskAction(task.taskId, pendingAction)
+  				task.setPendingTaskAction(pendingAction)
+  			}
+  			const didApprove = await askApproval("tool", toolMessage)
+  			if (!didApprove) {
+  				return
+  			}
+  			// Delegate parent and open child as sole active task
+  			const child = await (provider as any).delegateParentAndOpenChild({
+  				parentTaskId: task.taskId,

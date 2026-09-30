@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-skills-scan
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/skills/SkillsManager.ts
+  start: 43
+  end: 90
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  async discoverSkills(): Promise<void> {
+  		this.skills.clear()
+  		const skillsDirs = await this.getSkillsDirectories()
+  		for (const { dir, source, mode } of skillsDirs) {
+  			await this.scanSkillsDirectory(dir, source, mode)
+  		}
+  	}
+  	/**
+  	 * Scan a skills directory for skill subdirectories.
+  	 * Handles two symlink cases:
+  	 * 1. The skills directory itself is a symlink (resolved by directoryExists using realpath)
+  	 * 2. Individual skill subdirectories are symlinks
+  	 */
+  	private async scanSkillsDirectory(dirPath: string, source: "global" | "project", mode?: string): Promise<void> {
+  		if (!(await directoryExists(dirPath))) {
+  			return
+  		}
+  		try {
+  			// Get the real path (resolves if dirPath is a symlink)
+  			const realDirPath = await fs.realpath(dirPath)
+  			// Read directory entries

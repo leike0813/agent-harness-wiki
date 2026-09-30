@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-docs-modes-instructions
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-docs
+locator:
+  kind: document_section
+  heading: Mode-Specific Instructions via Files/Directories
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code-Docs"
+excerpt: |-
+  :::info Mode-Specific Instruction File Locations
+  You can provide instructions for custom modes using dedicated files or directories within your workspace. This allows for better organization and version control compared to only using the `customInstructions` property.
+  **Preferred Method: Directory (`.roo/rules-{mode-slug}/`)**
+  ```
+  .
+  ├── .roo/
+  │   └── rules-docs-writer/  # Example for mode slug "docs-writer"
+  │       ├── 01-style-guide.md
+  │       └── 02-formatting.txt
+  └── ... (other project files)
+  ```
+  **Fallback Method: Single File (`.roorules-{mode-slug}`)**
+  ```
+  .
+  ├── .roorules-docs-writer  # Example for mode slug "docs-writer"
+  └── ... (other project files)
+  ```
+  **Legacy Fallback: `.clinerules-{mode-slug}`**

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-storage-paths
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/utils/storage.ts
+  start: 14
+  end: 72
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  export async function getStorageBasePath(defaultPath: string): Promise<string> {
+  	// Get user-configured custom storage path
+  	let customStoragePath = ""
+  	try {
+  		// This is the line causing the error in tests
+  		const config = vscode.workspace.getConfiguration(Package.name)
+  		customStoragePath = config.get<string>("customStoragePath", "")
+  	} catch (error) {
+  		console.warn("Could not access VSCode configuration - using default path")
+  		return defaultPath
+  	}
+  	// If no custom path is set, use default path
+  	if (!customStoragePath) {
+  		return defaultPath
+  	}
+  	try {
+  		// Ensure custom path exists
+  		await fs.mkdir(customStoragePath, { recursive: true })
+  		// Check directory write permission without creating temp files

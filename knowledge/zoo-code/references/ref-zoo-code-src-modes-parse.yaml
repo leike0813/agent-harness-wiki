@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-modes-parse
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/config/CustomModesManager.ts
+  start: 145
+  end: 205
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  * Parse YAML content with enhanced error handling and preprocessing
+  	 */
+  	private parseYamlSafely(content: string, filePath: string): any {
+  		// Clean the content
+  		let cleanedContent = stripBom(content)
+  		cleanedContent = this.cleanInvisibleCharacters(cleanedContent)
+  		try {
+  			const parsed = yaml.parse(cleanedContent)
+  			// Ensure we never return null or undefined
+  			return parsed ?? {}
+  		} catch (yamlError) {
+  			// For .roomodes files, try JSON as fallback
+  			if (filePath.endsWith(ROOMODES_FILENAME)) {
+  				try {
+  					// Try parsing the original content as JSON (not the cleaned content)
+  					return JSON.parse(content)
+  				} catch (jsonError) {
+  					// JSON also failed, show the original YAML error
+  					const errorMsg = yamlError instanceof Error ? yamlError.message : String(yamlError)

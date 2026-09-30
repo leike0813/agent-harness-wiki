@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-mcp-tool-name
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/utils/mcp-name.ts
+  start: 127
+  end: 150
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  export function buildMcpToolName(serverName: string, toolName: string): string {
+  	const sanitizedServer = sanitizeMcpName(serverName)
+  	const sanitizedTool = sanitizeMcpName(toolName)
+  	// Build the full name: mcp--{server}--{tool}
+  	const fullName = `${MCP_TOOL_PREFIX}${MCP_TOOL_SEPARATOR}${sanitizedServer}${MCP_TOOL_SEPARATOR}${sanitizedTool}`
+  	// Truncate if necessary (max 64 chars for Gemini)
+  	if (fullName.length > 64) {
+  		return fullName.slice(0, 64)
+  	}
+  	return fullName
+  }
+  /**
+   * Parse an MCP tool function name back into server and tool names.
+   * This handles both hyphen and underscore separators using fuzzy matching.
+   *
+   * @param mcpToolName - The full MCP tool name (e.g., "mcp--weather--get_forecast" or "mcp__weather__get_forecast")

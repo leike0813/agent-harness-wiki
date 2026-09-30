@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-docs-mcp-mode-limit
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-docs
+locator:
+  kind: file_lines
+  file: docs/features/mcp/using-mcp-in-roo.mdx
+  start: 52
+  end: 89
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code-Docs"
+excerpt: |-
+  ### Limiting MCP Access by Mode
+  Custom modes can restrict which configured MCP servers are available while that mode is active. This is useful when a mode should only access the external services it needs.
+  To configure a restriction in the Zoo Code UI:
+  1. Open the Zoo Code panel, click the Mode menu under the chatbox, then click the <Codicon name="settings-gear" />.
+  2. Create or edit a custom mode.
+  3. Enable the **MCP** tool group under **Available Tools**.
+  4. Select **Restrict to specific MCP servers**.
+  5. Choose the servers the mode can access.
+  You can also set the allowlist manually with `allowedMcpServers` in `custom_modes.yaml` or `.roomodes`:
+  ```yaml
+  customModes:
+    - slug: research
+      name: Research
+      roleDefinition: You research technical questions using approved sources.

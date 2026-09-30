@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-mcp-oauth
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 815
+  end: 845
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  }
+  				// Decide whether to perform OAuth discovery (RFC 9728 + RFC 8414)
+  				// upfront or skip it to avoid a wasted network round-trip for
+  				// non-OAuth servers.
+  				//
+  				// Three cases:
+  				//  1. SecretStorage has OAuth data → known OAuth server → discover
+  				//  2. In-memory negative cache says non-OAuth → skip discovery
+  				//  3. Unknown server (first connection) → discover once, cache result
+  				const hasOAuthData = await this.secretStorage.hasOAuthData(configInjected.url)
+  				const knownNonOAuth = McpOAuthClientProvider.isKnownNonOAuth(configInjected.url)
+  				const skipDiscovery = !hasOAuthData && knownNonOAuth
+  				const authProvider = await McpOAuthClientProvider.create(configInjected.url, this.secretStorage, name, {
+  					skipDiscovery,
+  				})

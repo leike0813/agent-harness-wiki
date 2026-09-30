@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-docs-transport-sse
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-docs
+locator:
+  kind: document_section
+  heading: "SSE Transport (Legacy)"
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code-Docs"
+excerpt: |-
+  Server-Sent Events (SSE) transport is a legacy method for remote server communication over HTTP/HTTPS. For new implementations, **Streamable HTTP transport is recommended.** SSE remains available for compatibility with older MCP servers.
+  ### How SSE Transport Works
+  1. The client (Zoo Code) connects to the server's SSE endpoint via HTTP GET request
+  2. This establishes a persistent connection where the server can push events to the client
+  3. For client-to-server communication, the client makes HTTP POST requests to a separate endpoint
+  4. Communication happens over two channels:
+     * Event Stream (GET): Server-to-client updates
+     * Message Endpoint (POST): Client-to-server requests
+  ```
+  Client                             Server
+    |                                  |

@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-openai-compatible
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/providers/base-openai-compatible-provider.ts
+  start: 50
+  end: 120
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  this.providerName = providerName
+  		this.baseURL = baseURL
+  		this.defaultProviderModelId = defaultProviderModelId
+  		this.providerModels = providerModels
+  		this.defaultTemperature = defaultTemperature ?? 0
+  		this.options = options
+  		if (!this.options.apiKey) {
+  			throw new Error("API key is required")
+  		}
+  		this.client = new OpenAI({
+  			baseURL,
+  			apiKey: this.options.apiKey,
+  			defaultHeaders: DEFAULT_HEADERS,
+  			timeout: this.timeoutMs,
+  		})
+  	}
+  	protected createStream(
+  		systemPrompt: string,
+  		messages: Anthropic.Messages.MessageParam[],
+  		metadata?: ApiHandlerCreateMessageMetadata,
+  		requestOptions?: OpenAI.RequestOptions,
+  	) {
+  		const { id: model, info } = this.getModel()
+  		// Centralized cap: clamp to 20% of the context window (unless provider-specific exceptions apply)

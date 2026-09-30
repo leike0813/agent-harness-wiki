@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-rate-limit
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/task/Task.ts
+  start: 4564
+  end: 4600
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  private async maybeWaitForProviderRateLimit(retryAttempt: number): Promise<void> {
+  		const rateLimitSeconds = this.apiConfiguration?.rateLimitSeconds ?? 0
+  		const lastRequestTime = this.rateLimitClock.getLastRequestTime()
+  		if (rateLimitSeconds <= 0 || !lastRequestTime) {
+  			return
+  		}
+  		const now = performance.now()
+  		const timeSinceLastRequest = now - lastRequestTime
+  		const rateLimitDelay = Math.ceil(
+  			Math.min(rateLimitSeconds, Math.max(0, rateLimitSeconds * 1000 - timeSinceLastRequest) / 1000),
+  		)
+  		// Only show the countdown UX on the first attempt. Retry flows have their own delay messaging.
+  		if (rateLimitDelay > 0 && retryAttempt === 0) {
+  			for (let i = rateLimitDelay; i > 0; i--) {
+  				// Send structured JSON data for i18n-safe transport

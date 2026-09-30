@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-mcp-global-path
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 498
+  end: 545
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  async getMcpSettingsFilePath(): Promise<string> {
+  		const provider = this.providerRef.deref()
+  		if (!provider) {
+  			throw new Error("Provider not available")
+  		}
+  		const mcpSettingsFilePath = path.join(
+  			await provider.ensureSettingsDirectoryExists(),
+  			GlobalFileNames.mcpSettings,
+  		)
+  		const fileExists = await fileExistsAtPath(mcpSettingsFilePath)
+  		if (!fileExists) {
+  			// Create the default settings file under the advisory lock. The merge
+  			// callback preserves any config a concurrent process wrote between the
+  			// existence check above and the locked read, instead of blindly
+  			// truncating it (see #1371).
+  			await safeWriteJson(
+  				mcpSettingsFilePath,
+  				{ mcpServers: {} },
+  				{
+  					prettyPrint: true,
+  					merge: (existing) => {

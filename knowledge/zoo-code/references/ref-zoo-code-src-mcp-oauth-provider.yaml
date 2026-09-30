@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-mcp-oauth-provider
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpOAuthClientProvider.ts
+  start: 1
+  end: 40
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  import * as http from "http"
+  import * as vscode from "vscode"
+  import type { OAuthClientProvider } from "@modelcontextprotocol/sdk/client/auth.js"
+  import type {
+  	OAuthClientInformation,
+  	OAuthClientInformationFull,
+  	OAuthClientMetadata,
+  	OAuthTokens,
+  } from "@modelcontextprotocol/sdk/shared/auth.js"
+  import { TOKEN_EXPIRY_BUFFER_MS } from "./constants"
+  import {
+  	AUTHORIZATION_CODE_GRANT_TYPE,
+  	buildMcpOAuthClientMetadata,
+  	REFRESH_TOKEN_GRANT_TYPE,
+  	selectMcpOAuthGrantTypes,
+  	type McpOAuthGrantType,
+  } from "./oauthMetadata"
+  import { SecretStorageService } from "./SecretStorageService"
+  import { startCallbackServer, stopCallbackServer } from "./utils/callbackServer"
+  import { fetchOAuthAuthServerMetadata } from "./utils/oauth"
+  /**

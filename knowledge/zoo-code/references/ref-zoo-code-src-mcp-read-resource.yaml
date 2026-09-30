@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-mcp-read-resource
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 2195
+  end: 2215
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  const connection = this.findConnection(serverName, source)
+  		if (!connection || connection.type !== "connected") {
+  			throw new Error(`No connection found for server: ${serverName}${source ? ` with source ${source}` : ""}`)
+  		}
+  		if (connection.server.disabled) {
+  			throw new Error(`Server "${serverName}" is disabled`)
+  		}
+  		return await connection.client.request(
+  			{
+  				method: "resources/read",
+  				params: {
+  					uri,
+  				},
+  			},
+  			ReadResourceResultSchema,
+  		)
+  	}
+  	async callTool(
+  		serverName: string,
+  		toolName: string,

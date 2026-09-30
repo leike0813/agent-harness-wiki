@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-bedrock-throttle
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/providers/bedrock.ts
+  start: 812
+  end: 845
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  TelemetryService.instance.captureException(apiError)
+  			// Check if this is a throttling error that should trigger retry logic
+  			const errorType = this.getErrorType(error)
+  			// Truncation is deterministic: rethrow as-is so the task loop can tell it apart
+  			// from transient stream failures and skip the automatic retry.
+  			if (error instanceof OutputTokenLimitError) {
+  				throw error
+  			}
+  			// For throttling errors, throw immediately without yielding chunks
+  			// This allows the retry mechanism in attemptApiRequest() to catch and handle it
+  			// The retry logic in Task.ts (around line 1817) expects errors to be thrown
+  			// on the first chunk for proper exponential backoff behavior
+  			if (errorType === "THROTTLING") {
+  				if (error instanceof Error) {
+  					throw error
+  				} else {

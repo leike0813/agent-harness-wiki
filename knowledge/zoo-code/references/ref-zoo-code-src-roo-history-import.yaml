@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-roo-history-import
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/task-persistence/importRooTaskHistory.ts
+  start: 12
+  end: 25
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  const ROO_EXTENSION_DOMAIN = "RooVeterinaryInc.roo-cline"
+  const ROO_STORAGE_DIRECTORY = ROO_EXTENSION_DOMAIN.toLowerCase()
+  const ROO_CONFIGURATION_SECTION = "roo-cline"
+  const IMPORTABLE_TASK_FILE_NAMES = [
+  	GlobalFileNames.historyItem,
+  	GlobalFileNames.uiMessages,
+  	GlobalFileNames.apiConversationHistory,
+  	GlobalFileNames.taskMetadata,
+  ]
+  // Reject task IDs that could cause path traversal or filesystem confusion.
+  // Valid Roo task IDs are Unix-millisecond timestamps (all digits), but we
+  // conservatively allow any name that doesn't contain path separators or dots,
+  // and doesn't start with a hidden/reserved prefix.

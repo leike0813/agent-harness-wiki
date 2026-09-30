@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-mcp-watchpaths
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 1670
+  end: 1690
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  // Setup watchers for custom watchPaths if defined
+  			if (config.watchPaths && config.watchPaths.length > 0) {
+  				const watchPathsWatcher = chokidar.watch(config.watchPaths, {
+  					// persistent: true,
+  					// ignoreInitial: true,
+  					// awaitWriteFinish: true,
+  				})
+  				watchPathsWatcher.on("change", async (changedPath) => {
+  					try {
+  						// Pass the source from the config to restartConnection
+  						await this.restartConnection(name, source)
+  					} catch (error) {
+  						console.error(`Failed to restart server ${name} after change in ${changedPath}:`, error)
+  					}
+  				})
+  				watchers.push(watchPathsWatcher)
+  			}
+  			// Also setup the fallback build/index.js watcher if applicable

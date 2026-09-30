@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-experiments
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/shared/experiments.ts
+  start: 1
+  end: 24
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  import type { AssertEqual, Equals, Keys, Values, ExperimentId, Experiments } from "@roo-code/types"
+  export const EXPERIMENT_IDS = {
+  	PREVENT_FOCUS_DISRUPTION: "preventFocusDisruption",
+  	IMAGE_GENERATION: "imageGeneration",
+  	RUN_SLASH_COMMAND: "runSlashCommand",
+  	CUSTOM_TOOLS: "customTools",
+  	PARALLEL_TOOL_EXECUTION: "parallelToolExecution",
+  } as const satisfies Record<string, ExperimentId>
+  type _AssertExperimentIds = AssertEqual<Equals<ExperimentId, Values<typeof EXPERIMENT_IDS>>>
+  type ExperimentKey = Keys<typeof EXPERIMENT_IDS>
+  interface ExperimentConfig {
+  	enabled: boolean
+  	/** Defaults to true; set to false to hide from the Settings panel. */
+  	showInSettings?: boolean
+  }
+  export const experimentConfigsMap: Record<ExperimentKey, ExperimentConfig> = {

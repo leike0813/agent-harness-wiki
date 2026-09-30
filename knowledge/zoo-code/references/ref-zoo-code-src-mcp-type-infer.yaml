@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-mcp-type-infer
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 229
+  end: 262
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  const hasUrlFields = config.url !== undefined // Covers sse and streamable-http
+  		// Check for mixed fields (stdio vs url-based)
+  		if (hasStdioFields && hasUrlFields) {
+  			throw new Error(mixedFieldsErrorMessage)
+  		}
+  		// Infer type for stdio if not provided
+  		if (!config.type && hasStdioFields) {
+  			config.type = "stdio"
+  		}
+  		// For url-based configs, type must be provided by the user
+  		if (hasUrlFields && !config.type) {
+  			throw new Error("Configuration with 'url' must explicitly specify 'type' as 'sse' or 'streamable-http'.")
+  		}
+  		// Validate type if provided
+  		if (config.type && !["stdio", "sse", "streamable-http"].includes(config.type)) {
+  			throw new Error(typeErrorMessage)
+  		}
+  		// Check for type/field mismatch
+  		if (config.type === "stdio" && !hasStdioFields) {

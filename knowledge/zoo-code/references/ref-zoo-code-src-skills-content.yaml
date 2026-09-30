@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-skills-content
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/skills/SkillsManager.ts
+  start: 261
+  end: 283
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  async getSkillContent(name: string, currentMode?: string): Promise<SkillContent | null> {
+  		// If mode is provided, try to find the best matching skill
+  		let skill: SkillMetadata | undefined
+  		if (currentMode) {
+  			const modeSkills = this.getSkillsForMode(currentMode)
+  			skill = modeSkills.find((s) => s.name === name)
+  		} else {
+  			// Fall back to any skill with this name
+  			skill = Array.from(this.skills.values()).find((s) => s.name === name)
+  		}
+  		if (!skill) return null
+  		// Read skill content from disk
+  		const fileContent = await fs.readFile(skill.path, "utf-8")
+  		const { content: body } = matter(fileContent)
+  		return {
+  			...skill,
+  			instructions: body.trim(),
+  		}
+  	}

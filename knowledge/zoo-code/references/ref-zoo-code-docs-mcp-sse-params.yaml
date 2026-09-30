@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-docs-mcp-sse-params
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-docs
+locator:
+  kind: file_lines
+  file: docs/features/mcp/using-mcp-in-roo.mdx
+  start: 253
+  end: 279
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code-Docs"
+excerpt: |-
+  SSE (Legacy) configuration parameters:
+    *   `type` (required for URL-based configs): Must be set to `"sse"` when using a `url` for an SSE server. For stdio configs (those using `command`), `type` defaults to `"stdio"` and can be omitted. For any URL-based config, omitting `type` will cause an immediate error—Zoo Code cannot infer the transport type from a `url` alone.
+    *   `url` (required): The base URL for the remote MCP server. For legacy SSE, this usually implies separate paths like `/events` (for SSE stream) and `/message` (for POST requests) will be derived or expected by the server.
+    *   `headers` (optional): An object containing custom HTTP headers to send with requests (e.g., for authentication tokens).

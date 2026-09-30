@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-mcp-global-watch
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 552
+  end: 575
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  const settingsPath = await this.getMcpSettingsFilePath()
+  		const settingsUri = vscode.Uri.file(settingsPath)
+  		const settingsPattern = new vscode.RelativePattern(path.dirname(settingsPath), path.basename(settingsPath))
+  		// Create a file system watcher for the global MCP settings file
+  		this.settingsWatcher = vscode.workspace.createFileSystemWatcher(settingsPattern)
+  		// Watch for file changes
+  		const changeDisposable = this.settingsWatcher.onDidChange((uri) => {
+  			if (arePathsEqual(uri.fsPath, settingsPath)) {
+  				this.debounceConfigChange(settingsPath, "global")
+  			}
+  		})
+  		// Watch for file creation
+  		const createDisposable = this.settingsWatcher.onDidCreate((uri) => {
+  			if (arePathsEqual(uri.fsPath, settingsPath)) {
+  				this.debounceConfigChange(settingsPath, "global")
+  			}
+  		})

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-mode-schema
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: packages/types/src/mode.ts
+  start: 88
+  end: 110
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  * propagates through `modeConfigSchema → rooCodeSettingsSchema → createRunSchema`
+   * and breaks `zodResolver` generic inference in downstream consumers.
+   */
+  export const groupEntryArraySchema = z.preprocess((val) => {
+  	if (!Array.isArray(val)) return val
+  	return val.filter((entry) => !isDeprecatedGroupEntry(entry))
+  }, rawGroupEntryArraySchema) as z.ZodType<GroupEntry[], z.ZodTypeDef, GroupEntry[]>
+  export const modeConfigSchema = z.object({
+  	slug: z.string().regex(/^[a-zA-Z0-9-]+$/, "Slug must contain only letters numbers and dashes"),
+  	name: z.string().min(1, "Name is required"),
+  	roleDefinition: z.string().min(1, "Role definition is required"),
+  	whenToUse: z.string().optional(),
+  	description: z.string().optional(),
+  	customInstructions: z.string().optional(),

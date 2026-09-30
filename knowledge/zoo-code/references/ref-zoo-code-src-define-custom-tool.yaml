@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-define-custom-tool
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: packages/types/src/custom-tool.ts
+  start: 84
+  end: 104
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  * ```ts
+   * import { parametersSchema as z, defineCustomTool } from "@roo-code/types"
+   *
+   * export default defineCustomTool({
+   *   name: "add_numbers",
+   *   description: "Add two numbers",
+   *   parameters: z.object({
+   *     a: z.number().describe("First number"),
+   *     b: z.number().describe("Second number"),
+   *   }),
+   *   async execute({ a, b }) {
+   *     return `The sum is ${a + b}`
+   *   }
+   * })
+   * ```
+   */
+  export function defineCustomTool<T extends CustomToolParametersSchema>(
+  	definition: TypedCustomToolDefinition<T>,
+  ): TypedCustomToolDefinition<T> {
+  	return definition
+  }

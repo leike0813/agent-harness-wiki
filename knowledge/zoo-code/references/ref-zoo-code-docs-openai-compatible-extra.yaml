@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-docs-openai-compatible-extra
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-docs
+locator:
+  kind: document_section
+  heading: Provider-Specific Request Fields
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code-Docs"
+excerpt: |-
+  Some OpenAI-compatible providers support request-body fields that are not part of Zoo Code's standard model settings. Enter these fields as a JSON object in **Extra Body**.
+  For example, Sail Research uses `metadata.completion_window` to select a completion tier:
+  <img src="/img/openai-compatible/extra-body.png" alt="OpenAI Compatible Extra Body setting containing Sail Research completion window metadata" width="480" />
+  ```json
+  {
+    "metadata": {
+      "completion_window": "balanced"
+    }
+  }
+  ```
+  Zoo Code validates the JSON before saving the provider profile and adds the fields to streaming, non-streaming, and single-completion requests. The top-level value must be an object.

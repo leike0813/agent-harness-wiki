@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-docs-custom-tools-env
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-docs
+locator:
+  kind: document_section
+  heading: Per-Tool Environment Variables
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code-Docs"
+excerpt: |-
+  Zoo copies `.env` and `.env.*` files from your tool directory into the tool's cache folder so your tool can load them at runtime. **Zoo does not automatically inject these variables into `process.env`**—your tool must load them itself.
+  **Setup:**
+  1. Create a `.env` file next to your tool:
+     ```
+     .roo/tools/
+     ├── my-tool.ts
+     ├── .env          # Copied to cache dir at load time
+     └── package.json
+     ```
+  2. Add your secrets:
+     ```bash
+     # .roo/tools/.env
+     SLACK_WEBHOOK_URL=https://hooks.slack.com/services/XXX
+     API_SECRET=your-secret-key
+     ```
+  3. Load the `.env` in your tool using `dotenv` and `__dirname`:
+     ```typescript
+     import { parametersSchema as z, defineCustomTool } from "@roo-code/types"
+     import dotenv from "dotenv"
+     import path from "path"

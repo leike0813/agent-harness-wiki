@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-docs-modes-migration
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-docs
+locator:
+  kind: document_section
+  heading: Migration to YAML Format
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code-Docs"
+excerpt: |-
+  *   **Global Modes:** The automatic migration from `custom_modes.json` to `custom_modes.yaml` happens only for global modes when Zoo Code starts up, under these conditions:
+      1.  Zoo Code starts up.
+      2.  A `custom_modes.json` file exists.
+      3.  No `custom_modes.yaml` file exists yet.
+      The migration process reads the existing JSON file, converts it to YAML format, creates a new `custom_modes.yaml` file, and preserves the original JSON file (e.g., by renaming it) for rollback purposes. If `custom_modes.yaml` already exists, it will be used, and no automatic migration of `custom_modes.json` will occur.
+  *   **Project Modes (`.roomodes`):**

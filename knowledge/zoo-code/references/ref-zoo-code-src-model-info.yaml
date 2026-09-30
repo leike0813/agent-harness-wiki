@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-model-info
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: packages/types/src/model.ts
+  start: 100
+  end: 140
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  */
+  export const modelInfoSchema = z.object({
+  	maxTokens: z.number().nullish(),
+  	maxThinkingTokens: z.number().nullish(),
+  	contextWindow: z.number(),
+  	supportsImages: z.boolean().optional(),
+  	supportsPromptCache: z.boolean(),
+  	// Optional default prompt cache retention policy for providers that support it.
+  	// When set to "24h", extended prompt caching will be requested; when omitted
+  	// or set to "in_memory", the default in‑memory cache is used.
+  	promptCacheRetention: z.enum(["in_memory", "24h"]).optional(),
+  	// Capability flag to indicate whether the model supports an output verbosity parameter
+  	supportsVerbosity: z.boolean().optional(),
+  	// Capability flag to indicate whether the model exposes a user-configurable max output
+  	// tokens control in settings.

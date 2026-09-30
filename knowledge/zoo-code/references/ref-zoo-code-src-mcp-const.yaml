@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-mcp-const
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: packages/types/src/mcp.ts
+  start: 1
+  end: 20
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  import { z } from "zod"
+  /**
+   * Maximum number of MCP tools that can be enabled before showing a warning.
+   * LLMs tend to perform poorly when given too many tools to choose from.
+   */
+  export const MAX_MCP_TOOLS_THRESHOLD = 60
+  /**
+   * McpServerUse
+   */
+  export interface McpServerUse {
+  	type: string
+  	serverName: string
+  	toolName?: string
+  	uri?: string
+  }
+  /**

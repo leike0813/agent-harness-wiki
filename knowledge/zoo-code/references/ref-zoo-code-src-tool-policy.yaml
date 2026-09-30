@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-tool-policy
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/prompts/tools/effective-tool-policy.ts
+  start: 300
+  end: 330
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  // 10. Drop the MCP group tools unless allowed servers actually expose them.
+  	// Fall back to the mode config's own allowlist when the caller omits the
+  	// parameter, so the restriction is enforced regardless of call site
+  	// (defense in depth). `getToolsForMode` grants both group tools together, so
+  	// each is pruned independently: `access_mcp_resource` when no allowed server
+  	// exposes resources, and `use_mcp_tool` when no allowed server exposes a
+  	// prompt-enabled tool (mirrors `getMcpServerTools`, which would emit none).
+  	const effectiveAllowedMcpServers = allowedMcpServers ?? modeConfig.allowedMcpServers
+  	const hasMcpResources = !!mcpHub && hasAnyMcpResources(mcpHub, effectiveAllowedMcpServers)
+  	if (!hasMcpResources) {
+  		allowedToolNames.delete("access_mcp_resource")
+  	}

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-build-tools-custom
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/core/task/build-tools.ts
+  start: 145
+  end: 160
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  })
+  	// Add custom tools if they are available and the experiment is enabled.
+  	let nativeCustomTools: OpenAI.Chat.ChatCompletionFunctionTool[] = []
+  	if (experiments?.customTools) {
+  		const toolDirs = getRooDirectoriesForCwd(cwd).map((dir) => path.join(dir, "tools"))
+  		await customToolRegistry.loadFromDirectoriesIfStale(toolDirs)
+  		const customTools = customToolRegistry.getAllSerialized()
+  		if (customTools.length > 0) {
+  			nativeCustomTools = customTools.map(formatNative)
+  		}
+  	}
+  	// Combine filtered tools (for backward compatibility and for allowedFunctionNames)

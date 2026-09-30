@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-mdm
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mdm/MdmService.ts
+  start: 119
+  end: 175
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  private async loadMdmConfig(): Promise<MdmConfig | null> {
+  		const configPath = this.getMdmConfigPath()
+  		try {
+  			// Check if file exists
+  			if (!fs.existsSync(configPath)) {
+  				return null
+  			}
+  			// Read and parse the configuration file
+  			const configContent = fs.readFileSync(configPath, "utf-8")
+  			const parsedConfig = JSON.parse(configContent)
+  			// Validate against schema
+  			return mdmConfigSchema.parse(parsedConfig)
+  		} catch (error) {
+  			this.log(`[MDM] Error reading MDM config from ${configPath}:`, error)
+  			return null
+  		}
+  	}
+  	/**
+  	 * Get the platform-specific MDM configuration file path
+  	 */
+  	private getMdmConfigPath(): string {
+  		const platform = os.platform()
+  		const isProduction = getClerkBaseUrl() === PRODUCTION_CLERK_BASE_URL

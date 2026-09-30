@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-custom-tools-dirs
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: packages/core/src/custom-tools/custom-tool-registry.ts
+  start: 120
+  end: 152
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  async loadFromDirectories(toolDirs: string[]): Promise<LoadResult> {
+  		const result: LoadResult = { loaded: [], failed: [] }
+  		for (const toolDir of toolDirs) {
+  			const dirResult = await this.loadFromDirectory(toolDir)
+  			result.loaded.push(...dirResult.loaded)
+  			result.failed.push(...dirResult.failed)
+  		}
+  		return result
+  	}
+  	/**
+  	 * Load all tools from multiple directories if any has become stale.
+  	 * Directories are processed in order, so later directories can override tools from earlier ones.
+  	 *
+  	 * @param toolDirs - Array of absolute paths to tools directories
+  	 * @returns LoadResult with lists of loaded and failed tools
+  	 */
+  	async loadFromDirectoriesIfStale(toolDirs: string[]): Promise<LoadResult> {
+  		const result: LoadResult = { loaded: [], failed: [] }

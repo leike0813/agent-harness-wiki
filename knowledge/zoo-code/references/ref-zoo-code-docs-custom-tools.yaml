@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-docs-custom-tools
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-docs
+locator:
+  kind: document_section
+  heading: How to create a tool
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code-Docs"
+excerpt: |-
+  Tools live in `.roo/tools/` (project-specific) or `~/.roo/tools/` (global) as `.ts` or `.js` files. Tools from later directories can override earlier ones.
+  #### Basic structure
+  ```typescript
+  import { parametersSchema as z, defineCustomTool } from "@roo-code/types"
+  export default defineCustomTool({
+    name: "tool_name",
+    description: "What the tool does (shown to AI)",
+    parameters: z.object({
+      param1: z.string().describe("Parameter description"),
+      param2: z.number().describe("Another parameter"),
+    }),
+    async execute(args, context) {
+      // args are type-safe and validated
+      // context provides: mode, task
+      return "Result string shown to AI"
+    }
+  })
+  ```
+  #### What you define
+  - **`name`**: Tool name Zoo sees in its available tools list

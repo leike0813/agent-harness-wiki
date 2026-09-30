@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-mcp-config-schema
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/mcp/McpHub.ts
+  start: 70
+  end: 100
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  // Base configuration schema for common settings
+  const BaseConfigSchema = z.object({
+  	disabled: z.boolean().optional(),
+  	timeout: z.number().min(1).max(3600).optional().default(60),
+  	alwaysAllow: z.array(z.string()).default([]),
+  	watchPaths: z.array(z.string()).optional(), // paths to watch for changes and restart server
+  	disabledTools: z.array(z.string()).default([]),
+  })
+  // Custom error messages for better user feedback
+  const typeErrorMessage = "Server type must be 'stdio', 'sse', or 'streamable-http'"
+  const stdioFieldsErrorMessage =
+  	"For 'stdio' type servers, you must provide a 'command' field and can optionally include 'args' and 'env'"
+  const sseFieldsErrorMessage =
+  	"For 'sse' type servers, you must provide a 'url' field and can optionally include 'headers'"

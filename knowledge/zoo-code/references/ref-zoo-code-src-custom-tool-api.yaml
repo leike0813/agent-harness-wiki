@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-custom-tool-api
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: packages/types/src/custom-tool.ts
+  start: 20
+  end: 58
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  /**
+   * Definition structure for a custom tool.
+   *
+   * Note: This interface uses simple types to avoid TypeScript performance issues
+   * with Zod's complex type inference. For type-safe parameter inference, use
+   * the `defineCustomTool` helper function instead of annotating with this interface.
+   */
+  export interface CustomToolDefinition {
+  	/**
+  	 * The name of the tool.
+  	 * This is used to identify the tool in the prompt and in the tool registry.
+  	 */
+  	name: string
+  	/**
+  	 * A description of what the tool does.
+  	 * This is shown to the AI model to help it decide when to use the tool.
+  	 */
+  	description: string
+  	/**
+  	 * Optional Zod schema defining the tool's parameters.
+  	 * Use `z.object({})` to define the shape of arguments.
+  	 */
+  	parameters?: CustomToolParametersSchema
+  	/**

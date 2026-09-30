@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-model-cache
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/api/providers/fetchers/modelCache.ts
+  start: 36
+  end: 50
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  import { getZooGatewayModels } from "./zoo-gateway"
+  import { getKimiCodeModels } from "./kimi-code"
+  const memoryCache = new NodeCache({ stdTTL: 5 * 60, checkperiod: 5 * 60 })
+  // Zod schema for validating ModelRecord structure from disk cache
+  const modelRecordSchema = z.record(z.string(), modelInfoSchema)
+  // Track in-flight refresh requests to prevent concurrent API calls for the same provider+url.
+  // Keyed on the compound cache key (see getCacheKey) so that two different URL-scoped servers never
+  // deduplicate each other's in-flight refreshes.
+  const inFlightRefresh = new Map<string, FlightRecord>()
+  // Upper bound for any fetch started through the single-flight, so a hung endpoint can never keep
+  // an in-flight entry pending indefinitely. The value is the maximum of the 5–15 s bounds the

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-skills-modeslugs
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo
+locator:
+  kind: file_lines
+  file: src/services/skills/SkillsManager.ts
+  start: 144
+  end: 172
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code"
+excerpt: |-
+  // Parse modeSlugs from frontmatter (new format) or fall back to directory-based mode
+  			// Priority: frontmatter.modeSlugs > frontmatter.mode > directory mode
+  			let modeSlugs: string[] | undefined
+  			if (Array.isArray(frontmatter.modeSlugs)) {
+  				modeSlugs = frontmatter.modeSlugs.filter((s: unknown) => typeof s === "string" && s.length > 0)
+  				if (modeSlugs.length === 0) {
+  					modeSlugs = undefined // Empty array means "any mode"
+  				}
+  			} else if (typeof frontmatter.mode === "string" && frontmatter.mode.length > 0) {
+  				// Legacy single mode in frontmatter
+  				modeSlugs = [frontmatter.mode]
+  			} else if (mode) {
+  				// Fall back to directory-based mode (skills-{mode}/)
+  				modeSlugs = [mode]
+  			}
+  			// Create unique key combining name, source, and modeSlugs for override resolution
