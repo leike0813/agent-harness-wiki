@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-mcp-orbs
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-mcp
+locator:
+  kind: document_section
+  heading: MCP Servers in Orbs
+official_url: "https://ampcode.com/docs/markdown/customize/mcp"
+excerpt: |-
+  MCP Servers in Orbs
+  Local (stdio) and remote MCP servers both work in [orbs](/docs/orbs). An orb runs its own Amp
+  executor on a separate machine, so it does not read the settings file on your computer, such as
+  `~/.config/amp/settings.json`. Configure the servers where the orb can see them:
+  - [Bundle them in skills](/docs/customize/skills#mcp-servers-in-skills) via `mcp.json` committed to
+   the repository (recommended).
+  - Commit them to the repository's workspace config (`amp.mcpServers` in `.amp/settings.json`).
+   Workspace servers require [approval](#mcp-trust) inside the orb before they run.
+  - Add remote MCP definitions in your [MCP server settings](/settings/mcp-servers). They are
+   available in orb threads without repository changes.
+  Browser-based OAuth flows are unavailable in orbs.

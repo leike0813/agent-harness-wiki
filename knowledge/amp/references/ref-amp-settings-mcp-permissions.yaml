@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-settings-mcp-permissions
+harness_id: amp
+snapshot_id: snapshot-amp-docs-cli-settings
+locator:
+  kind: document_section
+  heading: Settings
+official_url: "https://ampcode.com/docs/markdown/cli/settings"
+excerpt: |-
+  - **`amp.mcpPermissions`**
+   **Type:** `array`, **Default:** `[]`
+   Allow or block MCP servers that match a pattern. Amp applies the first matching rule. If no rule
+   matches an MCP server, Amp allows it.
+   - For a remote MCP server, use the `url` key to match the server endpoint.
+   - For a local MCP server, use the `command` and `args` keys to match an executable command and its
+   arguments.
+   Here are some examples:
+   ```json
+   "amp.mcpPermissions": [
+   // Allow specific trusted MCP servers
+   { "matches": { "command": "npx", "args": "* @playwright/mcp@*" }, "action": "allow" },
+   { "matches": { "url": "https://mcp.trusted.com/mcp" }, "action": "allow" },
+   // Block potentially risky MCP servers
+   { "matches": { "command": "python", "args": "*bad_command*" }, "action": "reject" },

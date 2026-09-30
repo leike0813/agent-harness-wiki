@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-ui-input
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: Ask the User for Input
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  Plugins can show notifications, confirmation dialogs, text inputs, and selection dialogs.
+  ```ts
+  import type { PluginAPI } from '@ampcode/plugin'
+  export default function (amp: PluginAPI) {
+  	amp.registerCommand(
+  		'add-note-to-thread',
+  		{
+  			title: 'Add note to thread',
+  			category: 'notes',
+  			description: 'Prompt for a note and append it to the current thread.',
+  		},
+  		async (ctx) => {
+  			const note = await ctx.ui.input({
+  				title: 'Thread note',
+  				helpText: 'What should Amp remember in this thread?',
+  				submitButtonText: 'Add note',
+  			})
+  			if (!note) {
+  				return
+  			}
+  			if (!ctx.thread) {
+  				await ctx.ui.notify(
+  					'No active thread. Send any message to create one, then re-run this command.',
+  				)
+  				return
+  			}

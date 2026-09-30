@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-events
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: Event Examples
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  Event Examples
+  Plugin events follow a thread session's agent lifecycle. `session.start` is emitted for the thread session; each user turn then starts, may run tools, and eventually ends.
+  ```
+  ╭───────────────╮ ╭─────────────╮ ╭───────────╮ ╭─────────────╮ ╭───────────╮
+  │ session.start │───▶│ agent.start │───▶│ tool.call │───▶│ tool.result │───▶│ agent.end │
+  ╰───────────────╯ ╰─────────────╯ ╰───────────╯ ╰─────────────╯ ╰───────────╯
+   ▲ │
+   ╰──── per tool ───╯
+  ```

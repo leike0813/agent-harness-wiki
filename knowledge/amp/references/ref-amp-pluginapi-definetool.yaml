@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-pluginapi-definetool
+harness_id: amp
+snapshot_id: snapshot-amp-docs-plugin-api
+locator:
+  kind: document_section
+  heading: defineTool
+official_url: "https://ampcode.com/docs/markdown/plugin-api"
+excerpt: |-
+  * A custom tool declared in an agent directory's `tools/<name>.ts` file, the argument to
+   * {@link defineTool}. The tool's name is the filename. The `description`, `execution`, and
+   * `inputSchema` fields must be static literals written directly in the file; only `execute`
+   * is real code, and it runs where `execution` places it.
+   */
+  export interface AgentToolConfig {
+   /** Description shown to the LLM explaining what the tool does */
+   description?: string
+   /**
+   * Where the tool executes. `executor` tools (the default) are dispatched to the attached
+   * executor at the repository checkout. `server` tools run this file in a small detached
+   * sandbox with no repository checkout, kept warm per thread. On `serverOnly` agents the
+   * default is `server` and `executor` is a validation error.
+   */

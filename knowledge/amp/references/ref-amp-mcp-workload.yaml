@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-mcp-workload
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-mcp
+locator:
+  kind: document_section
+  heading: Amp Workload Identity
+official_url: "https://ampcode.com/docs/markdown/customize/mcp"
+excerpt: |-
+  With access granted by Amp staff, select <span class="ui">Amp Workload Identity</span> in the
+  server's authentication menu, or use `--auth workload-identity` with `amp mcp remote add`.
+  This applies to remote definitions stored by Amp, not local `amp.mcpServers` or skill configuration.
+  For those, use [`${amp:id-token}`](#mcp-amp-id-token) in orbs.
+  Both the person configuring the server and each thread owner using it need access.
+  Amp sends a fresh, five-minute RS256 JWT as a Bearer token. The issuer is
+  `https://ampcode.com/api/workload-identity`, with public keys at that issuer's `/jwks.json`.
+  The audience is the normalized HTTPS origin of the configured MCP URL, including a nondefault
+  port but excluding its path and query. For `https://mcp.example.com/mcp`, it is
+  `https://mcp.example.com`.

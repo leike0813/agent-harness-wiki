@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-agent-end
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: "agent.end: Continue After a Turn Ends"
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  `agent.end` fires when the agent finishes a turn. Return `continue` to append a follow-up user message and start another turn. Always include a marker or other guard when returning `continue` so your plugin does not loop forever. As a backstop, Amp stops chaining plugin `continue` messages after five in a row; the next message from the user starts a fresh chain. A plugin that drives long-running work can raise this limit by setting `maxContinuations` on the `continue` result, as the [/goal example](#example-plugin-goal) does.
+  ```ts
+  import type { PluginAPI } from '@ampcode/plugin'
+  const marker = '[plugin:tests-requested]'
+  export default function (amp: PluginAPI) {
+  	amp.on('agent.end', (event) => {
+  		if (!event.message.toLowerCase().includes('verify')) {
+  			return
+  		}

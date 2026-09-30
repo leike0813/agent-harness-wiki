@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-execute-plugin-ready
+harness_id: amp
+snapshot_id: snapshot-amp-docs-cli-execute-mode
+locator:
+  kind: document_section
+  heading: Execute Mode
+official_url: "https://ampcode.com/docs/markdown/cli/execute-mode"
+excerpt: |-
+  If your [plugins](/docs/customize/plugins) rely on the `agent.start` and `agent.end` lifecycle
+  events, use the `--plugin-ready-timeout` flag to make execute mode wait for plugins to become ready
+  before running the turn. Without it, the turn can start before plugins finish loading, and those
+  events are skipped. The bare flag waits up to 10 seconds. Pass a number of seconds for a different
+  limit. The maximum is 300, and `0` disables the wait. The turn starts as soon as plugins are ready.
+  ```shell-session
+  $ amp -x "summarize this repo" --plugin-ready-timeout
+  $ amp -x "summarize this repo" --plugin-ready-timeout 30
+  ```

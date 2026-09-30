@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-pluginapi-on
+harness_id: amp
+snapshot_id: snapshot-amp-docs-plugin-api
+locator:
+  kind: document_section
+  heading: "@ampcode/plugin Type Reference"
+official_url: "https://ampcode.com/docs/markdown/plugin-api"
+excerpt: |-
+  * Register a handler for plugin events.
+   * For request events (e.g., tool.call), the handler must return a result.
+   * For fire-and-forget events, the handler returns void.
+   *
+   * If multiple plugins listen on the same event, the order in which each plugin's event handler is executed is not defined.
+   */
+   on<E extends keyof PluginEventMap>(
+   event: E,
+   handler: (event: PluginEventMap[E], ctx: PluginEventContext<E>) => PluginHandlerResult<E>,
+   ): Subscription
+   /**

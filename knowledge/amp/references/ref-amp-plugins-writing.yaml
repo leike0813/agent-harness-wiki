@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-writing
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: Writing Plugins
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  Writing Plugins
+  A single-file plugin is a `.ts` or `.js` file directly inside a plugin location. A directory plugin
+  uses ` /index.ts` or ` /index.js`. If both entry files exist, Amp uses
+  `index.ts`. The entry file can import supporting files with relative paths.
+  ```text
+  deploy-status/
+  ├── index.ts
+  ├── client.ts
+  └── prompts/
+  ```
+  Every plugin entry file exports a default function. Amp passes a `PluginAPI` object to that
+  function.
+  ```ts
+  import type { PluginAPI } from '@ampcode/plugin'
+  export default function (amp: PluginAPI) {
+   amp.logger.log('Plugin initialized')
+  }
+  ```
+  Code in the exported function runs when the plugin loads. Use `session.start` only for work that should run when Amp starts a specific thread session.

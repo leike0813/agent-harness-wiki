@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-tool-call
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: "tool.call: Approve or Reject a Tool Call"
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  `tool.call` fires before a tool runs. Return `allow` to run the tool, `reject-and-continue` to block it and let the agent continue, `modify` to change the input, or `synthesize` to provide a result without running the tool.
+  ```ts
+  import type { PluginAPI } from '@ampcode/plugin'
+  export default function (amp: PluginAPI) {
+  	amp.on('tool.call', async (event, ctx) => {
+  		const confirmed = await ctx.ui.confirm({
+  			title: `Allow ${event.tool}?`,
+  			message: `Amp wants to call ${event.tool}.`,
+  			confirmButtonText: 'Allow',
+  		})
+  		if (confirmed) {
+  			return { action: 'allow' }
+  		}
+  		return {
+  			action: 'reject-and-continue',
+  			message: `The user rejected ${event.tool}.`,
+  		}
+  	})
+  }
+  ```
+  <DocsSurfaceToggle bind:surface>
+  	{#snippet web()}

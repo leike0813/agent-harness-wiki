@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-agent-start
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: "agent.start: Notify When a Turn Starts"
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  `agent.start` fires when the user submits a prompt. It is useful for reacting to new turns before
+  the agent starts working.
+  ```ts
+  import type { PluginAPI } from '@ampcode/plugin'
+  export default function (amp: PluginAPI) {
+  	amp.on('agent.start', async (_event, ctx) => {
+  		await ctx.ui.notify('Amp is starting a new turn.')
+  	})
+  }
+  ```
+  Return `message` to append instructions to the user message for that turn. The appended text is hidden unless `display` is `true`. `event.changesWorkflow` is `'ship'` or `'push_branch'` when the Ship or Push to Branch button started the turn, so a plugin can react to shipping without matching on the prompt text. To add instructions the user can see and edit before shipping, use `changes.prompt` instead.

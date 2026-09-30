@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-tool-result
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: "tool.result: Observe or Modify a Tool Result"
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  `tool.result` fires after a tool finishes and before the result is sent back to the model. Return nothing to keep the original result, or return a replacement status/output.
+  ```ts
+  import type { PluginAPI } from '@ampcode/plugin'
+  export default function (amp: PluginAPI) {
+  	amp.on('tool.result', async (event, ctx) => {
+  		if (event.status === 'error') {
+  			await ctx.ui.notify(`Tool failed: ${event.tool}`)
+  		}
+  	})
+  }
+  ```

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-ai-ask
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: Use Thread-Scoped AI
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  Use `amp.ai.ask(...)` when a plugin needs a small yes/no classification decision with reasoning.
+  This helper runs through the current thread; pass `{ threadID }` when calling it outside a
+  thread-bound handler. AI helper calls default to no reasoning; pass `{ reasoningEffort }` to opt in
+  for models that support it.
+  ```ts
+  import type { PluginAPI } from '@ampcode/plugin'
+  export default function (amp: PluginAPI) {
+  	amp.on('agent.start', async (event, ctx) => {
+  		const answer = await amp.ai.ask(
+  			`Is this request asking to change production infrastructure? ${event.message}`,
+  		)
+  		if (answer.result === 'yes') {
+  			await ctx.ui.notify(`This looks production-related: ${answer.reason}`)
+  		}
+  	})
+  }
+  ```
+  <h3 id="define-a-custom-agent-mode">Define a Custom Agent Mode</h3>

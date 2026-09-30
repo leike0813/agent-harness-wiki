@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-builtin-agent
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: Use a Built-in Agent
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  Use a Built-in Agent
+  Use `amp.getBuiltinAgent(mode)` to get a handle for one of Amp's built-in agent modes
+  (`'low'`, `'medium'`, `'high'`, or `'ultra'`) instead of defining a custom agent. The deprecated
+  `'smart'`, `'deep'`, and `'rush'` modes are still accepted but spawn threads in their replacement
+  mode (`'rush'` → `'low'`; `'smart'`/`'deep'` → `'medium'`).
+  Both custom and built-in agent handles support `run(message, options?)` for a one-shot run and
+  `createThread(options?)` for a thread you can keep appending messages to. Pass `parentThreadID` to
+  connect the new thread to its parent. From a command handler without `ctx.thread`, use
+  `createThread({ show: true })` to create a thread and make it active in supported clients.

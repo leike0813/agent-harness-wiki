@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-routing-mappings
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-model-routing
+locator:
+  kind: document_section
+  heading: Model Mappings
+official_url: "https://ampcode.com/docs/markdown/customize/model-routing"
+excerpt: |-
+  A model mapping controls which models a connection serves and, for routers and Custom URLs, what
+  model ID the provider receives. Leave it empty to use the connection type's default: for most
+  types, every model the provider supports. Google Cloud Agent Platform and Amazon Bedrock connections
+  serve no models until you choose some.
+  Write one pattern per line, using Amp's canonical model IDs in `provider/model` form. The
+  **Models** picker in the connection form searches the catalog and inserts an ID for you.
+  ```text
+  */*                                   # include every model
+  -anthropic/*                          # then exclude all Anthropic models
+  anthropic/claude-fable-5              # but re-include this one

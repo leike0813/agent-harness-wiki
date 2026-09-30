@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-command-availability
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: Changing Command Availability
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  `amp.registerCommand(...)` accepts an optional `availability` and returns a subscription whose `setAvailability(...)` method updates how the command appears in the palette:
+  - `{ type: 'enabled' }` — shown and selectable (the default).
+  - `{ type: 'disabled', reason: '...' }` — shown but not selectable; `reason` is displayed alongside the command.
+  - `{ type: 'hidden' }` — not shown at all.
+  This plugin adds two commands that toggle Amp's built-in `notifications.enabled` setting and keeps the palette showing only the relevant one.
+  ```ts
+  import type { CommandSubscription, PluginAPI } from '@ampcode/plugin'
+  export default async function (amp: PluginAPI) {
+  	const isEnabled = (config: Record<string, unknown>) => config['notifications.enabled'] !== false
+  	let mute: CommandSubscription | undefined

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-pluginapi-ondispose
+harness_id: amp
+snapshot_id: snapshot-amp-docs-plugin-api
+locator:
+  kind: document_section
+  heading: "@ampcode/plugin Type Reference"
+official_url: "https://ampcode.com/docs/markdown/plugin-api"
+excerpt: |-
+  * Register a callback that runs before this plugin instance is stopped.
+   *
+   * Dispose callbacks run when the plugin is unloaded or reloaded and on graceful
+   * host shutdown. Use them to release resources the plugin owns outside its own
+   * process, such as child processes, remote sessions, or temporary files.
+   *
+   * The host bounds cleanup time: all of a plugin's dispose callbacks together
+   * get about 3 seconds. After they settle or the budget elapses, the plugin
+   * process is terminated. Callbacks run concurrently, in no guaranteed order,
+   * and thrown errors are logged and otherwise ignored.
+   *
+   * Dispose callbacks do NOT run when the plugin process crashes or is killed
+   * with SIGKILL. Keep an external backstop (such as a server-side idle

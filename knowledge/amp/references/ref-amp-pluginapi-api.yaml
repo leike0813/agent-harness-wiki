@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-pluginapi-api
+harness_id: amp
+snapshot_id: snapshot-amp-docs-plugin-api
+locator:
+  kind: document_section
+  heading: "@ampcode/plugin Type Reference"
+official_url: "https://ampcode.com/docs/markdown/plugin-api"
+excerpt: |-
+  export interface PluginAPI {
+   /** Logger scoped to this plugin */
+   logger: PluginLogger
+   /** System capabilities and information */
+   system: PluginSystem
+   /** Observable configuration that streams changes */
+   configuration: PluginConfiguration<Record<string, unknown>>
+   /**
+   * Execute shell commands with the plugin API's tagged-template shell runner.
+   * Unlike `ctx.$` in event handlers, this is not tied to a specific hook invocation.
+   */
+   $: ShellFunction
+   /**
+   * Helper utilities for interpreting tool events.
+   */
+   helpers: {
+   shellCommandFromToolCall: ShellCommandFromToolCall
+   toolCallsInMessages: ToolCallsInMessages
+   filesModifiedByToolCall: FilesModifiedByToolCall
+   filePathFromURI: FilePathFromURI
+   isPluginUINotAvailableError: IsPluginUINotAvailableError
+   }

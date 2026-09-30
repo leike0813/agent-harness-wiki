@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-routing-precedence
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-model-routing
+locator:
+  kind: document_section
+  heading: Precedence
+official_url: "https://ampcode.com/docs/markdown/customize/model-routing"
+excerpt: |-
+  For each model, Amp tries your connections in order and uses the first active one whose
+  [model mapping](#model-mappings) includes that model. Anything no connection serves is served by
+  Amp.
+  The order is:
+  1. Your personal connections, from top to bottom as listed in Model Routing.
+  2. Your workspace's connections, from top to bottom.
+  3. Amp.
+  Within a list, the order is the connection's priority: `0` is tried first. Drag a connection by
+  its handle in Model Routing to move it, or set its priority directly:
+  ```shell-session
+  amp config model-providers list
+  amp config model-providers set-priority <connection-id> 0
+  ```
+  Setting a priority that another connection already has moves that connection and the ones after it
+  down one place, so `0` always means "try this connection first".

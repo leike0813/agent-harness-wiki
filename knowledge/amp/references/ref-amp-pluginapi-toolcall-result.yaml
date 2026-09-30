@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-pluginapi-toolcall-result
+harness_id: amp
+snapshot_id: snapshot-amp-docs-plugin-api
+locator:
+  kind: document_section
+  heading: ToolCallResult
+official_url: "https://ampcode.com/docs/markdown/plugin-api"
+excerpt: |-
+  export type ToolCallResult =
+   /** Allow the tool to execute with its original input */
+   | { action: 'allow' }
+   /** Reject the tool call but allow the agent to continue with other tools */
+   | { action: 'reject-and-continue'; message: string }
+   /** Modify the tool's input arguments before execution */
+   | { action: 'modify'; input: Record<string, unknown> }
+   /** Provide a synthesized result without actually running the tool */
+   | { action: 'synthesize'; result: { output: string; exitCode?: number } }
+   /** Error occurred in the plugin - stops the thread worker and shows an ephemeral error */
+   | { action: 'error'; message: string }
+  /**
+   * A terminal tool result.
+   */

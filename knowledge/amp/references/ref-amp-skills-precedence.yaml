@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-skills-precedence
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-skills
+locator:
+  kind: document_section
+  heading: Skill Sources and Precedence
+official_url: "https://ampcode.com/docs/markdown/customize/skills"
+excerpt: |-
+  Amp uses the first skill with a given frontmatter `name`. The order is:
+  1. `~/.config/agents/skills/`
+  2. `~/.agents/skills/`
+  3. `~/.config/amp/skills/`
+  4. `.agents/skills/` in the project and searched parent directories
+  5. `.claude/skills/` in those directories
+  6. `~/.claude/skills/`
+  7. `~/.claude/plugins/cache/`
+  8. Directories in `amp.skills.path`, in the order they are configured
+  9. Built-in skills
+  10. Your personal skills repository
+  11. Your active workspace skills repository
+  Local and built-in skills therefore mask repository skills with the same name. A personal skill
+  masks a workspace skill with the same name. Set `amp.skills.disableClaudeCodeSkills` in
+  [Configuration](/docs/cli/settings) to skip the Claude-compatible locations, or

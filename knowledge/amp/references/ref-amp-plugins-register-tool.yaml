@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-register-tool
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: Register a Tool
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  Tools registered by plugins are available to the model alongside Amp's built-in tools.
+  ```ts
+  import type { PluginAPI } from '@ampcode/plugin'
+  export default function (amp: PluginAPI) {
+  	amp.registerTool({
+  		name: 'project_status',
+  		description: 'Show the current git status for this repository.',
+  		inputSchema: {
+  			type: 'object',
+  			properties: {},
+  			required: [],
+  		},
+  		async execute() {
+  			const result = await amp.$`git status --short`
+  			return result.stdout || 'No changes.'
+  		},
+  	})
+  }
+  ```
+  Tools can also return images by returning an array of content blocks that mixes text and image
+  blocks. For large images such as screenshots, upload the bytes with `amp.attachments.upload(...)`
+  and return a URL-backed image block so thread state stores a URL instead of the base64 payload.

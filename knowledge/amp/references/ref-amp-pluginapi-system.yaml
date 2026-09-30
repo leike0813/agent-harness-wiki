@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-pluginapi-system
+harness_id: amp
+snapshot_id: snapshot-amp-docs-plugin-api
+locator:
+  kind: document_section
+  heading: "@ampcode/plugin Type Reference"
+official_url: "https://ampcode.com/docs/markdown/plugin-api"
+excerpt: |-
+  * Root of the workspace or repository the user has open, or null when Amp is
+   * running without a workspace. This is stable for the plugin process lifetime;
+   * plugins are reloaded when the workspace changes.
+   *
+   * Use {@link PluginAPI.helpers.filePathFromURI} to convert this file URI to a
+   * local filesystem path before running workspace-relative shell commands.
+   */
+   readonly workspaceRoot: URI | null
+   /**
+   * Get the effective Amp base URL currently used by this Amp client.
+   * This reflects the active runtime configuration (for example, custom domains via `AMP_URL`).
+   */
+   readonly ampURL: URL
+   /**

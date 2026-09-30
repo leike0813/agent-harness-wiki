@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-agentsmd-ignore
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-agents-md
+locator:
+  kind: document_section
+  heading: Ignoring Guidance Files
+official_url: "https://ampcode.com/docs/markdown/customize/agents-md"
+excerpt: |-
+  Set `AMP_IGNORE_GUIDANCE_FILES` to a colon-delimited (`:`) list of globs to skip matching guidance files. Amp matches globs against absolute file paths, including hidden directories. Use `/` as the path separator and `**` to match across directories.
+  For example, skip your personal guidance for a non-interactive CLI run without changing `$HOME`:
+  ```shell
+  AMP_IGNORE_GUIDANCE_FILES="$HOME/.config/amp/AGENTS.md:$HOME/.config/AGENTS.md" amp -x "do the thing"
+  ```
+  Use `**/.config/amp/**` to skip all guidance files under an Amp user config directory. Quote the value so your shell does not expand the globs.
+  Set `AMP_IGNORE_GUIDANCE_FILES='*'` to ignore all guidance files and prevent Amp from loading any `AGENTS.md` files automatically.

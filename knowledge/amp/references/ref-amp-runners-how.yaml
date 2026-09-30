@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-runners-how
+harness_id: amp
+snapshot_id: snapshot-amp-docs-cli-runners
+locator:
+  kind: document_section
+  heading: How It Works
+official_url: "https://ampcode.com/docs/markdown/cli/runners"
+excerpt: |-
+  Every time a thread starts on the runner, the runner asks ampcode.com for the variables that
+  apply to that thread and adds them to the environment of the shell commands and the stdio MCP
+  servers that the thread runs. While threads run in a directory, the runner asks again every 30
+  seconds, so a variable you change on ampcode.com reaches running threads too. The variables are
+  sent only to the runner that serves the thread, and only for the directory the thread runs in.
+  Variables come from four places. When the same variable is set in more than one place, the
+  value from the place higher in this list wins:
+  1. Your personal Secrets & Env Vars on ampcode.com.
+  2. The project's Secrets & Env Vars, for the project that matches the thread's directory.
+  3. The workspace's Secrets & Env Vars.
+  4.

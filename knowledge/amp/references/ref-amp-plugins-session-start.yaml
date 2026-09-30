@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-session-start
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: "session.start: Run Setup When a Thread Starts"
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  `session.start` fires when Amp starts a thread session, such as when the user sends the first message in a new thread or opens/switches to an existing thread. Put plugin-load initialization directly in the exported function body. Multiple threads can be started and continue to run at the same time in the same Amp CLI. There is no `session.end` event.
+  ```ts
+  import type { PluginAPI } from '@ampcode/plugin'
+  export default function (amp: PluginAPI) {
+  	amp.on('session.start', async (event, ctx) => {
+  		await ctx.ui.notify(`Example session.start for ${event.thread.id}.`)
+  	})
+  }
+  ```

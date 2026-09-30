@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-permissions-example
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: "Example Plugin: Permissions"
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  Example Plugin: Permissions
+  This plugin asks the user before running potentially destructive git commands. It uses `amp.ai.ask(...)` to classify each git command and only prompts when the command looks risky.
+  Save this as `.amp/plugins/no-destructive-git-operations.ts`, then run `plugins: reload`.
+  ```ts
+  import type { PluginAIAskResult, PluginAPI } from '@ampcode/plugin'
+  /**
+   * Plugin that prevents risky git operations by asking the user for confirmation.
+   * Uses amp.ai.ask() to classify git commands as risky and prompts the user accordingly.
+   */
+  export default function (amp: PluginAPI) {
+   const safePatterns = [
+   /^\s*git\s+status\b/,
+   /^\s*git\s+log\b/,
+   /^\s*git\s+diff\b/,
+   /^\s*git\s+show\b/,
+   /^\s*git\s+branch\s*$/,
+   /^\s*git\s+branch\s+-[av]\b/,
+   /^\s*git\s+stash\s+list\b/,

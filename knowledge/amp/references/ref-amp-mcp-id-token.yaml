@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-mcp-id-token
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-mcp
+locator:
+  kind: document_section
+  heading: Amp ID Tokens
+official_url: "https://ampcode.com/docs/markdown/customize/mcp"
+excerpt: |-
+  Amp ID Tokens
+  In an [orb](/docs/orbs), a remote server can authenticate the thread with an Amp ID token. Put
+  `${amp:id-token}` in a header:
+  ```json
+  "amp.mcpServers": {
+   "internal-tools": {
+   "url": "https://mcp.example.com/mcp",
+   "headers": { "Authorization": "Bearer ${amp:id-token}" }
+   }
+  }
+  ```
+  Amp sends the same token that `amp orb id-token --audience https://mcp.example.com` prints. The
+  audience is the HTTPS origin of the server URL, including a nondefault port but not the path or
+  query. Amp mints the token before it connects, sends it only to that origin, rejects redirects, and
+  replaces it before it expires. If the server returns 401 while connecting, the connection fails and
+  Amp does not retry it. If the token exchange fails, Amp retries the connection. Amp removes the

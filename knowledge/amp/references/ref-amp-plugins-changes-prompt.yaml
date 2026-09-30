@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-changes-prompt
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: "changes.prompt: Add to the Ship Prompt"
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  `changes.prompt` fires when Amp prepares the prompt behind the Ship or Push to Branch button, before the user sees it. Return `append` to add instructions after the prompt. The Ship dialog shows the assembled prompt, so the user can edit or remove what your plugin added before sending, and a press-and-hold Ship sends it as shown. `event.workflow` is `'ship'` or `'push_branch'`.
+  ```ts
+  import type { PluginAPI } from '@ampcode/plugin'
+  export default function (amp: PluginAPI) {
+  	amp.on('changes.prompt', (event) => {
+  		if (event.workflow !== 'ship') {
+  			return {}
+  		}
+  		return {
+  			append:
+  				'If this thread fixes a Linear issue, put its ID in the commit message and, after pushing, add a comment to the issue linking the commit.',
+  		}
+  	})
+  }
+  ```

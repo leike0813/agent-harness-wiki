@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-mcp-structured
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-mcp
+locator:
+  kind: document_section
+  heading: Structured remote tool results
+official_url: "https://ampcode.com/docs/markdown/customize/mcp"
+excerpt: |-
+  Amp discovers saved remote MCP tools with `tool_search` and calls them through `code_exec`.
+  When a tool declares an `outputSchema`, Amp includes its return type in tool discovery and
+  validates successful `structuredContent` against that schema for normal calls. Missing or
+  mismatched structured results produce a catchable JavaScript error. Validation errors include
+  the failing field and constraint when available, plus a bounded preview of the returned data.
+  Tool error results (`isError: true`) are exempt from schema validation.
+  An imported function returns `structuredContent` when present, including arrays, `null`, and
+  other JSON values. Otherwise, it returns the tool's text, parsed as JSON when that text contains
+  an object or array. Normal calls throw on tool errors.

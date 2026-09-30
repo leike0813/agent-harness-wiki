@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-settings-keys
+harness_id: amp
+snapshot_id: snapshot-amp-docs-cli-settings
+locator:
+  kind: document_section
+  heading: Settings
+official_url: "https://ampcode.com/docs/markdown/cli/settings"
+excerpt: |-
+  Add the <a href="/cli-settings.schema.json" data-sveltekit-reload>Amp settings JSON Schema</a> to
+  your settings file to get validation, descriptions, and completions in editors that support JSON
+  Schema:
+  ```json
+  {
+    "$schema": "https://ampcode.com/cli-settings.schema.json",
+    "amp.showCosts": true
+  }
+  ```
+  - **`amp.fuzzy.alwaysIncludePaths`**
+    **Type:** `array`, **Default:** `[]`
+    Glob patterns for paths that should always be included in fuzzy file search, even if they are
+    ignored by Git. This is useful for build output directories or generated files you want to
+    reference with `@` mentions.
+    Examples: `["dist/**", "node_modules/@myorg/**"]`
+  - **`amp.showCosts`**
+    **Type:** `boolean`, **Default:** `true`
+    Show cost information for threads in the CLI while working.

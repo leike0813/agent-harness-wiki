@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-pluginapi-agent-tools
+harness_id: amp
+snapshot_id: snapshot-amp-docs-plugin-api
+locator:
+  kind: document_section
+  heading: "@ampcode/plugin Type Reference"
+official_url: "https://ampcode.com/docs/markdown/plugin-api"
+excerpt: |-
+  * An array or an explicit `include` array replaces the default tool list, including
+   * delegation tools. Use `add` to extend the default list; `exclude` always wins.
+   * Loading a skill does not grant tools omitted from an explicit list.
+   *
+   * Include `create_thread` for persistent child threads with a selected `agent_mode`,
+   * and the coordination tools your workflow needs: `list_agent_modes`, `get_thread_status`,
+   * `send_thread_message`, and `wait_for_threads`. `Task` runs a scoped subagent instead
+   * and does not accept a per-call agent mode.
+   *
+   * Explicit tool lists (arrays and `include`/`exclude` entries) match tool names as
+   * glob patterns: `mcp__*` matches all MCP tools (named `mcp__<server>__<tool>`), and

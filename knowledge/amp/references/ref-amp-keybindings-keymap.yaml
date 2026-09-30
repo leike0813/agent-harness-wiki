@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-keybindings-keymap
+harness_id: amp
+snapshot_id: snapshot-amp-docs-cli-keybindings
+locator:
+  kind: document_section
+  heading: Customize the Keymap
+official_url: "https://ampcode.com/docs/markdown/cli/keybindings"
+excerpt: |-
+  Use the `amp.keymap` setting to customize CLI keybindings:
+  ```json
+  {
+    "amp.keymap": {
+      "mode.toggle": ["ctrl+s", "ctrl+j"],
+      "thread.copyURL": "<leader> u",
+      "thread.interrupt": ["esc esc", "ctrl+l"]
+    }
+  }
+  ```
+  Separate keys with spaces to define a chord, such as `ctrl+c ctrl+e`. The key `<leader> u` means pressing <kbd>Ctrl+X</kbd> and then <kbd>u</kbd>. To change the `<leader>` key, define a keymap entry for `"leader"`.
+  Configuring a command replaces its default key or chord. Use an array to keep the old shortcut and add another one. Set a command's entry to `null` to unbind its default.
+  Unlike other settings, keymaps in your user settings file at `~/.config/amp/settings.json` override workspace entries in `.amp/settings.json`.

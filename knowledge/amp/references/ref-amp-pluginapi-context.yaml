@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-pluginapi-context
+harness_id: amp
+snapshot_id: snapshot-amp-docs-plugin-api
+locator:
+  kind: document_section
+  heading: PluginEventContext
+official_url: "https://ampcode.com/docs/markdown/plugin-api"
+excerpt: |-
+  export interface PluginEventContextBase {
+   /** Scoped logger for plugin output. Log messages are appended to the handler's trace span events. */
+   logger: PluginLogger
+   /** Tagged-template shell command runner. See {@link ShellFunction}. */
+   $: ShellFunction
+   /** Platform UI capabilities */
+   ui: PluginUI
+   /** AI capabilities */
+   ai: PluginAI
+   /** System capabilities and information */
+   system: PluginSystem
+   /** The trace span ID for this handler invocation, if tracing is enabled */
+   span?: SpanID
+  }
+  /**
+   * Context passed as the second argument to event handlers.
+   * All plugin events are thread-scoped.
+   */
+  export type PluginEventContext<E extends keyof PluginEventMap> = PluginEventContextBase & {
+   thread: PluginThread
+  }
+  /**

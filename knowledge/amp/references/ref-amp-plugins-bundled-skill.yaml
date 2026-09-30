@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-bundled-skill
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: Bundle a Skill
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  Bundle a Skill
+  A directory plugin can include a standard skill and its resources. Amp does not scan the
+  `skills/` directory automatically, so the plugin must register each skill when it loads.
+  ```text
+  deploy-status/
+  ├── index.ts
+  └── skills/
+   └── deploy-guide/
+   ├── SKILL.md
+   └── reference/
+   └── checklist.md
+  ```
+  ```ts
+  import type { PluginAPI } from '@ampcode/plugin'
+  export default async function (amp: PluginAPI) {
+   await amp.registerSkill({ path: 'skills/deploy-guide' })
+  }
+  ```
+  The path is relative to the plugin directory and must name a directory that contains `SKILL.md`.
+  The skill's frontmatter `name` must match its directory name. In this example, Amp lists the skill
+  as `deploy-status:deploy-guide`. Single-file plugins cannot register skills.

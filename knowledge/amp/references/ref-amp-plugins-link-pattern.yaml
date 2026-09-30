@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-link-pattern
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: Link Text in the Transcript
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  `registerLinkPattern` turns matching text in the thread transcript into links: issue IDs in user messages, ticket numbers in assistant prose, and identifiers in inline code. Amp records the patterns on each thread the plugin's executor connects to, so someone who opens the thread later without an executor still sees the links. Because a thread keeps patterns it has already recorded, existing links stay linked even after a later executor without the plugin connects.
+  ```ts
+  import type { PluginAPI } from '@ampcode/plugin'
+  export default function (amp: PluginAPI) {
+  	amp.registerLinkPattern({
+  		id: 'issue',
+  		pattern: 'ENG-\\d{1,6}',
+  		href: 'https://linear.app/acme/issue/{{match}}',
+  	})
+  }
+  ```
+  `pattern` is a regular expression source without anchors, flags, or delimiters.

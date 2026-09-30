@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-execute-mode
+harness_id: amp
+snapshot_id: snapshot-amp-docs-cli-execute-mode
+locator:
+  kind: document_section
+  heading: Execute Mode
+official_url: "https://ampcode.com/docs/markdown/cli/execute-mode"
+excerpt: |-
+  Use `-x` or `--execute` to start the CLI in execute mode. In this mode, it sends the message
+  provided to `-x` to the agent, waits until the agent ends its turn, prints its final message, and
+  exits. Use `-ox` instead to run the same prompt in an [orb](/docs/orbs/overview) on Amp's servers
+  rather than on your machine; see [Spawning Orbs](/docs/cli/spawning-orbs).
+  Run a prompt locally:
+  ```shell-session
+  $ amp -x "what files in this folder are markdown files? Print only the filenames."
+  README.md
+  AGENTS.md
+  ```
+  You can also pipe input when using `-x`:
+  ```shell-session
+  $ echo "what package manager is used here?" | amp -x
+  cargo
+  ```
+  Interactive CLI threads remember whether the last thread used Fast mode. Execute mode and other
+  noninteractive thread creation default to Standard mode each time.

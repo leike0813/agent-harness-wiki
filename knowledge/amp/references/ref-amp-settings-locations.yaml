@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-settings-locations
+harness_id: amp
+snapshot_id: snapshot-amp-docs-cli-settings
+locator:
+  kind: document_section
+  heading: Configuration
+official_url: "https://ampcode.com/docs/markdown/cli/settings"
+excerpt: |-
+  Amp reads settings from these locations:
+  - User settings:
+    - macOS: `~/.config/amp/settings.json` or `~/.config/amp/settings.jsonc`
+    - Linux: `~/.config/amp/settings.json` or `~/.config/amp/settings.jsonc`
+    - Windows: `%USERPROFILE%\.config\amp\settings.json` or
+      `%USERPROFILE%\.config\amp\settings.jsonc`
+  - Workspace settings: the nearest `.amp/settings.json` or `.amp/settings.jsonc`, searched upward
+    from your current working directory to the repository root, or the current directory outside a
+    Git repository
+  - Custom user settings: pass `--settings-file <path>` to point Amp at a different user settings
+    file
+  Run `amp config edit` to open your user settings file in `$EDITOR`, or add `--workspace` to edit
+  workspace settings.

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-plugins-subagent
+harness_id: amp
+snapshot_id: snapshot-amp-docs-customize-plugins
+locator:
+  kind: document_section
+  heading: Define a Custom Subagent
+official_url: "https://ampcode.com/docs/markdown/customize/plugins"
+excerpt: |-
+  Define a Custom Subagent
+  Create an agent and expose it through a plugin tool when you want the main agent to delegate a
+  specific kind of work on demand. The `parentThreadID` option keeps the subagent run connected to the
+  thread that invoked the tool.
+  ```ts
+  import type { PluginAPI } from '@ampcode/plugin'
+  export default function (amp: PluginAPI) {
+   const researcher = amp.createAgent({
+   name: 'dependency-researcher',
+   model: 'openai/gpt-5.5',
+   instructions: [
+   'You are a focused dependency research subagent.',
+   'Research only the dependency and question named by the caller.',
+   'Return concise findings with links to primary sources.',
+   ].join(' '),
+   tools: 'all',
+   reasoningEffort: 'medium',
+   })
+   amp.registerTool({
+   name: 'dependency_research_subagent',

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-mcp-registry-matching
+harness_id: amp
+snapshot_id: snapshot-amp-docs-enterprise-mcp-registry
+locator:
+  kind: document_section
+  heading: Package Matching
+official_url: "https://ampcode.com/docs/markdown/enterprise/mcp-registry-allowlist"
+excerpt: |-
+  For local stdio servers, Amp matches the package name and registry type. Registry approval applies to the
+  package name, not a specific version. A tag, fixed version, version range, or Python extra still matches the
+  same approved package.
+  Amp supports npm packages run with `npx`, `npm exec`, `npm x`, `pnx`, `pnpx`, `pnpm dlx`, `bunx`, `bun x`, or
+  `yarn dlx`. It supports Python packages run with `uvx`, `uv tool run`, or `pipx run`. Package source options
+  such as `uvx --from`, `pipx run --spec`, and `bunx --package` are supported when the package and command names
+  differ.
+  Amp blocks package references that do not identify a registry package. It also blocks runner options known to
+  add packages, such as `uvx --with`, as well as alternate package registries and indexes, shell execution modes,

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amp-pluginapi-types
+harness_id: amp
+snapshot_id: snapshot-amp-docs-plugin-api
+locator:
+  kind: document_section
+  heading: "@ampcode/plugin Type Reference"
+official_url: "https://ampcode.com/docs/markdown/plugin-api"
+excerpt: |-
+  ```typescript
+  /**
+   * # Amp Plugin API
+   *
+   * Plugins are JavaScript/TypeScript programs that extend & customize Amp.
+   * They are long-lived processes that may run for multiple threads concurrently.
+   *
+   * Plugins live in `.amp/plugins/` (project) or `~/.config/amp/plugins/` (system) and are executed using Bun.
+   *
+   * A plugin exports a default function that receives a {@link PluginAPI} instance. For example:
+   *
+   * ```ts
+   * import type { PluginAPI } from '@ampcode/plugin'
+   *
+   * export const description = 'Explains what this plugin adds to Amp'
+   *
+   * export default function (amp: PluginAPI) {
+   *   amp.logger.log('Plugin initialized')
+   * }
+   * ```
+   *
+   * The optional `description` named export must be a static string literal of at most 300
+   * characters.
