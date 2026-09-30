@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-skills-paths
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/kilo-docs/pages/customize/skills.md
+  start: 164
+  end: 208
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  ### Additional Skill Paths and Remote URLs
+  You can configure extra skill locations and remote skill URLs in your `kilo.jsonc` config (project or global):
+  ```jsonc
+  {
+    "skills": {
+      "paths": ["/path/to/shared/skills", "~/my-skills", "relative/skills"],
+      "urls": ["https://example.com/.well-known/skills/"],
+    },
+  }
+  ```
+  The `skills.paths` key accepts absolute paths, `~/` home-relative paths, or paths relative to the project root. The `skills.urls` key accepts URLs to remote skill directories that serve an `index.json` manifest.
+  A path that starts with `/` or `\` but has no drive letter, such as `/.github/skills`, is tried as an absolute path first.

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-config-src-managed
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/config/config.ts
+  start: 969
+  end: 1000
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  const managedDir = ConfigManaged.managedConfigDir()
+          // kilocode_change start - include kilo.json/kilo.jsonc in managed dir loading
+          if (existsSync(managedDir)) {
+            for (const file of KilocodeConfig.ALL_CONFIG_FILES) {
+              const source = path.join(managedDir, file)
+              // kilocode_change - MDM/enterprise-managed config is a trusted source
+              yield* merge(source, yield* loadFile(source, undefined, true, undefined, warnings), "global")
+            }
+          }
+          // kilocode_change end
+          // macOS managed preferences (.mobileconfig deployed via MDM) override everything
+          // kilocode_change start
+          const managed = yield* Effect.promise(() => ConfigManaged.readManagedPreferences())
+          if (managed) {
+            yield* merge(

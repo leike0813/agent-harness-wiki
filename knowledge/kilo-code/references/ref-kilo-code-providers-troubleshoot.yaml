@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-providers-troubleshoot
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Troubleshooting
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  **Model doesn't appear in the model picker:**
+  - Verify the provider has valid credentials configured (API key, or local server running)
+  - Check that the model key matches what you set in `"model": "provider/model-key"`
+  - Run `kilo models` to list all available models and confirm your provider is active
+  **Model errors or unexpected behavior:**
+  - Set `tool_call: true` if you need the model to use tools (file editing, terminal, etc.)
+  - Set `limit.context` and `limit.output` to match the model's actual capabilities — see [Token Limits](#token-limits-limit) above for details and defaults
+  - If conversations seem to grow without being compacted, your `limit.context` is likely `0` (unset)
+  - For local models, ensure your inference server is running and accessible at the configured URL

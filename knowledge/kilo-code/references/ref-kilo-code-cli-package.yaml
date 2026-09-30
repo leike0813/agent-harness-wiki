@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-cli-package
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/package.json
+  start: 1
+  end: 30
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  {
+    "$schema": "https://json.schemastore.org/package.json",
+    "version": "7.8.1",
+    "name": "@kilocode/cli",
+    "type": "module",
+    "license": "MIT",
+    "private": false,
+    "scripts": {
+      "typecheck": "tsgo --noEmit",
+      "test": "bun run script/test-runner.ts",
+      "test:httpapi": "bun run script/httpapi-exercise.ts --mode coverage --fail-on-missing --fail-on-skip && bun run script/httpapi-exercise.ts --mode auth --fail-on-missing --fail-on-skip && bun run script/httpapi-exercise.ts --mode effect --fail-on-missing --fail-on-skip --shards 4",
+      "bench:test": "bun run script/bench-test-suite.ts",
+      "profile:test": "bun run script/profile-test-files.ts",
+      "build": "bun run script/build.ts",
+      "dev": "bun run ./src/index.ts",
+      "dev:temporary": "bun run ./src/temporary.ts",

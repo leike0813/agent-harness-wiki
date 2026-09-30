@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-agents-cli
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: "Method 3: Interactive CLI"
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  Create agents interactively using the CLI:
+  ```bash
+  kilo agent create
+  ```
+  This command will:
+  1. Ask where to save the agent (global or project-specific)
+  2. Prompt for a description of what the agent should do
+  3. Generate an appropriate system prompt and identifier using AI
+  4. Let you select which tools the agent can access
+  5. Let you choose the agent mode (`all`, `primary`, or `subagent`)
+  6. Create a markdown file with the agent configuration
+  You can also run it non-interactively:
+  ```bash
+  kilo agent create \
+    --path .kilo \
+    --description "Reviews code for security vulnerabilities" \
+    --mode subagent \
+    --tools "read,grep,glob"
+  ```

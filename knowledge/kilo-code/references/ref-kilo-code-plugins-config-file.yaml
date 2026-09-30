@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-plugins-config-file
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: From a config file
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  Add an array of plugin specifiers to your config file:
+  ```json
+  {
+    "$schema": "https://app.kilo.ai/config.json",
+    "plugin": [
+      "@your-org/your-plugin",
+      "your-plugin@1.2.3",
+      ["your-plugin", { "apiKey": "{env:MY_API_KEY}" }],
+      "./plugins/local.ts",
+      "file:///abs/path/plugin.ts"
+    ]
+  }
+  ```
+  Each entry can be:
+  | Form | Loaded from |
+  |---|---|
+  | `"package-name"` | Latest version from npm |
+  | `"package-name@1.2.3"` | Pinned version from npm |
+  | `["package-name", { options }]` | npm package with options passed to the plugin function |
+  | `"./path/plugin.ts"` / `"file:///..."` | Local file (relative to the config file or absolute `file:` URL) |

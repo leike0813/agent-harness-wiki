@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-skills-src-flags
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/effect/runtime-flags.ts
+  start: 16
+  end: 30
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  export class Service extends ConfigService.Service<Service>()("@opencode/RuntimeFlags", {
+    autoShare: bool("KILO_AUTO_SHARE"),
+    pure: bool("KILO_PURE"),
+    disableDefaultPlugins: bool("KILO_DISABLE_DEFAULT_PLUGINS"),
+    disableChannelDb: bool("KILO_DISABLE_CHANNEL_DB"), // kilocode_change
+    disableEmbeddedWebUi: bool("KILO_DISABLE_EMBEDDED_WEB_UI"),
+    disableExternalSkills: bool("KILO_DISABLE_EXTERNAL_SKILLS"),
+    disableSkillShell: bool("KILO_DISABLE_SKILL_SHELL"), // kilocode_change - disable shell injection in skill bodies
+    disableLspDownload: bool("KILO_DISABLE_LSP_DOWNLOAD"),
+    skipMigrations: bool("KILO_SKIP_MIGRATIONS"), // kilocode_change
+    disableClaudeCodePrompt: Config.all({
+      broad: bool("KILO_DISABLE_CLAUDE_CODE"),
+      direct: bool("KILO_DISABLE_CLAUDE_CODE_PROMPT"),

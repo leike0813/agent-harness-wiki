@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-agents-permissions
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Permissions
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  The `permission` field controls what tools the subagent can use. Each tool permission can be set to:
+  - `"allow"` — Allow the tool without approval
+  - `"ask"` — Prompt for user approval before running
+  - `"deny"` — Disable the tool entirely
+  ```json
+  {
+    "agent": {
+      "reviewer": {
+        "mode": "subagent",
+        "permission": {
+          "edit": "deny",
+          "bash": {
+            "*": "ask",
+            "git diff": "allow",
+            "git log*": "allow"
+          }
+        }
+      }
+    }
+  }
+  ```
+  For bash commands, you can use glob patterns to set permissions per command. Rules are evaluated in order, with the **last matching rule winning**. See [Agent Permissions](/docs/customize/agent-permissions) for rule precedence, shell command patterns, path matching, and sensitive-file behavior.

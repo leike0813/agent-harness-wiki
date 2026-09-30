@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-skills-src-builtin
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/skill/index.ts
+  start: 308
+  end: 325
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  const loadSkills = Effect.fnUntraced(function* (
+    state: State,
+    discovered: DiscoveryState,
+    events: EventV2Bridge.Service["Service"],
+  ) {
+    // kilocode_change start - seed built-in skills before discovery so user skills can override
+    for (const skill of BUILTIN_SKILLS) {
+      state.skills[skill.name] = {
+        name: skill.name,
+        description: skill.description,
+        location: BUILTIN_LOCATION,
+        content: skill.content,
+        trusted: true, // kilocode_change - builtin skills ship in the binary
+      }
+    }
+    // kilocode_change end
+    for (const match of discovered.matches) yield* add(state, match, events) // kilocode_change

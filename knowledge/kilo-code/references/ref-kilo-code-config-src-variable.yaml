@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-config-src-variable
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/config/variable.ts
+  start: 54
+  end: 90
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  // kilocode_change start - untrusted (project) config cannot read environment variables. {env:} has no safe
+    // scoped form, so it is rejected outright; {file:} is allowed but confined to fileScope.root below.
+    const trusted = input.trusted ?? false
+    // Untrusted markdown and prompt text may document shell placeholders such as ${env:VAR}, so dollar-prefixed
+    // tokens stay literal there. Untrusted JSON config keeps rejecting them as failed {env:} references.
+    const dollar = Boolean(input.markdown) && !trusted
+    if (!trusted) {
+      const active = Array.from(input.text.matchAll(dollar ? /(?<!\$)\{env:[^}]+\}/g : /\{env:[^}]+\}/g)).find(
+        (m) => !commented(input.text, m.index),
+      )
+      if (active) {
+        throw new InvalidError({
+          path: source(input),

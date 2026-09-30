@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-connect-timeout
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/mcp/index.ts
+  start: 344
+  end: 352
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  },
+        ]
+        const connectTimeout = mcp.timeout ?? DEFAULT_TIMEOUT
+        let lastStatus: Status | undefined
+        for (const { name, transport } of transports) {
+          const result = yield* connectTransport(transport, connectTimeout).pipe(
+            Effect.map((client) => ({ client, transportName: name })),

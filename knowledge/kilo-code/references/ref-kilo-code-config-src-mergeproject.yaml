@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-config-src-mergeproject
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/config/config.ts
+  start: 585
+  end: 650
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  export function mergeConfig(existing: Config.Info, patch: Config.Info): Config.Info {
+      return merge(existing, patch, true)
+    }
+    /** Merge an untrusted project layer without changing generic config merge semantics. */
+    export function mergeProject(existing: Config.Info, patch: Config.Info): Config.Info {
+      return merge(existing, patch, false)
+    }
+    function merge(existing: Config.Info, patch: Config.Info, clean: boolean): Config.Info {
+      const e = { ...existing } as Record<string, unknown>
+      // Shallow-copy patch so MCP extraction (delete p.mcp) never mutates the caller's object.
+      // Callers may probe with mergeConfig({}, patch) then reuse the same patch for a write.
+      const p = { ...patch } as Record<string, unknown>
+      // Normalize permission scalars before merge

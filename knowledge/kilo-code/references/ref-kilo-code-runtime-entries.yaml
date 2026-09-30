@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-runtime-entries
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Command entry points
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  {% callout type="warning" title="Kilo Console is deprecated" %}
+  The `kilo console` command and the browser interface described on this page are deprecated and will be removed in an upcoming release.
+  {% /callout %}
+  | Entry point | Command or caller | Runtime model |
+  |---|---|---|
+  | Interactive TUI | `kilo` | Attaches to local daemon when available; otherwise starts Bun worker and sends SDK-shaped requests over RPC |
+  | Headless run | `kilo run` | Uses daemon attach when available, then embedded server fetch fallback |
+  | Attached run | `kilo run --attach <url>` | Targets explicit running `kilo serve` server |
+  | Explicit API server | `kilo serve` | Starts HTTP + SSE server for external local clients |
+  | Local daemon | `kilo daemon start` | Starts detached `kilo serve` child for reuse |

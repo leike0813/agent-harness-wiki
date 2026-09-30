@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-agents-options
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Configuration Options
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  The following options are available when configuring a subagent:
+  | Option | Type | Description |
+  |---|---|---|
+  | `description` | `string` | What the agent does and when to use it. Shown to primary agents to help them decide which subagent to invoke. |
+  | `mode` | `"subagent" \| "primary" \| "all"` | How the agent can be used. Defaults to `all` for custom agents. |
+  | `model` | `string` | Override the model for this agent (format: `provider/model-id`). If not set, subagents inherit the model of the invoking primary agent. |
+  | `prompt` | `string` | Custom system prompt. In JSON, can use `{file:./path}` syntax. In markdown, the body is the prompt. |
+  | `temperature` | `number` | Controls response randomness (0.0-1.0). Lower = more deterministic. |

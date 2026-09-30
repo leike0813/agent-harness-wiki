@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-plugins-src-hooks
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/plugin/index.ts
+  start: 124
+  end: 136
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  async function applyPlugin(load: PluginLoader.Loaded, input: PluginInput, hooks: Hooks[]) {
+    const plugin = readV1Plugin(load.mod, load.spec, "server", "detect")
+    if (plugin) {
+      await resolvePluginId(load.source, load.spec, load.target, readPluginId(plugin.id, load.spec), load.pkg)
+      hooks.push(await (plugin as PluginModule).server(input, load.options))
+      return
+    }
+    for (const server of getLegacyPlugins(load.mod)) {
+      hooks.push(await server(input, load.options))
+    }
+  }

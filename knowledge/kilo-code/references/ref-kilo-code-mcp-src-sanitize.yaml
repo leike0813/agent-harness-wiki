@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-sanitize
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/config/mcp-headers.ts
+  start: 16
+  end: 47
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  }
+  /** Drop variable-bearing project MCP headers before substitution can resolve them. */
+  export function sanitizeProjectMcpHeaders<T>(data: T, source: string): { config: T; warnings: McpHeaderWarning[] } {
+    if (!isRecord(data) || !isRecord(data.mcp)) return { config: data, warnings: [] }
+    const warnings: McpHeaderWarning[] = []
+    const next: Record<string, unknown> = { ...data.mcp }
+    for (const [name, mcp] of Object.entries(next)) {
+      const token = referencedHeader(mcp)
+      if (!token) continue
+      delete next[name]
+      warnings.push({
+        path: source,
+        message: `Skipped MCP "${name}": variable references are not allowed in project MCP headers ("${token}")`,
+      })
+    }
+    // kilocode_change - V2 nests servers under mcp.servers; sanitize those headers too

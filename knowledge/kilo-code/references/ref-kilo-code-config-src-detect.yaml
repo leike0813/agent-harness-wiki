@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-config-src-detect
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/config/config.ts
+  start: 690
+  end: 745
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  /**
+     * Detect leftover opencode config directories. Kilo used to fall back to
+     * opencode configuration but no longer reads `.opencode` directories.
+     * Returns the existing `.opencode` locations (global + project), highest first.
+     */
+    export function detectOpencodeConfig(input: {
+      directory: string
+      worktree?: string
+      scanProject: boolean
+    }): string[] {
+      const found: string[] = []
+      // Global opencode config dir (sibling of the kilo global config dir, e.g. ~/.config/opencode).
+      const globalDir = path.join(path.dirname(Global.Path.config), "opencode")
+      if (existsSync(globalDir)) found.push(globalDir)
+      // Project `.opencode` directories, walked from the working directory up to the worktree root.
+      if (input.scanProject) {

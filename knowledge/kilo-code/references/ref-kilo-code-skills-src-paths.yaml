@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-skills-src-paths
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/skill/index.ts
+  start: 275
+  end: 307
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  for (const item of cfg.skills?.paths ?? []) {
+      const expanded = item.startsWith("~/") ? path.join(global.home, item.slice(2)) : item
+      const dir = yield* SkillPaths.resolve(expanded, directory, fsys.isDir) // kilocode_change - "/x" falls back to the project root
+      if (!(yield* fsys.isDir(dir))) {
+        yield* Effect.logWarning("skill path not found", { path: dir })
+        continue
+      }
+      // kilocode_change start - trust follows the config source that declared the path, never the selected path.
+      // A "/x" entry that fell back to the project root is project content and stays untrusted.
+      const origin = cfg.skill_path_origins?.[item]
+      const trusted = origin?.trusted === true && path.isAbsolute(expanded) && dir === expanded
+      yield* scan(state, dir, SKILL_PATTERN, {

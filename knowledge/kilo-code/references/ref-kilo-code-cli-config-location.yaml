@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-cli-config-location
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: "Config File Location (Kilo CLI 1.0)"
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  | Scope | Path |
+  |---|---|
+  | **Global** | `~/.config/kilo/kilo.json[c]` or legacy `opencode.json[c]` (Windows config dir may vary) |
+  | **Project** | `./kilo.json[c]`, legacy `./opencode.json[c]`, or config inside `./.kilo/` (legacy `./.kilocode/` is also read) |
+  Project-level configuration takes precedence over global settings.
+  {% callout type="warning" %}
+  **Migrating from opencode?** Kilo no longer falls back to opencode configuration stored in `.opencode` directories (such as `~/.config/opencode` or a project `./.opencode/`). To keep using it, move your global config into `~/.config/kilo/` and any project config into `./.kilo/`.
+  {% /callout %}

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-skills-src-inject
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/skills/inject.ts
+  start: 6
+  end: 20
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  // A `!`cmd`` placeholder in SKILL.md is replaced by the command's stdout before the
+  // content reaches the model. Runs only for model-initiated skill loads (not the
+  // user-initiated `/skill` path), gated by trust (only global/builtin skills), a
+  // kill-switch (KILO_DISABLE_SKILL_SHELL), and one batch bash ask naming every command
+  // up front (`skillShell` forces the ask past allow/auto-approve rules; a preceding
+  // external_directory ask covers out-of-project paths). Substitution runs once; output
+  // is never re-scanned, so a command can't emit a placeholder a later pass would run.
+  // Execution bounds: model-initiated commands must not hang the load, blow up
+  // context, or overrun the batch.
+  const TIMEOUT_MS = 2 * 60 * 1000 // per-command

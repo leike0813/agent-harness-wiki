@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-config-src-global
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/config/config.ts
+  start: 462
+  end: 479
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  result,
+          yield* loadFile(path.join(Global.Path.config, "kilo.json"), env, true, undefined, configWarnings),
+        )
+        result = mergeConfig(
+          result,
+          yield* loadFile(path.join(Global.Path.config, "kilo.jsonc"), env, true, undefined, configWarnings),
+        )
+        // kilocode_change end
+        result = mergeConfig(
+          result,
+          yield* loadFile(path.join(Global.Path.config, "opencode.json"), env, true, undefined, configWarnings),
+        ) // kilocode_change
+        result = mergeConfig(
+          result,
+          yield* loadFile(path.join(Global.Path.config, "opencode.jsonc"), env, true, undefined, configWarnings),
+        ) // kilocode_change
+        const legacy = path.join(Global.Path.config, "config")

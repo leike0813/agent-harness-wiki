@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-agents-json
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: "Method 1: JSON Configuration"
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  Add agents to the `agent` section of your `kilo.jsonc` config file. Any key that doesn't match a built-in agent name creates a new custom agent.
+  ```json
+  {
+    "$schema": "https://app.kilo.ai/config.json",
+    "agent": {
+      "code-reviewer": {
+        "description": "Reviews code for best practices and potential issues",
+        "mode": "subagent",
+        "model": "anthropic/claude-sonnet-4-20250514",
+        "prompt": "You are a code reviewer. Focus on security, performance, and maintainability.",
+        "permission": {
+          "edit": "deny",
+          "bash": "deny"
+        }
+      }
+    }
+  }
+  ```
+  You can also reference an external prompt file instead of inlining the prompt:
+  ```json
+  {
+    "agent": {
+      "code-reviewer": {
+        "description": "Reviews code for best practices and potential issues",

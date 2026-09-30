@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-config-schema-paths
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Two separate paths
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  ```mermaid
+  flowchart LR
+    subgraph runtime ["Runtime config loading"]
+      files["Global, project, organization,<br/>managed, and runtime config sources"] --> loader["Kilo CLI config loader"] --> effective["Effective runtime config"]
+    end
+    subgraph schema ["Editor validation and completion"]
+      info["Config.Info<br/>Effect Schema"] --> generated["Locally generated schema<br/>for verification"]
+      upstream["https://opencode.ai/config.json"] --> overlay["Kilo Cloud merge route"]
+      extras["Kilo extras.ts overlay buckets"] --> overlay --> endpoint["https://app.kilo.ai/config.json"] --> editor["Editor validation and completion"]
+      generated -. "Keep aligned" .-> extras
+    end
+  ```
+  Changing runtime config precedence affects first path.

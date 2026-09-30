@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-config-src-project
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/config/config.ts
+  start: 779
+  end: 812
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  if (!Flag.KILO_DISABLE_PROJECT_CONFIG) {
+            // kilocode_change start - also discover kilo.json project files
+            for (const name of ["kilo", "opencode"] as const) {
+              for (const file of yield* ConfigPaths.files(name, ctx.directory, ctx.worktree).pipe(Effect.orDie)) {
+                yield* merge(
+                  file,
+                  // kilocode_change - project config is untrusted: {env:} rejected by substitution; MCP entries with variable-bearing headers dropped pre-substitution, {file:} confined to projectRoot
+                  yield* loadFile(file, authEnv, false, { root: projectRoot, source: file }, warnings).pipe(
+                    Effect.catchDefect((err: unknown) => {
+                      caughtWarning(warnings, file, err)

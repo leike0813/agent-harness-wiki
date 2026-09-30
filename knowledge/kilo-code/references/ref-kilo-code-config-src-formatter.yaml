@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-config-src-formatter
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Formatter and LSP Toggles
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  Set `formatter` or `lsp` to `true` to use built-in defaults, or `false` to disable the feature completely:
+  ```jsonc
+  {
+    "formatter": true,
+    "lsp": false,
+  }
+  ```
+  Both keys also accept object configuration for specific tools or language servers. Custom LSP server entries must include an `extensions` array unless the entry disables a built-in server:
+  ```jsonc
+  {
+    "lsp": {
+      "my-language-server": {
+        "command": ["my-lsp", "--stdio"],
+        "extensions": [".foo"],
+      },
+    },
+  }
+  ```

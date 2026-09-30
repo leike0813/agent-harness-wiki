@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-hooks-src-plugin
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/plugin/src/index.ts
+  start: 56
+  end: 80
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  export type PluginInput = {
+    client: ReturnType<typeof createKiloClient>
+    project: Project
+    directory: string
+    worktree: string
+    experimental_workspace: {
+      register(type: string, adapter: WorkspaceAdapter): void
+    }
+    serverUrl: URL
+    $: BunShell
+  }
+  export type PluginOptions = Record<string, unknown>
+  export type Config = Omit<SDKConfig, "plugin"> & {
+    plugin?: Array<string | [string, PluginOptions]>
+  }
+  export type Plugin = (input: PluginInput, options?: PluginOptions) => Promise<Hooks>
+  export type PluginModule = {
+    id?: string
+    server: Plugin
+    tui?: never
+  }

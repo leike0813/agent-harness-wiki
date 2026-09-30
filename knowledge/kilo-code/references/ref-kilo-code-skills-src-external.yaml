@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-skills-src-external
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/skill/index.ts
+  start: 225
+  end: 255
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  const externalDirs: string[] = []
+    if (!disableExternalSkills) {
+      if (!disableClaudeCodeSkills && !ClaudeMigration.globalHandoff()) externalDirs.push(CLAUDE_EXTERNAL_DIR)
+      externalDirs.push(AGENTS_EXTERNAL_DIR)
+      for (const dir of externalDirs) {
+        const root = path.join(global.home, dir)
+        if (!(yield* fsys.isDir(root))) continue
+        yield* scan(state, root, EXTERNAL_SKILL_PATTERN, { dot: true, scope: "global", trusted: true, projectRoot }) // kilocode_change
+      }
+      // kilocode_change start
+      const local = yield* fsys
+        .up({ targets: projectDirs, start: directory, stop: projectRoot })
+        .pipe(Effect.catch(() => Effect.succeed([] as string[])))
+      const upDirs = [...fallbacks, ...local]
+      // kilocode_change end
+      for (const root of upDirs) {

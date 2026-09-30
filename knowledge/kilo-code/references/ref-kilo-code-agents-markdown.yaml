@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-agents-markdown
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: "Method 2: Markdown Files"
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  Define agents as markdown files with YAML frontmatter. Place them in:
+  - **Global**: `~/.config/kilo/agents/`
+  - **Project-specific**: `.kilo/agents/`
+  The **filename** (without `.md`) becomes the agent name.
+  If `.kilo/agents/` is a symlink to a directory outside the project, allow that exact source in your global `~/.config/kilo/kilo.jsonc`:
+  ```jsonc
+  {
+    "permission": {
+      "markdown_source": {
+        "/path/to/shared/agents/*": "allow"
+      }
+    }
+  }
+  ```
+  Project configuration cannot grant this permission. External agent files remain untrusted: `{env:...}` substitutions are blocked and `{file:...}` substitutions remain confined to the project.
+  ```markdown
+  ---
+  description: Reviews code for quality and best practices
+  mode: subagent
+  model: anthropic/claude-sonnet-4-20250514
+  temperature: 0.1

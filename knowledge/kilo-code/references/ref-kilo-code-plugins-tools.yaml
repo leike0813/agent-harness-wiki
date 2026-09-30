@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-plugins-tools
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Custom tools
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  Plugins can register tools the model can call alongside the built-in ones. Use the `tool()` helper for type-safety:
+  ```ts
+  // .kilo/plugin/database.ts
+  import type { Plugin } from "@kilocode/plugin"
+  import { tool } from "@kilocode/plugin/tool"
+  const DatabasePlugin: Plugin = async () => ({
+    tool: {
+      query: tool({
+        description: "Run a read-only SQL query against the project database",
+        args: {
+          sql: tool.schema.string().describe("SQL query to execute"),
+        },
+        async execute(args, context) {
+          const { directory, worktree } = context
+          // your query logic here
+          return `ran: ${args.sql}`
+        },
+      }),
+    },
+  })
+  export default { id: "database", server: DatabasePlugin }
+  ```
+  `args` uses a [Zod](https://zod.dev) schema via `tool.schema`.

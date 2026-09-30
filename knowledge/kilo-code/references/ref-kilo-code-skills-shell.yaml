@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-skills-shell
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Shell commands in skills
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  A `SKILL.md` body can embed shell commands with the `` !`command` `` syntax. When the agent loads the skill, each command runs and its standard output replaces the placeholder before the skill content reaches the model, grounding the skill in live data:
+  ```markdown
+  ---
+  name: repo-status
+  description: Summarize the current state of the repository
+  ---
+  The working tree currently contains:
+  !`git status --short`
+  ```
+  Because the agent decides when to load a skill, embedded commands never run silently:
+  - **Trusted skills only** — commands execute only in skills from trusted locations: global skills (such as `~/.kilo/skills/`, `~/.agents/skills/`, and `~/.claude/skills/`), skills built into Kilo Code, and absolute skill paths declared in global config.

@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-providers-limits
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: "Token Limits (limit)"
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  The `limit` object controls how Kilo manages the model's context window and output length. These values are specified in **tokens**.
+  | Sub-field | Type | Required | Description |
+  |---|---|---|---|
+  | `context` | `number` | No | The model's total context window size (e.g., `131072` for a 128K model). Used to determine when conversation history should be compacted to stay within the window. |
+  | `output` | `number` | No | The maximum number of tokens the model can generate in a single response. Sent to the provider as `max_tokens` or equivalent. Capped at 32,000 by default. |
+  | `input` | `number` | No | An optional stricter input limit. Some providers enforce an input token ceiling that is lower than the full context window.

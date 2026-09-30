@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-plugins-create
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Create a plugin
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  A plugin is a module that exports a function returning a set of [hooks](#hooks-reference).
+  ### Basic structure
+  Create a file in your plugin directory:
+  ```ts
+  // .kilo/plugin/hello.ts
+  import type { Plugin } from "@kilocode/plugin"
+  const hello: Plugin = async ({ project, client, $, directory, worktree }) => {
+    console.log("hello plugin loaded")
+    return {
+      // hook implementations go here
+    }
+  }
+  export default { id: "hello", server: hello }
+  ```
+  The plugin function receives a context object:
+  | Field | Description |
+  |---|---|
+  | `project` | Current project metadata. |
+  | `directory` | Current working directory for this session. |
+  | `worktree` | Git worktree root for this session. |
+  | `client` | A Kilo SDK client (`@kilocode/sdk`) for calling the local server. |

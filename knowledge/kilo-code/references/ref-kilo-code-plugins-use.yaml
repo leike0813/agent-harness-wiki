@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-plugins-use
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Use a plugin
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  You can load plugins in several ways.
+  ### Install from the Marketplace
+  Plugins appear in the **Marketplace** panel in the VS Code extension. Select a plugin, then choose a scope:
+  - **Project** adds the plugin to the `plugin` array in the project config file.
+  - **Global** adds the plugin to the `plugin` array in your user config file.
+  The install dialog shows the destination before it changes anything. You can install registry plugins and git-hosted plugins in the same way.
+  ### From a config file
+  Add an array of plugin specifiers to your config file:
+  ```json
+  {
+    "$schema": "https://app.kilo.ai/config.json",
+    "plugin": [
+      "@your-org/your-plugin",
+      "your-plugin@1.2.3",
+      ["your-plugin", { "apiKey": "{env:MY_API_KEY}" }],
+      "./plugins/local.ts",
+      "file:///abs/path/plugin.ts"
+    ]

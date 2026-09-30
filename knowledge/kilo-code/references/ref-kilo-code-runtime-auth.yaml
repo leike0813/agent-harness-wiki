@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-runtime-auth
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Authentication boundaries
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  Three credential boundaries coexist. Keep them separate when tracing request path or changing authentication code.
+  | Boundary | Protects | Owner |
+  |---|---|---|
+  | Local `kilo serve` access | HTTP, SSE, and selected WebSocket access to local server | Kilo CLI server and spawning local client |
+  | Outbound provider authentication | Model provider, Kilo Gateway, catalog, and indexing access | Kilo CLI provider router and auth stores |
+  | Remote MCP OAuth | Browser authorization and credentials for remote MCP server | Kilo CLI MCP runtime |
+  ### Local `kilo serve` access
+  Server Basic Auth is optional. It becomes required when `KILO_SERVER_PASSWORD` is non-empty. Default username is `kilo`; `KILO_SERVER_USERNAME` can override it.
+  | Path or mode | Authentication behavior |
+  |---|---|

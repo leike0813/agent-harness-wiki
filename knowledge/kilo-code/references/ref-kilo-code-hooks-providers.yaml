@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-hooks-providers
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: "Providers & auth"
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  | Hook | Description |
+  |---|---|
+  | `auth` | Register an auth method (OAuth or API key) for a provider, with interactive prompts. |
+  | `provider` | Dynamically supply a model catalog for a provider (useful for BYO-model gateways). |
+  Provider hooks can replace or refresh the model catalog for a provider. The hook receives the provider definition and auth context, and returns a map of model ID to model metadata:
+  ```ts
+  import type { Plugin } from "@kilocode/plugin"
+  const ProviderPlugin: Plugin = async () => ({
+    provider: {
+      id: "my-gateway",
+      async models(provider, { auth }) {
+        const res = await fetch("https://gateway.example.com/models", {
+          headers: auth?.type === "api" ? { Authorization: `Bearer ${auth.key}` } : {},
+        })
+        return await res.json()
+      },
+    },
+  })

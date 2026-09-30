@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-status
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/mcp/index.ts
+  start: 109
+  end: 133
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  const StatusConnected = Schema.Struct({ status: Schema.Literal("connected") }).annotate({
+    identifier: "MCPStatusConnected",
+  })
+  const StatusDisabled = Schema.Struct({ status: Schema.Literal("disabled") }).annotate({
+    identifier: "MCPStatusDisabled",
+  })
+  const StatusFailed = Schema.Struct({ status: Schema.Literal("failed"), error: Schema.String }).annotate({
+    identifier: "MCPStatusFailed",
+  })
+  const StatusNeedsAuth = Schema.Struct({ status: Schema.Literal("needs_auth") }).annotate({
+    identifier: "MCPStatusNeedsAuth",
+  })
+  const StatusNeedsClientRegistration = Schema.Struct({
+    status: Schema.Literal("needs_client_registration"),
+    error: Schema.String,
+  }).annotate({ identifier: "MCPStatusNeedsClientRegistration" })
+  export const Status = Schema.Union([
+    StatusConnected,
+    StatusDisabled,

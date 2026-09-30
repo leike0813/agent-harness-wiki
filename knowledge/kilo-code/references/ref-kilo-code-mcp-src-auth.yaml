@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-auth
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/mcp/auth.ts
+  start: 1
+  end: 40
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  import { LayerNode } from "@opencode-ai/core/effect/layer-node"
+  import path from "path"
+  import { serviceUse } from "@opencode-ai/core/effect/service-use"
+  import { Global } from "@opencode-ai/core/global"
+  import { Effect, Layer, Context, Option, Schema } from "effect"
+  import { FSUtil } from "@opencode-ai/core/fs-util"
+  import { EffectFlock } from "@opencode-ai/core/util/effect-flock"
+  export const Tokens = Schema.Struct({
+    accessToken: Schema.mutableKey(Schema.String),
+    refreshToken: Schema.mutableKey(Schema.optional(Schema.String)),
+    expiresAt: Schema.mutableKey(Schema.optional(Schema.Number)),
+    scope: Schema.mutableKey(Schema.optional(Schema.String)),
+  })
+  export type Tokens = Schema.Schema.Type<typeof Tokens>
+  export const ClientInfo = Schema.Struct({

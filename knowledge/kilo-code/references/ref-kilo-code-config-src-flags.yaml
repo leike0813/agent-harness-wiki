@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-config-src-flags
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/core/src/flag/flag.ts
+  start: 38
+  end: 75
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  export const Flag = {
+    OTEL_EXPORTER_OTLP_ENDPOINT: process.env["OTEL_EXPORTER_OTLP_ENDPOINT"],
+    OTEL_EXPORTER_OTLP_HEADERS: process.env["OTEL_EXPORTER_OTLP_HEADERS"],
+    KILO_AUTO_SHARE: truthy("KILO_AUTO_SHARE"), // kilocode_change
+    KILO_AUTO_HEAP_SNAPSHOT: truthy("KILO_AUTO_HEAP_SNAPSHOT"),
+    KILO_GIT_BASH_PATH: process.env["KILO_GIT_BASH_PATH"],
+    KILO_CONFIG: process.env["KILO_CONFIG"],
+    KILO_CONFIG_CONTENT: process.env["KILO_CONFIG_CONTENT"],
+    KILO_DISABLE_AUTOUPDATE: truthy("KILO_DISABLE_AUTOUPDATE"),
+    KILO_ALWAYS_NOTIFY_UPDATE: truthy("KILO_ALWAYS_NOTIFY_UPDATE"),
+    KILO_DISABLE_PRUNE: truthy("KILO_DISABLE_PRUNE"),
+    KILO_DISABLE_TERMINAL_TITLE: truthy("KILO_DISABLE_TERMINAL_TITLE"),
+    KILO_SHOW_TTFD: truthy("KILO_SHOW_TTFD"),
+    // kilocode_change start

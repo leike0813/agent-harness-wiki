@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-plugins-manifest
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Package manifest for npm plugins
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  Published npm plugins should declare separate package entrypoints for each runtime they support. Kilo detects install targets from `package.json`:
+  - `exports["./server"]` marks the package as a server plugin.
+  - `exports["./tui"]` marks the package as a TUI plugin.
+  - `main` is a server-only fallback when `exports` is not used.
+  - `oc-themes` marks a package as a TUI theme package, even when it has no `./tui` export.
+  ```json
+  {
+    "name": "@acme/kilo-plugin",
+    "type": "module",
+    "main": "./dist/server.js",
+    "exports": {
+      "./server": {
+        "import": "./dist/server.js",
+        "config": { "apiKey": "{env:ACME_API_KEY}" }
+      },
+      "./tui": {
+        "import": "./dist/tui.js",
+        "config": { "compact": true }
+      }
+    },
+    "engines": {
+      "opencode": "^1.0.0"
+    }
+  }
+  ```

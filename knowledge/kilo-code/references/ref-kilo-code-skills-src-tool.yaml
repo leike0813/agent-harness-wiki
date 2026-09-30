@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-skills-src-tool
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/tool/skill.ts
+  start: 29
+  end: 58
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  return {
+        description: DESCRIPTION,
+        parameters: Parameters,
+        execute: (params: Schema.Schema.Type<typeof Parameters>, ctx: Tool.Context) =>
+          Effect.gen(function* () {
+            const info = yield* skill
+              .require(params.name)
+              .pipe(Effect.catchTag("Skill.NotFoundError", (error) => Effect.die(new Error(error.message))))
+            yield* ctx.ask({
+              permission: "skill",
+              patterns: [params.name],
+              always: [params.name],
+              metadata: {},
+            })
+            // kilocode_change start - render `!`cmd`` shell injection, gated by trust + kill-switch + batch approval
+            const cfg = yield* config.get()
+            const content = yield* SkillInject.render({
+              content: info.content,

@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-config-src-paths
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/config/paths.ts
+  start: 9
+  end: 40
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  export const files = Effect.fn("ConfigPaths.projectFiles")(function* (
+    name: string,
+    directory: string,
+    worktree?: string,
+  ) {
+    const afs = yield* FSUtil.Service
+    return (yield* afs.up({
+      targets: [`${name}.jsonc`, `${name}.json`],
+      start: directory,
+      stop: worktree,
+    })).toReversed()
+  })
+  export const directories = Effect.fn("ConfigPaths.directories")(function* (directory: string, worktree?: string) {
+    const afs = yield* FSUtil.Service
+    return unique([
+      Global.Path.config,
+      ...(!Flag.KILO_DISABLE_PROJECT_CONFIG
+        ? yield* afs.up({
+            targets: [".kilocode", ".kilo"], // kilocode_change
+            start: directory,
+            stop: worktree,
+          })
+        : []),
+      ...(yield* afs.up({
+        targets: [".kilocode", ".kilo"], // kilocode_change

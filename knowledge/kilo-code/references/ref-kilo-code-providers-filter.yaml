@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-providers-filter
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Filtering Available Models
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  Control which models appear in the model picker for a provider using allowlists and blocklists:
+  ```jsonc
+  {
+    "provider": {
+      "openai": {
+        "whitelist": ["gpt-5", "gpt-5-mini"],
+        "blacklist": ["gpt-4-turbo"],
+      },
+    },
+  }
+  ```
+  - **`whitelist`** — only these model IDs are available from this provider
+  - **`blacklist`** — these model IDs are hidden from this provider

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-remote
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Remote Servers
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  Remote MCP servers are accessed over HTTP/HTTPS. Set `type` to `"remote"`.
+  ```json
+  {
+    "mcp": {
+      "my-remote-server": {
+        "type": "remote",
+        "url": "https://my-mcp-server.com/mcp",
+        "enabled": true,
+        "headers": {
+          "Authorization": "Bearer MY_API_KEY"
+        }
+      }
+    }
+  }
+  ```
+  #### Remote Server Options
+  | Option | Type | Required | Description |
+  |---|---|---|---|
+  | `type` | String | Yes | Must be `"remote"`. |
+  | `url` | String | Yes | URL of the remote MCP server. |
+  | `enabled` | Boolean | No | Enable or disable the MCP server on startup. |
+  | `headers` | Object | No | HTTP headers to send with requests. |
+  | `timeout` | Number | No | Timeout in ms for fetching tools from the MCP server. Default: 5000. |

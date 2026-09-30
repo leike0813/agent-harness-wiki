@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-config-src-cli-cmd
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/cli/cmd/config.ts
+  start: 7
+  end: 42
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  // startup, so implementation dependencies are imported inside the handler (same
+  // deferral pattern as upstream opencode#30453).
+  export const ConfigCommand = cmd({
+    command: "config",
+    describe: "configuration tools",
+    builder: (yargs) =>
+      yargs
+        .command({
+          command: "check",
+          describe: "check configuration for warnings and errors",
+          async handler() {
+            const { bootstrap } = await import("../bootstrap")
+            const { AppRuntime } = await import("../../effect/app-runtime")
+            const { Config } = await import("../../config/config")
+            await bootstrap(process.cwd(), async () => {
+              const list = await AppRuntime.runPromise(Config.Service.use((svc) => svc.warnings()))
+              if (list.length === 0) {

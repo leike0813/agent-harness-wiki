@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-agents-src-md
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/config/agent.ts
+  start: 22
+  end: 70
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  export async function load(
+    dir: string,
+    warnings?: Warning[],
+    trusted = false,
+    fileScope?: ConfigVariable.FileScope,
+    sourceScope?: ConfigVariable.FileScope | readonly ConfigVariable.FileScope[],
+  ) {
+    // kilocode_change end
+    const result: Record<string, ConfigAgentV1.Info> = {}
+    for (const item of await Glob.scan("{agent,agents}/**/*.md", {
+      cwd: dir,
+      absolute: true,
+      dot: true,
+      symlink: true,
+    })) {
+      // kilocode_change start
+      const md = await ConfigMarkdown.parse(item, { trusted, fileScope, sourceScope }).catch(async (err) => {
+        // kilocode_change end
+        const message = FrontmatterError.isInstance(err)
+          ? err.data.message
+          : `Failed to parse agent ${item}`
+        // kilocode_change start

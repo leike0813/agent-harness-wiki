@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-config-src-content
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/config/config.ts
+  start: 897
+  end: 925
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  if (process.env.KILO_CONFIG_CONTENT) {
+            // kilocode_change start - capture KILO_CONFIG_CONTENT parse failures as warnings
+            const source = "KILO_CONFIG_CONTENT"
+            yield* merge(
+              source,
+              yield* loadConfig(
+                process.env.KILO_CONFIG_CONTENT,
+                {
+                  dir: ctx.directory,
+                  source,
+                },
+                undefined,
+                true, // kilocode_change - KILO_CONFIG_CONTENT is user-provided, trusted for {file:}/{env:}
+                undefined,
+                warnings, // kilocode_change - retain excess-key diagnostics from inline config
+              ).pipe(
+                Effect.tap(() => Effect.logDebug("loaded custom config from KILO_CONFIG_CONTENT")),

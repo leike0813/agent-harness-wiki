@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-plugins-src-load
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/plugin/index.ts
+  start: 178
+  end: 200
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  }
+          for (const plugin of flags.disableDefaultPlugins ? [] : internalPlugins(flags)) {
+            const init = yield* Effect.tryPromise({
+              try: () => plugin(input),
+              catch: errorMessage,
+            }).pipe(
+              Effect.tapError((error) => Effect.logError("failed to load internal plugin", { name: plugin.name, error })),
+              Effect.option,
+            )
+            if (init._tag === "Some") hooks.push(init.value)
+          }
+          const plugins = flags.pure ? [] : (cfg.plugin_origins ?? [])
+          if (flags.pure && cfg.plugin_origins?.length) {
+          }
+          if (plugins.length) yield* config.waitForDependencies()
+          const loaded = yield* Effect.promise(() =>
+            PluginLoader.loadExternal({
+              items: plugins,

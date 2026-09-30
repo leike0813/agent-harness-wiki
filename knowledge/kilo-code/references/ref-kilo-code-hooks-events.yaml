@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-hooks-events
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Events
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  The `event` hook fires for every event on Kilo's internal bus. Common event types include:
+  - **Session**: `session.created`, `session.updated`, `session.idle`, `session.error`, `session.deleted`, `session.compacted`, `session.diff`, `session.status`
+  - **Message**: `message.updated`, `message.removed`, `message.part.updated`, `message.part.removed`
+  - **Tool**: `tool.execute.before`, `tool.execute.after`
+  - **Permission**: `permission.asked`, `permission.replied`
+  - **File**: `file.edited`, `file.watcher.updated`
+  - **Shell**: `shell.env`
+  - **Command**: `command.executed`
+  - **LSP**: `lsp.updated`, `lsp.client.diagnostics`
+  - **Todo**: `todo.updated`
+  - **Server**: `server.connected`
+  - **Installation**: `installation.updated`
+  ```ts
+  const server: Plugin = async () => ({

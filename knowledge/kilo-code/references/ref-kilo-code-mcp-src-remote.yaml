@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-remote
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/mcp/index.ts
+  start: 296
+  end: 345
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  const connectRemote = Effect.fn("MCP.connectRemote")(function* (
+        key: string,
+        mcp: ConfigMCPV1.Info & { type: "remote" },
+      ) {
+        const oauthDisabled = mcp.oauth === false
+        const oauthConfig = typeof mcp.oauth === "object" ? mcp.oauth : undefined
+        const url = remoteURL(mcp.url)
+        if (!url) {
+          return {
+            client: undefined as MCPClient | undefined,
+            status: { status: "failed" as const, error: `Invalid MCP URL for "${key}"` },
+          }
+        }
+        let authProvider: McpOAuthProvider | undefined
+        if (!oauthDisabled) {
+          authProvider = new McpOAuthProvider(
+            key,
+            mcp.url,
+            {
+              clientId: oauthConfig?.clientId,
+              clientSecret: oauthConfig?.clientSecret,

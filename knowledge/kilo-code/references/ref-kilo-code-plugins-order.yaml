@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-plugins-order
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Load order
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  Plugins from all sources run on every session. They load in this order:
+  1. Internal built-ins (Kilo Gateway auth, Codex auth, Copilot auth, Cloudflare, etc.)
+  2. Global config plugin array (`~/.config/kilo/kilo.json`)
+  3. Global plugin directory (`~/.config/kilo/plugin/`)
+  4. Project config plugin array (`kilo.json` / `opencode.json`)
+  5. Project plugin directory (`.kilo/plugin/` and friends)
+  Duplicates (same package, same version) are deduplicated. Hooks from multiple plugins run sequentially in load order.

@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-plugins-src-install
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/plugin/install.ts
+  start: 263
+  end: 290
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  export async function installPlugin(spec: string, dep: InstallDeps = defaultInstallDeps): Promise<InstallResult> {
+    const target = await dep.resolve(spec).then(
+      (item) => ({
+        ok: true as const,
+        item,
+      }),
+      (error: unknown) => ({
+        ok: false as const,
+        error,
+      }),
+    )
+    if (!target.ok) {
+      return {
+        ok: false,
+        code: "install_failed",
+        error: target.error,
+      }
+    }
+    return {
+      ok: true,
+      target: target.item,
+    }
+  }
+  export async function readPluginManifest(target: string): Promise<ManifestResult> {
+    const pkg = await readPluginPackage(target).then(
+      (item) => ({
+        ok: true as const,

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-local
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/mcp/index.ts
+  start: 401
+  end: 432
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  const connectLocal = Effect.fn("MCP.connectLocal")(function* (
+        key: string,
+        mcp: ConfigMCPV1.Info & { type: "local" },
+      ) {
+        const [cmd, ...args] = mcp.command
+        const finalArgs = ensureDockerRm(cmd, args) // kilocode_change
+        const baseDir = yield* InstanceState.directory
+        const cwd = mcp.cwd ? path.resolve(baseDir, mcp.cwd) : baseDir
+        const bridge = yield* EffectBridge.make() // kilocode_change - drain child stderr without writing over the TUI
+        const transport = new StdioClientTransport({
+          stderr: "pipe",
+          command: cmd,
+          args: finalArgs, // kilocode_change
+          cwd,
+          // kilocode_change start - local MCPs must not inherit backend credentials
+          env: modelEnv({

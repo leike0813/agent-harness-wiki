@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-agents-src-info
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/agent/agent.ts
+  start: 40
+  end: 66
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  export const Info = Schema.Struct({
+    name: Schema.String,
+    // kilocode_change start
+    displayName: Schema.optional(Schema.String),
+    source: Schema.optional(Schema.String),
+    // kilocode_change end
+    description: Schema.optional(Schema.String),
+    deprecated: Schema.optional(Schema.Boolean), // kilocode_change
+    mode: Schema.Literals(["subagent", "primary", "all"]),
+    native: Schema.optional(Schema.Boolean),
+    hidden: Schema.optional(Schema.Boolean),
+    topP: Schema.optional(Schema.Finite),
+    temperature: Schema.optional(Schema.Finite),
+    color: Schema.optional(Schema.String),
+    permission: PermissionV1.Ruleset,
+    model: Schema.optional(
+      Schema.Struct({
+        modelID: ModelV2.ID,
+        providerID: ProviderV2.ID,
+      }),
+    ),
+    variant: Schema.optional(Schema.String),

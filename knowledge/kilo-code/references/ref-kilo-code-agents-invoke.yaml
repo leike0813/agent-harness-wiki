@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-agents-invoke
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Using Custom Subagents
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  Once configured, subagents can be used in two ways:
+  ### Automatic Invocation
+  Primary agents with full tool access can automatically invoke subagents via the Task tool when the subagent's `description` matches the task at hand. Write clear, descriptive `description` values to help primary agents select the right subagent. The deprecated Orchestrator agent is not required.
+  ### Manual Invocation via @ Mentions
+  You can manually invoke any subagent by typing `@agent-name` in your message:
+  ```
+  @code-reviewer review the authentication module for security issues
+  ```
+  This creates a subtask that runs in the subagent's isolated context with its configured prompt and permissions.
+  ### Listing Agents
+  To see all available agents (both built-in and custom):
+  ```bash
+  kilo agent list
+  ```

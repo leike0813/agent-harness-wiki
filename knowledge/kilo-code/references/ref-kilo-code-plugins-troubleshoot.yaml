@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-plugins-troubleshoot
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Troubleshooting
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  - **Plugin failed to load** — check the CLI logs with `kilo --print-logs --log-level DEBUG`. Load failures are also surfaced as session errors in the TUI and VS Code extension.
+  - **Plugin loaded but hooks never fire** — make sure the default export includes `server`:
+    ```ts
+    export default { id: "my-plugin", server }
+    ```
+    Named function exports are also accepted for backwards compatibility but should be considered legacy.
+  - **Package installed but not active in one runtime** — make sure the package exposes the matching entrypoint. Server plugins need `exports["./server"]` or `main`; TUI plugins need `exports["./tui"]` or valid `oc-themes`. Packages that only support the other runtime are skipped with a warning instead of causing a fatal load error.

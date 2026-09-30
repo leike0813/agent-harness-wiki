@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-local
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Local Servers
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  Local MCP servers run on your machine and communicate via standard input/output. Set `type` to `"local"`.
+  ```json
+  {
+    "mcp": {
+      "my-local-server": {
+        "type": "local",
+        "command": ["npx", "-y", "my-mcp-command"],
+        "enabled": true,
+        "environment": {
+          "API_KEY": "your_api_key"
+        }
+      }
+    }
+  }
+  ```
+  #### Local Server Options
+  | Option | Type | Required | Description |
+  |---|---|---|---|
+  | `type` | String | Yes | Must be `"local"`. |
+  | `command` | Array | Yes | Command and arguments to run the MCP server. |
+  | `environment` | Object | No | Environment variables to set when running the server. |
+  | `enabled` | Boolean | No | Enable or disable the MCP server on startup. |
+  | `timeout` | Number | No | Timeout in ms for fetching tools from the MCP server. Default: 5000. |

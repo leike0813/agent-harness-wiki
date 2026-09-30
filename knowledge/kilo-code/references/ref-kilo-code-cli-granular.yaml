@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-cli-granular
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: "Granular Rules (Object Syntax)"
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  For most permissions, you can use an object to apply different actions based on the tool input.
+  ```json
+  {
+    "$schema": "https://app.kilo.ai/config.json",
+    "permission": {
+      "bash": {
+        "*": "ask",
+        "git *": "allow",
+        "npm *": "allow",
+        "rm *": "deny",
+        "grep *": "allow"
+      },
+      "edit": {
+        "*": "deny",
+        "packages/web/src/content/docs/*.mdx": "allow"
+      }
+    }
+  }
+  ```
+  Rules are evaluated by pattern match, with the last matching rule winning. A common pattern is to put the catch-all `"*"` rule first, and more specific rules after it.

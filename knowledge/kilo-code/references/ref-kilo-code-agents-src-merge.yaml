@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-agents-src-merge
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/agent/agent.ts
+  start: 330
+  end: 372
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  const agentConfigs = KiloAgent.preprocessConfig(cfg.agent ?? {})
+          for (const [key, value] of Object.entries(agentConfigs)) {
+            // kilocode_change end
+            if (value.disable) {
+              delete agents[key]
+              continue
+            }
+            let item = agents[key]
+            if (!item)
+              item = agents[key] = {
+                name: key,
+                mode: "all",
+                permission: Permission.merge(defaults, user),
+                options: {},
+                native: false,
+              }
+            if (value.model) item.model = Provider.parseModel(value.model)
+            item.variant = value.variant ?? item.variant
+            item.prompt = value.prompt ?? item.prompt
+            item.description = value.description ?? item.description

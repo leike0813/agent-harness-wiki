@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-plugins-src-resolve
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/plugin/loader.ts
+  start: 84
+  end: 140
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  // Resolve a configured plugin into a concrete entrypoint that can later be imported.
+    //
+    // The stages here intentionally separate install/target resolution, entrypoint detection,
+    // and compatibility checks so callers can report the exact reason a plugin was skipped.
+    export async function resolve(
+      plan: Plan,
+      kind: PluginKind,
+    ): Promise<
+      | { ok: true; value: Resolved }
+      | { ok: false; stage: "missing"; value: Missing }
+      | { ok: false; stage: "install" | "entry" | "compatibility"; error: unknown }
+    > {
+      // First make sure the plugin exists locally, installing npm plugins on demand.
+      let target = ""
+      try {
+        target = await resolvePluginTarget(plan.spec)
+      } catch (error) {
+        return { ok: false, stage: "install", error }
+      }

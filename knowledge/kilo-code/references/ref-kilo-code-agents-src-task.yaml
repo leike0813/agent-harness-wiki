@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-agents-src-task
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/tool/task.ts
+  start: 123
+  end: 165
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  let depth = 0
+        while (current.parentID) {
+          // kilocode_change start - tolerate pruned or corrupt ancestor rows
+          const next = yield* sessions
+            .get(current.parentID)
+            .pipe(Effect.catchTag("NotFoundError", () => Effect.succeed(undefined)))
+          if (!next) break
+          // kilocode_change end
+          depth++
+          current = next // kilocode_change
+        }
+        if (depth >= (cfg.subagent_depth ?? 1)) {
+          return yield* Effect.fail(
+            new Error(
+              `Subagent depth limit reached (${cfg.subagent_depth ?? 1}). Increase "subagent_depth" to allow nested subagents.`,
+            ),
+          )
+        }
+        if (!ctx.extra?.bypassAgentCheck) {
+          yield* ctx.ask({
+            permission: id,
+            patterns: [params.subagent_type],

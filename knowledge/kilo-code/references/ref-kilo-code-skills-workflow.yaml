@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-skills-workflow
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: How Skills Work in Kilo Code
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  Skills can be:
+  - **Generic** - Available in all modes
+  - **Mode-specific** - Only loaded when using a particular mode (e.g., `code`, `architect`)
+  The workflow is:
+  1. **Discovery**: Skills are scanned from designated directories when Kilo Code initializes. Only the metadata (name, description, and file path) is read at this stage—not the full instructions.
+  2. **Prompt inclusion**: When a mode is active, the metadata for relevant skills is included in the system prompt. The agent sees a list of available skills with their descriptions.
+  3. **On-demand loading**: When the agent determines that a task matches a skill's description, it reads the full `SKILL.md` file into context and follows the instructions.
+  ### How the Agent Decides to Use a Skill

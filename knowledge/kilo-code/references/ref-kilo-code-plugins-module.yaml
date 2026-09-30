@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-plugins-module
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Module shape
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  Plugins must default-export a module descriptor. `id` is required for local-file plugins and inferred from `package.json#name` for npm plugins.
+  ```ts
+  import type { Plugin } from "@kilocode/plugin"
+  const server: Plugin = async (ctx) => ({
+    /* hooks */
+  })
+  export default {
+    id: "my-plugin",
+    server,
+  }
+  ```
+  An npm plugin can also expose a TUI entry point (`tui`) for [TUI plugins](#tui-plugins), but `server` and `tui` are separate modules.

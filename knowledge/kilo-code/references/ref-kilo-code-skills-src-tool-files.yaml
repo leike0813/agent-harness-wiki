@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-skills-src-tool-files
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/tool/skill.ts
+  start: 59
+  end: 95
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  // kilocode_change start - built-in skills have no filesystem directory
+            if (info.location === Skill.BUILTIN_LOCATION) {
+              return {
+                title: `Loaded skill: ${info.name}`,
+                output: [
+                  `<skill_content name="${info.name}">`,
+                  `# Skill: ${info.name}`,
+                  "",
+                  content.trim(), // kilocode_change
+                  "</skill_content>",
+                ].join("\n"),
+                metadata: {
+                  name: info.name,
+                  dir: Skill.BUILTIN_LOCATION,
+                },
+              }
+            }
+            // kilocode_change end
+            const dir = path.dirname(info.location)
+            const base = dir
+            const files = yield* ripgrep.find({
+              cwd: dir,

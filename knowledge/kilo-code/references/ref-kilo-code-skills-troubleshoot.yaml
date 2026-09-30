@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-skills-troubleshoot
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Troubleshooting
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  ### Skill Not Loading?
+  {% tabs %}
+  {% tab label="VSCode" %}
+  1. **Verify frontmatter**: Ensure `name` and `description` are present in the YAML frontmatter. The `name` does not need to match the directory name but should be unique across all loaded skills.
+  2. **Reload or start a new session**: Use `/reload` to pick up changes without losing your current session, or start a new session.
+  3. **Check file location**: Ensure `SKILL.md` is directly inside the skill directory (e.g., `.kilo/skills/my-skill/SKILL.md`), not nested further.
+  4. **Check config paths**: If using `skills.paths` or `skills.urls`, verify the paths and URLs are correct in your `kilo.jsonc`.
+  {% /tab %}
+  {% tab label="CLI" %}
+  1. **Verify frontmatter**: Ensure `name` and `description` are present in the YAML frontmatter.

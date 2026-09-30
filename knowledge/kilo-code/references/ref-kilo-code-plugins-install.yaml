@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-plugins-install
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: How plugins are installed
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  - **npm plugins** are installed automatically at startup using Bun. Packages and their dependencies are cached under `packages/` in the current CLI XDG cache directory (`~/.cache/opencode/packages/` by default, or `$XDG_CACHE_HOME/opencode/packages/` when `XDG_CACHE_HOME` is set).
+  - **Pinned npm versions** like `my-plugin@1.2.3` install that exact version and do not check for newer registry versions. Bare package names resolve to `latest` and can refresh when the cached copy becomes stale.
+  - **Install scripts are disabled** for npm plugins. Kilo installs packages with lifecycle scripts such as `install` and `postinstall` blocked.
+  - **Local plugins** are loaded directly from the plugin directory.

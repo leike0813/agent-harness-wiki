@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-plugins-deps
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: document_section
+  heading: Dependencies
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  Local plugins and custom tools can use external npm packages. Add a `package.json` to your config directory:
+  ```json
+  // .kilo/package.json
+  {
+    "dependencies": {
+      "shescape": "^2.1.0"
+    }
+  }
+  ```
+  Kilo runs `bun install` at startup so your plugins can import the packages:
+  ```ts
+  // .kilo/plugin/escape-bash.ts
+  import { escape } from "shescape"
+  import type { Plugin } from "@kilocode/plugin"
+  const EscapeBash: Plugin = async () => ({
+    "tool.execute.before": async (input, output) => {
+      if (input.tool === "bash") {
+        output.args.command = escape(output.args.command)
+      }
+    },
+  })
+  export default { id: "escape-bash", server: EscapeBash }
+  ```

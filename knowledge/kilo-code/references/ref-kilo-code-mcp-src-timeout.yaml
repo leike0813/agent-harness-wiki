@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-timeout
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-repo
+locator:
+  kind: file_lines
+  file: packages/opencode/src/mcp/index.ts
+  start: 50
+  end: 64
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  const DEFAULT_TIMEOUT = 30_000
+  const CLIENT_OPTIONS = {
+    capabilities: {
+      // Upstream issue anomalyco/opencode#11948 // kilocode_change
+      // sampling: {},
+      // Upstream issue anomalyco/opencode#23066 // kilocode_change
+      // elicitation: {},
+      // Upstream issue anomalyco/opencode#2308 // kilocode_change
+      roots: {},
+      // Upstream issue anomalyco/opencode#28567 // kilocode_change
+      // tasks: {},
+    },
+  } satisfies ClientOptions
+  // kilocode_change start - inject --rm for Docker containers to prevent stopped container accumulation
