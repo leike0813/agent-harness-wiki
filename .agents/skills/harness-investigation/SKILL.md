@@ -85,6 +85,7 @@ pnpm ahw publish --release-id <new-id>
 - 不读取或修改真实用户配置、全局 skills、凭据或 token。
 - 不把网页当前内容、Git tag 或源码 commit 当成选定 npm 包的构建行为。
 - 不把没有结果或未查明的机制写成功能可用；找不到机制时记录已检查入口与剩余缺口。
+- 章节正文只用 `[@reference-id]` 标注引用；不写站点相对链接（`/docs/...`、`../x.md`、`#anchor`），它们在文档站会被解析成本站链接并让站点构建失败。
 - 首次接入不运行 `pnpm sources:scan` 或 `pnpm sources:audit-log`，不写来源审计 YAML；来源审计台账属于维护阶段。
 - 校验失败、来源身份不明或复核未完成时不发布，不原地覆盖已有 release。
 - 不覆盖或丢弃用户已有的未提交改动；新产品与已有内容冲突时保留双方并标出分歧。
