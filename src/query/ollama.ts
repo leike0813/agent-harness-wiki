@@ -11,7 +11,10 @@ export const modelLockSchema = z.strictObject({
 });
 export type ModelLock = z.infer<typeof modelLockSchema>;
 
-export const OLLAMA_ENDPOINT = "http://127.0.0.1:11434";
+// The endpoint is configurable so a release can be built against another local
+// Ollama instance (for example one that offloads the embedding model to a GPU).
+export const OLLAMA_ENDPOINT =
+  process.env.OLLAMA_ENDPOINT ?? "http://127.0.0.1:11434";
 
 async function jsonResponse(url: string, init?: RequestInit): Promise<unknown> {
   const response = await fetch(url, {

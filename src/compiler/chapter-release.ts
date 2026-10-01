@@ -67,15 +67,15 @@ export type ChapterReleaseManifest = z.infer<
 
 const sort = <T>(xs: T[], key: (x: T) => string): T[] =>
   [...xs].sort((a, b) => (key(a) < key(b) ? -1 : key(a) > key(b) ? 1 : 0));
+// Every generated page is compiled as a Vue SFC template, so markup characters
+// and `{{` (for example Go templates in a prompt excerpt) in fixed source text
+// would be evaluated instead of printed. Keep reader-facing text inert.
 const textSafe = (value: string): string =>
   value
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
-// Every generated page is compiled as a Vue SFC template, so `{{` inside fixed
-// source text (for example Go templates in a prompt excerpt) would be evaluated
-// as interpolation. Keep reader-facing text inert while printing it verbatim.
-const vueSafe = (value: string): string => value.replaceAll("{{", "{{ '{{' }}");
+    .replaceAll(">", "&gt;")
+    .replaceAll("{{", "{{ '{{' }}");
 const questionsFile = fileURLToPath(
   new URL("../../docs/topic-questions.md", import.meta.url),
 );
@@ -116,7 +116,7 @@ export function renderChapterDocs(
   const fixture =
     knowledge.profile === "fixture" ? "> Fictional fixture data.\n\n" : "";
   const linkedBody = (body: string, sourcesPath: string) =>
-    vueSafe(textSafe(body)).replace(
+    textSafe(body).replace(
       /\[@([a-z][a-z0-9_-]*)\]/g,
       (_match, id: string) => `[[${id}](${sourcesPath}/${id}.md)]`,
     );
@@ -255,7 +255,7 @@ export function renderChapterDocs(
   for (const ref of knowledge.records.source_references)
     pages.set(
       `docs/sources/${ref.reference_id}.md`,
-      `# ${ref.reference_id}\n\n${fixture}Snapshot: ${ref.snapshot_id}\n\nLocation: ${textSafe(JSON.stringify(ref.locator))}\n\nOfficial link: ${ref.official_url}\n\n### Excerpt\n\n${vueSafe(
+      `# ${ref.reference_id}\n\n${fixture}Snapshot: ${ref.snapshot_id}\n\nLocation: ${textSafe(JSON.stringify(ref.locator))}\n\nOfficial link: ${ref.official_url}\n\n### Excerpt\n\n${textSafe(
         ref.excerpt,
       )
         .split("\n")
@@ -265,7 +265,7 @@ export function renderChapterDocs(
   for (const ref of catalog.references)
     pages.set(
       `docs/sources/${ref.reference_id}.md`,
-      `# ${ref.reference_id}\n\n${fixture}Snapshot: ${ref.snapshot.sha256}\n\nLocation: ${textSafe(JSON.stringify(ref.locator))}\n\nOfficial link: ${ref.official_url}\n\n### Excerpt\n\n${vueSafe(
+      `# ${ref.reference_id}\n\n${fixture}Snapshot: ${ref.snapshot.sha256}\n\nLocation: ${textSafe(JSON.stringify(ref.locator))}\n\nOfficial link: ${ref.official_url}\n\n### Excerpt\n\n${textSafe(
         ref.excerpt,
       )
         .split("\n")

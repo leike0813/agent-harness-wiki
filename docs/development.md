@@ -14,7 +14,7 @@ pnpm exec tsx scripts/compile-chapters.ts --dataset-root tests/fixtures/datasets
 
 `pnpm verify` 验证章节读取链，`pnpm fixtures:build` 生成虚构章节发布。公共查询、MCP 与站点只读取 schema 3 发布，不适配旧 release；发布内嵌 catalog。生产章节运行 `pnpm knowledge:validate`，用 `pnpm ahw compile --dataset-root . --profile production --release-id <new-id> --published-at <fixed-time> --stage` 先构建。验收该 release 的 CLI、MCP 与站点之后，运行 `pnpm ahw publish --release-id <new-id>` 原子切换当前指针。CLI 的 `query list/topic/search/compare/source` 与 MCP 的五个工具读取同一 release；`get_topic` 用 `section_id` 定位搜索结果。Windows 尚未实测。
 
-生产编译前确认本机 Ollama 已有 `qwen3-embedding:4b`，且 `/api/tags` 报告的 digest 与 `registry/search-model.json` 一致；编译器会再核对 GGUF blob digest，不会自动下载模型。新发布的 `search.json` 和 SQLite FTS5 收录当前小节，`semantic.jsonl` 收录固定模型生成的有界片段向量。搜索返回命中方式、正文片段、来源范围和 `semantic_status`；模型暂时不可用时可继续词法检索，但不能据此宣称语义验收通过。模型与索引的选择依据见 [ADR 0007](decisions/0007-offline-hybrid-search.md)。
+生产编译前确认本机 Ollama 已有 `qwen3-embedding:4b`，且 `/api/tags` 报告的 digest 与 `registry/search-model.json` 一致；编译器会再核对 GGUF blob digest，不会自动下载模型。默认端点 `127.0.0.1:11434` 可用 `OLLAMA_ENDPOINT` 覆盖，便于改用另一个本机实例（例如把嵌入模型放到 GPU 上的实例）。新发布的 `search.json` 和 SQLite FTS5 收录当前小节，`semantic.jsonl` 收录固定模型生成的有界片段向量。搜索返回命中方式、正文片段、来源范围和 `semantic_status`；模型暂时不可用时可继续词法检索，但不能据此宣称语义验收通过。模型与索引的选择依据见 [ADR 0007](decisions/0007-offline-hybrid-search.md)。
 
 修订已发布章节时新增 edition 文件，保留旧版及不可变 release；审阅完成后更新 `registry/chapter-current.yaml`。写作按 [固定问题和成稿规则](topic-questions.md)：机制分节，问题在索引中定位；配置文件按不同形态给带来源的最小完整片段，解释路径、字段、前提、结果与检查方式。校验器检查章节结构和引用关系；正文能否让读者找到入口、理解示例与条件、追溯来源，由调查 Agent 按真实读者视角自检，高影响变更再请另一 Agent 独立复核。
 
@@ -42,12 +42,12 @@ pnpm chapters:update --dataset-root . --profile production --release-id <new-id>
 
 2026-09-29 在本机 Linux/x64/glibc 的 `check-current` 实测记录：
 
-| 产品 | 选中版本 | 直接入口与运行时 | 离线版本命令 |
-| --- | --- | --- | --- |
-| Codex CLI | 0.157.1 | 主包 `bin/codex.js`，Node；锁定平台包提供原生二进制 | 成功，退出 0 |
-| Claude Code | 2.1.283 | `@anthropic-ai/claude-code-linux-x64/claude`，原生 | 成功，退出 0 |
-| OpenCode | 1.18.33 | `opencode-linux-x64/bin/opencode`，原生 | 成功，退出 0 |
-| Pi | 0.73.1 | 主包 `dist/cli.js`，Node | 成功，退出 0 |
-| OMP | 18.3.4 | 主包 `dist/cli.js`，Bun；核对 `pi-natives-linux-x64` | 成功，退出 0 |
+| 产品        | 选中版本 | 直接入口与运行时                                     | 离线版本命令 |
+| ----------- | -------- | ---------------------------------------------------- | ------------ |
+| Codex CLI   | 0.157.1  | 主包 `bin/codex.js`，Node；锁定平台包提供原生二进制  | 成功，退出 0 |
+| Claude Code | 2.1.283  | `@anthropic-ai/claude-code-linux-x64/claude`，原生   | 成功，退出 0 |
+| OpenCode    | 1.18.33  | `opencode-linux-x64/bin/opencode`，原生              | 成功，退出 0 |
+| Pi          | 0.73.1   | 主包 `dist/cli.js`，Node                             | 成功，退出 0 |
+| OMP         | 18.3.4   | 主包 `dist/cli.js`，Bun；核对 `pi-natives-linux-x64` | 成功，退出 0 |
 
 OpenCode 1.18.33 曾因候选锁文件生成阶段的 registry 超时被阻塞；失败候选未切换选中环境。已完整安装的候选重新核对并通过五项启动后才晋升。以上只记录启动状态，不能推断 Skills、MCP 等主题能力。
