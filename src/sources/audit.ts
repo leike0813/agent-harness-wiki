@@ -7,6 +7,11 @@ import YAML from "yaml";
 import type { Artifact } from "../domain/schema.js";
 import { loadAndValidateDataset } from "../validation/dataset.js";
 import { readArchivedPackageFile } from "./package-archive.js";
+import {
+  managedStorage,
+  selectedManagedDirectory,
+  within,
+} from "./managed-storage.js";
 
 const run = promisify(execFile);
 
@@ -75,6 +80,13 @@ export async function auditArtifacts(
         )
           throw new Error("Archived package file hash mismatch.");
       } else if (artifact.kind === "managed_package") {
+        const selected = await selectedManagedDirectory(
+          originalsRoot,
+          await managedStorage(originalsRoot),
+        );
+        const virtualStore = path.join(selected, "node_modules/.pnpm");
+        if ((await realpath(virtualStore)) !== virtualStore)
+          throw new Error("Managed virtual store escapes snapshot.");
         const packageLink = path.join(originalsRoot, artifact.package_path);
         let packageDir: string;
         try {
@@ -84,11 +96,7 @@ export async function auditArtifacts(
             `Managed package original unavailable: ${artifact.package_path}`,
           );
         }
-        const virtualStore = path.join(
-          await realpath(originalsRoot),
-          "research/package-set/node_modules/.pnpm",
-        );
-        if (!packageDir.startsWith(`${virtualStore}${path.sep}`))
+        if (!within(virtualStore, packageDir))
           throw new Error(
             "Managed package link escapes the dedicated package set.",
           );

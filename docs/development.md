@@ -40,6 +40,12 @@ pnpm chapters:update --dataset-root . --profile production --release-id <new-id>
 
 首批五个 npm CLI 的受管启动流程见 [包集说明](../research/package-set/README.md)。首次接入与后续更新都由 `harness-binary` Skill 统一调用 `pnpm managed:packages update <harness-id>`；新产品先在 `src/sources/managed.ts` 的 `managedPackages` 登记官方包信息，并在 `registry/sources/` 登记官方 npm 来源，非 npm 分发报告 unsupported。`pnpm managed:packages observe` 记录官方 latest；`pnpm managed:packages check-current` 检查当前入口；`pnpm managed:packages update <harness-id>` 在忽略的候选目录安装并验证后才切换包集。网络中断后可用 `update <harness-id> <candidate-id>` 复核已完整安装的候选，仍会重新核对官方 latest、锁文件和启动。审计记录位于 `var/managed-packages/audits/`，候选和失败原因可由记录中的 `candidate` 定位。Linux bwrap 检查使用临时 HOME、配置根和工作区，候选包只读挂载、`--unshare-all` 禁网，以非 root UID 65534 运行，并限制 20 秒、64 KiB 输出缓冲、64 个进程和 128 个文件描述符；运行时可执行文件从当前 Node/Bun 安装只读绑定。`AHW_SANDBOX_TEST=1 pnpm exec vitest run tests/integration/managed-packages.test.ts` 运行本机隔离测试。该测试只覆盖当前 Linux 主机；Windows、其他架构、内核命名空间策略及进程限制的不同实现仍需分别验收。
 
+受管包 NFS 布局与本机迁移验收见 [ADR 0008](decisions/0008-managed-package-storage.md)。该文档定义 `storage.json` 的三个必填字段与本次部署值、远端完整快照和 `current` 原子替换，以及本地四处链接，并记录 Btrfs 快照仍可能持有旧包字节导致 `df` 暂无净释放。pnpm 的 `index.db`、WAL、`projects/` 登记和包集清单、锁文件、操作锁、审计、备份与恢复记录留在本地。仅配置文件不存在时使用本地布局；无效配置、挂载身份、权限或路径边界不符时报阻塞，不回退。
+
+NFSv4 权限检查使用本机 `getfattr`，拒绝所有者之外的有效或继承写授权。NAS 的 ACL 继承可能覆盖创建模式，须配置整个专属目录树的 ACL；`0755` 与 `umask 022` 本身不证明只有维护者可写。迁移修正 ACL 使用本机 `setfattr`，不安装项目依赖。
+
+修改包集状态的 update 持本地操作锁；`check-current` 遇恢复记录时报阻塞，`observe` 只观察元数据，两者不持 update 锁。晋升前恢复记录保存旧指针，以及本地 `package.json`、`pnpm-lock.yaml` 的旧内容；远端指针与本地文件的更新不构成跨文件系统原子事务。Git 本地固定的 `pnpm-workspace.yaml` 在创建候选时复制进快照，晋升不替换；晋升校验清单、锁文件和 `node_modules`。失败恢复到上一个一致包集，中断后下一次更新先恢复再继续。完整历史快照和失败候选保留，不自动清理。hard NFS 断连时文件操作及恢复可能持续等待，子进程超时不证明已结束或回滚。上面的本机隔离测试及下面的历史启动记录均不构成 NFS 迁移验收；实施侧须另行确认实际挂载、完整快照、真实快照 bwrap 绑定、晋升故障与中断恢复。
+
 2026-09-29 在本机 Linux/x64/glibc 的 `check-current` 实测记录：
 
 | 产品        | 选中版本 | 直接入口与运行时                                     | 离线版本命令 |

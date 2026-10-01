@@ -308,7 +308,7 @@ bash-only syntax
 - 不得反向从 Markdown 提取事实作为常规更新机制。
 - 不得只修改数据库来更新事实。
 - 官方来源元数据与已捕获原件分开；`archive/` 原件由显式离线审计核对，普通查询和构建不依赖它。
-- M1 npm 可执行包由 `research/package-set/` 精确锁定，使用项目专属 pnpm store；换版先审计新包，再清理旧包字节。历史发布的元数据和已复核短摘录持续可查询，缺失的旧包原件在审计中如实报告。文档原件和模型按各自规则保留。
+- M1 npm 可执行包由 `research/package-set/` 的本地清单与锁文件精确锁定。受管包操作前读取 [ADR 0008](docs/decisions/0008-managed-package-storage.md)：仅存储配置不存在时使用本地布局；NFS 模式保留完整远端快照，通过 `current` 原子替换选择，pnpm 索引与登记、操作锁、小文件备份及恢复记录留在本地。NFSv4 同时核对有效和继承 ACL，所有者之外的写授权报阻塞。晋升失败据备份恢复，中断后下一次更新先恢复；历史及失败候选不自动清理，hard NFS 等待不保证按超时结束。历史发布的元数据和已复核短摘录持续可查询，缺失的旧包原件在审计中如实报告。文档原件和模型按各自规则保留。
 
 ### 6.2 查询边界
 
@@ -409,7 +409,7 @@ upstream/<harness-id>/  # 可取得的官方源码 submodule
 archive/<harness-id>/<artifact-id>/  # Git 忽略的持久原件
 archive/models/<model-id>/  # M1 本地模型
 releases/<release-id>/  # 不可变、可重建的查询发布
-var/  # 临时状态
+var/  # 本地运行状态；受管包配置、操作锁、备份与恢复记录见 ADR 0008
 
 tests/
 ├── unit/

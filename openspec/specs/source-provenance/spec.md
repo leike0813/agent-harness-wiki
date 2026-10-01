@@ -40,11 +40,15 @@ An official npm package snapshot SHALL bind package name, exact version, registr
 - **THEN** the Git snapshot does not establish that package's behavior or create a software-version mapping
 
 ### Requirement: Candidate-safe executable retention
-The project-owned package set SHALL identify the selected runnable version and locked dependency set for each registered npm CLI. Candidate bytes SHALL remain separate until identity and isolated startup succeed; only then may the selected identity and package bytes change. Retiring older executable bytes SHALL NOT alter a published chapter's fixed source references or imply that another version has been checked.
+The project-owned package set SHALL identify selected exact versions and locked dependencies through local manifest and lock files. Bytes SHALL use the active local or NFS layout. In NFS mode complete snapshots SHALL remain at stable `candidates/<UUID>/` locations after promotion; `current` SHALL only select a snapshot and SHALL NOT serve as fixed provenance. Historical and failed candidates SHALL NOT be automatically deleted. Storage location SHALL NOT change published source identity or imply version verification.
 
 #### Scenario: Failed replacement
 - **WHEN** a new candidate cannot start in the required sandbox
 - **THEN** the current package set and its runnable entry remain available
+
+#### Scenario: Current pointer changes
+- **WHEN** a new verified NFS snapshot becomes current
+- **THEN** the previous complete snapshot and its fixed package identity remain retained, and published references do not follow the mutable pointer
 
 ### Requirement: Published source references
 A publishable source reference SHALL resolve to one fixed official snapshot and a specific file, symbol or document location. It SHALL include an official link, a fixed snapshot identity, and a bounded displayable excerpt. The release SHALL also carry the catalog's own captured references for every catalog product, whether or not a chapter cites them, and those references SHALL carry a capture time, a snapshot identity, a locator and an excerpt. Source-reference identities and excerpts SHALL be available within the release without opening original archive bytes. A catalog reference alone SHALL NOT establish a capability fact or a software-version mapping.

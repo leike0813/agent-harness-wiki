@@ -13,6 +13,16 @@ import {
 import path from "node:path";
 import { promisify } from "node:util";
 import YAML from "yaml";
+import { z } from "zod";
+import {
+  managedStorage,
+  selectedManagedDirectory,
+  within,
+  withManagedLock,
+  recoverManaged,
+  promoteExternal,
+  type ManagedStorage,
+} from "./managed-storage.js";
 
 const exec = promisify(execFile);
 const packageSet = "research/package-set";
@@ -396,12 +406,17 @@ async function readSelection(
 ): Promise<{ manifest: { dependencies: Record<string, string> }; lock: Lock }> {
   const dir = path.join(root, packageSet);
   return {
-    manifest: JSON.parse(
-      await readFile(path.join(dir, "package.json"), "utf8"),
-    ) as { dependencies: Record<string, string> },
-    lock: YAML.parse(
-      await readFile(path.join(dir, "pnpm-lock.yaml"), "utf8"),
-    ) as Lock,
+    manifest: z
+      .object({ dependencies: z.record(z.string(), z.string()) })
+      .passthrough()
+      .parse(
+        JSON.parse(await readFile(path.join(dir, "package.json"), "utf8")),
+      ),
+    lock: z
+      .record(z.string(), z.unknown())
+      .parse(
+        YAML.parse(await readFile(path.join(dir, "pnpm-lock.yaml"), "utf8")),
+      ) as Lock,
   };
 }
 
@@ -419,13 +434,38 @@ async function audit(root: string, result: Result): Promise<Result> {
   return result;
 }
 
+async function blockedManaged(
+  root: string,
+  id: ManagedId,
+  channel: Result["channel"],
+  error: unknown,
+): Promise<Result> {
+  return audit(root, {
+    id,
+    package: managedPackages[id].name,
+    selected: null,
+    observed: "",
+    integrity: "",
+    channel,
+    observed_at: new Date().toISOString(),
+    status: "blocked",
+    reason: String(error),
+  });
+}
+
 export async function observeManaged(
   root: string,
   id: ManagedId,
   fetchImpl: typeof fetch = fetch,
 ): Promise<Result> {
   const item = managedPackages[id];
-  const { manifest, lock } = await readSelection(root);
+  let selection: Awaited<ReturnType<typeof readSelection>>;
+  try {
+    selection = await readSelection(root);
+  } catch (error) {
+    return blockedManaged(root, id, "latest", error);
+  }
+  const { manifest, lock } = selection;
   const selected = manifest.dependencies[item.name] ?? null;
   const observed_at = new Date().toISOString();
   try {
@@ -476,12 +516,12 @@ async function installedEntry(
   fetchImpl: typeof fetch,
 ): Promise<{ entry: string; runtime: string }> {
   const item = managedPackages[id];
+  dir = await realpath(dir);
+  const virtualStore = path.join(dir, "node_modules/.pnpm");
+  if ((await realpath(virtualStore)) !== virtualStore)
+    throw new Error("Virtual store escapes managed snapshot");
   const packageRoot = await realpath(path.join(dir, "node_modules", item.name));
-  if (
-    !packageRoot.startsWith(
-      `${path.join(dir, "node_modules/.pnpm")}${path.sep}`,
-    )
-  )
+  if (!within(virtualStore, packageRoot))
     throw new Error("Package link escapes candidate");
   const pkg = JSON.parse(
     await readFile(path.join(packageRoot, "package.json"), "utf8"),
@@ -497,9 +537,7 @@ async function installedEntry(
       ...item.name.split("/").map(() => ".."),
     );
     const depRoot = await realpath(path.join(modules, dependency.alias));
-    if (
-      !depRoot.startsWith(`${path.join(dir, "node_modules/.pnpm")}${path.sep}`)
-    )
+    if (!within(virtualStore, depRoot))
       throw new Error("Platform dependency escapes candidate");
     const dep = JSON.parse(
       await readFile(path.join(depRoot, "package.json"), "utf8"),
@@ -531,9 +569,7 @@ async function installedEntry(
       [wrapper, "@oh-my-pi/pi-natives"],
       [platform, "@oh-my-pi/pi-natives-linux-x64"],
     ] as const) {
-      if (
-        !root.startsWith(`${path.join(dir, "node_modules/.pnpm")}${path.sep}`)
-      )
+      if (!within(virtualStore, root))
         throw new Error("OMP native dependency escapes candidate");
       const pkg = JSON.parse(
         await readFile(path.join(root, "package.json"), "utf8"),
@@ -556,10 +592,7 @@ async function installedEntry(
       throw new Error("OMP native binding missing");
   }
   const entry = await realpath(path.join(entryRoot, relativeEntry));
-  if (
-    !entry.startsWith(`${path.join(dir, "node_modules/.pnpm")}${path.sep}`) ||
-    !(await stat(entry)).isFile()
-  )
+  if (!within(virtualStore, entry) || !(await stat(entry)).isFile())
     throw new Error("Direct executable entry missing or unsafe");
   return { entry: path.relative(dir, entry), runtime: item.runtime };
 }
@@ -578,6 +611,7 @@ export async function sandboxStartup(
 > {
   if (process.platform !== "linux" || process.arch !== "x64")
     return { entry, runtime, ok: false, reason: "Linux x64 sandbox required" };
+  dir = await realpath(dir);
   const executable =
     runtime === "native" ? `/package/${entry}` : `/runtime/${runtime}`;
   const command =
@@ -721,7 +755,13 @@ export async function checkCurrentManaged(
   id: ManagedId,
   fetchImpl: typeof fetch = fetch,
 ): Promise<Result> {
-  const { manifest, lock } = await readSelection(root);
+  let selection: Awaited<ReturnType<typeof readSelection>>;
+  try {
+    selection = await readSelection(root);
+  } catch (error) {
+    return blockedManaged(root, id, "selected", error);
+  }
+  const { manifest, lock } = selection;
   const name = managedPackages[id].name;
   const version = manifest.dependencies[name] ?? null;
   const result: Result = {
@@ -738,20 +778,18 @@ export async function checkCurrentManaged(
     if (!version) throw new Error(`Package not selected: ${name}`);
     if (!result.integrity)
       throw new Error("Selected package absent from lockfile");
+    const dir = await selectedManagedDirectory(
+      root,
+      await managedStorage(root),
+    );
     const { entry, runtime } = await installedEntry(
-      path.join(root, packageSet),
+      dir,
       id,
       version,
       lock,
       fetchImpl,
     );
-    const startup = await sandboxStartup(
-      path.join(root, packageSet),
-      id,
-      version,
-      entry,
-      runtime,
-    );
+    const startup = await sandboxStartup(dir, id, version, entry, runtime);
     Object.assign(result, startup, {
       status: startup.ok ? "startup_success" : "blocked",
     });
@@ -768,15 +806,71 @@ export async function updateManaged(
   fetchImpl: typeof fetch = fetch,
   resumeId?: string,
 ): Promise<Result> {
+  try {
+    return await withManagedLock(root, async () => {
+      const storage = await managedStorage(root);
+      if (storage) {
+        await recoverManaged(root, storage);
+        await selectedManagedDirectory(root, storage);
+      } else {
+        for (const relative of [
+          "var/managed-packages/candidates",
+          "research/package-set/node_modules",
+          ".pnpm-store",
+          ".pnpm-store/v11",
+          ".pnpm-store/v11/files",
+          ".pnpm-store/v11/tmp",
+        ]) {
+          try {
+            if ((await lstat(path.join(root, relative))).isSymbolicLink())
+              throw new Error("Unconfigured external managed storage");
+          } catch (error) {
+            if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+          }
+        }
+      }
+      return updateManagedLocked(root, id, fetchImpl, resumeId, storage);
+    });
+  } catch (error) {
+    let selection: Awaited<ReturnType<typeof readSelection>>;
+    try {
+      selection = await readSelection(root);
+    } catch {
+      return blockedManaged(root, id, "latest", error);
+    }
+    const { manifest, lock } = selection;
+    const item = managedPackages[id];
+    const selected = manifest.dependencies[item.name] ?? null;
+    return audit(root, {
+      id,
+      package: item.name,
+      selected,
+      observed: "",
+      integrity: selected ? (integrity(lock, item.name, selected) ?? "") : "",
+      channel: "latest",
+      observed_at: new Date().toISOString(),
+      status: "blocked",
+      reason: String(error),
+    });
+  }
+}
+
+async function updateManagedLocked(
+  root: string,
+  id: ManagedId,
+  fetchImpl: typeof fetch,
+  resumeId: string | undefined,
+  storage: ManagedStorage | undefined,
+): Promise<Result> {
   const observed = await observeManaged(root, id, fetchImpl);
   if (observed.status !== "candidate") return observed;
   const rootDir = path.join(root, packageSet);
   if (resumeId && !/^[a-f0-9-]{36}$/.test(resumeId))
     throw new Error("Invalid candidate ID");
+  const candidateId = resumeId ?? randomUUID();
   const candidate = path.join(
-    root,
-    "var/managed-packages/candidates",
-    resumeId ?? randomUUID(),
+    storage?.candidates ?? path.join(root, "var/managed-packages/candidates"),
+    candidateId,
   );
   if (resumeId) {
     if (
@@ -784,10 +878,10 @@ export async function updateManaged(
       (await realpath(candidate)) !== candidate
     )
       throw new Error("Unsafe candidate directory");
-  } else await mkdir(candidate, { recursive: true });
+  } else await mkdir(candidate, { recursive: true, mode: 0o755 });
   const result: Result = {
     ...observed,
-    candidate: path.relative(root, candidate),
+    candidate: `var/managed-packages/candidates/${candidateId}`,
   };
   try {
     if (!resumeId)
@@ -802,6 +896,17 @@ export async function updateManaged(
     ) as { dependencies: Record<string, string> };
     if (resumeId && manifest.dependencies[result.package] !== result.observed)
       throw new Error("Candidate version differs from official latest");
+    const selected = await readSelection(root);
+    for (const name of new Set([
+      ...Object.keys(selected.manifest.dependencies),
+      ...Object.keys(manifest.dependencies),
+    ])) {
+      if (
+        name !== result.package &&
+        manifest.dependencies[name] !== selected.manifest.dependencies[name]
+      )
+        throw new Error("Candidate differs from current package selection");
+    }
     if (!resumeId) {
       manifest.dependencies[result.package] = result.observed;
       await writeFile(
@@ -815,6 +920,8 @@ export async function updateManaged(
         env: {
           PATH: process.env.PATH ?? "/usr/bin:/bin",
           HOME: candidate,
+          XDG_CACHE_HOME: path.join(candidate, ".cache"),
+          TMPDIR: candidate,
           CI: "true",
           npm_config_userconfig: "/dev/null",
         },
@@ -831,16 +938,42 @@ export async function updateManaged(
         "--fetch-retries=2",
         "--fetch-timeout=120000",
       ];
-      await exec(
-        "pnpm",
-        [...args, "--lockfile-only", "--no-frozen-lockfile"],
-        options,
-      );
-      await exec("pnpm", [...args, "--frozen-lockfile"], options);
+      // New remote package bytes must only be writable by the maintainer.
+      const install = (flags: string[]): Promise<unknown> =>
+        storage
+          ? exec(
+              "sh",
+              [
+                "-c",
+                'umask 022; exec pnpm "$@"',
+                "ahw-pnpm",
+                ...args,
+                ...flags,
+              ],
+              options,
+            )
+          : exec("pnpm", [...args, ...flags], options);
+      await install(["--lockfile-only", "--no-frozen-lockfile"]);
+      await install(["--frozen-lockfile"]);
     }
-    const lock = YAML.parse(
-      await readFile(path.join(candidate, "pnpm-lock.yaml"), "utf8"),
-    ) as Lock;
+    const lock = z
+      .record(z.string(), z.unknown())
+      .parse(
+        YAML.parse(
+          await readFile(path.join(candidate, "pnpm-lock.yaml"), "utf8"),
+        ),
+      ) as Lock;
+    for (const [name, version] of Object.entries(
+      selected.manifest.dependencies,
+    )) {
+      if (
+        name !== result.package &&
+        (integrity(lock, name, version) !==
+          integrity(selected.lock, name, version) ||
+          lock.importers?.["."]?.dependencies?.[name]?.specifier !== version)
+      )
+        throw new Error("Candidate changes selected package integrity");
+    }
     if (
       integrity(lock, result.package, result.observed) !== result.integrity ||
       lock.importers?.["."]?.dependencies?.[result.package]?.specifier !==
@@ -875,7 +1008,10 @@ export async function updateManaged(
         throw new Error(`${current}: ${startup.reason ?? "Startup failed"}`);
     }
     await audit(root, { ...result, status: "startup_success" });
-    await promoteCandidate(rootDir, candidate);
+    if (storage) {
+      await managedStorage(root);
+      await promoteExternal(root, candidate, storage);
+    } else await promoteCandidate(rootDir, candidate);
     result.status = "promoted";
     try {
       return await audit(root, result);

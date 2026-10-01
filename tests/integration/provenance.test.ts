@@ -263,6 +263,29 @@ test("managed package audit checks the pinned lock, bytes and missing original",
     content_sha256: sha256("fixed package text\n"),
   };
   await auditArtifacts([artifact], root);
+  await expect(
+    auditArtifacts([{ ...artifact, version: "2.0.0" }], root),
+  ).rejects.toThrow(/unavailable/);
+  await expect(
+    auditArtifacts([{ ...artifact, integrity: "sha512-BBBB" }], root),
+  ).rejects.toThrow(/lockfile/);
+  const escape = path.join(root, "escape");
+  await mkdir(escape, { recursive: true });
+  await symlink(
+    escape,
+    path.join(root, "research/package-set/node_modules/escape"),
+  );
+  await expect(
+    auditArtifacts(
+      [
+        {
+          ...artifact,
+          package_path: "research/package-set/node_modules/escape",
+        },
+      ],
+      root,
+    ),
+  ).rejects.toThrow(/escapes/);
   await writeFile(path.join(packageDir, "README.md"), "changed\n");
   await expect(auditArtifacts([artifact], root)).rejects.toThrow(
     /hash mismatch/,
