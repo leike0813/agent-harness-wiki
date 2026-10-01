@@ -76,6 +76,15 @@ const textSafe = (value: string): string =>
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll("{{", "{{ '{{' }}");
+// Chapter text is fixed-source material, so a link copied from official
+// documentation can point anywhere. Only absolute links stay links; anything
+// else would be resolved against this site and fail the build.
+const inertLinks = (value: string): string =>
+  value.replace(
+    /\[([^\]]+)\]\(\s*([^)\s]+)\s*\)/g,
+    (match, text: string, target: string) =>
+      /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(target) ? match : text,
+  );
 const questionsFile = fileURLToPath(
   new URL("../../docs/topic-questions.md", import.meta.url),
 );
@@ -116,7 +125,7 @@ export function renderChapterDocs(
   const fixture =
     knowledge.profile === "fixture" ? "> Fictional fixture data.\n\n" : "";
   const linkedBody = (body: string, sourcesPath: string) =>
-    textSafe(body).replace(
+    inertLinks(textSafe(body)).replace(
       /\[@([a-z][a-z0-9_-]*)\]/g,
       (_match, id: string) => `[[${id}](${sourcesPath}/${id}.md)]`,
     );
@@ -199,7 +208,7 @@ export function renderChapterDocs(
       .join("\n");
     pages.set(
       `docs/chapters/${chapter.edition_id}.md`,
-      `# ${textSafe(chapter.title)}\n\n${fixture}> 历史版：\`${chapter.edition_id}\`（${chapter.harness_id} / ${chapter.topic}）\n\n${scope}\n\n${textSafe(chapter.body)}\n`,
+      `# ${textSafe(chapter.title)}\n\n${fixture}> 历史版：\`${chapter.edition_id}\`（${chapter.harness_id} / ${chapter.topic}）\n\n${scope}\n\n${inertLinks(textSafe(chapter.body))}\n`,
     );
   }
   for (const harness of knowledge.records.harnesses) {
