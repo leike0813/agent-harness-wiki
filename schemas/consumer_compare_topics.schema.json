@@ -1,0 +1,1109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "release_id": {
+      "type": "string",
+      "pattern": "^web-v1-[a-f0-9]{40}$"
+    },
+    "knowledge_published_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+    },
+    "access_mode": {
+      "type": "string",
+      "enum": [
+        "online",
+        "offline"
+      ]
+    },
+    "history_scope": {
+      "type": "string",
+      "const": "current_and_previous"
+    },
+    "topic": {
+      "type": "string",
+      "enum": [
+        "skills",
+        "mcp",
+        "custom_agents",
+        "custom_providers",
+        "hooks",
+        "native_plugins",
+        "configuration"
+      ]
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "release_id": {
+                "type": "string",
+                "pattern": "^web-v1-[a-f0-9]{40}$"
+              },
+              "knowledge_published_at": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              "access_mode": {
+                "type": "string",
+                "enum": [
+                  "online",
+                  "offline"
+                ]
+              },
+              "history_scope": {
+                "type": "string",
+                "const": "current_and_previous"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "ok",
+                  "not_investigated"
+                ]
+              },
+              "harness_id": {
+                "type": "string"
+              },
+              "surface_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "topic": {
+                "type": "string",
+                "enum": [
+                  "skills",
+                  "mcp",
+                  "custom_agents",
+                  "custom_providers",
+                  "hooks",
+                  "native_plugins",
+                  "configuration"
+                ]
+              },
+              "edition_id": {
+                "type": "string"
+              },
+              "resolution": {
+                "type": "object",
+                "properties": {
+                  "requested_version": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "selected_version": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "match_kind": {
+                    "type": "string",
+                    "enum": [
+                      "current",
+                      "exact",
+                      "prefix",
+                      "nearest_earlier",
+                      "source_only"
+                    ]
+                  },
+                  "requested_applicability": {
+                    "type": "string",
+                    "enum": [
+                      "mapped",
+                      "not_verified"
+                    ]
+                  }
+                },
+                "required": [
+                  "requested_version",
+                  "selected_version",
+                  "match_kind",
+                  "requested_applicability"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "release_id",
+              "knowledge_published_at",
+              "access_mode",
+              "history_scope",
+              "status",
+              "harness_id",
+              "surface_id",
+              "topic",
+              "edition_id",
+              "resolution"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "release_id": {
+                "type": "string",
+                "pattern": "^web-v1-[a-f0-9]{40}$"
+              },
+              "knowledge_published_at": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              "access_mode": {
+                "type": "string",
+                "enum": [
+                  "online",
+                  "offline"
+                ]
+              },
+              "history_scope": {
+                "type": "string",
+                "const": "current_and_previous"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "ok",
+                  "not_investigated"
+                ]
+              },
+              "harness_id": {
+                "type": "string"
+              },
+              "surface_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "surfaces": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "surface_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "cli",
+                        "ide",
+                        "desktop",
+                        "web",
+                        "sdk"
+                      ]
+                    },
+                    "reference_ids": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_-]*$"
+                      }
+                    }
+                  },
+                  "required": [
+                    "surface_id",
+                    "name",
+                    "kind",
+                    "reference_ids"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "runtimes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "runtime_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "reference_ids": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_-]*$"
+                      }
+                    }
+                  },
+                  "required": [
+                    "runtime_id",
+                    "name",
+                    "reference_ids"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "bindings": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "surface_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "runtime_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "documented",
+                        "unknown",
+                        "conflict"
+                      ]
+                    },
+                    "reference_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_-]*$"
+                      }
+                    }
+                  },
+                  "required": [
+                    "surface_id",
+                    "status",
+                    "reference_ids"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "topic": {
+                "type": "string",
+                "enum": [
+                  "skills",
+                  "mcp",
+                  "custom_agents",
+                  "custom_providers",
+                  "hooks",
+                  "native_plugins",
+                  "configuration"
+                ]
+              },
+              "edition_id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              },
+              "sections": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "section_id": {
+                      "type": "string"
+                    },
+                    "surface_ids": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "question_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "source_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "section_id",
+                    "surface_ids",
+                    "question_ids",
+                    "source_refs"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "questions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "question_id": {
+                      "type": "string"
+                    },
+                    "answers": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "surface_ids": {
+                            "minItems": 1,
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "section_id": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "pattern": "^[a-z][a-z0-9_-]*$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "answered",
+                              "partial",
+                              "unknown",
+                              "not_applicable",
+                              "conflict",
+                              "not_investigated"
+                            ]
+                          },
+                          "source_refs": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "surface_ids",
+                          "section_id",
+                          "status",
+                          "source_refs"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "question_id",
+                    "answers"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "source_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "source_scope": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "reference_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "snapshot_id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "official_url": {
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  },
+                  "required": [
+                    "reference_id",
+                    "snapshot_id",
+                    "official_url"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "history": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "resolution": {
+                "type": "object",
+                "properties": {
+                  "requested_version": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "selected_version": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "match_kind": {
+                    "type": "string",
+                    "enum": [
+                      "current",
+                      "exact",
+                      "prefix",
+                      "nearest_earlier",
+                      "source_only"
+                    ]
+                  },
+                  "requested_applicability": {
+                    "type": "string",
+                    "enum": [
+                      "mapped",
+                      "not_verified"
+                    ]
+                  }
+                },
+                "required": [
+                  "requested_version",
+                  "selected_version",
+                  "match_kind",
+                  "requested_applicability"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "release_id",
+              "knowledge_published_at",
+              "access_mode",
+              "history_scope",
+              "status",
+              "harness_id",
+              "surface_id",
+              "surfaces",
+              "runtimes",
+              "bindings",
+              "topic",
+              "edition_id",
+              "title",
+              "body",
+              "sections",
+              "questions",
+              "source_refs",
+              "source_scope",
+              "history",
+              "resolution"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "release_id": {
+                "type": "string",
+                "pattern": "^web-v1-[a-f0-9]{40}$"
+              },
+              "knowledge_published_at": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              "access_mode": {
+                "type": "string",
+                "enum": [
+                  "online",
+                  "offline"
+                ]
+              },
+              "history_scope": {
+                "type": "string",
+                "const": "current_and_previous"
+              },
+              "status": {
+                "type": "string",
+                "const": "history_not_available"
+              },
+              "harness_id": {
+                "type": "string"
+              },
+              "surface_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "topic": {
+                "type": "string",
+                "enum": [
+                  "skills",
+                  "mcp",
+                  "custom_agents",
+                  "custom_providers",
+                  "hooks",
+                  "native_plugins",
+                  "configuration"
+                ]
+              },
+              "edition_id": {
+                "type": "string"
+              },
+              "resolution": {
+                "type": "object",
+                "properties": {
+                  "requested_version": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "selected_version": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "match_kind": {
+                    "type": "string",
+                    "enum": [
+                      "current",
+                      "exact",
+                      "prefix",
+                      "nearest_earlier",
+                      "source_only"
+                    ]
+                  },
+                  "requested_applicability": {
+                    "type": "string",
+                    "enum": [
+                      "mapped",
+                      "not_verified"
+                    ]
+                  }
+                },
+                "required": [
+                  "requested_version",
+                  "selected_version",
+                  "match_kind",
+                  "requested_applicability"
+                ],
+                "additionalProperties": false
+              },
+              "local_history_url": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": [
+              "release_id",
+              "knowledge_published_at",
+              "access_mode",
+              "history_scope",
+              "status",
+              "harness_id",
+              "surface_id",
+              "topic",
+              "edition_id",
+              "resolution",
+              "local_history_url"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "release_id": {
+                "type": "string",
+                "pattern": "^web-v1-[a-f0-9]{40}$"
+              },
+              "knowledge_published_at": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              "access_mode": {
+                "type": "string",
+                "enum": [
+                  "online",
+                  "offline"
+                ]
+              },
+              "history_scope": {
+                "type": "string",
+                "const": "current_and_previous"
+              },
+              "status": {
+                "type": "string",
+                "const": "not_investigated"
+              },
+              "requested_version": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "surface_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "harness_id": {
+                "type": "string"
+              },
+              "topic": {
+                "type": "string",
+                "enum": [
+                  "skills",
+                  "mcp",
+                  "custom_agents",
+                  "custom_providers",
+                  "hooks",
+                  "native_plugins",
+                  "configuration"
+                ]
+              },
+              "surfaces": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "surface_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "cli",
+                        "ide",
+                        "desktop",
+                        "web",
+                        "sdk"
+                      ]
+                    },
+                    "reference_ids": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_-]*$"
+                      }
+                    }
+                  },
+                  "required": [
+                    "surface_id",
+                    "name",
+                    "kind",
+                    "reference_ids"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "runtimes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "runtime_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "reference_ids": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_-]*$"
+                      }
+                    }
+                  },
+                  "required": [
+                    "runtime_id",
+                    "name",
+                    "reference_ids"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "bindings": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "surface_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "runtime_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "documented",
+                        "unknown",
+                        "conflict"
+                      ]
+                    },
+                    "reference_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_-]*$"
+                      }
+                    }
+                  },
+                  "required": [
+                    "surface_id",
+                    "status",
+                    "reference_ids"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "release_id",
+              "knowledge_published_at",
+              "access_mode",
+              "history_scope",
+              "status",
+              "requested_version",
+              "surface_id",
+              "harness_id",
+              "topic",
+              "surfaces",
+              "runtimes",
+              "bindings"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "release_id": {
+                "type": "string",
+                "pattern": "^web-v1-[a-f0-9]{40}$"
+              },
+              "knowledge_published_at": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              "access_mode": {
+                "type": "string",
+                "enum": [
+                  "online",
+                  "offline"
+                ]
+              },
+              "history_scope": {
+                "type": "string",
+                "const": "current_and_previous"
+              },
+              "status": {
+                "type": "string",
+                "const": "ambiguous"
+              },
+              "requested_version": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "surface_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "harness_id": {
+                "type": "string"
+              },
+              "surfaces": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "surface_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "cli",
+                        "ide",
+                        "desktop",
+                        "web",
+                        "sdk"
+                      ]
+                    },
+                    "reference_ids": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_-]*$"
+                      }
+                    }
+                  },
+                  "required": [
+                    "surface_id",
+                    "name",
+                    "kind",
+                    "reference_ids"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "release_id",
+              "knowledge_published_at",
+              "access_mode",
+              "history_scope",
+              "status",
+              "requested_version",
+              "surface_id"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "release_id": {
+                "type": "string",
+                "pattern": "^web-v1-[a-f0-9]{40}$"
+              },
+              "knowledge_published_at": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              "access_mode": {
+                "type": "string",
+                "enum": [
+                  "online",
+                  "offline"
+                ]
+              },
+              "history_scope": {
+                "type": "string",
+                "const": "current_and_previous"
+              },
+              "status": {
+                "type": "string",
+                "const": "not_found"
+              },
+              "requested_version": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "surface_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "release_id",
+              "knowledge_published_at",
+              "access_mode",
+              "history_scope",
+              "status",
+              "requested_version",
+              "surface_id"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question_id": {
+            "type": "string"
+          },
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "harness_id": {
+                  "type": "string"
+                },
+                "surface_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "answers": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "surface_ids": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "section_id": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "pattern": "^[a-z][a-z0-9_-]*$"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "answered",
+                          "partial",
+                          "unknown",
+                          "not_applicable",
+                          "conflict",
+                          "not_investigated"
+                        ]
+                      },
+                      "source_refs": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "surface_ids",
+                      "section_id",
+                      "status",
+                      "source_refs"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "resolution": {
+                  "type": "object",
+                  "properties": {
+                    "requested_version": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "selected_version": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "match_kind": {
+                      "type": "string",
+                      "enum": [
+                        "current",
+                        "exact",
+                        "prefix",
+                        "nearest_earlier",
+                        "source_only"
+                      ]
+                    },
+                    "requested_applicability": {
+                      "type": "string",
+                      "enum": [
+                        "mapped",
+                        "not_verified"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "requested_version",
+                    "selected_version",
+                    "match_kind",
+                    "requested_applicability"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "harness_id",
+                "surface_id",
+                "answers",
+                "resolution"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "question_id",
+          "entries"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "release_id",
+    "knowledge_published_at",
+    "access_mode",
+    "history_scope",
+    "topic",
+    "results",
+    "questions"
+  ],
+  "additionalProperties": false
+}

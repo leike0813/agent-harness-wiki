@@ -2,6 +2,9 @@ import type { ChapterPublishedKnowledge } from "../domain/chapter.js";
 import { topicSchema, type Topic } from "../domain/schema.js";
 import * as z from "zod";
 import { modelLockSchema } from "./ollama.js";
+import { sectionText } from "./chapter-query.js";
+
+export { sectionText } from "./chapter-query.js";
 
 export const searchSectionSchema = z.strictObject({
   harness_id: z.string(),
@@ -63,17 +66,6 @@ const topicAliases: Record<Topic, string[]> = {
   native_plugins: ["原生插件", "扩展", "plugin"],
   configuration: ["配置", "设置", "config"],
 };
-
-export function sectionText(
-  body: string,
-  sectionId: string,
-): string | undefined {
-  const headings = [...body.matchAll(/^## (.+) \{#([a-z][a-z0-9_-]*)\}\s*$/gm)];
-  const index = headings.findIndex((x) => x[2] === sectionId);
-  return index < 0
-    ? undefined
-    : body.slice(headings[index]!.index, headings[index + 1]?.index).trim();
-}
 
 export function buildSearchSections(
   knowledge: ChapterPublishedKnowledge,

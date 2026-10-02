@@ -552,6 +552,8 @@ export interface OnlineSearchRequest {
   surface_id?: string | undefined;
   limit?: number | undefined;
   cursor?: string | undefined;
+  signal?: AbortSignal | undefined;
+  checkpoint?: (() => Promise<void>) | undefined;
 }
 
 class Budget {
@@ -650,6 +652,10 @@ export async function queryOnlineSearch(
   request: OnlineSearchRequest,
 ): Promise<OnlineSearchPage> {
   const { releaseId, read } = request;
+  const beat = async (): Promise<void> => {
+    request.signal?.throwIfAborted();
+    if (request.checkpoint) await request.checkpoint();
+  };
   const manifest = parseOnlineResource(
     request.manifest,
     releaseId,
@@ -659,6 +665,7 @@ export async function queryOnlineSearch(
 
   const budget = new Budget();
   const load = async (path: string): Promise<OnlineResource> => {
+    await beat();
     resourcePathSchema.parse(path);
     const buffer = await read(path);
     budget.chargeIndex(path, buffer.byteLength);
@@ -726,19 +733,24 @@ export async function queryOnlineSearch(
       if (resource.resource_kind === "navigation") {
         if (resource.purpose !== expected)
           throw new Error("Search navigation purpose mismatch.");
-        for (const range of resource.ranges)
+        let seen = 0;
+        for (const range of resource.ranges) {
+          if (++seen % 128 === 0) await beat();
           if (
             selected(range) &&
             wanted.some((term) => range.first <= term && term <= range.last)
           )
             await visit(range.resource);
+        }
         return;
       }
       if (resource.resource_kind !== "postings")
         throw new Error("Unexpected search resource.");
       if (resource.purpose !== expected)
         throw new Error("Search postings purpose mismatch.");
+      let seen = 0;
       for (const entry of resource.entries) {
+        if (++seen % 128 === 0) await beat();
         if (!wantedSet.has(entry.term)) continue;
         if (harness && entry.locator.harness_id !== harness) continue;
         if (topic && entry.locator.topic !== topic) continue;
@@ -754,14 +766,20 @@ export async function queryOnlineSearch(
       if (resource.resource_kind === "navigation") {
         if (resource.purpose !== "scope")
           throw new Error("Scope navigation purpose mismatch.");
-        for (const range of resource.ranges)
+        let seen = 0;
+        for (const range of resource.ranges) {
+          if (++seen % 128 === 0) await beat();
           if (selected(range)) await visit(range.resource);
+        }
         return;
       }
       if (resource.resource_kind !== "sections")
         throw new Error("Unexpected scope resource.");
-      for (const entry of resource.entries)
+      let seen = 0;
+      for (const entry of resource.entries) {
+        if (++seen % 128 === 0) await beat();
         addCandidate(entry, "filter", [], undefined);
+      }
     };
     await visit(root);
   };
@@ -775,23 +793,28 @@ export async function queryOnlineSearch(
     await collectScope(`${manifest.scopes}index.json`);
   }
 
-  const ranked = [...candidates.values()]
-    .map((candidate) => ({
+  await beat();
+  const ranked: (Candidate & { coverage: number; weight: number })[] = [];
+  for (const candidate of candidates.values()) {
+    ranked.push({
       ...candidate,
       coverage: candidate.terms.size,
       weight: Math.max(
         0,
         ...[...candidate.fields].map((field) => FIELD_WEIGHTS[field]),
       ),
-    }))
-    .sort(
-      (a, b) =>
-        MATCH_RANK[a.match] - MATCH_RANK[b.match] ||
-        b.coverage - a.coverage ||
-        b.weight - a.weight ||
-        compareStrings(a.locator.edition_id, b.locator.edition_id) ||
-        compareStrings(a.locator.section_id, b.locator.section_id),
-    );
+    });
+    if (ranked.length % 128 === 0) await beat();
+  }
+  ranked.sort(
+    (a, b) =>
+      MATCH_RANK[a.match] - MATCH_RANK[b.match] ||
+      b.coverage - a.coverage ||
+      b.weight - a.weight ||
+      compareStrings(a.locator.edition_id, b.locator.edition_id) ||
+      compareStrings(a.locator.section_id, b.locator.section_id),
+  );
+  await beat();
 
   const binding = JSON.stringify({
     v: lexicalRules.format,
@@ -821,6 +844,7 @@ export async function queryOnlineSearch(
   const chapters = new Map<string, OnlineResource>();
   const results: OnlineSearchResult[] = [];
   for (const candidate of window) {
+    await beat();
     const editionPath = `chapters/${candidate.locator.edition_id}.json`;
     let chapter = chapters.get(editionPath);
     if (!chapter) {

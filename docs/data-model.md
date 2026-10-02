@@ -45,4 +45,13 @@ SQLite 还对 catalog 产品与界面、章节、小节、问题、来源引用�
 
 搜索资源同样位于该 release 内：`search/manifest.json` 绑定发布、格式／分词／排序规则版本与预算；`search/exact/` 与 `search/lexical/` 用 `index.json` 按词项范围路由到 `blocks/<block-id>.json`，按含信封的解码字节打包，目标每块约 64 KiB，热门词可跨块续接；`search/scopes/<harness-id>/<topic>/index.json` 提供稳定 ID 预排序、带界面范围的当前小节定位，供无文本的过滤查询分页而不扫描倒排。索引只覆盖当前小节，精确入口（问题编号、配置键与完整路径、完整问法、别名）与正文词法入口分开，不承诺任意字符子串、纠错或语义召回。构建与消费者共享同一份分词、规范化与排序规则并记录版本；排序类别为问题编号 → 配置／路径 → 完整问法 → 别名 → 正文词法／过滤，再按关键词覆盖数与字段权重（标题 3、问法 2、正文 1）和稳定 ID 打破平局。处理预算按每次查询的不同解码资源计：索引／导航／过滤元数据 2 MiB、过滤后去重排序候选 20,000、当页章节 8 MiB，超限返回 `query_too_broad`，cursor 绑定 release、规范化查询、实际词项、过滤条件、排序版本和位置。
 
-在线词法检索与本地混合检索是不同能力：本地发布的 `search.json`／FTS5 与 `semantic.jsonl` 仍按发布生成，语义模型可缺失并降级；在线发布不需要语义索引或模型元数据，其声明的能力不当作本地混合检索的失败降级。消费者 CLI／MCP 的在线 DTO、HTTP／缓存／离线读取与网络失败政策由后续 change 定义。
+在线词法检索与本地混合检索是不同能力：本地发布的 `search.json`／FTS5 与 `semantic.jsonl` 仍按发布生成，语义模型可缺失并降级；在线发布不需要语义索引或模型元数据，其声明的能力不当作本地混合检索的失败降级。
+
+## 消费者 DTO
+
+消费者在线读取在 `src/domain/consumer.ts` 定义独立 DTO，不改变本地领域记录与本地 DTO，取舍见 [ADR 0010](decisions/0010-online-consumer.md)：
+
+- 成功结果统一带 `release_id`（`web-v1-<40 位 SHA>`）、`knowledge_published_at` 与 `access_mode`（`online`／`offline`）；版本结果声明 `history_scope: current_and_previous`。程序版本不是知识版本，`ahw --version` 与 MCP `serverInfo.version` 另行表达。
+- 按既有选版规则选中被裁剪章节时是正常业务结果 `history_not_available`，保留请求目标、选中 edition 与解析结果，并提示本地完整历史；它不是 `unsupported`、`unknown` 或网络失败，也不改选另一章。
+- 技术错误为 `consumerErrorSchema`：`status: error`、可选 `release_id`，`error` 含 `code`、`reason`、`retryable` 与可选 `http_status`。codes 定义在 `src/query/online-error.ts`，CLI JSON 与 MCP `isError` 输出同一结构。
+- 消费者检索结果不含 `semantic_status`；仓库本地混合检索字段不变。
