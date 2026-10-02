@@ -27,7 +27,7 @@ import {
 } from "./online-release.js";
 import { buildSitePages } from "./site.js";
 
-export const deploymentByteLimit = 512 * 1024 * 1024;
+export const deploymentByteLimit = 768 * 1024 * 1024;
 const filePath = z
   .string()
   .min(1)
