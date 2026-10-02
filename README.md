@@ -48,6 +48,8 @@ pnpm docs:build --release-id catalog-surfaces-20260930-v1
 
 `pnpm docs:build` 无参数时构建临时 fixture release；显式指定 release 时先校验其完整性。站点页面、CLI 和 MCP 读取同一个不可变发布。软件版本映射只在来源证据足够时建立；`source_only` 不表示安装版本已验证。读取可带 `--surface-id`；省略界面时按整个产品解析，已声明但章节没有答案的界面返回 `not_investigated`。带 `--version` 时必须同时给 `--surface-id`，否则返回 `ambiguous`。`list --scope catalog` 返回 catalog 中登记与候选产品；`get_source` 在没有已发布来源引用时返回 catalog 来源引用（官方链接、固定快照 hash、定位与短摘录），它不建立能力事实或版本映射。
 
+文档站首页支持按产品名称、ID 和别名筛选，进入产品概览后选择主题阅读。章节提供产品侧栏、页内目录和固定来源链接；顶部搜索在浏览器中检索当前章节，支持中文分词。站点支持手机布局与深色模式。构建后可用 `pnpm --dir site exec vitepress preview . --port 4173` 预览，主题维护见 [开发指南](docs/development.md)。
+
 在线知识分发是另一条能力线：从同一份已校验真源生成 `data/v1/` 静态资源和同发布站点页面，每个产品 × 主题只收录当前章与最近一个历史版，其余章节退为裁剪标记，检索只有词法入口。构建需要干净真源、指定 Git commit 的完整 first-parent 历史与锁定工具，不依赖本地 release、`archive/` 原件、SQLite 或语义模型：
 
 ```sh

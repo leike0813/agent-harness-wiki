@@ -1,0 +1,305 @@
+/**
+ * Agent Harness Wiki theme: a light knowledge portal with a teal accent.
+ * Only variables and a few low-coupling overrides; component internals stay
+ * with their components.
+ */
+
+:root {
+  --vp-font-family-base:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Source Han Sans SC",
+    "WenQuanYi Micro Hei", system-ui, sans-serif;
+  --vp-font-family-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
+
+  --vp-c-brand-1: #0f766e;
+  --vp-c-brand-2: #115e59;
+  --vp-c-brand-3: #0f766e;
+  --vp-c-brand-soft: rgba(13, 148, 136, 0.14);
+  --vp-c-brand: var(--vp-c-brand-1);
+
+  --vp-c-bg-alt: #f5f8f7;
+  --vp-c-bg-soft: #f3f7f6;
+  --vp-nav-bg-color: rgba(255, 255, 255, 0.82);
+  --vp-nav-screen-bg-color: #ffffff;
+  --vp-sidebar-bg-color: #f5f8f7;
+}
+
+.dark {
+  --vp-c-brand-1: #5eead4;
+  --vp-c-brand-2: #0d9488;
+  --vp-c-brand-3: #0f766e;
+  --vp-c-brand-soft: rgba(45, 212, 191, 0.16);
+
+  --vp-c-bg-alt: #161a19;
+  --vp-c-bg-soft: #191e1d;
+  --vp-nav-bg-color: rgba(20, 24, 23, 0.82);
+  --vp-nav-screen-bg-color: #141817;
+  --vp-sidebar-bg-color: #161a19;
+}
+
+/* ---------------------------------------------------------------------------
+ * Page shell
+ * ------------------------------------------------------------------------ */
+
+/* `layout: page` has no container of its own. */
+.VPPage {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px 96px;
+}
+
+@media (min-width: 640px) {
+  .VPPage {
+    padding: 48px 48px 112px;
+  }
+}
+
+@media (min-width: 960px) {
+  .VPPage {
+    padding: 48px 64px 128px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Home
+ * ------------------------------------------------------------------------ */
+
+.VPHome {
+  margin-bottom: 64px;
+  background-image: radial-gradient(
+    1100px 320px at 50% -120px,
+    var(--vp-c-brand-soft),
+    transparent 72%
+  );
+}
+
+/* Keep the first screen compact: hero copy, then the product directory. */
+.VPHome .VPHero {
+  margin-top: 0;
+  padding-top: 48px;
+  padding-bottom: 24px;
+}
+
+.VPHome .VPHero .name {
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: 0.02em;
+}
+
+.VPHome .VPHero .text {
+  padding-top: 12px;
+  font-size: 36px;
+  line-height: 1.25;
+}
+
+.VPHome .VPHero .tagline {
+  padding-top: 16px;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+@media (min-width: 640px) {
+  .VPHome .VPHero {
+    padding-bottom: 32px;
+  }
+
+  .VPHome .VPHero .text {
+    font-size: 48px;
+  }
+
+  .VPHome .VPHero .actions {
+    padding-top: 20px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Breadcrumbs (theme `doc-before` slot)
+ * ------------------------------------------------------------------------ */
+
+.ahw-breadcrumbs {
+  margin: 0 0 12px;
+}
+
+.ahw-breadcrumbs__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--vp-c-text-3);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.ahw-breadcrumbs__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.ahw-breadcrumbs__item + .ahw-breadcrumbs__item::before {
+  content: "/";
+  color: var(--vp-c-text-3);
+}
+
+.ahw-breadcrumbs__item a {
+  color: var(--vp-c-text-2);
+  text-decoration: none;
+}
+
+.ahw-breadcrumbs__item a:hover {
+  color: var(--vp-c-brand-1);
+}
+
+.ahw-breadcrumbs__item [aria-current="page"] {
+  color: var(--vp-c-text-1);
+}
+
+/* ---------------------------------------------------------------------------
+ * Footer (theme `layout-bottom` slot)
+ * ------------------------------------------------------------------------ */
+
+.ahw-footer {
+  border-top: 1px solid var(--vp-c-divider);
+  background-color: var(--vp-c-bg-alt);
+}
+
+.ahw-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px 24px 32px;
+  color: var(--vp-c-text-2);
+  font-size: 13px;
+  line-height: 22px;
+}
+
+@media (min-width: 640px) {
+  .ahw-footer__inner {
+    padding: 20px 48px 32px;
+  }
+}
+
+@media (min-width: 960px) {
+  .ahw-footer__inner {
+    padding: 20px 64px 32px;
+  }
+}
+
+.ahw-footer code {
+  overflow-wrap: anywhere;
+}
+
+.ahw-footer__badge {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background-color: var(--vp-c-yellow-soft);
+  color: var(--vp-c-yellow-1);
+  font-weight: 600;
+}
+
+.ahw-footer__time {
+  color: var(--vp-c-text-3);
+}
+
+.ahw-footer__note {
+  flex: 1 1 100%;
+  color: var(--vp-c-text-3);
+}
+
+/* ---------------------------------------------------------------------------
+ * Document body
+ * ------------------------------------------------------------------------ */
+
+.vp-doc {
+  line-height: 1.75;
+}
+
+.vp-doc p,
+.vp-doc li {
+  line-height: 1.75;
+}
+
+.vp-doc :is(h1, h2, h3, h4, h5, h6),
+.vp-doc [id] {
+  scroll-margin-top: calc(var(--vp-nav-height) + 24px);
+}
+
+/* Long paths, section IDs and release IDs wrap instead of widening the page. */
+.vp-doc :not(pre) > code {
+  overflow-wrap: anywhere;
+}
+
+.vp-doc th,
+.vp-doc td {
+  overflow-wrap: anywhere;
+}
+
+/* Tables and code blocks scroll inside themselves. */
+.vp-doc table,
+.vp-doc div[class*="language-"] {
+  max-width: 100%;
+}
+
+.vp-doc blockquote {
+  border-left-color: var(--vp-c-brand-2);
+  border-radius: 0 8px 8px 0;
+  background-color: var(--vp-c-bg-soft);
+}
+
+/* ---------------------------------------------------------------------------
+ * Navigation and sidebar
+ * ------------------------------------------------------------------------ */
+
+.VPNavBar .VPNavBarTitle .title {
+  border-bottom-color: transparent;
+  font-weight: 600;
+}
+
+.VPNavBar .VPNavBarSearch .DocSearch-Button {
+  border-radius: 8px;
+}
+
+.VPSidebarItem.level-0 > .item > .text {
+  font-weight: 600;
+}
+
+.VPSidebarItem .link:hover .text {
+  color: var(--vp-c-brand-1);
+}
+
+/* ---------------------------------------------------------------------------
+ * Focus and small screens
+ * ------------------------------------------------------------------------ */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  border-radius: 4px;
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+}
+
+@media (max-width: 419px) {
+  .VPDoc {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .VPPage {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
