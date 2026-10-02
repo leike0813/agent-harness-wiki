@@ -1,0 +1,90 @@
+name: Consumer validation
+
+# Validation only. Builds the real consumer tgz on three platforms at the minimum
+# and latest Node 24.x, runs consumer:verify, and uploads the recorded evidence.
+# No deployment or publication is performed and write access is not requested.
+#
+# Runner labels and architectures follow the official GitHub-hosted runner
+# documentation and actions/runner-images: ubuntu-24.04 is x64, macos-15 is
+# arm64 (Intel is macos-15-intel), windows-2025 is x64.
+
+on:
+  pull_request:
+  push:
+    branches: [main, dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: consumer-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  consumer-verify:
+    name: ${{ matrix.os }} Node ${{ matrix.node }} ${{ matrix.arch }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            node: "24.12.0"
+            arch: x64
+          - os: ubuntu-24.04
+            node: "24.x"
+            arch: x64
+          - os: macos-15
+            node: "24.12.0"
+            arch: arm64
+          - os: macos-15
+            node: "24.x"
+            arch: arm64
+          - os: windows-2025
+            node: "24.12.0"
+            arch: x64
+          - os: windows-2025
+            node: "24.x"
+            arch: x64
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.10.0
+
+      - name: Set up Node ${{ matrix.node }}
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+          check-latest: true
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Assert runner architecture
+        shell: bash
+        run: |
+          actual="${{ runner.arch }}"
+          expected="X64"
+          if [ "${{ matrix.arch }}" = "arm64" ]; then expected="ARM64"; fi
+          if [ "$actual" != "$expected" ]; then echo "runner arch $actual does not match expected $expected"; exit 1; fi
+          echo "runner arch $actual matches expected $expected"
+
+      - name: Run consumer:verify
+        run: pnpm consumer:verify
+
+      - name: Upload verification record
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: consumer-verification-${{ matrix.os }}-${{ matrix.node }}
+          path: |
+            var/consumer-package/verification.json
+            var/consumer-package/manifest.json
+          if-no-files-found: error

@@ -1,0 +1,1522 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "type": "number",
+          "const": 1
+        },
+        "release_id": {
+          "type": "string",
+          "pattern": "^web-v1-[a-f0-9]{40}$"
+        },
+        "resource_kind": {
+          "type": "string",
+          "const": "manifest"
+        },
+        "knowledge_published_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+        },
+        "profile": {
+          "type": "string",
+          "enum": [
+            "fixture",
+            "production"
+          ]
+        },
+        "history": {
+          "type": "string",
+          "const": "current_and_previous"
+        },
+        "catalog": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_./-]+\\.json$"
+        },
+        "topics": {
+          "type": "string",
+          "const": "topics/"
+        },
+        "sources": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_./-]+\\.json$"
+        },
+        "search": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_./-]+\\.json$"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "release_id",
+        "resource_kind",
+        "knowledge_published_at",
+        "profile",
+        "history",
+        "catalog",
+        "topics",
+        "sources",
+        "search"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "type": "number",
+          "const": 1
+        },
+        "release_id": {
+          "type": "string",
+          "pattern": "^web-v1-[a-f0-9]{40}$"
+        },
+        "resource_kind": {
+          "type": "string",
+          "const": "catalog"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "harness_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "aliases": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "reference_ids": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]*$"
+                }
+              },
+              "surfaces": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "surface_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "cli",
+                        "ide",
+                        "desktop",
+                        "web",
+                        "sdk"
+                      ]
+                    },
+                    "reference_ids": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_-]*$"
+                      }
+                    }
+                  },
+                  "required": [
+                    "surface_id",
+                    "name",
+                    "kind",
+                    "reference_ids"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "runtimes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "runtime_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "reference_ids": {
+                      "minItems": 1,
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_-]*$"
+                      }
+                    }
+                  },
+                  "required": [
+                    "runtime_id",
+                    "name",
+                    "reference_ids"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "bindings": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "surface_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "runtime_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "documented",
+                        "unknown",
+                        "conflict"
+                      ]
+                    },
+                    "reference_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_-]*$"
+                      }
+                    }
+                  },
+                  "required": [
+                    "surface_id",
+                    "status",
+                    "reference_ids"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "registration": {
+                "type": "string",
+                "enum": [
+                  "registered",
+                  "candidate"
+                ]
+              },
+              "topics": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "skills",
+                    "mcp",
+                    "custom_agents",
+                    "custom_providers",
+                    "hooks",
+                    "native_plugins",
+                    "configuration"
+                  ]
+                }
+              },
+              "coverage": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "surface_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "topic": {
+                      "type": "string",
+                      "enum": [
+                        "skills",
+                        "mcp",
+                        "custom_agents",
+                        "custom_providers",
+                        "hooks",
+                        "native_plugins",
+                        "configuration"
+                      ]
+                    },
+                    "statuses": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "answered",
+                          "partial",
+                          "unknown",
+                          "not_applicable",
+                          "conflict",
+                          "not_investigated"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "surface_id",
+                    "topic",
+                    "statuses"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "harness_id",
+              "name",
+              "aliases",
+              "reference_ids",
+              "surfaces",
+              "runtimes",
+              "bindings",
+              "registration",
+              "topics",
+              "coverage"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "protocol_version",
+        "release_id",
+        "resource_kind",
+        "products"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "type": "number",
+          "const": 1
+        },
+        "release_id": {
+          "type": "string",
+          "pattern": "^web-v1-[a-f0-9]{40}$"
+        },
+        "resource_kind": {
+          "type": "string",
+          "const": "topic"
+        },
+        "harness_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "topic": {
+          "type": "string",
+          "enum": [
+            "skills",
+            "mcp",
+            "custom_agents",
+            "custom_providers",
+            "hooks",
+            "native_plugins",
+            "configuration"
+          ]
+        },
+        "current": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "editions": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "edition_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "sections": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "section_id": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9_-]*$"
+                        },
+                        "surface_ids": {
+                          "minItems": 1,
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^[a-z][a-z0-9_-]*$"
+                          }
+                        }
+                      },
+                      "required": [
+                        "section_id",
+                        "surface_ids"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "mappings": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "schema_version": {
+                          "type": "number",
+                          "const": 3
+                        },
+                        "record_kind": {
+                          "type": "string",
+                          "enum": [
+                            "fixture",
+                            "production"
+                          ]
+                        },
+                        "mapping_id": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9_-]*$"
+                        },
+                        "edition_id": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9_-]*$"
+                        },
+                        "harness_id": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9_-]*$"
+                        },
+                        "surface_id": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9_-]*$"
+                        },
+                        "software_version": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "package_snapshot_id": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9_-]*$"
+                        },
+                        "scope": {
+                          "type": "string",
+                          "enum": [
+                            "section",
+                            "chapter"
+                          ]
+                        },
+                        "sections": {
+                          "minItems": 1,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "section_id": {
+                                "type": "string",
+                                "pattern": "^[a-z][a-z0-9_-]*$"
+                              },
+                              "evidence_ref": {
+                                "type": "string",
+                                "pattern": "^[a-z][a-z0-9_-]*$"
+                              }
+                            },
+                            "required": [
+                              "section_id",
+                              "evidence_ref"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "schema_version",
+                        "record_kind",
+                        "mapping_id",
+                        "edition_id",
+                        "harness_id",
+                        "surface_id",
+                        "software_version",
+                        "package_snapshot_id",
+                        "scope",
+                        "sections"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "availability": {
+                    "type": "string",
+                    "const": "available"
+                  },
+                  "resource": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_./-]+\\.json$"
+                  }
+                },
+                "required": [
+                  "edition_id",
+                  "sections",
+                  "mappings",
+                  "availability",
+                  "resource"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "edition_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "sections": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "section_id": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9_-]*$"
+                        },
+                        "surface_ids": {
+                          "minItems": 1,
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^[a-z][a-z0-9_-]*$"
+                          }
+                        }
+                      },
+                      "required": [
+                        "section_id",
+                        "surface_ids"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "mappings": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "schema_version": {
+                          "type": "number",
+                          "const": 3
+                        },
+                        "record_kind": {
+                          "type": "string",
+                          "enum": [
+                            "fixture",
+                            "production"
+                          ]
+                        },
+                        "mapping_id": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9_-]*$"
+                        },
+                        "edition_id": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9_-]*$"
+                        },
+                        "harness_id": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9_-]*$"
+                        },
+                        "surface_id": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9_-]*$"
+                        },
+                        "software_version": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "package_snapshot_id": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9_-]*$"
+                        },
+                        "scope": {
+                          "type": "string",
+                          "enum": [
+                            "section",
+                            "chapter"
+                          ]
+                        },
+                        "sections": {
+                          "minItems": 1,
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "section_id": {
+                                "type": "string",
+                                "pattern": "^[a-z][a-z0-9_-]*$"
+                              },
+                              "evidence_ref": {
+                                "type": "string",
+                                "pattern": "^[a-z][a-z0-9_-]*$"
+                              }
+                            },
+                            "required": [
+                              "section_id",
+                              "evidence_ref"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "schema_version",
+                        "record_kind",
+                        "mapping_id",
+                        "edition_id",
+                        "harness_id",
+                        "surface_id",
+                        "software_version",
+                        "package_snapshot_id",
+                        "scope",
+                        "sections"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "availability": {
+                    "type": "string",
+                    "const": "trimmed"
+                  }
+                },
+                "required": [
+                  "edition_id",
+                  "sections",
+                  "mappings",
+                  "availability"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "protocol_version",
+        "release_id",
+        "resource_kind",
+        "harness_id",
+        "topic",
+        "current",
+        "editions"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "type": "number",
+          "const": 1
+        },
+        "release_id": {
+          "type": "string",
+          "pattern": "^web-v1-[a-f0-9]{40}$"
+        },
+        "resource_kind": {
+          "type": "string",
+          "const": "chapter"
+        },
+        "chapter": {
+          "type": "object",
+          "properties": {
+            "schema_version": {
+              "type": "number",
+              "const": 3
+            },
+            "record_kind": {
+              "type": "string",
+              "enum": [
+                "fixture",
+                "production"
+              ]
+            },
+            "edition_id": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_-]*$"
+            },
+            "harness_id": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_-]*$"
+            },
+            "topic": {
+              "type": "string",
+              "enum": [
+                "skills",
+                "mcp",
+                "custom_agents",
+                "custom_providers",
+                "hooks",
+                "native_plugins",
+                "configuration"
+              ]
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120
+            },
+            "sections": {
+              "minItems": 1,
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "section_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "surface_ids": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    }
+                  },
+                  "source_refs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    }
+                  }
+                },
+                "required": [
+                  "section_id",
+                  "surface_ids",
+                  "source_refs"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "questions": {
+              "minItems": 1,
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "question_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+                  },
+                  "answers": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "surface_ids": {
+                          "minItems": 1,
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^[a-z][a-z0-9_-]*$"
+                          }
+                        },
+                        "section_id": {
+                          "type": "string",
+                          "pattern": "^[a-z][a-z0-9_-]*$"
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "answered",
+                            "partial",
+                            "unknown",
+                            "not_applicable",
+                            "conflict"
+                          ]
+                        },
+                        "source_refs": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "pattern": "^[a-z][a-z0-9_-]*$"
+                          }
+                        }
+                      },
+                      "required": [
+                        "surface_ids",
+                        "section_id",
+                        "status",
+                        "source_refs"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "question_id",
+                  "answers"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "body": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100000
+            }
+          },
+          "required": [
+            "schema_version",
+            "record_kind",
+            "edition_id",
+            "harness_id",
+            "topic",
+            "title",
+            "sections",
+            "questions",
+            "body"
+          ],
+          "additionalProperties": false
+        },
+        "source_scope": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "reference_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "snapshot_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "official_url": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": [
+              "reference_id",
+              "snapshot_id",
+              "official_url"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "protocol_version",
+        "release_id",
+        "resource_kind",
+        "chapter",
+        "source_scope"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "type": "number",
+          "const": 1
+        },
+        "release_id": {
+          "type": "string",
+          "pattern": "^web-v1-[a-f0-9]{40}$"
+        },
+        "resource_kind": {
+          "type": "string",
+          "const": "source"
+        },
+        "reference": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "chapter"
+                },
+                "record": {
+                  "type": "object",
+                  "properties": {
+                    "schema_version": {
+                      "type": "number",
+                      "const": 2
+                    },
+                    "record_kind": {
+                      "type": "string",
+                      "enum": [
+                        "fixture",
+                        "production"
+                      ]
+                    },
+                    "reference_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "harness_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "snapshot_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "locator": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string",
+                              "const": "file_lines"
+                            },
+                            "file": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "start": {
+                              "type": "integer",
+                              "exclusiveMinimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "end": {
+                              "type": "integer",
+                              "exclusiveMinimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "file",
+                            "start",
+                            "end"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string",
+                              "const": "symbol"
+                            },
+                            "file": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "symbol": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "file",
+                            "symbol"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "kind": {
+                              "type": "string",
+                              "const": "document_section"
+                            },
+                            "heading": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "heading"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    },
+                    "official_url": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "excerpt": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 800
+                    }
+                  },
+                  "required": [
+                    "schema_version",
+                    "record_kind",
+                    "reference_id",
+                    "harness_id",
+                    "snapshot_id",
+                    "locator",
+                    "official_url",
+                    "excerpt"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "kind",
+                "record"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "catalog"
+                },
+                "record": {
+                  "type": "object",
+                  "properties": {
+                    "reference_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "harness_id": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    },
+                    "official_url": {
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "captured_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+                    },
+                    "locator": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "excerpt": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 800
+                    },
+                    "snapshot": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "document",
+                            "git_commit"
+                          ]
+                        },
+                        "sha256": {
+                          "type": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        },
+                        "revision": {
+                          "type": "string",
+                          "pattern": "^[a-f0-9]{40}$"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "sha256"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "reference_id",
+                    "harness_id",
+                    "official_url",
+                    "captured_at",
+                    "locator",
+                    "excerpt",
+                    "snapshot"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "kind",
+                "record"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "protocol_version",
+        "release_id",
+        "resource_kind",
+        "reference"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "type": "number",
+          "const": 1
+        },
+        "release_id": {
+          "type": "string",
+          "pattern": "^web-v1-[a-f0-9]{40}$"
+        },
+        "resource_kind": {
+          "type": "string",
+          "const": "navigation"
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "exact",
+            "lexical",
+            "scope",
+            "sources"
+          ]
+        },
+        "ranges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              },
+              "resource": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_./-]+\\.json$"
+              },
+              "harness_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "topic": {
+                "type": "string",
+                "enum": [
+                  "skills",
+                  "mcp",
+                  "custom_agents",
+                  "custom_providers",
+                  "hooks",
+                  "native_plugins",
+                  "configuration"
+                ]
+              }
+            },
+            "required": [
+              "first",
+              "last",
+              "resource"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "protocol_version",
+        "release_id",
+        "resource_kind",
+        "purpose",
+        "ranges"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "type": "number",
+          "const": 1
+        },
+        "release_id": {
+          "type": "string",
+          "pattern": "^web-v1-[a-f0-9]{40}$"
+        },
+        "resource_kind": {
+          "type": "string",
+          "const": "postings"
+        },
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "exact",
+            "lexical"
+          ]
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "term": {
+                "type": "string",
+                "minLength": 1
+              },
+              "locator": {
+                "type": "object",
+                "properties": {
+                  "harness_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "topic": {
+                    "type": "string",
+                    "enum": [
+                      "skills",
+                      "mcp",
+                      "custom_agents",
+                      "custom_providers",
+                      "hooks",
+                      "native_plugins",
+                      "configuration"
+                    ]
+                  },
+                  "edition_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "section_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "surface_ids": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_-]*$"
+                    }
+                  }
+                },
+                "required": [
+                  "harness_id",
+                  "topic",
+                  "edition_id",
+                  "section_id",
+                  "surface_ids"
+                ],
+                "additionalProperties": false
+              },
+              "match": {
+                "type": "string",
+                "enum": [
+                  "exact_question_id",
+                  "exact_config_term",
+                  "exact_question_wording",
+                  "alias",
+                  "full_text",
+                  "filter"
+                ]
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "title",
+                    "wording",
+                    "body"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "term",
+              "locator",
+              "match",
+              "fields"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "protocol_version",
+        "release_id",
+        "resource_kind",
+        "purpose",
+        "entries"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "type": "number",
+          "const": 1
+        },
+        "release_id": {
+          "type": "string",
+          "pattern": "^web-v1-[a-f0-9]{40}$"
+        },
+        "resource_kind": {
+          "type": "string",
+          "const": "sections"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "harness_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "topic": {
+                "type": "string",
+                "enum": [
+                  "skills",
+                  "mcp",
+                  "custom_agents",
+                  "custom_providers",
+                  "hooks",
+                  "native_plugins",
+                  "configuration"
+                ]
+              },
+              "edition_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "section_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "surface_ids": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]*$"
+                }
+              }
+            },
+            "required": [
+              "harness_id",
+              "topic",
+              "edition_id",
+              "section_id",
+              "surface_ids"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "protocol_version",
+        "release_id",
+        "resource_kind",
+        "entries"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "type": "number",
+          "const": 1
+        },
+        "release_id": {
+          "type": "string",
+          "pattern": "^web-v1-[a-f0-9]{40}$"
+        },
+        "resource_kind": {
+          "type": "string",
+          "const": "source_directory"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "reference_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
+              "harness_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              }
+            },
+            "required": [
+              "reference_id",
+              "harness_id"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "protocol_version",
+        "release_id",
+        "resource_kind",
+        "entries"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "type": "number",
+          "const": 1
+        },
+        "release_id": {
+          "type": "string",
+          "pattern": "^web-v1-[a-f0-9]{40}$"
+        },
+        "resource_kind": {
+          "type": "string",
+          "const": "search_manifest"
+        },
+        "capability": {
+          "type": "string",
+          "const": "lexical_only"
+        },
+        "rules": {
+          "type": "object",
+          "properties": {
+            "format": {
+              "type": "number",
+              "const": 1
+            },
+            "segmentation": {
+              "type": "number",
+              "const": 1
+            },
+            "normalization": {
+              "type": "number",
+              "const": 1
+            },
+            "ranking": {
+              "type": "number",
+              "const": 1
+            },
+            "weights": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "number",
+                  "const": 3
+                },
+                "wording": {
+                  "type": "number",
+                  "const": 2
+                },
+                "body": {
+                  "type": "number",
+                  "const": 1
+                }
+              },
+              "required": [
+                "title",
+                "wording",
+                "body"
+              ],
+              "additionalProperties": false
+            },
+            "block_bytes": {
+              "type": "number",
+              "const": 65536
+            },
+            "index_bytes": {
+              "type": "number",
+              "const": 2097152
+            },
+            "candidates": {
+              "type": "number",
+              "const": 20000
+            },
+            "chapter_bytes": {
+              "type": "number",
+              "const": 8388608
+            }
+          },
+          "required": [
+            "format",
+            "segmentation",
+            "normalization",
+            "ranking",
+            "weights",
+            "block_bytes",
+            "index_bytes",
+            "candidates",
+            "chapter_bytes"
+          ],
+          "additionalProperties": false
+        },
+        "environment": {
+          "type": "object",
+          "properties": {
+            "node": {
+              "type": "string"
+            },
+            "icu": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "node",
+            "icu"
+          ],
+          "additionalProperties": false
+        },
+        "exact": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_./-]+\\.json$"
+        },
+        "lexical": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_./-]+\\.json$"
+        },
+        "scopes": {
+          "type": "string",
+          "const": "search/scopes/"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "release_id",
+        "resource_kind",
+        "capability",
+        "rules",
+        "environment",
+        "exact",
+        "lexical",
+        "scopes"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

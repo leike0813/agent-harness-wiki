@@ -29,7 +29,7 @@
 
 ### 当前迁移边界
 
-`docs/PRD.md` 0.4 描述目标契约；当前代码和本文件下方的 Claim、Coverage、Assessment、精确 Target 查询及旧五工具清单记录 M0 实现基线。实施新契约时，先读 [OpenSpec 实施路线](docs/openspec-implementation-roadmap.md)及当前 change 的 delta spec，再按 PRD 判断产品语义；以实际代码和验证结果报告已完成能力。
+`docs/PRD.md` 0.5 描述目标契约；当前代码和本文件下方的 Claim、Coverage、Assessment、精确 Target 查询及旧五工具清单记录 M0 实现基线。实施新契约时，先读 [OpenSpec 实施路线](docs/openspec-implementation-roadmap.md)及当前 change 的 delta spec，再按 PRD 判断产品语义；以实际代码和验证结果报告已完成能力。
 
 产品与界面的身份以 [`catalog/harnesses.yaml`](catalog/harnesses.yaml) 为唯一事实源：产品 id 命名产品，界面 id（`surface_id`）命名同一产品的一个前端，界面到运行时的绑定单独记录、未证实时记 `unknown`；`registry/harnesses/` 只登记产品 id 与来源引用，不复制名称、别名或形态。章节问题按界面记录答案；已声明但章节没有答案的界面不在章节里存状态，查询把它派生为 `not_investigated`。带 `--version` 的读取必须同时指定界面，否则返回 `ambiguous`。
 
@@ -38,6 +38,8 @@
 编写或修订产品 × 主题章节时，按 [固定问题与成稿规则](docs/topic-questions.md) 核对机制分节、问题索引、配置文件示例、来源和版本边界；审阅正文后再选为当前版。
 
 构建 M1 生产搜索发布前，核对 [本地搜索模型锁](registry/search-model.json) 与 [搜索 ADR](docs/decisions/0007-offline-hybrid-search.md)；词法索引只覆盖当前小节，语义模型缺失须显式降级。
+
+知识有两条独立交付线。本地线保留完整章节历史，以标准 JSON、SQLite、生成 Markdown 和本机语义索引验收混合检索，生产构建继续要求 [搜索 ADR](docs/decisions/0007-offline-hybrid-search.md) 的模型门禁。在线线是独立身份的静态投影：`data/v1/` 资源与同发布页面，每个产品 × 主题只收录当前章与最近一个历史版，其余章节退为裁剪标记，检索只有词法入口。在线构建从结构化真源投影，不依赖本地已发布数据，不访问上游补事实、不执行 harness，生产拒绝 fixture。消费者包与在线 DTO／网络政策由 `online-consumer-cli-mcp` 交付：公开名 `agent-harness-wiki`、命令 `ahw`，根包改名 `agent-harness-wiki-maintainer` 并保持 private；公开 CI／npm／Pages 发布由 `online-publication-and-delivery` 实现；持久台账、不可变归档、保留与恢复、独立 next／latest 发版见 [ADR 0011](docs/decisions/0011-public-publication.md) 和 [操作指南](docs/publication.md)。边界与预算见 [在线分发 ADR](docs/decisions/0009-online-knowledge-distribution.md)，消费者契约见 [消费者 ADR](docs/decisions/0010-online-consumer.md)。
 
 ---
 
@@ -422,6 +424,11 @@ site/
 scripts/
 docs/
 schemas/
+packages/
+└── consumer/       # 公开 agent-harness-wiki 消费者包（源码入口 src/consumer/index.ts）
+LICENSE             # MIT（代码）
+LICENSE-knowledge   # CC BY 4.0（原创知识与文档）
+NOTICE              # 第三方来源摘录的权利边界
 ```
 
 M0 虚构数据仍位于 `tests/fixtures/datasets/`，不进入正式 `registry/`、`knowledge/`。目录按实际接入创建，不预建空的 harness 子树。项目 Skill 放在 `.agents/skills/`，只豁免这些 Skill 的子目录：`harness-investigation` 为新 CLI 登记来源、采写七章并分段发布知识，`harness-maintenance` 维护已收录产品的上游变化，`harness-binary` 完成受管二进制的首次接入与最新更新。M2 手动上游检查在 `audits/<harness-id>/` 留 Git 审计 YAML；有实质变化、来源失败或未解决分歧时，同目录放同名主干的简短 Markdown 报告。候选原件保留在忽略的 `archive/`。调查 Agent 自检普通章节更新，高影响情形由另一 Agent 复核；完成内容经 staged 校验后可用 `ahw publish` 切换本地发布，受管二进制由 `harness-binary` 单独记录结果，不进知识发布。需要运行观察时才建立相应入口，不预建通用探针框架。
@@ -498,6 +505,10 @@ CLI 和 MCP 必须调用同一个 QueryService。
 - 错误转换。
 
 不得在这两层重新实现版本选择或支持状态判断。
+
+### 7.6 消费者在线读取
+
+负责在线固定发布、有界 HTTP 与缓存、离线读取、结构化技术错误与消费者 DTO：`src/query/chapter-query.ts`、`src/query/online-client.ts`、`src/domain/consumer.ts`、`src/query/online-error.ts`、`src/consumer/index.ts`。共享 7.4 的选版与答案投影，不引入 SQLite 或 Ollama；包身份与构建见 [ADR 0010](docs/decisions/0010-online-consumer.md) 与 [开发指南](docs/development.md)。
 
 ---
 
@@ -941,6 +952,10 @@ M0 至少更新：
 - 搜索策略。
 
 ADR 应记录真实做出的决定，不要把所有细节都文书化。
+
+### 消费者包说明与许可
+
+`packages/consumer/README.md` 说明 Node 版本、固定版本 npx 与 MCP 模板、五类 CLI 查询、`--data-url`／`--offline`／`--cache-dir`／`--no-file-cache`、三平台缓存默认目录、程序版本与知识版本的区别、有限历史、错误与协议升级、纯词法能力与许可。`LICENSE` 为代码 MIT，`LICENSE-knowledge` 为原创知识与文档 CC BY 4.0，`NOTICE` 说明第三方来源摘录保留其原有权利。消费者决定见 [ADR 0010](docs/decisions/0010-online-consumer.md)。
 
 ---
 

@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import type { Dataset, PublishedKnowledge } from "../domain/schema.js";
+export { canonical } from "../domain/json.js";
 
 export type { PublishedKnowledge };
 
@@ -51,20 +52,6 @@ export function publishedRecords(dataset: Dataset): Dataset {
     guides: by([...dataset.guides], (item) => item.guide_id),
   };
 }
-
-function ordered(value: unknown): unknown {
-  if (Array.isArray(value)) return value.map(ordered);
-  if (value !== null && typeof value === "object")
-    return Object.fromEntries(
-      Object.entries(value)
-        .sort(([a], [b]) => a.localeCompare(b, "en"))
-        .map(([key, item]) => [key, ordered(item)]),
-    );
-  return value;
-}
-
-export const canonical = (value: unknown): string =>
-  `${JSON.stringify(ordered(value), null, 2)}\n`;
 
 export const sha256 = (value: string | Buffer): string =>
   createHash("sha256").update(value).digest("hex");

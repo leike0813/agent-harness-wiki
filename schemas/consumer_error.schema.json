@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "const": "error"
+    },
+    "release_id": {
+      "type": "string",
+      "pattern": "^web-v1-[a-f0-9]{40}$"
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "offline_cache_miss",
+            "invalid_cached_data",
+            "network_error",
+            "request_timeout",
+            "operation_timeout",
+            "rate_limited",
+            "http_error",
+            "release_resource_missing",
+            "invalid_release_data",
+            "unsupported_protocol",
+            "protocol_retired",
+            "query_too_broad",
+            "invalid_cursor",
+            "invalid_input",
+            "operation_cancelled"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "http_status": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 599
+        }
+      },
+      "required": [
+        "code",
+        "reason",
+        "retryable"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "status",
+    "error"
+  ],
+  "additionalProperties": false
+}

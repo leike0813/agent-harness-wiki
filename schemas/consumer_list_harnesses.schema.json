@@ -1,0 +1,251 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "release_id": {
+      "type": "string",
+      "pattern": "^web-v1-[a-f0-9]{40}$"
+    },
+    "knowledge_published_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+    },
+    "access_mode": {
+      "type": "string",
+      "enum": [
+        "online",
+        "offline"
+      ]
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "harness_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "reference_ids": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_-]*$"
+            }
+          },
+          "surfaces": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "surface_id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]*$"
+                },
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "cli",
+                    "ide",
+                    "desktop",
+                    "web",
+                    "sdk"
+                  ]
+                },
+                "reference_ids": {
+                  "minItems": 1,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  }
+                }
+              },
+              "required": [
+                "surface_id",
+                "name",
+                "kind",
+                "reference_ids"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "runtimes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "runtime_id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]*$"
+                },
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "reference_ids": {
+                  "minItems": 1,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  }
+                }
+              },
+              "required": [
+                "runtime_id",
+                "name",
+                "reference_ids"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "bindings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "surface_id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]*$"
+                },
+                "runtime_id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]*$"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "documented",
+                    "unknown",
+                    "conflict"
+                  ]
+                },
+                "reference_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  }
+                }
+              },
+              "required": [
+                "surface_id",
+                "status",
+                "reference_ids"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "registration": {
+            "type": "string",
+            "enum": [
+              "registered",
+              "candidate"
+            ]
+          },
+          "topics": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "skills",
+                "mcp",
+                "custom_agents",
+                "custom_providers",
+                "hooks",
+                "native_plugins",
+                "configuration"
+              ]
+            }
+          },
+          "coverage": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "surface_id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]*$"
+                },
+                "topic": {
+                  "type": "string",
+                  "enum": [
+                    "skills",
+                    "mcp",
+                    "custom_agents",
+                    "custom_providers",
+                    "hooks",
+                    "native_plugins",
+                    "configuration"
+                  ]
+                },
+                "statuses": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "answered",
+                      "partial",
+                      "unknown",
+                      "not_applicable",
+                      "conflict",
+                      "not_investigated"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "surface_id",
+                "topic",
+                "statuses"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "harness_id",
+          "name",
+          "aliases",
+          "reference_ids",
+          "surfaces",
+          "runtimes",
+          "bindings",
+          "registration",
+          "topics",
+          "coverage"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "next_cursor": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "release_id",
+    "knowledge_published_at",
+    "access_mode",
+    "items"
+  ],
+  "additionalProperties": false
+}

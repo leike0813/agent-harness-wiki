@@ -1,5 +1,5 @@
 {
-  "name": "agent-harness-wiki",
+  "name": "agent-harness-wiki-maintainer",
   "version": "0.0.0",
   "private": true,
   "description": "Evidence-driven configuration and extension knowledge base for agent harnesses.",
@@ -33,8 +33,16 @@
     "chapters:update": "tsx scripts/publish-chapter-update.ts",
     "fixtures:build": "tsx scripts/compile-chapters.ts --dataset-root tests/fixtures/datasets/chapters --profile fixture --release-id fixture-chapters --published-at 2026-09-29T00:00:00Z --releases-root var/chapter-release-fixture/releases",
     "docs:build": "tsx scripts/build-site.ts",
+    "online:build": "tsx scripts/build-online.ts",
+    "online:verify": "tsx scripts/verify-online.ts",
+    "consumer:build": "tsx scripts/build-consumer.ts",
+    "consumer:pack": "pnpm consumer:build && tsx scripts/pack-consumer.ts",
+    "consumer:verify": "pnpm consumer:pack && tsx scripts/verify-consumer.ts",
+    "publication": "tsx scripts/publication.ts",
+    "consumer:verify-public": "tsx scripts/verify-public-consumer.ts",
+    "npm:publish": "tsx scripts/publish-program.ts",
     "mcp:smoke": "vitest run tests/integration/mcp.test.ts",
-    "verify": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm schema:check && pnpm sources:audit-log && pnpm chapters:validate && pnpm knowledge:validate && pnpm test && pnpm test:integration && pnpm build && pnpm docs:build"
+    "verify": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm schema:check && pnpm sources:audit-log && pnpm chapters:validate && pnpm knowledge:validate && pnpm test && pnpm test:integration && pnpm build && pnpm docs:build && pnpm consumer:verify"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "2.1.0",
@@ -61,5 +69,5 @@
     "knowledge-base",
     "mcp"
   ],
-  "license": "UNLICENSED"
+  "license": "MIT"
 }

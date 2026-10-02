@@ -7,14 +7,14 @@ Turns reviewed structured knowledge into a fixed, verifiable local release that 
 ## Requirements
 
 ### Requirement: Deterministic offline compilation
-The system SHALL compile an explicitly selected dataset profile, release ID, and publication time into `knowledge.json`, `knowledge.sqlite`, generated Markdown, and `manifest.json`. New chapter editions and release records SHALL use chapter schema version 3 and builder version 6, while catalog metadata and registry records keep schema version 1. The normalized JSON and Markdown bytes and SQLite logical rows SHALL be identical for identical validated inputs and release parameters. The build SHALL not access upstream networks, run harnesses, or read user configuration.
+The local release compiler SHALL compile an explicitly selected dataset profile, release ID, and publication time into `knowledge.json`, `knowledge.sqlite`, generated Markdown, and `manifest.json`. Local chapter editions and release records SHALL use chapter schema version 3 and builder version 6, while catalog metadata and registry records keep schema version 1. The normalized JSON and Markdown bytes and SQLite logical rows SHALL be identical for identical validated inputs and release parameters. The build SHALL not access upstream networks, run harnesses, or read user configuration. Independently identified online projections SHALL follow the online-knowledge-release contract rather than require local SQLite or semantic artifacts.
 
 #### Scenario: Repeated fixture build
 - **WHEN** the same fictional dataset is compiled twice with equal release parameters into separate roots
 - **THEN** the normalized JSON, generated Markdown, manifest, and SQLite logical rows match
 
 ### Requirement: Integrity and immutable publication
-The manifest SHALL bind schema and builder versions, profile, release ID, publication time, normalized input digest, and hashes of every publishable artifact except itself. The system SHALL verify file hashes and database integrity before making a release current. A failed build or verification SHALL leave the prior current release unchanged; an existing release ID SHALL not be overwritten. Frozen deterministic and hash checks SHALL apply to the new schema baseline; a release of an older chapter schema SHALL be verified for intactness only and SHALL NOT be rewritten or migrated in place.
+The local release manifest SHALL bind schema and builder versions, profile, release ID, publication time, normalized input digest, and hashes of every publishable artifact except itself. The system SHALL verify local file hashes and database integrity before making a local release current. A failed build or verification SHALL leave the prior current release unchanged; an existing release ID SHALL not be overwritten. Frozen deterministic and hash checks SHALL apply to the local schema baseline; a release of an older chapter schema SHALL be verified for intactness only and SHALL NOT be rewritten or migrated in place.
 
 #### Scenario: Damaged new release
 - **WHEN** a staged artifact is corrupted before publication
@@ -29,14 +29,14 @@ The manifest SHALL bind schema and builder versions, profile, release ID, public
 - **THEN** it confirms the release is intact and leaves its files unmodified
 
 ### Requirement: Consistent release views
-JSON, SQLite, and generated Markdown SHALL derive from one normalized published chapter set. SQLite SHALL expose the catalog with its products, surfaces, runtime entities and bindings, chapter editions, current and historical chapter selection, question and section indexes, source references, and software-version mappings. The database SHALL enforce foreign keys and be usable as one closed file without a required WAL sidecar. Source excerpts SHALL be rendered as inert text.
+Local JSON, SQLite, and generated Markdown SHALL derive from one normalized published chapter set. Local SQLite SHALL expose the catalog with its products, surfaces, runtime entities and bindings, chapter editions, current and historical chapter selection, question and section indexes, source references, and software-version mappings. The database SHALL enforce foreign keys and be usable as one closed file without a required WAL sidecar. Source excerpts SHALL be rendered as inert text.
 
 #### Scenario: Cross-artifact consistency
 - **WHEN** a new-format fixture release is verified
 - **THEN** its current and historical edition IDs, question states, surfaces, source references and version mappings agree across JSON, SQLite and generated pages
 
 ### Requirement: Published discovery metadata
-The release SHALL preserve validated source and snapshot metadata for discovered versions even when no reviewed claim references them, and SHALL embed the catalog so catalog-scoped listing and candidate identities are available from the release alone. Discovery metadata SHALL not by itself create a supported claim or imply runtime verification.
+The local release SHALL preserve validated source and snapshot metadata for discovered versions even when no reviewed claim references them, and SHALL embed the catalog so catalog-scoped listing and candidate identities are available from the release alone. Discovery metadata SHALL not by itself create a supported claim or imply runtime verification.
 
 #### Scenario: Discovered unverified version
 - **WHEN** a newer version has a validated source snapshot and only not_started coverage
@@ -47,21 +47,25 @@ The release SHALL preserve validated source and snapshot metadata for discovered
 - **THEN** catalog-scoped listing returns the declared products, surfaces, runtime entities and bindings
 
 ### Requirement: Source metadata in chapter releases
-New releases SHALL include validated official source, snapshot, artifact and displayable source-reference metadata in canonical JSON and SQLite while excluding archived originals and submodule contents. Fixed-source chapters MAY publish without any mapped software version. The new reader and verifier SHALL operate on the new schema without a compatibility requirement for old Claim-based releases.
+New local releases SHALL include validated official source, snapshot, artifact and displayable source-reference metadata in canonical JSON and SQLite while excluding archived originals and submodule contents. Fixed-source chapters MAY publish without any mapped software version. The local reader and verifier SHALL operate on the new schema without a compatibility requirement for old Claim-based releases. Online displayable metadata SHALL follow the independent online projection contract.
 
 #### Scenario: Source-only chapter
 - **WHEN** a chapter cites a fixed official document without a software-version mapping
 - **THEN** its release preserves source scope and prose without asserting a verified package version
 
 ### Requirement: Current and historical chapter index
-A new-format release SHALL explicitly select one current edition for every published harness-topic and retain referenced historical editions for version lookup. Changing only software-version mapping SHALL create a new release that can reuse the same immutable chapter edition. A failed validation or verification SHALL keep the previous current pointer unchanged.
+A new-format local release SHALL explicitly select one current edition for every published harness-topic and retain referenced historical editions for version lookup. Changing only software-version mapping SHALL create a new local release that can reuse the same immutable chapter edition. A failed validation or verification SHALL keep the previous local current pointer unchanged. Online history limits SHALL not trim local source knowledge or local releases.
 
 #### Scenario: Mapping-only update
 - **WHEN** a fixed source provides a new defensible mapping to an unchanged chapter edition
 - **THEN** a new release carries that mapping and references the same edition without rewriting its Markdown
 
+#### Scenario: Online history projection
+- **WHEN** online publication retains only two readable editions of a topic
+- **THEN** the local source preserves its complete chapter history and the local publication's referenced historical editions and mappings remain unaffected
+
 ### Requirement: Partial chapter update publication
-An incremental release SHALL reuse unchanged immutable chapter editions and retained history, add completed new editions or evidenced mappings, and preserve blocked chapters at their prior fixed-source scope. It SHALL not change the current pointer when no reader-visible chapter, source locator or version mapping changed, or when release verification fails.
+An incremental local release SHALL reuse unchanged immutable chapter editions and retained history, add completed new editions or evidenced mappings, and preserve blocked chapters at their prior fixed-source scope. It SHALL not change the local current pointer when no reader-visible chapter, source locator or version mapping changed, or when release verification fails.
 
 #### Scenario: One blocked section
 - **WHEN** a new source affects one unfinished theme while another theme is fully updated

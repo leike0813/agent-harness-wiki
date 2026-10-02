@@ -1,15 +1,21 @@
-import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import Database from "better-sqlite3";
-import * as z from "zod";
 import { verifyChapterRelease } from "../compiler/chapter-release.js";
-import { canonical } from "../compiler/projection.js";
 import {
   chapterPublishedKnowledgeSchema,
   type ChapterEdition,
   type ChapterPublishedKnowledge,
 } from "../domain/chapter.js";
+import {
+  assembleComparison,
+  page,
+  projectChapter,
+  resolveProduct,
+  selectEdition,
+  type EditionCandidate,
+  type Resolution,
+} from "./chapter-query.js";
 import {
   compareSchema,
   listSchema,
@@ -20,7 +26,6 @@ import {
 import {
   normalizeVector,
   searchIndexSchema,
-  sectionText,
   type SearchSection,
   type SemanticIndex,
 } from "./search-index.js";
@@ -49,77 +54,6 @@ const searchStopwords = new Set([
   "where",
   "with",
 ]);
-type Resolution = {
-  requested_version: string | null;
-  selected_version: string | null;
-  match_kind:
-    "current" | "exact" | "prefix" | "nearest_earlier" | "source_only";
-  requested_applicability: "mapped" | "not_verified";
-};
-
-function page<T>(
-  items: T[],
-  limit: number,
-  cursor: string | undefined,
-  release: string,
-  query: unknown,
-  order = 1,
-) {
-  const digest = createHash("sha256").update(canonical(query)).digest("hex");
-  let offset = 0;
-  if (cursor) {
-    let decoded: unknown;
-    try {
-      decoded = JSON.parse(Buffer.from(cursor, "base64url").toString("utf8"));
-    } catch {
-      throw new Error("Invalid cursor.");
-    }
-    const parsed = z
-      .strictObject({
-        release: z.string(),
-        digest: z.string(),
-        order: z.int(),
-        offset: z.int().nonnegative(),
-      })
-      .safeParse(decoded);
-    if (
-      !parsed.success ||
-      parsed.data.release !== release ||
-      parsed.data.digest !== digest ||
-      parsed.data.order !== order ||
-      parsed.data.offset > items.length
-    )
-      throw new Error("Cursor does not match this release and query.");
-    offset = parsed.data.offset;
-  }
-  const next = offset + limit;
-  return {
-    items: items.slice(offset, next),
-    ...(next < items.length
-      ? {
-          next_cursor: Buffer.from(
-            JSON.stringify({ release, digest, order, offset: next }),
-          ).toString("base64url"),
-        }
-      : {}),
-  };
-}
-
-function versionParts(value: string): number[] | undefined {
-  if (!/^\d+(?:\.\d+)*$/.test(value)) return undefined;
-  const parts = value.split(".").map(Number);
-  return parts.every(Number.isSafeInteger) ? parts : undefined;
-}
-function compareVersions(left: string, right: string): number | undefined {
-  const a = versionParts(left),
-    b = versionParts(right);
-  if (!a || !b) return undefined;
-  for (let i = 0; i < Math.max(a.length, b.length); i++) {
-    const delta = (a[i] ?? 0) - (b[i] ?? 0);
-    if (delta) return Math.sign(delta);
-  }
-  return 0;
-}
 export class QueryService {
   private constructor(
     readonly releaseId: string,
@@ -188,12 +122,7 @@ export class QueryService {
   }
 
   private harness(name: string) {
-    const found = this.records.catalog.products.filter((x) =>
-      [x.harness_id, x.name, ...x.aliases].some(
-        (alias) => alias.toLocaleLowerCase() === name.toLocaleLowerCase(),
-      ),
-    );
-    return found.length > 1 ? ("ambiguous" as const) : found[0];
+    return resolveProduct(this.records.catalog.products, name);
   }
   listHarnesses(input: unknown = {}) {
     const request = listSchema.parse(input),
@@ -251,68 +180,37 @@ export class QueryService {
     sectionId?: string,
     surfaceId?: string,
   ): { chapter: ChapterEdition | undefined; resolution: Resolution } {
+    const candidates: EditionCandidate[] = this.records.chapters
+      .filter(
+        (chapter) =>
+          chapter.harness_id === harnessId && chapter.topic === topic,
+      )
+      .map((chapter) => ({
+        edition_id: chapter.edition_id,
+        availability: "available" as const,
+        sections: chapter.sections,
+        mappings: this.records.mappings.filter(
+          (mapping) => mapping.edition_id === chapter.edition_id,
+        ),
+      }));
     const current = this.records.current.find(
-      (x) => x.harness_id === harnessId && x.topic === topic,
+      (selection) =>
+        selection.harness_id === harnessId && selection.topic === topic,
     );
-    const currentChapter = this.records.chapters.find(
-      (x) => x.edition_id === current?.edition_id,
+    const selection = selectEdition(
+      candidates,
+      current?.edition_id,
+      version,
+      sectionId,
+      surfaceId,
     );
-    const sourceOnly: Resolution = {
-      requested_version: version ?? null,
-      selected_version: null,
-      match_kind: version ? "source_only" : "current",
-      requested_applicability: "not_verified",
-    };
-    if (!version) return { chapter: currentChapter, resolution: sourceOnly };
-    const mappings = this.records.mappings.filter(
-      (x) =>
-        x.harness_id === harnessId &&
-        x.surface_id === surfaceId &&
-        this.records.chapters.some(
-          (c) => c.edition_id === x.edition_id && c.topic === topic,
-        ) &&
-        (sectionId
-          ? x.sections.some((s) => s.section_id === sectionId)
-          : x.scope === "chapter"),
-    );
-    const latest = (xs: typeof mappings) =>
-      xs.sort(
-        (a, b) =>
-          (compareVersions(b.software_version, a.software_version) ?? 0) ||
-          a.mapping_id.localeCompare(b.mapping_id),
-      )[0];
-    const exact = latest(
-      mappings.filter((x) => x.software_version === version),
-    );
-    const prefix = exact
-      ? undefined
-      : latest(
-          mappings.filter((x) => x.software_version.startsWith(`${version}.`)),
-        );
-    const earlier =
-      exact || prefix
-        ? undefined
-        : latest(
-            mappings.filter((x) => {
-              const order = compareVersions(x.software_version, version);
-              return order !== undefined && order <= 0;
-            }),
-          );
-    const selected = exact ?? prefix ?? earlier;
     return {
-      chapter: selected
+      chapter: selection.edition
         ? this.records.chapters.find(
-            (x) => x.edition_id === selected.edition_id,
+            (chapter) => chapter.edition_id === selection.edition!.edition_id,
           )
-        : currentChapter,
-      resolution: selected
-        ? {
-            requested_version: version,
-            selected_version: selected.software_version,
-            match_kind: exact ? "exact" : prefix ? "prefix" : "nearest_earlier",
-            requested_applicability: exact ? "mapped" : "not_verified",
-          }
-        : sourceOnly,
+        : undefined,
+      resolution: selection.resolution,
     };
   }
   getTopic(input: unknown) {
@@ -359,94 +257,29 @@ export class QueryService {
       ? chapter.sections.find((x) => x.section_id === request.section_id)
       : undefined;
     if (request.section_id && !section) return empty("not_found");
-    const selectedSurfaces = request.surface_id
-      ? [request.surface_id]
-      : harness.surfaces.map((x) => x.surface_id);
-    const selectedSections = (section ? [section] : chapter.sections).filter(
-      (x) => !request.surface_id || x.surface_ids.includes(request.surface_id),
-    );
-    const questions = chapter.questions
-      .map((question) => ({
-        question_id: question.question_id,
-        answers: [
-          ...question.answers
-            .filter(
-              (answer) =>
-                (!request.surface_id ||
-                  answer.surface_ids.includes(request.surface_id)) &&
-                (!section || answer.section_id === section.section_id),
-            )
-            .map((answer) => ({
-              ...answer,
-              surface_ids: answer.surface_ids.filter((id) =>
-                selectedSurfaces.includes(id),
-              ),
-            })),
-          ...(!section
-            ? selectedSurfaces
-                .filter(
-                  (id) =>
-                    !question.answers.some((answer) =>
-                      answer.surface_ids.includes(id),
-                    ),
-                )
-                .map((id) => ({
-                  surface_ids: [id],
-                  section_id: null,
-                  status: "not_investigated" as const,
-                  source_refs: [] as string[],
-                }))
-            : []),
-        ],
-      }))
-      .filter((q) => q.answers.length);
-    const refs = [...new Set(selectedSections.flatMap((x) => x.source_refs))];
+    const projection = projectChapter({
+      chapter,
+      surfaceId: request.surface_id,
+      sectionId: request.section_id,
+      surfaceIds: harness.surfaces.map((surface) => surface.surface_id),
+      sourceScope: this.records.source_references,
+    });
     return {
       release_id: this.releaseId,
-      status: selectedSections.length
-        ? ("ok" as const)
-        : ("not_investigated" as const),
+      status: projection.status,
       harness_id: harness.harness_id,
-      surface_id: request.surface_id ?? null,
+      surface_id: projection.surface_id,
       surfaces: harness.surfaces,
       runtimes: harness.runtimes,
       bindings: harness.bindings,
-      topic: chapter.topic,
-      edition_id: chapter.edition_id,
-      title: chapter.title,
-      body:
-        request.surface_id || section
-          ? selectedSections
-              .map((x) => sectionText(chapter.body, x.section_id)!)
-              .join("\n\n")
-          : chapter.body,
-      sections: selectedSections.map((x) => ({
-        section_id: x.section_id,
-        surface_ids: x.surface_ids,
-        question_ids: chapter.questions
-          .filter((q) =>
-            q.answers.some(
-              (answer) =>
-                answer.section_id === x.section_id &&
-                (!request.surface_id ||
-                  answer.surface_ids.includes(request.surface_id)),
-            ),
-          )
-          .map((q) => q.question_id),
-        source_refs: x.source_refs,
-      })),
-      questions,
-      source_refs: refs,
-      source_scope: refs.map((id) => {
-        const ref = this.records.source_references.find(
-          (x) => x.reference_id === id,
-        )!;
-        return {
-          reference_id: id,
-          snapshot_id: ref.snapshot_id,
-          official_url: ref.official_url,
-        };
-      }),
+      topic: projection.topic,
+      edition_id: projection.edition_id,
+      title: projection.title,
+      body: projection.body,
+      sections: projection.sections,
+      questions: projection.questions,
+      source_refs: projection.source_refs,
+      source_scope: projection.source_scope,
       history: this.records.chapters
         .filter(
           (x) =>
@@ -461,56 +294,12 @@ export class QueryService {
     const fullResults = request.targets.map((target) =>
       this.getTopic({ ...target, topic: request.topic }),
     );
-    const present = fullResults.filter(
-      (x): x is Extract<typeof x, { questions: unknown }> =>
-        "questions" in x &&
-        (x.status === "ok" || x.status === "not_investigated"),
+    return assembleComparison(
+      this.releaseId,
+      request.topic,
+      fullResults,
+      request.question_ids,
     );
-    const common =
-      present.length === fullResults.length
-        ? present[0]!.questions
-            .filter((q) =>
-              present.every((r) =>
-                r.questions.some(
-                  (other) => other.question_id === q.question_id,
-                ),
-              ),
-            )
-            .map((q) => q.question_id)
-        : [];
-    const ids = request.question_ids
-      ? common.filter((id) => request.question_ids!.includes(id))
-      : common;
-    const results = fullResults.map((x) =>
-      "questions" in x
-        ? {
-            release_id: x.release_id,
-            status: x.status,
-            harness_id: x.harness_id,
-            surface_id: x.surface_id,
-            topic: x.topic,
-            edition_id: x.edition_id,
-            resolution: x.resolution,
-          }
-        : x,
-    );
-    return {
-      release_id: this.releaseId,
-      topic: request.topic,
-      results,
-      questions: ids.map((question_id) => ({
-        question_id,
-        entries: present.map((r) => {
-          const q = r.questions.find((x) => x.question_id === question_id)!;
-          return {
-            harness_id: r.harness_id,
-            surface_id: r.surface_id,
-            answers: q.answers,
-            resolution: r.resolution,
-          };
-        }),
-      })),
-    };
   }
   async searchKnowledge(input: unknown) {
     const request = searchSchema.parse(input),

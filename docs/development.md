@@ -12,11 +12,42 @@ pnpm exec tsx scripts/compile-chapters.ts --dataset-root tests/fixtures/datasets
 
 `pnpm exec vitest run tests/integration/chapter-release.test.ts tests/integration/query.test.ts tests/integration/mcp.test.ts tests/integration/site.test.ts` 检查章节发布、版本选择、来源、真实 MCP stdio 和站点。修改 schema 后运行 `pnpm schema:export`、`pnpm schema:check`、`pnpm typecheck`、`pnpm lint`、`pnpm format:check`。正式来源原件另以 `pnpm sources:audit` 显式离线核对；普通章节校验和构建不依赖忽略的原件。
 
-`pnpm verify` 验证章节读取链，`pnpm fixtures:build` 生成虚构章节发布。公共查询、MCP 与站点只读取 schema 3 发布，不适配旧 release；发布内嵌 catalog。生产章节运行 `pnpm knowledge:validate`，用 `pnpm ahw compile --dataset-root . --profile production --release-id <new-id> --published-at <fixed-time> --stage` 先构建。验收该 release 的 CLI、MCP 与站点之后，运行 `pnpm ahw publish --release-id <new-id>` 原子切换当前指针。CLI 的 `query list/topic/search/compare/source` 与 MCP 的五个工具读取同一 release；`get_topic` 用 `section_id` 定位搜索结果。Windows 尚未实测。
+`pnpm verify` 验证章节读取链并以 `consumer:verify` 收尾，`pnpm fixtures:build` 生成虚构章节发布。公共查询、MCP 与站点只读取 schema 3 发布，不适配旧 release；发布内嵌 catalog。生产章节运行 `pnpm knowledge:validate`，用 `pnpm ahw compile --dataset-root . --profile production --release-id <new-id> --published-at <fixed-time> --stage` 先构建。验收该 release 的 CLI、MCP 与站点之后，运行 `pnpm ahw publish --release-id <new-id>` 原子切换当前指针。CLI 的 `query list/topic/search/compare/source` 与 MCP 的五个工具读取同一 release；`get_topic` 用 `section_id` 定位搜索结果。Windows 尚未实测。
 
 生产编译前确认本机 Ollama 已有 `qwen3-embedding:4b`，且 `/api/tags` 报告的 digest 与 `registry/search-model.json` 一致；编译器会再核对 GGUF blob digest，不会自动下载模型。默认端点 `127.0.0.1:11434` 可用 `OLLAMA_ENDPOINT` 覆盖，便于改用另一个本机实例（例如把嵌入模型放到 GPU 上的实例）。新发布的 `search.json` 和 SQLite FTS5 收录当前小节，`semantic.jsonl` 收录固定模型生成的有界片段向量。搜索返回命中方式、正文片段、来源范围和 `semantic_status`；模型暂时不可用时可继续词法检索，但不能据此宣称语义验收通过。模型与索引的选择依据见 [ADR 0007](decisions/0007-offline-hybrid-search.md)。
 
 修订已发布章节时新增 edition 文件，保留旧版及不可变 release；审阅完成后更新 `registry/chapter-current.yaml`。写作按 [固定问题和成稿规则](topic-questions.md)：机制分节，问题在索引中定位；配置文件按不同形态给带来源的最小完整片段，解释路径、字段、前提、结果与检查方式。校验器检查章节结构和引用关系；正文能否让读者找到入口、理解示例与条件、追溯来源，由调查 Agent 按真实读者视角自检，高影响变更再请另一 Agent 独立复核。
+
+## 在线构建与校验
+
+在线发布是与本地发布独立的能力线，只产出静态 `data/v1/` 资源与同发布站点页面，不读取本地 `releases/`、`archive/` 原件、SQLite 或语义模型。构建输入是干净 checkout 的 catalog、registry、结构化知识、固定问题和指定 Git commit 的完整 first-parent 历史；先做完整章节校验，再选择在线历史（当前版加最近一个历史版，其余退为裁剪标记）。需要排序多个非 current 历史版本时才要求 Git 历史：隔离 fixture 且至多一个非 current 版本可不用；输入不干净仍会失败。
+
+```sh
+pnpm online:build --dataset-root . --profile production --commit <完整 SHA> --published-at <固定 ISO 时间> --base /agent-harness-wiki/ --out-dir <输出目录>
+pnpm online:verify <输出目录>
+```
+
+`pnpm online:build`（`scripts/build-online.ts`）必须给定 `--dataset-root`、`--profile`、`--commit`、`--published-at`、`--base`、`--out-dir`，`--retain <已验证旧部署目录...>` 可选地把这些旧部署目录的 `data/` 并入新部署（旧页面由旧归档单独保存，不随新站点重建）；`pnpm online:verify`（`scripts/verify-online.ts`）接收一个部署目录，不需要额外的 `--`。`pnpm docs:build --online`（`scripts/build-site.ts`）接受同一组在线参数，等价于 `pnpm online:build`。输出目录不可变：已存在且校验一致的同名产物复用，内容不同则拒绝，新 release 必须用新目录。构建先写 staging，联合验证页面与数据 release 身份、引用、来源、fixture 隔离和部署目录容量（解包后的实际文件字节 ≤512 MiB）后再接受候选，失败保留既有已接受输出。身份为 `web-v1-<完整 SHA>`，协议分区为 `data/v1/`；公开清单保持精简，构建侧另写 inventory 与 hash 记录。依据见 [ADR 0009](decisions/0009-online-knowledge-distribution.md)。
+
+在线构建与校验属于第一个 change；消费者 CLI／MCP 包、在线 DTO、HTTP／缓存／取消／离线读取与网络失败政策由 `online-consumer-cli-mcp` 交付。`online-publication-and-delivery` 实现公开发布 CI、持久台账、不可变归档、Pages 恢复及独立 npm 发版，入口为 `pnpm publication`、`pnpm npm:publish` 和 `pnpm consumer:verify-public`，实际状态见 [发布指南](publication.md)。最低 Node 版本为 24.12.0；本机在线构建受测环境为 Linux x64、Node 24.12.0（ICU 77.1），消费者六组平台矩阵已在验证 CI 中通过。
+
+2026-10-02 已从无本地原件、发布或模型的干净生产输入完成子路径联合构建、独立校验与固定参数重跑：35,681 个文件，共 243,601,057 字节。`pnpm verify` 通过，38 个单元测试与 110 个集成测试通过，3 个既有环境测试跳过。实际提交、命令和分类体积见 [ADR 0009 验收记录](decisions/0009-online-knowledge-distribution.md#联合构建验收)。
+
+## 消费者包构建与验收
+
+消费者包位于 `packages/consumer/`，公开名 `agent-harness-wiki`、版本 `1.0.0`、命令 `ahw`，入口由 `src/consumer/index.ts` 编译到 `dist/consumer/index.js`。根工作区改名 `agent-harness-wiki-maintainer`，保持 private。消费者只打包运行所需编译代码、元数据、说明与许可，不打包工作区、测试、SQLite、模型或完整知识；安装不需要 pnpm、TypeScript 或本机编译工具，也不安装任何 harness。
+
+```sh
+pnpm consumer:build
+pnpm consumer:pack
+pnpm consumer:verify
+```
+
+- `consumer:build` 编译消费者入口的依赖闭包到包内 `dist/`。
+- `consumer:pack` 生成真实 tgz 并核对文件清单与运行时依赖闭包，确认不含维护者代码、数据库、模型或知识。
+- `consumer:verify` 在源码树外安装 tgz，验证五类 CLI 查询、MCP stdio、`--version` 与依赖解析，并写出 `var/consumer-package/verification.json`（Node、ICU、arch、OS、npm）证据；默认不访问公网、真实 HOME 或全局安装。
+
+仅验证 CI 工作流 [`consumer-validation.yml`](../.github/workflows/consumer-validation.yml) 覆盖 Linux x64、macOS arm64（`macos-15`）、Windows native x64 × Node 最低 24.12.0 与最新 24.x，只做校验、`contents: read`、无发布权限；由 `main`／`dev` 推送、PR 或手动调度触发。先断言 `runner.arch` 与矩阵 arch 一致，再由 `pnpm consumer:verify` 写出并上传 `var/consumer-package/verification.json` 与 `var/consumer-package/manifest.json`。2026-10-02 六个 CI runner 组合均通过，每组 25 项；实际 Node 为 24.12.0／24.21.0。包清单、本机检查与 CI 链接见 [ADR 0010 验收记录](decisions/0010-online-consumer.md#本机验收)。构建与真实 tgz 准备不等于 npm 发布或 Pages 部署，使用说明见 [消费者包说明](../packages/consumer/README.md)。
 
 ## 新收录产品接入
 
