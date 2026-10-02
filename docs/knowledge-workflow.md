@@ -77,6 +77,6 @@ Git 中的章节 Markdown、来源引用 YAML、版本映射 YAML 与 `registry/
 
 在线分发是独立于本地发布的读取路径：从同一份已校验真源生成 `data/v1/` 机器资源与同发布页面，每个产品 × 主题只收录当前章与最近一个历史版，其余章节退为裁剪标记，检索只有词法入口；身份为 `web-v1-<完整 Git commit SHA>`。最近历史版按指定 commit 的 first-parent 树引入顺序排序；只有存在多个非 current 版本时才需要完整 Git 历史，浅克隆或定位不到引入点时构建失败。生产 main 发布由 `knowledge-publication.yml` 承接；构建、归档、部署与公开可用性分别验收。
 
-`publication-state/state.json` 保存发布预约、current／恢复目标、退出时间及未完成部署；`src/publication/state.ts` 按固定时间选择至少 30 天内的旧发布及永久保护目标，旧协议冻结公告至少 90 天。每份不可变 Release 归档仅保存本发布页面与数据，部署组装保留目标页面并选入受保护数据，解包字节上限 512 MiB。未知部署阻止后续发布，超限保留现站；只在经验证的后续部署中排除过期数据，不自动删除归档。恢复和真实 Pages／npm 验收见 [发布指南](publication.md)。
+`publication-state/state.json` 保存发布预约、current／恢复目标、退出时间及未完成部署；`src/publication/state.ts` 按固定时间选择至少 30 天内的旧发布及永久保护目标，旧协议冻结公告至少 90 天。每份不可变 Release 归档仅保存本发布页面与数据，部署组装保留目标页面并选入受保护数据，解包字节上限 768 MiB。未知部署阻止后续发布，超限保留现站；只在经验证的后续部署中排除过期数据，不自动删除归档。恢复和真实 Pages／npm 验收见 [发布指南](publication.md)。
 
 消费者侧：公开 `agent-harness-wiki` 包的 `ahw` 只做词法在线读取，每个产品 × 主题只看到当前章与最近一个历史版。按既有选版规则选中被裁剪章节时返回正常 `history_not_available` 并指向本地完整历史；它不是 `unsupported` 或从未调查。完整历史不随包分发，需要按本仓库流程单独准备本地发布，`--offline` 只读已缓存资源、不能补齐被裁剪章节。说明与接入见 [消费者包说明](../packages/consumer/README.md) 与 [ADR 0010](decisions/0010-online-consumer.md)。

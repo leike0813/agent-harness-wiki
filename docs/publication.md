@@ -6,7 +6,7 @@
 
 `knowledge-publication.yml` 在 main push 时发布，在 PR 中只验证。生产输入是干净 checkout 与完整 Git 历史，不需要本机已发布数据、原件或语义模型。`publication-state/state.json` 持久化实际状态；Release 保存不可变页面和数据，短期 CI artifact 只保存本次诊断。
 
-正常流程是预约固定时间、取得或生成归档、按台账组装保护数据、联合验证、上传 Pages、再次核对 main、写部署意图、部署和公开回读。过期候选跳过；进行中的部署正常结束。完整部署超过 512 MiB 则停止，不自动缩短保留期限。
+正常流程是预约固定时间、取得或生成归档、按台账组装保护数据、联合验证、上传 Pages、再次核对 main、写部署意图、部署和公开回读。过期候选跳过；进行中的部署正常结束。完整部署超过 768 MiB 则停止，不自动缩短保留期限。
 
 手动重跑使用 Actions 的 **Knowledge publication** 工作流，选择 main 与 `publish`。恢复选择 `recover`，`release_id` 填台账中已验证的 `web-v1-<完整 SHA>`；历史 commit 无需等于 main。它从已保存页面与数据重组，继续保留故障目标的适用数据，经过同一套完整性、容量、部署和回读检查。首次没有可用旧站时不能声称可恢复。
 

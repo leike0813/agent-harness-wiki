@@ -20,7 +20,7 @@ JSON、SQLite 和生成页面从同一规范化数据集生成。发布验证检
 
 在线构建的输入是干净 checkout 里的 catalog、registry、结构化知识、固定问题与锁定工具，加指定 Git commit 的完整 first-parent 历史。它不依赖本地 `releases/`、`archive/` 原件、SQLite 或语义模型，不访问上游、不执行 harness、不读用户配置，生产输出拒绝 fixture。构建先用与本地相同的章节校验核对完整真源，再按 [ADR 0009](decisions/0009-online-knowledge-distribution.md) 选择在线历史：当前版取 `registry/chapter-current.yaml` 的显式选择，最近历史版按各 edition 在该 commit first-parent 树中首次进入的先后排序，同次引入按稳定 edition ID 打破平局；Git 历史只提供排序，只有需要区分多个非 current 版本时缺少历史才失败，正文、来源与映射仍来自完整输入。在线身份为 `web-v1-<完整 SHA>`，协议分区为 `data/v1/`。
 
-在线编译先写 staging，再对全部投影关系做完整验证：引用、章节选择、软件映射、目录覆盖、来源摘要、搜索导航、页面链接与 fixture 隔离都要与已验证输入一致，页面与数据必须标识同一 release。公开 `manifest.json` 保持精简，只描述读取入口；构建侧 `integrity.json` 单独保存输入摘要、工具身份及全部数据与页面的文件 inventory 和 SHA-256，排除自身，不要求客户端预下载。验证通过后才接受候选输出，失败保留既有 accepted 输出与指针。部署目录容量按解包后的全部普通文件字节计，含静态资源与保留的旧协议资源，上限 512 MiB。消费者只校验实际读取的资源结构与绑定身份，不重跑整库验证。
+在线编译先写 staging，再对全部投影关系做完整验证：引用、章节选择、软件映射、目录覆盖、来源摘要、搜索导航、页面链接与 fixture 隔离都要与已验证输入一致，页面与数据必须标识同一 release。公开 `manifest.json` 保持精简，只描述读取入口；构建侧 `integrity.json` 单独保存输入摘要、工具身份及全部数据与页面的文件 inventory 和 SHA-256，排除自身，不要求客户端预下载。验证通过后才接受候选输出，失败保留既有 accepted 输出与指针。部署目录容量按解包后的全部普通文件字节计，含静态资源与保留的旧协议资源，上限 768 MiB。消费者只校验实际读取的资源结构与绑定身份，不重跑整库验证。
 
 ## 消费者在线查询
 
@@ -36,6 +36,6 @@ JSON、SQLite 和生成页面从同一规范化数据集生成。发布验证检
 
 ## 公开发布
 
-`src/publication/` 属于维护侧：`state.ts` 定义台账与保留政策，`github.ts` 用 CAS 持久化到独立 `publication-state` 分支并保存不可变 Release，`archive.ts` 验证归档，`operations.ts` 执行准备、部署意图、结案与核对。`assembleOnlineDeployment` 从目标归档取得页面，只并入受保护发布的数据，重新核对完整性与 512 MiB 容量；原归档保持不变。
+`src/publication/` 属于维护侧：`state.ts` 定义台账与保留政策，`github.ts` 用 CAS 持久化到独立 `publication-state` 分支并保存不可变 Release，`archive.ts` 验证归档，`operations.ts` 执行准备、部署意图、结案与核对。`assembleOnlineDeployment` 从目标归档取得页面，只并入受保护发布的数据，重新核对完整性与 768 MiB 容量；原归档保持不变。
 
 `readback.ts` 用真实在线查询服务与有界 HTTP 核对公开数据和页面，部署成功与验证成功分别记录。`program.ts` 管理独立 npm 候选，`consumer-verification.ts` 从公开 registry 安装精确包后验收 CLI／SDK stdio。两个生产工作流共用串行并发组；消费者运行时不导入发布模块。状态与恢复规则见 [ADR 0011](decisions/0011-public-publication.md)。

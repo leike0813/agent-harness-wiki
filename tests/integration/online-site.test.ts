@@ -333,7 +333,7 @@ test("assembles selected pages with exactly retained own release data", async ()
     }),
   ).rejects.toThrow(/protocol differs/);
 
-  // The inclusive 512 MiB deployment limit is enforced before acceptance.
+  // The inclusive 768 MiB deployment limit is enforced before acceptance.
   const oversized = path.join(root, "oversized");
   await cp(canonicalDir, oversized, { recursive: true });
   const big = await open(path.join(oversized, "big.bin"), "w");

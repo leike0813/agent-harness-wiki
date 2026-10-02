@@ -105,10 +105,10 @@ Before a staged projection is accepted, verification SHALL check schemas, identi
 - **THEN** verification rejects the complete candidate and leaves existing output intact
 
 ### Requirement: Complete deployment directory capacity
-An assembled deployment directory SHALL include candidate data, matching pages and pointer, and every explicitly supplied retained release/protocol resource intact. Verification SHALL measure all unpacked regular-file bytes against 512 MiB, including static assets and trim markers. Excess or incomplete input SHALL reject acceptance without deleting protected resources or changing an existing site.
+An assembled deployment directory SHALL include candidate data, matching pages and pointer, and every explicitly supplied retained release/protocol resource intact. Verification SHALL measure all unpacked regular-file bytes against 768 MiB, including static assets and trim markers. Excess or incomplete input SHALL reject acceptance without deleting protected resources or changing an existing site.
 
 #### Scenario: Older resources exceed capacity
-- **WHEN** the candidate alone fits but the complete directory including supplied retained releases exceeds 512 MiB
+- **WHEN** the candidate alone fits but the complete directory including supplied retained releases exceeds 768 MiB
 - **THEN** acceptance fails with actual size and major contributors, without shortening retention or omitting sources
 
 #### Scenario: Exact capacity boundary
