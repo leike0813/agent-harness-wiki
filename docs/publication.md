@@ -43,10 +43,14 @@ pnpm publication reconcile --deployment-id <平台部署ID>
 
 ## 交付状态
 
-2026-10-02 已实现台账、归档／组装、知识与程序工作流、公开回读和精确包验收。`pnpm verify` 通过（74 个单元测试、205 个集成测试，3 个既有 opt-in 环境测试跳过），OpenSpec strict、类型、lint、格式与两个工作流 YAML 解析通过。真实 tgz 公共验收脚本测试实际执行 CLI 与 SDK stdio；下载安装另由受控 registry 用例验证。
+2026-10-02 已实现台账、归档／组装、知识与程序工作流、公开回读和精确包验收。`pnpm verify` 通过（74 个单元测试、207 个集成测试，3 个既有 opt-in 环境测试跳过），OpenSpec strict、类型、lint、格式与两个工作流 YAML 解析通过。真实 tgz 公共验收脚本测试实际执行 CLI 与 SDK stdio；下载安装另由受控 registry 用例验证。
 
 从干净提交 `7132722b0dbe80b398d9abbbd844aa4dabc59180` 的生产输入完成 `/agent-harness-wiki/` 子路径构建与独立校验：35,681 个文件，共 243,600,217 字节。使用 Node 24.12.0、pnpm 11.10.0 与仓库既有锁定依赖，未新增依赖。
 
-远程 Pages（workflow 模式）、不可变 Release 设置、`npm-publication` environment 和独立 `publication-state` 分支已初始化；初始 current／恢复目标／npm latest 均为 null。真实部署、恢复与公开 npm 平台验收继续按 tasks 记录，准备成功不视为上线。
+远程 Pages（workflow 模式）、不可变 Release 设置、`npm-publication` environment 和独立 `publication-state` 分支已初始化。真实部署、恢复与公开 npm 平台验收分别记录，准备成功不视为上线。
 
 [PR #1](https://github.com/leike0813/agent-harness-wiki/pull/1) 的完整离线检查、生产构建与独立校验，以及六组消费者平台检查通过后已合入 main。首次发布在归档上传处收到 HTTP 415，尚未部署 Pages；台账仅保留候选预约，current 未切换。上传现区分二进制请求体与 JSON 响应类型，并能从 Release 列表找回没有发布 tag 的草稿；回归测试覆盖上传与重试。
+
+[修复 PR #2](https://github.com/leike0813/agent-harness-wiki/pull/2) 通过全部检查后合入 main。[首次成功发布](https://github.com/leike0813/agent-harness-wiki/actions/runs/36991847168) 部署 `web-v1-012e08b1c5521f4c273b315f70db4651cb52d2dc`，知识时间固定为 `2026-10-02T09:48:33.112Z`，于 `09:53:13.793Z` 验证通过；平台 deployment ID 为 `6805754735`，台账 pending 已清空。公开回读覆盖 current、清单、20 个产品的目录、五查询及三张读者／来源页面，本机独立回读也通过。[不可变归档](https://github.com/leike0813/agent-harness-wiki/releases/tag/web-v1-012e08b1c5521f4c273b315f70db4651cb52d2dc) 已实际取回并解包校验：35,681 个文件，243,602,615 字节。归档压缩文件 25,635,331 字节，SHA-256 为 `c3b22da86b07dfc84272e5cea5f1845bc256c9362b745cfb91619798ae9b21b2`。
+
+npm 尚未建包；历史恢复与公开 npm 平台验收仍待实际执行。

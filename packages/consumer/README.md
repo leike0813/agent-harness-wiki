@@ -8,7 +8,7 @@
 
 ## 使用
 
-当前交付为本地 tgz，尚未发布到 npm，默认知识入口也尚未部署。下面的固定版本 npx 示例与 MCP 配置供公开发布后使用；本地工件可通过 `npm exec --yes --package /path/to/agent-harness-wiki-1.0.0.tgz -- ahw --data-url <已发布的同协议入口> query list` 运行。
+使用固定程序版本启动 CLI 与 MCP。也可通过 `npm exec --yes --package /path/to/agent-harness-wiki-1.0.0.tgz -- ahw --data-url <同协议入口> query list` 运行本地工件。公开发布和平台验收记录见[发布指南](https://github.com/leike0813/agent-harness-wiki/blob/main/docs/publication.md)。
 
 ```sh
 npx -y agent-harness-wiki@1.0.0 query topic --harness codex --topic mcp --surface-id cli
@@ -28,7 +28,7 @@ npx -y agent-harness-wiki@1.0.0 --help
 | `--cache-dir <目录>` | 显式缓存目录，按调用工作目录解析并优先于平台默认 |
 | `--no-file-cache` | 关闭文件缓存读写，进程内缓存仍可用 |
 
-启动参数可放在子命令前或后。默认在线并启用文件缓存。默认入口是 `https://leike0813.github.io/agent-harness-wiki/data/v1/`；该地址在规划时尚未部署，未部署时在线启动按网络失败报告，不会假装已经取得知识。
+启动参数可放在子命令前或后。默认在线并启用文件缓存。默认入口是 `https://leike0813.github.io/agent-harness-wiki/data/v1/`；入口不可达时按网络失败报告。
 
 ## 缓存目录
 
