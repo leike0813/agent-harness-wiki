@@ -71,9 +71,10 @@ export class PublicationGithub {
       method,
       headers: {
         authorization: `Bearer ${this.#token}`,
-        accept: binary
-          ? "application/octet-stream"
-          : "application/vnd.github+json",
+        accept:
+          binary && method === "GET"
+            ? "application/octet-stream"
+            : "application/vnd.github+json",
         "content-type": binary ? "application/gzip" : "application/json",
         "x-github-api-version": "2022-11-28",
       },
@@ -206,7 +207,14 @@ export class PublicationGithub {
     const raw = await this.#json(
       `repos/${this.repository}/releases/tags/${encodeURIComponent(tag)}`,
     );
-    return raw === null ? null : releaseSchema.parse(raw);
+    if (raw !== null) return releaseSchema.parse(raw);
+    // Draft releases have no published tag ref; list them to resume an upload.
+    const releases = z
+      .array(releaseSchema)
+      .parse(
+        await this.#json(`repos/${this.repository}/releases?per_page=100`),
+      );
+    return releases.find((release) => release.tag_name === tag) ?? null;
   }
   async createArchive(tag: string, commit: string): Promise<ArchiveRelease> {
     return releaseSchema.parse(

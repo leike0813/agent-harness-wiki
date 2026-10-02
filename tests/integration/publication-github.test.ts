@@ -111,6 +111,58 @@ test("published Release assets cannot be uploaded or republished", async () => {
   expect(requests).toBe(0);
 });
 
+test("archive uploads request JSON metadata and send the unchanged binary body", async () => {
+  const bytes = Buffer.from("verified archive fixture");
+  let uploaded: Buffer | undefined;
+  const base = await server(async (request, response) => {
+    if (request.headers.accept !== "application/vnd.github+json") {
+      response.writeHead(415).end();
+      return;
+    }
+    expect(request.headers["content-type"]).toBe("application/gzip");
+    const chunks: Buffer[] = [];
+    for await (const chunk of request) chunks.push(Buffer.from(chunk));
+    uploaded = Buffer.concat(chunks);
+    response.writeHead(201).end("{}");
+  });
+  const client = new PublicationGithub({
+    repository: "demo/wiki",
+    token: "fixture",
+    apiBase: base,
+  });
+  await client.uploadArchive(
+    {
+      id: 1,
+      tag_name: "web-v1-" + "a".repeat(40),
+      draft: true,
+      upload_url: base + "upload",
+      assets: [],
+    },
+    bytes,
+  );
+  expect(uploaded).toEqual(bytes);
+});
+
+test("a draft without a published tag is found for upload retry", async () => {
+  const draft = {
+    id: 1,
+    tag_name: "web-v1-" + "a".repeat(40),
+    draft: true,
+    upload_url: "https://uploads.github.com/upload",
+    assets: [],
+  };
+  const base = await server((request, response) => {
+    if (request.url?.includes("/releases/tags/")) response.writeHead(404).end();
+    else response.end(JSON.stringify([draft]));
+  });
+  const client = new PublicationGithub({
+    repository: "demo/wiki",
+    token: "fixture",
+    apiBase: base,
+  });
+  expect(await client.archive(draft.tag_name)).toEqual(draft);
+});
+
 test.each([409, 500])(
   "failed archive upload does not replace or seal the draft (%s)",
   async (status) => {
