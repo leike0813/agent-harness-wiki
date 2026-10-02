@@ -2,7 +2,7 @@ import type { Claim, Topic } from "../domain/schema.js";
 import { topicSchema } from "../domain/schema.js";
 import { canonical, type PublishedKnowledge } from "./projection.js";
 
-const topicNames: Record<Topic, string> = {
+export const topicNames: Record<Topic, string> = {
   skills: "Skills（技能）",
   mcp: "MCP",
   custom_agents: "自定义 agents",

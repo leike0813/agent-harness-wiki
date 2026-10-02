@@ -1,4 +1,4 @@
-import { mkdir, mkdtemp, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm } from "node:fs/promises";
 import path from "node:path";
 import { Command } from "commander";
 import {
@@ -7,6 +7,7 @@ import {
 } from "../src/compiler/chapter-release.js";
 import { buildSitePages } from "../src/compiler/site.js";
 import { buildOnlineSite } from "../src/compiler/online-site.js";
+import { chapterPublishedKnowledgeSchema } from "../src/domain/chapter.js";
 
 const options = new Command()
   .option("--release-id <id>")
@@ -67,10 +68,13 @@ try {
         })
       ).releaseDir;
     }
-    const manifest = await verifyChapterRelease(releaseDir);
+    await verifyChapterRelease(releaseDir);
     await buildSitePages({
-      docsDir: path.join(releaseDir, "docs"),
-      profile: manifest.profile,
+      knowledge: chapterPublishedKnowledgeSchema.parse(
+        JSON.parse(
+          await readFile(path.join(releaseDir, "knowledge.json"), "utf8"),
+        ),
+      ),
       base: options.base,
       outDir: options.outDir,
     });

@@ -510,6 +510,10 @@ CLI 和 MCP 必须调用同一个 QueryService。
 
 负责在线固定发布、有界 HTTP 与缓存、离线读取、结构化技术错误与消费者 DTO：`src/query/chapter-query.ts`、`src/query/online-client.ts`、`src/domain/consumer.ts`、`src/query/online-error.ts`、`src/consumer/index.ts`。共享 7.4 的选版与答案投影，不引入 SQLite 或 Ollama；包身份与构建见 [ADR 0010](docs/decisions/0010-online-consumer.md) 与 [开发指南](docs/development.md)。
 
+### 7.7 文档站展示
+
+站点展示从已验证发布的结构化知识投影，在临时构建目录中生成首页、产品概览、导航和页面数据；不可变发布内的 Markdown 保持其生成与校验契约。维护主题或导航时，读 [开发指南](docs/development.md) 的文档站说明，核对主题文件纳入在线输入摘要、部署子路径、当前章节搜索及来源／历史入口。产品身份和章节可用性从同一发布派生。
+
 ---
 
 ## 8. 初始化执行步骤
