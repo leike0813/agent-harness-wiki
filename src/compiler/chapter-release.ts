@@ -120,6 +120,7 @@ export function projectChapters(
 
 export function renderChapterDocs(
   knowledge: ChapterPublishedKnowledge,
+  options: { online?: boolean } = {},
 ): Map<string, string> {
   const pages = new Map<string, string>();
   const fixture =
@@ -208,7 +209,7 @@ export function renderChapterDocs(
       .join("\n");
     pages.set(
       `docs/chapters/${chapter.edition_id}.md`,
-      `# ${textSafe(chapter.title)}\n\n${fixture}> 历史版：\`${chapter.edition_id}\`（${chapter.harness_id} / ${chapter.topic}）\n\n${scope}\n\n${inertLinks(textSafe(chapter.body))}\n`,
+      `# ${textSafe(chapter.title)}\n\n${fixture}> 历史版：\`${chapter.edition_id}\`（${chapter.harness_id} / ${chapter.topic}）\n\n${scope}\n\n${options.online ? linkedBody(chapter.body, "../sources") : inertLinks(textSafe(chapter.body))}\n`,
     );
   }
   for (const harness of knowledge.records.harnesses) {
@@ -281,6 +282,14 @@ export function renderChapterDocs(
         .map((line) => `    ${line}`)
         .join("\n")}\n`,
     );
+  if (options.online) {
+    for (const [file, body] of pages) {
+      pages.set(
+        file,
+        `${body}\n知识发布：\`${knowledge.release_id}\`。在线历史保留当前章节与最近一个历史版本；完整历史请通过维护者的本地发布查询（\`ahw query topic\`）。\n`,
+      );
+    }
+  }
   return pages;
 }
 

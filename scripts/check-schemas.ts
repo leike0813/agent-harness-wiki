@@ -3,10 +3,12 @@ import path from "node:path";
 import * as z from "zod";
 import { recordSchemas } from "../src/domain/schema.js";
 import { chapterRecordSchemas } from "../src/domain/chapter.js";
+import { onlineRecordSchemas } from "../src/domain/online.js";
 
 for (const [name, schema] of Object.entries({
   ...recordSchemas,
   ...chapterRecordSchemas,
+  ...onlineRecordSchemas,
 })) {
   const expected = `${JSON.stringify(z.toJSONSchema(schema), null, 2)}\n`;
   const actual = await readFile(

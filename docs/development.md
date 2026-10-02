@@ -18,6 +18,21 @@ pnpm exec tsx scripts/compile-chapters.ts --dataset-root tests/fixtures/datasets
 
 修订已发布章节时新增 edition 文件，保留旧版及不可变 release；审阅完成后更新 `registry/chapter-current.yaml`。写作按 [固定问题和成稿规则](topic-questions.md)：机制分节，问题在索引中定位；配置文件按不同形态给带来源的最小完整片段，解释路径、字段、前提、结果与检查方式。校验器检查章节结构和引用关系；正文能否让读者找到入口、理解示例与条件、追溯来源，由调查 Agent 按真实读者视角自检，高影响变更再请另一 Agent 独立复核。
 
+## 在线构建与校验
+
+在线发布是与本地发布独立的能力线，只产出静态 `data/v1/` 资源与同发布站点页面，不读取本地 `releases/`、`archive/` 原件、SQLite 或语义模型。构建输入是干净 checkout 的 catalog、registry、结构化知识、固定问题和指定 Git commit 的完整 first-parent 历史；先做完整章节校验，再选择在线历史（当前版加最近一个历史版，其余退为裁剪标记）。需要排序多个非 current 历史版本时才要求 Git 历史：隔离 fixture 且至多一个非 current 版本可不用；输入不干净仍会失败。
+
+```sh
+pnpm online:build --dataset-root . --profile production --commit <完整 SHA> --published-at <固定 ISO 时间> --base /agent-harness-wiki/ --out-dir <输出目录>
+pnpm online:verify <输出目录>
+```
+
+`pnpm online:build`（`scripts/build-online.ts`）必须给定 `--dataset-root`、`--profile`、`--commit`、`--published-at`、`--base`、`--out-dir`，`--retain <已验证旧部署目录...>` 可选地把这些旧部署目录的 `data/` 并入新部署（旧页面由旧归档单独保存，不随新站点重建）；`pnpm online:verify`（`scripts/verify-online.ts`）接收一个部署目录，不需要额外的 `--`。`pnpm docs:build --online`（`scripts/build-site.ts`）接受同一组在线参数，等价于 `pnpm online:build`。输出目录不可变：已存在且校验一致的同名产物复用，内容不同则拒绝，新 release 必须用新目录。构建先写 staging，联合验证页面与数据 release 身份、引用、来源、fixture 隔离和部署目录容量（解包后的实际文件字节 ≤512 MiB）后再接受候选，失败保留既有已接受输出。身份为 `web-v1-<完整 SHA>`，协议分区为 `data/v1/`；公开清单保持精简，构建侧另写 inventory 与 hash 记录。依据见 [ADR 0009](decisions/0009-online-knowledge-distribution.md)。
+
+本轮只交付构建与校验；消费者 CLI／MCP 包的在线 DTO、HTTP／缓存／取消／离线读取与网络失败政策属于第二个 change，公开 CI／归档／Pages／npm 发布属于第三个 change。最低 Node 版本为 24.12.0；本机受测环境为 Linux x64、Node 24.12.0（ICU 77.1），Windows 尚未实测。
+
+2026-10-02 已从无本地原件、发布或模型的干净生产输入完成子路径联合构建、独立校验与固定参数重跑：35,681 个文件，共 243,601,057 字节。`pnpm verify` 通过，38 个单元测试与 110 个集成测试通过，3 个既有环境测试跳过。实际提交、命令和分类体积见 [ADR 0009 验收记录](decisions/0009-online-knowledge-distribution.md#联合构建验收)。
+
 ## 新收录产品接入
 
 新 CLI 由维护者调用 `$harness-investigation <harness-id>`：在 `catalog/harnesses.yaml` 固定产品与界面身份，登记 `registry/harnesses/`、`registry/sources/` 的官方来源（有 npm 包时登记 `npm_registry` 身份），直接固定 Git commit/文档 sha256 并写入 `snapshots/`、`artifacts/`、`references/`，按 [固定问题清单](topic-questions.md) 采写七章，在 `registry/chapter-current.yaml` 选入七个新版本后运行 `pnpm knowledge:validate`。发布用 `pnpm chapters:update ... --stage --blocked '[]'` 构建不可变 release，验收后 `pnpm ahw publish --release-id <new-id>` 切换；首次接入不运行 `pnpm sources:scan`，也不写审计 YAML。知识发布成功后，Skill 会明确询问是否继续接入受管二进制；同意后由 `harness-binary` 先在 `src/sources/managed.ts` 登记官方包信息，再运行 `pnpm managed:packages update <harness-id>`。

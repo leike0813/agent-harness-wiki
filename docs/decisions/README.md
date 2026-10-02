@@ -12,6 +12,7 @@ made. `0001-m0-toolchain-and-input.md` records the first implemented change;
 `0006-invoked-upstream-audit.md` records the on-demand audit ledger and isolated candidate originals.
 `0007-offline-hybrid-search.md` records the fixed local embedding model and release-bound section search.
 [`0008-managed-package-storage.md`](0008-managed-package-storage.md) records the approved NFS layout, local store index and registration, promotion backups and recovery, and historical snapshot retention. Approval does not establish migration acceptance.
+[`0009-online-knowledge-distribution.md`](0009-online-knowledge-distribution.md) records the independent online static projection identity, limited online history with trim markers, bounded JSON lexical search, and the deployment capacity boundary. The consumer package and the public release pipeline are later changes.
 
 Conventions when ADRs are written:
 

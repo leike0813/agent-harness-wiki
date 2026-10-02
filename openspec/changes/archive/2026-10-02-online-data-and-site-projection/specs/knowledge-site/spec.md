@@ -1,10 +1,6 @@
-# knowledge-site Specification
+# Spec Delta
 
-## Purpose
-
-Builds a navigable offline website from one verified KnowledgeRelease and provides a repeatable local acceptance command for the complete M0 path.
-
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Repeatable offline build and acceptance
 The document build command SHALL work from a fresh installed checkout without relying on an existing ignored release directory. It SHALL also accept an explicitly selected new-format local release, verify it, and leave its immutable files unchanged. An explicit online build SHALL generate and verify production data and pages from the structured source and required Git history without local releases, originals or semantic models. The full verification command SHALL run relevant schema/data checks, typecheck, lint, formatting, tests, program build, new five-tool MCP protocol coverage, and site build without upstream network or real harness execution. Online checks SHALL remain distinct from local hybrid-search acceptance.
@@ -31,6 +27,8 @@ The site SHALL build from one verified local release or independently verified o
 #### Scenario: Trimmed online history
 - **WHEN** the online release trims an earlier chapter
 - **THEN** its pages expose the retained historical chapter and sources, explain limited online history, and preserve local-history guidance without a dangling chapter link
+
+## ADDED Requirements
 
 ### Requirement: Joint static data and page output
 The online site build SHALL produce a staged deployment directory containing matching reader pages, protocol resources and candidate pointer from one verified knowledge projection. A configurable project base path SHALL apply to pages, assets and data entry points. Complete validation SHALL precede output acceptance; failure SHALL preserve existing accepted output. Prior-release retention and remote deployment SHALL remain separate operations.

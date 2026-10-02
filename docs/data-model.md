@@ -24,3 +24,25 @@ SQLite 还对 catalog 产品与界面、章节、小节、问题、来源引用�
 生产构建可复用已验证 current 发布的固定向量；模型锁、小节标题与正文必须相同，维度与归一化须有效。其他内容重新推理。无论是否复用，发布都保留每个片段的向量与 hash；旧发布只读。
 
 新格式 fixture 发布使用隔离的 `var/chapter-release-fixture/releases/`。旧格式 release 无新格式读取兼容承诺；公共查询、MCP 与站点使用章节发布。fixture 发布不能视为五个真实产品的内容验收。
+
+## 在线投影
+
+在线资源是从同一份 Git 真源离线生成的只读投影，不是第二套事实源。在线 schema 定义在 `src/domain/online.ts`，导出 `online_pointer` 与 `online_resource`（含 10 种资源联合）两个 schema，接入 `scripts/export-schemas.ts`、`scripts/check-schemas.ts` 与 `schemas/`。每条资源是扁平 JSON：`protocol_version: 1`、`release_id`、`resource_kind` 与类型化字段同层，没有额外的 payload 包裹。协议版本独立于领域记录自己的 schema 版本（章节 3、来源引用 2、catalog 1），不能相互替代。投影不修改知识记录，也不把客户端历史结果或网络错误 DTO 写进本地查询契约。
+
+在线身份为 `web-v1-<完整 Git commit SHA>`，资源位于 `data/v1/releases/<release-id>/`：
+
+| 资源 | 内容与边界 |
+| --- | --- |
+| `current.json` | 判别联合：`state: active` 指向当前发布清单；`state: retired` 只交付协议、退役日与升级提示，首版只生成 active。 |
+| `manifest.json` | 协议、release、发布时间、profile、在线历史策略与 catalog／topics／sources／search 入口；不含整库 inventory。 |
+| `catalog.json` | 从 catalog 投影产品、别名、界面、运行时、绑定与身份引用，并派生 topic／界面覆盖，支持不读章节的列表；候选与已声明未调查界面按现有规则表达。 |
+| `topics/<product>/<topic>/index.json` | current、可读 edition 与 trimmed edition，保留软件版本、界面、范围、小节 ID 及映射／依据 ID；不含正文与答案。 |
+| `chapters/<edition-id>.json` | 一份完整章节（含引言、小节、答案、引用 ID）加由引用投影的来源范围摘要；小节读取不依赖额外正文分片。 |
+| `sources/<reference-id>.json` | 单条章节引用或 catalog 身份引用，保持与本地相同的引用身份（reference ID、固定快照身份、官方链接、定位与短摘录）；在线省略 catalog source 的 `archive_path`，不记录原件路径。 |
+| `sources/index/` | 按 reference ID 范围导航的存在性目录，叶块只有 reference ID 与所属产品，用于区分正常不存在与已声明文件缺失。 |
+
+在线只保留每个产品 × 主题的当前版与最近一个历史版，最近历史版按指定 commit 的 first-parent 树引入顺序排序，同次引入按稳定 edition ID 打破平局；只有需要排序多个非 current 版本时才要求足够 Git 历史，缺少即失败。未保留章节在主题索引记为 `availability: trimmed`，只保留选版所需的 edition、界面／小节范围、软件映射与依据 ID，不携带正文入口或全文摘录，也不伪装成可读 source entry。选版先在完整可选集合按既有 exact／prefix／approximate／source_only 规则解析；在线 schema 保留足够元数据，供后续消费者生成正常 `history_not_available`（不是 unsupported 或从未调查），本轮不在 CLI／MCP 输出该结果。
+
+搜索资源同样位于该 release 内：`search/manifest.json` 绑定发布、格式／分词／排序规则版本与预算；`search/exact/` 与 `search/lexical/` 用 `index.json` 按词项范围路由到 `blocks/<block-id>.json`，按含信封的解码字节打包，目标每块约 64 KiB，热门词可跨块续接；`search/scopes/<harness-id>/<topic>/index.json` 提供稳定 ID 预排序、带界面范围的当前小节定位，供无文本的过滤查询分页而不扫描倒排。索引只覆盖当前小节，精确入口（问题编号、配置键与完整路径、完整问法、别名）与正文词法入口分开，不承诺任意字符子串、纠错或语义召回。构建与消费者共享同一份分词、规范化与排序规则并记录版本；排序类别为问题编号 → 配置／路径 → 完整问法 → 别名 → 正文词法／过滤，再按关键词覆盖数与字段权重（标题 3、问法 2、正文 1）和稳定 ID 打破平局。处理预算按每次查询的不同解码资源计：索引／导航／过滤元数据 2 MiB、过滤后去重排序候选 20,000、当页章节 8 MiB，超限返回 `query_too_broad`，cursor 绑定 release、规范化查询、实际词项、过滤条件、排序版本和位置。
+
+在线词法检索与本地混合检索是不同能力：本地发布的 `search.json`／FTS5 与 `semantic.jsonl` 仍按发布生成，语义模型可缺失并降级；在线发布不需要语义索引或模型元数据，其声明的能力不当作本地混合检索的失败降级。消费者 CLI／MCP 的在线 DTO、HTTP／缓存／离线读取与网络失败政策由后续 change 定义。

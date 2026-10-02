@@ -6,8 +6,10 @@ import { fileURLToPath } from "node:url";
 import { afterAll, beforeAll, expect, test } from "vitest";
 import {
   compileChapterRelease,
+  renderChapterDocs,
   verifyChapterRelease,
 } from "../../src/compiler/chapter-release.js";
+import { chapterPublishedKnowledgeSchema } from "../../src/domain/chapter.js";
 
 const fixture = fileURLToPath(
   new URL("../fixtures/datasets/chapters", import.meta.url),
@@ -76,3 +78,21 @@ test("site builds product and topic pages from a verified immutable release", as
     }
   }
 }, 60_000);
+
+test("online pages link retained history and cite the same published sources", async () => {
+  const knowledge = chapterPublishedKnowledgeSchema.parse(
+    JSON.parse(await readFile(path.join(releaseDir, "knowledge.json"), "utf8")),
+  );
+  const pages = renderChapterDocs(knowledge, { online: true });
+  for (const chapter of knowledge.records.chapters) {
+    const history = pages.get(`docs/chapters/${chapter.edition_id}.md`)!;
+    expect(history).toContain(knowledge.release_id);
+    for (const reference of chapter.sections.flatMap(
+      (section) => section.source_refs,
+    )) {
+      if (chapter.body.includes(`[@${reference}]`))
+        expect(history).toContain(`../sources/${reference}.md`);
+    }
+  }
+  expect(pages.get("docs/index.md")).toContain("本地发布");
+});

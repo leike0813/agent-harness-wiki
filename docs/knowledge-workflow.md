@@ -72,3 +72,9 @@ investigation_notes: []
 Git 中的章节 Markdown、来源引用 YAML、版本映射 YAML 与 `registry/chapter-current.yaml` 是知识真源。编译器从同一份输入生成 JSON、SQLite 与站点 Markdown，在 staging 中核对 hash、数据库和页面后保存不可变发布。手动增量调用 `pnpm chapters:update` 选入已完成内容、校验 staging 并切换 `releases/current.json`；首次发布仍可用 `pnpm ahw compile ... --stage` 和 `pnpm ahw publish --release-id <id>`。运行中的 MCP 进程固定启动时选定的发布，切换指针后需要重启才会读取新版本。
 
 旧 `claims/`、`evidence/`、`assessments/`、`coverage/` 与 `guides/` 保留为调查材料，不由新查询接口读取，也不作为新章节的人工接受门禁。完成内容由调查 Agent 引用固定来源自检后直接采纳；只有来源冲突、推翻已发布配置步骤或跨主题关键机制变化才请另一 Agent 独立复核，复核未完成的问题保留在待处理状态，其他已完成章节仍可发布，依据见 [PRD](PRD.md) 第 7 节。查询不会联网、执行 harness 或调用 LLM。
+
+## 在线投影与保留接缝
+
+在线分发是独立于本地发布的读取路径：从同一份已校验真源生成 `data/v1/` 机器资源与同发布页面，每个产品 × 主题只收录当前章与最近一个历史版，其余章节退为裁剪标记，检索只有词法入口；身份为 `web-v1-<完整 Git commit SHA>`。最近历史版按指定 commit 的 first-parent 树引入顺序排序；只有存在多个非 current 版本时才需要完整 Git 历史，浅克隆或定位不到引入点时构建失败。本轮只交付可离线构建、校验的在线产物，不创建远程资源、不部署、不发包。
+
+本轮不选择 30 天旧发布／90 天旧协议的到期集合，也不切换线上 current。组装完整部署目录时只并入显式给定旧部署目录中的保留 `data/`（旧发布／协议资源），旧页面另存归档，并累计解包后的实际字节，上限 512 MiB；第三个 change 依据持久台账与归档计算该集合、执行清理与恢复，并负责真实 Pages 与 npm 上线验收。未被显式指定时，不删除或不缩短任何保留资源。

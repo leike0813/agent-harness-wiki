@@ -1,10 +1,6 @@
-# knowledge-release Specification
+# Spec Delta
 
-## Purpose
-
-Turns reviewed structured knowledge into a fixed, verifiable local release that every future read-only interface can consume without contacting upstream sources.
-
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Deterministic offline compilation
 The local release compiler SHALL compile an explicitly selected dataset profile, release ID, and publication time into `knowledge.json`, `knowledge.sqlite`, generated Markdown, and `manifest.json`. Local chapter editions and release records SHALL use chapter schema version 3 and builder version 6, while catalog metadata and registry records keep schema version 1. The normalized JSON and Markdown bytes and SQLite logical rows SHALL be identical for identical validated inputs and release parameters. The build SHALL not access upstream networks, run harnesses, or read user configuration. Independently identified online projections SHALL follow the online-knowledge-release contract rather than require local SQLite or semantic artifacts.

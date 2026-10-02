@@ -39,6 +39,8 @@
 
 构建 M1 生产搜索发布前，核对 [本地搜索模型锁](registry/search-model.json) 与 [搜索 ADR](docs/decisions/0007-offline-hybrid-search.md)；词法索引只覆盖当前小节，语义模型缺失须显式降级。
 
+知识有两条独立交付线。本地线保留完整章节历史，以标准 JSON、SQLite、生成 Markdown 和本机语义索引验收混合检索，生产构建继续要求 [搜索 ADR](docs/decisions/0007-offline-hybrid-search.md) 的模型门禁。在线线是独立身份的静态投影：`data/v1/` 资源与同发布页面，每个产品 × 主题只收录当前章与最近一个历史版，其余章节退为裁剪标记，检索只有词法入口。在线构建从结构化真源投影，不依赖本地已发布数据，不访问上游补事实、不执行 harness，生产拒绝 fixture；本轮只交付构建与校验，消费者 DTO、网络政策与公开 CI／npm／Pages 属后续 change。边界与预算见 [在线分发 ADR](docs/decisions/0009-online-knowledge-distribution.md)。
+
 ---
 
 ## 2. M0 基线与后续阶段
