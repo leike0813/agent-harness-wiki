@@ -324,7 +324,7 @@ export class PublicationGithub {
       await file.close();
     }
   }
-  async pagesDeployment(id: string): Promise<string> {
+  async pagesDeployment(id: string): Promise<string | null> {
     if (!/^[A-Za-z0-9_-]+$/.test(id))
       throw new PublicationError(
         "invalid_configuration",
@@ -333,7 +333,9 @@ export class PublicationGithub {
     const result = await this.#json(
       `repos/${this.repository}/pages/deployments/${id}`,
     );
-    return z.object({ status: z.string() }).parse(result).status;
+    return result === null
+      ? null
+      : z.object({ status: z.string() }).parse(result).status;
   }
   async environmentDeployment(commit: string): Promise<string> {
     const result = z

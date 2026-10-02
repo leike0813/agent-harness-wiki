@@ -367,26 +367,30 @@ test("an unchanged or missing public pointer leaves the run uncertain", async ()
   }
 });
 
-test("reconcile completes only when status and public target agree", async () => {
-  const emulator = await startGithub({
-    state: seededState(),
-    mainHead: targetCommit,
-  });
-  try {
-    emulator.setDeployment(41, executionCommit, "success");
-    await pendingPlan(emulator.github);
-    const reconciled = await reconcilePublication(emulator.github, {
-      dataUrl,
-      deploymentId: "41",
+test.each(["success", "failure"])(
+  "reconcile confirms successful Pages and public target even when the job reports %s",
+  async (status) => {
+    const emulator = await startGithub({
+      state: seededState(),
+      mainHead: targetCommit,
     });
-    expect(reconciled.state.pending).toBeNull();
-    expect(reconciled.state.protocols["1"]!.current).toBe(target);
-    expect(reconciled.state.releases[target]!.verified_at).not.toBeNull();
-    expect(reconciled.state.transitions.at(-1)!.verified).toBe(true);
-  } finally {
-    await emulator.close();
-  }
-});
+    try {
+      emulator.setDeployment(41, executionCommit, status);
+      emulator.setPagesStatus(executionCommit, "succeed");
+      await pendingPlan(emulator.github);
+      const reconciled = await reconcilePublication(emulator.github, {
+        dataUrl,
+        deploymentId: "41",
+      });
+      expect(reconciled.state.pending).toBeNull();
+      expect(reconciled.state.protocols["1"]!.current).toBe(target);
+      expect(reconciled.state.releases[target]!.verified_at).not.toBeNull();
+      expect(reconciled.state.transitions.at(-1)!.verified).toBe(true);
+    } finally {
+      await emulator.close();
+    }
+  },
+);
 
 test("reconcile keeps pending when public readback fails for the confirmed target", async () => {
   const emulator = await startGithub({
@@ -395,6 +399,7 @@ test("reconcile keeps pending when public readback fails for the confirmed targe
   });
   try {
     emulator.setDeployment(41, executionCommit, "success");
+    emulator.setPagesStatus(executionCommit, "succeed");
     await pendingPlan(emulator.github);
     const healthy = await verifyPublishedSite({ dataUrl });
     missing.add(
@@ -438,6 +443,7 @@ test("reconcile refuses a public target that disagrees with pending intent", asy
   });
   try {
     emulator.setDeployment(41, executionCommit, "success");
+    emulator.setPagesStatus(executionCommit, "succeed");
     await pendingPlan(emulator.github);
     overrides.set(
       "data/v1/current.json",
@@ -462,32 +468,44 @@ test("reconcile refuses a public target that disagrees with pending intent", asy
   }
 });
 
-test("reconcile aborts only a terminal failure with the predecessor intact", async () => {
-  const emulator = await startGithub({
-    state: seededState(),
-    mainHead: targetCommit,
-  });
-  try {
-    emulator.setDeployment(41, executionCommit, "failure");
-    await pendingPlan(emulator.github);
-    overrides.set(
-      "data/v1/current.json",
-      JSON.stringify({
-        protocol_version: 1,
-        state: "active",
-        release_id: previous,
-        manifest: `releases/${previous}/manifest.json`,
-      }),
-    );
-    const reconciled = await reconcilePublication(emulator.github, {
-      dataUrl,
-      deploymentId: "41",
-      abort: true,
+test.each([false, true])(
+  "reconcile abort with predecessor intact requires a failed Pages deployment (Pages succeeded: %s)",
+  async (pagesSucceeded) => {
+    const emulator = await startGithub({
+      state: seededState(),
+      mainHead: targetCommit,
     });
-    expect(reconciled.state.pending).toBeNull();
-    expect(reconciled.state.transitions).toHaveLength(0);
-    expect(reconciled.state.releases[target]!.verified_at).toBeNull();
-  } finally {
-    await emulator.close();
-  }
-});
+    try {
+      emulator.setDeployment(41, executionCommit, "failure");
+      if (pagesSucceeded) emulator.setPagesStatus(executionCommit, "succeed");
+      await pendingPlan(emulator.github);
+      overrides.set(
+        "data/v1/current.json",
+        JSON.stringify({
+          protocol_version: 1,
+          state: "active",
+          release_id: previous,
+          manifest: `releases/${previous}/manifest.json`,
+        }),
+      );
+      const options = {
+        dataUrl,
+        deploymentId: "41",
+        abort: true,
+      };
+      if (pagesSucceeded) {
+        await expect(
+          reconcilePublication(emulator.github, options),
+        ).rejects.toMatchObject({ code: "deployment_uncertain" });
+        expect((await emulator.snapshot()).state.pending).not.toBeNull();
+        return;
+      }
+      const reconciled = await reconcilePublication(emulator.github, options);
+      expect(reconciled.state.pending).toBeNull();
+      expect(reconciled.state.transitions).toHaveLength(0);
+      expect(reconciled.state.releases[target]!.verified_at).toBeNull();
+    } finally {
+      await emulator.close();
+    }
+  },
+);

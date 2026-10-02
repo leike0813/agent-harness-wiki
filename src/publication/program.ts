@@ -463,7 +463,9 @@ export const requiredPublicCombos = [
   "darwin-arm64",
   "win32-x64",
 ] as const;
-const consumerToolNames = Object.keys(consumerResultSchemas);
+const consumerToolNames = Object.keys(consumerResultSchemas).filter(
+  (name) => name !== "error" && name !== "response_too_large",
+);
 /** Stable report-contract checks every passing platform report must contain. */
 export const requiredPublicChecks: readonly string[] = [
   "installed --version",

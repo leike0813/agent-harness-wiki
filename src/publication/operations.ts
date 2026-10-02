@@ -375,11 +375,15 @@ export async function reconcilePublication(
   const snapshot = await github.readState();
   const pending = snapshot.state.pending;
   if (!pending) return snapshot;
+  const executionCommit =
+    pending.execution_commit ?? snapshot.state.releases[pending.target]!.commit;
   await github.assertEnvironmentDeployment(
     options.deploymentId,
-    pending.execution_commit ?? snapshot.state.releases[pending.target]!.commit,
+    executionCommit,
   );
   const status = await github.environmentDeploymentStatus(options.deploymentId);
+  // A failed readback fails the environment job after Pages has succeeded.
+  const pagesStatus = await github.pagesDeployment(executionCommit);
   const pointer = await readPublishedPointer({
     dataUrl: options.dataUrl,
   }).catch((error: unknown) => {
@@ -395,6 +399,8 @@ export async function reconcilePublication(
   if (options.abort) {
     if (
       !["failure", "error", "inactive"].includes(status) ||
+      (pagesStatus !== null &&
+        !["errored", "cancelled"].includes(pagesStatus)) ||
       (pending.previous === null
         ? pointer !== null
         : pointer?.state !== "active" ||
@@ -407,7 +413,7 @@ export async function reconcilePublication(
     abortDeployment(snapshot.state, pending.run_id);
   } else {
     if (
-      status !== "success" ||
+      pagesStatus !== "succeed" ||
       pointer?.state !== "active" ||
       pointer.release_id !== pending.target
     )
