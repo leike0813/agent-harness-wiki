@@ -306,6 +306,9 @@ async function packDependencies(
 ): Promise<Map<string, RegistryVersion[]>> {
   const versions = new Map<string, RegistryVersion[]>();
   for (const pkg of installed) {
+    // npm excludes tar hardlinks when installing; pnpm's store can share inodes.
+    const staging = await mkdtemp(path.join(output, "package-"));
+    await cp(pkg.directory, staging, { recursive: true });
     const packed = (
       JSON.parse(
         await runNode(
@@ -316,7 +319,7 @@ async function packDependencies(
             "--ignore-scripts",
             "--pack-destination",
             output,
-            pkg.directory,
+            staging,
           ],
           project,
           env,
