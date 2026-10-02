@@ -55,3 +55,9 @@ SQLite 还对 catalog 产品与界面、章节、小节、问题、来源引用�
 - 按既有选版规则选中被裁剪章节时是正常业务结果 `history_not_available`，保留请求目标、选中 edition 与解析结果，并提示本地完整历史；它不是 `unsupported`、`unknown` 或网络失败，也不改选另一章。
 - 技术错误为 `consumerErrorSchema`：`status: error`、可选 `release_id`，`error` 含 `code`、`reason`、`retryable` 与可选 `http_status`。codes 定义在 `src/query/online-error.ts`，CLI JSON 与 MCP `isError` 输出同一结构。
 - 消费者检索结果不含 `semantic_status`；仓库本地混合检索字段不变。
+
+## 公开发布台账
+
+`src/publication/state.ts` 定义独立 `schema_version: 1` 台账，持久化于 `publication-state/state.json`。`releases` 固定 commit、协议、发布时间与归档标签，另记验证及最近退出 current 的时间；`protocols` 保存 active／frozen／retired、current、已验证恢复目标与退役公告。`pending` 保存未结束部署身份、目标与原指针，`transitions` 仅记录实际确认的切换；`npm` 保存精确候选 commit／integrity、状态及 latest，不与知识身份混用。
+
+更新携带原文件 SHA，冲突时拒绝覆盖。未确认的部署保护相关数据并阻止后续发布；确认公开指针移动但代表查询失败时，只记录部署与退出时间。保留、协议生命周期与恢复按 [ADR 0011](decisions/0011-public-publication.md) 执行，实际验证证据见 [发布指南](publication.md)。

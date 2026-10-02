@@ -56,7 +56,11 @@ export type OnlineSiteOptions = {
   retain?: string[];
 };
 
-async function inventory(root: string, relative = ""): Promise<string[]> {
+/** List every regular file below a deployment root as a sorted posix path. */
+export async function inventory(
+  root: string,
+  relative = "",
+): Promise<string[]> {
   const result: string[] = [];
   for (const entry of await readdir(path.join(root, relative), {
     withFileTypes: true,
@@ -323,6 +327,207 @@ export async function buildOnlineSite(
           input_sha256: prepared.inputDigest,
           base: options.base,
           knowledge_published_at: options.publishedAt,
+          files: hashes,
+        }),
+      ),
+    );
+    const verified = await verifyOnlineDeployment(stage);
+    await rename(stage, output);
+    stage = undefined;
+    return verified;
+  } finally {
+    if (stage) await rm(stage, { recursive: true, force: true });
+    await lock.close();
+    await rm(`${output}.lock`);
+  }
+}
+
+export type OnlineAssemblyOptions = {
+  candidateDir: string;
+  retainedDirs: string[];
+  outDir: string;
+  pointers?: Record<string, unknown>;
+};
+
+const lifecyclePointer = /^data\/v([0-9]+)\/current\.json$/;
+
+async function copyDeployment(source: string, target: string): Promise<void> {
+  for (const file of await inventory(source)) {
+    const destination = path.join(target, file);
+    await mkdir(path.dirname(destination), { recursive: true });
+    await cp(path.join(source, file), destination, {
+      force: false,
+      errorOnExist: true,
+    });
+  }
+}
+
+async function mergeRetainedFile(
+  stage: string,
+  relative: string,
+  source: string,
+): Promise<void> {
+  const target = path.join(stage, relative);
+  let existing: Buffer | undefined;
+  try {
+    existing = await readFile(target);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+  }
+  if (existing) {
+    if (!existing.equals(await readFile(source)))
+      throw new Error(`Retained immutable resource conflicts: ${relative}`);
+    return;
+  }
+  await mkdir(path.dirname(target), { recursive: true });
+  await cp(source, target, { force: false, errorOnExist: true });
+}
+
+/**
+ * Retain only each archive's own release data. A retained directory may be a
+ * deployment envelope that also carries older releases; those stay out so a
+ * stale collection cannot leak into the new deployment. Other protocol
+ * partitions are preserved by their verified archive integrity because their
+ * schema is unknown, and their lifecycle pointer stays explicit.
+ */
+async function mergeRetained(
+  stage: string,
+  directory: string,
+  releaseId: string,
+  partitions: Set<string>,
+): Promise<void> {
+  const dataRoot = path.join(directory, "data");
+  for (const entry of await readdir(dataRoot, { withFileTypes: true })) {
+    if (!entry.isDirectory())
+      throw new Error(
+        `Retained data entry is not a protocol partition: ${entry.name}`,
+      );
+    if (entry.name === "v1") {
+      const own = path.join(dataRoot, "v1", "releases", releaseId);
+      const info = await lstat(own).catch(() => undefined);
+      if (!info || info.isSymbolicLink() || !info.isDirectory())
+        throw new Error(`Retained archive lacks its own release: ${releaseId}`);
+      for (const file of await inventory(own))
+        await mergeRetainedFile(
+          stage,
+          `data/v1/releases/${releaseId}/${file}`,
+          path.join(own, file),
+        );
+      continue;
+    }
+    for (const file of (
+      await inventory(path.join(dataRoot, entry.name))
+    ).filter((name) => name !== "current.json"))
+      await mergeRetainedFile(
+        stage,
+        `data/${entry.name}/${file}`,
+        path.join(dataRoot, entry.name, file),
+      );
+    partitions.add(entry.name);
+  }
+}
+
+async function applyLifecyclePointers(
+  stage: string,
+  pointers: Record<string, unknown>,
+  releaseId: string,
+  partitions: Set<string>,
+): Promise<void> {
+  const applied = new Set<string>();
+  for (const [key, value] of Object.entries(pointers)) {
+    const match = lifecyclePointer.exec(key);
+    if (!match) throw new Error(`Lifecycle pointer key is invalid: ${key}`);
+    const protocol = Number(match[1]);
+    const object =
+      typeof value === "object" && value !== null
+        ? (value as Record<string, unknown>)
+        : undefined;
+    if (object?.protocol_version !== protocol)
+      throw new Error(`Lifecycle pointer protocol differs: ${key}`);
+    if (protocol === 1) {
+      const pointer = onlinePointerSchema.parse(value);
+      if (
+        pointer.state !== "active" ||
+        pointer.release_id !== releaseId ||
+        pointer.manifest !== `releases/${releaseId}/manifest.json`
+      )
+        throw new Error("Deployment current identity differs.");
+      await writeFile(path.join(stage, key), `${JSON.stringify(pointer)}\n`);
+      applied.add(`v${protocol}`);
+      continue;
+    }
+    await mkdir(path.dirname(path.join(stage, key)), { recursive: true });
+    await writeFile(path.join(stage, key), `${JSON.stringify(value)}\n`);
+    applied.add(`v${protocol}`);
+  }
+  for (const partition of partitions)
+    if (!applied.has(partition))
+      throw new Error(
+        `Preserved protocol lacks a lifecycle pointer: data/${partition}`,
+      );
+}
+
+/**
+ * Assemble a mutable deployment envelope from one verified canonical candidate
+ * and a selected set of verified retained archives. The candidate supplies the
+ * pages and its own release data; retained inputs contribute only their own
+ * release data. The root integrity inventory is regenerated before acceptance
+ * and every input stays untouched.
+ */
+export async function assembleOnlineDeployment(
+  options: OnlineAssemblyOptions,
+): Promise<{ releaseId: string; bytes: number; files: number }> {
+  const output = path.resolve(options.outDir);
+  const candidate = await verifyOnlineDeployment(options.candidateDir);
+  const record = integritySchema.parse(
+    JSON.parse(
+      await readFile(path.join(options.candidateDir, "integrity.json"), "utf8"),
+    ),
+  );
+  const parent = path.dirname(output);
+  await mkdir(parent, { recursive: true });
+  const lock = await open(`${output}.lock`, "wx");
+  let stage: string | undefined;
+  try {
+    let exists = false;
+    try {
+      await lstat(output);
+      exists = true;
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+    }
+    if (exists)
+      throw new Error("Existing online output cannot be overwritten.");
+    stage = await mkdtemp(path.join(parent, ".online-assembly-"));
+    await copyDeployment(options.candidateDir, stage);
+    const partitions = new Set<string>();
+    const seen = new Set([path.resolve(options.candidateDir)]);
+    for (const directory of options.retainedDirs) {
+      const resolved = path.resolve(directory);
+      if (seen.has(resolved)) continue;
+      seen.add(resolved);
+      const retained = await verifyOnlineDeployment(resolved);
+      await mergeRetained(stage, resolved, retained.releaseId, partitions);
+    }
+    await applyLifecyclePointers(
+      stage,
+      options.pointers ?? {},
+      candidate.releaseId,
+      partitions,
+    );
+    const hashes: Record<string, string> = {};
+    for (const file of await inventory(stage))
+      if (file !== "integrity.json")
+        hashes[file] = sha256(await readFile(path.join(stage, file)));
+    await writeFile(
+      path.join(stage, "integrity.json"),
+      canonical(
+        integritySchema.parse({
+          schema_version: 1,
+          release_id: record.release_id,
+          input_sha256: record.input_sha256,
+          base: record.base,
+          knowledge_published_at: record.knowledge_published_at,
           files: hashes,
         }),
       ),

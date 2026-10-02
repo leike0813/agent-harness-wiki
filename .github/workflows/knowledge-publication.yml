@@ -1,0 +1,140 @@
+name: Knowledge publication
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      operation:
+        type: choice
+        options: [publish, recover, reconcile]
+        default: publish
+      release_id:
+        description: Previously verified recovery release (recover only)
+        type: string
+      deployment_id:
+        description: Environment deployment ID (reconcile only)
+        type: string
+      abort:
+        description: Reconcile a confirmed failed deployment without a pointer switch
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+# Production jobs share the same group as program releases. New pushes never
+# interrupt a deployment; the begin operation still checks the latest main SHA.
+concurrency:
+  group: ${{ github.event_name == 'pull_request' && format('publication-pr-{0}', github.event.pull_request.number) || 'publication-production' }}
+  queue: max
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.10.0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24.12.0"
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm verify
+      - name: Validate clean production data and matching pages
+        env:
+          BUILD_SHA: ${{ github.sha }}
+        run: pnpm online:build --dataset-root . --profile production --commit "$BUILD_SHA" --published-at 2026-10-02T00:00:00Z --base /agent-harness-wiki/ --out-dir var/publication-pr
+      - run: pnpm online:verify var/publication-pr
+
+  publish:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    permissions:
+      contents: write
+      deployments: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: https://leike0813.github.io/agent-harness-wiki/
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.10.0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24.12.0"
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Validate publication code
+        run: pnpm typecheck && pnpm lint && pnpm test
+      - name: Reconcile an interrupted deployment
+        if: inputs.operation == 'reconcile'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPLOYMENT_ID: ${{ inputs.deployment_id }}
+          ABORT: ${{ inputs.abort }}
+        run: |
+          args=()
+          if [ "$ABORT" = "true" ]; then args+=(--abort); fi
+          pnpm publication reconcile --deployment-id "$DEPLOYMENT_ID" "${args[@]}"
+      - name: Prepare immutable archive and protected deployment
+        id: prepare
+        if: inputs.operation != 'reconcile'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BUILD_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}
+          RECOVERY_TARGET: ${{ inputs.release_id }}
+          OPERATION: ${{ inputs.operation }}
+        run: |
+          args=()
+          if [ "$OPERATION" = "recover" ]; then
+            if [ -z "$RECOVERY_TARGET" ]; then echo "Recovery requires release_id"; exit 1; fi
+            args+=(--recovery-target "$RECOVERY_TARGET")
+          fi
+          pnpm publication prepare --commit "$BUILD_SHA" --run-id "$RUN_ID" "${args[@]}"
+      - uses: actions/configure-pages@v5
+        if: steps.prepare.outcome == 'success'
+      - uses: actions/upload-pages-artifact@v4
+        if: steps.prepare.outcome == 'success'
+        with:
+          path: ${{ steps.prepare.outputs.output }}
+      - name: Recheck latest main and persist deployment intent
+        id: begin
+        if: steps.prepare.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: pnpm publication begin
+      - uses: actions/deploy-pages@v5
+        id: deploy
+        if: steps.begin.outputs.started == 'true'
+      - name: Record actual deployment and verify public data and pages
+        if: always() && steps.begin.outputs.started == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPLOYMENT_RESULT: ${{ steps.deploy.outcome }}
+        run: pnpm publication finish --deployment-result "$DEPLOYMENT_RESULT"
+      - name: Preserve attempt evidence
+        if: always() && inputs.operation != 'reconcile'
+        uses: actions/upload-artifact@v6
+        with:
+          name: publication-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            var/publication/plan.json
+            var/publication/failure.json
+            var/publication/attempt-*/readback.json
+          if-no-files-found: warn

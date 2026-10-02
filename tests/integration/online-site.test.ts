@@ -14,6 +14,7 @@ import path from "node:path";
 import { promisify } from "node:util";
 import { afterEach, expect, test } from "vitest";
 import {
+  assembleOnlineDeployment,
   checkDeploymentCapacity,
   deploymentByteLimit,
   buildOnlineSite,
@@ -181,3 +182,176 @@ test("builds one release with retained resources and preserves accepted output o
   ).rejects.toMatchObject({ code: "ENOENT" });
   expect(await verifyOnlineDeployment(options.outDir)).toEqual(first);
 }, 60_000);
+
+test("assembles selected pages with exactly retained own release data", async () => {
+  const root = await temp();
+  const datasetRoot = path.join(root, "input");
+  await cp("tests/fixtures/datasets/chapters", datasetRoot, {
+    recursive: true,
+  });
+  const git = (args: string[]) => exec("git", ["-C", datasetRoot, ...args]);
+  const commit = async (message: string) => {
+    await git(["add", "."]);
+    await git([
+      "-c",
+      "user.name=test",
+      "-c",
+      "user.email=test@example.invalid",
+      "commit",
+      "-qm",
+      message,
+    ]);
+    return (await git(["rev-parse", "HEAD"])).stdout.trim();
+  };
+  await git(["init", "-q"]);
+  const firstCommit = await commit("fixture input");
+
+  const base = {
+    datasetRoot,
+    profile: "fixture" as const,
+    publishedAt: "2026-10-02T00:00:00Z",
+    base: "/wiki/",
+  };
+  const firstDir = path.join(root, "first");
+  const first = await buildOnlineSite({
+    ...base,
+    commit: firstCommit,
+    outDir: firstDir,
+  });
+
+  const current = path.join(
+    datasetRoot,
+    "knowledge/demo-open-cli/chapters/demo-open-cli-skills-v1.md",
+  );
+  const body = await readFile(current, "utf8");
+  for (const edition of ["v2", "v3"])
+    await writeFile(
+      current.replace("v1.md", edition + ".md"),
+      body.replace(
+        "edition_id: demo-open-cli-skills-v1",
+        "edition_id: demo-open-cli-skills-" + edition,
+      ),
+    );
+  const secondCommit = await commit("historical editions");
+  const canonicalDir = path.join(root, "canonical");
+  const canonical = await buildOnlineSite({
+    ...base,
+    commit: secondCommit,
+    outDir: canonicalDir,
+  });
+  const envelopeDir = path.join(root, "envelope");
+  await buildOnlineSite({
+    ...base,
+    commit: secondCommit,
+    outDir: envelopeDir,
+    retain: [firstDir],
+  });
+  const firstIntegrity = await readFile(
+    path.join(firstDir, "integrity.json"),
+    "utf8",
+  );
+  const envelopeIntegrity = await readFile(
+    path.join(envelopeDir, "integrity.json"),
+    "utf8",
+  );
+
+  // A retained envelope carries an older release, but only its own is kept.
+  const stale = path.join(root, "stale");
+  const staleResult = await assembleOnlineDeployment({
+    candidateDir: canonicalDir,
+    retainedDirs: [envelopeDir],
+    outDir: stale,
+  });
+  expect(staleResult.releaseId).toBe(canonical.releaseId);
+  expect(staleResult).toEqual(await verifyOnlineDeployment(stale));
+  await expect(
+    readFile(
+      path.join(stale, `data/v1/releases/${first.releaseId}/manifest.json`),
+    ),
+  ).rejects.toMatchObject({ code: "ENOENT" });
+
+  // A protected archive supplies its own data while pages stay canonical.
+  const restored = path.join(root, "restored");
+  await assembleOnlineDeployment({
+    candidateDir: canonicalDir,
+    retainedDirs: [firstDir],
+    outDir: restored,
+  });
+  const retainedManifest = `data/v1/releases/${first.releaseId}/manifest.json`;
+  expect(await readFile(path.join(restored, retainedManifest), "utf8")).toBe(
+    await readFile(path.join(firstDir, retainedManifest), "utf8"),
+  );
+  const page = await readFile(
+    path.join(restored, "harnesses/demo-open-cli/skills.html"),
+    "utf8",
+  );
+  expect(page).toContain("demo-open-cli-skills-v2");
+  expect(page).not.toContain("demo-open-cli-skills-v3.html");
+
+  // Inputs stay byte-stable and an existing output cannot be overwritten.
+  expect(await readFile(path.join(firstDir, "integrity.json"), "utf8")).toBe(
+    firstIntegrity,
+  );
+  expect(await readFile(path.join(envelopeDir, "integrity.json"), "utf8")).toBe(
+    envelopeIntegrity,
+  );
+  await expect(
+    assembleOnlineDeployment({
+      candidateDir: canonicalDir,
+      retainedDirs: [],
+      outDir: restored,
+    }),
+  ).rejects.toThrow(/cannot be overwritten/);
+
+  // Explicit lifecycle pointers are applied; a mismatched protocol is rejected.
+  const pointer = {
+    protocol_version: 2,
+    state: "retired",
+    retired_at: "2026-12-01T00:00:00Z",
+    upgrade: "https://example.invalid/upgrade",
+  };
+  const pointed = path.join(root, "pointed");
+  await assembleOnlineDeployment({
+    candidateDir: canonicalDir,
+    retainedDirs: [],
+    outDir: pointed,
+    pointers: { "data/v2/current.json": pointer },
+  });
+  expect(
+    JSON.parse(
+      await readFile(path.join(pointed, "data/v2/current.json"), "utf8"),
+    ),
+  ).toEqual(pointer);
+  await expect(
+    assembleOnlineDeployment({
+      candidateDir: canonicalDir,
+      retainedDirs: [],
+      outDir: path.join(root, "mismatch"),
+      pointers: {
+        "data/v2/current.json": { ...pointer, protocol_version: 3 },
+      },
+    }),
+  ).rejects.toThrow(/protocol differs/);
+
+  // The inclusive 512 MiB deployment limit is enforced before acceptance.
+  const oversized = path.join(root, "oversized");
+  await cp(canonicalDir, oversized, { recursive: true });
+  const big = await open(path.join(oversized, "big.bin"), "w");
+  await big.truncate(deploymentByteLimit);
+  await big.close();
+  const recordPath = path.join(oversized, "integrity.json");
+  const record = JSON.parse(await readFile(recordPath, "utf8"));
+  // ponytail: capacity is checked before hashing, so the value never matters.
+  record.files["big.bin"] = sha256("");
+  await writeFile(recordPath, JSON.stringify(record));
+  await expect(
+    assembleOnlineDeployment({
+      candidateDir: oversized,
+      retainedDirs: [],
+      outDir: path.join(root, "over"),
+    }),
+  ).rejects.toThrow(/capacity/);
+  await expect(
+    readFile(path.join(root, "over", "integrity.json")),
+  ).rejects.toMatchObject({ code: "ENOENT" });
+}, 120_000);

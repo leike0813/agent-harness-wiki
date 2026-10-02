@@ -33,3 +33,9 @@ JSON、SQLite 和生成页面从同一规范化数据集生成。发布验证检
 - `src/consumer/index.ts`：消费者 CLI 与 MCP 入口，编译进消费者包 `dist/consumer/index.js`；本地 `src/cli` 与 `src/mcp` 入口保持独立。
 
 在线客户端复用 `src/query/lexical.ts` 的 `queryOnlineSearch` 做词法读取，不引入 better-sqlite3 或 Ollama。缓存分内存与文件两层，文件层按规范化入口、协议、发布与相对路径原子安装并重校验。CLI 与 MCP 只做参数解析、协议转换和错误适配，不重新实现选版或支持状态。
+
+## 公开发布
+
+`src/publication/` 属于维护侧：`state.ts` 定义台账与保留政策，`github.ts` 用 CAS 持久化到独立 `publication-state` 分支并保存不可变 Release，`archive.ts` 验证归档，`operations.ts` 执行准备、部署意图、结案与核对。`assembleOnlineDeployment` 从目标归档取得页面，只并入受保护发布的数据，重新核对完整性与 512 MiB 容量；原归档保持不变。
+
+`readback.ts` 用真实在线查询服务与有界 HTTP 核对公开数据和页面，部署成功与验证成功分别记录。`program.ts` 管理独立 npm 候选，`consumer-verification.ts` 从公开 registry 安装精确包后验收 CLI／SDK stdio。两个生产工作流共用串行并发组；消费者运行时不导入发布模块。状态与恢复规则见 [ADR 0011](decisions/0011-public-publication.md)。

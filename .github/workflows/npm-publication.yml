@@ -1,0 +1,264 @@
+# Independent program (npm) publication. A selected npm-vX.Y.Z tag matching the
+# package version and verified main ancestry packages the consumer, publishes
+# that exact tgz to `next`, verifies it on the six public platforms, and only
+# then promotes `latest` through OIDC trusted publishing. The whole run shares
+# the publication-production concurrency group, so it can never interleave with
+# a knowledge deployment or lose a ledger update.
+#
+# The publishing jobs target the npm-publication environment. Configure the
+# package's trusted publisher for this repository/workflow/environment and
+# allow both npm publish and npm dist-tag; npm 11.21.0 performs the OIDC
+# exchange, so no long-lived token is stored or read.
+name: npm publication
+
+on:
+  push:
+    tags: ["npm-v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Exact stable version to publish (retries its existing npm-vX.Y.Z tag)
+        required: true
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: publication-production
+  queue: max
+  cancel-in-progress: false
+
+jobs:
+  candidate:
+    name: Package and publish to next
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    environment: npm-publication
+    permissions:
+      contents: write
+      id-token: write
+    outputs:
+      version: ${{ steps.target.outputs.version }}
+      release_id: ${{ steps.probe.outputs.release_id }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          submodules: false
+
+      - name: Resolve and validate the release tag
+        id: target
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          DISPATCH_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            version="$DISPATCH_VERSION"
+          else
+            version="${GITHUB_REF_NAME#npm-v}"
+          fi
+          if ! printf '%s' "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "Version '$version' is not a stable x.y.z version."; exit 1
+          fi
+          ref="refs/tags/npm-v${version}"
+          if ! git fetch --no-tags origin "+$ref:$ref"; then
+            echo "Tag $ref does not exist; publish and push it first."; exit 1
+          fi
+          sha="$(git rev-list -n 1 "$ref")"
+          package_version="$(git show "$sha:packages/consumer/package.json" | node -e 'process.stdout.write(JSON.parse(require("fs").readFileSync(0,"utf8")).version)')"
+          if [ "$package_version" != "$version" ]; then
+            echo "Tag $ref carries packages/consumer version $package_version, not $version."; exit 1
+          fi
+          git fetch --no-tags origin +refs/heads/main:refs/remotes/origin/main
+          if ! git merge-base --is-ancestor "$sha" refs/remotes/origin/main; then
+            echo "$sha is not an ancestor of origin/main."; exit 1
+          fi
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Check out the resolved release commit
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ steps.target.outputs.sha }}
+          submodules: false
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.10.0
+
+      - name: Set up Node 24.12.0
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24.12.0"
+          cache: pnpm
+
+      - name: Install publisher npm 11.21.0
+        run: npm install --global npm@11.21.0
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify the release commit
+        run: pnpm verify
+
+      - name: Probe the public site
+        id: probe
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          pnpm npm:publish probe --out var/consumer-package/probe.json
+          echo "release_id=$(node -p "require('./var/consumer-package/probe.json').release_id")" >> "$GITHUB_OUTPUT"
+
+      - name: Record the immutable candidate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.target.outputs.version }}
+          COMMIT: ${{ steps.target.outputs.sha }}
+        run: |
+          tgz="$(node -p "require('./var/consumer-package/manifest.json').filename")"
+          pnpm npm:publish prepare \
+            --version "$VERSION" \
+            --commit "$COMMIT" \
+            --tgz "var/consumer-package/$tgz" \
+            --out var/consumer-package/candidate.json
+
+      - name: Publish to next
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.target.outputs.version }}
+          COMMIT: ${{ steps.target.outputs.sha }}
+        run: |
+          tgz="$(node -p "require('./var/consumer-package/candidate.json').tarball")"
+          pnpm npm:publish next \
+            --version "$VERSION" \
+            --commit "$COMMIT" \
+            --tgz "$tgz"
+
+      - name: Upload candidate artifacts
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: candidate-${{ steps.target.outputs.version }}
+          path: |
+            var/consumer-package/*.tgz
+            var/consumer-package/candidate.json
+            var/consumer-package/probe.json
+            var/consumer-package/verification.json
+          if-no-files-found: error
+
+  matrix-public:
+    name: Public ${{ matrix.os }} Node ${{ matrix.node }}
+    needs: candidate
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            node: "24.12.0"
+          - os: ubuntu-24.04
+            node: "24.x"
+          - os: macos-15
+            node: "24.12.0"
+          - os: macos-15
+            node: "24.x"
+          - os: windows-2025
+            node: "24.12.0"
+          - os: windows-2025
+            node: "24.x"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          submodules: false
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.10.0
+
+      - name: Set up Node ${{ matrix.node }}
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+          check-latest: true
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify the public package on this platform
+        env:
+          VERSION: ${{ needs.candidate.outputs.version }}
+        run: |
+          pnpm consumer:verify-public \
+            --package-version "$VERSION" \
+            --data-url https://leike0813.github.io/agent-harness-wiki/data/v1/ \
+            --out var/consumer-package/public-report.json
+
+      - name: Upload platform report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: public-report-${{ matrix.os }}-${{ matrix.node }}
+          path: var/consumer-package/public-report.json
+          if-no-files-found: error
+
+  promote:
+    name: Promote latest
+    needs: [candidate, matrix-public]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    environment: npm-publication
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          submodules: false
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.10.0
+
+      - name: Set up Node 24.12.0
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24.12.0"
+          cache: pnpm
+
+      - name: Install publisher npm 11.21.0
+        run: npm install --global npm@11.21.0
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Download platform reports
+        uses: actions/download-artifact@v5
+        with:
+          pattern: public-report-*
+          path: var/public-reports
+
+      - name: Promote the verified candidate to latest
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.candidate.outputs.version }}
+          RELEASE_ID: ${{ needs.candidate.outputs.release_id }}
+        run: |
+          pnpm npm:publish promote \
+            --version "$VERSION" \
+            --release-id "$RELEASE_ID" \
+            --reports var/public-reports

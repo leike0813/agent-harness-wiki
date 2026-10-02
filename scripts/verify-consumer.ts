@@ -40,7 +40,11 @@ const project = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const artifactDirectory = path.join(project, "var/consumer-package");
 const consumerRoot = path.join(project, "packages/consumer");
 const dataPrefix = "/data/v1/";
-const programVersion = "1.0.0";
+const programVersion = (
+  JSON.parse(readFileSync(path.join(consumerRoot, "package.json"), "utf8")) as {
+    version: string;
+  }
+).version;
 const toolNames = [
   "list_harnesses",
   "get_topic",

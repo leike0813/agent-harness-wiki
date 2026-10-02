@@ -39,7 +39,7 @@
 
 构建 M1 生产搜索发布前，核对 [本地搜索模型锁](registry/search-model.json) 与 [搜索 ADR](docs/decisions/0007-offline-hybrid-search.md)；词法索引只覆盖当前小节，语义模型缺失须显式降级。
 
-知识有两条独立交付线。本地线保留完整章节历史，以标准 JSON、SQLite、生成 Markdown 和本机语义索引验收混合检索，生产构建继续要求 [搜索 ADR](docs/decisions/0007-offline-hybrid-search.md) 的模型门禁。在线线是独立身份的静态投影：`data/v1/` 资源与同发布页面，每个产品 × 主题只收录当前章与最近一个历史版，其余章节退为裁剪标记，检索只有词法入口。在线构建从结构化真源投影，不依赖本地已发布数据，不访问上游补事实、不执行 harness，生产拒绝 fixture。消费者包与在线 DTO／网络政策由 `online-consumer-cli-mcp` 交付：公开名 `agent-harness-wiki`、命令 `ahw`，根包改名 `agent-harness-wiki-maintainer` 并保持 private；公开 CI／npm／Pages 发布属第三个 change。边界与预算见 [在线分发 ADR](docs/decisions/0009-online-knowledge-distribution.md)，消费者契约见 [消费者 ADR](docs/decisions/0010-online-consumer.md)。
+知识有两条独立交付线。本地线保留完整章节历史，以标准 JSON、SQLite、生成 Markdown 和本机语义索引验收混合检索，生产构建继续要求 [搜索 ADR](docs/decisions/0007-offline-hybrid-search.md) 的模型门禁。在线线是独立身份的静态投影：`data/v1/` 资源与同发布页面，每个产品 × 主题只收录当前章与最近一个历史版，其余章节退为裁剪标记，检索只有词法入口。在线构建从结构化真源投影，不依赖本地已发布数据，不访问上游补事实、不执行 harness，生产拒绝 fixture。消费者包与在线 DTO／网络政策由 `online-consumer-cli-mcp` 交付：公开名 `agent-harness-wiki`、命令 `ahw`，根包改名 `agent-harness-wiki-maintainer` 并保持 private；公开 CI／npm／Pages 发布由 `online-publication-and-delivery` 实现；持久台账、不可变归档、保留与恢复、独立 next／latest 发版见 [ADR 0011](docs/decisions/0011-public-publication.md) 和 [操作指南](docs/publication.md)。边界与预算见 [在线分发 ADR](docs/decisions/0009-online-knowledge-distribution.md)，消费者契约见 [消费者 ADR](docs/decisions/0010-online-consumer.md)。
 
 ---
 
