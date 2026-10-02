@@ -10,6 +10,7 @@
  * failure.
  */
 import * as z from "zod";
+import { setTimeout as delay } from "node:timers/promises";
 import { consumerResultSchemas } from "../domain/consumer.js";
 import {
   onlineManifestSchema,
@@ -219,6 +220,43 @@ async function fetchJson(
 export async function verifyPublishedSite(
   options: ReadbackOptions,
 ): Promise<ReadbackReport> {
+  const started = Date.now();
+  const deadline = options.timeoutMs ?? readbackDeadlineMs;
+  const signal = boundedSignal(options.signal, deadline);
+  let report = await verifyReadbackAttempt({ ...options, signal });
+  // Pages propagation can lag a successful deployment. Keep all retries within
+  // the original deadline; unconfirmed targets remain uncertain after three reads.
+  for (
+    let attempt = 1;
+    options.expectedReleaseId &&
+    report.result === "failed" &&
+    attempt < 3 &&
+    !signal.aborted;
+    attempt += 1
+  ) {
+    try {
+      await delay(5_000, undefined, { signal });
+    } catch {
+      break;
+    }
+    const remaining = deadline - (Date.now() - started);
+    if (remaining <= 0) break;
+    report = await verifyReadbackAttempt({
+      ...options,
+      signal,
+      timeoutMs: remaining,
+    });
+  }
+  return {
+    ...report,
+    started_at: new Date(started).toISOString(),
+    deadline_ms: deadline,
+  };
+}
+
+async function verifyReadbackAttempt(
+  options: ReadbackOptions,
+): Promise<ReadbackReport> {
   const startedAt = new Date().toISOString();
   const deadline = options.timeoutMs ?? readbackDeadlineMs;
   const requestMs = readbackRequestMs;
@@ -298,6 +336,7 @@ export async function verifyPublishedSite(
     publishedAt = service.metadata.knowledge_published_at;
     record("open release", "passed", service.releaseId);
   } catch (error) {
+    service?.close();
     record("open release", "failed", brief(error));
     return finish();
   }

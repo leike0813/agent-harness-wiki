@@ -24,6 +24,7 @@ import {
   runPublicConsumerVerification,
   type ConsumerProcess,
 } from "../../src/publication/consumer-verification.js";
+import { requiredPublicChecks } from "../../src/publication/program.js";
 import {
   readPublishedPointer,
   verifyPublishedSite,
@@ -40,6 +41,7 @@ let dataUrl: string;
 let server: Server;
 const missing = new Set<string>();
 const delays = new Map<string, number>();
+let stalePointerReads = 0;
 
 async function staticServer(directory: string): Promise<Server> {
   const server = createServer(async (request, response) => {
@@ -50,6 +52,19 @@ async function staticServer(directory: string): Promise<Server> {
     if (delay) await new Promise((resolve) => setTimeout(resolve, delay));
     if (missing.has(relative)) {
       response.writeHead(404).end();
+      return;
+    }
+    if (relative === "data/v1/current.json" && stalePointerReads > 0) {
+      stalePointerReads -= 1;
+      const id = `web-v1-${"b".repeat(40)}`;
+      response.end(
+        JSON.stringify({
+          protocol_version: 1,
+          state: "active",
+          release_id: id,
+          manifest: `releases/${id}/manifest.json`,
+        }),
+      );
       return;
     }
     try {
@@ -150,6 +165,21 @@ test("reports a failed probe with the actual target when the expected release di
   expect(report.result).toBe("failed");
   expect(report.failures).toContain("expected release");
   expect(report.release_id).toBe(releaseId);
+});
+
+test("confirms the expected deployment after a stale public pointer settles", async () => {
+  stalePointerReads = 1;
+  try {
+    const report = await verifyPublishedSite({
+      dataUrl,
+      expectedReleaseId: releaseId,
+    });
+    expect(report.result).toBe("passed");
+    expect(report.release_id).toBe(releaseId);
+    expect(report.failures).toEqual([]);
+  } finally {
+    stalePointerReads = 0;
+  }
 });
 
 test("fails when a matching reader page lacks the release identity", async () => {
@@ -363,6 +393,9 @@ describe("runPublicConsumerVerification (packed artifact)", () => {
     });
     expect(report.failures).toEqual([]);
     expect(report.result).toBe("passed");
+    expect(report.checks.map((check) => check.name)).toEqual(
+      expect.arrayContaining([...requiredPublicChecks]),
+    );
     expect(report.platforms).toHaveProperty(
       `${process.platform}-${process.arch}-node${process.versions.node}`,
     );

@@ -19,13 +19,13 @@
 
 - [x] 4.1 Reuse package version in verification and add exact-public-package CLI/SDK stdio validation with isolated configuration; controlled tests verify candidate integrity, failed installs and release metadata without default public network.
 - [x] 4.2 Add tag/version/main checks, next publication and latest promotion with pinned npm/OIDC and shared ledger; controlled tests cover reruns and older candidates; document initial interactive 1.0.0 bootstrap and trust fields.
-- [ ] 4.3 Add public six-platform candidate acceptance before promotion; validate workflow and preserve actual runner/package/knowledge evidence.
+- [x] 4.3 Add public six-platform candidate acceptance before promotion; validate workflow and preserve actual runner/package/knowledge evidence.
 
 ## 5. Integration and actual delivery
 
 - [x] 5.1 Update PRD/AGENTS/README/architecture/data-model/development/knowledge-workflow/roadmap and ADR to implemented boundaries, then pass pnpm verify and OpenSpec strict validation.
 - [x] 5.2 Commit/push dev, create and merge a passing PR, initialize ledger/Pages/environments/immutable releases and actually deploy; record CI, archive, public resource/page identities and successful readback.
-- [ ] 5.3 Actually retrieve an archive, exercise manual recovery and restore the latest production target; record transition/protection and public validation evidence.
+- [x] 5.3 Actually retrieve an archive, exercise manual recovery and restore the latest production target; record transition/protection and public validation evidence.
 - [ ] 5.4 Tag the verified 1.0.0 candidate, deliver its tested tgz for maintainer bootstrap/trust setup, run public npm and actual Pages acceptance on the platform matrix, promote and verify latest; leave incomplete if account preparation or public acceptance is blocked.
 
 Public acceptance is separate from controlled tests. No fixture, authored workflow, prepared tgz or account-setup instruction counts as successful deployment or publication. This change stays active until all required external checks succeed; archive is not part of this request.
