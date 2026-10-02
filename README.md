@@ -61,7 +61,7 @@ pnpm online:verify <输出目录>
 
 公开包 `agent-harness-wiki@1.0.0` 提供在线只读查询与本地 stdio MCP，按需读取已发布知识，不携带完整历史、SQLite 或语义模型。完整说明见 [消费者包说明](packages/consumer/README.md)，取舍见 [ADR 0010](docs/decisions/0010-online-consumer.md)。
 
-1.0.0 已发布到 npm，以下命令可直接使用；公开平台验收与发布状态见 [发布指南](docs/publication.md)。
+[1.0.0 已发布到 npm](https://www.npmjs.com/package/agent-harness-wiki)，六组公开平台验收与 OIDC latest 推广已通过。以下命令可直接使用；交付记录见 [发布指南](docs/publication.md)。
 
 ```sh
 npx -y agent-harness-wiki@1.0.0 query topic --harness codex --topic mcp --surface-id cli

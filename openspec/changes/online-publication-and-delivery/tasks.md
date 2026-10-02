@@ -26,6 +26,6 @@
 - [x] 5.1 Update PRD/AGENTS/README/architecture/data-model/development/knowledge-workflow/roadmap and ADR to implemented boundaries, then pass pnpm verify and OpenSpec strict validation.
 - [x] 5.2 Commit/push dev, create and merge a passing PR, initialize ledger/Pages/environments/immutable releases and actually deploy; record CI, archive, public resource/page identities and successful readback.
 - [x] 5.3 Actually retrieve an archive, exercise manual recovery and restore the latest production target; record transition/protection and public validation evidence.
-- [ ] 5.4 Tag the verified 1.0.0 candidate, deliver its tested tgz for maintainer bootstrap/trust setup, run public npm and actual Pages acceptance on the platform matrix, promote and verify latest; leave incomplete if account preparation or public acceptance is blocked.
+- [x] 5.4 Tag the verified 1.0.0 candidate, deliver its tested tgz for maintainer bootstrap/trust setup, run public npm and actual Pages acceptance on the platform matrix, promote and verify latest; leave incomplete if account preparation or public acceptance is blocked.
 
 Public acceptance is separate from controlled tests. No fixture, authored workflow, prepared tgz or account-setup instruction counts as successful deployment or publication. This change stays active until all required external checks succeed; archive is not part of this request.
