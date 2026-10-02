@@ -29,7 +29,7 @@ pnpm online:verify <输出目录>
 
 `pnpm online:build`（`scripts/build-online.ts`）必须给定 `--dataset-root`、`--profile`、`--commit`、`--published-at`、`--base`、`--out-dir`，`--retain <已验证旧部署目录...>` 可选地把这些旧部署目录的 `data/` 并入新部署（旧页面由旧归档单独保存，不随新站点重建）；`pnpm online:verify`（`scripts/verify-online.ts`）接收一个部署目录，不需要额外的 `--`。`pnpm docs:build --online`（`scripts/build-site.ts`）接受同一组在线参数，等价于 `pnpm online:build`。输出目录不可变：已存在且校验一致的同名产物复用，内容不同则拒绝，新 release 必须用新目录。构建先写 staging，联合验证页面与数据 release 身份、引用、来源、fixture 隔离和部署目录容量（解包后的实际文件字节 ≤512 MiB）后再接受候选，失败保留既有已接受输出。身份为 `web-v1-<完整 SHA>`，协议分区为 `data/v1/`；公开清单保持精简，构建侧另写 inventory 与 hash 记录。依据见 [ADR 0009](decisions/0009-online-knowledge-distribution.md)。
 
-在线构建与校验属于第一个 change；消费者 CLI／MCP 包、在线 DTO、HTTP／缓存／取消／离线读取与网络失败政策由 `online-consumer-cli-mcp` 交付，公开 CI／归档／Pages／npm 发布属于第三个 change。最低 Node 版本为 24.12.0；本机在线构建受测环境为 Linux x64、Node 24.12.0（ICU 77.1），消费者平台矩阵只在验证 CI 中配置，未运行组合待验收。
+在线构建与校验属于第一个 change；消费者 CLI／MCP 包、在线 DTO、HTTP／缓存／取消／离线读取与网络失败政策由 `online-consumer-cli-mcp` 交付，公开发布 CI／归档／Pages／npm 发布属于第三个 change。最低 Node 版本为 24.12.0；本机在线构建受测环境为 Linux x64、Node 24.12.0（ICU 77.1），消费者六组平台矩阵已在验证 CI 中通过。
 
 2026-10-02 已从无本地原件、发布或模型的干净生产输入完成子路径联合构建、独立校验与固定参数重跑：35,681 个文件，共 243,601,057 字节。`pnpm verify` 通过，38 个单元测试与 110 个集成测试通过，3 个既有环境测试跳过。实际提交、命令和分类体积见 [ADR 0009 验收记录](decisions/0009-online-knowledge-distribution.md#联合构建验收)。
 
@@ -47,7 +47,7 @@ pnpm consumer:verify
 - `consumer:pack` 生成真实 tgz 并核对文件清单与运行时依赖闭包，确认不含维护者代码、数据库、模型或知识。
 - `consumer:verify` 在源码树外安装 tgz，验证五类 CLI 查询、MCP stdio、`--version` 与依赖解析，并写出 `var/consumer-package/verification.json`（Node、ICU、arch、OS、npm）证据；默认不访问公网、真实 HOME 或全局安装。
 
-仅验证 CI 工作流 [`consumer-validation.yml`](../.github/workflows/consumer-validation.yml) 覆盖 Linux x64、macOS arm64（`macos-15`）、Windows native x64 × Node 最低 24.12.0 与最新 24.x，只做校验、`contents: read`、无发布权限；先断言 `runner.arch` 与矩阵 arch 一致，再由 `pnpm consumer:verify` 写出并上传 `var/consumer-package/verification.json` 与 `var/consumer-package/manifest.json`。2026-10-02 本机 Linux x64、Node 24.12.0（ICU 77.1）的真实包验收通过；六个 CI runner 组合尚未执行，仍待验收。包清单与本机检查见 [ADR 0010 验收记录](decisions/0010-online-consumer.md#本机验收)。构建与真实 tgz 准备不等于 npm 发布或 Pages 部署，使用说明见 [消费者包说明](../packages/consumer/README.md)。
+仅验证 CI 工作流 [`consumer-validation.yml`](../.github/workflows/consumer-validation.yml) 覆盖 Linux x64、macOS arm64（`macos-15`）、Windows native x64 × Node 最低 24.12.0 与最新 24.x，只做校验、`contents: read`、无发布权限；由 `main`／`dev` 推送、PR 或手动调度触发。先断言 `runner.arch` 与矩阵 arch 一致，再由 `pnpm consumer:verify` 写出并上传 `var/consumer-package/verification.json` 与 `var/consumer-package/manifest.json`。2026-10-02 六个 CI runner 组合均通过，每组 25 项；实际 Node 为 24.12.0／24.21.0。包清单、本机检查与 CI 链接见 [ADR 0010 验收记录](decisions/0010-online-consumer.md#本机验收)。构建与真实 tgz 准备不等于 npm 发布或 Pages 部署，使用说明见 [消费者包说明](../packages/consumer/README.md)。
 
 ## 新收录产品接入
 

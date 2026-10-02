@@ -59,15 +59,17 @@
 | 环境 | 实际 Node／ICU | 状态 |
 |---|---|---|
 | 本机 Linux x64 | 24.12.0／77.1 | passed |
-| CI ubuntu-24.04 x64，最低 24.12.0 | 未执行 | not_run |
-| CI ubuntu-24.04 x64，最新 24.x | 未执行 | not_run |
-| CI macos-15 arm64，最低 24.12.0 | 未执行 | not_run |
-| CI macos-15 arm64，最新 24.x | 未执行 | not_run |
-| CI windows-2025 x64，最低 24.12.0 | 未执行 | not_run |
-| CI windows-2025 x64，最新 24.x | 未执行 | not_run |
+| CI ubuntu-24.04 x64，最低 24.12.0 | 24.12.0／77.1 | passed，25 项 |
+| CI ubuntu-24.04 x64，最新 24.x | 24.21.0／78.3 | passed，25 项 |
+| CI macos-15 arm64，最低 24.12.0 | 24.12.0／77.1 | passed，25 项 |
+| CI macos-15 arm64，最新 24.x | 24.21.0／78.3 | passed，25 项 |
+| CI windows-2025 x64，最低 24.12.0 | 24.12.0／77.1 | passed，25 项 |
+| CI windows-2025 x64，最新 24.x | 24.21.0／78.3 | passed，25 项 |
 
-仅验证 CI 已配置六个组合，并上传各 runner 的真实环境和工件记录。2026-10-02 根据 [GitHub runner 官方列表](https://github.com/actions/runner-images#available-images)核对架构，根据 [setup-node](https://github.com/actions/setup-node)核对 Node 版本选择；静态核对不代替 runner 执行。本机通过也不代替最低版本 Linux CI runner。任务 5.3 因缺少这些实际记录保持未勾选，本 change 未归档。
+2026-10-02 按维护者授权推送 `dev` 并触发仅验证 CI。[首轮 36970051824](https://github.com/leike0813/agent-harness-wiki/actions/runs/36970051824) 中 macOS 两组通过，Linux／Windows 失败。最小 npm 安装复现确认 pnpm 共享 inode 导致依赖 tar 含硬链接，安装时缺文件；`packDependencies` 改为先复制到临时目录再打包。Windows 的 Git 换行转换改变了 hash 绑定 fixture 的原件字节，`.gitattributes` 保留提交字节。
+
+修复提交 `d67487166bbcac930fbdf242cf4d792ad3001476` 的 [CI 36970819489](https://github.com/leike0813/agent-harness-wiki/actions/runs/36970819489) 六组全部通过，共 150 项检查。最低组 npm 11.6.2，最新组 npm 11.19.0；六组 tgz 均为 36,915 字节，解包 154,162 字节、19 个文件。各 runner 上传 `verification.json` 与 `manifest.json`，已下载到忽略目录 `var/consumer-ci/36970819489/all/`，报告确认实际架构、含空格路径、真实安装／npx／CLI／SDK stdio 和零失败。任务 5.3 已勾选，本 change 未归档。
 
 ## 第三个 change 的交接
 
-当前已实现并打包消费者，尚未部署 Pages、发布 npm 或执行远端 CI。下一个公开发布 change 需落实跨 CI 持久发布台账、旧发布 30 天／旧协议 90 天保留、容量失败保护与手动恢复，并完成 npm OIDC、next 候选到 latest 的真实验收。程序版本、在线知识发布与部署状态分别记录；不能用消费者缓存或本次 tgz 构建时间替代服务端保留依据。开始上线前补齐上述 runner 实测；当前不提交、推送或创建远程资源。
+当前已实现并打包消费者，六组远端验证 CI 通过，尚未部署 Pages 或发布 npm。下一个公开发布 change 需落实跨 CI 持久发布台账、旧发布 30 天／旧协议 90 天保留、容量失败保护与手动恢复，并完成 npm OIDC、next 候选到 latest 的真实验收。程序版本、在线知识发布与部署状态分别记录；不能用消费者缓存或本次 tgz 构建时间替代服务端保留依据。

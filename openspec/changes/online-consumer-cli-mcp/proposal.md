@@ -28,6 +28,6 @@
 
 ## Impact
 
-涉及 query／MCP 共享逻辑、新在线客户端及消费者入口、消费者包和构建／验收脚本、schema 导出、测试与仅验证 CI、PRD／AGENTS／README／ADR及相关开发文档。依赖已有锁定版本，不新增网络、缓存或打包框架。公开部署、npm 发布、OIDC、30／90 天服务端保留和恢复属于下一 change；本次不提交或推送 Git。
+涉及 query／MCP 共享逻辑、新在线客户端及消费者入口、消费者包和构建／验收脚本、schema 导出、测试与仅验证 CI、PRD／AGENTS／README／ADR及相关开发文档。依赖已有锁定版本，不新增网络、缓存或打包框架。公开部署、npm 发布、OIDC、30／90 天服务端保留和恢复属于下一 change；Git 提交与推送按维护者明确授权执行。
 
 依据：[分发地图](../../../.scratch/npm-pages-distribution/map.md)与其六张 resolved 决议；前置主规格为 `online-knowledge-release` 与 `online-lexical-search`。

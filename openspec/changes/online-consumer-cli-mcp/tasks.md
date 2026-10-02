@@ -31,7 +31,7 @@
 
 - [x] 5.1 创建仅验证CI：三OS／架构×Node最低24.12.0及最新24.x，执行真实包、含空格路径、CLI和SDK stdio，记录环境且无发布权限；静态核对工作流与本地验收脚本一致。
 - [x] 5.2 实际运行本机消费者验收，记录Node／ICU／平台、包体积和测试；完成PRD／AGENTS／README／数据模型／开发／ADR／路线图更新，修复前置归档链接，清晰区分已实现／已打包／已上线。
-- [ ] 5.3 在真实Linux最低／最新24.x、macOS arm64及Windows x64 runner执行矩阵并保存结果；未运行组合保留本项未完成，不把路径模拟或CI文件存在当实际通过。
-- [x] 5.4 完成pnpm verify、消费者相关检查、schema／format／lint／typecheck及openspec strict验证，修复实际回归；核对任务证据与第三change交接，不提交／推送／归档或公开发布。
+- [x] 5.3 在真实Linux最低／最新24.x、macOS arm64及Windows x64 runner执行矩阵并保存结果；未运行组合保留本项未完成，不把路径模拟或CI文件存在当实际通过。
+- [x] 5.4 完成pnpm verify、消费者相关检查、schema／format／lint／typecheck及openspec strict验证，修复实际回归；核对任务证据与第三change交接，Git提交与推送按维护者明确授权执行，不归档或公开发布。
 
-本机验收、包清单和未运行矩阵见 [ADR 0010](../../../docs/decisions/0010-online-consumer.md#本机验收)。5.3 的六个 CI runner 组合均未执行，保留未完成；本机路径测试与工作流配置不能代替实际 runner 记录。
+本机验收、包清单与实际矩阵见 [ADR 0010](../../../docs/decisions/0010-online-consumer.md#本机验收)。2026-10-02 的 [CI 36970819489](https://github.com/leike0813/agent-harness-wiki/actions/runs/36970819489) 在六个真实 runner 组合均通过，每组 25 项检查；已下载各组 verification.json 与 manifest.json，5.3 据此勾选。
