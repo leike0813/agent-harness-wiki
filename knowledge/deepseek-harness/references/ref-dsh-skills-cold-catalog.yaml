@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-skills-cold-catalog
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/api/session-controller/src/skill-catalog.ts
+  start: 34
+  end: 49
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "  @Remote\n  async list(request: SkillListRequest, signal: AbortSignal): Promise<SkillListValue> {\n    void signal\n    const { sessionId } = request\n    let cwd: string | undefined\n    let agentPreset: string | undefined\n    try {\n      using observation = await this.ctx.sessionQuery.observeSession(sessionId)\n      if (observation.projections === undefined) {\n        throw new Error('skill catalog requires a projected Session observation')\n      }\n      cwd = observation.header.cwd\n      agentPreset = observation.projections.values.agentPreset ?? undefined\n    } catch (error: unknown) {\n      if (error instanceof SessionQueryError\n        && error.code === 'SESSION_QUERY_SESSION_NOT_FOUND') {"

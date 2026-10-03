@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-configuration-config-overrides-e02
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/boot/app-boot/src/profile-context.ts
+  start: 63
+  end: 70
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "export function readProfilePatches(binName: string, context: ProfileContext, initialProfile?: Profile): PatchOptions[] {\n  const profile = initialProfile ?? loadProfileDirectory(binName, context.dir, context.installAnchor, { userLayer: false })\n  const patches = structuredClone([\n    ...profile.layers.flatMap(layer => layer.patches),\n    ...(initialProfile?.patches ?? loadOptionalPatches(binName, context.patchPath) ?? []),\n    ...(loadOptionalPatches(binName, join(context.home, PROFILE_PATCH_FILENAME)) ?? []),\n    ...context.overlays,\n  ])"

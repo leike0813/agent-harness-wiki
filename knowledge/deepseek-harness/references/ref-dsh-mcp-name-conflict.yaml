@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-mcp-name-conflict
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/mcp/mcp-client/README.md
+  start: 77
+  end: 81
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "- Two servers publishing the same tool name (for example `search`) coexist under their own namespaces.\n- Two entries using the same server name: the later one fails to load with a clear error.\n- A server that lists the same tool twice gets its tool list rejected as invalid, and the previous tool set stays active.\n- The SDK owns discovery pagination and its page limit. A discovery failure preserves the previous tools; malformed cursor chains follow the SDK's behavior.\n- An update that conflicts with an already-registered tool name is rejected entirely — you never get a partial tool set from that server."

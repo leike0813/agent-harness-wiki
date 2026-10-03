@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-skills-render-content
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/skill/skill/src/index.ts
+  start: 170
+  end: 183
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "export function renderSkillContent(skill: Pick<SkillDefinition, 'name' | 'provider' | 'resourceBase' | 'content'>): string {\n  const resourceHint = renderResourceHint(skill)\n  return [\n    `<skill_content name=\"${escapeAttr(skill.name)}\">`,\n    '<skill_resources>',\n    ...resourceHint,\n    '</skill_resources>',\n    '',\n    '<skill_instructions>',\n    skill.content,\n    '</skill_instructions>',\n    '</skill_content>',\n  ].join('\\n')\n}"

@@ -950,6 +950,55 @@ products:
       - surface_id: zed
         status: unknown
         reference_ids: []
+  - harness_id: deepseek-harness
+    name: "DeepSeek Harness"
+    aliases: ["dsh", "deepseek-harness"]
+    reference_ids: ["cat-deepseek-harness-readme", "cat-deepseek-harness-entry-modes", "cat-deepseek-harness-user-guide", "cat-deepseek-harness-desktop", "cat-deepseek-harness-safety"]
+    surfaces:
+      - surface_id: web
+        name: "DeepSeek Harness Web UI"
+        kind: web
+        reference_ids: ["cat-deepseek-harness-user-guide", "cat-deepseek-harness-entry-modes"]
+      - surface_id: desktop
+        name: "DeepSeek Harness Desktop"
+        kind: desktop
+        reference_ids: ["cat-deepseek-harness-desktop"]
+      - surface_id: headless
+        name: "dsh headless profile"
+        kind: cli
+        reference_ids: ["cat-deepseek-harness-entry-modes"]
+      - surface_id: acp
+        name: "dsh ACP profile"
+        kind: sdk
+        reference_ids: ["cat-deepseek-harness-entry-modes"]
+      - surface_id: sdk
+        name: "dsh SDK profile"
+        kind: sdk
+        reference_ids: ["cat-deepseek-harness-entry-modes"]
+      - surface_id: sdk-minimal
+        name: "dsh sdk-minimal profile"
+        kind: sdk
+        reference_ids: ["cat-deepseek-harness-entry-modes"]
+    runtimes: []
+    bindings:
+      - surface_id: web
+        status: unknown
+        reference_ids: []
+      - surface_id: desktop
+        status: unknown
+        reference_ids: []
+      - surface_id: headless
+        status: unknown
+        reference_ids: []
+      - surface_id: acp
+        status: unknown
+        reference_ids: []
+      - surface_id: sdk
+        status: unknown
+        reference_ids: []
+      - surface_id: sdk-minimal
+        status: unknown
+        reference_ids: []
   - harness_id: deep-agents
     name: "Deep Agents"
     aliases: ["deepagents"]
@@ -1579,3 +1628,58 @@ references:
       archive_path: "archive/catalog/qoder/qoder-cli-installation.md"
     locator: "Installation and Upgrade"
     excerpt: "Before installing Qoder CLI, ensure your environment meets the following requirements: Operating System: macOS, Linux, Windows (Windows Terminal is recommended). CPU Architecture: arm64, amd64. Node.js: Node.js >= 20.0.0 is required only for the legacy npm installation method. Windows (arm64) is not currently supported."
+  - reference_id: cat-deepseek-harness-readme
+    harness_id: deepseek-harness
+    official_url: "https://github.com/deepseek-ai/deepseek-harness/blob/da00f7f5358f2949383b35c14f548bc20187d80c/README.md"
+    captured_at: "2026-10-03T01:47:14Z"
+    snapshot:
+      kind: git_commit
+      sha256: "0f5516be2acde776f05572cbc8c3093c90549afe04ce118e11157d073d5d15f4"
+      revision: "da00f7f5358f2949383b35c14f548bc20187d80c"
+      archive_path: "archive/catalog/deepseek-harness/readme.md"
+    locator: "README.md, first description and developer preview notice @ da00f7f5358f2949383b35c14f548bc20187d80c"
+    excerpt: "DeepSeek Harness (`dsh`) is an open-source agent harness developed by [DeepSeek AI](https://deepseek.com).\n\nIt is built on an **everything-is-a-plugin** architecture and powered by [Cordis](https://github.com/cordiverse/cordis), whose design is described in [_A Programming Paradigm for Spatiotemporal Composability_](https://arxiv.org/abs/2608.25512).\n\nDocumentation: [https://deepseek-harness.github.io/deepseek-harness/](https://deepseek-harness.github.io/deepseek-harness/)\n\n## Developer preview\n\nDeepSeek Harness is in _developer preview_ and iterating rapidly. **THERE WILL BE COMPATIBILITY-BREAKING CHANGES.**"
+  - reference_id: cat-deepseek-harness-entry-modes
+    harness_id: deepseek-harness
+    official_url: "https://github.com/deepseek-ai/deepseek-harness/blob/da00f7f5358f2949383b35c14f548bc20187d80c/apps/cli/README.md"
+    captured_at: "2026-10-03T01:47:14Z"
+    snapshot:
+      kind: git_commit
+      sha256: "4888e4e05d413915aaf013d6dea00278b251adbf16045d0048ac2242851a03c7"
+      revision: "da00f7f5358f2949383b35c14f548bc20187d80c"
+      archive_path: "archive/catalog/deepseek-harness/cli-readme.md"
+    locator: "apps/cli/README.md, launcher description and Entry modes table @ da00f7f5358f2949383b35c14f548bc20187d80c"
+    excerpt: "The `dsh` command is the sole supported Node application launcher: profiles are ordered stacks of plugin-bundle patch layers under the user's own overrides. SDK and ACP are profiles, not separate public bins. The Python runtime wheel packages this same command; the SDK defaults to `sdk`, and the minimal example selects `sdk-minimal`. ...\n\n| `dsh --profile acp` | Serve automation clients over ACP stdio until disconnect. |\n| `dsh --profile headless \"job\"` | Run one fresh persisted session, print the final answer, and exit. |\n| `dsh --profile sdk` | Serve SDK clients over JSON-RPC stdio until shutdown or disconnect. |\n| `dsh --profile sdk-minimal` | Serve SDK clients with the standalone minimal agent tree. |\n| `dsh web` | Boot the Web profile. |"
+  - reference_id: cat-deepseek-harness-user-guide
+    harness_id: deepseek-harness
+    official_url: "https://github.com/deepseek-ai/deepseek-harness/blob/da00f7f5358f2949383b35c14f548bc20187d80c/docs/user/guide/index.md"
+    captured_at: "2026-10-03T01:47:14Z"
+    snapshot:
+      kind: git_commit
+      sha256: "a22e25ad4bb6a1b249b9e2f1df0dd408f22cebd8a110067fddad82870c2b96e9"
+      revision: "da00f7f5358f2949383b35c14f548bc20187d80c"
+      archive_path: "archive/catalog/deepseek-harness/user-guide-index.md"
+    locator: "docs/user/guide/index.md, Web UI entry and model configuration @ da00f7f5358f2949383b35c14f548bc20187d80c"
+    excerpt: "# Use the Web UI\n\nStart the Web UI through the [root README](../../../README.md#run); the command prints its URL. This guide begins after that server is running. The `dsh` process uses its invoking directory as the default filesystem location, but a fresh Web UI has no selected workspace until you add one.\n\n## Configure a model\n\nOpen **Settings → Models**, enter a [DeepSeek API key](https://platform.deepseek.com/), and save it. The model route becomes usable immediately without restarting the server."
+  - reference_id: cat-deepseek-harness-desktop
+    harness_id: deepseek-harness
+    official_url: "https://github.com/deepseek-ai/deepseek-harness/blob/da00f7f5358f2949383b35c14f548bc20187d80c/apps/desktop/README.md"
+    captured_at: "2026-10-03T01:47:14Z"
+    snapshot:
+      kind: git_commit
+      sha256: "8fd42b578356161061743477447714b253c185ea58b7c2705587731129ca94af"
+      revision: "da00f7f5358f2949383b35c14f548bc20187d80c"
+      archive_path: "archive/catalog/deepseek-harness/desktop-readme.md"
+    locator: "apps/desktop/README.md, Electron shell and port description @ da00f7f5358f2949383b35c14f548bc20187d80c"
+    excerpt: "The desktop application is an Electron shell around the complete dsh Web application. An Electron RunAsNode child starts the shared profile runner, and Electron immediately loads the packaged Web entry at `dsh-app://app/`. ... Desktop listens on an OS-assigned port by default, so it cannot collide with Web's `3080` or a reserved port; a `webserver.config.port` patch can override it."
+  - reference_id: cat-deepseek-harness-safety
+    harness_id: deepseek-harness
+    official_url: "https://github.com/deepseek-ai/deepseek-harness/blob/da00f7f5358f2949383b35c14f548bc20187d80c/SAFETY.md"
+    captured_at: "2026-10-03T01:47:14Z"
+    snapshot:
+      kind: git_commit
+      sha256: "62075bb51e0f7790441e7722ff12063107b4866019332e71ef01b63b6f880fee"
+      revision: "da00f7f5358f2949383b35c14f548bc20187d80c"
+      archive_path: "archive/catalog/deepseek-harness/safety.md"
+    locator: "SAFETY.md, Experimental status and Sandbox limitations @ da00f7f5358f2949383b35c14f548bc20187d80c"
+    excerpt: "DeepSeek Harness is experimental developer-preview software. It has not undergone a security audit and must not be treated as secure or production-ready.\n\nThe project can execute model-generated code and commands, load third-party plugins, and access the network, processes, credentials, and files made available to it. ...\n\n## Sandbox limitations\n\nSandboxing, approval prompts, and permission controls can reduce risk, but they do not guarantee isolation or prevent damage. Even correctly enforced restrictions cannot protect resources that the project is allowed to access."

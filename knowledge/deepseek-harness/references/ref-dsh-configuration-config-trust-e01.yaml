@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-configuration-config-trust-e01
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: .agents/notes/implemented/architecture/2026-08-04-configuration-source-ownership.md
+  start: 47
+  end: 47
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "**Trust does not extend to changing the harness itself.** `loadLayeredEnv` rejects, at load and before anything is materialized, any `.env` that sets a variable governing how a process launches (`PATH`, `SHELL`, `NODE_OPTIONS`, `LD_PRELOAD`), which ambient program handles an operation (`EDITOR`, `PAGER`, `BROWSER`), what code a runtime executes before the program it was asked to run (`BASH_ENV`, `PERL5OPT`, `PYTHONSTARTUP`, `RUBYOPT`, `JAVA_TOOL_OPTIONS`, the Git hook commands), where model-visible instructions load from (the whole `DSH_*` namespace, `HOME`, `XDG_*`), or how the network is reached and trusted (proxy and CA variables). Matching is case-insensitive, so `https_proxy` is not a bypass"

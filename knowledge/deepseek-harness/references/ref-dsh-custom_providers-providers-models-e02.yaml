@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-custom_providers-providers-models-e02
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/llm/llm-pi-ai/src/config.ts
+  start: 304
+  end: 317
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "  name: z.string(),\n  contextWindow: z.number().step(1).min(1),\n  maxTokens: z.number().step(1).min(1),\n  // No explicit default, unlike the route's `defaultInput`: schemastery\n  // materializes `[]` for an absent array, and resolution reads that as \"no\n  // answer here\" so the catalog entry below still applies.\n  input: z.array(z.union(MODALITIES)),\n  // The union, not a bare dict: schemastery materializes an absent dict as\n  // `{}`, and absent must stay distinguishable — it means \"inherit the\n  // installed catalog's capability\", while `false` disables reasoning.\n  reasoningEfforts: z.union([z.const(false), reasoningEfforts]),\n  compat: compatProfile,\n}"

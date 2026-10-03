@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-hooks-hooks-order-e06
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/hooks/hook-protocol/src/detached.ts
+  start: 23
+  end: 35
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "   * @param run - the detached run chain to hold until settled.\n   */\n  track(run: Promise<unknown>): void\n  /**\n   * Abort {@link signal}, then resolve once every tracked chain has settled —\n   * including chains tracked while the drain is in progress. The bridge\n   * registers this as its effect disposer; cordis awaits it, so\n   * `fiber.dispose()` resolving means the bridge's detached work is quiescent.\n   * A run tracked AFTER drain resolves is not awaited by anyone — by then the\n   * bridge's listeners are disposed, so nothing can start one.\n   * @returns resolves when all tracked runs have settled.\n   */\n  drain(): Promise<void>"

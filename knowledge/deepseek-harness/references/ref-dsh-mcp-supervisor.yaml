@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-mcp-supervisor
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/mcp/mcp-client/src/connection.ts
+  start: 1
+  end: 11
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "/**\n * Connection supervisor: owns the MCP client/transport generations for one\n * plugin instance, keeps the harness tool registry in sync with the live\n * generation, and — when the connection drops — restarts the configured\n * server with bounded exponential backoff.\n *\n * One outage shares one attempt budget (`maxAttempts` consecutive failed\n * attempts, delays doubling from `initialDelayMs` up to `maxDelayMs`). A\n * connection that stays up past the stability window closes the outage, so\n * the next disconnect starts a fresh budget while a crash-looping server —\n * even one whose connects briefly succeed — still exhausts the cap instead of"

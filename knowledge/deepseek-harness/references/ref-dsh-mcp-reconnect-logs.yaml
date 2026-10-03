@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-mcp-reconnect-logs
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/mcp/mcp-client/src/connection.ts
+  start: 233
+  end: 242
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "      ctx.logger.error(`${label}: giving up after ${policy.maxAttempts} consecutive failed reconnect attempts — tools unregistered; reload the plugin or restart the Host to reconnect`)\n      return\n    }\n    const delayMs = Math.min(policy.maxDelayMs, policy.initialDelayMs * 2 ** (failedAttempts - 1))\n    const action = lostEstablishedConnection ? 'connection lost; reconnecting' : 'connection failed; retrying'\n    ctx.logger.warn(`${label}: ${action} in ${delayMs}ms (attempt ${failedAttempts}/${policy.maxAttempts})`)\n    reconnectTimer = setTimeout(() => {\n      reconnectTimer = undefined\n      settling = connectGeneration(false)\n    }, delayMs)"

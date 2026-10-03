@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-mcp-config-stdio
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/mcp/mcp-client/src/index.ts
+  start: 119
+  end: 131
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "export const Config = z.union([\n  z.object({\n    transport: z.const('stdio'),\n    serverName: z.string().required().pattern(SERVER_NAME_PATTERN),\n    command: z.string().required(),\n    args: z.array(String).default([]),\n    env: z.dict(String).default({}),\n    cwd: z.string().default(''),\n    toolCallTimeoutMs: z.number().default(DEFAULT_TOOL_CALL_TIMEOUT_MS),\n    failOnStartupError: z.boolean().default(false),\n    maxInstructionBytes: z.number().step(1).min(1).default(DEFAULT_MAX_INSTRUCTION_BYTES),\n    reconnect: Reconnect,\n  }),"

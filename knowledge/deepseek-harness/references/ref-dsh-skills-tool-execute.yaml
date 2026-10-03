@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-skills-tool-execute
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/skill/tool-skill/src/index.ts
+  start: 127
+  end: 142
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "    async execute(args, exec) {\n      if (!isSkillName(args.name)) {\n        throw new Error(`invalid skill name \"${args.name}\"`)\n      }\n      // The agent is its own scope key, so the lookup resolves the layered\n      // registry exactly as this agent's composition sees it.\n      const lookup = { cwd: exec.agent?.session.header.cwd, signal: exec.signal, scope: exec.agent }\n      const summary = (await ctx.skills.list(lookup)).find(skill => skill.name === args.name)\n      if (!summary) {\n        throw new Error(`skill \"${args.name}\" is unknown or no longer available`)\n      }\n      if (!isModelInvocable(summary)) {\n        throw new Error(`skill \"${args.name}\" is not available for model invocation`)\n      }\n      const skill = await ctx.skills.get(args.name, lookup)\n      if (!skill) {"

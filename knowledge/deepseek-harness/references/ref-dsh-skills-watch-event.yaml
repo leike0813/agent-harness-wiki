@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-skills-watch-event
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/skill/skill-filesystem/src/index.ts
+  start: 662
+  end: 679
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "function isRelevantWatchEvent(\n  root: SkillRoot,\n  event: SkillWatchEvent,\n  path: string,\n): boolean {\n  const segments = containedSegments(root.path, path)\n  if (segments === undefined) return false\n  if (segments.length === 0) return event === 'addDir' || event === 'unlinkDir'\n  if (root.skipSystem === true && segments[0] === '.system') return false\n  if (segments.length === 1) {\n    if (event === 'addDir' || event === 'unlinkDir') return true\n    return segments[0]?.endsWith('.md') === true\n  }\n  return segments.length === 2\n    && segments[1] === 'SKILL.md'\n    && event !== 'addDir'\n    && event !== 'unlinkDir'\n}"

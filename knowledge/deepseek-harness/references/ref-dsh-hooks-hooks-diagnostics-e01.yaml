@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-hooks-hooks-diagnostics-e01
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/hooks/hooks-claude-code/src/index.ts
+  start: 107
+  end: 118
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "  // Parse once at load. A read or parse failure logs and registers nothing.\n  let parsed: ClaudeCodeHookConfig = {}\n  try {\n    const raw: unknown = JSON.parse(readFileSync(config.configPath, 'utf8'))\n    const result = parseClaudeCodeConfig(raw, {\n      ...config.pluginRoot !== undefined ? { pluginRoot: config.pluginRoot } : {},\n      ...config.projectDir !== undefined ? { projectDir: config.projectDir } : {},\n    })\n    parsed = result.config\n    for (const s of result.skipped) {\n      ctx.logger.warn(`hooks-claude-code: skipping unsupported \"${s.type}\" hook on ${s.event} (only command hooks run)`)\n    }"

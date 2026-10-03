@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-skills-provider-ctor
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/skill/skill-filesystem/src/index.ts
+  start: 160
+  end: 172
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "  constructor(\n    private readonly ctx: Context,\n    control: SkillProviderControl,\n    config: Config = {},\n  ) {\n    this.name = config.providerName ?? 'filesystem'\n    this.includeDefaultRoots = config.includeDefaultRoots ?? true\n    this.dshHome = resolveDshHome(config.dshHome)\n    this.agentsHome = resolve(config.agentsHome ?? process.env.DSH_AGENTS_HOME ?? join(homedir(), '.agents'))\n    this.customSkillDirs = (config.customSkillDirs ?? []).map(root => resolve(root))\n    this.watchManager = new SkillWatchManager(ctx, control.invalidate, resolveWatchConfig(config))\n    control.signal.addEventListener('abort', () => { void this.dispose() }, { once: true })\n    // The environment bundled root is a default root: an isolated provider"

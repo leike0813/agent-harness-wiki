@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-hooks-hooks-output-e03
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/hooks/hook-protocol/src/merge.ts
+  start: 34
+  end: 42
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "/** Rank a single hook's decision for the deny>ask>allow precedence (higher = stricter). */\nfunction rank(decision: HookOutput['decision']): number {\n  switch (decision) {\n    case 'deny': case 'block': return 3\n    case 'ask': return 2\n    case 'approve': case 'allow': return 1\n    default: return 0 // no decision\n  }\n}"

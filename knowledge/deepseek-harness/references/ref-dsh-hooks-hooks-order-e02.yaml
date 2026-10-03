@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-hooks-hooks-order-e02
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/hooks/hooks-claude-code/src/index.ts
+  start: 158
+  end: 172
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "    for (const group of groups) {\n      if (!matchesMatcher(group.matcher, matchQuery, 'claude-code')) continue\n      for (const hook of group.hooks) {\n        const handlerId = nextHandlerId(point)\n        const session = opts.agent?.session\n        if (session && opts.turn !== undefined) {\n          appendHookInvoked(session, {\n            turn: opts.turn, point, dialect: 'claude-code', handlerId,\n            ...group.matcher !== undefined ? { matcher: group.matcher } : {},\n          })\n        }\n        const { output, durationMs } = await runHook(ctx.shell, hook, {\n          payload,\n          defaultTimeoutMs,\n          ...hookEnv ? { env: hookEnv } : {},"
