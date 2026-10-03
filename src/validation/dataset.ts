@@ -19,6 +19,7 @@ import {
   harnessSchema,
   snapshotSchema,
   sourceSchema,
+  type Artifact,
   type Claim,
   type Dataset,
   type Target,
@@ -127,6 +128,49 @@ function safeRelative(value: string): boolean {
       .split("/")
       .every((segment) => segment !== "" && segment !== "." && segment !== "..")
   );
+}
+
+type GitArtifact = Extract<
+  Artifact,
+  { kind: "git_checkout" } | { kind: "git_source_file" }
+>;
+
+function isGitArtifact(artifact: Artifact): artifact is GitArtifact {
+  return (
+    artifact.kind === "git_checkout" || artifact.kind === "git_source_file"
+  );
+}
+
+/** Where a retained original lives, and the single boundary it may not cross.
+ * A pinned commit file without a retained checkout has no location. */
+function retainedLocation(artifact: Artifact): {
+  location: string;
+  prefix: string;
+} | null {
+  switch (artifact.kind) {
+    case "git_checkout":
+      return {
+        location: artifact.checkout_path,
+        prefix: `upstream/${artifact.harness_id}`,
+      };
+    case "git_source_file":
+      return null;
+    case "archived_document":
+      return {
+        location: artifact.archive_path,
+        prefix: `archive/${artifact.harness_id}/${artifact.artifact_id}/`,
+      };
+    case "managed_package":
+      return {
+        location: artifact.package_path,
+        prefix: `research/package-set/node_modules/${artifact.package_name}`,
+      };
+    case "archived_package_file":
+      return {
+        location: artifact.tarball_path,
+        prefix: `archive/${artifact.harness_id}/npm/${artifact.version}/`,
+      };
+  }
 }
 
 export async function loadAndValidateDataset(input: {
@@ -717,7 +761,7 @@ export async function loadAndValidateDataset(input: {
     if (
       !source ||
       source.harness_id !== artifact.harness_id ||
-      (artifact.kind === "git_checkout" && source.kind !== "git_repository") ||
+      (isGitArtifact(artifact) && source.kind !== "git_repository") ||
       (artifact.kind === "archived_document" &&
         source.kind !== "official_documentation") ||
       (artifact.kind === "managed_package" &&
@@ -734,32 +778,18 @@ export async function loadAndValidateDataset(input: {
         "Artifact source is missing, incompatible, or belongs to another harness.",
         "Use an official source of the matching kind and harness.",
       );
-    const location =
-      artifact.kind === "git_checkout"
-        ? artifact.checkout_path
-        : artifact.kind === "archived_document"
-          ? artifact.archive_path
-          : artifact.kind === "managed_package"
-            ? artifact.package_path
-            : artifact.tarball_path;
-    const prefix =
-      artifact.kind === "git_checkout"
-        ? `upstream/${artifact.harness_id}`
-        : artifact.kind === "archived_document"
-          ? `archive/${artifact.harness_id}/${artifact.artifact_id}/`
-          : artifact.kind === "managed_package"
-            ? `research/package-set/node_modules/${artifact.package_name}`
-            : `archive/${artifact.harness_id}/npm/${artifact.version}/`;
+    const retained = retainedLocation(artifact);
     if (
-      !safeRelative(location) ||
-      (artifact.kind === "archived_document" ||
-      artifact.kind === "archived_package_file"
-        ? !location.startsWith(prefix)
-        : artifact.kind === "git_checkout"
-          ? location !== prefix &&
-            location !==
-              `archive/${artifact.harness_id}/git/${artifact.commit}/checkout`
-          : location !== prefix) ||
+      (retained !== null &&
+        (!safeRelative(retained.location) ||
+          (artifact.kind === "archived_document" ||
+          artifact.kind === "archived_package_file"
+            ? !retained.location.startsWith(retained.prefix)
+            : artifact.kind === "git_checkout"
+              ? retained.location !== retained.prefix &&
+                retained.location !==
+                  `archive/${artifact.harness_id}/git/${artifact.commit}/checkout`
+              : retained.location !== retained.prefix))) ||
       (artifact.kind !== "archived_document" && !safeRelative(artifact.file)) ||
       (artifact.kind === "archived_package_file" &&
         !artifact.file.startsWith("package/")) ||
@@ -769,9 +799,11 @@ export async function loadAndValidateDataset(input: {
       related(
         "PATH_INVALID",
         artifact.artifact_id,
-        "location",
+        retained === null ? "file" : "location",
         "Artifact location is unsafe or outside its harness boundary.",
-        "Use the prescribed relative checkout or archive path.",
+        retained === null
+          ? "Use a safe relative path inside the pinned commit."
+          : "Use the prescribed relative checkout or archive path.",
       );
     if (
       artifact.kind === "archived_document" &&
@@ -815,8 +847,7 @@ export async function loadAndValidateDataset(input: {
         !artifact ||
         artifact.source_id !== snapshot.source_id ||
         artifact.harness_id !== harnessId ||
-        (snapshot.kind === "source_revision" &&
-          artifact.kind !== "git_checkout") ||
+        (snapshot.kind === "source_revision" && !isGitArtifact(artifact)) ||
         (snapshot.kind === "documentation" &&
           artifact.kind !== "archived_document") ||
         (snapshot.kind === "npm_release" &&
@@ -835,7 +866,8 @@ export async function loadAndValidateDataset(input: {
           snapshot.target.version_identity.kind !== "commit" ||
           snapshot.target.version_identity.value !== snapshot.commit ||
           snapshot.target.distribution !== "source-tree" ||
-          (artifact?.kind === "git_checkout" &&
+          (artifact !== undefined &&
+            isGitArtifact(artifact) &&
             (artifact.commit !== snapshot.commit ||
               artifact.content_sha256 !== snapshot.content_sha256))
         )

@@ -310,6 +310,7 @@ bash-only syntax
 - 不得反向从 Markdown 提取事实作为常规更新机制。
 - 不得只修改数据库来更新事实。
 - 官方来源元数据与已捕获原件分开；`archive/` 原件由显式离线审计核对，普通查询和构建不依赖它。
+- 源码调查与维护按固定 commit 在项目外临时检出，任务结束后释放。新源码文件用 `git_source_file` 保存 commit、文件定位与内容 hash；Git catalog 引用可只保存固定 revision 与 hash。官方文档原件继续归档；原件审计对仅保留身份的来源明确报告 `not_retained`。临时路径不进入知识、catalog 或审计记录。
 - M1 npm 可执行包由 `research/package-set/` 的本地清单与锁文件精确锁定。受管包操作前读取 [ADR 0008](docs/decisions/0008-managed-package-storage.md)：仅存储配置不存在时使用本地布局；NFS 模式保留完整远端快照，通过 `current` 原子替换选择，pnpm 索引与登记、操作锁、小文件备份及恢复记录留在本地。NFSv4 同时核对有效和继承 ACL，所有者之外的写授权报阻塞。晋升失败据备份恢复，中断后下一次更新先恢复；历史及失败候选不自动清理，hard NFS 等待不保证按超时结束。历史发布的元数据和已复核短摘录持续可查询，缺失的旧包原件在审计中如实报告。文档原件和模型按各自规则保留。
 
 ### 6.2 查询边界
@@ -407,7 +408,7 @@ knowledge/
     ├── coverage/
     └── guides/       # 按需
 
-upstream/<harness-id>/  # 可取得的官方源码 submodule
+upstream/<harness-id>/  # 已登记的固定源码；新调查使用项目外临时工作区
 archive/<harness-id>/<artifact-id>/  # Git 忽略的持久原件
 archive/models/<model-id>/  # M1 本地模型
 releases/<release-id>/  # 不可变、可重建的查询发布
@@ -431,7 +432,13 @@ LICENSE-knowledge   # CC BY 4.0（原创知识与文档）
 NOTICE              # 第三方来源摘录的权利边界
 ```
 
-M0 虚构数据仍位于 `tests/fixtures/datasets/`，不进入正式 `registry/`、`knowledge/`。目录按实际接入创建，不预建空的 harness 子树。项目 Skill 放在 `.agents/skills/`，只豁免这些 Skill 的子目录：`harness-investigation` 为新 CLI 登记来源、采写七章并分段发布知识，`harness-maintenance` 维护已收录产品的上游变化，`harness-binary` 完成受管二进制的首次接入与最新更新。M2 手动上游检查在 `audits/<harness-id>/` 留 Git 审计 YAML；有实质变化、来源失败或未解决分歧时，同目录放同名主干的简短 Markdown 报告。候选原件保留在忽略的 `archive/`。调查 Agent 自检普通章节更新，高影响情形由另一 Agent 复核；完成内容经 staged 校验后可用 `ahw publish` 切换本地发布，受管二进制由 `harness-binary` 单独记录结果，不进知识发布。需要运行观察时才建立相应入口，不预建通用探针框架。
+M0 虚构数据仍位于 `tests/fixtures/datasets/`，不进入正式 `registry/`、`knowledge/`。目录按实际接入创建，不预建空的 harness 子树。项目 Skill 放在 `.agents/skills/`，只豁免这些 Skill 的子目录：`harness-investigation` 为新 CLI 登记来源、采写七章并分段发布知识，`harness-maintenance` 维护已收录产品的上游变化，`harness-binary` 完成受管二进制的首次接入与最新更新，`harness-monitor` 检查已登记产品并汇总维护 PR。上游检查在 `audits/<harness-id>/` 留 Git 审计 YAML；有实质变化、来源失败或未解决分歧时，同目录放同名主干的简短 Markdown 报告。文档候选原件保留在忽略的 `archive/`，源码工作区由任务在调查和独立复核完成后释放。调查 Agent 自检普通章节更新，高影响情形由另一 Agent 复核；本地交付经 staged 校验后可用 `ahw publish` 切换本地发布，受管二进制由 `harness-binary` 单独记录结果，不进知识发布。`delivery=pr` 只交付知识与审计，合入 main 后沿用公开发布 CI。
+
+### 7.0 每日监控授权
+
+执行 `harness-monitor` 时，允许在专用监控工作树内创建和切换 `automation/harness-monitor/` 分支，普通合并同步 `origin/main`，提交本轮已验证的知识与审计、推送该分支并创建或更新面向 main 的 PR。合并 PR 由维护者手动完成。主 Agent 和原生 Subagent 使用 `minimax-cn/MiniMax-M3.1-Flash-Preview`，维护委派串行；高影响变化单独复核。
+
+运行前取得 `pnpm monitor:session` 的整轮锁；只释放具有匹配归属记录的临时源码、该轮临时构建及本次构建备份。已有归档与本地发布不属于监控清理范围。来源与 PR 流程见 [每日自动化](docs/automations.md)，全局配置和凭据不写入项目。
 
 ### 7.1 Domain
 

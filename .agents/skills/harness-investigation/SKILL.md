@@ -24,7 +24,7 @@ disable-model-invocation: true
 先读 [docs/PRD.md](../../../docs/PRD.md) 的产品与来源边界、[docs/topic-questions.md](../../../docs/topic-questions.md) 的固定问题与成稿规则、[docs/data-model.md](../../../docs/data-model.md) 的记录契约。
 
 - 先查 `catalog/harnesses.yaml`；已有候选沿用其产品 id 与界面身份。新产品核对官网、官方源码与发行渠道后登记产品 id、名称、别名、每个界面的 `surface_id`、`kind` 与名称，以及运行时和每个界面的绑定。绑定未证实时记 `unknown`；`documented` 须引用明确说明该关系的固定来源。
-- 为 catalog 的身份、界面与绑定保存官方原件到 `archive/catalog/`，在 catalog 的 `references` 记录 `reference_id`、产品、HTTPS 官方链接、抓取时间、原件 sha256、定位及不超过 800 字符的原文摘录；Git 原件还须记录精确 commit。产品、界面与运行时通过 `reference_ids` 引用这些记录。
+- 为 catalog 的身份、界面与绑定建立固定官方引用，记录 `reference_id`、产品、HTTPS 链接、抓取时间、内容 sha256、定位及不超过 800 字符的短摘录。文档原件保存到 `archive/catalog/`；Git 引用记录精确 revision，允许只保存身份、hash 与摘录。产品、界面与运行时通过 `reference_ids` 引用这些记录。
 - 在 `registry/harnesses/<product-id>.yaml` 只登记产品 id 与 `source_refs`，不复制名称、别名或形态。
 - 在 `registry/sources/*.yaml` 逐个登记官方来源：`git_repository`、`official_documentation`，以及产品有官方 npm 包时的 `npm_registry` 来源；npm 来源只登记包名与渠道身份，不下载包字节、不写软件版本映射，供 harness-binary 核对官方包名。
 - 只登记官方来源；未登记来源不得作为章节证据。
@@ -34,8 +34,10 @@ disable-model-invocation: true
 不运行 `pnpm sources:scan`。为要采写章节的来源固定身份并落到知识记录：
 
 - Git 仓库固定精确 commit，官方文档固定内容并记录 sha256；把身份写入 `knowledge/<harness-id>/snapshots/` 与 `artifacts/`，短摘录与定位写入 `references/`。
+- 需要读源码原件时走与 [harness-maintenance](../harness-maintenance/SKILL.md) 相同的来源存储：`pnpm sources:workspace open --source-id <source-id> --commit <完整 SHA> --owner-pid <调用方 PID>`，读完用返回的 workspace `id` 调 `close`，残留由 `pnpm sources:workspace recover` 回收。
+- 读过的源码文件用 `git_source_file`，只固定 `commit`、仓库内 `file` 与 `content_sha256`，不保留 checkout；只有官方文档原件用 `archived_document` 加 `archive_path` 长期保留。Git 来源在仓库里留的是元数据与固定 revision，不是源码副本。工作区临时路径不写进任何记录。
 - 官方 npm 来源只需 `registry/sources/` 里的渠道与包名身份：不在知识中造 npm snapshot、artifact 或软件版本映射，除非实际检查过包字节；只有检查过包字节并有证据时才写 `mappings/`。
-- 需要正文比对时把候选原件留在 Git 忽略的 `archive/`；包字节由 harness-binary 处理，不进入知识发布。
+- 文档候选原件留在 Git 忽略的 `archive/`，源码比对在临时工作区中完成；工作区保留到自检和必要的独立复核结束后再关闭。包字节由 harness-binary 处理，不进入知识发布。
 
 ### 3. 采写七章
 
@@ -90,6 +92,7 @@ pnpm ahw publish --release-id <new-id>
 - 校验失败、来源身份不明或复核未完成时不发布，不原地覆盖已有 release。
 - 不覆盖或丢弃用户已有的未提交改动；新产品与已有内容冲突时保留双方并标出分歧。
 - 不移动 `upstream/` submodule 指针，不把候选原件写入 `research/package-set`；受管二进制只交给 harness-binary。
+- 不删除既有归档原件；不把来源工作区的临时路径写进知识记录；不为 Git 来源在仓库里保留源码副本。
 
 ## 执行参考
 

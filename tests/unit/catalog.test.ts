@@ -111,3 +111,45 @@ test("catalog preserves explicit unknown bindings and rejects invalid identities
   ])
     expect(catalogSchema.safeParse(invalid).success).toBe(false);
 });
+
+test("a pinned Git identity may drop its original, a document may not", () => {
+  const unretained = { kind: "document", sha256: sha256("Fictional product") };
+  const git = {
+    ...ref,
+    reference_id: "ref-fictional-git",
+    snapshot: {
+      kind: "git_commit",
+      sha256: sha256("Fictional commit"),
+      revision: "a".repeat(40),
+    },
+  };
+  const withGit = { ...catalog, references: [...catalog.references, git] };
+  expect(catalogSchema.safeParse(withGit).success).toBe(true);
+  expect(
+    catalogSchema.safeParse({
+      ...catalog,
+      references: [
+        ...catalog.references,
+        {
+          ...git,
+          snapshot: {
+            ...git.snapshot,
+            archive_path: "archive/catalog/demo-git.md",
+          },
+        },
+      ],
+    }).success,
+  ).toBe(true);
+  for (const invalid of [
+    { ...git, snapshot: { ...git.snapshot, revision: undefined } },
+    { ...git, snapshot: { ...git.snapshot, revision: "A".repeat(40) } },
+    { ...git, snapshot: { kind: "git_commit", sha256: git.snapshot.sha256 } },
+    { ...git, snapshot: unretained },
+  ])
+    expect(
+      catalogSchema.safeParse({
+        ...catalog,
+        references: [...catalog.references, invalid],
+      }).success,
+    ).toBe(false);
+});

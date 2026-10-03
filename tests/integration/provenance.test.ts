@@ -20,13 +20,17 @@ import {
   type ReleaseManifest,
 } from "../../src/compiler/release.js";
 import { canonical, sha256 } from "../../src/compiler/projection.js";
-import { auditArtifacts } from "../../src/sources/audit.js";
+import { auditArtifacts, auditSources } from "../../src/sources/audit.js";
 import { loadAndValidateDataset } from "../../src/validation/dataset.js";
 
 const repository = fileURLToPath(new URL("../..", import.meta.url));
 const fixture = path.join(repository, "tests/fixtures/datasets/basic");
 const temporary: string[] = [];
 const git = promisify(execFile);
+const pinnedCommit = "a1b2c3d4e5f60718293a4b5c6d7e8f9012345678";
+const otherCommit = "0f1e2d3c4b5a69788796a5b4c3d2e1f001234567";
+const pinnedSource = "pinned source\n";
+const catalogDocument = "Fictional documentation\n";
 
 async function temp(): Promise<string> {
   const root = await mkdtemp(path.join(tmpdir(), "ahw-provenance-"));
@@ -45,6 +49,50 @@ async function metadataCopy(): Promise<string> {
   await cp(path.join(repository, "catalog"), path.join(root, "catalog"), {
     recursive: true,
   });
+  return root;
+}
+
+async function write(root: string, file: string, body: string): Promise<void> {
+  const target = path.join(root, file);
+  await mkdir(path.dirname(target), { recursive: true });
+  await writeFile(target, body);
+}
+
+/** A production dataset whose only Git source is pinned by commit: the monitor
+ * read the file in a temporary external checkout and retained no original. */
+async function pinnedSourceDataset(): Promise<string> {
+  const root = await temp();
+  await write(
+    root,
+    "registry/harnesses/demo-git.yaml",
+    "schema_version: 1\nrecord_kind: production\nharness_id: demo-git\nsource_refs: [source-demo-git, source-demo-git-doc]\n",
+  );
+  await write(
+    root,
+    "registry/sources/source-demo-git.yaml",
+    "schema_version: 1\nrecord_kind: production\nsource_id: source-demo-git\nharness_id: demo-git\nkind: git_repository\nrepository_url: https://example.invalid/demo-git.git\n",
+  );
+  await write(
+    root,
+    "registry/sources/source-demo-git-doc.yaml",
+    "schema_version: 1\nrecord_kind: production\nsource_id: source-demo-git-doc\nharness_id: demo-git\nkind: official_documentation\nurl: https://example.invalid/demo-git/doc\n",
+  );
+  await write(
+    root,
+    "knowledge/demo-git/artifacts/artifact-demo-git-readme.yaml",
+    `schema_version: 1\nrecord_kind: production\nartifact_id: artifact-demo-git-readme\nsource_id: source-demo-git\nharness_id: demo-git\nkind: git_source_file\ncommit: ${pinnedCommit}\nfile: README.md\ncontent_sha256: ${sha256(pinnedSource)}\n`,
+  );
+  await write(
+    root,
+    "knowledge/demo-git/snapshots/snapshot-demo-git-source.yaml",
+    `schema_version: 1\nrecord_kind: production\nsnapshot_id: snapshot-demo-git-source\nsource_id: source-demo-git\nkind: source_revision\nartifact_id: artifact-demo-git-readme\ntarget:\n  harness_id: demo-git\n  surface: cli\n  distribution: source-tree\n  os: linux\n  arch: x64\n  execution_mode: native\n  version_identity: { kind: commit, value: ${pinnedCommit} }\ncommit: ${pinnedCommit}\ncontent_sha256: ${sha256(pinnedSource)}\nsource_fetched_at: 2026-10-03T00:00:00Z\n`,
+  );
+  await write(
+    root,
+    "catalog/harnesses.yaml",
+    `schema_version: 1\nrecord_kind: production\nproducts:\n  - harness_id: demo-git\n    name: Demo Git (fictional)\n    aliases: []\n    reference_ids: [cat-demo-git-doc, cat-demo-git-source]\n    surfaces:\n      - surface_id: cli\n        name: Fictional CLI\n        kind: cli\n        reference_ids: [cat-demo-git-doc]\n    runtimes: []\n    bindings:\n      - surface_id: cli\n        status: unknown\n        reference_ids: []\nreferences:\n  - reference_id: cat-demo-git-doc\n    harness_id: demo-git\n    official_url: https://example.invalid/demo-git/doc\n    captured_at: 2026-10-03T00:00:00Z\n    snapshot:\n      kind: document\n      sha256: ${sha256(catalogDocument)}\n      archive_path: archive/catalog/demo-git/doc.md\n    locator: Fictional documentation\n    excerpt: Fictional documentation\n  - reference_id: cat-demo-git-source\n    harness_id: demo-git\n    official_url: https://example.invalid/demo-git/blob/README.md\n    captured_at: 2026-10-03T00:00:00Z\n    snapshot:\n      kind: git_commit\n      sha256: ${sha256(pinnedSource)}\n      revision: ${pinnedCommit}\n    locator: Fictional README\n    excerpt: pinned source\n`,
+  );
+  await write(root, "archive/catalog/demo-git/doc.md", catalogDocument);
   return root;
 }
 
@@ -227,6 +275,143 @@ test("offline audit checks local Git HEAD and selected file hash", async () => {
     /hash mismatch/,
   );
 });
+
+test("a pinned source file without a retained checkout reports as not retained", async () => {
+  const root = await temp();
+  const artifact = {
+    schema_version: 1 as const,
+    record_kind: "fixture" as const,
+    kind: "git_source_file" as const,
+    artifact_id: "artifact-external-source",
+    source_id: "source-local-source",
+    harness_id: "codex",
+    commit: pinnedCommit,
+    file: "README.md",
+    content_sha256: sha256(pinnedSource),
+  };
+  expect(await auditArtifacts([artifact], root)).toEqual([
+    {
+      record: "artifact",
+      id: "artifact-external-source",
+      kind: "git_source_file",
+      status: "not_retained",
+    },
+  ]);
+  const checkout = path.join(root, "upstream/codex");
+  await mkdir(checkout, { recursive: true });
+  await writeFile(path.join(checkout, "README.md"), pinnedSource);
+  await git("git", ["-C", checkout, "init", "-q"]);
+  await git("git", ["-C", checkout, "add", "README.md"]);
+  await git("git", [
+    "-C",
+    checkout,
+    "-c",
+    "user.name=Fixture",
+    "-c",
+    "user.email=fixture@example.invalid",
+    "commit",
+    "-qm",
+    "fixture",
+  ]);
+  const { stdout } = await git("git", ["-C", checkout, "rev-parse", "HEAD"]);
+  // The retained checkout still verifies against the same commit and file.
+  expect(
+    await auditArtifacts(
+      [
+        {
+          ...artifact,
+          kind: "git_checkout",
+          checkout_path: "upstream/codex",
+          commit: stdout.trim(),
+        },
+      ],
+      root,
+    ),
+  ).toEqual([
+    {
+      record: "artifact",
+      id: "artifact-external-source",
+      kind: "git_checkout",
+      status: "verified",
+    },
+  ]);
+});
+
+test("pinned source knowledge stays valid without any source original", async () => {
+  const root = await pinnedSourceDataset();
+  const validated = await loadAndValidateDataset({
+    root,
+    profile: "production",
+  });
+  expect(
+    validated.diagnostics.filter((item) => item.severity === "error"),
+  ).toEqual([]);
+  expect(validated.ok).toBe(true);
+  expect(await auditSources(root, root)).toEqual([
+    {
+      record: "artifact",
+      id: "artifact-demo-git-readme",
+      kind: "git_source_file",
+      status: "not_retained",
+    },
+    {
+      record: "catalog_reference",
+      id: "cat-demo-git-doc",
+      kind: "document",
+      status: "verified",
+    },
+    {
+      record: "catalog_reference",
+      id: "cat-demo-git-source",
+      kind: "git_commit",
+      status: "not_retained",
+    },
+  ]);
+  await writeFile(
+    path.join(root, "archive/catalog/demo-git/doc.md"),
+    "changed\n",
+  );
+  await expect(auditSources(root, root)).rejects.toThrow(/hash mismatch/);
+  await rm(path.join(root, "archive/catalog/demo-git/doc.md"));
+  await expect(auditSources(root, root)).rejects.toThrow(/cat-demo-git-doc/);
+});
+
+test.each([
+  [
+    "knowledge/demo-git/artifacts/artifact-demo-git-readme.yaml",
+    "file: README.md",
+    "file: ../README.md",
+    "PATH_INVALID",
+  ],
+  [
+    "knowledge/demo-git/artifacts/artifact-demo-git-readme.yaml",
+    "source_id: source-demo-git\n",
+    "source_id: source-demo-git-doc\n",
+    "SOURCE_MISSING",
+  ],
+  [
+    "knowledge/demo-git/snapshots/snapshot-demo-git-source.yaml",
+    `value: ${pinnedCommit}`,
+    `value: ${otherCommit}`,
+    "TARGET_MISMATCH",
+  ],
+] as const)(
+  "rejects a broken pinned source in %s",
+  async (relative, before, after, code) => {
+    const root = await pinnedSourceDataset();
+    const file = path.join(root, relative);
+    await writeFile(
+      file,
+      (await readFile(file, "utf8")).replace(before, after),
+    );
+    const result = await loadAndValidateDataset({
+      root,
+      profile: "production",
+    });
+    expect(result.ok).toBe(false);
+    expect(result.diagnostics.map((item) => item.code)).toContain(code);
+  },
+);
 
 test("managed package audit checks the pinned lock, bytes and missing original", async () => {
   const root = await temp();

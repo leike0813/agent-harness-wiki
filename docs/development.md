@@ -10,7 +10,7 @@
 pnpm exec tsx scripts/compile-chapters.ts --dataset-root tests/fixtures/datasets/chapters --profile fixture --release-id fixture-chapters-next --published-at 2026-09-29T00:00:00Z --releases-root var/chapter-release-fixture/releases
 ```
 
-`pnpm exec vitest run tests/integration/chapter-release.test.ts tests/integration/query.test.ts tests/integration/mcp.test.ts tests/integration/site.test.ts` 检查章节发布、版本选择、来源、真实 MCP stdio 和站点。修改 schema 后运行 `pnpm schema:export`、`pnpm schema:check`、`pnpm typecheck`、`pnpm lint`、`pnpm format:check`。正式来源原件另以 `pnpm sources:audit` 显式离线核对；普通章节校验和构建不依赖忽略的原件。
+`pnpm exec vitest run tests/integration/chapter-release.test.ts tests/integration/query.test.ts tests/integration/mcp.test.ts tests/integration/site.test.ts` 检查章节发布、版本选择、来源、真实 MCP stdio 和站点。修改 schema 后运行 `pnpm schema:export`、`pnpm schema:check`、`pnpm typecheck`、`pnpm lint`、`pnpm format:check`。正式来源原件另以 `pnpm sources:audit` 显式离线核对；普通章节校验和构建不依赖忽略的原件。审计输出逐条给出 `verified` 或 `not_retained`：后者表示该记录只保留身份元数据，不能读作原件校验通过；原件缺失或 hash 不符仍然是错误。
 
 `pnpm verify` 验证章节读取链并以 `consumer:verify` 收尾，`pnpm fixtures:build` 生成虚构章节发布。公共查询、MCP 与站点只读取 schema 3 发布，不适配旧 release；发布内嵌 catalog。生产章节运行 `pnpm knowledge:validate`，用 `pnpm ahw compile --dataset-root . --profile production --release-id <new-id> --published-at <fixed-time> --stage` 先构建。验收该 release 的 CLI、MCP 与站点之后，运行 `pnpm ahw publish --release-id <new-id>` 原子切换当前指针。CLI 的 `query list/topic/search/compare/source` 与 MCP 的五个工具读取同一 release；`get_topic` 用 `section_id` 定位搜索结果。Windows 尚未实测。
 
@@ -92,3 +92,25 @@ NFSv4 权限检查使用本机 `getfattr`，拒绝所有者之外的有效或继
 | OMP         | 18.3.4   | 主包 `dist/cli.js`，Bun；核对 `pi-natives-linux-x64` | 成功，退出 0 |
 
 OpenCode 1.18.33 曾因候选锁文件生成阶段的 registry 超时被阻塞；失败候选未切换选中环境。已完整安装的候选重新核对并通过五项启动后才晋升。以上只记录启动状态，不能推断 Skills、MCP 等主题能力。
+
+## 每日巡检与来源工作区
+
+调度参数、专用 worktree 约束、模型选择、锁语义和启用顺序见 [ADR 0012](decisions/0012-daily-harness-monitor.md) 与 [自动化](automations.md)。这里只记实际命令和本机核对点。
+
+```sh
+pnpm sources:check                                            # 只读观察，与 sources:scan 共享基线
+pnpm sources:workspace open --source-id <id> --commit <40 位 SHA> --owner-pid <pid>
+pnpm sources:workspace close <source-id>
+pnpm sources:workspace recover --owner-pid <pid>
+pnpm monitor:session start                                    # 取得 PID 锁，返回 id、report、tempRoot
+pnpm monitor:session finish
+```
+
+- 读 Git 源码或文档原件走 `sources:workspace`，不手工 clone 进仓库，也不散落在临时目录。`open` 固定到观察到的精确提交，`close` 读完即关，`recover` 只回收本 PID 锁登记过的条目；checkout 位于项目之外，临时路径不写进任何记录。
+- 引用原件用 `git_source_file`（`commit`、`file`、`content_sha256`），不写 checkout 路径。`archive_path` 只指向长期保留位置：Git catalog 引用必须带精确 revision，归档路径可选；官方文档快照必须带它。
+- `sources:check` 与 `sources:scan` 读同一基线，前者不写审计、不下载包字节、不创建 clone。核对方式是跑一次前后 `git status` 相同。
+- 巡检轮次是 `delivery=pr`：不运行 `pnpm ahw publish`，不调用 `harness-binary`。PR 合并到 `main` 后的对外发布由既有发布 CI 处理，不需要补做本地发布；受管二进制是独立流程，合并也不会触发它。
+- 互斥通过 `var/harness-monitor/session.sqlite` 中的事务记录 owner PID。`start` 拒绝活跃 owner，接管死亡 owner 时释放其临时输出并回收本项目死亡 owner 的源码工作区。正常收尾先关闭本轮源码工作区、保存最近一次报告，再用 `finish` 释放运行锁与构建临时目录。
+- 收尾只清理本轮登记的来源工作区与验证输出，在 `finish` 时完成。官方文档原件按既有策略留在忽略归档；章节文档、来源元数据、审计与报告永久保留；巡检不接管二进制与完整日志。不承诺固定峰值占用。
+- 交付单位是一个持续到合并的滚动 PR：PR 合并前每日切回同一分支、普通合并 `origin/main` 后继续提交。PR 内同一产品 × 主题只有一个候选，新变化修订它，不追加第二个 edition，也不顺延或丢弃。
+- 主会话模型由 `.codex/config.toml` 决定；子代理模型必须作为显式参数传入 `minimax-cn/MiniMax-M3.1-Flash-Preview`，不由配置隐式继承，也不继承编排协调方的模型。启用前确认上述命令已在 `main` 可用、两个模型都能被原生 subagent 工具选中，再手动触发一次整链验证后打开每日调度。

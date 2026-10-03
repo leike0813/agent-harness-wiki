@@ -15,6 +15,15 @@ import {
 
 const run = promisify(execFile);
 
+/** One audited record: its original bytes were compared against the published
+ * identity, or the repository deliberately keeps only that identity. */
+export type AuditResult = {
+  record: "artifact" | "catalog_reference";
+  id: string;
+  kind: string;
+  status: "verified" | "not_retained";
+};
+
 async function localPath(root: string, relative: string): Promise<string> {
   if (
     path.isAbsolute(relative) ||
@@ -58,8 +67,20 @@ async function checkedHash(
 export async function auditArtifacts(
   artifacts: Artifact[],
   originalsRoot: string,
-): Promise<void> {
+): Promise<AuditResult[]> {
+  const results: AuditResult[] = [];
   for (const artifact of artifacts) {
+    // A pinned commit file records what the monitor read in a temporary
+    // checkout; there is no original left here to compare it against.
+    if (artifact.kind === "git_source_file") {
+      results.push({
+        record: "artifact",
+        id: artifact.artifact_id,
+        kind: artifact.kind,
+        status: "not_retained",
+      });
+      continue;
+    }
     try {
       if (artifact.kind === "archived_document") {
         await checkedHash(
@@ -155,26 +176,60 @@ export async function auditArtifacts(
     } catch (error) {
       throw new Error(`Artifact ${artifact.artifact_id}: ${String(error)}`);
     }
+    results.push({
+      record: "artifact",
+      id: artifact.artifact_id,
+      kind: artifact.kind,
+      status: "verified",
+    });
   }
+  return results;
 }
 
 export async function auditSources(
   datasetRoot: string,
   originalsRoot: string,
-): Promise<void> {
+): Promise<AuditResult[]> {
   const validated = await loadAndValidateDataset({
     root: datasetRoot,
     profile: "production",
   });
   if (!validated.ok) throw new Error("Production source metadata is invalid.");
-  await auditArtifacts(validated.dataset.artifacts, originalsRoot);
+  const results = await auditArtifacts(
+    validated.dataset.artifacts,
+    originalsRoot,
+  );
   if (validated.catalog) {
-    for (const ref of validated.catalog.references)
-      await checkedHash(
-        originalsRoot,
-        ref.snapshot.archive_path,
-        ref.snapshot.sha256,
-      );
+    for (const ref of validated.catalog.references) {
+      // A git identity is already pinned by revision; without a retained
+      // original there is nothing to compare, which is not a failure.
+      if (!ref.snapshot.archive_path) {
+        results.push({
+          record: "catalog_reference",
+          id: ref.reference_id,
+          kind: ref.snapshot.kind,
+          status: "not_retained",
+        });
+        continue;
+      }
+      try {
+        await checkedHash(
+          originalsRoot,
+          ref.snapshot.archive_path,
+          ref.snapshot.sha256,
+        );
+      } catch (error) {
+        throw new Error(
+          `Catalog reference ${ref.reference_id}: ${String(error)}`,
+        );
+      }
+      results.push({
+        record: "catalog_reference",
+        id: ref.reference_id,
+        kind: ref.snapshot.kind,
+        status: "verified",
+      });
+    }
   }
   const artifacts = new Map(
     validated.dataset.artifacts.map((item) => [item.artifact_id, item]),
@@ -222,4 +277,5 @@ export async function auditSources(
         `Evidence ${evidence.evidence_id}: package locator differs from original.`,
       );
   }
+  return results;
 }

@@ -238,8 +238,7 @@
                     },
                     "required": [
                       "kind",
-                      "sha256",
-                      "archive_path"
+                      "sha256"
                     ],
                     "additionalProperties": false
                   },
@@ -551,6 +550,18 @@
                     "type": "string",
                     "pattern": "^[a-z][a-z0-9_-]*$"
                   },
+                  "commit": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{40}$"
+                  },
+                  "file": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "content_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
                   "kind": {
                     "type": "string",
                     "const": "git_checkout"
@@ -558,6 +569,47 @@
                   "checkout_path": {
                     "type": "string",
                     "minLength": 1
+                  }
+                },
+                "required": [
+                  "schema_version",
+                  "record_kind",
+                  "source_id",
+                  "harness_id",
+                  "artifact_id",
+                  "commit",
+                  "file",
+                  "content_sha256",
+                  "kind",
+                  "checkout_path"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "schema_version": {
+                    "type": "number",
+                    "const": 1
+                  },
+                  "record_kind": {
+                    "type": "string",
+                    "enum": [
+                      "fixture",
+                      "production"
+                    ]
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "harness_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
+                  },
+                  "artifact_id": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_-]*$"
                   },
                   "commit": {
                     "type": "string",
@@ -570,6 +622,10 @@
                   "content_sha256": {
                     "type": "string",
                     "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "const": "git_source_file"
                   }
                 },
                 "required": [
@@ -578,11 +634,10 @@
                   "source_id",
                   "harness_id",
                   "artifact_id",
-                  "kind",
-                  "checkout_path",
                   "commit",
                   "file",
-                  "content_sha256"
+                  "content_sha256",
+                  "kind"
                 ],
                 "additionalProperties": false
               },
