@@ -57,10 +57,12 @@ gh pr list --base main --state open --json headRefName,number,url
 ### 2. 只读观察
 
 ```sh
-pnpm -s sources:check
+pnpm -s sources:check > <tempRoot>/checks.json
 ```
 
-只读，不写文件、不下载包字节、不写审计、不切换发布。输出是产品数组（每项为本轮 `UpstreamAudit` 预览加 `requires_maintenance`），按 `harness_id` 读取：
+检查程序只读，不下载包字节、不写审计、不切换发布。父进程把完整 stdout 保存到本轮 `tempRoot`，避免大量来源结果被工具截断。用 Node 解析该 JSON，输出每个产品的 id、状态、变化／失败数量和 `requires_maintenance`；把每个需维护产品的完整对象另存为本轮临时输入文件。不要把整份检查结果直接打印到对话。
+
+输出是产品数组（每项为本轮 `UpstreamAudit` 预览加 `requires_maintenance`），按 `harness_id` 读取：
 
 | 字段                   | 含义                                                                                       |
 | ---------------------- | ------------------------------------------------------------------------------------------ |
@@ -79,7 +81,7 @@ Git 来源只观察 HEAD，不预先 checkout，也不预先给差异文件：`c
 
 按产品 id 稳定排序，串行处理每个 `requires_maintenance: true` 的产品：
 
-1. 用原生 subagent 工具委派一个维护子代理。模型必须在工具调用的 `model` 字段里设为 `minimax-cn/MiniMax-M3.1-Flash-Preview`——把模型名写进提示词不会改变执行模型。任务说明另外写清产品 id、本轮 `checks`、`pending_audit_refs`、`delivery=pr`、输出位置和禁止修改范围。
+1. 用原生 subagent 工具委派一个维护子代理。模型必须在工具调用的 `model` 字段里设为 `minimax-cn/MiniMax-M3.1-Flash-Preview`——把模型名写进提示词不会改变执行模型。任务说明另外写清产品 id、该产品完整临时输入文件的路径（含本轮 `checks` 和 `pending_audit_refs`）、会话 `ownerPid`、`tempRoot`、`delivery=pr`、输出位置和禁止修改范围。要求子代理先读完整输入文件再维护。
 2. 等它返回再委派下一个。失败或超时：记录错误，不重试该产品，其余继续。
 
 子代理读源码原件用受管入口：
