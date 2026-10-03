@@ -14,7 +14,7 @@ import {
 } from "./github.js";
 import {
   reserveRelease,
-  protectedReleases,
+  onlineReleases,
   assertNoPendingPublication,
   beginDeployment,
   completeDeployment,
@@ -98,7 +98,7 @@ export async function preparePublication(options: {
   );
   await assertArtifact(candidateDir, target, release.published_at);
   const retainedDirs: string[] = [];
-  for (const id of protectedReleases(snapshot.state, now)) {
+  for (const id of onlineReleases(snapshot.state, target)) {
     if (id === target) continue;
     const previous = snapshot.state.releases[id]!;
     const directory = await mkdtemp(path.join(session, "retained-"));

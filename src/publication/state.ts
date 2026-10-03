@@ -1,7 +1,5 @@
 import * as z from "zod";
 
-/** Server retention for a release after a confirmed exit from current. */
-export const RELEASE_RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
 /** Minimum announced window between a protocol freeze and its retirement. */
 export const PROTOCOL_FREEZE_MS = 90 * 24 * 60 * 60 * 1000;
 
@@ -272,31 +270,44 @@ export function reserveRelease(
 }
 
 /**
- * Pure retention policy. Protects every protocol's current and recovery
- * release, every release still inside its 30-day exit window, and everything
- * an in-flight or uncertain deployment implicates.
+ * Select only the current and verified recovery of each supported protocol
+ * after the planned switch. Archives and ledger history are independent.
  */
-export function protectedReleases(
+export function onlineReleases(
   state: PublicationState,
-  now: string,
+  target: string,
 ): string[] {
+  assertNoPendingPublication(state);
+  const release = state.releases[target];
+  if (!release)
+    throw new Error(`onlineReleases: target ${target} is not reserved.`);
   const ids = new Set<string>();
-  for (const protocol of Object.values(state.protocols)) {
-    if (protocol.current !== null) ids.add(protocol.current);
-    if (protocol.recovery !== null) ids.add(protocol.recovery);
-  }
-  for (const [id, release] of Object.entries(state.releases)) {
-    if (
-      release.exited_current_at !== null &&
-      msBetween(release.exited_current_at, now) < RELEASE_RETENTION_MS
-    )
-      ids.add(id);
-  }
-  if (state.pending !== null) {
-    ids.add(state.pending.target);
-    if (state.pending.previous !== null) ids.add(state.pending.previous);
+  for (const [version, protocol] of Object.entries(state.protocols)) {
+    if (protocol.state === "retired") continue;
+    const switching = Number(version) === release.protocol_version;
+    const current = switching ? target : protocol.current;
+    const recovery = switching
+      ? recoveryAfterSwitch(state, protocol, target)
+      : protocol.recovery;
+    if (current !== null) ids.add(current);
+    if (recovery !== null) ids.add(recovery);
   }
   return [...ids].sort();
+}
+
+function recoveryAfterSwitch(
+  state: PublicationState,
+  protocol: PublicationState["protocols"][string],
+  target: string,
+): string | null {
+  const previous = protocol.current;
+  if (
+    previous !== null &&
+    previous !== target &&
+    state.releases[previous]?.verified_at != null
+  )
+    return previous;
+  return protocol.recovery === target ? null : protocol.recovery;
 }
 
 /** Stop a normal plan while any deployment is in flight or unresolved. */
@@ -391,6 +402,7 @@ export function completeDeployment(
     );
 
   const previous = pending.previous;
+  const recovery = recoveryAfterSwitch(state, protocol, pending.target);
   if (previous !== null && previous !== pending.target) {
     const exited = state.releases[previous];
     if (exited) exited.exited_current_at = outcome.at;
@@ -399,13 +411,7 @@ export function completeDeployment(
   protocol.current = pending.target;
   if (outcome.verified) release.verified_at = outcome.at;
 
-  if (
-    previous !== null &&
-    previous !== pending.target &&
-    state.releases[previous]?.verified_at !== null
-  )
-    protocol.recovery = previous;
-  else if (protocol.recovery === pending.target) protocol.recovery = null;
+  protocol.recovery = recovery;
 
   state.pending = null;
   state.transitions.push({
@@ -510,9 +516,8 @@ export function freezeProtocol(
 }
 
 /**
- * Retire a frozen protocol once its announced date and every remaining
- * retention obligation have passed; this releases its current/recovery
- * protection while keeping the upgrade entry and local history.
+ * Retire a frozen protocol at its announced date, releasing its online
+ * current/recovery while keeping the upgrade entry, archives and history.
  */
 export function retireProtocol(
   state: PublicationState,
@@ -532,21 +537,6 @@ export function retireProtocol(
     throw new Error(
       `retireProtocol: protocol ${key} is announced for ${protocol.retire_at}.`,
     );
-  for (const [id, release] of Object.entries(state.releases)) {
-    if (
-      release.protocol_version === version &&
-      release.exited_current_at !== null &&
-      msBetween(release.exited_current_at, now) < RELEASE_RETENTION_MS
-    )
-      throw new Error(
-        `retireProtocol: release ${id} is still inside its retention window.`,
-      );
-  }
-  if (
-    state.pending !== null &&
-    state.releases[state.pending.target]?.protocol_version === version
-  )
-    throw new Error(`retireProtocol: a pending run involves protocol ${key}.`);
   protocol.current = null;
   protocol.recovery = null;
   protocol.state = "retired";

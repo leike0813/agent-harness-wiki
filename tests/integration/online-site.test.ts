@@ -6,6 +6,7 @@ import {
   mkdir,
   symlink,
   readFile,
+  readdir,
   writeFile,
 } from "node:fs/promises";
 import { execFile } from "node:child_process";
@@ -21,6 +22,13 @@ import {
   verifyOnlineDeployment,
 } from "../../src/compiler/online-site.js";
 import { sha256 } from "../../src/compiler/projection.js";
+import {
+  beginDeployment,
+  completeDeployment,
+  initialState,
+  onlineReleases,
+  reserveRelease,
+} from "../../src/publication/state.js";
 
 const exec = promisify(execFile);
 
@@ -287,6 +295,69 @@ test("assembles selected pages with exactly retained own release data", async ()
   );
   expect(page).toContain("demo-open-cli-skills-v2");
   expect(page).not.toContain("demo-open-cli-skills-v3.html");
+
+  // Three archived releases rotate through two online slots; an excluded
+  // verified archive can still supply a manual recovery's pages and data.
+  await git([
+    "-c",
+    "user.name=test",
+    "-c",
+    "user.email=test@example.invalid",
+    "commit",
+    "--allow-empty",
+    "-qm",
+    "third fixture publication",
+  ]);
+  const thirdCommit = (await git(["rev-parse", "HEAD"])).stdout.trim();
+  const thirdDir = path.join(root, "third");
+  const third = await buildOnlineSite({
+    ...base,
+    commit: thirdCommit,
+    outDir: thirdDir,
+  });
+  const archives = new Map([
+    [first.releaseId, firstDir],
+    [canonical.releaseId, canonicalDir],
+    [third.releaseId, thirdDir],
+  ]);
+  const state = initialState();
+  for (const [index, sha] of [firstCommit, secondCommit].entries()) {
+    const release = reserveRelease(state, sha, base.publishedAt);
+    const runId = `fixture-${index}`;
+    beginDeployment(state, release.archive_tag, runId, base.publishedAt);
+    completeDeployment(state, {
+      runId,
+      deploymentId: null,
+      at: base.publishedAt,
+      verified: true,
+    });
+  }
+  reserveRelease(state, thirdCommit, base.publishedAt);
+  for (const [index, target] of [third.releaseId, first.releaseId].entries()) {
+    const selected = onlineReleases(state, target);
+    const output = path.join(root, `rotation-${index}`);
+    await assembleOnlineDeployment({
+      candidateDir: archives.get(target)!,
+      retainedDirs: selected
+        .filter((id) => id !== target)
+        .map((id) => archives.get(id)!),
+      outDir: output,
+    });
+    expect(
+      (await readdir(path.join(output, "data/v1/releases"))).sort(),
+    ).toEqual(selected);
+    expect((await verifyOnlineDeployment(output)).releaseId).toBe(target);
+    const runId = `rotation-${index}`;
+    beginDeployment(state, target, runId, base.publishedAt);
+    completeDeployment(state, {
+      runId,
+      deploymentId: null,
+      at: base.publishedAt,
+      verified: true,
+    });
+    expect(onlineReleases(state, target)).toEqual(selected);
+  }
+  expect(Object.keys(state.releases)).toHaveLength(3);
 
   // Inputs stay byte-stable and an existing output cannot be overwritten.
   expect(await readFile(path.join(firstDir, "integrity.json"), "utf8")).toBe(
