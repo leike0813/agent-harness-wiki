@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agents-team-file-dir
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/shared/src/storage/paths.ts
+  start: 195
+  end: 201
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  export function resolveTeamDataDir(): string {
+  	const explicitDir = process.env.CLINE_TEAM_DATA_DIR?.trim();
+  	if (explicitDir) {
+  		return explicitDir;
+  	}
+  	return join(resolveClineDataDir(), "teams");
+  }

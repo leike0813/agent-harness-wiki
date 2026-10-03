@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-mcp-shape-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "File shape"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/mcp-config.md
+excerpt: |
+  ## File shape
+
+  OMP supports this top-level structure:
+
+  ```json
+  {
+    "$schema": "https://raw.githubusercontent.com/can1357/oh-my-pi/main/packages/coding-agent/src/config/mcp-schema.json",
+    "mcpServers": {
+      "server-name": {
+        "type": "stdio",
+        "command": "npx",
+        "args": ["-y", "some-mcp-server"]
+      }
+    },
+    "disabledServers": ["server-name"]
+  }
+  ```
+
+  Top-level keys:
+
+  - `$schema` — optional JSON Schema URL for tooling
+  - `mcpServers` — map of server name to server config
+  - `disabledServers` — active-profile user denylist; it hides a discovered server by name regardless of the source entry's `enabled` value

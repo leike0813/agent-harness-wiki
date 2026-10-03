@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-mcp-transports-removed
+harness_id: bob
+snapshot_id: snapshot-source-bob-docs-mcp-transports-20261003
+locator:
+  kind: document_section
+  heading: SSE transport (removed)
+official_url: "https://bob.ibm.com/docs/shell/configuration/mcp/server-transports"
+excerpt: |-
+  Bob's MCP client no longer supports the standalone HTTP+SSE transport (MCP specification 2024-11-05). Servers that use only the HTTP+SSE transport cannot connect to Bob.
+  SSE as a response channel within a Streamable HTTP connection is still supported. Bob can receive SSE streams from a Streamable HTTP server. Only the standalone HTTP+SSE transport (with separate /events and /message endpoints) has been removed.
+  Migrating from SSE transport
+   If you have an existing server that uses HTTP+SSE transport, migrate it to Streamable HTTP transport or STDIO transport:
+   Streamable HTTP: Expose a single MCP endpoint that accepts HTTP POST requests. This is the recommended path for remote servers.
+   STDIO: If the server runs locally on the same machine as Bob, convert it to a STDIO server.

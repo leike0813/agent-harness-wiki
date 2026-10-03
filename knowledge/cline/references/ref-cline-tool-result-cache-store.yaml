@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-tool-result-cache-store
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/runtime/orchestration/session-runtime-orchestrator.ts
+  start: 1163
+  end: 1178
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  				const result = control?.result ?? ctx.result;
+  				if (ctx.tool.resultPolicy === "cache-oversized") {
+  					const { text: previewText } = prepareToolResultPreview(
+  						toPersistedToolResultContent(result.output),
+  					);
+  					if (
+  						typeof previewText === "string" &&
+  						previewText.length > this.maxCachedResultChars
+  					) {
+  						const { text } = prepareToolResultRecovery(result.output);
+  						if (typeof text === "string")
+  							this.toolResultCache.store(ctx.toolCall.toolCallId, text);
+  					}
+  				}
+  				return control;
+  			},

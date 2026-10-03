@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-turn-spend-limit
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-model-provider-20261003
+locator:
+  kind: file_lines
+  file: sdk/src/impl/model-provider.ts
+  start: 269
+  end: 289
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  async function throwIfTurnSpendCapped(
+    response: Response,
+    url: string,
+  ): Promise<void> {
+    if (response.status !== 429) return
+    const text = await response
+      .clone()
+      .text()
+      .catch(() => '')
+    let body: { error?: unknown; message?: unknown } | null = null
+    try {
+      body = JSON.parse(text)
+    } catch {
+      return
+    }
+    if (body?.error !== FREEBUFF_TURN_SPEND_LIMIT_ERROR_CODE) return
+    throw new APICallError({
+      message:
+        typeof body.message === 'string' && body.message
+          ? body.message
+          : FREEBUFF_TURN_SPEND_LIMIT_MESSAGE,

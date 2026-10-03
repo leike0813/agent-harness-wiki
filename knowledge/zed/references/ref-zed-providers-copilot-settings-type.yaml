@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-providers-copilot-settings-type
+harness_id: zed
+snapshot_id: snapshot-zed-repo-20261003
+locator:
+  kind: file_lines
+  file: crates/settings/src/settings.rs
+  start: 58
+  end: 72
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-9
+         #[derive(Clone, Debug, Default, RegisterSetting)]
+         pub struct CopilotSettings {
+             pub enterprise_uri: Option<String>,
+         }
+
+         impl Settings for CopilotSettings {
+             fn from_settings(content: &SettingsContent) -> Self {
+                 Self {
+                     enterprise_uri: content
+                         .copilot
+                         .as_ref()
+                         .and_then(|copilot| copilot.enterprise_uri.clone()),
+                 }
+             }
+         }

@@ -1,0 +1,568 @@
+schema_version: 2
+audit_id: audit-codex-d41084bf-85cb-4e47-8c81-c18349ef1135
+harness_id: codex
+checked_at: 2026-10-03T15:10:45.588Z
+previous_audit_id: audit-codex-cli-079462d0-b4be-4793-aa9a-ee283e0ac4fe
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-codex-repo
+    kind: git_repository
+    checked_at: 2026-10-03T15:10:41.436Z
+    status: changed
+    baseline: 41f9084b30812db321a0b592def4f500d1e79cf4
+    observed: b741e480e203f037ca726bc2a76d99a8e8668e66
+    remote_ref: refs/heads/main
+  - source_id: source-codex-cli-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-03T15:10:41.444Z
+    status: changed
+    baseline: 4592869a38de248eef8c623816032bc34787c7797fcf7a64e41d860da83d1a5e
+    observed: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+    resolved_url: https://learn.chatgpt.com/docs/codex/cli.md
+    candidate_path: archive/codex/artifact-source-codex-cli-doc-learn-36066e8647cf/source.md
+  - source_id: source-codex-cli-npm
+    kind: npm_registry
+    checked_at: 2026-10-03T15:10:41.531Z
+    status: changed
+    baseline: 0.157.1@sha512-qJ/UZ0bmYP+/Umav1L9WpmtMYeA6q1+4r4qILSYOKQZhP7WRdjyTQWz3O0dTImZ9RT7AazZa85D87xRDHogcHw==
+    observed: 0.160.0@sha512-kEtVGzjRAYAMOwJxN39bGcna7LT3IDQgq64NNJ/dDTfu4OzZaocJcyNb5/gGJ/IVF/Vj7oK7E2m3nmTan7lpjg==
+  - source_id: source-codex-cli-skills-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-03T15:10:41.534Z
+    status: unchanged
+    baseline: d15791562748e64a53dfec534b8558aa522e732cec0fdedcf7257fa4ef486a20
+    observed: d15791562748e64a53dfec534b8558aa522e732cec0fdedcf7257fa4ef486a20
+    resolved_url: https://learn.chatgpt.com/docs/build-skills.md
+  - source_id: source-codex-cli-mcp-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-03T15:10:42.389Z
+    status: changed
+    baseline: 978cad2319d28ce8e888e890cb6bd5c5a0631d3dc0b463fc66928ba419982f1a
+    observed: adb28990c0c7be47b9ff6c177e3cdeae5803978935cd792f781af2c8b5643e92
+    resolved_url: https://learn.chatgpt.com/docs/extend/mcp.md?surface=cli
+    candidate_path: archive/codex/artifact-source-codex-cli-mcp-doc-learn-adb28990c0c7/source.md
+  - source_id: source-codex-cli-configuration-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-03T15:10:42.399Z
+    status: changed
+    baseline: 0512de2624e4a441a4a557b810e724393bee8022682d0ec7cc4f04b21d2642f9
+    observed: 73242945d7891bc09bf95a39d83117025abd8eca61ae5707db38fda40db16d62
+    resolved_url: https://learn.chatgpt.com/docs/config-file/config-reference.md
+    candidate_path: archive/codex/artifact-source-codex-cli-configuration-doc-learn-73242945d789/source.md
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-overrides
+      - config-runtime-trust
+      - config-defaults-migration
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-config-merge-source
+      - ref-codex-cli-config-precedence-source
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-codex-repo, source-codex-cli-doc-learn,
+      source-codex-cli-mcp-doc-learn, source-codex-cli-configuration-doc-learn:
+      reviewed against the observed identities; the per-topic outcome is recorded
+      in investigation_notes and the unfinished questions in pending_question_ids"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-entry
+      - agents-role-file
+      - agents-invocation
+      - agents-overrides-limits
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-agents-discovery-source
+      - ref-codex-cli-agents-loader-source
+      - ref-codex-cli-agents-role-file-source
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-codex-repo, source-codex-cli-doc-learn,
+      source-codex-cli-mcp-doc-learn, source-codex-cli-configuration-doc-learn:
+      reviewed against the observed identities; the per-topic outcome is recorded
+      in investigation_notes and the unfinished questions in pending_question_ids"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-entry-auth
+      - providers-wire-models
+      - providers-responses-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-codex-repo, source-codex-cli-doc-learn,
+      source-codex-cli-mcp-doc-learn, source-codex-cli-configuration-doc-learn:
+      reviewed against the observed identities; the per-topic outcome is recorded
+      in investigation_notes and the unfinished questions in pending_question_ids"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-events-entry
+      - hooks-handlers-input-output
+      - hooks-order
+      - hooks-conditions
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-hooks-events-source
+      - ref-codex-cli-hooks-managed-repo-doc
+      - ref-codex-cli-hooks-runtime-source
+      - ref-codex-cli-hooks-state-source
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-codex-repo, source-codex-cli-doc-learn,
+      source-codex-cli-mcp-doc-learn, source-codex-cli-configuration-doc-learn:
+      reviewed against the observed identities; the per-topic outcome is recorded
+      in investigation_notes and the unfinished questions in pending_question_ids"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-entry
+      - mcp-server-definition
+      - mcp-transports
+      - mcp-auth
+      - mcp-lifecycle-exposure
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-codex-repo, source-codex-cli-doc-learn,
+      source-codex-cli-mcp-doc-learn, source-codex-cli-configuration-doc-learn:
+      reviewed against the observed identities; the per-topic outcome is recorded
+      in investigation_notes and the unfinished questions in pending_question_ids"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model-package
+      - plugins-install-discovery
+      - plugins-api
+      - plugins-lifecycle-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-plugins-cmd-source
+      - ref-codex-cli-plugins-discoverable-source
+      - ref-codex-cli-plugins-loader-source
+      - ref-codex-cli-plugins-manifest-path-source
+      - ref-codex-cli-plugins-manifest-source
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-codex-repo, source-codex-cli-doc-learn,
+      source-codex-cli-mcp-doc-learn, source-codex-cli-configuration-doc-learn:
+      reviewed against the observed identities; the per-topic outcome is recorded
+      in investigation_notes and the unfinished questions in pending_question_ids"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-discovery-roots
+      - skills-skill-md
+      - skills-openai-yaml
+      - skills-loading
+      - skills-invocation
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-skills-source-depth
+      - ref-codex-cli-skills-source-metadata
+      - ref-codex-cli-skills-source-parser
+      - ref-codex-cli-skills-source-roots
+      - ref-codex-cli-skills-source-scan
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    reason: "source-codex-repo, source-codex-cli-doc-learn,
+      source-codex-cli-mcp-doc-learn, source-codex-cli-configuration-doc-learn:
+      reviewed against the observed identities; the per-topic outcome is recorded
+      in investigation_notes and the unfinished questions in pending_question_ids"
+pending_question_ids:
+  - providers.entry
+  - mcp.auth
+  - plugins.api
+investigation_notes:
+  - "Scope of this round: the Git source moved 41f9084b30812db321a0b592def4f500d1e79cf4 -> b741e480e203f037ca726bc2a76d99a8e8668e66 with 2071 changed paths (2016 under codex-rs). The review therefore re-verified every mechanism the codex chapters actually cite, rather than re-reading the whole tree: all 19 source-cited references still resolve at b741e480 with their recorded excerpts intact, and all 45 documentation excerpts recorded against the previous documentation snapshots are still present verbatim in the newly archived bytes."
+  - "Configuration: config/src/config_layer_source.rs is not in the diff, so the layer priority values (bundled -10, MDM 0, System 10, enterprise 15, User 20/21, Project 25, session 30, legacy managed 40/50) and config/src/merge.rs merge_toml_values are unchanged. edition codex-cli-configuration-v3 adds the managed-policy delivery order documented in the new configuration reference (OS-specific environment override -> all-OS environment override -> Global) and requirements.toml [features] pinning, both kept separate from the config-file layer order."
+  - "MCP: the new documentation snapshot adds OAuth client-registration and callback rules that the current edition did not state (configured client_id skips registration; server-specific callback ID derived from the MCP server URL; per-server oauth.callback_port) and an explicit 512-character budget for the server instructions field. edition codex-cli-mcp-v3 records them; mcp.auth stays pending only for the source-side enterprise-auth change described below."
+  - "Source-side enterprise MCP authentication changed: codex-rs/config/src/mcp_ema.rs drops plugin-declared ema_auth (config/src/mcp_types.rs PluginMcpServerEmaAuthConfig and the plugins.<name>.mcp_servers.<server>.ema_auth validation path are removed) and adds account-scoped credential names keyed by user, workspace, issuer and client id. This was read in the diff but not yet traced to a reader-visible configuration conclusion, so mcp.auth and plugins.api stay pending."
+  - "The new configuration reference states that model_provider and model_providers are not supported as managed Local-computer-access cloud overrides. That boundary was not written into codex-cli-custom_providers, so providers.entry stays pending."
+  - "npm @openai/codex moved 0.157.1 -> 0.160.0 with a new integrity. Per the maintenance contract an npm version change alone is neither a chapter change nor a source-to-package mapping; the package snapshot stays at 0.157.1 and no version mapping was created. delivery=pr forbids the managed package refresh that would confirm the released bytes."
+  - "Blocker on byte-level documentation diff: the archived originals for the previous documentation snapshots (archive/codex/artifact-codex-cli-*/raw.md) are absent from this working tree, so the changed documentation could not be diffed against the baseline bytes. The additive conclusion rests on excerpt-level re-verification instead, and the newly archived originals are pinned by this round's snapshots."
+  - "Independent review was not required: no source conflict remains unresolved, no published configuration step was overturned, and no cross-topic loading mechanism changed. All 45 previously recorded documentation claims and all 19 source-cited claims still hold at the observed revision."

@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-tool-result-cache-uri
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/session/services/tool-result-cache.ts
+  start: 43
+  end: 50
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  		const id = randomUUID();
+  		const uri = `cline://cache/${encodeURIComponent(this.sessionId)}/${id}.result.txt`;
+  		this.entries.set(id, {
+  			text,
+  			bytes,
+  			lastReadIteration: this.iteration,
+  		});
+  		this.referencesByToolCall.set(toolCallId, { id, uri });

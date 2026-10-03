@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-provider-retry-after
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-model-provider-20261003
+locator:
+  kind: file_lines
+  file: sdk/src/impl/model-provider.ts
+  start: 437
+  end: 442
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  const headers = new Headers({ 'content-type': 'application/json' })
+  // Keep scheduling hints, but never copy arbitrary provider headers.
+  for (const name of ['retry-after', 'retry-after-ms']) {
+    const value = response.headers.get(name)
+    if (value && /^\d+(?:\.\d+)?$/.test(value)) headers.set(name, value)
+  }

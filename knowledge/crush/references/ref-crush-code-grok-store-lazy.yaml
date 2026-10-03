@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-grok-store-lazy
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261003
+locator:
+  kind: file_lines
+  file: internal/config/store.go
+  start: 813
+  end: 826
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // RefetchGrokModels fills in the Grok model catalog when the xAI
+  // provider is signed in but has none — because the fetch at login time
+  // failed, or the credentials predate the catalog. A no-op once the
+  // catalog exists, so callers can invoke it freely on model updates: an
+  // existing catalog is refreshed at startup instead, when Catwalk
+  // delivers a new one (see Load).
+  func (s *ConfigStore) RefetchGrokModels(ctx context.Context) {
+  	cfg := s.Config()
+  	pc, ok := cfg.Providers.Get(string(catwalk.InferenceProviderXAI))
+  	if !ok || pc.OAuthToken == nil || len(pc.GrokModels) > 0 {
+  		return
+  	}
+  	s.refetchGrokModels(ctx, ScopeGlobal)
+  }

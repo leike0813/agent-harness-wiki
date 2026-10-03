@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-hooks-status-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Current status in runtime"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/hooks.md
+excerpt: |
+  The default CLI runtime initializes the **extension runner** path. In current startup flow:
+
+  - `--hook` is treated as an alias for `--extension` (CLI paths are merged into `additionalExtensionPaths`)
+  - JS/TS hook factories discovered through `hookCapability` (for example `.omp/hooks/pre/*.ts`) are loaded as extension modules so their `pi.on(...)` handlers bind to the runtime event bus
+  - tools are wrapped by `ExtensionToolWrapper`, not `HookToolWrapper`
+  - context transforms and lifecycle emissions go through `ExtensionRunner`

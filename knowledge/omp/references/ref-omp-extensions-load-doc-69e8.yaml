@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-extensions-load-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Runtime model"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/extensions.md
+excerpt: |
+  1. Extension modules are imported concurrently; their factory functions then run sequentially in path order.
+  2. During that load phase, registration methods are valid; session action methods are not yet initialized.
+  3. `ExtensionRunner.initialize(...)` wires live actions/contexts for the active mode.
+  4. Session/agent/tool lifecycle events are emitted to handlers.
+  5. Registry tools are wrapped for extension interception (`tool_call` / `tool_result`).
+
+  ```text
+  Extension lifecycle (simplified)
+
+  load paths
+     │
+     ▼
+  import modules + bind factories (no session actions)
+     │
+     ▼
+  ExtensionRunner.initialize(mode/session/tool registry)
+     │
+     ├─ emit session/agent events to handlers

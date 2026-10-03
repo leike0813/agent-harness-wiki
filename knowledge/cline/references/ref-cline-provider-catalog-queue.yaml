@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-catalog-queue
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/providers/local-provider-service.ts
+  start: 457
+  end: 465
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  // Provider-service mutations share one queue per file, including across manager
+  // instances. Locking by provider would still lose other providers' catalog edits.
+  const providerMutations = new Map<string, Promise<void>>();
+
+  function withProviderMutation<T>(
+  	manager: ProviderSettingsManager,
+  	mutation: () => Promise<T>,
+  ): Promise<T> {
+  	const key = resolve(resolveModelsRegistryPath(manager));

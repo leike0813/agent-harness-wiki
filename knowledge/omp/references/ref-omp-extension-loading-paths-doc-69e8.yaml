@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-extension-loading-paths-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "4) Explicitly configured paths"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/extension-loading.md
+excerpt: |
+  ### 4) Explicitly configured paths
+
+  After plugin extension entries, configured paths are appended and resolved.
+
+  Configured path sources in the main session startup path (`sdk.ts`):
+
+  1. CLI-provided paths (`--extension/-e`, and `--hook` is also treated as an extension path)
+  2. Effective settings `extensions` array (settings layers replace arrays rather than concatenate them)
+
+  Native settings files:
+
+  - User: the active agent directory's `config.yml`, with `config.yaml` as a fallback (default root `~/.omp/agent`; named profiles use `~/.omp/profiles/<name>/agent`). Agent-directory overrides follow the profile rules above.
+  - Project/native settings capability: `<cwd>/.omp/config.yml` and `<cwd>/.omp/settings.json`

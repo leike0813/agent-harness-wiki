@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-providers-aigateway-timeout
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo-20261003
+official_url: https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/provider/provider.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/provider/provider.ts
+  start: 876
+  end: 881
+excerpt: |2-
+            // This loader builds its own clients instead of using the SDK from resolveSDK, so the
+            // timeout options have to be applied to the requests it makes explicitly.
+            const gatewayFetch = timeoutFetch(options ?? {})
+            // ai-gateway-provider's REST path always calls the global fetch. Its binding path hands
+            // the request to `run`, so send the same request the REST path would (options as
+            // request-level cf-aig-* headers) through the timeout-aware fetch instead.

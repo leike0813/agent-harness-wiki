@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-gateway-registration
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/llms/src/providers/compat.ts
+  start: 143
+  end: 151
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  /**
+   * Bridge a provider from the model catalog (builtins routed under a custom id,
+   * providers.json/models.json registrations, host `registerProvider` calls)
+   * into a `GatewayProviderRegistration` the gateway can execute. Returns
+   * `undefined` for builtin ids the gateway already knows and for ids that are
+   * unknown to the catalog, in which case the gateway's own resolution (and
+   * error reporting) applies.
+   */
+  export async function resolveGatewayProviderRegistration(

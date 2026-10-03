@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-mcp-mem0-bundled-server-gate
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo-2c591ecc
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/config.ts
+  start: 2412
+  end: 2421
+official_url: "https://github.com/QwenLM/qwen-code/blob/2c591ecc08a6fa080342f9b1b9f7f43215178cbb/packages/cli/src/config/config.ts"
+excerpt: |-
+  const mem0Server =
+    bareMode ||
+    safeMode ||
+    sshWorkspace ||
+    provisionalWorkspace ||
+    !trustedFolder ||
+    settings.memory?.mem0 == null
+      ? undefined
+      : createBundledMem0Server(
+          settings.memory.mem0,
+          cwd,

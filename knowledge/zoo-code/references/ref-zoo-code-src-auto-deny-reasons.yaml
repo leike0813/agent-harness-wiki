@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-auto-deny-reasons
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo-20261003
+locator:
+  kind: file_lines
+  file: src/core/auto-approval/autoDenyReason.ts
+  start: 39
+  end: 48
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/72143527fd33306e5541116093c2cbf803cce9e0/src/core/auto-approval/autoDenyReason.ts"
+excerpt: |-
+  		case "not_allowlisted":
+  			return `Command \`${detail.command ?? "(unknown)"}\` is not on the command allowlist.`
+  		case "dangerous_substitution":
+  			return "Command contains shell expansions (${...} forms, process substitution, and similar) that are never auto-approved. Choose an approved command without shell expansions."
+  		case "malformed_command":
+  			return detail.parseError ?? "Command contains a shell syntax error."
+  		case "dcg": {
+  			const base = `Destructive Command Guard denied the command: ${detail.dcgReason ?? "no reason provided"}`
+  			return detail.dcgRuleId ? `${base} (Rule: ${detail.dcgRuleId})` : base
+  		}

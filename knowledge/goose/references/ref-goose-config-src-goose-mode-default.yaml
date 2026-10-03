@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-goose-mode-default
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261003
+locator:
+  kind: file_lines
+  file: crates/goose-provider-types/src/goose_mode.rs
+  start: 20
+  end: 32
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  #[serde(rename_all = "snake_case")]
+  #[strum(serialize_all = "snake_case")]
+  pub enum GooseMode {
+      #[default]
+      #[strum(message = "Automatically approve tool calls")]
+      Auto,
+      #[strum(message = "Ask before every tool call")]
+      Approve,
+      #[strum(message = "Ask only for sensitive tool calls")]
+      SmartApprove,
+      #[strum(message = "Chat only, no tool calls")]
+      Chat,
+  }

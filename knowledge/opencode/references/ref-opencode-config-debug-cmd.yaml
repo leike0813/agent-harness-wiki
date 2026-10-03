@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-debug-cmd
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo-20261003
+official_url: https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/cli/cmd/debug/config.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/cli/cmd/debug/config.ts
+  start: 6
+  end: 14
+excerpt: |2-
+  export const ConfigCommand = effectCmd({
+    command: "config",
+    describe: "show resolved configuration",
+    handler: Effect.fn("Cli.debug.config")(function* () {
+      const { Config } = yield* Effect.promise(() => import("@/config/config"))
+      const config = yield* Config.Service.use((cfg) => cfg.get())
+      process.stdout.write(JSON.stringify(redactConfig(config), null, 2) + EOL)
+    }),
+  })

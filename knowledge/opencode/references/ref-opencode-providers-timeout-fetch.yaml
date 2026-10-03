@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-providers-timeout-fetch
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo-20261003
+official_url: https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/provider/provider.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/provider/provider.ts
+  start: 102
+  end: 113
+excerpt: |2-
+    return async (input: any, init?: BunFetchRequestInit) => {
+      const fetchFn = customFetch ?? fetch
+      const opts = init ?? {}
+      const chunkAbortCtl = typeof chunkTimeout === "number" && chunkTimeout > 0 ? new AbortController() : undefined
+      const headerTimeoutMs = headerTimeout === false ? undefined : headerTimeout
+      const headerTimeoutCtl = typeof headerTimeoutMs === "number" ? timeoutController(headerTimeoutMs) : undefined
+      const signals: AbortSignal[] = []
+
+      if (opts.signal) signals.push(opts.signal)
+      if (chunkAbortCtl) signals.push(chunkAbortCtl.signal)
+      if (headerTimeoutCtl) signals.push(headerTimeoutCtl.signal)
+      if (timeout !== undefined && timeout !== null && timeout !== false) signals.push(AbortSignal.timeout(timeout))

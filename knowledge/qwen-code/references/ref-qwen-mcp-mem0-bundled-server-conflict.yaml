@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-mcp-mem0-bundled-server-conflict
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo-2c591ecc
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/config.ts
+  start: 2441
+  end: 2452
+official_url: "https://github.com/QwenLM/qwen-code/blob/2c591ecc08a6fa080342f9b1b9f7f43215178cbb/packages/cli/src/config/config.ts"
+excerpt: |-
+  const settingsExternalContext = settings.mcpServers?.['external-context'];
+  if (
+    mem0Server &&
+    ((settingsExternalContext !== undefined &&
+      !isGatedMcpScope(settingsExternalContext.scope)) ||
+      sessionMcpServers?.['external-context'] ||
+      cliMcpServers?.['external-context'])
+  ) {
+    throw new Error(
+      'Configure memory.mem0 or an external-context MCP server, not both.',
+    );
+  }

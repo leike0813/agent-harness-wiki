@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-extension-loading-order-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Load order and precedence"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/extension-loading.md
+excerpt: |
+  ## Load order and precedence
+
+  `discoverAndLoadExtensions()` composes `discoverExtensionPaths()` and `loadExtensions()`.
+  The SDK normally discovers paths first and can reuse imported/prepared factories
+  for child sessions.
+
+  Order:
+
+  1. Native auto-discovered modules
+  2. Discovered JS/TS hook factories
+  3. Installed plugin extension entries
+  4. Explicit configured paths (in provided order)
+
+  In `sdk.ts`, configured order is:
+
+  1. CLI additional paths
+  2. Settings `extensions`
+
+  De-duplication:
+
+  - absolute path based
+  - first seen path wins
+  - later duplicates are ignored
+
+  Implication: if the same module path is both auto-discovered and explicitly configured, it is loaded once at the first position (auto-discovered stage).

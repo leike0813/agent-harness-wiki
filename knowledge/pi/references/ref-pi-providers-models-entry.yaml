@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-providers-models-entry
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261003
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/models.md
+  start: 49
+  end: 66
+official_url: https://github.com/earendil-works/pi/blob/83692682f095528f8b71652ddacff7075e36e893/packages/coding-agent/docs/models.md
+excerpt: |-
+  ```json
+  {
+    "providers": {
+      "ollama": {
+        "baseUrl": "http://localhost:11434/v1",
+        "api": "openai-completions",
+        "apiKey": "ollama",
+        "models": [
+          { "id": "qwen2.5-coder:7b" }
+        ]
+      }
+    }
+  }
+  ```
+
+  The dummy key makes the model available to Pi; Ollama ignores it. For an authenticated endpoint, `apiKey` and header values can use `$NAME` or `${NAME}` environment interpolation, a literal value, or a leading `!command`. Commands in `models.json` run at request time and are not cached by Pi.
+
+  Opening `/model` reloads the file. A `models` entry adds or replaces a model with the same ID on that provider. Use `modelOverrides` to change metadata for an existing built-in or extension-provided model without replacing the provider's model list.

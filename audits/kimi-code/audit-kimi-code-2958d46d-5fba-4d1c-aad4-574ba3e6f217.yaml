@@ -1,0 +1,55 @@
+schema_version: 2
+audit_id: audit-kimi-code-2958d46d-5fba-4d1c-aad4-574ba3e6f217
+harness_id: kimi-code
+checked_at: 2026-10-03T17:26:56.491Z
+status: changed
+review_status: reviewed
+reviewed_by: harness-maintenance/kimi-code (minimax-cn/MiniMax-M3.1-Flash-Preview)
+reviewed_at: "2026-10-03T17:34:00.000Z"
+pending_audit_refs: []
+checks:
+  - source_id: source-kimi-code-repo
+    kind: git_repository
+    checked_at: 2026-10-03T17:26:54.808Z
+    status: unchanged
+    baseline: 21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3
+    observed: 21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-legacy-repo
+    kind: git_repository
+    checked_at: 2026-10-03T17:26:54.814Z
+    status: unchanged
+    baseline: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    observed: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-npm
+    kind: npm_registry
+    checked_at: 2026-10-03T17:26:54.817Z
+    status: changed
+    observed: 2.1.1@sha512-xClqcnTQUKgKDbeOGPU78qcwxGzL8wA2rqWuOX3CLpyQ1/NhSX7jAh6hZo/JFwThSX8obkgef3uw/li5JaJNyw==
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - >-
+    两个 Git 来源本轮真实未变化：source-kimi-code-repo 停在 21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3，
+    source-kimi-code-legacy-repo 停在 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82，均与基线同一提交，
+    因此没有打开来源工作区，也没有读取源码。
+  - >-
+    npm 来源的 changed 是缺少基线造成的假阳性，不是版本变化。审计里该 check 没有 baseline 字段，
+    因为扫描器只从同来源的历史审计或 knowledge/kimi-code/snapshots/ 里的 npm_release 快照取基线，
+    而 kimi-code 只登记了 artifact-kimi-code-npm（kind: managed_package），没有 npm_release 快照，
+    于是基线为 undefined，观察值与 undefined 永不相等，状态恒为 changed。
+  - >-
+    观察身份 2.1.1@sha512-xClqcnTQUKgKDbeOGPU78qcwxGzL8wA2rqWuOX3CLpyQ1/NhSX7jAh6hZo/JFwThSX8obkgef3uw/li5JaJNyw==
+    与已登记的 artifact-kimi-code-npm 的 version 与 integrity 逐字一致，上游 npm 版本本轮没有移动。
+  - >-
+    本轮不补写 snapshot-kimi-code-npm：npm_release 快照需要 target.distribution 平台三元组，
+    该三元组只能由受管包核对确认，而 delivery=pr 轮次禁止运行 pnpm managed:packages 与受管二进制核对。
+    凭猜测填写会把未验证的平台身份写成知识，故保留为维护者待办。
+  - >-
+    结论：读者可见的知识、来源引用与版本映射都没有变化，七个主题全部保留现有章节版本；
+    本轮不新增 edition，也建议 registry/chapter-current.yaml 维持现状。
+  - >-
+    本轮没有来源互斥、没有新来源推翻已发布的配置步骤、没有跨主题加载机制变化，
+    属于普通更新，按第 4 节自检后结案，未触发第二 Agent 独立复核。
+

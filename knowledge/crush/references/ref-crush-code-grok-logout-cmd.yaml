@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-grok-logout-cmd
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261003
+locator:
+  kind: file_lines
+  file: internal/cmd/logout.go
+  start: 174
+  end: 190
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func logoutXAI(c *client.Client, wsID string) error {
+  	ctx := getLogoutContext()
+
+  	// Logout clears both stored xAI credentials: the OAuth token, its
+  	// model catalog, and the API key, which mirrors the OAuth access
+  	// token when the sign-in wrote it.
+  	if err := cmp.Or(
+  		c.RemoveConfigField(ctx, wsID, config.ScopeGlobal, "providers.xai.oauth"),
+  		c.RemoveConfigField(ctx, wsID, config.ScopeGlobal, "providers.xai.grok_models"),
+  		c.RemoveConfigField(ctx, wsID, config.ScopeGlobal, "providers.xai.api_key"),
+  	); err != nil {
+  		return err
+  	}
+
+  	fmt.Printf("Successfully logged out of %s.\n", providerDisplayNames["xai"])
+  	return nil
+  }

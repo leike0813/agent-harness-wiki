@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-skills-filters-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Source toggles and filtering"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/skills.md
+excerpt: |
+  `loadSkills()` applies these controls:
+
+  - source toggles: `enableCodexUser`, `enableClaudeUser`, `enableClaudeProject`, `enablePiUser`, `enablePiProject`, `enableAgentsUser`, `enableAgentsProject`
+  - `disabledExtensions` entries with `skill:<name>`
+  - `ignoredSkills` (exclude; glob patterns)
+  - `includeSkills` (include allowlist; glob patterns; empty means include all)
+
+  Filter order is:
+
+  1. not disabled by `disabledExtensions`
+  2. source enabled
+  3. not ignored
+  4. included (if include list present)

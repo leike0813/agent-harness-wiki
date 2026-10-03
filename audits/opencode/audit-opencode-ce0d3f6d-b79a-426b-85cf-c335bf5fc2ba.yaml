@@ -1,0 +1,559 @@
+schema_version: 2
+audit_id: audit-opencode-ce0d3f6d-b79a-426b-85cf-c335bf5fc2ba
+harness_id: opencode
+checked_at: 2026-10-03T17:59:34.720Z
+status: changed
+review_status: reviewed
+pending_audit_refs: []
+checks:
+  - source_id: source-opencode-npm
+    kind: npm_registry
+    checked_at: 2026-10-03T17:59:33.089Z
+    status: changed
+    baseline: 1.18.32@sha512-SCrZWdq44y/EoH2+fE4HLcXS+DzpVqHPzmXk3p2RrufYy8LWvpfhRhKtijb5ktvx8r94ScqToqwHxR0BwS65OQ==
+    observed: 1.18.34@sha512-9WUS2T0t4HHDVzXvuwTHF0nvhXvZ9mQ0r+ozCvKdJu0LVoQpOzqAW4qWTC3ygNc5Oedcc7j+Oct24JYlQYnySA==
+  - source_id: source-opencode-repo
+    kind: git_repository
+    checked_at: 2026-10-03T17:59:33.150Z
+    status: changed
+    baseline: 545f51d26cc39a907d2867492d498d9607ea5fa4
+    observed: 907b3bc518fa48e90e8ec24dd327d13eee71c36c
+    remote_ref: refs/heads/dev
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-trust
+      - config-defaults
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-config-defaults
+      - ref-opencode-config-diagnostics
+      - ref-opencode-config-merge
+      - ref-opencode-config-migration
+      - ref-opencode-config-runtime
+      - ref-opencode-config-schema
+      - ref-opencode-config-sources
+      - ref-opencode-config-trust
+      - ref-opencode-config-vars
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-opencode-repo: shared or unknown impact; investigate all themes"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-definition
+      - agents-invocation
+      - agents-limits
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-agents-create
+      - ref-opencode-agents-depth
+      - ref-opencode-agents-hidden
+      - ref-opencode-agents-invocation
+      - ref-opencode-agents-json
+      - ref-opencode-agents-markdown
+      - ref-opencode-agents-options
+      - ref-opencode-agents-permissions
+      - ref-opencode-agents-taskperm
+      - ref-opencode-agents-types
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-opencode-repo: shared or unknown impact; investigate all themes"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-definition
+      - providers-models
+      - providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-providers-auth
+      - ref-opencode-providers-custom
+      - ref-opencode-providers-entry
+      - ref-opencode-providers-forwarding
+      - ref-opencode-providers-metadata
+      - ref-opencode-providers-models
+      - ref-opencode-providers-protocol
+      - ref-opencode-providers-trouble
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-opencode-repo: shared or unknown impact; investigate all themes"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-entry
+      - hooks-order
+      - hooks-events
+      - hooks-io
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-hooks-context
+      - ref-opencode-hooks-entry
+      - ref-opencode-hooks-examples
+      - ref-opencode-hooks-experimental
+      - ref-opencode-hooks-interface
+      - ref-opencode-hooks-loadorder
+      - ref-opencode-hooks-logging
+      - ref-opencode-hooks-toolhooks
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-opencode-repo: shared or unknown impact; investigate all themes"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-config
+      - mcp-transport
+      - mcp-auth
+      - mcp-runtime
+      - mcp-exposure
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-mcp-auth
+      - ref-opencode-mcp-catalog
+      - ref-opencode-mcp-code
+      - ref-opencode-mcp-config
+      - ref-opencode-mcp-debug
+      - ref-opencode-mcp-lifecycle
+      - ref-opencode-mcp-local
+      - ref-opencode-mcp-manage
+      - ref-opencode-mcp-remote
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-opencode-repo: shared or unknown impact; investigate all themes"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model
+      - plugins-discovery
+      - plugins-api
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-hooks-loadorder
+      - ref-opencode-hooks-logging
+      - ref-opencode-plugins-api
+      - ref-opencode-plugins-compat
+      - ref-opencode-plugins-deprecated
+      - ref-opencode-plugins-install
+      - ref-opencode-plugins-loader
+      - ref-opencode-plugins-model
+      - ref-opencode-plugins-package
+      - ref-opencode-plugins-types
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-opencode-repo: shared or unknown impact; investigate all themes"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-locations
+      - skills-authoring
+      - skills-extension-paths
+      - skills-selection
+      - skills-loading
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-skills-builtin
+      - ref-opencode-skills-code
+      - ref-opencode-skills-diagnostics
+      - ref-opencode-skills-extensions
+      - ref-opencode-skills-frontmatter
+      - ref-opencode-skills-listing
+      - ref-opencode-skills-loading
+      - ref-opencode-skills-locations
+      - ref-opencode-skills-permissions
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    reason: "source-opencode-repo: shared or unknown impact; investigate all themes"
+pending_question_ids: []
+investigation_notes:
+  - "两个登记来源都变化：source-opencode-repo 由 545f51d26cc39a907d2867492d498d9607ea5fa4 前进到 907b3bc518fa48e90e8ec24dd327d13eee71c36c（refs/heads/dev，239 个路径），source-opencode-npm 的 opencode-ai 由 1.18.32 变为 1.18.34。两者都成功观察，无来源失败。"
+  - "npm 侧只作身份记录。按契约不因 npm 版本变化制造章节变化或源码到包的映射，1.18.34 与固定提交 907b3bc 之间仍未建立版本映射；新章节正文保留该适用性缺口。"
+  - "仓库侧影响面按 changed_paths 收敛到 packages/opencode/src 的 12 个文件：cli/cmd/{account,web}.ts、cli/cmd/debug/{config,redact}.ts、mcp/{browser,oauth-provider}.ts、plugin/{digitalocean,snowflake-cortex,openai/codex}.ts、provider/{provider,transform}.ts、session/llm/request.ts。其余变化集中在 packages/console、packages/stats、packages/web 与文档翻译，不属本产品已登记知识范围。"
+  - "官方文档侧未变：config.mdx、agents.mdx、providers.mdx、plugins.mdx、mcp-servers.mdx、skills.mdx 在两个提交间 blob 完全相同；本轮改动的英文文档只有 ecosystem.mdx、go.mdx、zen.mdx，均未被任何 reference 引用。"
+  - "已逐条核对既有 14 个 reference 引用的全部 14 个文件在 545f51d 与 907b3bc 之间 blob 相同，因此既有章节正文与来源引用未被推翻，无需改写 skills、custom_agents、hooks、native_plugins 四个主题。"
+  - "configuration 主题有读者可见变化：新增 packages/opencode/src/cli/cmd/debug/redact.ts，opencode debug config 打印前对配置做脱敏，命令改为输出 redactConfig(config)。既有 ref-opencode-config-diagnostics 的官方文档原文未变，该命令仍可用于核对键是否生效，但不能核对被脱敏的凭据取值。新增 opencode-configuration-v3。"
+  - "custom_providers 主题有两处读者可见变化：provider.ts 把超时处理提取为 timeoutFetch，并让自建客户端的 Cloudflare AI Gateway 加载器也走带超时的 fetch，使该路径的 timeout、headerTimeout、chunkTimeout 语义与其它 provider 一致；session/llm/request.ts 让 x-opencode-session-id 对所有 provider 生效，子会话另加 x-opencode-parent-session-id。此外 transform.ts 用 GEMINI_2_5_RE 与 GEMINI_LEGACY_RE 区分 Gemini 2.5、旧式命名与 Gemma，改变可推理档位与自动写入的 thinkingLevel／reasoning.effort 默认值。新增 opencode-custom_providers-v4。"
+  - "mcp 主题有两处读者可见变化：oauth-provider.ts 在跳转前校验授权 URL 协议，只接受 http 与 https；browser.ts 在注册 exit 监听后立即用当时的退出码再判一次，修掉 Windows 与 WSL 上拉起浏览器失败的漏判。新增 opencode-mcp-v4。"
+  - "native_plugins 主题无机制变化：plugin/digitalocean.ts、plugin/snowflake-cortex.ts、plugin/openai/codex.ts 本轮只有 open 到 openUrl 的导入替换；codex 的 ALLOWED_MODELS 增加 gpt-6-sol 与 gpt-6-luna，但既有章节未记录该白名单，本轮不据此扩写新范围。"
+  - "新增来源记录：artifact-opencode-repo-20261003（git_source_file）、snapshot-opencode-repo-20261003（source_revision，固定 907b3bc518fa48e90e8ec24dd327d13eee71c36c），以及 10 条引用：ref-opencode-config-redact、ref-opencode-config-debug-cmd、ref-opencode-providers-timeout-fetch、ref-opencode-providers-timeout-combine、ref-opencode-providers-aigateway-timeout、ref-opencode-providers-session-headers、ref-opencode-providers-gemini-efforts、ref-opencode-providers-gemini-defaults、ref-opencode-mcp-oauth-scheme、ref-opencode-mcp-browser-exit。全部 record_kind: production，git_source_file 按规则只固定 commit、file 与 content_sha256，不保留 checkout。"
+  - "无来源冲突，无跨主题关键加载机制变化，也未推翻任何已发布的配置步骤，因此不触发独立复核的三个条件。config.diagnostics、providers.metadata、providers.responses、mcp.lifecycle、mcp.diagnostics 维持既有的 partial，原因未变（来源未提供来源溯源入口、配置层未定义推理强度等元数据、文档未给重试语义、无自动重连循环、无工具可见性专用命令），不是本轮新增缺口。"
+  - "delivery=pr：未运行 pnpm ahw publish、pnpm chapters:update、pnpm managed:packages，未修改 registry/chapter-current.yaml，未做受管二进制核对。建议父进程把 opencode-configuration-v3、opencode-custom_providers-v4、opencode-mcp-v4 选为当前版本。"
+reviewed_by: harness-monitor maintenance worker (delivery=pr)
+reviewed_at: "2026-10-03T18:07:48.000Z"

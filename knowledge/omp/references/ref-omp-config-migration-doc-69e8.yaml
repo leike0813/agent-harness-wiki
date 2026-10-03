@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-config-migration-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Migration behavior still active"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/config-usage.md
+excerpt: |
+  ## Migration behavior still active
+
+  On startup, if neither global `config.yml` nor `config.yaml` exists:
+
+  1. Migrate from `~/.omp/agent/settings.json` (renamed to `.bak` on success)
+  2. Merge with legacy DB settings from `agent.db` (DB values win conflicts)
+  3. Write merged result to `config.yml`
+
+  Field-level migrations in `#migrateRawSettings`:
+
+  - `queueMode` -> `steeringMode`
+  - Legacy flat `theme: "..."` -> `theme.dark/theme.light` structure

@@ -1,0 +1,36 @@
+schema_version: 2
+audit_id: audit-continue-1200a8b8-cc84-4b12-babf-aeea242b62bb
+harness_id: continue
+checked_at: 2026-10-03T15:27:15.759Z
+status: changed
+review_status: reviewed
+reviewed_by: harness-maintenance/continue (minimax-cn/MiniMax-M3.1-Flash-Preview)
+reviewed_at: '2026-10-03T15:27:56Z'
+pending_audit_refs: []
+checks:
+  - source_id: source-continue-repo
+    kind: git_repository
+    checked_at: 2026-10-03T15:27:13.593Z
+    status: unchanged
+    baseline: 5522c6f44ca0ac3528b37244818fbfa39b5af470
+    observed: 5522c6f44ca0ac3528b37244818fbfa39b5af470
+    remote_ref: refs/heads/main
+  - source_id: source-continue-npm
+    kind: npm_registry
+    checked_at: 2026-10-03T15:27:13.600Z
+    status: changed
+    observed: 1.5.47@sha512-gtpewV3RoIOD9dyTtKIBi1SY0VOHRu3Ehe7C/mmnswm+j34MPyrcQhQaWj/m+jdfGO4fNIKdrgGIlLso1ULDFw==
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - 本轮覆盖 registry/harnesses/continue.yaml 登记的全部 2 个来源，2 个都观察成功，没有 blocked。audits/continue 在本轮之前没有记录，
+    pending_audit_refs 为空，没有待处理旧审计。
+  - Git 来源 source-continue-repo 的 HEAD 仍是 5522c6f44ca0ac3528b37244818fbfa39b5af470，与 snapshot-continue-repo 固定提交逐字相同，
+    引用它的 ref-continue-src-* 正文定位仍然有效；scan 的 impacts 为空，本轮未打开任何来源工作区。
+  - 唯一的 changed 是 source-continue-npm。continue 此前没有 npm_release 快照，扫描器取不到基线，因此按首次观察记 changed；观察到的
+    1.5.47@sha512-gtpewV3RoIOD9dyTtKIBi1SY0VOHRu3Ehe7C/mmnswm+j34MPyrcQhQaWj/m+jdfGO4fNIKdrgGIlLso1ULDFw== 与 harness-binary 于
+    2026-10-01 记录的受管包身份（knowledge/continue/artifacts/artifact-continue-npm.yaml，research/package-set 锁定 1.5.47）逐字一致，
+    不是新发布。本轮不为此新建 npm_release 快照：取得包字节属于受管刷新，delivery=pr 不执行。
+  - 按 maintenance 第 3 节，npm 版本变化本身不构成章节变化或源码到包的映射；knowledge/continue 当前没有 mappings/ 记录，
+    本轮不制造版本映射，也不改已有章节的来源级版本边界。
+  - 结论：无读者可见的章节、来源定位或版本映射变化，仅结案审计；不新建章节版本、不改 registry/chapter-current.yaml、不写审阅报告。

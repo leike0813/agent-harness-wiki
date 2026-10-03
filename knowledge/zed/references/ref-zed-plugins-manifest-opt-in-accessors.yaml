@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-plugins-manifest-opt-in-accessors
+harness_id: zed
+snapshot_id: snapshot-zed-repo-20261003
+locator:
+  kind: file_lines
+  file: crates/extension/src/extension_manifest.rs
+  start: 282
+  end: 291
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-9
+             /// Returns the languages for which the language server is disabled by default.
+             pub fn opt_in_languages(&self) -> &BTreeSet<LanguageName> {
+                 &self.opt_in_languages
+             }
+
+             /// Returns whether the language server should only be started for the given
+             /// language when the user explicitly enables it.
+             pub fn is_opt_in_for(&self, language: &LanguageName) -> bool {
+                 self.opt_in_languages.contains(language)
+             }

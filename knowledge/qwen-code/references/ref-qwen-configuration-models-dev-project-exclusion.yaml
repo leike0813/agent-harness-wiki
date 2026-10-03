@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-configuration-models-dev-project-exclusion
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo-2c591ecc
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/shared-env-keys.ts
+  start: 48
+  end: 60
+official_url: "https://github.com/QwenLM/qwen-code/blob/2c591ecc08a6fa080342f9b1b9f7f43215178cbb/packages/cli/src/config/shared-env-keys.ts"
+excerpt: |-
+  // The model catalog is written to the global cache that every project
+  // reads, so all three of its keys are operator decisions. A project must
+  // not choose where it is downloaded from; and because `qwen serve`
+  // snapshots and freezes this environment before any workspace file loads
+  // — every workspace child inherits that snapshot, and a workspace can only
+  // add absent keys (`setRuntimeEnvIfUnset`) — a repository's own config
+  // would otherwise decide catalog behaviour for every *other* workspace the
+  // daemon hosts, and override an operator's exported `off` on the reload
+  // path. The rejection is silent (it is not a loader key), so nothing else
+  // reports it either.
+  'QWEN_CODE_MODELS_DEV_URL',
+  'QWEN_CODE_MODELS_DEV',
+  'QWEN_CODE_MODELS_DEV_REFRESH',

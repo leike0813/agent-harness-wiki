@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-mcp-server-fields
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261003
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/mcp.md
+  start: 64
+  end: 71
+official_url: https://github.com/earendil-works/pi/blob/83692682f095528f8b71652ddacff7075e36e893/packages/coding-agent/docs/mcp.md
+excerpt: |-
+  HTTP servers use `url`, `headers`, and `oauth` (see [Authenticate with OAuth](#authenticate-with-oauth)). The legacy SSE transport is not supported.
+
+  Both server types support:
+
+  - `timeout`: per-request timeout in seconds (default 60). Progress notifications reset it.
+  - `enabled: false`: keep the entry without connecting to it.
+  - `exposure` and `toolExposure`: control how tools reach the model (see [Control tool exposure](#control-tool-exposure)).
+  - `description`: what the server offers, in a sentence. It lists the server in the system prompt (see [Control tool exposure](#control-tool-exposure)), tool search ranks the server's tools by it, and codemode's `describeNamespace()` returns it. Without it, the first line of the server instructions is used once the server connects.

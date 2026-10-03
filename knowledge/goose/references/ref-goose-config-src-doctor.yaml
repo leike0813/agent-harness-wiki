@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-doctor
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261003
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/commands/doctor.rs
+  start: 6
+  end: 15
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub async fn handle_doctor() -> Result<()> {
+      let mut session = build_session(SessionBuilderConfig {
+          no_session: true,
+          interactive: true,
+          ..Default::default()
+      })
+      .await;
+
+      session.interactive(Some("/doctor".to_string())).await
+  }

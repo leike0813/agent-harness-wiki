@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-discovery-errors
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/providers/local-provider-service.ts
+  start: 395
+  end: 404
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  /** Discovery succeeded but the source listed no models. */
+  class EmptyModelCatalogError extends ModelDiscoveryError {
+  	constructor() {
+  		super(
+  			new Error(
+  				"at least one model is required (manual or via modelsSourceUrl)",
+  			),
+  		);
+  		this.name = "EmptyModelCatalogError";
+  	}

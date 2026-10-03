@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-grok-login-cmd
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261003
+locator:
+  kind: file_lines
+  file: internal/cmd/login.go
+  start: 189
+  end: 214
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func loginGrok(ws workspace.Workspace, force bool) error {
+  	if !force {
+  		cfg := ws.Config()
+  		if cfg != nil {
+  			if pc, ok := cfg.Providers.Get("xai"); ok && pc.OAuthToken != nil {
+  				fmt.Println("You are already logged in to xAI with a Grok account.")
+  				fmt.Println("Use --force to re-authenticate.")
+  				return nil
+  			}
+  		}
+  	}
+
+  	ctx := getLoginContext()
+  	token, err := login.Run(ctx, login.PlatformGrok)
+  	if err != nil {
+  		return err
+  	}
+
+  	if err := ws.SetProviderAPIKey(config.ScopeGlobal, "xai", token); err != nil {
+  		return err
+  	}
+
+  	fmt.Println()
+  	fmt.Println("You're now authenticated with your Grok account!")
+  	return nil
+  }

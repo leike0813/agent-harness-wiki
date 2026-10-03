@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-mcp-resource-tools
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261003
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/mcp.md
+  start: 236
+  end: 240
+official_url: https://github.com/earendil-works/pi/blob/83692682f095528f8b71652ddacff7075e36e893/packages/coding-agent/docs/mcp.md
+excerpt: |-
+  When a connected server offers [resources](https://modelcontextprotocol.io/specification/2025-11-25/server/resources), Pi adds the resource tools used by Codex and OpenCode:
+
+  - `list_mcp_resources` lists resources as JSON: `{ server?, resources: [{ server, uri, name, ... }], nextCursor? }`. With `server`, it lists one page; `cursor` continues with the next page. Without `server`, it lists every resource from every server.
+  - `list_mcp_resource_templates` lists URI templates for resources the servers do not list directly.
+  - `read_mcp_resource` reads a resource by `server` and `uri`. Text reaches the model as text and images as images. Other binary resources are saved to temporary files, and the model receives the path. Scripts receive `{ server, uri, contents }`.

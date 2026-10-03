@@ -1,0 +1,38 @@
+schema_version: 2
+audit_id: audit-zoo-code-39551cf6-cccf-427c-9b3e-e554581f2c83
+harness_id: zoo-code
+checked_at: 2026-10-03T19:43:05.773Z
+previous_audit_id: audit-zoo-code-7a86272b-6c36-4257-9ab5-eb8af9a3c768
+status: no_change
+review_status: not_required
+pending_audit_refs:
+  - audit-zoo-code-7a86272b-6c36-4257-9ab5-eb8af9a3c768
+checks:
+  - source_id: source-zoo-code-repo
+    kind: git_repository
+    checked_at: 2026-10-03T19:43:04.587Z
+    status: unchanged
+    baseline: 72143527fd33306e5541116093c2cbf803cce9e0
+    observed: 72143527fd33306e5541116093c2cbf803cce9e0
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs
+    kind: git_repository
+    checked_at: 2026-10-03T19:43:04.595Z
+    status: unchanged
+    baseline: dfd2628c31073ec6b111bfedbcd071d197d37ad2
+    observed: dfd2628c31073ec6b111bfedbcd071d197d37ad2
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs-site
+    kind: official_documentation
+    checked_at: 2026-10-03T19:43:04.598Z
+    status: unchanged
+    baseline: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    observed: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    resolved_url: https://docs.zoocode.dev/
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "本审计是同一 session 内的第二次 sources:scan，属于基线链接的产物，不是独立的一轮结论。扫描器以「上一份审计的 observed」作为基线（src/sources/scan.ts:522-527），而上一份审计 audit-zoo-code-7a86272b-6c36-4257-9ab5-eb8af9a3c768 已把 source-zoo-code-repo 的 observed 推进到 72143527fd33306e5541116093c2cbf803cce9e0，因此本次比对自然全部 unchanged。"
+  - "不得把本审计的 no_change 读作「zoo-code 本轮无变化」。本轮真实变化是 source-zoo-code-repo 的 bf3bc781… → 72143527…，调查与结案在 audit-zoo-code-7a86272b-6c36-4257-9ab5-eb8af9a3c768.yaml 中完成。"
+  - "本次扫描同时确认：父进程 sources:check（2026-10-03T14:50:15Z）标记为 blocked 的 source-zoo-code-docs 已恢复可达，HEAD 仍为 dfd2628c31073ec6b111bfedbcd071d197d37ad2；docs 站点 hash 亦未变。该来源本轮不再阻塞任何固定问题。"
+  - "时间边界：本审计 19:43:04Z 之后上游可能继续前进，不构成对本轮之后状态的断言。"

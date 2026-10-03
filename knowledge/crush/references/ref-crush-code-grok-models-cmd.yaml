@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-grok-models-cmd
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261003
+locator:
+  kind: file_lines
+  file: internal/cmd/models.go
+  start: 61
+  end: 75
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  			// The OpenAI and xAI providers each hold exactly one
+  			// credential. Signed in with ChatGPT or Grok, only the
+  			// models the subscription grants are usable; an API key
+  			// lists the regular catalog.
+  			var models []catwalk.Model
+  			switch {
+  			case providerID == string(catwalk.InferenceProviderOpenAI) && provider.OAuthToken != nil:
+  				models = provider.ChatGPTModels
+  			case providerID == string(catwalk.InferenceProviderXAI) && provider.OAuthToken != nil:
+  				models = provider.GrokModels
+  			default:
+  				models = provider.Models
+  			}
+
+  			for _, model := range models {

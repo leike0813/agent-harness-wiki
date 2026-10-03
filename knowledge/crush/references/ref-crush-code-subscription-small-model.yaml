@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-subscription-small-model
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261003
+locator:
+  kind: file_lines
+  file: internal/app/app.go
+  start: 640
+  end: 659
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  		var pick func(config.ProviderConfig) *catwalk.Model
+  		switch providerID {
+  		case string(catwalk.InferenceProviderOpenAI):
+  			pick = chatGPTSmallModel
+  		case string(catwalk.InferenceProviderXAI):
+  			pick = grokSmallModel
+  		}
+  		if pick != nil {
+  			if pc, ok := cfg.Providers.Get(providerID); ok && pc.OAuthToken != nil {
+  				if small := pick(pc); small != nil {
+  					return config.SelectedModel{
+  						Provider:        providerID,
+  						Model:           small.ID,
+  						MaxTokens:       small.DefaultMaxTokens,
+  						ReasoningEffort: small.DefaultReasoningEffort,
+  					}
+  				}
+  				return largeModelCfg
+  			}
+  		}

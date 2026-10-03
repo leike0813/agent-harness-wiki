@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-request-headers-opencode
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/llms/src/providers/request-headers.ts
+  start: 151
+  end: 157
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  	if (input.providerId === "opencode-go") {
+  		const sessionId = trimNonEmpty(input.sessionId);
+  		return {
+  			...(sessionId ? { "x-opencode-session": sessionId } : {}),
+  			"User-Agent": `Cline/${trimNonEmpty(input.client?.version) ?? input.coreVersion}`,
+  		};
+  	}

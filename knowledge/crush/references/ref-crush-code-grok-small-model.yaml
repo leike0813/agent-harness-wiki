@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-grok-small-model
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261003
+locator:
+  kind: file_lines
+  file: internal/app/app.go
+  start: 687
+  end: 703
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // grokSmallModel picks a lightweight model from the Grok catalog,
+  // preferring a "fast" or "mini" variant and falling back to the last
+  // entry (the catalog lists heavier models first). Returns nil when the
+  // catalog is empty.
+  func grokSmallModel(pc config.ProviderConfig) *catwalk.Model {
+  	for _, marker := range []string{"fast", "mini"} {
+  		for i := range pc.GrokModels {
+  			if strings.Contains(pc.GrokModels[i].ID, marker) {
+  				return &pc.GrokModels[i]
+  			}
+  		}
+  	}
+  	if len(pc.GrokModels) > 0 {
+  		return &pc.GrokModels[len(pc.GrokModels)-1]
+  	}
+  	return nil
+  }

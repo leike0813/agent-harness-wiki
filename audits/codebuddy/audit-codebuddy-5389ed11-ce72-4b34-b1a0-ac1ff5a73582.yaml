@@ -1,0 +1,302 @@
+schema_version: 2
+audit_id: audit-codebuddy-5389ed11-ce72-4b34-b1a0-ac1ff5a73582
+harness_id: codebuddy
+checked_at: 2026-10-03T11:26:41.663Z
+status: changed
+review_status: reviewed
+reviewed_by: harness-maintenance/codebuddy (minimax-cn/MiniMax-M3.1-Flash-Preview)
+reviewed_at: '2026-10-03T13:40:00Z'
+pending_audit_refs: []
+checks:
+  - source_id: source-codebuddy-docs
+    kind: git_repository
+    checked_at: 2026-10-03T11:26:41.071Z
+    status: changed
+    baseline: 47ec6f132a3f52925ee999deb782807bf6d82a2b
+    observed: 694ae23f44308ca901d620d2e48c2c3d35c75fc9
+    remote_ref: refs/heads/main
+    changed_paths:
+      - CHANGELOG.md
+      - docs/env-vars.md
+      - docs/release-notes/README.md
+      - docs/release-notes/v2.161.0.md
+      - docs/release-notes/v2.161.1.md
+  - source_id: source-codebuddy-site
+    kind: official_documentation
+    checked_at: 2026-10-03T11:26:41.078Z
+    status: unchanged
+    baseline: 6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b
+    observed: 6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b
+    resolved_url: https://www.codebuddy.cn/llms.txt
+  - source_id: source-codebuddy-npm
+    kind: npm_registry
+    checked_at: 2026-10-03T11:26:41.079Z
+    status: changed
+    observed: 2.161.1@sha512-Ii1ziKuvDlEj0e6/Re8tnKYU0CA9Lf73XtolPYVKUnugqNjPHBG2mxPxshB/tJy5Wy6NyDDB97enrnqFKjP3tQ==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-overrides
+      - config-runtime
+      - config-trust
+      - config-defaults
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-settings-keys
+      - ref-codebuddy-env-shell
+      - ref-codebuddy-env-fs
+      - ref-codebuddy-env-tools
+      - ref-codebuddy-env-context-usage
+      - ref-codebuddy-changelog-context-usage
+      - ref-codebuddy-env-image-history
+      - ref-codebuddy-mcp-locations
+      - ref-codebuddy-trouble-migrate
+    cross_topic_links:
+      - skills.discovery
+      - skills.conditions
+      - skills.diagnostics
+      - providers.models
+      - mcp.lifecycle
+    reason: >-
+      source-codebuddy-docs: docs/env-vars.md 在本轮新增 CODEBUDDY_SKIP_READ_TOOL_IMAGE_REHYDRATION_IN_HISTORY
+      一行，CHANGELOG 记录 2.161.0 新增 CODEBUDDY_SHOW_CONTEXT_USAGE；两者都落在 config.defaults
+      的「功能开关主要由环境变量承载」这一节，其余被引小节逐字未变。
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-entry
+      - providers-auth
+      - providers-models
+      - providers-metadata
+      - providers-responses
+      - providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-models-envref
+      - ref-codebuddy-iam-auth
+      - ref-codebuddy-iam-details
+      - ref-codebuddy-iam-cred
+      - ref-codebuddy-env-auth
+      - ref-codebuddy-changelog-error-4100
+      - ref-codebuddy-env-perf
+      - ref-codebuddy-models-urlformat
+      - ref-codebuddy-changelog-stream-interrupt
+      - ref-codebuddy-models-troubleshoot
+      - ref-codebuddy-settings-configcmds
+      - ref-codebuddy-iam-faq
+    cross_topic_links:
+      - config.runtime
+      - config.defaults
+      - config.diagnostics
+      - agents.overrides
+      - mcp.auth
+    reason: >-
+      source-codebuddy-docs: CHANGELOG 的 2.161.0 记录新增错误码 4100（本地自定义模型缺接口地址或
+      API Key 时不再向供应商端点发请求）与流式中断不再被误判为空流，两条都改写 providers.auth、
+      providers.responses、providers.diagnostics 的机制描述。
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-events
+      - hooks-config
+      - hooks-io
+      - hooks-execution
+      - hooks-conditions
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-hooks-exec
+      - ref-codebuddy-hooks-frontmatter
+      - ref-codebuddy-hooks-prompt
+      - ref-codebuddy-hooks-mcp
+      - ref-codebuddy-changelog-filechanged-batch
+    cross_topic_links:
+      - config.defaults
+      - config.diagnostics
+      - plugins.lifecycle
+      - skills.conditions
+    reason: >-
+      source-codebuddy-docs: CHANGELOG 的 2.161.0 把 FileChanged 改为按批次触发（同一文件短时间内
+      多次变化合并为一次，单次超过 1000 个文件改为记录一条告警），属于 hooks.order 的执行语义。
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-roots
+      - skills-format
+      - skills-loading
+      - skills-invocation
+      - skills-conditions
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-skills-selection
+      - ref-codebuddy-skills-fork
+      - ref-codebuddy-skills-frontmatter
+      - ref-codebuddy-changelog-skill-trigger
+    cross_topic_links:
+      - config.overrides
+      - config.diagnostics
+      - agents.invocation
+      - hooks.conditions
+    reason: >-
+      source-codebuddy-docs: CHANGELOG 的 2.161.0 记录只有显式 /skill-name 才触发 Skill 展开，
+      以已安装 Skill 名开头的普通文本不再被误判，改写 skills.loading 的用户侧触发条件。
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-entry
+      - agents-format
+      - agents-roles
+      - agents-invocation
+      - agents-overrides
+      - agents-limits
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-agents-locations
+      - ref-codebuddy-agents-format
+      - ref-codebuddy-agents-limits
+      - ref-codebuddy-teams-vs
+      - ref-codebuddy-teams-limits
+    cross_topic_links:
+      - config.overrides
+      - skills.loading
+    reason: >-
+      source-codebuddy-docs: 复核 CHANGELOG 后无机制变化。2.161.0/2.161.1 中与子代理相关的条目
+      是专家团并发汇报与成员唤醒的内部调度修复，以及 Web UI 的智能体选择串改修复；前者不改变
+      文档已记录的定义、调用与预算机制，Web UI 不是本产品已登记的界面，故不改写章节。
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-entry
+      - mcp-definition
+      - mcp-auth
+      - mcp-lifecycle
+      - mcp-capabilities
+      - mcp-exposure
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-mcp-format
+      - ref-codebuddy-mcp-structure
+      - ref-codebuddy-mcp-transport
+      - ref-codebuddy-mcp-permissions
+      - ref-codebuddy-mcp-prompts
+      - ref-codebuddy-mcpstatus-tldr
+    cross_topic_links:
+      - config.overrides
+      - config.diagnostics
+      - plugins.discovery
+    reason: >-
+      source-codebuddy-docs: 复核 CHANGELOG 后无机制变化。2.161.0 只把会话级 MCP 的 ToolSearch 目录
+      改为复用 _meta.shortDescription（与全局目录一致），属于模型可见描述的内部一致性修复，不改变
+      文档已记录的接入、传输、审批与诊断机制。
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model
+      - plugins-package
+      - plugins-install
+      - plugins-discovery
+      - plugins-api
+      - plugins-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-plugins-model
+      - ref-codebuddy-plugins-structure
+      - ref-codebuddy-pluginsref-components
+      - ref-codebuddy-pluginsref-paths
+    cross_topic_links:
+      - config.defaults
+      - skills.discovery
+      - hooks.conditions
+    reason: >-
+      source-codebuddy-docs: 复核 CHANGELOG 后无机制变化。与插件相关的唯一条目是 Server 库运行时的
+      Skill 工具混入 CLI 内置控制命令，发生在 Server 运行时而非 CLI 界面；被引的 docs/plugins.md
+      与 docs/plugins-reference.md 逐字未变。
+pending_question_ids: []
+investigation_notes:
+  - 本轮只观察到 source-codebuddy-docs 一个来源的内容变化（47ec6f1… → 694ae23…）。用
+    `pnpm sources:workspace open --baseline` 取得 changed_paths：CHANGELOG.md、docs/env-vars.md、
+    docs/release-notes/{README,v2.161.0,v2.161.1}.md。被七个 codebuddy 章节引用的 docs/*.md 在两个提交
+    之间除 env-vars.md 外逐字未变，因此章节改写范围限于新增的环境变量行与两条发行记录。
+  - docs/release-notes/v2.161.0.md、v2.161.1.md 是 CHANGELOG.md 同两条发行记录的 Markdown 版本，
+    按单一事实源只引用 CHANGELOG.md，不为 release-notes 另建快照；版本号（2.161.0/2.161.1）
+    只用于标注行为自哪个 CLI 版本起成立。
+  - 本轮新建 snapshot-codebuddy-docs-env-vars-20261003 与 snapshot-codebuddy-docs-changelog-20261003
+    （各配一个 git_source_file artifact，固定 commit 694ae23…、仓库内路径与内容 hash），并新建 7 条
+    引用。Git 来源的 checkout 不保留，工作区临时路径不写入任何记录；既有 snapshot-codebuddy-docs
+    与 167 条引用保持原样，避免让已发布的 v1 章节改指新的提交。
+  - 界面边界：2.161.0/2.161.1 中 Server 库、Web UI、TUI 的条目一律不写入 CLI 章节。唯一例外是
+    FileChanged 的批量触发语义——发行记录把它与后台服务文件监听放在同一条目里且未区分界面，本章按
+    CLI 记录并在正文写明 Server 侧未验证。
+  - source-codebuddy-npm 报 changed 是版本从受管记录的 2.160.0 变为观察到的 2.161.1。按 maintenance
+    第 3 节，npm 版本变化本身不构成章节变化或源码到包的映射；本轮 delivery=pr 未取包字节，
+    artifact-codebuddy-npm 仍记录 2.160.0，不新建 mappings/ 条目，留给 harness-binary 核对。
+  - 改动不涉及来源冲突、推翻已发布的配置步骤或跨主题加载机制变化，按 maintenance 第 4 节由本 Agent
+    自检，无需第二个 Agent 独立复核。
+  - delivery=pr：本轮只执行第 1-6 节的观察、采写、自检与审计，未运行 pnpm ahw publish、
+    pnpm chapters:update、pnpm managed:packages，未调用 harness-binary。

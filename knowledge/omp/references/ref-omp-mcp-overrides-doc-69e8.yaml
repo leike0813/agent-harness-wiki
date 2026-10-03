@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-mcp-overrides-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "User-level enable and disable overrides"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/mcp-config.md
+excerpt: |
+  - `disabledServers` is the highest-precedence denylist. It hides a same-named server from any source.
+  - `enabledServers` force-enables a same-named entry whose source has `enabled: false`; it cannot override `disabledServers`.
+
+  ```json
+  {
+    "$schema": "https://raw.githubusercontent.com/can1357/oh-my-pi/main/packages/coding-agent/src/config/mcp-schema.json",
+    "disabledServers": ["github"],
+    "enabledServers": ["tool-owned-server"]
+  }
+  ```

@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-agent-model-resolve
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261003
+locator:
+  kind: file_lines
+  file: internal/agent/coordinator.go
+  start: 998
+  end: 1005
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  	// Resolve the selected model from the provider's whole catalog: an
+  	// API-key model, a ChatGPT subscription model, or a Grok one. The
+  	// subscription catalogs live outside Models, so looking only there
+  	// strands a Grok/ChatGPT model that catwalk doesn't also publish.
+  	largeCatwalkModel := c.cfg.Config().GetModel(largeModelCfg.Provider, largeModelCfg.Model)
+  	smallCatwalkModel := c.cfg.Config().GetModel(smallModelCfg.Provider, smallModelCfg.Model)
+
+  	if largeCatwalkModel == nil {

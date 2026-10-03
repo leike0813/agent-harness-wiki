@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-packages-doc-install
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261003
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/packages.md
+  start: 9
+  end: 19
+official_url: https://github.com/earendil-works/pi/blob/83692682f095528f8b71652ddacff7075e36e893/packages/coding-agent/docs/packages.md
+excerpt: |-
+  Install from npm, git, or a local path:
+
+  ```bash
+  pi install npm:@example/pi-tools@1.0.0
+  pi install git:github.com/example/pi-tools@v1
+  pi install ./local-package
+  ```
+
+  `pi list` shows configured packages. Use `pi remove <source>` to remove one and `pi update --extensions` to reconcile package installations. See [Command Line](cli.md#package-commands) for every package command and option.
+
+  Personal installs are written to `~/.pi/agent/settings.json`. Add `--local` or `-l` to write the package declaration to `.pi/settings.json`. Pi reads declarations from that file only after project trust is granted.

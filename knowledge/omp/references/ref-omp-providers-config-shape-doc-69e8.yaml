@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-providers-config-shape-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Config file location and legacy behavior"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/models.md
+excerpt: |
+  Default-profile config paths, in precedence order:
+
+  - `~/.omp/agent/models.yml`
+  - `~/.omp/agent/models.yaml`
+
+  These are relative to the active agent directory returned by `getAgentDir()`. Named profiles use
+  `~/.omp/profiles/<name>/agent/`; `PI_CONFIG_DIR` changes the config-root directory name, and
+  `PI_CODING_AGENT_DIR` can override the default-profile agent directory. A programmatic
+  `ModelRegistry` path overrides the directory-derived location.
+
+  Legacy behavior still present:
+
+  - If both YAML files are missing and `models.json` exists at the same location, it is migrated to `models.yml`.

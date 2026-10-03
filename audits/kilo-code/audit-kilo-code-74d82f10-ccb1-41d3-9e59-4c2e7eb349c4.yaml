@@ -1,0 +1,678 @@
+schema_version: 2
+audit_id: audit-kilo-code-74d82f10-ccb1-41d3-9e59-4c2e7eb349c4
+harness_id: kilo-code
+checked_at: 2026-10-03T17:15:39.771Z
+status: changed
+review_status: reviewed
+reviewed_by: harness-maintenance (delivery=pr, 本轮维护子代理)
+reviewed_at: "2026-10-03T17:15:39.771Z"
+pending_audit_refs: []
+checks:
+  - source_id: source-kilo-code-repo
+    kind: git_repository
+    checked_at: 2026-10-03T17:15:38.317Z
+    status: changed
+    baseline: 0b1e01409a2f2255eff7e1c47c6dc894eaed5288
+    observed: 76bcfd40be616a72f4697b3041565f322245b462
+    remote_ref: refs/heads/main
+  - source_id: source-kilo-code-npm
+    kind: npm_registry
+    checked_at: 2026-10-03T17:15:38.325Z
+    status: changed
+    observed: 7.8.3@sha512-3OBkmFrAi01YNrV7yZli7H3J3SR4X9e3dKey5sd9CVwVKXq85ZenbV/btp2xeDObWbRsdux4OYyfLuRR0ZA5xw==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-precedence
+      - config-runtime
+      - config-trust
+      - config-defaults-migration
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-cli-config-cmd
+      - ref-kilo-code-cli-config-location
+      - ref-kilo-code-cli-configref
+      - ref-kilo-code-cli-configuration
+      - ref-kilo-code-cli-debug-config
+      - ref-kilo-code-cli-env-overrides
+      - ref-kilo-code-cli-env-v2
+      - ref-kilo-code-cli-global-options
+      - ref-kilo-code-cli-granular
+      - ref-kilo-code-cli-help-cmd
+      - ref-kilo-code-cli-key-options
+      - ref-kilo-code-cli-package
+      - ref-kilo-code-cli-permission-actions
+      - ref-kilo-code-cli-permissions
+      - ref-kilo-code-cli-slash
+      - ref-kilo-code-config-schema-overlay
+      - ref-kilo-code-config-schema-paths
+      - ref-kilo-code-config-schema-truth
+      - ref-kilo-code-config-src-cli-cmd
+      - ref-kilo-code-config-src-content
+      - ref-kilo-code-config-src-detect
+      - ref-kilo-code-config-src-files
+      - ref-kilo-code-config-src-flags
+      - ref-kilo-code-config-src-formatter
+      - ref-kilo-code-config-src-global
+      - ref-kilo-code-config-src-globalpaths
+      - ref-kilo-code-config-src-guard
+      - ref-kilo-code-config-src-managed
+      - ref-kilo-code-config-src-merge
+      - ref-kilo-code-config-src-mergeproject
+      - ref-kilo-code-config-src-paths
+      - ref-kilo-code-config-src-project
+      - ref-kilo-code-config-src-variable
+      - ref-kilo-code-runtime-auth
+      - ref-kilo-code-runtime-entries
+      - ref-kilo-code-runtime-persistence
+      - ref-kilo-code-runtime-precedence
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-kilo-code-repo: shared or unknown impact; investigate all themes"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - custom-agents-entry
+      - custom-agents-format
+      - custom-agents-roles
+      - custom-agents-invocation
+      - custom-agents-overrides
+      - custom-agents-limits
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-agents-builtin
+      - ref-kilo-code-agents-cli
+      - ref-kilo-code-agents-invoke
+      - ref-kilo-code-agents-json
+      - ref-kilo-code-agents-markdown
+      - ref-kilo-code-agents-modes
+      - ref-kilo-code-agents-options
+      - ref-kilo-code-agents-override
+      - ref-kilo-code-agents-permissions
+      - ref-kilo-code-agents-precedence
+      - ref-kilo-code-agents-src-info
+      - ref-kilo-code-agents-src-md
+      - ref-kilo-code-agents-src-merge
+      - ref-kilo-code-agents-src-task
+      - ref-kilo-code-agents-what
+      - ref-kilo-code-cli-agent-cmd
+      - ref-kilo-code-cli-slash
+      - ref-kilo-code-config-src-files
+      - ref-kilo-code-config-src-paths
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-kilo-code-repo: shared or unknown impact; investigate all themes"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - custom-providers-entry
+      - custom-providers-auth
+      - custom-providers-protocol
+      - custom-providers-models
+      - custom-providers-forwarding
+      - custom-providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-cli-env-overrides
+      - ref-kilo-code-cli-env
+      - ref-kilo-code-cli-key-options
+      - ref-kilo-code-providers-define
+      - ref-kilo-code-providers-detect
+      - ref-kilo-code-providers-fields
+      - ref-kilo-code-providers-filter
+      - ref-kilo-code-providers-general
+      - ref-kilo-code-providers-http-troubleshoot
+      - ref-kilo-code-providers-limits
+      - ref-kilo-code-providers-modalities
+      - ref-kilo-code-providers-options
+      - ref-kilo-code-providers-priority
+      - ref-kilo-code-providers-src-auth
+      - ref-kilo-code-providers-src-models
+      - ref-kilo-code-providers-troubleshoot
+      - ref-kilo-code-providers-url
+      - ref-kilo-code-runtime-auth
+      - ref-kilo-code-runtime-provider-auth
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-kilo-code-repo: shared or unknown impact; investigate all themes"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-events
+      - hooks-entry
+      - hooks-contract
+      - hooks-order
+      - hooks-conditions
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-hooks-chat
+      - ref-kilo-code-hooks-events
+      - ref-kilo-code-hooks-experimental
+      - ref-kilo-code-hooks-providers
+      - ref-kilo-code-hooks-reference
+      - ref-kilo-code-hooks-src-interface
+      - ref-kilo-code-hooks-src-plugin
+      - ref-kilo-code-hooks-tools
+      - ref-kilo-code-plugins-config-file
+      - ref-kilo-code-plugins-dir
+      - ref-kilo-code-plugins-engine
+      - ref-kilo-code-plugins-order
+      - ref-kilo-code-plugins-src-hooks
+      - ref-kilo-code-plugins-src-load
+      - ref-kilo-code-plugins-tools
+      - ref-kilo-code-plugins-troubleshoot
+      - ref-kilo-code-plugins-types
+      - ref-kilo-code-plugins-what
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-kilo-code-repo: shared or unknown impact; investigate all themes"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-configuration
+      - mcp-transport
+      - mcp-auth
+      - mcp-lifecycle
+      - mcp-capabilities
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-cli-mcp-auth-cmd
+      - ref-kilo-code-cli-mcp-cmd
+      - ref-kilo-code-cli-slash
+      - ref-kilo-code-config-src-global
+      - ref-kilo-code-config-src-project
+      - ref-kilo-code-config-src-variable
+      - ref-kilo-code-mcp-entry
+      - ref-kilo-code-mcp-env
+      - ref-kilo-code-mcp-format
+      - ref-kilo-code-mcp-local
+      - ref-kilo-code-mcp-manage
+      - ref-kilo-code-mcp-permissions
+      - ref-kilo-code-mcp-remote
+      - ref-kilo-code-mcp-src-api
+      - ref-kilo-code-mcp-src-auth
+      - ref-kilo-code-mcp-src-connect-timeout
+      - ref-kilo-code-mcp-src-local
+      - ref-kilo-code-mcp-src-remote
+      - ref-kilo-code-mcp-src-sanitize
+      - ref-kilo-code-mcp-src-status
+      - ref-kilo-code-mcp-src-timeout
+      - ref-kilo-code-mcp-transports
+      - ref-kilo-code-runtime-auth
+      - ref-kilo-code-runtime-entries
+      - ref-kilo-code-runtime-mcp-oauth
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-kilo-code-repo: shared or unknown impact; investigate all themes"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - native_plugins-model
+      - native_plugins-sources
+      - native_plugins-package
+      - native_plugins-loading
+      - native_plugins-api
+      - native_plugins-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-cli-plugin-cmd
+      - ref-kilo-code-config-src-files
+      - ref-kilo-code-config-src-paths
+      - ref-kilo-code-plugins-cmd
+      - ref-kilo-code-plugins-config-file
+      - ref-kilo-code-plugins-create
+      - ref-kilo-code-plugins-deps
+      - ref-kilo-code-plugins-dir
+      - ref-kilo-code-plugins-engine
+      - ref-kilo-code-plugins-install
+      - ref-kilo-code-plugins-manifest
+      - ref-kilo-code-plugins-module
+      - ref-kilo-code-plugins-order
+      - ref-kilo-code-plugins-pure
+      - ref-kilo-code-plugins-src-hooks
+      - ref-kilo-code-plugins-src-install
+      - ref-kilo-code-plugins-src-load
+      - ref-kilo-code-plugins-src-loader
+      - ref-kilo-code-plugins-src-resolve
+      - ref-kilo-code-plugins-src-scandir
+      - ref-kilo-code-plugins-structure
+      - ref-kilo-code-plugins-tools
+      - ref-kilo-code-plugins-troubleshoot
+      - ref-kilo-code-plugins-types
+      - ref-kilo-code-plugins-use
+      - ref-kilo-code-plugins-what
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-kilo-code-repo: shared or unknown impact; investigate all themes"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-roots
+      - skills-format
+      - skills-precedence
+      - skills-loading
+      - skills-security
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-cli-debug-skill
+      - ref-kilo-code-cli-package
+      - ref-kilo-code-cli-slash
+      - ref-kilo-code-skills-compat
+      - ref-kilo-code-skills-decision
+      - ref-kilo-code-skills-format
+      - ref-kilo-code-skills-frontmatter
+      - ref-kilo-code-skills-global
+      - ref-kilo-code-skills-loading
+      - ref-kilo-code-skills-modes
+      - ref-kilo-code-skills-paths
+      - ref-kilo-code-skills-priority
+      - ref-kilo-code-skills-project
+      - ref-kilo-code-skills-shell
+      - ref-kilo-code-skills-src-builtin
+      - ref-kilo-code-skills-src-collision
+      - ref-kilo-code-skills-src-configdirs
+      - ref-kilo-code-skills-src-display
+      - ref-kilo-code-skills-src-external
+      - ref-kilo-code-skills-src-flags
+      - ref-kilo-code-skills-src-inject
+      - ref-kilo-code-skills-src-paths
+      - ref-kilo-code-skills-src-tool-files
+      - ref-kilo-code-skills-src-tool
+      - ref-kilo-code-skills-troubleshoot
+      - ref-kilo-code-skills-workflow
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    reason: "source-kilo-code-repo: shared or unknown impact; investigate all themes"
+pending_question_ids: []
+investigation_notes:
+  - "固定仓库来源到提交 76bcfd40be616a72f4697b3041565f322245b462（上一轮 0b1e01409a2f2255eff7e1c47c6dc894eaed5288），经 sources:workspace open 取得 changed_paths：共 357 个文件，其中 packages/kilo-vscode 142、packages/kilo-jetbrains 65、packages/opencode 43、packages/kilo-docs 23、packages/tui 14，其余分散在 core/schema/plugin/server/llm/sdk/kilo-ui/kilo-sandbox 等。登记界面只有 cli，故 VS Code 与 JetBrains 扩展的改动不写入本产品知识。"
+  - "custom_providers：唯一有读者可见变化的主题。packages/opencode/src/kilocode/session/llm.ts 新增 KiloLLM.outputTokens，packages/opencode/src/session/llm/request.ts 把 maxOutputTokens 字段改为经该函数计算。Claude 系模型在四个一方协议包（@kilocode/kilo-gateway、@ai-sdk/anthropic、@ai-sdk/amazon-bedrock、@ai-sdk/google-vertex/anthropic）上，未设 KILO_EXPERIMENTAL_OUTPUT_TOKEN_MAX、非小请求、无显式 thinking.budgetTokens / reasoningConfig.budgetTokens 时，请求上限取模型完整 limit.output 而非 min(limit.output, 32000)。已写 kilo-code-cli-custom_providers-v3。"
+  - "来源分歧：packages/kilo-docs/pages/code-with-ai/agents/custom-models.md 在本轮固定提交上仍写 'Capped at 32,000 by default'，未记录 Claude 一方路由例外；例外只出现在 CLI 运行时源码与 packages/opencode/CHANGELOG.md 的 7.8.2 条目。两者可按条件并存（文档写共享默认值，源码写四个协议包加 Claude 系模型的窄例外），已在 v3 的转发小节并列两说与适用边界，不构成需独立复核的来源冲突。"
+  - "既有引用逐条核对：本轮 CLI 相关引用涉及的 24 个源码文件里只有 packages/opencode/src/tool/task.ts 变化，唯一 hunk 在第 480 行（取消文案），而引用 ref-kilo-code-agents-src-task 定位的是 123–165 行，与上一轮提交逐字节一致。文档侧 packages/kilo-docs/pages/code-with-ai/platforms/cli.md 未变化；custom-models.md 只在 VSCode 操作步骤加了 'Fetch models' 一句，Token Limits 表的 output 行仍写 'Capped at 32,000 by default'；openai-compatible.md 新增一句同样位于 VSCode 标签内、CLI 标签之前，未进入本产品登记的 cli 界面。既有引用全部仍然成立。"
+  - "configuration：changed_paths 未触及 packages/config 的 schema、加载、合并或 guard 模块，也未触及 CLI 文档页 platforms/cli.md；packages/tui/src/config/keybind.ts 只新增 subagent_interrupt（默认 escape，映射 subagent.interrupt）这一 TUI 键位，kilo-docs 的 settings 页未随之更新，章节未收录键位表，故无读者可见变化，保留 kilo-code-cli-configuration-v2。"
+  - "skills：changed_paths 未包含 skill 发现、frontmatter 解析、优先级或注入模块（packages/opencode/src/skill/index.ts、src/tool/skill.ts、src/kilocode/skills/display.ts、inject.ts 均未变化），保留 kilo-code-cli-skills-v1。"
+  - "mcp：changed_paths 未包含 MCP 定义、传输、OAuth、连接与状态模块（src/mcp/index.ts、src/mcp/auth.ts、src/kilocode/config/mcp-headers.ts 均未变化），保留 kilo-code-cli-mcp-v1。"
+  - "hooks：changed_paths 未包含 hooks 事件、注册与执行模块；新增的 experimental Per-Conversation Prompt History 设置（.changeset/per-conversation-prompt-history.md）属 TUI 输入偏好而非 hook 机制，保留 kilo-code-cli-hooks-v1。"
+  - "native_plugins：changed_paths 未包含插件清单、解析、加载与依赖模块（src/plugin/index.ts、install.ts、loader.ts、packages/plugin/src/index.ts、src/config/plugin.ts 均未变化），保留 kilo-code-cli-native_plugins-v1。"
+  - "custom_agents：Agent Manager 的 worktreeID 校验消息文本、worktree 预热目录（.kilo/worktrees/ 改为按需创建）、Task 工具取消文案（'Task cancelled' 改为 'Task cancelled by the user'）均为行为不变或非 CLI 专属的表述调整；Goal 策略由构建期剔除工具改为执行期抛错（packages/opencode/src/session/tools.ts），Goal 不是七类主题的已发布机制，现有章节未收录，故无读者可见变化，保留 kilo-code-cli-custom_agents-v2。"
+  - "工具暴露面：packages/opencode/src/kilocode/tool/registry.ts 的 semantic_search 同意门控仅对 KILO_PLATFORM=vscode 生效，linkPr 工具经 pr-link.ts 的 enabled()（Flag.KILO_CLIENT === 'cli'）在 CLI 侧保持启用，均不改变 cli 界面的已发布内容。"
+  - "npm 来源观察到 7.8.3@sha512-3OBkmFrAi01YNrV7yZli7H3J3SR4X9e3dKey5sd9CVwVKXq85ZenbV/btp2xeDObWbRsdux4OYyfLuRR0ZA5xw==，与固定提交里 packages/opencode/package.json 的 version 7.8.3 一致。按维护契约，npm 版本变化本身不构成章节变化或源码到包的映射，因此本轮不新建任何 mappings 记录，也不更新 artifact-kilo-code-npm（受管包更新属 harness-binary，delivery=pr 轮次不执行）。"
+  - "本轮未取得需独立复核的三类高影响情况：来源冲突可按条件解释，无已发布配置步骤被推翻，无跨主题关键加载机制变化。"
+

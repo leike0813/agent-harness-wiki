@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-tom-message-keys
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261003
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/platform_extensions/tom.rs
+  start: 65
+  end: 83
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  async fn get_moim(&self, _session_id: &str) -> Option<String> {
+          let mut parts = Vec::new();
+
+          if let Ok(text) = Config::global().get_param::<String>("GOOSE_MOIM_MESSAGE_TEXT") {
+              if !text.trim().is_empty() {
+                  parts.push(truncate_utf8(text));
+              }
+          }
+
+          if let Ok(path) = Config::global().get_param::<String>("GOOSE_MOIM_MESSAGE_FILE") {
+              let expanded = shellexpand::tilde(&path);
+              if let Some(content) = read_bounded(&expanded).await {
+                  if !content.trim().is_empty() {
+                      parts.push(content);
+                  }
+              }
+          }

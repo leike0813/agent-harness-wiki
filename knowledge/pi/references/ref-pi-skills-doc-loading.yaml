@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-skills-doc-loading
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261003
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/skills.md
+  start: 43
+  end: 48
+official_url: https://github.com/earendil-works/pi/blob/83692682f095528f8b71652ddacff7075e36e893/packages/coding-agent/docs/skills.md
+excerpt: |-
+  At startup, Pi scans configured skill locations and adds each skill’s name, description, and path to the system prompt. It does not add the full instructions.
+
+  When a task matches, the model reads `SKILL.md` and follows its instructions. This keeps detailed guidance out of context until it is needed. A model might fail to load a relevant skill, so use `/skill:name` when you need to force it.
+
+  Arguments after `/skill:name` are appended to the loaded instructions as a user request:

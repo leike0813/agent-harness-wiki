@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-gateway-bridge
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/llms/handler-factory.ts
+  start: 263
+  end: 273
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  	// The gateway starts with builtin providers only. Custom providers (Add
+  	// Provider / providers.json / models.json) and routed provider ids live in
+  	// the model catalog — bridge them into this gateway instance, exactly as
+  	// the legacy ApiHandler path does, so runs don't fail with
+  	// "Unknown or disabled provider" for ids the picker legitimately offers.
+  	const registration = resolveGatewayProviderRegistrationSync(
+  		normalizedProviderConfig,
+  	);
+  	if (registration) {
+  		gateway.registerProvider(registration);
+  	}

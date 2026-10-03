@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-refusal-code-suppress
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo-20261003
+locator:
+  kind: file_lines
+  file: packages/shared/src/llm-error-classifier.ts
+  start: 919
+  end: 923
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  // A provider refusal is a policy outcome, not a transport/quota error. Its explanation text is
+  // provider-controlled, so never derive status codes from it.
+  if (isLLMProviderRefusalMessage(typeof err === 'string' ? err : extractErrorMessage(err))) {
+    return null;
+  }
+  const extracted = tryExtractFromPayload(normalized);

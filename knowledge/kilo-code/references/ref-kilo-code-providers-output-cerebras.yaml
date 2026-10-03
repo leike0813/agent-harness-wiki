@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-providers-output-cerebras
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-provider-transform-20261003
+locator:
+  kind: file_lines
+  file: packages/opencode/src/provider/transform.ts
+  start: 1795
+  end: 1804
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  export function maxOutputTokensForRequest(input: {
+    model: Provider.Model
+    options: Record<string, any>
+    maxOutputTokens: number | undefined
+  }): number | undefined {
+    if (input.model.api.npm === "@ai-sdk/cerebras" && input.options.max_completion_tokens !== undefined) {
+      return undefined
+    }
+    return input.maxOutputTokens
+  }

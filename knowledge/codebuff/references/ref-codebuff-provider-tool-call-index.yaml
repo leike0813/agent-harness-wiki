@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-provider-tool-call-index
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-openai-compatible-model-20261003
+locator:
+  kind: file_lines
+  file: packages/llm-providers/src/openai-compatible/chat/openai-compatible-chat-language-model.ts
+  start: 776
+  end: 787
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  /**
+   * The slot of a streamed tool-call delta that carries no `index`. OpenAI
+   * always sends one, but several OpenAI-compatible servers and proxies do not
+   * (seen with local routers in front of other providers), and a chunk that
+   * failed the schema dropped the call: the turn ended with "Writing the
+   * file." and no write. Without an index:
+   * - an `id` names its call: an existing one continues, a new one opens a slot;
+   * - a delta with no `id` continues the call still being streamed, unless it
+   *   names a different function (then it is a new call);
+   * - anything else opens a new slot.
+   */
+  export function inferToolCallIndex(

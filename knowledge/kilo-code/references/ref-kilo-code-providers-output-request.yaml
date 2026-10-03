@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-providers-output-request
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-llm-request-20261003
+locator:
+  kind: file_lines
+  file: packages/opencode/src/session/llm/request.ts
+  start: 155
+  end: 163
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+      // kilocode_change start - gpt-5 via @ai-sdk/openai-compatible proxies (e.g. LiteLLM)
+      // rejects `max_tokens`; OpenAI requires `max_completion_tokens` and the compatible
+      // SDK cannot rename the field, so drop the cap and let the upstream default apply.
+      // Claude on first-party routes requests its full output limit, see KiloLLM.outputTokens.
+      maxOutputTokens:
+        input.model.api.npm === "@ai-sdk/openai-compatible" && input.model.api.id.toLowerCase().includes("gpt-5")
+          ? undefined
+          : KiloLLM.outputTokens({ model: input.model, options, max: input.flags.outputTokenMax, small: input.small }),
+      // kilocode_change end

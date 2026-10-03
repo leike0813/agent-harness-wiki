@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-tool-result-cache-oversize
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/session/services/tool-result-cache.ts
+  start: 32
+  end: 42
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  	store(toolCallId: string, text: string): string | undefined {
+  		const bytes = Buffer.byteLength(text);
+  		const previous = this.referencesByToolCall.get(toolCallId);
+  		if (previous) this.remove(previous.id);
+  		this.referencesByToolCall.delete(toolCallId);
+  		if (bytes > this.maxBytes) return undefined;
+  		while (this.bytes + bytes > this.maxBytes) {
+  			const oldest = this.entries.keys().next().value;
+  			if (oldest === undefined) break;
+  			this.remove(oldest);
+  		}

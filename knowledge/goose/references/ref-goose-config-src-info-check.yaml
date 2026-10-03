@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-info-check
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261003
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/commands/info.rs
+  start: 88
+  end: 104
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  let test_msg = Message::user().with_text("Say 'ok'");
+      let start = std::time::Instant::now();
+      goose::session_context::with_session_id(
+          Some("check".to_string()),
+          provider_client.complete(&model_config, "", &[test_msg], &[]),
+      )
+      .await
+      .map_err(ProviderCheckError::ProviderRequest)?;
+
+      Ok(ProviderCheckSuccess {
+          provider,
+          model,
+          elapsed: start.elapsed(),
+      })

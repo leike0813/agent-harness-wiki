@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-mode-dialog
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261003
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/commands/configure.rs
+  start: 1554
+  end: 1576
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn select_goose_mode() -> anyhow::Result<GooseMode> {
+      let mode = cliclack::select("Which goose mode would you like to configure?")
+          .initial_value(GooseMode::Auto)
+          .item(
+              GooseMode::Auto,
+              "Auto Mode",
+              "Full file modification, extension usage, edit, create and delete files freely"
+          )
+          .item(
+              GooseMode::Approve,
+              "Approve Mode",
+              "All tools, extensions and file modifications will require human approval"
+          )
+          ...

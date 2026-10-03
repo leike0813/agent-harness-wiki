@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-config-copilot-enterprise-migration
+harness_id: zed
+snapshot_id: snapshot-zed-repo-20261003
+locator:
+  kind: file_lines
+  file: crates/migrator/src/migrations/m_2026_09_29/settings.rs
+  start: 6
+  end: 13
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-9
+         pub fn move_copilot_enterprise_uri(value: &mut Value) -> Result<()> {
+             migrate_settings(value, &mut migrate_one)
+         }
+
+         fn migrate_one(settings: &mut Map<String, Value>) -> Result<()> {
+             if settings
+                 .get("copilot")
+                 .is_some_and(|value| !value.is_object())

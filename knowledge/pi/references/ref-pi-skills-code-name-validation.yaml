@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-skills-code-name-validation
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261003
+locator:
+  kind: symbol
+  file: packages/coding-agent/src/core/skills.ts
+  symbol: validateName
+official_url: https://github.com/earendil-works/pi/blob/83692682f095528f8b71652ddacff7075e36e893/packages/coding-agent/src/core/skills.ts
+excerpt: |-
+  function validateName(name: string): string[] {
+  	const errors: string[] = [];
+
+  	if (name.length > MAX_NAME_LENGTH) {
+  		errors.push(`name exceeds ${MAX_NAME_LENGTH} characters (${name.length})`);
+  	}
+
+  	if (!/^[a-z0-9-]+$/.test(name)) {
+  		errors.push(`name contains invalid characters (must be lowercase a-z, 0-9, hyphens only)`);
+  	}
+
+  	if (name.startsWith("-") || name.endsWith("-")) {
+  		errors.push(`name must not start or end with a hyphen`);
+  	}
+
+  	if (name.includes("--")) {
+  		errors.push(`name must not contain consecutive hyphens`);
+  	}
+
+  	return errors;
+  }

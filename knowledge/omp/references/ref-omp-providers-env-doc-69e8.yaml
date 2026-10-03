@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-providers-env-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "`.env` discovery and precedence"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/providers.md
+excerpt: |
+  `omp` eagerly loads four `.env` files into the process environment before provider lookup. For each variable, the first **non-empty** source wins. Effective precedence, high to low:
+
+  1. Non-empty values already in the process environment.
+  2. `<project>/.env`
+  3. The active agent directory's `.env` (default: `~/.omp/agent/.env`).
+  4. The active config root's `.env` (default: `~/.omp/.env`).
+  5. `~/.env`
+
+  Existing non-empty process values are not overwritten; empty values can be filled by a later file. A non-empty project value beats the agent, config-root, and home files. Named profiles use their own config root and agent directory. Bun may also preload project dotenv variants before this loader; values already present are treated as process values.

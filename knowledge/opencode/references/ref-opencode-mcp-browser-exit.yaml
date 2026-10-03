@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-mcp-browser-exit
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo-20261003
+official_url: https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/mcp/browser.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/mcp/browser.ts
+  start: 19
+  end: 33
+excerpt: |2-
+        yield* Effect.callback<void, Error>((resume) => {
+          const timer = setTimeout(() => resume(Effect.void), 500)
+          subprocess.on("error", (error) => {
+            clearTimeout(timer)
+            resume(Effect.fail(error))
+          })
+          const onExit = (code: number | null) => {
+            if (code === null || code === 0) return
+            clearTimeout(timer)
+            resume(Effect.fail(new Error(`Browser open failed with exit code ${code}`)))
+          }
+          subprocess.on("exit", onExit)
+          // On Windows and WSL, open() can return only after the launcher has exited.
+          onExit(subprocess.exitCode)
+        })

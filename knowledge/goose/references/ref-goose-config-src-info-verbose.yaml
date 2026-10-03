@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-info-verbose
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261003
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/commands/info.rs
+  start: 108
+  end: 151
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  let paths = [
+          ("Config dir:", &config_dir),
+          ("Config yaml:", &config_yaml_file),
+          ("Sessions DB (sqlite):", &sessions_db),
+          ("Logs dir:", &logs_dir),
+      ];
+      ...
+      if verbose {
+          println!("\n{}", style("goose Configuration:").cyan().bold());
+          let values = config.all_values()?;
+          if values.is_empty() {
+              println!("  No configuration values set");

@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-changelog-filechanged-batch
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs-changelog-20261003
+locator:
+  kind: file_lines
+  file: CHANGELOG.md
+  start: 50
+  end: 50
+official_url: "https://cnb.cool/codebuddy/codebuddy-code/blob/694ae23f44308ca901d620d2e48c2c3d35c75fc9/CHANGELOG.md"
+excerpt: |-
+  - **后台服务文件变更资源泄漏**：修复后台服务在工作区一次性写入大量文件（如切出新的工作副本、安装依赖）时内存暴涨、失去响应甚至需要重启的问题；同时修复 Web UI 关闭页面或断开连接后，文件监听、进程输出订阅等后台资源不会释放、越积越多的问题。文件树在变更过多时会自动整体刷新。FileChanged 钩子改为按批次依次执行：短时间内同一文件的多次变化会合并为一次触发；一次性变化的文件过多（超过 1000 个）时，这一波变化不再逐个触发钩子，改为记录一条告警。

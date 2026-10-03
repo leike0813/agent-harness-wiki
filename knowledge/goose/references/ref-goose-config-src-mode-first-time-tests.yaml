@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-mode-first-time-tests
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261003
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/commands/configure.rs
+  start: 2450
+  end: 2484
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  #[test]
+      fn first_time_goose_mode_prompts_and_persists_selection() {
+          let _guard = env_lock::lock_env([("GOOSE_MODE", None::<&str>)]);
+          ...
+          configure_first_time_goose_mode(&config, || Ok(GooseMode::Approve)).unwrap();
+      }
+
+      #[test]
+      fn first_time_goose_mode_skips_when_set_in_env() {
+          let _guard = env_lock::lock_env([("GOOSE_MODE", Some("chat"))]);
+          ...
+          configure_first_time_goose_mode(&config, no_prompt).unwrap();
+
+          assert!(!temp_dir.path().join("config.yaml").exists());
+      }

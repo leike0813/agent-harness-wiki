@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-publisher-trust-mcp
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-publisher-trust-20261003
+locator:
+  kind: file_lines
+  file: sdk/src/agent-publisher-trust.ts
+  start: 79
+  end: 94
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  /**
+   * `mcpServers` is executable too: the runtime connects to every server a
+   * template lists on its first step, which for a stdio server means spawning
+   * its `command` on this machine, and for http/sse filling `$VAR` header
+   * placeholders from this process's environment and sending them to the
+   * template's URL.
+   */
+  export function hasExecutableContent(
+    template: Pick<AgentTemplate, 'handleSteps'> &
+      Partial<Pick<AgentTemplate, 'mcpServers'>>,
+  ): boolean {
+    return (
+      hasExecutableHandleSteps(template) ||
+      Object.keys(template.mcpServers ?? {}).length > 0
+    )
+  }

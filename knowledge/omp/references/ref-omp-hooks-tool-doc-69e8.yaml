@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-hooks-tool-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Tool events (pre/post model)"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/hooks.md
+excerpt: |
+  - `tool_result` (post-execution) → can return `{ content?; details?; isError?; additionalContext?: string }`. Context is delivered outside tool output on both success and failure; check `event.isError` when guidance applies to only one outcome. Overrides merge per field across handlers, so a later return that omits a field (including a context-only return) never erases an earlier handler's value for it.
+
+  Returned `input` is not applied to provider-native `computer` calls, whose event
+  input is a synthetic view rather than the execution parameters. `edit` event
+  input can also contain derived `path`/`paths` fields; those are for policy
+  inspection, not necessarily valid execution arguments.
+
+  In the normal extension-runner path, model-issued `tool_call` runs during

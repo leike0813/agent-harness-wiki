@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-providers-merge-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Merge and override order"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/models.md
+excerpt: |
+  ## Merge and override order
+
+  ModelRegistry composition order:
+
+  1. Load `models.yml` / `models.yaml` to establish provider overrides, custom models, model overrides, and discovery configuration.
+  2. Load built-in models from `@oh-my-pi/pi-catalog` (`getBundledProviders` / `getBundledModels`), applying provider overrides and context policies.
+  3. Merge cached and runtime-discovered rows. Authoritative provider catalogs can replace their bundled chat roster.
+  4. Merge configured custom `models`, then extension-registered models:
+     - a matching `provider + id` replaces transport metadata and patches defined model fields
+     - otherwise append a model, filling omitted metadata from a bundled reference or local defaults

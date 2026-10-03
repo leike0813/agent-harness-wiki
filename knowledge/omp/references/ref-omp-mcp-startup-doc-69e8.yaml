@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-mcp-startup-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Fast startup gate + deferred fallback"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/mcp-runtime-lifecycle.md
+excerpt: |
+  ### Fast startup gate + deferred fallback
+
+  `connectServers()` waits on a race between:
+
+  - all connect/tool-load tasks settled, and
+  - `resolveMCPStartupTimeoutMs`: `OMP_MCP_STARTUP_TIMEOUT_MS` env override, else `mcp.startupTimeoutMs`, else 250 ms; `0` waits until initial loads settle.
+
+  After the startup window:
+
+  - fulfilled tasks become live `MCPTool`s,
+  - rejected tasks produce per-server errors,
+  - still-pending tasks:
+    - use cached tool definitions if available (`MCPToolCache.get`) to create `DeferredMCPTool`s,
+    - otherwise contribute no tools at startup; they stay in flight, and the background continuation registers their tools via `#onToolsChanged` once connect/list finishes (a slow server no longer blocks startup — issue #2100).

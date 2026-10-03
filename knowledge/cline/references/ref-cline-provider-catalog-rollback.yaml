@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-catalog-rollback
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/providers/local-provider-service.ts
+  start: 503
+  end: 512
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  	} catch (error) {
+  		try {
+  			const state = manager.read();
+  			// Direct settings writers (e.g. auth) need not use the catalog queue.
+  			// Roll back only our own write, never a newer save or a removal.
+  			if (isDeepStrictEqual(state.providers[providerId], writtenEntry)) {
+  				if (previousEntry) state.providers[providerId] = previousEntry;
+  				else delete state.providers[providerId];
+  				manager.write(state);
+  			}

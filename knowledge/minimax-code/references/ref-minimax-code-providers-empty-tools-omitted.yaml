@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-empty-tools-omitted
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo-20261003
+locator:
+  kind: file_lines
+  file: third_party/pi-mono/MINIMAX_CHANGES.md
+  start: 48
+  end: 51
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  ### 2026-09-19 — omit empty tools for OpenAI-compatible checkpoint requests
+
+  - Reason: checkpoint requests retain tool-call history but omit tool definitions. The OpenAI Completions provider unconditionally added `tools: []` for that history, which can cause a backend to reject compaction with HTTP 400 (public issue MiniMax-AI/minimax-code#194).
+  - Affected package: `packages/ai` (`@earendil-works/pi-ai`), `src/providers/openai-completions.ts` and its existing empty-tools regression fixture.

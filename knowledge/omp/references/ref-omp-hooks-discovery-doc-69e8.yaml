@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-hooks-discovery-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Discovery and loading"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/hooks.md
+excerpt: |
+  With ambient discovery enabled, sessions load JS/TS hook factories discovered
+  by `hookCapability` through the extension runner.
+  `discoverExtensionPaths(configuredPaths, cwd, disabledExtensionIds?, options?)`:
+
+  1. Loads extension modules from the native provider only
+  2. Loads importable `.ts`/`.js` hook factories from the hook capability registry (unless `includeAmbientHooks: false`)
+  3. Appends enabled plugin extension entry points
+  4. Resolves explicitly configured files/directories
+
+  Paths are deduplicated by absolute path. With `ambient: false`, native/installed
+  discovery is skipped, but configured package roots can still contribute hook
+  factories. Foreign user sources require opt-in via `enabledProviders`; project
+  sources are unaffected by that user-level gate.

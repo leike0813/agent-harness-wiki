@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-skills-format-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "`SKILL.md` frontmatter"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/skills.md
+excerpt: |
+  Supported frontmatter fields on the skill type:
+
+  - `name?: string`
+  - `description?: string`
+  - `globs?: string[]`
+  - `alwaysApply?: boolean`
+  - `hide?: boolean`
+  - `disableModelInvocation?: boolean` (Agent Skills equivalent of `hide`; normalized from kebab-case `disable-model-invocation`)
+  - additional keys are preserved as unknown metadata by conventional scanners
+  - `enabled: false` skips a skill in conventional scanners and Skillshare discovery
+
+  `globs` and `alwaysApply` are metadata here, not automatic skill-invocation controls. Agent Plugins packages use stricter Agent Skills validation instead of the permissive scanner: required name/description, directory-name agreement, valid naming, and a closed frontmatter field set. OMP-specific fields such as `hide` and `enabled`
