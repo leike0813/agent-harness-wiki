@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-skills-web-preset-rows
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/bundle/web-app/cordis.patch.yml
+  start: 493
+  end: 506
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "# The `skill` REGISTRY stays in the host plane. It is host+per-scope layered\n# (the tools-registry shape): deployment-level providers — repository plugins,\n# a host skill-filesystem row — register into its global layer, while a preset's\n# `skill-filesystem` registers into that preset's layer, and each agent reads the\n# merged catalog its scope chain selects. Only the per-agent rows move behind\n# presets: the base host `skill-filesystem` row is disabled here (presets own local\n# discovery), and `tool-skill` is what a preset mounts to give its agent the\n# catalog and loader at all.\n\n- id: skill-filesystem\n  disabled: true\n\n- id: tool-skill\n  disabled: true"

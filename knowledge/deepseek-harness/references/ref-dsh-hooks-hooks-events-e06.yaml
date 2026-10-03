@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-hooks-hooks-events-e06
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/hooks/hook-protocol/src/types.ts
+  start: 8
+  end: 25
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "declare module '@deepseek-ai/dsh-session/types' {\n  interface SessionEventMap {\n    /**\n     * A hook command was invoked at a hook point — a log-only record (like\n     * `compaction/*`; NOT a {@link SurfaceEventType}, carries no `surfaceOp`).\n     * `dialect` is the bridge that ran it (`claude`/`codex`), `point`\n     * the hook point (`PreToolUse`, `Stop`, …), `matcher` the matcher-group\n     * pattern that selected it (absent for match-all), `handlerId` a stable id\n     * for the command (so an invoked/result pair correlates). `turn` is the open\n     * turn the invocation lives inside.\n     */\n    'hook/invoked': {\n      turn: number\n      point: string\n      dialect: HookDialect\n      matcher?: string\n      handlerId: string\n    }"

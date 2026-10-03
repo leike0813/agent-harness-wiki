@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-mcp-config-http
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/mcp/mcp-client/src/index.ts
+  start: 132
+  end: 142
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "  z.object({\n    transport: z.const('streamable-http'),\n    serverName: z.string().required().pattern(SERVER_NAME_PATTERN),\n    url: z.string().required(),\n    headers: z.dict(String).default({}),\n    toolCallTimeoutMs: z.number().default(DEFAULT_TOOL_CALL_TIMEOUT_MS),\n    failOnStartupError: z.boolean().default(false),\n    maxInstructionBytes: z.number().step(1).min(1).default(DEFAULT_MAX_INSTRUCTION_BYTES),\n    reconnect: Reconnect,\n  }),\n]) as z<ConfigInput, Config>"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-hooks-hooks-entry-e03
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/hooks/hooks-claude-code/src/config.ts
+  start: 94
+  end: 107
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "      for (const rawHook of group.hooks) {\n        const hook = asObject(rawHook)\n        if (!hook) continue\n        const type = typeof hook.type === 'string' ? hook.type : 'command'\n        if (type !== 'command') {\n          skipped.push({ event, type })\n          continue\n        }\n        if (typeof hook.command !== 'string') continue\n        commands.push({\n          command: substituteCommand(hook.command, vars),\n          ...typeof hook.timeout === 'number' ? { timeoutSec: hook.timeout } : {},\n        })\n      }"

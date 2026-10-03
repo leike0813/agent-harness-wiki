@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-configuration-config-runtime-e02
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: apps/cli/reference/README.md
+  start: 28
+  end: 28
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "A composition mounts once. An ordinary plugin injects `cmdlineArgs`, parses this app's arguments, and provides what it resolved as a service; each row configured from flags injects that service, and Loader waits for it before evaluating the row's config (`port: !!js ctx.webStartup.port ?? 3080`). A flag therefore beats the value written beside it. This precedence requires the row to retain that expression; a user patch that replaces the whole `config` with literals removes the runtime read. Help and rejected arguments request exit — nonzero for a rejection, 0 for help — without activating rows that depend on the provider's service. With HMR enabled, a patch-file edit re-evaluates expressions against services that are still up, so it cannot reset a served port."

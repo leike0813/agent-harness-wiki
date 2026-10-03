@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-approval-seam
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: docs/subsystems/approval.md
+  start: 5
+  end: 5
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "The user-approval seam of [dsh-user-approval](../../packages/interaction/user-approval) answers one question: may this specific action proceed? It owns the shared request/outcome vocabulary, the `ctx.approval` dispatch service, the `approval/request` answerer waterfall, the log-only audit pair, and the per-session `ask`/`never` policy. UI channels may provide human answerers; the [ACP automation bridge](../../packages/acp/acp) provides one-shot machine decisions for its own agents. Callers such as [dsh-tools](../../packages/core/tools) and [dsh-tool-bash](../../packages/shell/tool-bash) consume the closed outcome and fail closed unless it is `allowed-once`."

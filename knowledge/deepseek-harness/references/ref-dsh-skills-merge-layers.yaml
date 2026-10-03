@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-skills-merge-layers
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/skill/skill/src/index.ts
+  start: 551
+  end: 564
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "  private async collectFresh(options: SkillViewOptions): Promise<CollectResult> {\n    // Global first, then existing chain overlays farthest ancestor first and\n    // the exact scope last, so the nearest layer's same-name entry replaces\n    // the farther ones — the tools registry's shadowing rule. Rank decides\n    // duplicates only within one layer.\n    const layers = [this.layers.global, ...this.layers.chainLayers(options.scope)]\n    const merged = new Map<string, IndexedCandidate>()\n    let cacheable = true\n    for (const layer of layers) {\n      const collected = await this.collectLayer(layer, options)\n      if (!collected.cacheable) cacheable = false\n      for (const entry of collected.entries) merged.set(entry.candidate.name, entry)\n    }\n    return { entries: merged, cacheable }"

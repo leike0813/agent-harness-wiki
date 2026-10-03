@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-skills-change-detection
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/skill/skill-filesystem/README.md
+  start: 79
+  end: 81
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "### Change detection\n\nExisting roots are watched, so adding, renaming, or deleting a skill (or editing its frontmatter) triggers a catalog refresh for the next model step; edits below `references`, `scripts`, `assets`, and other bundle resources do not. The first-party `write` and `edit` tools invalidate the provider directly when their target could affect a watched skill, so the model observes its own filesystem mutation without waiting for the host watcher. External IDE, Git, and shell changes are picked up by the host watcher, and a root that does not exist yet is probed until it appears."

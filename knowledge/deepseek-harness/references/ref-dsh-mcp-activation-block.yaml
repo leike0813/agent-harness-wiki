@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-mcp-activation-block
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/mcp/mcp-client/src/index.ts
+  start: 194
+  end: 203
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "  // Block plugin activation on the initial connection + tool discovery so\n  // Cordis consumers observe the tools immediately after the fiber activates.\n  // When failOnStartupError is true, a failed initial attempt rejects the\n  // fiber (Cordis rolls it back); otherwise the error is logged and the\n  // supervisor enters its reconnect loop.\n  const outcome = await connection.ready\n  if (outcome.error !== undefined && config.failOnStartupError) {\n    throw new Error(`mcp-client(${config.serverName}): initial connection or tool synchronization failed`, { cause: outcome.error })\n  }\n}"

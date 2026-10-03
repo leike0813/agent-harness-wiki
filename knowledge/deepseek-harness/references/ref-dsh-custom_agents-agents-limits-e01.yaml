@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-custom_agents-agents-limits-e01
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/subagent/subagent/src/index.ts
+  start: 190
+  end: 202
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "export interface Config {\n  /** Maximum live children sharing uninterrupted continuable parent links; defaults to 8. */\n  maxActiveSubagents: Volatile<number>\n  /** Default delegation depth for tools without an explicit limit; defaults to 1. */\n  maxDepth: Volatile<number>\n}\n\n/** Named provider registry with one-shot runs, durable discovery, and continuable-child operations. */\nexport class SubagentRuntime extends TypertRemoteService {\n  static Config = z.object({\n    maxDepth: z.number().step(1).min(0).max(Number.MAX_SAFE_INTEGER).default(1).volatile(),\n    maxActiveSubagents: z.number().step(1).min(1).max(Number.MAX_SAFE_INTEGER).default(8).volatile(),\n  })"

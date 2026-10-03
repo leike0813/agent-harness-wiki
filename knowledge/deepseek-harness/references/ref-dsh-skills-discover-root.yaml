@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-skills-discover-root
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/skill/skill-filesystem/src/index.ts
+  start: 723
+  end: 736
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "async function discoverRoot(root: SkillRoot, ctx: Context, provider: string): Promise<SkillCandidate[]> {\n  const skills: SkillCandidate[] = []\n  const entries = await listSkillRootEntries(root, ctx)\n  for (const entry of entries.sort((a, b) => a.name.localeCompare(b.name))) {\n    if (root.skipSystem && entry.name === '.system') continue\n    const locator = entry.type === 'directory'\n      ? { path: join(entry.path, 'SKILL.md'), directory: entry.path }\n      : entry.type === 'file' && entry.name.endsWith('.md')\n        ? { path: entry.path, directory: root.path }\n        : undefined\n    if (locator === undefined) continue\n    const parsed = await parseSkillFile(locator.path, ctx, undefined, root.trustedHost === true)\n    if (parsed === undefined) continue\n    skills.push({"

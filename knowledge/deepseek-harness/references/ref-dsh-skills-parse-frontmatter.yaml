@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-skills-parse-frontmatter
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/skill/skill-filesystem/src/index.ts
+  start: 917
+  end: 929
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "function parseFrontmatter(raw: string): { data: Record<string, unknown>; body: string } | undefined {\n  const firstLineEnd = raw.indexOf('\\n')\n  if (firstLineEnd < 0) return undefined\n  const firstLine = raw.slice(0, firstLineEnd).replace(/\\r$/, '')\n  if (firstLine !== '---') return undefined\n  const start = firstLineEnd + 1\n  const closing = findClosingFrontmatter(raw, start)\n  if (closing === undefined) return undefined\n  const yaml = raw.slice(start, closing.start)\n  const parsed: unknown = parseYaml(yaml)\n  if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) return undefined\n  return { data: parsed as Record<string, unknown>, body: raw.slice(closing.bodyStart) }\n}"

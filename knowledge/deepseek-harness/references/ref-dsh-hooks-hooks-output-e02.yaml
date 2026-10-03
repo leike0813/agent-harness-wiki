@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-hooks-hooks-output-e02
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/hooks/hook-protocol/src/codec.ts
+  start: 72
+  end: 86
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "  if (exitCode === 0) {\n    // Only attempt JSON when stdout looks like a JSON object — matches the\n    // reference engines, which treat other stdout as plain text, not an error.\n    if (trimmedOut.startsWith('{')) {\n      let parsed: Record<string, unknown> | undefined\n      try {\n        parsed = obj(JSON.parse(trimmedOut))\n      } catch {\n        // Malformed JSON on a clean exit = no structured output (lenient, as the\n        // reference engines are). The plain stdout remains the bridge's to use.\n        parsed = undefined\n      }\n      if (parsed) applyStructured(output, parsed, expectedEventName)\n    }\n  }"

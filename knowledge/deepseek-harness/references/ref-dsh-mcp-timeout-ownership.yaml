@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-mcp-timeout-ownership
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/mcp/mcp-client/README.md
+  start: 209
+  end: 210
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "- **Startup and discovery timeouts are inherited from the MCP SDK** — the plugin exposes no separate connection or discovery timeout. Negotiation and discovery use the SDK's 60-second request default; discovery also uses its page limit. Plugin unload closes the transport to interrupt pending startup requests before awaiting teardown.\n- **Reconnect handles failed negotiation and transport close** — a failed initial probe or crashed stdio child uses the configured reconnect budget. Once HTTP is connected, request failures use the SDK transport's recovery rather than respawning the connection."

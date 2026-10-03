@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-mcp-transport-factory
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/mcp/mcp-client/src/transport.ts
+  start: 31
+  end: 46
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "export function createTransport(config: Config): Transport {\n  switch (config.transport) {\n    case 'stdio':\n      return new StdioClientTransport({\n        command: config.command,\n        args: config.args,\n        env: buildChildEnv(config.env),\n        cwd: config.cwd,\n      })\n    case 'streamable-http':\n      return new StreamableHTTPClientTransport(\n        new URL(config.url),\n        { requestInit: { headers: config.headers } },\n      )\n  }\n}"

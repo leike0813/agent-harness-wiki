@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-skills-invocation-policy
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/skill/skill-filesystem/src/index.ts
+  start: 1000
+  end: 1013
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "function parseInvocationPolicy(data: Record<string, unknown>): SkillInvocationPolicy {\n  rejectLegacyInvocationKey(data, 'disableModelInvocation', 'disable-model-invocation')\n  rejectLegacyInvocationKey(data, 'modelInvocable', 'disable-model-invocation')\n  rejectLegacyInvocationKey(data, 'userInvocable', 'user-invocable')\n  const disableModelInvocation = frontmatterBoolean(data, 'disable-model-invocation')\n  const userInvocable = frontmatterBoolean(data, 'user-invocable')\n  return {\n    modelInvocable: disableModelInvocation !== true,\n    userInvocable: userInvocable !== false,\n  }\n}\n\nfunction rejectLegacyInvocationKey(data: Record<string, unknown>, legacy: string, canonical: string): void {\n  if (Object.hasOwn(data, legacy)) {"

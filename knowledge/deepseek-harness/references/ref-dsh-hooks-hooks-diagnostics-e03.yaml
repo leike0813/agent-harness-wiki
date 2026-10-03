@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-hooks-hooks-diagnostics-e03
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/hooks/hook-protocol/src/events.ts
+  start: 92
+  end: 104
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "export function appendHookResult(session: Session, record: HookResultRecord): void {\n  const { output } = record\n  const stderrSummary = summarizeStderr(output.stderr, record.stderrSummaryMaxChars)\n  session.append('hook/result', {\n    turn: record.turn,\n    point: record.point,\n    handlerId: record.handlerId,\n    decision: output.decision ?? (output.continue === false ? 'stop' : 'pass'),\n    ...output.exitCode !== undefined ? { exitCode: output.exitCode } : {},\n    ...stderrSummary !== undefined ? { stderrSummary } : {},\n    durationMs: record.durationMs,\n  })\n}"

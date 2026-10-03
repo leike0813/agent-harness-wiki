@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-appboot-bundle-load
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/boot/app-boot/src/profile.ts
+  start: 746
+  end: 753
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "      const bundleManifest = readProfileManifest(binName, packageDir)\n      const bundle = bundleManifest.dsh?.bundle\n      if (bundle === undefined) {\n        throw new Error(`${binName}: profile bundle ${JSON.stringify(packageName)} declares no dsh.bundle in its package.json`)\n      }\n      // A bundle is not a plugin row, so row admission never reads its own peers.\n      const issue = evaluatePluginCompatibility(bundleManifest, exemptions)\n      if (issue !== undefined && !issue.exempted) throw new Error(pluginCompatibilityWarning(issue))"

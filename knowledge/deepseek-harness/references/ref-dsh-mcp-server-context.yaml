@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-mcp-server-context
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/mcp/mcp-client/src/server-context.ts
+  start: 28
+  end: 40
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "export function registerServerContext(ctx: Context, server: string, connection: ServerContext): void {\n  ctx.inject(['mcpResources'], (inner) => {\n    inner.mcpResources.register(server, connection.resources)\n  })\n  ctx.inject(['systemPrompt'], (inner) => {\n    inner.systemPrompt.section({\n      name: `mcp:${server}`,\n      order: inner.systemPrompt.getSectionOrder('MCP_SERVERS'),\n      interpolate: false,\n      text: () => connection.instructions(),\n    })\n  })\n}"

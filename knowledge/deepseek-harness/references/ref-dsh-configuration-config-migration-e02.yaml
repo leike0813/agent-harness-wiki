@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-configuration-config-migration-e02
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/settings/settings/src/index.ts
+  start: 200
+  end: 206
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "/** Entry ids of the removed `settings.yaml` sections whose owning entry carries another id. */\nconst LEGACY_SECTION_ENTRIES: Record<string, string> = {\n  'ui-developer-tools': 'ui-settings',\n  'ui-onboarding': 'ui-settings-general',\n  /* v8 ignore next -- the base bundle composes one shell executor per platform */\n  shell: process.platform === 'win32' ? 'pwsh-sandbox' : 'bash-sandbox',\n}"

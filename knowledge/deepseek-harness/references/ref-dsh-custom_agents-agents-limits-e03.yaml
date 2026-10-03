@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-custom_agents-agents-limits-e03
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/subagent/subagent/src/depth.ts
+  start: 28
+  end: 36
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "export function delegationDepthOf(agent: Agent): number {\n  const runtime = agent.options.subagentDepth\n  if (runtime !== undefined && (!Number.isSafeInteger(runtime) || runtime < 0 || Object.is(runtime, -0))) {\n    throw new TypeError('agent subagentDepth must be a non-negative safe integer')\n  }\n  // The header value was validated at the session boundary (creation and\n  // persistence load both construct through the store).\n  return Math.max(agent.session.header.delegationDepth ?? 0, runtime ?? 0)\n}"

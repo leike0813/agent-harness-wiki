@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-configuration-config-sources-e05
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/boot/app-boot/src/index.ts
+  start: 235
+  end: 243
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "export function loadLayeredEnv(\n  binName: string, cwd: string = process.cwd(),\n  warn: (line: string) => void = line => void process.stderr.write(line),\n): LaunchEnvironmentSnapshot {\n  const home = resolveDshHome()\n  const inherited = { ...process.env } as Record<string, string>\n  // Parse both layers first: a rejection must not leave one file applied.\n  const project = readEnvLayer(binName, cwd, warn, home)\n  const user = home === resolve(cwd) ? undefined : readEnvLayer(binName, home, warn, home)"

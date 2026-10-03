@@ -300,6 +300,18 @@ export const managedPackages = {
     identity: /devin/i,
     platform: undefined,
   },
+  "deepseek-harness": {
+    // Single package with a `dsh` bin, no per-platform binary dependency. The
+    // launcher hands the resolved runtime version to commander's `--version`, so
+    // the printed identity is a bare semver: keep the check semver-shaped and do
+    // not expect a product name in that output.
+    name: "@deepseek-ai/dsh",
+    entry: "lib/bin.js",
+    runtime: "node",
+    flag: "--version",
+    identity: /\d+\.\d+\.\d+/,
+    platform: undefined,
+  },
 } as const;
 
 export type ManagedId = keyof typeof managedPackages;

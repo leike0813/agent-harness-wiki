@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-skills-parse-file
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo
+locator:
+  kind: file_lines
+  file: packages/skill/skill-filesystem/src/index.ts
+  start: 803
+  end: 823
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: "  let parsed\n  try {\n    parsed = parseFrontmatter(raw.content)\n  } catch (error) {\n    ctx.logger.warn(`skill file ${path} ignored: invalid YAML frontmatter: ${errorMessage(error)}`)\n    return undefined\n  }\n  if (!parsed) {\n    ctx.logger.warn(`skill file ${path} ignored: missing YAML frontmatter`)\n    return undefined\n  }\n  const name = stringField(parsed.data, 'name')\n  const description = stringField(parsed.data, 'description')\n  if (name === undefined || description === undefined) {\n    ctx.logger.warn(`skill file ${path} ignored: frontmatter requires name and description`)\n    return undefined\n  }\n  if (!isSkillName(name)) {\n    ctx.logger.warn(`skill file ${path} ignored: invalid skill name \"${name}\"`)\n    return undefined\n  }"
