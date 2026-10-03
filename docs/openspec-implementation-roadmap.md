@@ -24,7 +24,7 @@
 |---|---|---|
 | 1 | [online-data-and-site-projection](../openspec/changes/archive/2026-10-02-online-data-and-site-projection/proposal.md)（已归档） | 完整真源校验；独立 `web-v1-<完整 SHA>` 身份与 `data/v1/` 资源；JSON 词法倒排与有界分片；有限历史与裁剪标记；同发布页面／来源；可重复离线构建与 512 MiB 部署目录校验。[实测记录](decisions/0009-online-knowledge-distribution.md#联合构建验收)。不要求此时部署公网。 |
 | 2 | [online-consumer-cli-mcp](../openspec/changes/archive/2026-10-02-online-consumer-cli-mcp/proposal.md)（已归档） | 纯词法在线读取的消费者包、在线 DTO 与网络政策（HTTP／缓存／取消／离线）、真实 npx 与 stdio、平台验收。[验收记录](decisions/0010-online-consumer.md#本机验收)记录真实包与共享契约；六个 CI runner 组合全部通过，19 项任务完成。 |
-| 3 | [online-publication-and-delivery](../openspec/changes/online-publication-and-delivery/proposal.md)（已验收，未归档） | CI 自动发布、独立持久台账、不可变归档／恢复、30 天旧发布／90 天旧协议保留、Pages 与 npm OIDC 发布及真实上线验收；状态见 [发布指南](publication.md)。 |
+| 3 | [online-publication-and-delivery](../openspec/changes/archive/2026-10-02-online-publication-and-delivery/proposal.md)（已验收，已归档） | CI 自动发布、独立持久台账、不可变归档／恢复、Pages 与 npm OIDC 发布及真实上线验收；当前在线保留政策见 [ADR 0011](decisions/0011-public-publication.md)，交付状态见 [发布指南](publication.md)。 |
 
 顺序与依据见 [GitHub Pages 与 npm 在线分发地图](../.scratch/npm-pages-distribution/map.md)。第一个 change 只交付可离线构建、校验的在线产物；消费者 DTO、网络政策及公开 CI／npm／Pages 由后两步承担，本地完整历史与本地混合检索仍按上表独立验收。
 

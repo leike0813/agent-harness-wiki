@@ -1,7 +1,6 @@
 import { expect, test } from "vitest";
 import {
   PROTOCOL_FREEZE_MS,
-  RELEASE_RETENTION_MS,
   abortDeployment,
   assertNoPendingPublication,
   beginDeployment,
@@ -9,7 +8,7 @@ import {
   freezeProtocol,
   initialState,
   markUncertain,
-  protectedReleases,
+  onlineReleases,
   publicationStateSchema,
   reserveRelease,
   retireProtocol,
@@ -214,7 +213,7 @@ test("uncertainty keeps the run and does not invent a timestamp", () => {
     reason: "pages lag",
   });
   expect(state.transitions).toHaveLength(1);
-  expect(protectedReleases(state, plus(2 * DAY))).toEqual([idOf("a"), b]);
+  expect(() => onlineReleases(state, b)).toThrow(/reconcile/);
   expect(() => markUncertain(state, "nope")).toThrow(/no pending run/);
   expect(publicationStateSchema.safeParse(state).success).toBe(true);
 });
@@ -238,7 +237,7 @@ test("abort clears intent only when no switch happened", () => {
   expect(state.pending).toBeNull();
   expect(state.transitions).toHaveLength(1);
   expect(state.protocols["1"]!.current).toBe(idOf("a"));
-  expect(protectedReleases(state, plus(2 * DAY))).toEqual([idOf("a")]);
+  expect(onlineReleases(state, idOf("a"))).toEqual([idOf("a")]);
   expect(() => abortDeployment(state, "run-2")).toThrow(/no pending run/);
 
   const moved = deployedSingle();
@@ -249,50 +248,87 @@ test("abort clears intent only when no switch happened", () => {
   expect(moved.pending).not.toBeNull();
 });
 
-function exitedRelease() {
+test("online rotations retain only the target and preceding verified current", () => {
   const state = initialState();
-  const a = reserveRelease(state, sha("a"), T0).archive_tag;
-  deploy(state, a, "run-1", T0, true);
-  const b = reserveRelease(state, sha("b"), T0).archive_tag;
-  deploy(state, b, "run-2", T0, true);
-  state.protocols["1"]!.recovery = null;
-  return { state, exited: a, current: b };
-}
-
-test.each([
-  ["inside the 30-day window", RELEASE_RETENTION_MS - 1, true],
-  ["at the window close", RELEASE_RETENTION_MS, false],
-])("retention boundary: %s keeps a confirmed exit", (_name, offset, kept) => {
-  const { state, exited, current } = exitedRelease();
-  const protectedIds = protectedReleases(state, plus(offset));
-  expect(protectedIds.includes(exited)).toBe(kept);
-  expect(protectedIds).toContain(current);
+  let previous: string | null = null;
+  for (const [index, char] of ["a", "b", "c", "d"].entries()) {
+    const at = plus(index * DAY);
+    const target = reserveRelease(state, sha(char), at).archive_tag;
+    const before = structuredClone(state);
+    expect(onlineReleases(state, target)).toEqual(
+      [target, ...(previous === null ? [] : [previous])].sort(),
+    );
+    expect(state).toEqual(before);
+    deploy(state, target, `run-${index}`, at, true);
+    expect(state.protocols["1"]).toMatchObject({
+      current: target,
+      recovery: previous,
+    });
+    expect(onlineReleases(state, target)).toEqual(
+      [target, ...(previous === null ? [] : [previous])].sort(),
+    );
+    previous = target;
+  }
+  expect(Object.keys(state.releases)).toHaveLength(4);
+  expect(state.transitions).toHaveLength(4);
+  expect(state.releases[idOf("a")]!.exited_current_at).toBe(plus(DAY));
 });
 
-test("returning to current renews protection and a later exit restarts", () => {
-  const { state, exited } = exitedRelease();
-  beginDeployment(state, exited, "run-3", plus(5 * DAY));
-  completeDeployment(state, {
-    runId: "run-3",
-    deploymentId: "run-3-dep",
-    at: plus(5 * DAY),
-    verified: true,
-  });
-  const protocol = state.protocols["1"]!;
-  expect(state.releases[exited]!.exited_current_at).toBeNull();
-  expect(protocol.current).toBe(exited);
-  expect(protocol.recovery).toBe(idOf("b"));
+test.each([
+  ["new target after an unverified current", "d", "b"],
+  ["recover to the verified recovery", "b", null],
+  ["recover to an excluded verified archive", "a", "b"],
+])("online selection: %s", (_name, targetChar, recoveryChar) => {
+  const state = deployedSingle();
+  for (const [index, char] of ["b", "c"].entries()) {
+    const at = plus((index + 1) * DAY);
+    deploy(
+      state,
+      reserveRelease(state, sha(char), at).archive_tag,
+      `run-${char}`,
+      at,
+      char === "b",
+    );
+  }
+  const target = reserveRelease(
+    state,
+    sha(targetChar),
+    plus(3 * DAY),
+  ).archive_tag;
+  const recovery = recoveryChar === null ? null : idOf(recoveryChar);
+  const selected = onlineReleases(state, target);
+  expect(selected).toEqual(
+    [target, ...(recovery === null ? [] : [recovery])].sort(),
+  );
+  expect(selected).not.toContain(idOf("c"));
+  deploy(state, target, "run-recovery", plus(3 * DAY), true);
+  expect(state.protocols["1"]).toMatchObject({ current: target, recovery });
+  expect(onlineReleases(state, target)).toEqual(selected);
+  expect(state.releases[idOf("a")]!.verified_at).not.toBeNull();
+  expect(state.releases[idOf("c")]!.exited_current_at).toBe(plus(3 * DAY));
+  expect(publicationStateSchema.safeParse(state).success).toBe(true);
+});
 
-  const later = reserveRelease(state, sha("c"), plus(20 * DAY)).archive_tag;
-  deploy(state, later, "run-4", plus(20 * DAY), true);
-  protocol.recovery = null;
-  expect(state.releases[exited]!.exited_current_at).toBe(plus(20 * DAY));
-  expect(
-    protectedReleases(state, plus(20 * DAY + RELEASE_RETENTION_MS - 1)),
-  ).toContain(exited);
-  expect(
-    protectedReleases(state, plus(20 * DAY + RELEASE_RETENTION_MS)),
-  ).not.toContain(exited);
+test("an excluded verified archive can replace a verified current", () => {
+  const state = deployedSingle();
+  for (const char of ["b", "c"]) {
+    deploy(
+      state,
+      reserveRelease(state, sha(char), T0).archive_tag,
+      char,
+      T0,
+      true,
+    );
+  }
+  const target = idOf("a");
+  expect(onlineReleases(state, target)).toEqual([target, idOf("c")]);
+  deploy(state, target, "recover-a", plus(4 * DAY), true);
+  expect(state.protocols["1"]).toMatchObject({
+    current: target,
+    recovery: idOf("c"),
+  });
+  expect(state.releases[target]!.exited_current_at).toBeNull();
+  expect(Object.keys(state.releases)).toHaveLength(3);
 });
 
 test("freeze needs a verified current and a 90-day notice", () => {
@@ -346,22 +382,26 @@ test("freeze at the boundary starts the next active protocol", () => {
   expect(publicationStateSchema.safeParse(state).success).toBe(true);
 });
 
-test("retirement waits for the announced date and remaining windows", () => {
+test("retirement releases online pointers at the announced date and preserves archives", () => {
   const state = deployedSingle();
+  deploy(
+    state,
+    reserveRelease(state, sha("b"), T0).archive_tag,
+    "run-b",
+    T0,
+    true,
+  );
   freezeProtocol(state, 1, T0, plus(PROTOCOL_FREEZE_MS), "Upgrade to v2");
+  const next = reserveRelease(state, sha("c"), plus(DAY)).archive_tag;
+  expect(onlineReleases(state, next)).toEqual([idOf("a"), idOf("b"), next]);
   expect(() => retireProtocol(state, 1, plus(PROTOCOL_FREEZE_MS - 1))).toThrow(
     /announced/,
   );
 
-  const stillObliged = structuredClone(state);
-  stillObliged.releases[idOf("a")]!.exited_current_at = plus(
-    PROTOCOL_FREEZE_MS - DAY,
-  );
-  expect(() =>
-    retireProtocol(stillObliged, 1, plus(PROTOCOL_FREEZE_MS)),
-  ).toThrow(/retention window/);
-
+  const history = structuredClone(state.releases);
   retireProtocol(state, 1, plus(PROTOCOL_FREEZE_MS));
+  expect(onlineReleases(state, next)).toEqual([next]);
+  expect(state.releases).toEqual(history);
   expect(state.protocols["1"]).toMatchObject({
     state: "retired",
     current: null,
