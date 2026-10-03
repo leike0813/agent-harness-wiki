@@ -1,6 +1,4 @@
 import { createHash, randomUUID } from "node:crypto";
-import { execFile } from "node:child_process";
-import { promisify } from "node:util";
 import {
   link,
   lstat,
@@ -22,26 +20,11 @@ import {
 } from "../domain/schema.js";
 import type { ChapterDataset } from "../domain/chapter.js";
 import { loadAndValidateDataset } from "../validation/dataset.js";
+import { runSourceGit, type GitRun } from "./workspace.js";
 
-const exec = promisify(execFile);
 type Check = UpstreamAudit["checks"][number];
 type RemoteSource = Exclude<SourceDefinition, { kind: "fixture_file" }>;
-type GitRun = (args: string[]) => Promise<string>;
-
-async function defaultGit(args: string[]): Promise<string> {
-  const { stdout } = await exec("git", args, {
-    timeout: 300_000,
-    maxBuffer: 16 * 1024 * 1024,
-    env: {
-      PATH: process.env.PATH,
-      GIT_CONFIG_NOSYSTEM: "1",
-      GIT_CONFIG_GLOBAL: "/dev/null",
-      GIT_TERMINAL_PROMPT: "0",
-      GIT_LFS_SKIP_SMUDGE: "1",
-    },
-  });
-  return stdout;
-}
+const defaultGit: GitRun = (args) => runSourceGit(args, 30_000);
 
 async function boundedFetch(
   url: string,
@@ -226,6 +209,7 @@ async function observe(
   baseline: string | undefined,
   fetchImpl: typeof fetch,
   git: GitRun,
+  retainDocuments: boolean,
 ): Promise<
   Pick<
     Check,
@@ -243,7 +227,8 @@ async function observe(
       fetchImpl,
     );
     const observed = createHash("sha256").update(bytes).digest("hex");
-    if (observed === baseline) return { observed, resolved_url: resolvedUrl };
+    if (observed === baseline || !retainDocuments)
+      return { observed, resolved_url: resolvedUrl };
     const artifactId = `artifact-${source.source_id}-${observed.slice(0, 12)}`;
     const candidate_path = `archive/${source.harness_id}/${artifactId}/source.md`;
     await retainBytes(root, candidate_path, bytes);
@@ -295,57 +280,9 @@ async function observe(
     "HEAD",
   ]);
   const { commit: observed, ref } = parseHead(stdout);
-  if (observed === baseline)
-    return { observed, ...(ref ? { remote_ref: ref } : {}) };
-  const candidate_path = `archive/${source.harness_id}/git/${observed}/checkout`;
-  const directory = await archiveLocation(root, candidate_path);
-  try {
-    const stat = await lstat(directory);
-    if (!stat.isDirectory() || stat.isSymbolicLink())
-      throw new Error("Git candidate is not a directory.");
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
-    await git([
-      "-c",
-      "core.hooksPath=/dev/null",
-      "clone",
-      "--filter=blob:none",
-      "--depth=1",
-      "--no-checkout",
-      source.repository_url,
-      directory,
-    ]);
-  }
-  const head = (await git(["-C", directory, "rev-parse", "HEAD"])).trim();
-  if (head !== observed)
-    throw new Error("Git candidate commit differs from remote HEAD.");
-  await git([
-    "-c",
-    "core.hooksPath=/dev/null",
-    "-C",
-    directory,
-    "checkout",
-    "--detach",
-    observed,
-  ]);
-  let changed_paths: string[] | undefined;
-  if (baseline && /^[a-f0-9]{40}$/.test(baseline)) {
-    try {
-      await git(["-C", directory, "fetch", "--depth=1", "origin", baseline]);
-      changed_paths = (
-        await git(["-C", directory, "diff", "--name-only", baseline, observed])
-      )
-        .split(/\r?\n/)
-        .filter(Boolean);
-    } catch {
-      // The old revision may no longer be available remotely; review all topics.
-    }
-  }
   return {
     observed,
-    candidate_path,
     ...(ref ? { remote_ref: ref } : {}),
-    ...(changed_paths ? { changed_paths } : {}),
   };
 }
 
@@ -475,13 +412,55 @@ export function mapAuditImpacts(
   return result;
 }
 
-export async function scanHarnesses(input: {
+type ScanOptions = {
   root: string;
-  harnessIds: string[];
+  harnessIds?: string[];
   fetchImpl?: typeof fetch;
   git?: GitRun;
   now?: () => Date;
-}): Promise<UpstreamAudit[]> {
+};
+
+export type HarnessCheck = UpstreamAudit & { requires_maintenance: boolean };
+
+/** Read-only observations; no originals, audits or checkouts are written. */
+export async function checkHarnesses(
+  input: ScanOptions,
+): Promise<HarnessCheck[]> {
+  return (await collectHarnesses(input, false)).map((audit) => ({
+    ...audit,
+    requires_maintenance:
+      audit.checks.some((check) => check.status !== "unchanged") ||
+      audit.pending_audit_refs.length > 0,
+  }));
+}
+
+export async function scanHarnesses(
+  input: ScanOptions & { harnessIds: string[] },
+): Promise<UpstreamAudit[]> {
+  const root = await realpath(input.root);
+  const audits = await collectHarnesses(input, true);
+  const auditRoot = path.join(root, "audits");
+  await mkdir(auditRoot, { recursive: true });
+  if ((await realpath(auditRoot)) !== auditRoot)
+    throw new Error("Unsafe audit root.");
+  for (const audit of audits) {
+    const directory = path.join(auditRoot, audit.harness_id);
+    await mkdir(directory, { recursive: true });
+    if ((await realpath(directory)) !== directory)
+      throw new Error(`Unsafe audit directory: ${audit.harness_id}`);
+    await writeFile(
+      path.join(directory, `${audit.audit_id}.yaml`),
+      YAML.stringify(audit),
+      { flag: "wx" },
+    );
+  }
+  return audits;
+}
+
+async function collectHarnesses(
+  input: ScanOptions,
+  retainDocuments: boolean,
+): Promise<UpstreamAudit[]> {
   const root = await realpath(input.root);
   const validated = await loadAndValidateDataset({
     root,
@@ -504,9 +483,20 @@ export async function scanHarnesses(input: {
   );
   if (!chapters.ok && hasChapters)
     throw new Error("Production chapter dataset is invalid.");
-  if (input.harnessIds.length === 0)
+  const requestedIds =
+    input.harnessIds ??
+    dataset.harnesses
+      .filter(
+        (harness) =>
+          !validated.catalog ||
+          validated.catalog.products.some(
+            (product) => product.harness_id === harness.harness_id,
+          ),
+      )
+      .map((harness) => harness.harness_id);
+  if (requestedIds.length === 0)
     throw new Error("At least one harness ID is required.");
-  const ids = [...new Set(input.harnessIds)];
+  const ids = [...new Set(requestedIds)];
   for (const id of ids)
     if (!dataset.harnesses.some((item) => item.harness_id === id))
       throw new Error(`Unknown registered harness: ${id}`);
@@ -517,45 +507,61 @@ export async function scanHarnesses(input: {
     )!;
     const previous = await priorAudits(root, harnessId);
     const checks: Check[] = [];
-    for (const sourceId of harness.source_refs) {
-      const source = dataset.sources.find(
-        (item) => item.source_id === sourceId,
-      );
-      if (!source || source.kind === "fixture_file") continue;
-      const checked_at = (input.now ?? (() => new Date()))().toISOString();
-      const baseline =
-        [...previous]
-          .reverse()
-          .flatMap((audit) => audit.checks)
-          .find((check) => check.source_id === sourceId && check.observed)
-          ?.observed ?? initialBaseline(dataset, source);
-      try {
-        const result = await observe(
-          root,
-          source,
-          baseline,
-          input.fetchImpl ?? fetch,
-          input.git ?? defaultGit,
+    let nextSource = 0;
+    const byIndex: (Check | undefined)[] = [];
+    async function checkNext(): Promise<void> {
+      for (;;) {
+        const index = nextSource++;
+        const sourceId = harness.source_refs[index];
+        if (sourceId === undefined) return;
+        const source = dataset.sources.find(
+          (item) => item.source_id === sourceId,
         );
-        checks.push({
-          source_id: sourceId,
-          kind: source.kind,
-          checked_at,
-          status: result.observed === baseline ? "unchanged" : "changed",
-          ...(baseline ? { baseline } : {}),
-          ...result,
-        });
-      } catch (error) {
-        checks.push({
-          source_id: sourceId,
-          kind: source.kind,
-          checked_at,
-          status: "blocked",
-          ...(baseline ? { baseline } : {}),
-          error: error instanceof Error ? error.message : String(error),
-        });
+        if (!source || source.kind === "fixture_file") continue;
+        const checked_at = (input.now ?? (() => new Date()))().toISOString();
+        const baseline =
+          [...previous]
+            .reverse()
+            .flatMap((audit) => audit.checks)
+            .find((check) => check.source_id === sourceId && check.observed)
+            ?.observed ?? initialBaseline(dataset, source);
+        try {
+          const result = await observe(
+            root,
+            source,
+            baseline,
+            input.fetchImpl ?? fetch,
+            input.git ?? defaultGit,
+            retainDocuments,
+          );
+          byIndex[index] = {
+            source_id: sourceId,
+            kind: source.kind,
+            checked_at,
+            status: result.observed === baseline ? "unchanged" : "changed",
+            ...(baseline ? { baseline } : {}),
+            ...result,
+          };
+        } catch (error) {
+          byIndex[index] = {
+            source_id: sourceId,
+            kind: source.kind,
+            checked_at,
+            status: "blocked",
+            ...(baseline ? { baseline } : {}),
+            error: error instanceof Error ? error.message : String(error),
+          };
+        }
       }
     }
+    await Promise.all(
+      Array.from({ length: Math.min(4, harness.source_refs.length) }, () =>
+        checkNext(),
+      ),
+    );
+    checks.push(
+      ...byIndex.filter((check): check is Check => check !== undefined),
+    );
     const pending_audit_refs = previous
       .filter(
         (audit) =>
@@ -599,21 +605,6 @@ export async function scanHarnesses(input: {
       ],
       investigation_notes: [],
     });
-    const auditRoot = path.join(root, "audits");
-    await mkdir(auditRoot, { recursive: true });
-    if ((await realpath(auditRoot)) !== auditRoot)
-      throw new Error("Unsafe audit root.");
-    const directory = path.join(auditRoot, harnessId);
-    await mkdir(directory, { recursive: true });
-    if ((await realpath(directory)) !== directory)
-      throw new Error(`Unsafe audit directory: ${harnessId}`);
-    await writeFile(
-      path.join(directory, `${audit.audit_id}.yaml`),
-      YAML.stringify(audit),
-      {
-        flag: "wx",
-      },
-    );
     results.push(audit);
   }
   return results;

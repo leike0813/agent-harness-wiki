@@ -5,15 +5,25 @@ M1 章节模型的事实源是 Git 中的完整 Markdown 章节版本、来源�
 ## 输入
 
 - `catalog/harnesses.yaml`（`schema_version: 1`）是产品与界面名字的唯一事实源：产品 id、名称、别名、界面（`surface_id`、`kind`、名称）、运行时、界面到运行时的绑定（状态可为 `documented`、`unknown`、`conflict`，`unknown` 是合法的未证实状态），以及登记产品之外的候选产品并集。产品是否 `registered` 只由 registry 中是否存在该产品的 harness 记录决定，不在 catalog 内重复。
-- `registry/harnesses/<product-id>.yaml` 只登记产品 id 与 `source_refs`，不再复制名称、别名或形态；`registry/sources/` 与 `knowledge/<product-id>/{artifacts,snapshots}/` 保留来源身份和固定快照。归档原件不进入 Git 或查询发布。
+- `registry/harnesses/<product-id>.yaml` 只登记产品 id 与 `source_refs`，不再复制名称、别名或形态；`registry/sources/` 与 `knowledge/<product-id>/{artifacts,snapshots}/` 保留来源身份和固定快照。归档原件不进入 Git 或查询发布。新的 Git 原件记录为 `git_source_file`（`commit`、`file`、`content_sha256`），不保存 checkout 路径；固定提交在项目外的临时 pinned checkout 中读取，读完即回收。既有 `git_checkout` 记录与其保留原件继续可读、可审计。
 - `knowledge/<product-id>/chapters/<edition-id>.md` 是完整章节版本。Frontmatter 含 `schema_version: 3`、`record_kind`、产品、主题、稳定小节 ID 及其 `surface_ids`，以及每道固定问题的 `answers`：每条 answer 记录 `surface_ids`、主要 `section_id`、`status` 和该答案自己的 `source_refs`。正文含机制说明、问题定位和 `[@reference-id]` 标记。记录中的状态为 `answered | partial | unknown | not_applicable | conflict`；产品已声明但章节没有答案的界面不存状态，查询会把它派生为 `not_investigated`（界面已知但本轮未调查）。缺口和分歧在对应小节明确写出。
 - `knowledge/<product-id>/references/<reference-id>.yaml` 将可展示短摘录、HTTPS 官方链接、文件行号/符号/文档章节定位绑定到一个固定 Snapshot。同一小节引用须属于同一产品；已回答问题须在本问题正文中放置对应标记。
 - `knowledge/<product-id>/mappings/<mapping-id>.yaml` 独立记录精确软件版本、`surface_id`、npm Snapshot、章节版本、范围及每个小节的映射证据。只有全部小节有证据时才能声明整章映射。未知道适用包版本的章节保持来源级知识，不制造版本映射。
 - `registry/chapter-current.yaml` 选择每个已发布产品 × 主题的当前版本；前端共用同一章节，界面差异记在章节的 answer 上。历史版本仍留在章节目录；切换当前版本不改旧章节字节。所有新记录明确标记 fixture 或 production，正式校验拒绝虚构记录。
 
-固定问题编号以 `docs/topic-questions.md` 为准。校验器要求每章逐题恰好一次，检查章节/小节/问题/来源/映射关系、活动 HTML、定位、快照和跨产品引用；每项诊断含代码、文件、字段、原因和修复提示。未知或部分答案允许发布，但须在对应小节解释。普通校验不读取忽略的原件；显式来源审计独立进行。
+固定问题编号以 `docs/topic-questions.md` 为准。校验器要求每章逐题恰好一次，检查章节/小节/问题/来源/映射关系、活动 HTML、定位、快照和跨产品引用；每项诊断含代码、文件、字段、原因和修复提示。未知或部分答案允许发布，但须在对应小节解释。普通校验不读取忽略的原件，查询与构建在离线状态下也不依赖来源原件。
 
-Catalog 的 `references` 单独固定产品身份与界面关系：每条记录带产品 id、HTTPS 官方链接、`captured_at`、原件 sha256 与归档路径、定位和最多 800 字符的原文摘录；Git 来源另带精确 commit。产品、界面、运行时和绑定引用同产品的 `reference_ids`。每个界面恰有一个绑定；`documented` 必须带运行时和引用，`unknown` 不指定运行时，`conflict` 保留分歧引用。这些引用不构成配置能力或软件版本映射；已发布引用保持不变，新原件用新引用 id。
+显式来源审计独立进行，逐条记录返回 `verified` 或 `not_retained`。`not_retained` 只说明该记录有意只保留身份元数据（`git_source_file`，或没有归档原件的 Git catalog 引用），不是原件字节校验通过，也不能算作已验证原件；应当保留的原件缺失或 hash 不符仍是错误并中止审计。审计输出是逐条状态，不改变任何发布内的事实、证据或版本判断。
+
+Catalog 的 `references` 单独固定产品身份与界面关系：每条记录带产品 id、HTTPS 官方链接、`captured_at`、原件 sha256、定位和最多 800 字符的原文摘录；Git 来源的 `archive_path` 可选，无论是否保留归档原件，都必须带精确 revision，归档路径可选；官方文档快照必须带 `archive_path`，原件按保留策略长期保留。产品、界面、运行时和绑定引用同产品的 `reference_ids`。每个界面恰有一个绑定；`documented` 必须带运行时和引用，`unknown` 不指定运行时，`conflict` 保留分歧引用。这些引用不构成配置能力或软件版本映射；已发布引用保持不变，新原件用新引用 id。
+
+## 巡检与临时工作区
+
+巡检的只读观察与 `sources:scan` 共享同一基线和审计目录：`sources:check` 只输出每产品的 `checks`、`pending_audit_refs` 与 `requires_maintenance`，不写审计、不下载包字节、不创建 clone。落审计的仍是 `sources:scan` 或维护 Skill 写出的 Git 跟踪 YAML 与同名报告。
+
+来源工作区是项目之外的临时 pinned checkout，固定到观察到的精确提交，按长期存活的任务 PID 登记 owner，完成调查和复核后关闭；`monitor:session start` 回收本项目死亡 owner 的残留，`sources:workspace recover` 也可显式回收。临时路径只用于运行上下文，不进入知识真源或 Git 审计。
+
+Git 跟踪的章节版本、来源元数据、审计 YAML 与报告是永久保留的知识与追溯记录，任何清理都不触及它们；官方文档原件按既有保留策略留在忽略归档。源码读取是临时的：记录里只有 `git_source_file` 的提交、文件与内容 hash，checkout 本身和本轮验证输出在 `monitor:session finish` 收尾时清理。巡检不承诺固定峰值占用。
 
 ## 发布
 

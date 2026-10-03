@@ -3,6 +3,13 @@ import { surfaceKindSchema } from "./schema.js";
 
 const id = z.string().regex(/^[a-z][a-z0-9_-]*$/);
 const refs = z.array(id).min(1);
+const archivePath = z
+  .string()
+  .regex(/^archive\/catalog\/[a-zA-Z0-9_./-]+$/)
+  .refine(
+    (value) =>
+      !value.split("/").some((part) => part === ".." || part === "." || !part),
+  );
 export const catalogReferenceSchema = z.strictObject({
   reference_id: id,
   harness_id: id,
@@ -15,15 +22,9 @@ export const catalogReferenceSchema = z.strictObject({
       .string()
       .regex(/^[a-f0-9]{40}$/)
       .optional(),
-    archive_path: z
-      .string()
-      .regex(/^archive\/catalog\/[a-zA-Z0-9_./-]+$/)
-      .refine(
-        (value) =>
-          !value
-            .split("/")
-            .some((part) => part === ".." || part === "." || !part),
-      ),
+    // A git identity may be pinned by revision alone; a document has no other
+    // fixed identity, so it must keep a retained original.
+    archive_path: archivePath.optional(),
   }),
   locator: z.string().min(1),
   excerpt: z.string().min(1).max(800),
@@ -168,6 +169,13 @@ export const catalogSchema = z
           "references",
           index,
           "snapshot",
+        ]);
+      if (ref.snapshot.kind === "document" && !ref.snapshot.archive_path)
+        fail("Document snapshots require a retained original.", [
+          "references",
+          index,
+          "snapshot",
+          "archive_path",
         ]);
     }
   });

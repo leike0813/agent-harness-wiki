@@ -14,11 +14,23 @@ disable-model-invocation: true
 
 **ID 模式**：维护者给出 `registry/harnesses/` 中的一个或多个精确 `harness_id`，例如 `$harness-maintenance codex pi`。Skill 观察这些 Harness 登记的全部来源，并调用 [harness-binary](../harness-binary/SKILL.md) 核对这些产品的受管二进制最新版本，即使登记来源没有变化。
 
+手动调用默认在本地工作区进行，不开分支、不推 pull request。已登记 `git_checkout` 原件的产品可以直接读 `upstream/` 里的既有 checkout；但要知道当前上游进展，仍按第 1 节用来源工作区取新的固定提交，不依赖既有 checkout 的状态。
+
 **定向模式**：维护者给出一个固定来源（Git commit、官方文档快照或精确 npm 版本）和要回答的具体问题。不要求 npm Target，也不要求其他来源；只针对该固定来源中可能受影响的问题与交叉引用作答，并只在维护者明确要求时调用 harness-binary。
 
 两种模式都覆盖七个主题：`skills`、`mcp`、`custom_agents`、`custom_providers`、`hooks`、`native_plugins`、`configuration`。固定问题编号与问法以 [docs/topic-questions.md](../../../docs/topic-questions.md) 为准，每个界面的条目状态为 `answered`、`partial`、`unknown`、`not_applicable` 或 `conflict`；已声明但未调查的界面没有答案，查询按 `not_investigated` 报告。
 
 用户同时给出多个产品或主题时逐一处理；中断后从 `audits/`、已写章节与 Git diff 恢复，不重复已完成的调查。
+
+## 交付方式
+
+`delivery` 决定本轮做完之后的落地动作，默认 `local`：
+
+**`local`（手动调用）**：走第 7 节完整发布流程，验收后切换本地当前指针，并按 ID 模式执行第 8 节的受管二进制核对。
+
+**`pr`（由 [harness-monitor](../harness-monitor/SKILL.md) 委派）**：只做第 1–6 节的调查、采写、自检与审计，把改动留在工作区交回父进程。`pr` 轮次不切换本地发布指针，不调用 harness-binary，不运行 `pnpm ahw publish` 与 `pnpm managed:packages`；合并后既有 CI 自动发布，不需要维护者再补一次发布或二进制核对。
+
+无论哪种交付方式，来源存储、采写规则和校验门槛一致。`pr` 轮次里「至多一个」约束的是产品 × 主题：同一产品 × 主题相对 `origin/main` 只留一个未发布 edition，多个产品和多个主题全部交付，不挑一个、也不推后。
 
 ## 事实来源与目录
 
@@ -39,13 +51,26 @@ disable-model-invocation: true
 
 ### 1. 观察来源
 
-ID 模式：先检查仓库状态，再运行 `pnpm sources:scan <harness-id>...`。为每个 Harness 生成一份审计 YAML，覆盖登记的全部来源，包括未变化和部分失败。扫描器只观察身份：npm 记录 `版本@integrity` 元数据，Git 与文档内容 hash 各自独立；包字节获取属于受管刷新，不在扫描中发生。
+ID 模式：先检查仓库状态，再运行 `pnpm sources:scan <harness-id>...`。为每个 Harness 生成一份审计 YAML，覆盖登记的全部来源，包括未变化和部分失败。扫描器只观察身份：npm 记录 `版本@integrity` 元数据，Git 与文档内容 hash 各自独立；包字节获取属于受管刷新，不在扫描中发生。Git 来源只观察 HEAD，扫描阶段不 checkout、不产生差异文件；差异要等第 1 节末按需打开工作区才拿到。
 
 读取每份新审计的来源基线、观察身份、失败、受影响的问题 ID、小节 ID、来源引用、跨主题链接和待处理引用，并继续处理仍为 `pending` 的旧审计。某个来源失败时逐条列出失败方式与其阻塞范围，其他成功来源照常调查。扫描命令因个别来源返回非零退出码时继续阅读已写入的审计；只有数据集或审计资产损坏等全局错误才停止并报告。
 
 全部来源未变化且没有待处理旧审计时，结案审计并跳过第 7 节发布流程；受管二进制仍按第 8 节单独核对。
 
 定向模式：跳过扫描，直接固定来源身份；若来源尚未登记，先在 `registry/sources/` 登记。读取对应 Snapshot、Artifact 或 `archive/` 候选，记录文件、行/章节或符号定位，以及与所查问题直接相关的原文短摘录。来源不可得时写明身份、失败方式和被阻塞的问题。
+
+需要读 Git 源码时走统一来源存储，不在仓库或临时目录里散落 checkout：
+
+```sh
+pnpm sources:workspace open --source-id <source-id> --commit <完整 SHA> --owner-pid <调用方 PID>
+pnpm sources:workspace close <workspace-id>
+```
+
+`open` 输出 JSON，含 `id`、`path`、`source_id`、`commit`，给了 `--baseline` 且来源确有变化时还有 `changed_paths`；工作区在命令结束后继续存在，由调用方显式处置。`--commit` 固定到扫描观察到的精确提交，`--baseline` 给出上一轮提交以取 `changed_paths`。返回里没有 `changed_paths` 时没有候选路径可依赖，按影响面不确定扩大复查，而不是假定变化集中在一处。
+
+来源租约按记录里的 owner 身份管理：回收只处理 owner 已不存活的工作区，不碰仍存活 owner 持有的工作区，也不替别人关闭。读到的内容还要用于第 5 节独立复核时，用返回的 `id` 调 `close` 放在复核结束之后——读完第一遍就释放，等于让复核失去可复看的原件。
+
+原件保留按来源类型分开：读过的源码文件用 `git_source_file`，只固定 `commit`、仓库内 `file` 与 `content_sha256`，不保留 checkout，来源审计把它报为 `not_retained`；官方文档原件用 `archived_document` 加 `archive_path` 长期保留。只有文档原件进归档，Git 来源在仓库里留的是元数据和固定 revision，不是源码副本。工作区路径不写进任何记录。
 
 ### 2. 定位影响
 
@@ -57,7 +82,7 @@ ID 模式：先检查仓库状态，再运行 `pnpm sources:scan <harness-id>...
 
 ### 3. 改写章节与映射
 
-改写正文须新建 `edition_id` 文件并保留旧文件；正文按机制分稳定小节（`{#section-id}`），引用用 `[@reference-id]`，与 [docs/topic-questions.md](../../../docs/topic-questions.md) 的成稿规则一致。新引用写入 `references/`：短摘录与原件一致，定位到文件行、符号或文档章节，官方链接为 HTTPS。
+改写已合入 main 的正文须新建 `edition_id` 文件并保留旧文件；`delivery=pr` 时，同一产品 × 主题在当前 PR 已有未发布候选就修订该候选。正文按机制分稳定小节（`{#section-id}`），引用用 `[@reference-id]`，与 [docs/topic-questions.md](../../../docs/topic-questions.md) 的成稿规则一致。新引用写入 `references/`：短摘录与原件一致，定位到文件行、符号或文档章节，官方链接为 HTTPS。
 
 只新增或修正软件版本映射时不改章节正文，只在 `mappings/` 记录精确版本、`surface_id`、包快照、章节版本、范围与逐小节证据。整章映射要求该界面的全部小节都有依据；各界面可映射到不同版本，未指定界面的版本请求返回 `ambiguous`；定向模式或来源不足以证明包版本时保持来源级知识，不制造映射。
 
@@ -96,6 +121,8 @@ ID 模式的审计 YAML 由 `pnpm sources:scan` 生成；把本轮受影响的�
 
 ### 7. 暂存发布
 
+本节只在 `delivery=local` 时执行。`delivery=pr` 轮次在第 6 节写完审计与报告后结束，把工作区交回父进程校验。
+
 只选择已完成的章节版本和有证据的映射变化：更新 `registry/chapter-current.yaml` 选中新版本，保留受阻章节的旧版本与固定来源范围。发布器只接受 `--stage` 与 `--blocked`：未结案主题用 `--blocked` 指明（JSON 数组，空数组写 `[]`）。先用 `--stage` 构建不可变 release：
 
 ```sh
@@ -112,11 +139,13 @@ pnpm ahw publish --release-id <new-id>
 
 ### 8. 受管二进制
 
-受管二进制独立于知识发布。ID 模式对维护者给出的每一个 harness ID 都调用一次 [harness-binary](../harness-binary/SKILL.md)，由它先运行 `pnpm managed:packages observe <harness-id>`、再运行 `pnpm managed:packages update <harness-id>` 核对或接入官方 latest；即使该产品登记来源全部未变化，也照常调用。多个 ID 逐个应用并分别报告结果。定向模式只在维护者明确要求时调用。二进制结果与知识结果分别报告，其失败、阻塞或非 npm 不支持不阻断知识发布，旧的可启动环境保持选中。
+受管二进制独立于知识发布。`delivery=pr` 轮次不进入本节。`delivery=local` 时，ID 模式对维护者给出的每一个 harness ID 都调用一次 [harness-binary](../harness-binary/SKILL.md)，由它先运行 `pnpm managed:packages observe <harness-id>`、再运行 `pnpm managed:packages update <harness-id>` 核对或接入官方 latest；即使该产品登记来源全部未变化，也照常调用。多个 ID 逐个应用并分别报告结果。定向模式只在维护者明确要求时调用。二进制结果与知识结果分别报告，其失败、阻塞或非 npm 不支持不阻断知识发布，旧的可启动环境保持选中。
 
 ### 9. 交付
 
 最终答复先给报告路径，再概述改动章节与问题、审计 ID、未映射版本、实际校验与发布结果、受管二进制结果和未解决阻塞。无变化分支报告“仅结案审计”。维护者应能读完正文判断本次发布是否符合预期，只有核查细节时才需要打开 YAML。
+
+`delivery=pr` 轮次在报告里写明：交付方式、交付的完整产品 × 主题清单、已关闭的来源工作区，以及本轮未做的本地发布与受管二进制核对。同一产品 × 主题已有未发布 edition 时改那一份，不另起第二份。
 
 ## 禁止事项
 
@@ -128,6 +157,7 @@ pnpm ahw publish --release-id <new-id>
 - 不覆盖或丢弃用户已有的未提交改动；新调查与已有内容冲突时保留双方并标出分歧。
 - 不移动 `upstream/` submodule 指针，不把候选原件写入 `research/package-set`。
 - 不自行运行包更新器；受管二进制只在 ID 模式或维护者明确要求时交给 harness-binary。
+- 不把来源工作区的临时路径写进知识记录；`delivery=pr` 轮次不切换发布指针、不运行 `pnpm managed:packages`。
 
 ## 执行参考
 

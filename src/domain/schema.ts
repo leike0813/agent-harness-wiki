@@ -183,14 +183,24 @@ export const sourceSchema = z.discriminatedUnion("kind", [
 ]);
 
 const artifactBase = { ...provenance, artifact_id: id };
+const gitFile = {
+  ...artifactBase,
+  commit,
+  file: nonempty,
+  content_sha256: sha256,
+};
 export const artifactSchema = z.discriminatedUnion("kind", [
   z.strictObject({
-    ...artifactBase,
+    ...gitFile,
     kind: z.literal("git_checkout"),
     checkout_path: nonempty,
-    commit,
-    file: nonempty,
-    content_sha256: sha256,
+  }),
+  // A pinned commit file the repository never retains: the daily monitor checks
+  // out a temporary external clone, records commit, file and content hash, and
+  // drops the checkout afterwards.
+  z.strictObject({
+    ...gitFile,
+    kind: z.literal("git_source_file"),
   }),
   z.strictObject({
     ...artifactBase,

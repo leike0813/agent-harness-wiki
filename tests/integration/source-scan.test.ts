@@ -17,6 +17,7 @@ import YAML from "yaml";
 import { create } from "tar";
 import {
   mapAuditImpacts,
+  checkHarnesses,
   scanHarnesses,
   validateAuditLedger,
 } from "../../src/sources/scan.js";
@@ -216,6 +217,48 @@ test("maps changed fixed sources to cited question and section IDs", async () =>
   ).toBe(true);
 });
 
+test("lightweight checks report work and pending reviews without persisting state", async () => {
+  const root = await dataset(true);
+  const pkg = await packageBytes(root);
+  const options = {
+    root,
+    harnessIds: ["example"],
+    fetchImpl: fakeFetch(pkg.bytes, pkg.integrity),
+    git: async () => `${"a".repeat(40)}\tHEAD\n`,
+  };
+  const first = (await checkHarnesses(options))[0]!;
+  expect(first.requires_maintenance).toBe(true);
+  expect(first.checks.every((check) => !check.candidate_path)).toBe(true);
+  await expect(
+    readFile(path.join(root, "audits/example", `${first.audit_id}.yaml`)),
+  ).rejects.toMatchObject({ code: "ENOENT" });
+  await expect(
+    readFile(
+      path.join(
+        root,
+        "archive/example/git",
+        "a".repeat(40),
+        "checkout/README.md",
+      ),
+    ),
+  ).rejects.toMatchObject({ code: "ENOENT" });
+  const audit = (await scanHarnesses(options))[0]!;
+  const second = (await checkHarnesses(options))[0]!;
+  expect(second.status).toBe("no_change");
+  expect(second.pending_audit_refs).toContain(audit.audit_id);
+  expect(second.requires_maintenance).toBe(true);
+  await record(root, `audits/example/${audit.audit_id}.yaml`, {
+    ...audit,
+    review_status: "reviewed",
+    reviewed_by: "fixture-reviewer",
+    reviewed_at: "2026-10-03T00:00:00Z",
+  });
+  const third = (await checkHarnesses(options))[0]!;
+  expect(third.requires_maintenance).toBe(false);
+  expect(third.pending_audit_refs).toEqual([]);
+  expect(await validateAuditLedger(root)).toBe(1);
+});
+
 test("source failures retain baselines while successful observations advance", async () => {
   const root = await dataset();
   const pkg = await packageBytes(root);
@@ -295,7 +338,7 @@ test("does not follow a registered document to another origin", async () => {
   ).toBe("changed");
 });
 
-test("rejects unsafe package links and keeps Git candidates separate from submodules", async () => {
+test("rejects unsafe package links and observes Git without retaining checkouts", async () => {
   const root = await dataset(true);
   const pkg = await packageBytes(root);
   const input = path.join(root, "bad-tar");
@@ -313,7 +356,9 @@ test("rejects unsafe package links and keeps Git candidates separate from submod
   const submodule = path.join(root, "upstream", "example");
   await mkdir(submodule, { recursive: true });
   await writeFile(path.join(submodule, "marker"), "untouched");
+  const calls: string[][] = [];
   const git = async (args: string[]): Promise<string> => {
+    calls.push(args);
     if (args.includes("ls-remote")) return `${commit}\tHEAD\n`;
     if (args.includes("clone")) {
       await mkdir(args.at(-1)!, { recursive: true });
@@ -333,7 +378,8 @@ test("rejects unsafe package links and keeps Git candidates separate from submod
   expect(
     result.checks.find((item) => item.kind === "git_repository")
       ?.candidate_path,
-  ).toBe(`archive/example/git/${commit}/checkout`);
+  ).toBeUndefined();
+  expect(calls.every((args) => args[0] === "ls-remote")).toBe(true);
   expect(await readFile(path.join(submodule, "marker"), "utf8")).toBe(
     "untouched",
   );
@@ -412,7 +458,7 @@ test("archived package evidence stays bound to its exact release", async () => {
     );
 });
 
-test("clones a changed Git HEAD into archive without moving a pinned checkout", async () => {
+test("records exact changed Git identities without moving or retaining checkouts", async () => {
   const root = await dataset(true);
   const pkg = await packageBytes(root);
   const upstream = path.join(root, "remote");
@@ -456,12 +502,7 @@ test("clones a changed Git HEAD into archive without moving a pinned checkout", 
   const check = audit.checks.find((item) => item.kind === "git_repository");
   expect(check?.status).toBe("changed");
   expect(check?.observed).toBe(commit);
-  expect(
-    await readFile(
-      path.join(root, check!.candidate_path!, "README.md"),
-      "utf8",
-    ),
-  ).toBe("fixed commit\n");
+  expect(check?.candidate_path).toBeUndefined();
   expect(await readFile(path.join(pinned, "marker"), "utf8")).toBe("pinned");
 
   await writeFile(path.join(upstream, "README.md"), "next commit\n");
@@ -487,6 +528,6 @@ test("clones a changed Git HEAD into archive without moving a pinned checkout", 
   )[0]!;
   const changed = next.checks.find((item) => item.kind === "git_repository");
   expect(changed?.baseline).toBe(commit);
-  expect(changed?.changed_paths).toContain("README.md");
+  expect(changed?.changed_paths).toBeUndefined();
   expect(await readFile(path.join(pinned, "marker"), "utf8")).toBe("pinned");
 });
