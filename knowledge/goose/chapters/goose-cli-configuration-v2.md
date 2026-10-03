@@ -20,7 +20,7 @@ sections:
     source_refs: [ref-goose-allowlist-doc, ref-goose-config-env-enterprise, ref-goose-config-src-cli-flags, ref-goose-config-src-cli-serve, ref-goose-config-src-permission-corrupt, ref-goose-config-src-permission-file, ref-goose-perms-doc-tool]
   - section_id: config-defaults
     surface_ids: [cli]
-    source_refs: [ref-goose-config-doc-settings, ref-goose-config-src-defaults, ref-goose-config-src-extdefaults, ref-goose-config-src-first-time-mode, ref-goose-config-src-goose-mode-default, ref-goose-config-src-goose-mode-strict, ref-goose-config-src-init, ref-goose-config-src-migration-platform, ref-goose-config-src-migration-provider, ref-goose-config-src-migrations, ref-goose-config-src-mode-dialog, ref-goose-mcp-src-sse]
+    source_refs: [ref-goose-config-doc-settings, ref-goose-config-src-defaults, ref-goose-config-src-extdefaults, ref-goose-config-src-first-time-mode, ref-goose-config-src-goose-mode-default, ref-goose-config-src-goose-mode-strict, ref-goose-config-src-init, ref-goose-config-src-migration-platform, ref-goose-config-src-migration-provider, ref-goose-config-src-migrations, ref-goose-config-src-mode-dialog, ref-goose-config-src-mode-first-time-tests, ref-goose-mcp-src-sse]
   - section_id: config-diagnostics
     surface_ids: [cli]
     source_refs: [ref-goose-config-doc-configure, ref-goose-config-doc-security, ref-goose-config-doc-updating, ref-goose-config-src-all-values, ref-goose-config-src-cli-info, ref-goose-config-src-doctor, ref-goose-config-src-getparam, ref-goose-config-src-info-check, ref-goose-config-src-info-check-exit, ref-goose-config-src-info-check-ok, ref-goose-config-src-info-verbose, ref-goose-config-src-mode-dialog, ref-goose-config-src-pathroot, ref-goose-config-src-secret]
@@ -54,7 +54,7 @@ questions:
       - surface_ids: [cli]
         section_id: config-defaults
         status: answered
-        source_refs: [ref-goose-config-doc-settings, ref-goose-config-src-defaults, ref-goose-config-src-extdefaults, ref-goose-config-src-first-time-mode, ref-goose-config-src-goose-mode-default, ref-goose-config-src-goose-mode-strict, ref-goose-config-src-init, ref-goose-config-src-migration-platform, ref-goose-config-src-migration-provider, ref-goose-config-src-migrations, ref-goose-config-src-mode-dialog, ref-goose-mcp-src-sse]
+        source_refs: [ref-goose-config-doc-settings, ref-goose-config-src-defaults, ref-goose-config-src-extdefaults, ref-goose-config-src-first-time-mode, ref-goose-config-src-goose-mode-default, ref-goose-config-src-goose-mode-strict, ref-goose-config-src-init, ref-goose-config-src-migration-platform, ref-goose-config-src-migration-provider, ref-goose-config-src-migrations, ref-goose-config-src-mode-dialog, ref-goose-config-src-mode-first-time-tests, ref-goose-mcp-src-sse]
   - question_id: config.migration
     answers:
       - surface_ids: [cli]
