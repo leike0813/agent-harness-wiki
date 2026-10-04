@@ -89,7 +89,11 @@ export async function buildSitePages(options: {
     const genericSidebar = [
       {
         text: "开始阅读",
-        items: [catalog, { text: "阅读指南", link: "/reading-results" }],
+        items: [
+          catalog,
+          { text: "阅读指南", link: "/reading-results" },
+          { text: "MCP 配置", link: "/mcp-configuration" },
+        ],
       },
     ];
     const sidebar: Record<string, unknown> = { "/": genericSidebar };
@@ -112,7 +116,7 @@ export async function buildSitePages(options: {
           "查阅不同 Agent 产品的 Skills、MCP、Hooks 与配置机制。每篇章节保留固定来源、适用范围和调查缺口。",
         actions: [
           { theme: "brand", text: "浏览产品", link: "#products" },
-          { theme: "alt", text: "阅读指南", link: "/reading-results" },
+          { theme: "alt", text: "配置 MCP", link: "/mcp-configuration" },
         ],
       },
       portal: {
@@ -123,7 +127,10 @@ export async function buildSitePages(options: {
         summary,
       },
     });
-    pages.set("docs/index.md", "<KnowledgePortal />\n");
+    pages.set(
+      "docs/index.md",
+      "<!--@include: ./mcp-configuration.md#online-mcp-->\n\n<KnowledgePortal />\n",
+    );
     frontmatter.set("docs/catalog.md", {
       layout: "page",
       title: "产品目录",
@@ -199,6 +206,14 @@ export async function buildSitePages(options: {
       title: "阅读指南",
       breadcrumbs: [home, { text: "阅读指南" }],
     });
+    pages.set(
+      "docs/mcp-configuration.md",
+      await readFile(path.join(project, "docs/mcp-configuration.md"), "utf8"),
+    );
+    frontmatter.set("docs/mcp-configuration.md", {
+      title: "MCP 配置",
+      breadcrumbs: [home, { text: "MCP 配置" }],
+    });
     const fixture =
       knowledge.profile === "fixture"
         ? "> Fictional fixture data. 虚构测试数据。\n\n"
@@ -227,6 +242,7 @@ export async function buildSitePages(options: {
           home,
           { ...catalog, activeMatch: "^/(catalog|harnesses|chapters)" },
           { text: "阅读指南", link: "/reading-results" },
+          { text: "MCP 配置", link: "/mcp-configuration" },
         ],
         sidebar,
         release: {

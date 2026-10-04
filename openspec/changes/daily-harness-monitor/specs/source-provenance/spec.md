@@ -40,3 +40,10 @@ Each captured original SHALL have a stable artifact ID, official source identity
 
 - **WHEN** an original that must be retained is absent, or its bytes differ from the recorded hash
 - **THEN** the audit fails and identifies the record instead of reporting a metadata-only status
+
+### Requirement: Shared coordinator ownership for isolated maintenance
+Parallel maintenance source workspaces SHALL be registered to the original project root and a long-lived coordinator PID, with unique workspace IDs recorded per task. Isolated candidate roots SHALL NOT become owning project identities. Investigation and independent review SHALL use the same fixed source identity. The coordinator SHALL wait for every worker and reviewer to stop before aggregate integration and round cleanup; waiting timeout SHALL NOT authorize removal of a still-used workspace or candidate.
+
+#### Scenario: Reviewer still reads a fixed source
+- **WHEN** investigation has finished but its reviewer is still using the source workspace
+- **THEN** the workspace and candidate remain retained until that reviewer stops

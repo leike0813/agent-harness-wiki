@@ -64,12 +64,30 @@ test.each(["/", "/wiki/"])(
     await verifyChapterRelease(releaseDir);
     const index = await readFile(path.join(output, "index.html"), "utf8");
     const catalog = await readFile(path.join(output, "catalog.html"), "utf8");
+    const mcpGuide = await readFile(
+      path.join(output, "mcp-configuration.html"),
+      "utf8",
+    );
     const knowledge = chapterPublishedKnowledgeSchema.parse(
       JSON.parse(
         await readFile(path.join(releaseDir, "knowledge.json"), "utf8"),
       ),
     );
     expect(index).toContain('lang="zh-CN"');
+    expect(index).toContain("在线 MCP 接入");
+    expect(index).toContain("mcpServers");
+    expect(index).toContain("agent-harness-wiki@1.0.0");
+    expect(index).toContain(
+      "https://leike0813.github.io/agent-harness-wiki/data/v1/",
+    );
+    expect(index).toContain(`href="${base}mcp-configuration"`);
+    expect(mcpGuide).toContain("本地完整历史 MCP");
+    expect(mcpGuide).toContain(
+      "/absolute/path/to/agent-harness-wiki/dist/cli/index.js",
+    );
+    expect(mcpGuide).toContain("list_harnesses");
+    expect(mcpGuide).toContain("--releases-root");
+    expect(mcpGuide).toContain(`href="${base}mcp-configuration"`);
     for (const harness of knowledge.records.harnesses)
       expect(index).toContain(
         `href="${base}harnesses/${harness.harness_id}/index"`,

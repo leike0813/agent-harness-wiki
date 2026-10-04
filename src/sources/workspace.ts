@@ -25,7 +25,7 @@ export type GitRun = (args: string[]) => Promise<string>;
 export interface SourceWorkspace {
   id: string;
   path: string;
-  /** Absent means the baseline is unavailable, so every topic needs review. */
+  /** Absent means the baseline is unavailable; assess impact from relevant entrypoints. */
   changedPaths?: string[];
   dispose(): Promise<void>;
 }
@@ -292,7 +292,7 @@ export async function createSourceWorkspace(input: {
           .filter(Boolean);
       } catch {
         // The baseline revision is gone from the remote: the change set is
-        // unknown, so every topic needs review rather than a narrowed one.
+        // unknown; the coordinator assesses relevant entrypoints before dispatch.
       }
     }
     return {

@@ -2,6 +2,17 @@
 
 ## MODIFIED Requirements
 
+### Requirement: Isolated maintenance workers and aggregate delivery
+Maintenance SHALL accept `role=coordinator|worker` with coordinator as default and `delivery=local|pr` with local as default. The coordinator SHALL pin observations before preparing independent product candidates and decide worker/reviewer concurrency. Workers SHALL edit only their candidate and return changes, completed and blocked questions, selection proposals, audits, review needs and workspace IDs. They SHALL NOT rescan, publish or refresh managed binaries. The coordinator SHALL generate a validated temporary merge, check before-values and integrate through native editing tools after all workers/reviewers stop. Stale product baselines and identity collisions SHALL reject the affected candidate while retaining valid completed products. Local delivery SHALL stage and publish once after aggregation; PR delivery SHALL leave reviewed Git changes. Managed package-set mutation SHALL remain separately locked and sequential.
+
+#### Scenario: Two products update shared selections
+- **WHEN** isolated workers select new editions for two products
+- **THEN** the coordinator merges both product/topic selections and preserves all other selections
+
+#### Scenario: One worker has a half-written file
+- **WHEN** one candidate contains incomplete YAML while another is finished
+- **THEN** the finished candidate can validate independently and the incomplete candidate is not integrated
+
 ### Requirement: Automatic completed-content publication
 A manually invoked update SHALL validate changed chapter editions, source references, version mappings and release artifacts, then create and select a new immutable local release for completed reader-visible changes without a human acceptance gate. A blocked question or source SHALL retain its previous published chapter scope and pending audit; other completed chapters MAY publish. A failure SHALL leave the previous current release selected. A delegated pull-request delivery round SHALL instead stop after investigation, self-check, audit and report: it SHALL NOT select a new release, change the current pointer or run the local publication commands, and it SHALL NOT require a maintainer publication step once the request is merged.
 

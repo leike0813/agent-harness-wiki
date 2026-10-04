@@ -406,7 +406,7 @@ export function mapAuditImpacts(
       ],
       source_refs,
       cross_topic_links,
-      reason: `${ownChanges.map((check) => check.source_id).join(", ")}: ${unbounded ? "shared or unknown impact; investigate all themes" : "cited source changed"}`,
+      reason: `${ownChanges.map((check) => check.source_id).join(", ")}: ${unbounded ? "shared or unknown impact; assess relevant entrypoints" : "cited source changed"}`,
     });
   }
   return result;
@@ -420,6 +420,7 @@ type ScanOptions = {
   now?: () => Date;
 };
 
+/** Candidate signal for semantic triage, not an instruction to dispatch maintenance. */
 export type HarnessCheck = UpstreamAudit & { requires_maintenance: boolean };
 
 /** Read-only observations; no originals, audits or checkouts are written. */
@@ -610,16 +611,19 @@ async function collectHarnesses(
   return results;
 }
 
-export async function validateAuditLedger(rootInput: string): Promise<number> {
+export async function validateAuditLedger(
+  rootInput: string,
+  profile: "production" | "fixture" = "production",
+): Promise<number> {
   const root = await realpath(rootInput);
   const validated = await loadAndValidateDataset({
     root,
-    profile: "production",
+    profile,
   });
-  if (!validated.ok) throw new Error("Production dataset is invalid.");
+  if (!validated.ok) throw new Error("Audit dataset is invalid.");
   const chapterDataset = await loadAndValidateChapters({
     root,
-    profile: "production",
+    profile,
   });
   const hasChapters = await lstat(
     path.join(root, "registry/chapter-current.yaml"),

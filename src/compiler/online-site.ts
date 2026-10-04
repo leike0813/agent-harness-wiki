@@ -256,6 +256,7 @@ export async function buildOnlineSite(
       "pnpm-lock.yaml",
       "site/package.json",
       "site/reading-results.md",
+      "docs/mcp-configuration.md",
       "site/.vitepress/config.mts",
       ...(await inventory(path.join(project, "site/.vitepress/theme"))).map(
         (file) => `site/.vitepress/theme/${file}`,

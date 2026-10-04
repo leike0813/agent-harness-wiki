@@ -19,7 +19,9 @@ Catalog 的 `references` 单独固定产品身份与界面关系：每条记录�
 
 ## 巡检与临时工作区
 
-巡检的只读观察与 `sources:scan` 共享同一基线和审计目录：`sources:check` 只输出每产品的 `checks`、`pending_audit_refs` 与 `requires_maintenance`，不写审计、不下载包字节、不创建 clone。落审计的仍是 `sources:scan` 或维护 Skill 写出的 Git 跟踪 YAML 与同名报告。
+巡检的只读观察与 `sources:scan` 共享同一基线和审计目录：`sources:check` 只输出每产品的 `checks`、`pending_audit_refs` 与 `requires_maintenance`，不写审计、不下载包字节、不创建 clone。`requires_maintenance` 和 `impacts` 是待判断的候选，不代表需要改写章节或重审所有主题。父进程固定本轮观察并写 Git 跟踪的审计 YAML 与必要的同名报告；来源有变化而知识无需更新时，清空已解决问题，填写 `reviewed_by`、`reviewed_at` 标为 `reviewed`，在 `investigation_notes` 记录理由。未解决来源和问题保持 blocked/pending，不能通过结案新审计间接关闭它引用的未完成审计。
+
+维护候选是临时的单产品 dataset：catalog 只包含该产品及引用，registry 只包含其身份和来源，knowledge、当前章节选择与 audits 也按产品裁剪。`maintenance:candidates` 在候选之外保留基线副本，检查文件路径、记录归属、引用和审计关系，生成与当前真源合并的临时结果及 before/after 清单。合并按产品及产品 × 主题进行，不用裁剪文件覆盖全库 catalog 或选章；基线变化及全局 ID 冲突拒绝相关产品。候选没有发布身份，不供 CLI/MCP 读取。
 
 来源工作区是项目之外的临时 pinned checkout，固定到观察到的精确提交，按长期存活的任务 PID 登记 owner，完成调查和复核后关闭；`monitor:session start` 回收本项目死亡 owner 的残留，`sources:workspace recover` 也可显式回收。临时路径只用于运行上下文，不进入知识真源或 Git 审计。
 

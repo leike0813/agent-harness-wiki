@@ -16,11 +16,11 @@
 
 用户手动调用维护 Skill（默认 `$harness-maintenance <harness-id>...`）时先运行 `pnpm sources:scan <harness-id>...`，逐个观察登记来源。扫描是元数据优先的：Git 源用 `ls-remote` 取精确 HEAD 和默认分支 ref；官方文档取固定字节并算 sha256；npm 源只读 registry 元数据里的 `dist-tags.latest` 与对应版本 integrity，不下载包字节。三类身份各自与上次基线比对，互不证明：新包版本只是线索，不能说明章节改变，也不能说明某个源码提交对应到这个包。读源码或文档原件时走 `pnpm sources:workspace open --source-id ... --commit ... --owner-pid ...`，在项目外的临时 pinned checkout 读取、读完 `close`、残留按 owner PID `recover`；官方文档原件按保留策略留在忽略归档，源码只留 `git_source_file` 的提交、文件与内容 hash。包字节由受管环境流程另行获取。ID 模式每一轮还会另行调用 `harness-binary` 核对受管二进制最新版本；定向模式只在维护者明确要求时核对。
 
-`pnpm sources:check` 是与扫描同基线的只读入口，供每日巡检使用：它输出每个产品的 `checks`、`pending_audit_refs` 与 `requires_maintenance`，不写审计、不下载包字节、不创建 clone。落审计的仍是 `sources:scan` 或维护 Skill 写出的 YAML 与报告。
+`pnpm sources:check` 是与扫描同基线的只读入口，供每日巡检使用：它输出每个产品的 `checks`、`pending_audit_refs` 与 `requires_maintenance`，不写审计、不下载包字节、不创建 clone。`requires_maintenance` 与自动 `impacts` 是候选信号，父进程需对照实际内容、固定问题与来源定位判断必要性。父进程在派发前固定观察与必要原件，worker 直接使用输入，不重复扫描。
 
 每次调用为每个 Harness 写一份 Git 跟踪的审计 YAML `audits/<harness-id>/<audit-id>.yaml`，未变化和失败来源一并记录。`checks` 逐来源给出 `baseline`、`observed`、`status`（`unchanged`、`changed`、`blocked`）和错误；扫描把引用落在受影响小节的当前章节映射成 `impacts` 的 `question_ids`、`section_ids`、`surface_ids`、`source_refs` 与 `cross_topic_links`，npm 版本变化不进章节影响。`pnpm sources:audit-log` 校验审计资产、来源种类与当前章节一致。
 
-未处理完的审计保持 `review_status: pending`，并在后续扫描的 `pending_audit_refs` 里逐轮传递，直到被调查完并写入 `reviewed_by`、`reviewed_at` 标为 `reviewed`；`no_change` 审计直接记 `not_required`。任一来源失败时该来源记 `blocked`、保留上次成功基线，其他来源照常记录，扫描命令以非零退出码结束但不覆盖已写内容。恢复时先处理 `pending_audit_refs` 指出的旧审计，再逐条调查本次 `changed`、`blocked` 项；没有读者可见影响时该轮只结案审计，不切换发布。
+未处理完的审计保持 `review_status: pending`，并在后续扫描的 `pending_audit_refs` 里逐轮传递，直到被调查完并写入 `reviewed_by`、`reviewed_at` 标为 `reviewed`；`no_change` 审计直接记 `not_required`。任一来源失败时该来源记 `blocked`、保留上次成功基线，其他来源照常记录，扫描命令以非零退出码结束但不覆盖已写内容。恢复时读取旧审计中未完成的问题，再判断本轮变化和失败是否有可执行入口。版本元数据、无关代码或排版变化无知识影响时记录理由并结案，未验证软件版本仍保持未验证；无修复线索的来源失败保持 blocked，相同阻塞没有新证据不重复任务。新审计引用未完成旧审计时不能标 reviewed，以免间接关闭未完成工作。没有读者可见影响时不切换发布。
 
 下面是一份 Pi Skills 审计的节选，`question_ids`、`section_ids` 和 `source_refs` 都取自当前 Pi 章节：
 
@@ -73,15 +73,15 @@ investigation_notes: []
 
 Git 中的章节 Markdown、来源引用 YAML、版本映射 YAML 与 `registry/chapter-current.yaml` 是知识真源。编译器从同一份输入生成 JSON、SQLite 与站点 Markdown，在 staging 中核对 hash、数据库和页面后保存不可变发布。手动增量调用 `pnpm chapters:update` 选入已完成内容、校验 staging 并切换 `releases/current.json`；首次发布仍可用 `pnpm ahw compile ... --stage` 和 `pnpm ahw publish --release-id <id>`。运行中的 MCP 进程固定启动时选定的发布，切换指针后需要重启才会读取新版本。
 
-由每日巡检委派的 `delivery=pr` 轮次到审计与报告为止：改动留在工作区交回巡检，不选新版本、不切换 `releases/current.json`，也不调用 `harness-binary`。PR 合并到 `main` 后的对外发布由既有发布 CI 处理，受管二进制是独立流程，不会被合并触发。
+由每日巡检委派的 `role=worker delivery=pr` 轮次到候选、审计与报告为止：在单产品候选中更新选章清单，交回父进程合并，不切换 `releases/current.json`，也不调用 `harness-binary`。主 Agent 自行决定各产品及独立 reviewer 的并行规模，每产品一个 writer；用 `maintenance:candidates` 校验隔离候选并生成临时合并，核对 before 后通过内置编辑工具集成。相关基线变化或 ID 冲突保留该产品，其余已完成主题继续。手动 local 也使用此流程，coordinator 聚合发布一次，ID 模式的受管包集操作按已有锁逐个执行。PR 合并到 main 后由既有 CI 发布。
 
 旧 `claims/`、`evidence/`、`assessments/`、`coverage/` 与 `guides/` 保留为调查材料，不由新查询接口读取，也不作为新章节的人工接受门禁。完成内容由调查 Agent 引用固定来源自检后直接采纳；只有来源冲突、推翻已发布配置步骤或跨主题关键机制变化才请另一 Agent 独立复核，复核未完成的问题保留在待处理状态，其他已完成章节仍可发布，依据见 [PRD](PRD.md) 第 7 节。查询不会联网、执行 harness 或调用 LLM。
 
 ## 每日巡检
 
-`harness-monitor` 每天 02:00（`Asia/Shanghai`，宽限 60 分钟）在编排工具管理的专用 worktree 中开一个全新会话，观察范围是 catalog 与 registry 的交集，即有登记来源的已登记产品。互斥由巡检主进程持有的 PID 锁实现，没有守护进程：`start` 清掉上一次遗留的临时输出后取得锁，来源工作区残留用显式 `sources:workspace recover` 回收，正常路径由 `finish` 释放并清理。主会话模型由项目 `.codex/config.toml` 决定；子代理模型必须作为显式参数传入 `minimax-cn/MiniMax-M3.1-Flash-Preview`，不由配置隐式继承，也不继承编排协调方的模型，委派串行进行。
+`harness-monitor` 每天 02:00（`Asia/Shanghai`，宽限 60 分钟）在编排工具管理的专用 worktree 中开一个全新会话，观察范围是 catalog 与 registry 的交集，即有登记来源的已登记产品。互斥由巡检主进程持有的 PID 锁实现，没有守护进程：`start` 接管死亡 owner 并取得锁，正常路径由 `finish` 释放并清理。主会话模型由项目 `.codex/config.toml` 决定；子代理模型必须作为显式参数传入 `minimax-cn/MiniMax-M3.1-Flash-Preview`，主 Agent 决定并行规模。
 
-每个需要处理的产品（有变化来源或未结案审计）只委派一次维护。交付单位是一个持续到合并为止的滚动 pull request：PR 合并前，每日轮次切回同一分支、普通合并 `origin/main` 后继续提交；PR 内同一产品 × 主题只保留一个候选，当天的新变化修订该候选而不追加第二个 edition，也不顺延或丢弃。`knowledge:validate`、`sources:audit-log`、`git diff --check`、`verify` 与在线构建校验全部通过才推送，任一失败只保留本地提交与报告；本轮无变化时不推送。合并按普通合并处理，不 force、不 rebase 已推送分支。收尾在 `finish` 时清理本轮自有来源工作区与验证输出：源码读取是临时的，官方文档原件、章节文档、来源元数据、审计与报告保留。调度参数与启用顺序见 [自动化](automations.md) 与 [ADR 0012](decisions/0012-daily-harness-monitor.md)。
+每个有实质更新线索或可执行未完成问题的产品至多委派一次维护；影响不明先检查相关入口，按证据扩大到相关问题。交付单位是持续到合并的滚动 PR：每日轮次普通合并 `origin/main` 后继续提交，PR 内同一产品 × 主题一个候选，新变化修订它。知识、审计、diff、完整验证与在线构建校验全过才推送；失败保留本地成果，无新增成果不推送。全部 worker/reviewer 确认停止后才关闭原项目与 owner PID 名下的源码工作区、写最近报告并 `finish`；超时不代表停止。官方文档原件、章节、来源元数据、审计与报告保留。调度参数见 [自动化](automations.md) 与 [ADR 0012](decisions/0012-daily-harness-monitor.md)。
 
 ## 在线投影与保留接缝
 

@@ -50,6 +50,8 @@ pnpm docs:build --release-id catalog-surfaces-20260930-v1
 
 文档站首页支持按产品名称、ID 和别名筛选，进入产品概览后选择主题阅读。章节提供产品侧栏、页内目录和固定来源链接；顶部搜索在浏览器中检索当前章节，支持中文分词。站点支持手机布局与深色模式。构建后可用 `pnpm --dir site exec vitepress preview . --port 4173` 预览，主题维护见 [开发指南](docs/development.md)。
 
+MCP 宿主可选择读取远程在线发布，或读取本地完整历史 release。配置示例、数据边界和重启说明见 [MCP 配置指南](docs/mcp-configuration.md)；在线消费者包说明见 [消费者包文档](packages/consumer/README.md)。
+
 在线知识分发是另一条能力线：从同一份已校验真源生成 `data/v1/` 静态资源和同发布站点页面，每个产品 × 主题只收录当前章与最近一个历史版，其余章节退为裁剪标记，检索只有词法入口。构建需要干净真源、指定 Git commit 的完整 first-parent 历史与锁定工具，不依赖本地 release、`archive/` 原件、SQLite 或语义模型：
 
 ```sh
@@ -73,23 +75,10 @@ npx -y agent-harness-wiki@1.0.0 mcp
 
 默认入口 `https://leike0813.github.io/agent-harness-wiki/data/v1/` 已部署，数据、来源和同发布页面已通过公开回读；`--data-url` 只覆盖同协议镜像，`--offline` 只读同一入口／协议下最近一次成功初始化的必需缓存，`--cache-dir` 指定目录，`--no-file-cache` 关闭文件缓存读写。缓存默认目录：Linux 有效绝对 `$XDG_CACHE_HOME/agent-harness-wiki`（无效时 `~/.cache/agent-harness-wiki`）、macOS `~/Library/Caches/agent-harness-wiki`、Windows `%LOCALAPPDATA%\agent-harness-wiki\Cache`（无效时 `%USERPROFILE%\AppData\Local\agent-harness-wiki\Cache`）。消费者检索只有词法入口；每个产品 × 主题只保留当前章与最近一个历史版，选中被裁剪章节返回正常 `history_not_available`，完整历史需单独准备本地发布。在线发布本身也只保留 current 与最近一个已验证的恢复目标，更早的发布退出在线后绑定它的进程可能须重启，缓存不保证完整离线读取。
 
-MCP 宿主配置指向 npx 并固定精确程序版本：
-
-```json
-{
-  "mcpServers": {
-    "agent-harness-wiki": {
-      "command": "npx",
-      "args": ["-y", "agent-harness-wiki@1.0.0", "mcp"]
-    }
-  }
-}
-```
-
 生产搜索发布使用本机 Ollama 的 `qwen3-embedding:4b`；模型 digest 固定在 `registry/search-model.json`。构建和查询不会下载模型。搜索只覆盖当前章节小节，返回命中原因、正文片段、来源范围及 `semantic_status`；本机模型不可用时显示 `semantic_unavailable` 并继续词法搜索。语义相似度只表示相关性，章节的软件版本仍由 `topic` 查询的映射决定。
 
 新增章节时按 [成稿规则](docs/topic-questions.md) 写路径、配置文件示例、处理链、检查方式与固定来源，再用 [开发指南](docs/development.md) 中的 staging 编译和发布命令；已发布的 release ID 不可重用。
 
-查询侧不提供自动配置管理，也不联网调查或生成答案。维护侧可通过 [harness-monitor](.agents/skills/harness-monitor/SKILL.md) 定时检查来源，串行委派维护并汇总滚动 PR；合入 main 后由现有 CI 发布。源码使用项目外临时检出，文档原件继续归档；设置与启用见 [自动化指南](docs/automations.md)。真实产品的源码、文档及 npm 包版本可能不同步。开发流程见 [开发指南](docs/development.md)。
+查询侧不提供自动配置管理，也不联网调查或生成答案。维护侧可通过 [harness-monitor](.agents/skills/harness-monitor/SKILL.md) 定时检查来源，由主 Agent 按产品评估并行规模，在隔离候选目录中委派维护，校验后汇总滚动 PR；合入 main 后由现有 CI 发布。源码使用项目外临时检出，文档原件继续归档；设置与启用见 [自动化指南](docs/automations.md)。真实产品的源码、文档及 npm 包版本可能不同步。开发流程见 [开发指南](docs/development.md)。
 
 代码采用 MIT，原创知识与文档采用 CC BY 4.0，第三方来源摘录保留其原有权利，见 [LICENSE](LICENSE)、[LICENSE-knowledge](LICENSE-knowledge) 与 [NOTICE](NOTICE)。

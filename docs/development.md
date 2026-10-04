@@ -100,17 +100,34 @@ OpenCode 1.18.33 曾因候选锁文件生成阶段的 registry 超时被阻塞�
 ```sh
 pnpm sources:check                                            # 只读观察，与 sources:scan 共享基线
 pnpm sources:workspace open --source-id <id> --commit <40 位 SHA> --owner-pid <pid>
-pnpm sources:workspace close <source-id>
-pnpm sources:workspace recover --owner-pid <pid>
-pnpm monitor:session start                                    # 取得 PID 锁，返回 id、report、tempRoot
-pnpm monitor:session finish
+pnpm sources:workspace close <workspace-id>
+pnpm sources:workspace list --owner-pid <pid>
+pnpm sources:workspace recover
+pnpm monitor:session start --owner-pid <pid>                    # 取得 PID 锁，返回 id、reportPath、tempRoot
+pnpm monitor:session finish <session-id>
 ```
 
-- 读 Git 源码或文档原件走 `sources:workspace`，不手工 clone 进仓库，也不散落在临时目录。`open` 固定到观察到的精确提交，`close` 读完即关，`recover` 只回收本 PID 锁登记过的条目；checkout 位于项目之外，临时路径不写进任何记录。
+- 读 Git 源码走 `sources:workspace`，官方文档读取归档候选。`open` 固定到观察到的精确提交；给 `--baseline` 时可返回 changed_paths，缺少差异时先限定相关入口。工作区以原项目根目录与长期存活 owner PID 登记，候选目录不是归属项目。调查与独立复核全部完成后按唯一 workspace ID 关闭；`recover` 只回收本项目死亡 owner 的条目。临时路径不写进知识记录。
 - 引用原件用 `git_source_file`（`commit`、`file`、`content_sha256`），不写 checkout 路径。`archive_path` 只指向长期保留位置：Git catalog 引用必须带精确 revision，归档路径可选；官方文档快照必须带它。
 - `sources:check` 与 `sources:scan` 读同一基线，前者不写审计、不下载包字节、不创建 clone。核对方式是跑一次前后 `git status` 相同。
 - 巡检轮次是 `delivery=pr`：不运行 `pnpm ahw publish`，不调用 `harness-binary`。PR 合并到 `main` 后的对外发布由既有发布 CI 处理，不需要补做本地发布；受管二进制是独立流程，合并也不会触发它。
 - 互斥通过 `var/harness-monitor/session.sqlite` 中的事务记录 owner PID。`start` 拒绝活跃 owner，接管死亡 owner 时释放其临时输出并回收本项目死亡 owner 的源码工作区。正常收尾先关闭本轮源码工作区、保存最近一次报告，再用 `finish` 释放运行锁与构建临时目录。
-- 收尾只清理本轮登记的来源工作区与验证输出，在 `finish` 时完成。官方文档原件按既有策略留在忽略归档；章节文档、来源元数据、审计与报告永久保留；巡检不接管二进制与完整日志。不承诺固定峰值占用。
+- 收尾先确认所有 worker/reviewer 已停止，超时不代表停止；只清理本轮登记的来源工作区与验证输出，在 `finish` 时完成。官方文档原件按既有策略留在忽略归档；章节文档、来源元数据、审计与报告永久保留；巡检不接管二进制与完整日志。不承诺固定峰值占用。
 - 交付单位是一个持续到合并的滚动 PR：PR 合并前每日切回同一分支、普通合并 `origin/main` 后继续提交。PR 内同一产品 × 主题只有一个候选，新变化修订它，不追加第二个 edition，也不顺延或丢弃。
 - 主会话模型由 `.codex/config.toml` 决定；子代理模型必须作为显式参数传入 `minimax-cn/MiniMax-M3.1-Flash-Preview`，不由配置隐式继承，也不继承编排协调方的模型。启用前确认上述命令已在 `main` 可用、两个模型都能被原生 subagent 工具选中，再手动触发一次整链验证后打开每日调度。
+
+### 并行维护候选
+
+父进程完成观察与必要性判断后，为需要维护的产品准备新的临时 batch，输出目录必须在项目外或忽略的 `var/` 内，不能覆盖已有输出：
+
+```sh
+pnpm maintenance:candidates prepare --root . --out <新的临时 batch 目录> <harness-id>...
+pnpm maintenance:candidates check --candidate <产品候选根目录>
+pnpm maintenance:candidates plan --batch <batch> --out <新的临时合并目录> <已完成的产品 id>...
+```
+
+`prepare` 返回 `batch` 与 `candidates: [{harness_id, root}]`；每个 root 是完整、独立的单产品 dataset，不包含归档原件或源码。主 Agent 自行决定 worker/reviewer 的并行规模，每产品一个 writer。worker 只编辑自己的候选，用 `check` 检查路径归属、知识引用和审计；不重新扫描、不操作发布指针或受管包集。原件仍按原项目与 owner PID 管理。
+
+全部使用者确认停止后，`plan` 合并指定完成产品，返回 `root`、`accepted`、`rejected: [{harness_id, reason}]`、`changes: [{path, before, after}]`。它只新建临时合并 dataset，不改真源；按产品合并 catalog 与产品 × 主题选章，保留其他产品及当前未提交变化。相关基线变化、范围越界或全局 ID 冲突拒绝该产品，其余完成内容继续。父进程读完整改动，核对实际文件仍等于 `before`，再用内置编辑工具集成；有变化则重做计划。之后统一校验，手动 local 一次 staging/publish，PR 只交付 Git 改动。
+
+业务回归验证使用 `pnpm exec vitest run tests/integration/maintenance-candidates.test.ts`，覆盖并行产品、共享文件、半成品隔离、冲突保留、无变化和范围边界。MCP 宿主接入示例见 [配置指南](mcp-configuration.md)。

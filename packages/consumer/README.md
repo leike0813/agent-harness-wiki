@@ -21,21 +21,21 @@ npx -y agent-harness-wiki@1.0.0 --help
 
 ## 启动参数
 
-| 参数 | 作用 |
-|---|---|
-| `--data-url <URL>` | 覆盖默认数据入口，只用于同协议镜像 |
-| `--offline` | 不发起网络请求，只读同一入口／协议下最近一次成功初始化的必需缓存 |
-| `--cache-dir <目录>` | 显式缓存目录，按调用工作目录解析并优先于平台默认 |
-| `--no-file-cache` | 关闭文件缓存读写，进程内缓存仍可用 |
+| 参数                 | 作用                                                             |
+| -------------------- | ---------------------------------------------------------------- |
+| `--data-url <URL>`   | 覆盖默认数据入口，只用于同协议镜像                               |
+| `--offline`          | 不发起网络请求，只读同一入口／协议下最近一次成功初始化的必需缓存 |
+| `--cache-dir <目录>` | 显式缓存目录，按调用工作目录解析并优先于平台默认                 |
+| `--no-file-cache`    | 关闭文件缓存读写，进程内缓存仍可用                               |
 
 启动参数可放在子命令前或后。默认在线并启用文件缓存。默认入口是 `https://leike0813.github.io/agent-harness-wiki/data/v1/`；入口不可达时按网络失败报告。
 
 ## 缓存目录
 
-| 平台 | 默认目录 |
-|---|---|
-| Linux | 有效绝对 `$XDG_CACHE_HOME/agent-harness-wiki`；未设置、为空或相对时用 `~/.cache/agent-harness-wiki` |
-| macOS | `~/Library/Caches/agent-harness-wiki` |
+| 平台           | 默认目录                                                                                                            |
+| -------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Linux          | 有效绝对 `$XDG_CACHE_HOME/agent-harness-wiki`；未设置、为空或相对时用 `~/.cache/agent-harness-wiki`                 |
+| macOS          | `~/Library/Caches/agent-harness-wiki`                                                                               |
 | Windows native | 有效绝对 `%LOCALAPPDATA%\agent-harness-wiki\Cache`；无效时用 `%USERPROFILE%\AppData\Local\agent-harness-wiki\Cache` |
 
 目录内按规范化数据入口、协议、发布和资源位置分隔。内存内容上限 32 MiB，文件内容目标 128 MiB 并按最近最少使用回收；这是软上限，不是严格磁盘配额。`--offline` 只保证已缓存资源，容量回收后可能缺资源，它不是完整知识副本。
@@ -62,18 +62,7 @@ npx -y agent-harness-wiki@1.0.0 --help
 
 ## MCP 接入
 
-宿主配置指向 npx 并固定精确程序版本与 `mcp` 子命令，不自动改写宿主配置：
-
-```json
-{
-  "mcpServers": {
-    "agent-harness-wiki": {
-      "command": "npx",
-      "args": ["-y", "agent-harness-wiki@1.0.0", "mcp"]
-    }
-  }
-}
-```
+在线与本地 MCP 宿主配置、默认数据入口及完整历史选项见[仓库 MCP 配置指南](https://github.com/leike0813/agent-harness-wiki/blob/main/docs/mcp-configuration.md)。在线服务使用固定版本的 `npx` 配置；本地服务使用仓库编译后的 CLI 和本地 release。
 
 服务恰好暴露 `list_harnesses`、`get_topic`、`search_knowledge`、`compare_topics`、`get_source` 五个只读工具，不暴露 Resources、Prompts 或写工具。响应内容上限 128 KiB，来源摘录最多 2000 字符；整章超限返回 `response_too_large` 与小节索引，每个小节仍可单独完整读取。
 
