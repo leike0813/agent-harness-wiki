@@ -1,0 +1,76 @@
+schema_version: 2
+audit_id: audit-claude-code-20261004t061205z
+harness_id: claude-code
+checked_at: 2026-10-04T06:12:55.808Z
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-claude-code-npm
+    kind: npm_registry
+    checked_at: 2026-10-04T06:12:54.489Z
+    status: changed
+    baseline: 2.1.288@sha512-tnc8XuK5xQkyE6oowhhSPIjLuNc0S3MkjIHqycDsKP6yJlLtIjMt6v1TOkYLUiumcZ9jOgJZ6h9Vn3/f0murdQ==
+    observed: 2.1.289@sha512-RQWjAlalf9aomgI3JaXDCdFPvmNVnRdjwMtYk5L+Lw1NWxCxbhY5T9F+w1xukqvJh/I2rR2+3hICZxhk0al1nA==
+  - source_id: source-claude-code-skills-doc
+    kind: official_documentation
+    checked_at: 2026-10-04T06:12:54.490Z
+    status: changed
+    baseline: efdc415213d82e2aefd6f144f78b3d806fec595a89ff4e5cd0a7a665a11d2a70
+    observed: acdf96599200090206dd21327022aa58b21e23dfebdaffaa974b2fdb25077e00
+    resolved_url: https://code.claude.com/docs/en/skills.md
+  - source_id: source-claude-code-mcp-doc
+    kind: official_documentation
+    checked_at: 2026-10-04T06:12:54.491Z
+    status: unchanged
+    baseline: df42327c1ca56cc7c921fdf8ba317a903e652d0c11dd5a77963e74400ddf0c0c
+    observed: df42327c1ca56cc7c921fdf8ba317a903e652d0c11dd5a77963e74400ddf0c0c
+    resolved_url: https://code.claude.com/docs/en/mcp.md
+  - source_id: source-claude-code-configuration-doc
+    kind: official_documentation
+    checked_at: 2026-10-04T06:12:54.492Z
+    status: unchanged
+    baseline: 41ea72eb329492a8530f2d4730b093e930151422003f161656297e44cecbf074
+    observed: 41ea72eb329492a8530f2d4730b093e930151422003f161656297e44cecbf074
+    resolved_url: https://code.claude.com/docs/en/settings.md
+impacts:
+  - topic: skills
+    question_ids:
+      - skills.invocation
+      - skills.conditions
+    section_ids:
+      - skills-invocation
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-cc-skills-invocation-20261003
+      - ref-cc-skills-invocation-20261004
+      - ref-cc-skills-permissiontable-20261004
+      - ref-cc-skills-nameposition-20261004
+      - ref-cc-skills-lifecycle-20261003
+      - ref-cc-skills-arguments-20261003
+      - ref-cc-skills-injection-20261003
+      - ref-cc-skills-injectionfail-20261003
+      - ref-cc-skills-permissions-20261003
+      - ref-cc-skills-managedperm-20261003
+      - ref-cc-skills-subagent-20261003
+      - ref-cc-skills-subagenttools-20261003
+      - ref-cc-skills-restrict-20261003
+      - ref-cc-skills-restrictnested-20261003
+      - ref-cc-skills-overrides-20261003
+      - ref-cc-skills-pluginoverride-20261003
+      - ref-cc-skills-syncedbody-20261003
+      - ref-cc-skills-livechange-20261003
+    cross_topic_links: []
+    reason: https://code.claude.com/docs/en/skills.md 相对已归档原件（efdc4152）出现 17 行实质差异：新增小节「Where you write the skill's name」说明把技能名放在消息开头才会直接运行、放在普通文本中只构成当轮许可而不直接运行；并把 disable-model-invocation 的权限对照表由「No」改为「Not on its own」、加载时机由「when you invoke」改为「when invoked」。两者都改变技能调用的条件与语法答案。
+pending_question_ids: []
+investigation_notes:
+  - 本轮协调者语义 triage 结论：maintain。已交回隔离候选做定向维护。
+  - 本轮 source-claude-code-skills-doc 的 observed 哈希 acdf9659 与维护 Agent 独立抓取 https://code.claude.com/docs/en/skills.md 的内容哈希一致，已逐行 diff 确认差异仅限上述调用语法小节与 disable-model-invocation 措辞。
+  - 复抓原件按契约登记为 artifact-claude-code-skills-doc-20261004 与 snapshot-claude-code-skills-doc-20261004，version_applicability 仍为 unknown；页面未标注版本，因此新增的调用语法只作机制结论，未落到任何精确包版本。
+  - skills.invocation 的答案已按新措辞改写：disable-model-invocation 拦的是 Claude 自行调用，描述不进其上下文，但用户在消息中点名仍可使 Claude 在该轮运行。
+  - skills.conditions 仍为 partial：新增的技能名位置规则补上了一个语法条件，但官方页未标注适用版本，2.1.283 精确版本的条件行为依旧未验证，故不升级状态。
+  - 遗留一致性问题：{#skills-format} 段落仍按未变动的 frontmatter 字段表把 disable-model-invocation 概括为「只有你能调用」，与本轮改写后的调用小节措辞不一致。该段落归属 skills.format 与 skills.extensions，本轮未交回这两个固定问题，故未改动，留待协调者决定是否另开定向维护。
+  - source-claude-code-npm 由 2.1.288@同一包升到 2.1.289，仅发布身份变化，不单独构成章节影响；受管包刷新仍属 harness-binary 职责。
+  - 本轮只交回 skills.invocation 与 skills.conditions，未重开 skills 的其他固定问题。
+previous_audit_id: audit-claude-code-0703d7d0-9805-406e-bad2-221090fd30ef

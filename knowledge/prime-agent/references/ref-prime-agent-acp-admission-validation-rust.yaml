@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-acp-admission-validation-rust
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-acp-session-new-rust
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/acp/daemon.rs
+  start: 866
+  end: 884
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+    let resolved =
+        match super::mcp::resolve_acp_mcp_servers(&params.mcp_servers, &options.actual_cwd) {
+            Ok(resolved) => resolved,
+            Err(reason) => {
+                *state.lock().await = DaemonAcpState::default();
+                let _ = tx.send(jsonrpc::error_response(
+                    &id,
+                    jsonrpc::INVALID_PARAMS,
+                    "Invalid params",
+                    Some(&json!({ "reason": reason })),
+                ));
+                return;
+            }
+        };
+    if let Err(details) = super::mcp::acp_mcp_tool_names(&resolved) {
+        *state.lock().await = DaemonAcpState::default();
+        let _ = tx.send(super::internal_error(&id, &details));
+        return;
+    }

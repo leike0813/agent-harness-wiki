@@ -1,0 +1,97 @@
+schema_version: 2
+audit_id: audit-codex-20261004t061205z
+harness_id: codex
+checked_at: 2026-10-04T06:13:06.304Z
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-codex-d41084bf-85cb-4e47-8c81-c18349ef1135
+checks:
+  - source_id: source-codex-repo
+    kind: git_repository
+    checked_at: 2026-10-04T06:13:03.823Z
+    status: changed
+    baseline: b741e480e203f037ca726bc2a76d99a8e8668e66
+    observed: b8dceb0d4f29e49e73daa08f57fcf5181186f354
+    remote_ref: refs/heads/main
+  - source_id: source-codex-cli-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-04T06:13:03.829Z
+    status: unchanged
+    baseline: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+    observed: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+    resolved_url: https://learn.chatgpt.com/docs/codex/cli.md
+  - source_id: source-codex-cli-npm
+    kind: npm_registry
+    checked_at: 2026-10-04T06:13:03.832Z
+    status: unchanged
+    baseline: 0.160.0@sha512-kEtVGzjRAYAMOwJxN39bGcna7LT3IDQgq64NNJ/dDTfu4OzZaocJcyNb5/gGJ/IVF/Vj7oK7E2m3nmTan7lpjg==
+    observed: 0.160.0@sha512-kEtVGzjRAYAMOwJxN39bGcna7LT3IDQgq64NNJ/dDTfu4OzZaocJcyNb5/gGJ/IVF/Vj7oK7E2m3nmTan7lpjg==
+  - source_id: source-codex-cli-skills-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-04T06:13:03.834Z
+    status: unchanged
+    baseline: d15791562748e64a53dfec534b8558aa522e732cec0fdedcf7257fa4ef486a20
+    observed: d15791562748e64a53dfec534b8558aa522e732cec0fdedcf7257fa4ef486a20
+    resolved_url: https://learn.chatgpt.com/docs/build-skills.md
+  - source_id: source-codex-cli-mcp-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-04T06:13:04.446Z
+    status: unchanged
+    baseline: adb28990c0c7be47b9ff6c177e3cdeae5803978935cd792f781af2c8b5643e92
+    observed: adb28990c0c7be47b9ff6c177e3cdeae5803978935cd792f781af2c8b5643e92
+    resolved_url: https://learn.chatgpt.com/docs/extend/mcp.md?surface=cli
+  - source_id: source-codex-cli-configuration-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-04T06:13:04.706Z
+    status: unchanged
+    baseline: 73242945d7891bc09bf95a39d83117025abd8eca61ae5707db38fda40db16d62
+    observed: 73242945d7891bc09bf95a39d83117025abd8eca61ae5707db38fda40db16d62
+    resolved_url: https://learn.chatgpt.com/docs/config-file/config-reference.md
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.defaults
+    section_ids:
+      - config-sources
+      - config-defaults-migration
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-config-user-doc
+      - ref-codex-cli-config-precedence-source
+      - ref-codex-cli-config-requirements-doc
+      - ref-codex-cli-config-migration-doc
+      - ref-codex-cli-config-deprecation-doc
+      - ref-codex-cli-config-requirements-features-doc
+      - ref-codex-cli-config-requirements-version-doc
+    cross_topic_links: []
+    reason: 维护复核结论为本轮无需修改章节。观察：提交 b8dceb0d 在既有 [tui] 段内新增 agents_overview_grouping（枚举 project/status/model，Rust 侧 Default 为 Project，见 codex-rs/config/src/types.rs:70-78 与 955-957），并新增 code_mode_only_strict_3p_tools 布尔开关（features/src/lib.rs:1140-1145，Stage UnderDevelopment、default_enabled false）；codex-rs/core/src/config/mod.rs:4577 同步以 unwrap_or_default() 解析。结论：按 config.sources 的口径（配置从哪些入口读取、路径如何确定），新键落在已记录的 config.toml 入口与既有 [tui] 表内，没有新增入口或路径解析规则；按 config.defaults 的口径（默认值、功能开关与平台差异从哪里来、如何在用户配置中改变），默认值机制（schema default 加 serde default，requirements.toml 以同名键钉住功能开关）未变。既有 config-defaults-migration 已按 partial 记录固定来源没有集中列出默认值来源、功能开关与平台差异的完整清单，补记两个键不关闭该缺口，且该章节既定粒度为机制级而非逐键枚举，因此不写入。
+  - topic: mcp
+    question_ids:
+      - mcp.capabilities
+    section_ids:
+      - mcp-lifecycle-exposure
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-mcp-options-doc
+      - ref-codex-cli-mcp-grace-config
+      - ref-codex-cli-mcp-required-config
+      - ref-codex-cli-mcp-transport-doc
+      - ref-codex-cli-mcp-exposure-config
+      - ref-codex-cli-mcp-instructions-budget-doc
+    cross_topic_links: []
+    reason: 维护复核结论为本轮无需修改章节。观察：b8dceb0d 为 McpHandler 新增 is_third_party_tool() 恒返回 true（codex-rs/core/src/tools/handlers/mcp.rs:311-313），与 registry.rs:80-84 的 trait 默认 false 及 DynamicToolHandler 的 true 一致；同时新增 Feature::CodeModeOnlyStrictThirdPartyTools。结论：该行为由 spec_plan.rs:190-196 的 code_mode_only_strict_3p_tools() 双重门控，需 effective_tool_mode 为 CodeModeOnly 且开关显式启用，而 code_mode 与 code_mode_only 同为 Stage UnderDevelopment 且 default_enabled false，默认配置下不生效。生效时 MCP 工具被置为 ToolExposure::Deferred 而非 Hidden，并保留 exec 路由以便仍可被发现（spec_plan.rs:584-596 与 873-876），所以 mcp.capabilities 所问的工具能否被发现和使用结论不变；该开关属工具暴露与过滤策略，落在 mcp.exposure 口径内，不在本轮范围。
+pending_question_ids: []
+investigation_notes:
+  - 本轮协调者语义 triage 结论：maintain。已交回隔离候选做定向维护。
+  - 本轮 codex 由 b741e480 前进到 b8dceb0d（提交标题为 Vim Normal 模式下从空草稿打开斜杠命令），变化路径共 99 条。
+  - 维护复核后修正路径清单：初始 triage 记录为 config.schema.json、config/mod.rs、handlers/mcp.rs 三处加 skills_extension 快照，实际与本轮范围相关的源码文件为 8 个——config/src/types.rs、core/config.schema.json、core/src/config/mod.rs、core/src/config/config_tests.rs、core/src/tools/registry.rs、core/src/tools/handlers/mcp.rs、core/src/tools/handlers/dynamic.rs、core/src/tools/spec_plan.rs（另有 features/src/lib.rs 登记新开关定义）；其余为 codex-rs/tui/ 下 57 条与 30 个快照文件。
+  - 定向复核结论：configuration 与 mcp 两个主题的既有答案均不变，本轮不新建 edition、不新增 reference、不改动 registry/chapter-current.yaml。configuration 的两个新项落在已记录的入口与默认值机制内部；mcp 的严格第三方工具归类由 CodeModeOnly 与新增开关双重默认关闭所门控，且生效时保持 Deferred 与 exec 路由，不改变工具可发现可调用结论。
+  - 越界观察一（未处理，交协调者）：code_mode_only_strict_3p_tools 生效时会忽略 MCP 的 omit_tools_from、deferLoading 与 namespace skip 设置并强制 Deferred，这更贴合 mcp.exposure 的固定问题（工具名称、过滤、权限、信任与批准如何决定实际可见与可调用的能力），而 mcp.exposure 不在本轮交回范围、当前为 answered 且仅有文档引用；该行为仅有源码级证据且双重默认关闭，故不自行扩大范围。
+  - 越界观察二（未处理，交协调者）：codex-rs/core/tests/suite/skills_extension.rs 为 +13/-1 夹带 cloud_skills_across_executor_readiness 与 _windows 两个快照；核实内容是测试夹具隔离与按 cfg!(windows) 分支断言，不是 skills 机制变化，因此不构成独立 skills 知识影响，skills 主题未交回故未处理。
+  - 版本边界：本轮全部结论为源码级。npm 来源本轮观察为 0.160.0 且与基线一致，固定来源未把提交 b8dceb0d 绑定到任何已发布包版本，因此不据此推断已安装版本行为。
+  - 来源快照现状：既有 configuration 章节的源码引用仍绑定 snapshot-codex-repo 的 commit 67a7096；本轮未新增 b8dceb0d 的 git_source_file 引用，因为没有写入任何新结论。
+previous_audit_id: audit-codex-d41084bf-85cb-4e47-8c81-c18349ef1135

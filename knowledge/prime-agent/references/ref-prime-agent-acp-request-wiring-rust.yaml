@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-acp-request-wiring-rust
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-acp-session-new-rust
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/acp/daemon.rs
+  start: 169
+  end: 172
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+      /// under the session-scoped response timeout.
+      pub(crate) async fn request(&self, command: DaemonCommand) -> anyhow::Result<DaemonResponse> {
+          self.exchange(command, Some(REQUEST_TIMEOUT)).await
+      }

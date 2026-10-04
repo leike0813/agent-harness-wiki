@@ -1,0 +1,54 @@
+schema_version: 2
+audit_id: audit-pi-20261004t061205z
+harness_id: pi
+checked_at: 2026-10-04T06:14:26.613Z
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-pi-04bf1025-2be8-4fc0-855b-8d1d86097fcc
+checks:
+  - source_id: source-pi-npm
+    kind: npm_registry
+    checked_at: 2026-10-04T06:14:24.243Z
+    status: unchanged
+    baseline: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+    observed: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+  - source_id: source-pi-repo
+    kind: git_repository
+    checked_at: 2026-10-04T06:14:24.244Z
+    status: changed
+    baseline: 83692682f095528f8b71652ddacff7075e36e893
+    observed: 200387122ca450d6387f033949423114a270b96c
+    remote_ref: refs/heads/main
+impacts:
+  - topic: custom_providers
+    question_ids:
+      - providers.models
+      - providers.protocol
+    section_ids:
+      - providers-models
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-providers-models-entry
+      - ref-pi-providers-api-types
+      - ref-pi-providers-sampling-fields
+      - ref-pi-providers-sampling-types
+      - ref-pi-providers-sampling-scope
+      - ref-pi-providers-sampling-merge
+      - ref-pi-providers-sampling-overrides
+    cross_topic_links: []
+    reason: packages/coding-agent/docs/models.md 在提交 20038712 新增「Configure sampling by thinking level」：OpenAI 兼容 API 支持 samplingParams 模型默认值与 samplingParamsByThinkingLevel 按思考级别覆盖，并写明合并顺序（先 clamp 不支持的思考级别，再依次合并模型 samplingParams、该级别覆盖、请求级 samplingParams，后值按键覆盖）与适用范围（仅 openai-completions、openai-responses、azure-openai-responses）。这是自定义 provider 模型配置的新增机制面，已在 pi-custom_providers-v4 的 providers-models 小节成稿。
+pending_question_ids: []
+investigation_notes:
+  - 本轮协调者语义 triage 结论：maintain。已交回隔离候选做定向维护。
+  - 本轮 source-pi-repo 由 83692682 前进到 20038712，60 个变化路径。其中与 custom_providers 相关的是 packages/coding-agent/docs/models.md（+26 行）及其实现与测试；其余为 packages/durable 的会话持久化、版本号、CHANGELOG 的 [Unreleased] 段、示例扩展与 install-lock 锁文件。
+  - 仓库改名与包作用域迁移（github.com/earendil-works/pi、@earendil-works 作用域）是上一轮已记录的未结事项；本轮 registry/sources 仍登记旧地址，写入范围未包含 registry，故继续作为待维护者处理事项保留。
+  - 本轮只把 custom_providers 的 providers.models 与 providers.protocol 交回维护，未把 0.73.1→新版本或其他主题一并重开。
+  - worker 在提交 20038712 复核了协调者给出的上游证据，五项结论均获实现或测试支持，已写入 pi-custom_providers-v4：字段名与 Pi 思考级别键（docs/models.md:103、packages/ai/src/types.ts:85-89）；clamp 后按模型默认值→级别覆盖→请求级顺序按键覆盖、缺失级别继承默认值、仅 openai-completions/openai-responses/azure-openai-responses 生效（docs/models.md:125、packages/ai/src/api/simple-options.ts 的 resolveSamplingParams）；modelOverrides 逐级按键合并（packages/coding-agent/src/core/provider-composer.ts 的 mergeSamplingParamsByThinkingLevel）。
+  - 合并顺序与适用范围另有两处独立确认：git grep 确认 resolveSamplingParams 只被 openai-completions、openai-responses、azure-openai-responses 三个适配器调用；packages/ai/test/sampling-options.test.ts 用 anthropic-messages 断言这些字段被忽略。
+  - 更正协调者 triage 的一处范围判断：初判把本次变化路径归为「models.md 之外都是版本号、CHANGELOG 与示例锁文件」，实际 packages/ai/src/{types.ts,api/simple-options.ts,api/openai-completions.ts,api/openai-responses.ts,api/azure-openai-responses.ts}、packages/coding-agent/src/core/{model-config.ts,provider-composer.ts} 与 packages/ai/test/sampling-options.test.ts 也是本机制的组成，已一并复核；未发现 custom_providers 之外的新增关联证据。
+  - 排除的关联检查：packages/durable 的 13 个变化路径引入 pi.provider 会话身份文档并给生成请求补 sessionId，属会话持久化而非 provider 注册／模型配置／协议，且 packages/durable 未被本产品任何已发布主题引用；scripts/check-entry-graphs.mjs 只调整该包的入口图文件数预算。
+  - 版本边界未动：已发布 npm 观察值仍为 0.73.1，本轮未建立或修改任何软件版本映射，正文继续按 source_only 阅读并声明两段固定提交。
+  - providers.models 与 providers.protocol 均在 v4 记为 answered，pending_question_ids 已清空；按协调者指示本轮仍走独立复核，故未填 reviewed_by/reviewed_at，review_status 保持 pending。
+previous_audit_id: audit-pi-04bf1025-2be8-4fc0-855b-8d1d86097fcc
