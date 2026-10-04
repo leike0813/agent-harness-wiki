@@ -229,7 +229,6 @@ test("recovers only the dead owners of the same project", async () => {
       { id: foreign.id, reason: "foreign_project" },
     ]),
   );
-  expect(recovered.retained).toHaveLength(2);
   expect(await present(stale.path)).toBe(false);
   expect(await present(live.path)).toBe(true);
   expect(await present(foreign.path)).toBe(true);

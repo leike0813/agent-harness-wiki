@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-acp-mcp-wire-rust
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-acp-mcp-wire-rust
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/worker/commands.rs
+  start: 290
+  end: 303
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+          match manager.replace_acp_servers(&servers, owner_id) {
+              // An unchanged list (same owner, identical servers) is a no-op
+              // success, like the TS manager's unchanged short-circuit.
+              Ok(_) => response_success(None, "replace_acp_mcp_servers", None),
+              Err(error) => {
+                  // Roll back any partially applied configuration with the
+                  // owner-scoped clear, exactly like the TS rollback, before
+                  // surfacing the failure.
+                  if manager.can_release_acp_servers(owner_id) {
+                      let _ = manager.replace_acp_servers(&[], owner_id);
+                  }
+                  response_failure(None, "replace_acp_mcp_servers", &error.to_string(), None)
+              }
+          }

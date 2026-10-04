@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-acp-wire-constraints-rust
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-acp-mcp-wire-rust
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/worker/commands.rs
+  start: 272
+  end: 289
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+          // The agent cannot adopt a different MCP tool list mid-turn (TS
+          // `session.isStreaming` guard).
+          if !servers.is_empty() && self.core.lock().unwrap().busy {
+              return response_failure(
+                  None,
+                  "replace_acp_mcp_servers",
+                  "Cannot replace ACP MCP servers while the agent is running",
+                  None,
+              );
+          }
+          // The real agent engine owns the session's MCP store (one store
+          // for admission and prompt gating); scripted harness engines fall
+          // back to the worker-level store.
+          let manager = self
+              .engine
+              .acp_mcp_manager()
+              .unwrap_or_else(|| std::sync::Arc::clone(&self.acp_mcp));
+          let manager = manager.lock().unwrap();

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-factory-tui-restart-rust
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-factory-tui-command-rust
+locator:
+  kind: file_lines
+  file: crates/pa-tui/src/session_ui/commands.rs
+  start: 425
+  end: 437
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+                let arg = resolved.args.trim().to_lowercase();
+                match arg.as_str() {
+                    "on" => {
+                        let Some(settings) = &self.client_settings else {
+                            self.note("/factory is not available in this client yet", view);
+                            return Ok(());
+                        };
+                        if let Err(error) = settings.set_factory_enabled(true) {
+                            self.error_row(&format!("{error:#}"), view);
+                            return Ok(());
+                        }
+                        self.note(
+                            "The factory is enabled. Restart the client to surface the factory group (the factory page and the agent-side factory API follow the same gate).",

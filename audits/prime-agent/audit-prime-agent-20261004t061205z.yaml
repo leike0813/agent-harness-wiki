@@ -1,0 +1,97 @@
+schema_version: 2
+audit_id: audit-prime-agent-20261004t061205z
+harness_id: prime-agent
+checked_at: 2026-10-04T06:14:28.007Z
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-prime-agent-a6e29492-9bcd-4168-8ac2-e8cc29e14d35
+checks:
+  - source_id: source-prime-agent-repo
+    kind: git_repository
+    checked_at: 2026-10-04T06:14:26.655Z
+    status: changed
+    baseline: e78f11f5409f47ec560fff390b6158470523cb0f
+    observed: c24ac227f11f552ed1d3fa8ebc7d916937d7f6bc
+    remote_ref: refs/heads/main
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.defaults
+    section_ids:
+      - config-sources
+      - config-trust-defaults-migration
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-settings-locations
+      - ref-prime-agent-settings-paths
+      - ref-prime-agent-code-configdir
+      - ref-prime-agent-code-agentdir
+      - ref-prime-agent-sdk-dirs
+      - ref-prime-agent-providers-authfile
+      - ref-prime-agent-usage-context
+      - ref-prime-agent-usage-sysprompt
+      - ref-prime-agent-usage-shell
+      - ref-prime-agent-pkg-enable
+      - ref-prime-agent-mcp-generic
+      - ref-prime-agent-settings-telemetry
+      - ref-prime-agent-pkg-install
+      - ref-prime-agent-settings-globalonly
+      - ref-prime-agent-settings-model
+      - ref-prime-agent-settings-autonomous
+      - ref-prime-agent-settings-compaction
+      - ref-prime-agent-settings-resources-getter
+      - ref-prime-agent-retry-defaults
+      - ref-prime-agent-code-pkgdir
+      - ref-prime-agent-settings-migrate
+      - ref-prime-agent-code-migrations-run
+      - ref-prime-agent-code-migrations-hooks
+      - ref-prime-agent-factory-types-rust
+      - ref-prime-agent-factory-scope-rust
+      - ref-prime-agent-factory-gate-py
+      - ref-prime-agent-factory-scope-setter-rust
+      - ref-prime-agent-factory-refinement-host-rust
+      - ref-prime-agent-factory-tui-command-rust
+      - ref-prime-agent-factory-tui-restart-rust
+      - ref-prime-agent-factory-cli-command-rust
+    cross_topic_links: []
+    reason: >-
+      已在 prime-agent-cli-configuration-v2 落地。核实结论与初判有一处重要修正：factory.enabled 这个键在基线 e78f11f5 就已存在，内核 rlm.factory 与 crates/pa-core/src/refinement/mod.rs 都已在直接解析 agent 目录 settings.json 的原始 JSON 读它，绕过类型化设置层。c24ac227 新增的是类型化暴露——Settings 上新增可选 factory 字段、FactorySettings（serde camelCase，仅一个可选布尔 enabled）、KNOWN_FIELDS 接受 "factory"、SettingsManager 的 get/set_factory_enabled，以及 pa-tui/pa-cli 的 ClientSettings 读写缝。
+      独立复核指出开关的界面归属必须限定：斜杠命令 /factory [on|off|status] 只实现在 pa-tui（crates/pa-tui/src/session_ui/commands.rs），pa-cli 侧注册的 factory 是另一套命令 factory <list|import|export>（机器库管理，无 on/off/status）；而 catalog/harnesses.yaml 为本产品只声明了 surface_id: cli，没有声明承载该斜杠命令的客户端界面。按 AGENTS.md 的界面归属规则，该命令的界面绑定记为 unknown，章节明确写明它不是 cli 界面的结论，键本身的语义（键名、只读全局、失败关闭）仍作为产品级事实保留。
+      同一复核还纠正了旧版缺口声明：客户端界面的 /factory on 成功提示明确要求重启客户端才会显示 factory 分组，章节据此把该缺口收窄为 /reload 是否足够、关闭时是否也要重启。
+      get_factory_enabled 读的是 self.global_settings()、setter 只写全局作用域，因此该键是新增的只读全局键，项目作用域无法打开闸门；这一点同时补进 config-overrides 的全局键例外表，否则同一章节会自相矛盾（该小节不在本轮交回的两个固定问题内，属必要的内部一致性补齐，未改其问题状态）。
+      默认值是失败关闭：文件缺失、键缺失、值类型不对、文档损坏都按未设置处理，只有值恰为布尔 true 才算打开。
+  - topic: mcp
+    question_ids:
+      - mcp.lifecycle
+    section_ids:
+      - mcp-lifecycle
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-mcp-generic
+      - ref-prime-agent-mcp-states
+      - ref-prime-agent-mcp-connecting
+      - ref-prime-agent-mcp-caveats
+      - ref-prime-agent-acp-session-new-rust
+      - ref-prime-agent-acp-mcp-wire-rust
+      - ref-prime-agent-acp-request-timeout-rust
+    cross_topic_links: []
+    reason: >-
+      已在 prime-agent-cli-mcp-v3 落地，作为 mcp-lifecycle 里新增的第三条准入路径写入（此前该小节只覆盖通用 HTTP/stdio 连接与目录集成状态机，没有 ACP 会话的整批准入）。
+      核实后与 .changes/acp-mcp-replace-cleanup.md 的措辞有出入，按代码记录：基线的进程内 admit_session_servers 在替换失败时已经做 owner 清理，c24ac227 并不是给失败路径新增清理，而是把准入从进程内管理器搬到 worker 的 replace_acp_mcp_servers 线协议命令（会话级响应超时 30 秒），失败与超时因此汇入同一条 Err 分支，清理覆盖到超时这一新增情形。worker 侧另有三道约束：真正的 agent 引擎持有会话 MCP 存储（脚本化引擎退回 worker 级存储）、agent 运行中拒绝替换、同 owner 同列表为成功空操作，被拒替换先按同一 owner 清空回滚再上报失败。session/close 与连接拆除走同一条替换为空路径。
+      该行为是 Rust 移植侧与 TypeScript 对齐的表述，但固定来源里已无 packages/ 下的 TypeScript 树（基线与本轮都没有），无法在本轮核实 TS 实现，故正文只记 Rust 侧语义。
+pending_question_ids: []
+investigation_notes:
+  - 本轮协调者语义 triage 结论：maintain。已交回隔离候选做定向维护。
+  - 本轮 prime-agent 由 e78f11f5 前进到 c24ac227（提交标题为客户端关闭时保持 daemon 运行），162 个变化路径中与已发布主题直接相关的是 settings/{types,load,manager,interactive_settings}.rs 与 pa-cli/pa-tui 的 client_settings.rs。
+  - 本轮已按交回范围完成维护：新建 prime-agent-cli-configuration-v2 与 prime-agent-cli-mcp-v3 两个 edition，保留 v1 与 v2 旧 edition 不原地改，registry/chapter-current.yaml 只切换本产品 configuration 与 mcp 两个 topic。
+  - 协调者未逐一核实的四处改动已判定归属：settings/manager.rs 与 settings/interactive_settings.rs 的新增内容是 factory.enabled 的只读全局读取与写入及配套测试，属 config.sources / config.defaults 范围；pa-tui/src/client_settings.rs 的 trait 方法只是同一对读写的客户端缝，未引入独立配置面。
+  - 来源身份提示：已发布章节的既有引用仍指向 packages/coding-agent 下的 TypeScript 路径，固定在 snapshot-prime-agent-repo（e2fb7bfa）。该 TypeScript 树在基线 e78f11f5 与本轮 c24ac227 的仓库顶层都已不存在，TypeScript 移植早已不在树内。本轮新增引用一律按 git_source_file 固定在 c24ac227 并记录精确 file 与实际计算的 content_sha256，未保留 checkout，未记录临时工作区路径。
+  - 源码 HEAD 只代表源码树，不构成任何已发布二进制的行为证明；本轮两个 edition 仍按来源级知识记录，未建立版本映射，delivery=pr 未切换发布指针。
+  - 未自行扩范围并上报协调者：agent factory 在本轮是整体新增的能力面，除配置闸门外还包括新增的 skills/factory/SKILL.md、pa-tui 的 /factory 视图与图形面板、prime-agent-runtime 的 rlm.factory 命名空间、pa-daemon 的 factory_activity 通道与 crates/pa-core/src/session_engine/factory_host.rs。它是否构成新的 agent 形态、是否应进入 custom_agents（agents.*）或 skills 主题，本轮不作判断，pending_question_ids 因此清空而不写入未经 triage 的跨主题问题 id。
+  - 复核后补齐的引用覆盖：worker 侧两道约束实际在 worker/commands.rs:272-289，setter 在 interactive_settings.rs:374-387，refinement host 的原始 JSON 读取在 refinement/mod.rs:164-175，三处均已各自补上引用；30 秒超时的证据链补齐为 daemon.rs:966-985（replace_session_servers 经 link.request 发出）加 169-172（request 施加会话级超时）加 45-46（超时取值 30 秒）。因单条摘录上限 800 字符，commands.rs 272-303 与 interactive_settings.rs 357-387 无法并入一条引用，改为按 getter/setter 与约束/回滚拆成两条，覆盖范围与合并前一致。 原 ref-prime-agent-factory-gate-rust 已改名为 ref-prime-agent-factory-gate-py，避免 -rust 后缀指向 Python 文件造成误导。
+  - review_status 保持 pending：configuration 的改动虽然只覆盖两个固定问题，但同一提交引入了上述跨主题的新能力面，是否属高影响需由协调者决定是否触发第二 Agent 独立复核。
+previous_audit_id: audit-prime-agent-a6e29492-9bcd-4168-8ac2-e8cc29e14d35

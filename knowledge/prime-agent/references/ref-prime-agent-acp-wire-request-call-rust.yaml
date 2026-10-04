@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-acp-wire-request-call-rust
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-acp-session-new-rust
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/acp/daemon.rs
+  start: 966
+  end: 985
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  /// Send the MCP replacement for one hosted session.
+  async fn replace_session_servers(
+      link: &Arc<DaemonLink>,
+      hosted: &HostedSession,
+      resolved: &[pa_core::mcp::AcpMcpServerConfig],
+  ) -> anyhow::Result<()> {
+      let response = link
+          .request(DaemonCommand::ReplaceAcpMcpServers {
+              id: None,
+              active_session_id: hosted.daemon_active_session_id.clone(),
+              owner_id: hosted.mcp_owner_id.clone(),
+              servers: serde_json::to_value(resolved)?,
+              rest: Map::default(),
+          })
+          .await?;
+      if !response.success {
+          anyhow::bail!(response
+              .error
+              .unwrap_or_else(|| "unknown error".to_string()));
+      }

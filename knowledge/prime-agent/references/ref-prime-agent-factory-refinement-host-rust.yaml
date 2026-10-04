@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-factory-refinement-host-rust
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-factory-refinement-host-rust
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/refinement/mod.rs
+  start: 164
+  end: 175
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  pub fn factory_enabled(agent_dir: &Path) -> bool {
+      let Ok(raw) = std::fs::read_to_string(agent_dir.join(FACTORY_SETTINGS_FILE_NAME)) else {
+          return false;
+      };
+      let Ok(document) = serde_json::from_str::<serde_json::Value>(&raw) else {
+          return false;
+      };
+      document
+          .get("factory")
+          .and_then(|factory| factory.get("enabled"))
+          .and_then(serde_json::Value::as_bool)
+          .unwrap_or(false)
