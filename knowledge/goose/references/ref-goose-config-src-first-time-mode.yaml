@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-first-time-mode
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261003
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/commands/configure.rs
+  start: 282
+  end: 306
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  if config.exists() {
+          configure_first_time_goose_mode(config, select_goose_mode)?;
+      }
+      Ok(())
+  }
+
+  fn configure_first_time_goose_mode(
+      config: &Config,
+      select: impl FnOnce() -> anyhow::Result<GooseMode>,
+  ) -> anyhow::Result<()> {
+      if !matches!(config.get_goose_mode(), Err(ConfigError::NotFound(_))) {
+          return Ok(());
+      }
+
+      println!();
+      cliclack::intro(style(" goose-mode ").on_cyan().black())?;
+      let _ = cliclack::log::info(
+          "goose mode controls whether goose uses tools freely or asks for your approval first.\n\
+           Auto is the default. You can change it later in 'goose configure' > goose settings.",
+      );
+      let mode = select()?;
+      config.set_goose_mode(mode)?;
+      cliclack::outro(goose_mode_saved_message(mode))?;
+      Ok(())
+  }

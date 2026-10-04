@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-providers-output-rationale
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-output-tokens-20261003
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/session/llm.ts
+  start: 46
+  end: 49
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+     * Claude counts thinking tokens inside `max_tokens`. With adaptive thinking
+     * there is no separate budget that the AI SDK adds on top, so the shared
+     * 32k default can be used up by thinking before any text or tool call is
+     * written. For Claude on first-party routes, request the model's output

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-model-source-auth
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/providers/model-source.ts
+  start: 77
+  end: 92
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  	if (sameOrigin) {
+  		if (auth.apiKey?.trim()) {
+  			headers.set("Authorization", `Bearer ${auth.apiKey.trim()}`);
+  		}
+  		for (const [name, value] of Object.entries(auth.headers ?? {})) {
+  			headers.set(name, value);
+  		}
+  	}
+  	let hasHeaders = false;
+  	headers.forEach(() => {
+  		hasHeaders = true;
+  	});
+  	const response = await fetch(url, {
+  		method: "GET",
+  		...(hasHeaders ? { headers, redirect: "error" as const } : {}),
+  		signal: AbortSignal.timeout(5_000),

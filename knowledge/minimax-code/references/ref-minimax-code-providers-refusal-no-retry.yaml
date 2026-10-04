@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-refusal-no-retry
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo-20261003
+locator:
+  kind: file_lines
+  file: packages/agent-core/src/pi-turn-runner/llm-retry.ts
+  start: 581
+  end: 589
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  // BYOK retries every pre-output failure because custom gateways report errors
+  // inconsistently, but a model safety refusal is deterministic: retrying the
+  // same request only repeats (and may re-bill) the decline.
+  const decision =
+    input.retryAllErrors &&
+    !normalized.facts.explicitAbort &&
+    !normalized.facts.signals.has('refusal')
+      ? { retryable: true, reason: 'network' as const }
+      : toLLMRetryDecision(normalized);

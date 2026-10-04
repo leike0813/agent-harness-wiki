@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-catalog-rollback-error
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/providers/local-provider-service.ts
+  start: 513
+  end: 521
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  		} catch (rollbackError) {
+  			throw new AggregateError(
+  				[error, rollbackError],
+  				"Provider catalog persistence failed and prior settings could not be restored",
+  			);
+  		}
+  		throw error;
+  	}

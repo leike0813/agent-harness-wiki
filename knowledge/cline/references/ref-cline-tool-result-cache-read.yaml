@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-tool-result-cache-read
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/tools/executors/file-read.ts
+  start: 218
+  end: 230
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  		if (filePath.startsWith("cline://")) {
+  			context.signal?.throwIfAborted();
+  			const cache = context.metadata?.toolResultCache;
+  			if (!(cache instanceof ToolResultCache))
+  				throw new Error(TOOL_RESULT_CACHE_MISS);
+  			return readTextWindow(
+  				Readable.from([cache.read(filePath)]),
+  				includeLineNumbers,
+  				start_line,
+  				end_line,
+  				context.signal,
+  			);
+  		}

@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-grok-store-refetch
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261003
+locator:
+  kind: file_lines
+  file: internal/config/store.go
+  start: 772
+  end: 784
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // refetchGrokModels stores the model catalog the Grok plan grants next
+  // to the provider's API-key models. Best effort: a failure leaves the
+  // existing catalog in place and the login still succeeds.
+  func (s *ConfigStore) refetchGrokModels(ctx context.Context, scope Scope) {
+  	const providerID = string(catwalk.InferenceProviderXAI)
+  	pc, ok := s.Config().Providers.Get(providerID)
+  	if !ok || pc.OAuthToken == nil {
+  		return
+  	}
+  	// The access token may have expired since login, so renew it before
+  	// asking for the catalog: the models endpoint rejects stale tokens
+  	// with a 401. A failed refresh falls through and lets the fetch run
+  	// on the old token, which keeps the existing catalog in place.

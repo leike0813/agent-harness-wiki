@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-agents-merge-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Merge and collision rules"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/task-agent-discovery.md
+excerpt: |
+  Discovery uses first-wins dedup by exact `agent.name`:
+
+  - A `Set<string>` tracks seen names.
+  - Loaded agents are flattened in directory order and kept only if name unseen.
+  - Bundled agents are filtered against the same set and only added if still unseen.
+
+  Implications:
+
+  - Project `.omp` overrides user `.omp`.
+  - Earlier extension roots override later extension roots, Claude marketplace plugins, and bundled agents.
+  - Non-bundled agents override bundled agents with the same name.
+  - Name matching is case-sensitive (`Task` and `task` are distinct).

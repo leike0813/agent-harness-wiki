@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-goose-mode-strict
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261003
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/base.rs
+  start: 1262
+  end: 1281
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  config_value!(GOOSE_SEARCH_PATHS, Vec<String>);
+  config_value!(GOOSE_MODE, GooseMode);
+  impl Config {
+      pub(crate) fn get_goose_mode_strict(&self) -> Result<GooseMode, ConfigError> {
+          match env::var("GOOSE_MODE") {
+              Ok(value) => {
+                  let value = Self::parse_env_value(&value)?;
+                  Ok(serde_json::from_value(value)?)
+              }
+              Err(env::VarError::NotPresent) => {
+                  let values = self.load_strict()?;
+                  let value = values
+                      .get("GOOSE_MODE")
+                      .ok_or_else(|| ConfigError::NotFound("GOOSE_MODE".to_string()))?;
+                  Ok(serde_yaml::from_value(value.clone())?)
+              }

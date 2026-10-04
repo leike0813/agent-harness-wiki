@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-hooks-events-surfaces-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Event surfaces"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/hooks.md
+excerpt: |
+  ## Event surfaces
+
+  Hook events are strongly typed in `types.ts`.
+
+  ### Session events
+
+  - `session_start`
+  - `session_before_switch` → can return `{ cancel?: boolean }`
+  - `session_switch`
+  - `session_before_branch` → can return `{ cancel?: boolean; skipConversationRestore?: boolean }`
+  - `session_branch`
+  - `session_before_compact` → can return `{ cancel?: boolean; compaction?: CompactionResult }`
+  - `session.compacting` → can return `{ context?: string[]; prompt?: string; preserveData?: Record<string, unknown> }`
+  - `session_compact`
+  - `session_before_tree` → can return `{ cancel?: boolean; summary?: { summary: string; details?: unknown } }`
+  - `session_tree`
+  - `session_shutdown`

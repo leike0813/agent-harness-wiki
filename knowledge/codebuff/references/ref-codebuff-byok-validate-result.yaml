@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-validate-result
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-byok-20261003
+locator:
+  kind: file_lines
+  file: sdk/src/byok.ts
+  start: 71
+  end: 85
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  export type ByokValidationResult =
+    | {
+        ok: true
+        connection: ByokConnection
+        /** The endpoint check's HTTP status. */
+        statusCode?: number
+        /**
+         * OpenAI-compatible only, when `/models` returned a list: whether the
+         * connection's model id is in it. A proxy may route ids it does not
+         * list, so false is a warning, not a failed check.
+         */
+        modelListed?: boolean
+        /** When the model is not listed: the ids the endpoint does list (capped). */
+        availableModels?: string[]
+      }

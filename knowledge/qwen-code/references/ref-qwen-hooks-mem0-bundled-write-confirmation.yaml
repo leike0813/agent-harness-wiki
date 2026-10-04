@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-mem0-bundled-write-confirmation
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo-2c591ecc
+locator:
+  kind: symbol
+  file: packages/cli/src/config/mem0-settings.ts
+  symbol: bundledMem0Hooks
+official_url: "https://github.com/QwenLM/qwen-code/blob/2c591ecc08a6fa080342f9b1b9f7f43215178cbb/packages/cli/src/config/mem0-settings.ts"
+excerpt: |-
+  return {
+    PreToolUse: [
+      {
+        matcher: 'mcp__external-context__context_remember',
+        hooks: [
+          {
+            type: 'command',
+            command:
+              (process.platform === 'win32' ? '& ' : 'exec ') +
+              quote(server.command) +
+              ' ' +
+              quote(hookPath),

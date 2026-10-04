@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-ext-doc-example
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261003
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/extensions.md
+  start: 20
+  end: 30
+official_url: https://github.com/earendil-works/pi/blob/83692682f095528f8b71652ddacff7075e36e893/packages/coding-agent/docs/extensions.md
+excerpt: |-
+  import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+
+  export default function (pi: ExtensionAPI) {
+    pi.registerCommand("hello", {
+      description: "Show a greeting",
+      handler: async (name, ctx) => {
+        ctx.ui.notify(`Hello, ${name || "world"}!`, "info");
+      },
+    });
+  }

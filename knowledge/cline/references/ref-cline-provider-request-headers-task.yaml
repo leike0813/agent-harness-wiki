@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-request-headers-task
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/llms/src/providers/request-headers.ts
+  start: 90
+  end: 101
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  	const sessionId = trimNonEmpty(input.sessionId);
+  	return {
+  		...DEFAULT_CLINE_REQUEST_HEADERS,
+  		"User-Agent": `Cline/${clientVersion}`,
+  		"X-IS-MULTIROOT": input.client?.isMultiRoot === true ? "true" : "false",
+  		"X-CLIENT-TYPE": clientType,
+  		"X-CLIENT-VERSION": clientVersion,
+  		"X-PLATFORM": platform,
+  		"X-PLATFORM-VERSION": platformVersion,
+  		"X-CORE-VERSION": input.coreVersion,
+  		...(sessionId ? { "X-Task-ID": sessionId } : {}),
+  	};

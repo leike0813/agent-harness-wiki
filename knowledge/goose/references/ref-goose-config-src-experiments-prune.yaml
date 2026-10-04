@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-experiments-prune
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261003
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/experiments.rs
+  start: 48
+  end: 56
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  fn refresh_experiments(experiments: &mut HashMap<String, bool>) {
+          // Add missing experiments from `ALL_EXPERIMENTS`
+          for &(key, default_value) in ALL_EXPERIMENTS {
+              experiments.entry(key.to_string()).or_insert(default_value);
+          }
+
+          // Remove experiments not present in `ALL_EXPERIMENTS`
+          experiments.retain(|key, _| ALL_EXPERIMENTS.iter().any(|(k, _)| k == key));
+      }

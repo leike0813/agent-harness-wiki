@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-agents-limits-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Recursion-depth gating"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/task-agent-discovery.md
+excerpt: |
+  `task.maxRecursionDepth` defaults to `2`; a negative value disables the cap. The shared policy rejects a spawn when the current task depth has already reached the cap. When a child reaches the cap, `runSubprocess` also removes `task` from its tool list and sets its spawn policy empty.
+
+  For an explicit agent tool list, `runSubprocess` auto-adds `task` when `spawns` is declared and depth permits it. The legacy `exec` entry expands to `bash` plus `eval` when an eval backend is available. A list containing `task` or `bash` also gains `wait` unless the parent requires an exact restricted tool list; tool construction still omits `wait` when there is no async, IRC, or service wake source.

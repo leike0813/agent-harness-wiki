@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-grok-login-flow
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261003
+locator:
+  kind: file_lines
+  file: internal/login/login.go
+  start: 227
+  end: 248
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // grokFlow runs the Grok (xAI) authorization code flow with a loopback
+  // callback server. When the loopback listener cannot start (remote
+  // machine, no free port), it falls back to the device flow, whose code
+  // the user enters on accounts.x.ai.
+  type grokFlow struct {
+  	f          *grok.BrowserFlow
+  	deviceCode string
+  	expiresIn  int
+  }
+
+  func (f *grokFlow) Start(ctx context.Context) (string, string, error) {
+  	bf, err := grok.StartBrowserFlow()
+  	if err != nil {
+  		dc, deviceErr := grok.RequestDeviceCode(ctx)
+  		if deviceErr != nil {
+  			return "", "", err
+  		}
+  		f.deviceCode = dc.DeviceCode
+  		f.expiresIn = dc.ExpiresIn
+  		return dc.VerificationURI, dc.UserCode, nil
+  	}
+  	f.f = bf

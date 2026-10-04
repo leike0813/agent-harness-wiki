@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-hooks-order-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Runtime handler order"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/hooks.md
+excerpt: |
+  - `tool_result`: `content`/`details`/`isError` overrides merge per field across handlers (no short-circuit): a later handler's defined field wins and a field it leaves unset keeps the earlier handler's value, so a details-only, isError-only, or context-only return never erases an earlier redaction. Every distinct non-empty `additionalContext` is preserved in handler order, with the same repeat-dropping as `tool_call`
+  - `context`: chained; each handler receives prior handler’s message output
+  - `before_agent_start`: first returned message is kept; later messages ignored
+  - `session_before_*`: latest returned result is tracked; `cancel: true` short-circuits immediately
+  - `session.compacting`: latest returned result wins
+
+  Command/renderer conflicts:

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-mcp-config-files
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261003
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/mcp.md
+  start: 32
+  end: 42
+official_url: https://github.com/earendil-works/pi/blob/83692682f095528f8b71652ddacff7075e36e893/packages/coding-agent/docs/mcp.md
+excerpt: |-
+  Pi reads user-level servers from `~/.pi/agent/mcp.json` and project servers from `.pi/mcp.json`. Project configuration is read only after [project trust](security.md#understand-project-trust) is granted. A project entry replaces a user-level entry with the same name.
+
+  A project entry without `command`, `url`, or `type` overrides only `enabled`, `exposure`, and `toolExposure` of the user-level server with the same name and keeps the rest, including `env`, `headers`, and `auth`. For example, this turns off a user-level server in one project:
+
+  ```json
+  {
+    "mcpServers": {
+      "internal-tools": { "enabled": false }
+    }
+  }
+  ```

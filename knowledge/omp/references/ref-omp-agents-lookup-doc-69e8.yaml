@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-agents-lookup-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Agent lookup and selection"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/task-agent-discovery.md
+excerpt: |
+  `resolveEffectiveSubagentPolicy()` is shared by task and eval-backed subagent launches. Before allocating artifacts it:
+
+  1. atomically reloads the live session's persisted global, project, and explicit overlay settings while preserving runtime overrides
+  2. resolves the omitted or explicit agent name from the parent spawn policy
+  3. enforces depth, blocked-self-recursion, and parent spawn-policy guards
+  4. rediscovers agents with the session's cwd and effective extension-root configuration, appends user-tagged session agents, and performs exact lookup
+  5. checks `task.disabledAgents`
+  6. resolves plan-mode restrictions, output schema, model policy, and isolation policy

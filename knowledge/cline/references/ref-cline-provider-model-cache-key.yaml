@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-model-cache-key
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/llms/provider-defaults.ts
+  start: 685
+  end: 690
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  function resolvePublicCacheKey(
+  	providerId: string,
+  	config: ProviderConfig,
+  ): string {
+  	return `${resolvePrivateCacheKey(providerId, config)}:${fingerprint(JSON.stringify(config.headers ?? {}))}`;
+  }

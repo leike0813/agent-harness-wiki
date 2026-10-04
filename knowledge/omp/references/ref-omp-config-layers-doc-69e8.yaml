@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-config-layers-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Layers (`src/config/settings.ts`)"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/config-usage.md
+excerpt: |
+  Effective precedence, highest first:
+
+  1. Environment variable declared on the definition (`env: "NAME"`), parsed by the setting's type; unparseable text counts as unset. Booleans follow `parseFlag`: empty is unset, `1`/`y`/`true`/`yes`/`on` (lower or upper case) is true, any other text is false
+  2. Runtime overrides: in-memory, non-persistent
+  3. Config overlays: `PI_CONFIG_FILES` (platform path-list), followed by repeated `omp --config <path>` files; all are loaded as `config.yml`-style YAML for this process only
+  4. Project settings: discovered via the settings capability (`settings.json` and `config.yml` from providers)
+  5. Global settings: the first present file among `~/.omp/agent/config.yml` and `config.yaml`

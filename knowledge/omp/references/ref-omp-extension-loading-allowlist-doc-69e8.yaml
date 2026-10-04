@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-extension-loading-allowlist-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Exact module allowlist"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/extension-loading.md
+excerpt: |
+  CLI `--trusted-extension <absolute-file>` is repeatable and loads only those
+  extension module files, bypassing discovery and package-directory expansion.
+  Paths must be absolute, existing files; symlinks are resolved before loading.
+  It cannot be combined with `-e`/`--extension` or `--hook`. A load failure aborts
+  startup rather than silently dropping an allowlisted module.
+
+  Unlike an explicit extension package directory, an allowlisted file does not
+  authorize sibling hooks, tools, commands, skills, rules, prompts, or MCP config.
+  This is still an in-process module allowlist, not a sandbox or a switch disabling
+  other discovery subsystems.

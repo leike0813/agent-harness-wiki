@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-agents-discovery-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Discovery inputs and precedence"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/task-agent-discovery.md
+excerpt: |
+  1. Nearest project `.omp/agents` dir from `findAllNearestProjectConfigDirs("agents", cwd)` (first `.omp` hit only)
+  2. User `.omp/agents` dir from `getConfigDirs("agents", { project: false })` (first `.omp` hit only)
+  3. `<extension-root>/agents` for every enabled OMP extension package returned by `listOmpExtensionRoots(...)`, in this order:
+     - explicit CLI `--extension` / SDK `additionalExtensionPaths` directory roots
+     - the session's effective `extensions:` array, in its configured order
+     - installed npm/link plugins

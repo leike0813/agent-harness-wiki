@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-mem0-system-scope-merge
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-repo-2c591ecc
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/hook-settings.ts
+  start: 54
+  end: 78
+official_url: "https://github.com/QwenLM/qwen-code/blob/2c591ecc08a6fa080342f9b1b9f7f43215178cbb/packages/cli/src/config/hook-settings.ts"
+excerpt: |-
+  return {
+    systemHooks: mergeMem0Hooks(separated.systemHooks, mem0Server),
+    userHooks: separated.userHooks,
+    projectHooks: separated.projectHooks,
+    hooks: undefined,
+  };
+  }
+
+  function mergeMem0Hooks(
+    hooks: Record<string, unknown> | undefined,
+    mem0Server: MCPServerConfig | undefined,
+  ): Record<string, unknown> | undefined {
+    const bundled = bundledMem0Hooks(mem0Server);
+    if (!bundled) return hooks;

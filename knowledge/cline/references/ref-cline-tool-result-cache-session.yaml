@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-tool-result-cache-session
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/session/services/tool-result-cache.ts
+  start: 59
+  end: 67
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  	read(uri: string): string {
+  		const match = /^cline:\/\/cache\/([^/]+)\/([a-f0-9-]+)\.result\.txt$/.exec(
+  			uri,
+  		);
+  		if (!match || decodeURIComponent(match[1]) !== this.sessionId) {
+  			throw new Error("Invalid tool result cache URI for this session");
+  		}
+  		const entry = this.entries.get(match[2]);
+  		if (!entry) throw new Error(TOOL_RESULT_CACHE_MISS);

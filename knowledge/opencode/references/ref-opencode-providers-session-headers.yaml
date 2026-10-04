@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-providers-session-headers
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo-20261003
+official_url: https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/session/llm/request.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/session/llm/request.ts
+  start: 187
+  end: 196
+excerpt: |2-
+      headers: {
+        "x-opencode-session-id": input.sessionID,
+        ...(input.parentSessionID ? { "x-opencode-parent-session-id": input.parentSessionID } : {}),
+        ...(input.model.providerID.startsWith("opencode")
+          ? {
+              ...(opencodeProjectID ? { "x-opencode-project": opencodeProjectID } : {}),
+              "x-opencode-session": input.sessionID,
+              "x-opencode-request": input.user.id,
+              "x-opencode-client": input.flags.client,
+              "User-Agent": USER_AGENT,

@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-agents-team-store-choice
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/storage/team-store.ts
+  start: 28
+  end: 36
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  	try {
+  		const store = new SqliteTeamStore(options);
+  		store.init();
+  		return store;
+  	} catch {
+  		const store = new FileTeamStore({ teamDir: options.teamDir });
+  		store.init();
+  		return store;
+  	}

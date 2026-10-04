@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-provider-model-ownership
+harness_id: cline
+snapshot_id: snapshot-cline-repo-20261003
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/providers/local-provider-service.ts
+  start: 368
+  end: 382
+official_url: "https://github.com/cline/cline"
+excerpt: |2-
+  function buildProviderModels(
+  	modelIds: string[],
+  	existingModels: StoredProviderEntry["models"] = {},
+  ) {
+  	// Provider capabilities are inherited at registration. Persist only model
+  	// overrides so refreshing defaults cannot overwrite user customizations.
+  	return Object.fromEntries(
+  		modelIds.map((id) => [
+  			id,
+  			{
+  				id,
+  				name: id,
+  				...existingModels[id],
+  			},
+  		]),

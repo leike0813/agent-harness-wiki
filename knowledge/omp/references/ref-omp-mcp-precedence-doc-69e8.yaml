@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-mcp-precedence-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Discovery and precedence"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/mcp-config.md
+excerpt: |
+  Across providers, the first definition wins. Duplicate names are not merged; OpenCode's internal config layers are the exception described above. A differently named definition is also shadowed when its transport, endpoint/command inputs, auth, and request-id mode are equivalent to a higher-priority definition.
+
+  Within OMP native config, project `.omp/mcp.json` precedes `.omp/.mcp.json`, then the active profile's user `mcp.json` and `.mcp.json`. Root fallback `mcp.json` precedes root `.mcp.json`. In practice:
+
+  - prefer `.omp/mcp.json` or the active profile's user `mcp.json` for an OMP-specific override
+  - keep names and endpoint definitions unique across tools when possible

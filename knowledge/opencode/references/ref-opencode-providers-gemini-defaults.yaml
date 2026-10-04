@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-providers-gemini-defaults
+harness_id: opencode
+snapshot_id: snapshot-opencode-repo-20261003
+official_url: https://github.com/anomalyco/opencode/blob/907b3bc518fa48e90e8ec24dd327d13eee71c36c/packages/opencode/src/provider/transform.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/provider/transform.ts
+  start: 1280
+  end: 1289
+excerpt: |2-
+    if (input.model.api.npm === "@ai-sdk/google" || input.model.api.npm === "@ai-sdk/google-vertex") {
+      if (input.model.capabilities.reasoning) {
+        result["thinkingConfig"] = {
+          includeThoughts: true,
+        }
+        if (!isLegacyGemini(input.model.api.id)) {
+          result["thinkingConfig"]["thinkingLevel"] = "high"
+        }
+      }
+    }

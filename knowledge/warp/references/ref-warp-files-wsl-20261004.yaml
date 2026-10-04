@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-warp-files-wsl-20261004
+harness_id: warp
+snapshot_id: snapshot-warp-docs-file-locations-20261004
+locator:
+  kind: document_section
+  heading: Symlinking Warp’s config from WSL
+official_url: "https://docs.warp.dev/terminal/settings/file-locations.md"
+excerpt: |-
+  so `~/.warp/` and `~/.agents/` inside WSL are **not** automatically the same as the Windows-side directories with those names — every Warp directory you want to share needs its own symlink that points back to the Windows path.
+
+  If `~/.warp` or `~/.agents` already exist in WSL, remove or back them up first — otherwise `ln` will create the link inside the existing directory instead of replacing it.
+
+  Warp on Windows does not currently load config from `~/.warp/tab_configs/` or `~/.warp/themes/` — those paths only work on macOS. If you have config files in those home-directory paths from a different machine, copy or symlink them into the Windows `%APPDATA%\warp\Warp\data\` directory before they take effect.

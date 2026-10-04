@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-providers-bedrock-available-model
+harness_id: zed
+snapshot_id: snapshot-zed-repo-20261003
+locator:
+  kind: file_lines
+  file: crates/settings_content/src/language_model.rs
+  start: 135
+  end: 148
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-9
+         #[with_fallible_options]
+         #[derive(Clone, Debug, PartialEq, Serialize, Deserialize, JsonSchema, MergeFrom)]
+         pub struct BedrockAvailableModel {
+             pub name: String,
+             pub display_name: Option<String>,
+             pub max_tokens: u64,
+             pub cache_configuration: Option<LanguageModelCacheConfiguration>,
+             pub max_output_tokens: Option<u64>,
+             #[serde(serialize_with = "crate::serialize_optional_f32_with_two_decimal_places")]
+             pub default_temperature: Option<f32>,
+             pub supports_tools: Option<bool>,
+             pub supports_images: Option<bool>,
+             pub thinking: Option<BedrockThinkingSettings>,
+         }

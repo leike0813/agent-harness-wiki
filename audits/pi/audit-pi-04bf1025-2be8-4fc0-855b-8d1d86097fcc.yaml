@@ -1,0 +1,606 @@
+schema_version: 2
+audit_id: audit-pi-04bf1025-2be8-4fc0-855b-8d1d86097fcc
+harness_id: pi
+checked_at: 2026-10-03T18:19:37.877Z
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-pi-npm
+    kind: npm_registry
+    checked_at: 2026-10-03T18:19:36.088Z
+    status: unchanged
+    baseline: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+    observed: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+  - source_id: source-pi-repo
+    kind: git_repository
+    checked_at: 2026-10-03T18:19:36.159Z
+    status: changed
+    baseline: 781152fc24841dc54b22284514604048ebe5e2c9
+    observed: 83692682f095528f8b71652ddacff7075e36e893
+    remote_ref: refs/heads/main
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-files
+      - config-defaults
+      - config-overrides
+      - config-runtime
+      - config-migration
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-ext-reload
+      - ref-pi-migrations-code
+      - ref-pi-models-json
+      - ref-pi-models-reload
+      - ref-pi-packages-dedupe
+      - ref-pi-providers-auth
+      - ref-pi-providers-resolution
+      - ref-pi-readme-philosophy
+      - ref-pi-settings-defaults
+      - ref-pi-settings-migration
+      - ref-pi-settings-offline
+      - ref-pi-settings-overrides
+      - ref-pi-settings-overview
+      - ref-pi-settings-resources
+      - ref-pi-settings-sessions
+      - ref-pi-settings-shell
+      - ref-pi-subagent-security
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-pi-repo: shared or unknown impact; investigate all themes"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-core
+      - agents-definition
+      - agents-invocation
+      - agents-limits
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-readme-philosophy
+      - ref-pi-subagent-agents
+      - ref-pi-subagent-code
+      - ref-pi-subagent-limits
+      - ref-pi-subagent-modes
+      - ref-pi-subagent-security
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-pi-repo: shared or unknown impact; investigate all themes"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-entry
+      - providers-models
+      - providers-auth
+      - providers-behavior
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-cp-apis
+      - ref-pi-cp-auth
+      - ref-pi-cp-quick
+      - ref-pi-cp-stream
+      - ref-pi-ext-locations
+      - ref-pi-models-config
+      - ref-pi-models-json
+      - ref-pi-models-merge
+      - ref-pi-models-reload
+      - ref-pi-models-values
+      - ref-pi-providers-auth-file
+      - ref-pi-providers-auth
+      - ref-pi-providers-resolution
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-pi-repo: shared or unknown impact; investigate all themes"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-events
+      - hooks-entry
+      - hooks-input
+      - hooks-output
+      - hooks-order
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-ext-before-agent-start
+      - ref-pi-ext-input
+      - ref-pi-ext-lifecycle
+      - ref-pi-ext-locations
+      - ref-pi-ext-register
+      - ref-pi-ext-reload
+      - ref-pi-ext-resources-discover
+      - ref-pi-ext-tool-call-behavior
+      - ref-pi-ext-tool-call
+      - ref-pi-ext-tool-result
+      - ref-pi-packages-dedupe
+      - ref-pi-readme-philosophy
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-pi-repo: shared or unknown impact; investigate all themes"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-core
+      - mcp-capabilities
+      - mcp-route
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-ext-locations
+      - ref-pi-ext-register
+      - ref-pi-readme-philosophy
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-pi-repo: shared or unknown impact; investigate all themes"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model
+      - plugins-install
+      - plugins-api
+      - plugins-lifecycle
+      - plugins-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-cp-quick
+      - ref-pi-ext-locations
+      - ref-pi-ext-register
+      - ref-pi-ext-reload
+      - ref-pi-packages-dedupe
+      - ref-pi-packages-manage
+      - ref-pi-packages-sources
+      - ref-pi-packages-structure
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-pi-repo: shared or unknown impact; investigate all themes"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-locations
+      - skills-authoring
+      - skills-extension-fields
+      - skills-loading
+      - skills-invocation
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-ext-reload
+      - ref-pi-ext-resources-discover
+      - ref-pi-packages-dedupe
+      - ref-pi-packages-structure
+      - ref-pi-res-code-project-order
+      - ref-pi-res-code-user-order
+      - ref-pi-settings-overview
+      - ref-pi-settings-resources
+      - ref-pi-skills-code-collision
+      - ref-pi-skills-code-discovery
+      - ref-pi-skills-discovery
+      - ref-pi-skills-format
+      - ref-pi-skills-invocation
+      - ref-pi-skills-loading
+      - ref-pi-skills-locations
+      - ref-pi-skills-structure
+      - ref-pi-skills-validation
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    reason: "source-pi-repo: shared or unknown impact; investigate all themes"
+pending_question_ids:
+  - config.migration
+  - config.diagnostics
+  - skills.discovery
+  - skills.extensions
+  - skills.conditions
+  - skills.diagnostics
+  - mcp.diagnostics
+  - hooks.input
+  - hooks.output
+  - agents.format
+  - agents.limits
+  - agents.diagnostics
+  - providers.metadata
+  - providers.forwarding
+  - providers.responses
+  - providers.diagnostics
+  - plugins.diagnostics
+investigation_notes:
+  - source-pi-repo 的 changed_paths 是全树：受管工作区对 baseline 781152fc 与 observed 83692682 都是 shallow 边界（.git/shallow 同时记录两个
+    commit），本地没有可用的共同祖先，git diff 只能给出两棵树的整体差异 1885 个文件。因此本轮按固定问题涉及的证据文件逐个复查，不把 changed_paths 当
+    作可用的候选路径清单。14 个被既有引用引用的文件在新提交下全部有变化。
+  - 上游发生仓库与包作用域迁移：仓库地址由 github.com/badlogic/pi-mono 变为 github.com/earendil-works/pi（根 README、package.json
+    的 repository 字段、文档内链均已指向新地址），npm 作用域由 @mariozechner 变为 @earendil-works。registry/sources/source-pi-repo.yaml 仍登记旧
+    地址，该地址已 301 到新地址，属同仓改名，不是新仓库；本轮新引用的 official_url 统一使用改名后的地址，摘录内容取自同一固定提交 83692682，
+    结论适用性不受影响。registry/ 下的登记文件超出本轮写入范围，已作为需要维护者处理的事项留在本记录中。
+  - source-pi-npm 未变（0.73.1@同一 integrity），但该包在仓库内已改名为 @earendil-works/pi-coding-agent 且仓库内版本为 1.0.1。已发布的 npm 观察值仍
+    是旧包，二者的对应关系本固定来源未说明，未据此改动任何版本结论。
+  - 结论被上游推翻并已在 v3 章节更正：MCP 已从“核心不做、需扩展自建”变为内置（docs/mcp.md、mcp.json、pi mcp 子命令、builtin:mcp 内置扩展、资源
+    工具、四种 exposure、OAuth 存储）；项目信任机制已存在（security.md 与 settings.md 的 defaultProjectTrust），v2 的“核心没有项目信任提示”不再成立；
+    Skill 名称不再要求与父目录同名（skills.ts 的 validateName 不再接收父目录名），也不再因此告警。
+  - 顺序类更正：provider 凭据解析中 models.json 的 apiKey 已排在环境变量之前；enableSkillCommands 只影响交互式命令发现，手动输入的 /skill:name
+    仍可用；示例代码的导入包名改为 @earendil-works/pi-coding-agent。
+  - 独立复核：本轮属于高影响变化（新来源推翻已发布的 MCP 与项目信任结论），独立复核已由另一 Agent 执行，结论为 PARTIAL——七章结论可支撑，四处必须
+    修正已由修正子代理落实。reviewed_by 与 reviewed_at 由父进程在采纳这些修正后统一填写，交付时保持留空、review_status 保持 pending。
+  - 复核修正一：pi-mcp-v3 曾写“README 把 MCP 列为随包提供的能力”，但提交 83692682 的 packages/coding-agent/README.md 与根 README.md 都没有
+    MCP 字样（复核与本轮核对一致）。该句已删除，改为说明内置结论的依据是 docs/mcp.md 与内置扩展 builtin:mcp。
+  - 复核修正二：pi-custom_agents-v3 的“核心不提供子 agent”原引用 ref-pi-readme-philosophy 绑定旧快照 781152fc 且未标版本边界。已新建
+    ref-pi-readme-skips-features（提交 83692682 根 README.md:19）并改用，正文补版本边界说明；旧快照同段的“**No MCP.**”在新提交下已失效。
+  - 复核修正三：短摘录截断已按原文补全——ref-pi-mcp-ext-registration 补上“同名重复注册会替换本扩展先前的注册；他人扩展已注册的名字、非法名字与
+    非法配置会 throw”，ref-pi-ext-doc-annotations 补上该行末句，ref-pi-mcp-lifecycle 的定位由 100-102 收紧为 100-100。docs/mcp.md 第 100 行长 845
+    字符，超过 800 字符上限，按契约不硬截，改在章节正文显式标注该行后半段（按需等待、重试、掉线重连、工具列表变更）本轮未取证。
+  - 复核修正四：本报告原写“chapter-current.yaml 未在本轮更新、当前版仍是 v2”，与工作区事实相反。本轮子代理确实未修改该文件，父进程在聚合阶段
+    依据本轮交付把 pi 七主题全部选为 v3。这与契约第 5 节不冲突：独立复核已完成且结论可支撑，故允许提升 v3 为当前版。
+  - 校验：本轮 62 条新引用（58 条 file_lines + 4 条 symbol）已用脚本逐条比对上游工作区文件，摘录逐字命中、长度均不超过 800 字符；复核修正涉及的
+    8 条摘录重新逐条比对通过；pnpm knowledge:validate 通过。pending_question_ids 的 17 项与七章 v3 的实际非 answered 状态逐项一致。

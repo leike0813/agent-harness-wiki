@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-mcp-transport-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Transport selection"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/mcp-protocol-transports.md
+excerpt: |
+  ## Transport selection
+
+  `client.ts:createTransport()` chooses transport from config:
+
+  - `type` omitted or `"stdio"` -> `createStdioTransport`
+  - `"http"` -> `createHttpTransport`
+  - `"sse"` -> `createSseTransport`
+
+  `"sse"` uses the legacy HTTP+SSE transport: it opens the configured URL with GET, reads the `endpoint` event's plain-text URL/path, POSTs JSON-RPC requests to that endpoint, and receives JSON-RPC responses on the stream.

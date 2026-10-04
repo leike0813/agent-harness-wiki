@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-auto-deny-detail
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo-20261003
+locator:
+  kind: file_lines
+  file: src/core/auto-approval/autoDenyReason.ts
+  start: 13
+  end: 24
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/72143527fd33306e5541116093c2cbf803cce9e0/src/core/auto-approval/autoDenyReason.ts"
+excerpt: |-
+  export type AutoDenyDetail = {
+  	kind: "dcg" | "denylist" | "not_allowlisted" | "dangerous_substitution" | "malformed_command" | "guard_unavailable"
+  	/** Offending sub-command text (or the full command when no single offending sub-command applies). */
+  	command?: string
+  	/** Matched denied prefix, for `denylist` denials. */
+  	pattern?: string
+  	/** Raw DCG reason string, for `dcg` denials (not the i18n'd chat string). */
+  	dcgReason?: string
+  	/** Raw DCG rule id, for `dcg` denials. */
+  	dcgRuleId?: string
+  	/** Parse-error message, for `malformed_command` denials. */
+  	parseError?: string

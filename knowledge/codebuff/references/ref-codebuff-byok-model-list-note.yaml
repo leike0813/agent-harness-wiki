@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-model-list-note
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-byok-command-20261003
+locator:
+  kind: file_lines
+  file: cli/src/commands/byok.ts
+  start: 127
+  end: 142
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  function modelListNote(
+    connection: Pick<ByokConnection, 'name' | 'model'>,
+    validation: ByokValidationResult,
+  ): string {
+    if (!validation.ok || validation.modelListed !== false) return ''
+    const available = validation.availableModels ?? []
+    const shown = available.slice(0, AVAILABLE_MODELS_SHOWN)
+    const more =
+      available.length > shown.length
+        ? ` and ${available.length - shown.length} more`
+        : ''
+    const listing = shown.length
+      ? ` It lists: ${shown.map((id) => `\`${id}\``).join(', ')}${more}.`
+      : ''
+    return `\n\nWarning: \`${connection.model}\` is not in this endpoint's model list.${listing} Change it with \`/byok update ${connection.name} <model>\`, unless this proxy routes model ids it does not list.`
+  }

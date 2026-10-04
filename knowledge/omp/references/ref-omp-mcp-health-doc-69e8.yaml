@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-mcp-health-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Health, reconnect, and partial failure behavior"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/mcp-runtime-lifecycle.md
+excerpt: |
+  - Reconnect retries with backoff (`500`, `1000`, `2000`, `4000` ms), reloads tools, and notifies consumers on success. A crash-storm circuit breaker suspends automatic reconnects for a server after more than 5 reconnect attempts within 30s; manual `/mcp reconnect` resets that history.
+  - If a previously connected HTTP/SSE server remains unavailable after the retry ladder, quiet scheduled probes continue after 15s, doubling up to 5 minutes until recovery, explicit disconnect, or reconfiguration. Scheduled probes make one full connection attempt and concurrent reconnect callers share it. Stdio and remote servers that never connected stop at the ladder.
+  - Initial connection timeouts trigger a reconnect attempt; print-mode readiness includes these attempts.

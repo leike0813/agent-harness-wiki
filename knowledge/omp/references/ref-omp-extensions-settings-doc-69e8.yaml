@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-extensions-settings-doc-69e8
+harness_id: omp
+snapshot_id: snapshot-omp-repo-69e8c9e
+locator:
+  kind: document_section
+  heading: "Runtime setting overrides"
+official_url: https://github.com/can1357/oh-my-pi/blob/69e8c9e8ccaacd1ac0c917ff4e962d11d7285565/docs/extensions.md
+excerpt: |
+  - `override(scope, value)` writes the in-memory runtime layer; it is never persisted and outranks project, global, and `--config` layers. A setting's environment binding normally takes precedence; definitions using `envFallback` instead defer to configured settings. A value the definition rejects throws, e.g. `Invalid value for recap.enabled: "nope" (expected a boolean)`.
+  - `clearOverride(scope)` releases the override, restoring the persisted/default value.
+  - `isConfigured(scope)` / `provenance(scope)` tell a user-configured value from the default (`"env" | "runtime" | "overlay" | "project" | "global" | "default"`).

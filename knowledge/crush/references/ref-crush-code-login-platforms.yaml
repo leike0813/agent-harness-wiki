@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-login-platforms
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261003
+locator:
+  kind: file_lines
+  file: internal/login/login.go
+  start: 27
+  end: 47
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  	PlatformHyper   = "hyper"
+  	PlatformCopilot = "copilot"
+  	PlatformOpenAI  = "openai"
+  	PlatformGrok    = "grok"
+  )
+
+  // startMessages are the first lines printed by the non-interactive flow.
+  var startMessages = map[string]string{
+  	PlatformHyper:   "Initiating device authorization...",
+  	PlatformCopilot: "Requesting device code from GitHub...",
+  	PlatformOpenAI:  "Starting browser authorization...",
+  	PlatformGrok:    "Starting browser authorization...",
+  }
+
+  // titles are the provider names shown in the mini TUI header.
+  var titles = map[string]string{
+  	PlatformHyper:   "Charm Hyper",
+  	PlatformCopilot: "GitHub Copilot",
+  	PlatformOpenAI:  "ChatGPT",
+  	PlatformGrok:    "Grok",
+  }

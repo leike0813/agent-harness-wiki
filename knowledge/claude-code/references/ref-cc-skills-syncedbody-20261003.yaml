@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-skills-syncedbody-20261003
+harness_id: claude-code
+snapshot_id: snapshot-claude-code-skills-doc-20261003
+locator:
+  kind: document_section
+  heading: "How Claude Code handles the body of a synced skill"
+official_url: https://code.claude.com/docs/en/skills.md
+excerpt: >-
+  * In a cloud session, the body keeps the behavior a local skill has, because the session runs in an isolated container.
+  * In a Cowork session on your desktop, the body keeps the behavior a local skill has, except that Claude Code replaces every `!` command line with the [`disableSkillShellExecution` placeholder](#inject-dynamic-context), as it does for every skill you supply there.
+  * In any other session on your machine, Claude Code doesn't run [`!` commands](#inject-dynamic-context), doesn't attach the files that `@` references name the way it does for a local skill,
+  and doesn't substitute the `${CLAUDE_PROJECT_DIR}` and `${CLAUDE_SESSION_ID}` placeholders, so the `@` references and both placeholders reach Claude as literal text.

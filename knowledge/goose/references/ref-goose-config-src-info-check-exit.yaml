@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-info-check-exit
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261003
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/commands/info.rs
+  start: 236
+  end: 271
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  // Split auth failures (missing/invalid credential) from provider
+              // construction failures (unknown provider, malformed provider
+              // config). Labeling the latter as "Auth: FAILED" misdirects
+              // troubleshooting toward rotating API keys.
+              ...
+              Err(ProviderCheckError::ProviderRequest(error)) => match error {
+                  ProviderError::Authentication(_) => { ... }
+              ...
+              // Propagate non-zero exit status so automation (CI scripts, install
+              // checks, health probes) can rely on `goose info --check` as a
+              // pre-flight verifier.
+              if result.is_err() {
+                  return Err(anyhow!("provider check failed"));
+              }
