@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { expect, test } from "vitest";
+import { afterEach, expect, test, vi } from "vitest";
 import { consumerPackageName } from "../../src/publication/consumer-verification.js";
 import type { LedgerSnapshot } from "../../src/publication/github.js";
 import {
@@ -130,6 +130,8 @@ const report = (platform: string, overrides: Record<string, unknown> = {}) => ({
 
 const reports = PLATFORMS.map((platform) => report(platform));
 
+afterEach(() => vi.useRealTimers());
+
 async function publishNext() {
   const harness = registryHarness();
   const { calls, runner } = programRunner(harness);
@@ -207,6 +209,58 @@ test("next publishes the exact tgz and records the candidate", async () => {
     "public",
   ]);
 });
+
+test.each(["visible", "missing", "mismatched"] as const)(
+  "next confirms a delayed registry version: %s",
+  async (result) => {
+    const harness = registryHarness();
+    const { calls, runner } = programRunner(harness);
+    const store = memoryStore();
+    const manifest = await manifestFor();
+    let reads = 0;
+    const fetchImpl: typeof fetch = async (input, init) => {
+      if (String(input) === PACKAGE_URL) {
+        reads += 1;
+        if (reads < 4 || result === "missing")
+          return Response.json({ versions: {} });
+      }
+      if (String(input) === TARBALL_URL && result === "mismatched")
+        return new Response("different bytes");
+      return harness.fetchImpl(input, init);
+    };
+    vi.useFakeTimers();
+    const pending = nextCandidate({
+      store,
+      runner,
+      manifest,
+      now: T0,
+      registry: REGISTRY,
+      fetchImpl,
+    });
+    const checked =
+      result === "visible"
+        ? expect(pending).resolves.toMatchObject({
+            status: "next",
+            published: true,
+          })
+        : expect(pending).rejects.toMatchObject({
+            code:
+              result === "missing" ? "registry_missing" : "integrity_mismatch",
+          });
+    await Promise.all([
+      checked,
+      vi
+        .waitFor(() => expect(reads).toBeGreaterThanOrEqual(2))
+        .then(() => vi.runAllTimersAsync()),
+    ]);
+    expect(calls).toHaveLength(1);
+    expect(store.state.npm.candidates["1.0.0"]!.status).toBe(
+      result === "visible" ? "next" : "failed",
+    );
+    expect(store.state.npm.latest).toBeNull();
+    if (result === "mismatched") expect(reads).toBe(4);
+  },
+);
 
 test("publishing uses an isolated environment with OIDC identity only", async () => {
   process.env.ACTIONS_ID_TOKEN_REQUEST_URL = "https://oidc.test/token";
@@ -431,15 +485,43 @@ test("a failed promotion marks the candidate failed and leaves latest", async ()
   expect(store.state.npm.latest).toBeNull();
 });
 
-test("an unconfirmed registry latest leaves the candidate verified", async () => {
-  const { store, harness } = await publishNext();
-  const { runner } = fakeRunner();
-  await expect(
-    promoteCandidate(promoteOptions(store, runner, harness.fetchImpl)),
-  ).rejects.toThrow(/Registry latest/);
-  expect(store.state.npm.candidates["1.0.0"]!.status).toBe("verified");
-  expect(store.state.npm.latest).toBeNull();
-});
+test.each([true, false])(
+  "registry latest propagation: visible=%s",
+  async (visible) => {
+    const { store, harness } = await publishNext();
+    let promoted = false;
+    let reads = 0;
+    const { calls, runner } = fakeRunner(() => {
+      promoted = true;
+      return "";
+    });
+    const fetchImpl: typeof fetch = async (input, init) => {
+      if (String(input) === PACKAGE_URL && promoted) {
+        reads += 1;
+        if (visible && reads >= 3) harness.state.latest = "1.0.0";
+      }
+      return harness.fetchImpl(input, init);
+    };
+    vi.useFakeTimers();
+    const pending = promoteCandidate(promoteOptions(store, runner, fetchImpl));
+    const checked = visible
+      ? expect(pending).resolves.toMatchObject({
+          state: { npm: { latest: "1.0.0" } },
+        })
+      : expect(pending).rejects.toMatchObject({ code: "latest_unconfirmed" });
+    await Promise.all([
+      checked,
+      vi
+        .waitFor(() => expect(reads).toBeGreaterThanOrEqual(1))
+        .then(() => vi.runAllTimersAsync()),
+    ]);
+    expect(calls).toHaveLength(1);
+    expect(store.state.npm.candidates["1.0.0"]!.status).toBe(
+      visible ? "promoted" : "verified",
+    );
+    expect(store.state.npm.latest).toBe(visible ? "1.0.0" : null);
+  },
+);
 
 test.each<[string, string, number]>([
   ["1.0.0", "1.0.1", -1],

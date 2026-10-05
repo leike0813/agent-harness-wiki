@@ -37,6 +37,8 @@ pnpm publication reconcile --deployment-id <平台部署ID>
 
 若该 npm 版本已存在，重跑核对实际 integrity 后继续验收，不复写版本。失败候选保持公开 next 状态或失败记录，latest 保留旧值；第一次失败则尚无稳定渠道。修正公开程序使用新版本，不在已发布版本上替换字节。
 
+`npm publish` 和 `npm dist-tag` 成功后，公开 registry 可能暂时仍返回旧元数据。发布工具请求重新验证缓存，最多回读 31 次、间隔 20 秒，每次 HTTP 读取仍有独立的超时和大小限制；等待期间只读取，不重复执行发布或推广。包字节不符及读取错误立即失败。版本始终不可读时将候选记为 failed；latest 未确认时保留 verified，台账 latest 不变。可在 Actions 重跑同一版本，先核对已发布包字节，再继续六平台验收和推广。
+
 ### 一次性建包
 
 首个 1.0.0 由维护者交互建包。工作流提供已通过受控验证的真实 tgz 和 manifest；先核对文件、版本与 integrity，再使用临时隔离 npm 配置登录并发布同一文件到 next。不要把 token 或验证码发送到聊天、日志或仓库。

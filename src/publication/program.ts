@@ -157,6 +157,7 @@ async function fetchRegistry(
     signal: AbortSignal.timeout(15_000),
     headers: {
       accept: "application/vnd.npm.install-v1+json, application/json",
+      "cache-control": "no-cache",
     },
   });
   if (response.status === 404) {
@@ -174,6 +175,18 @@ async function fetchRegistry(
     latest: parsed["dist-tags"].latest ?? null,
     versions: parsed.versions,
   };
+}
+
+/** Poll after a registry write; errors and integrity mismatches fail immediately. */
+async function confirmRegistry(
+  check: () => Promise<boolean>,
+): Promise<boolean> {
+  for (let attempt = 0; attempt < 31; attempt += 1) {
+    if (attempt > 0)
+      await new Promise<void>((resolve) => setTimeout(resolve, 20_000));
+    if (await check()) return true;
+  }
+  return false;
 }
 
 /**
@@ -405,15 +418,20 @@ export async function nextCandidate(options: {
     registry,
   ).catch(fail);
 
-  const after = await verifyPublishedVersion(fetchImpl, {
-    registry,
-    name: manifest.package,
-    manifest,
+  const confirmed = await confirmRegistry(async () => {
+    const after = await verifyPublishedVersion(fetchImpl, {
+      registry,
+      name: manifest.package,
+      manifest,
+    });
+    return after.state === "present";
   }).catch(fail);
-  if (after.state !== "present")
-    throw new ProgramError(
-      "registry_missing",
-      `Published ${manifest.package}@${manifest.version} is not readable on the registry.`,
+  if (!confirmed)
+    return fail(
+      new ProgramError(
+        "registry_missing",
+        `Published ${manifest.package}@${manifest.version} is not readable on the registry.`,
+      ),
     );
   snapshot = await writeCandidate(
     options.store,
@@ -681,15 +699,20 @@ export async function promoteCandidate(options: {
     );
     throw error;
   }
-  const confirmed = await fetchRegistry(
-    fetchImpl,
-    registry,
-    consumerPackageName,
-  );
-  if (confirmed?.latest !== options.version)
+  let latest: string | null = null;
+  const confirmed = await confirmRegistry(async () => {
+    const metadata = await fetchRegistry(
+      fetchImpl,
+      registry,
+      consumerPackageName,
+    );
+    latest = metadata?.latest ?? null;
+    return latest === options.version;
+  });
+  if (!confirmed)
     throw new ProgramError(
       "latest_unconfirmed",
-      `Registry latest is ${confirmed?.latest ?? "unset"} after promoting ${options.version}.`,
+      `Registry latest is ${latest ?? "unset"} after promoting ${options.version}.`,
     );
   return writeCandidate(
     options.store,
