@@ -76,7 +76,11 @@ test.each(["/", "/wiki/"])(
     expect(index).toContain('lang="zh-CN"');
     expect(index).toContain("在线 MCP 接入");
     expect(index).toContain("mcpServers");
-    expect(index).toContain("agent-harness-wiki@1.0.0");
+    for (const page of [index, mcpGuide]) {
+      expect(page).toContain("agent-harness-wiki");
+      expect(page).not.toMatch(/agent-harness-wiki@(?:latest|\d)/);
+      expect(page).toContain("init");
+    }
     expect(index).toContain(
       "https://leike0813.github.io/agent-harness-wiki/data/v1/",
     );

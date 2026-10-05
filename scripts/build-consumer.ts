@@ -11,6 +11,8 @@ import {
 } from "node:fs/promises";
 import path from "node:path";
 import ts from "typescript";
+import { parse } from "yaml";
+import { catalogSchema } from "../src/domain/catalog.js";
 
 const root = path.resolve("packages/consumer");
 await mkdir("var/consumer-build", { recursive: true });
@@ -61,6 +63,19 @@ try {
     }
   }
   await copyModule("consumer/index.js");
+  const catalog = catalogSchema.parse(
+    parse(await readFile("catalog/harnesses.yaml", "utf8")),
+  );
+  const products = catalog.products.map(({ harness_id, name, aliases }) => ({
+    harness_id,
+    name,
+    aliases,
+  }));
+  await mkdir(path.join(staging, "consumer/init"), { recursive: true });
+  await writeFile(
+    path.join(staging, "consumer/init/products.json"),
+    `${JSON.stringify(products)}\n`,
+  );
   try {
     await stat(path.join(root, "dist"));
     await rename(path.join(root, "dist"), previous);

@@ -36,6 +36,7 @@ for (const file of packed.files)
   );
 for (const required of [
   "dist/consumer/index.js",
+  "dist/consumer/init/products.json",
   "LICENSE",
   "LICENSE-knowledge",
   "NOTICE",

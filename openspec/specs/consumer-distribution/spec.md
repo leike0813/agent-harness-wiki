@@ -14,11 +14,15 @@ The public package SHALL be agent-harness-wiki, initial version 1.0.0, with ahw 
 - **THEN** ahw runs without pnpm, TypeScript or native build tools and all runtime imports resolve from installed package dependencies
 
 ### Requirement: Consumer commands and startup options
-The consumer SHALL expose query list/topic/search/compare/source, mcp, help and version. Startup options SHALL be data-url, offline, cache-dir and no-file-cache, with default https://leike0813.github.io/agent-harness-wiki/data/v1/. Tools SHALL not accept URL or release switches. Help/version SHALL require no knowledge access; program version SHALL also appear in MCP serverInfo.
+The consumer SHALL expose query list/topic/search/compare/source, mcp, init, help and version. Query commands and MCP SHALL remain read-only; init SHALL follow consumer-mcp-init. Startup options SHALL be data-url, offline, cache-dir and no-file-cache, with default https://leike0813.github.io/agent-harness-wiki/data/v1/. Tools SHALL not accept URL or release switches. Help/version/init SHALL require no knowledge access; program version SHALL also appear in MCP serverInfo.
 
 #### Scenario: Help without published site
 - **WHEN** a user requests help or version without network access
 - **THEN** it succeeds without initializing knowledge or pretending the default site is deployed
+
+#### Scenario: Configuration without published site
+- **WHEN** a user runs init against a nonworking data URL
+- **THEN** configuration is planned and written independently of knowledge availability
 
 ### Requirement: Platform cache conventions and runtime
 Consumers SHALL require Node >=24.12.0 <25. Explicit cache-dir SHALL resolve from cwd and override platform defaults. Linux SHALL use valid absolute XDG_CACHE_HOME or home/.cache; macOS home/Library/Caches; Windows valid absolute LOCALAPPDATA or home/AppData/Local, followed by the established agent-harness-wiki namespace and Windows Cache suffix.
@@ -42,11 +46,15 @@ A validation-only CI matrix SHALL cover Linux x64, macOS arm64 and Windows nativ
 - **THEN** its combination remains not_run and is not declared supported or marked accepted
 
 ### Requirement: License attribution and consumer documentation
-Code SHALL use MIT and original knowledge/documentation CC BY 4.0, preserving third-party rights and attribution. Consumer documentation SHALL explain fixed-version npx/MCP, pure lexical discovery, URL and cache controls, limited history, local full-history preparation, errors and protocol upgrade. Publishing, OIDC, next/latest and server retention SHALL remain separate delivery work.
+Code SHALL use MIT and original knowledge/documentation CC BY 4.0, preserving third-party rights and attribution. Consumer documentation SHALL explain init, unversioned default npx/MCP launch, optional exact-version installation, pure lexical discovery, URL and cache controls, limited history, local full-history preparation, errors and protocol upgrade. Publishing, OIDC, next/latest and server retention SHALL remain separate delivery work.
 
 #### Scenario: Third-party excerpt
 - **WHEN** a published source contains an official document excerpt
 - **THEN** documentation preserves its source and original rights rather than claiming the project license replaces them
+
+#### Scenario: Default MCP template
+- **WHEN** a reader uses the documentation site's default configuration
+- **THEN** the npm package argument is agent-harness-wiki without a version suffix
 
 ### Requirement: Public exact-version delivery
 The tag-selected consumer tgz SHALL pass external installation and CLI/SDK stdio acceptance before next publication. Exact installation from public npm against real Pages SHALL precede latest promotion, with actual program, knowledge and platform identities recorded. Bootstrap, trusted-publishing preparation and repeated attempts SHALL follow the independent program publication contract without changing the consumer's read-only runtime contract.

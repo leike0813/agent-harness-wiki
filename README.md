@@ -63,15 +63,17 @@ pnpm online:verify <输出目录>
 
 ### 消费者 CLI／MCP
 
-公开包 `agent-harness-wiki@1.0.0` 提供在线只读查询与本地 stdio MCP，按需读取已发布知识，不携带完整历史、SQLite 或语义模型。完整说明见 [消费者包说明](packages/consumer/README.md)，取舍见 [ADR 0010](docs/decisions/0010-online-consumer.md)。
+公开包 `agent-harness-wiki` 提供在线只读查询与本地 stdio MCP，按需读取已发布知识，不携带完整历史、SQLite 或语义模型；1.1.0 起增加 `init` 配置命令，在写文件前生成计划并确认，按产品写入宿主 MCP 配置。`init` 不读取知识、不访问网络、不执行 harness，查询与 MCP 仍只读。完整说明见 [消费者包说明](packages/consumer/README.md)，取舍见 [ADR 0010](docs/decisions/0010-online-consumer.md)。
 
-[1.0.0 已发布到 npm](https://www.npmjs.com/package/agent-harness-wiki)，六组公开平台验收与 OIDC latest 推广已通过。以下命令可直接使用；交付记录见 [发布指南](docs/publication.md)。
+[npm latest 仍为 1.0.0](https://www.npmjs.com/package/agent-harness-wiki)，六组公开平台验收与 OIDC latest 推广已通过；1.1.0 增加 `init` 与不带版本标签的默认 MCP 模板，尚未发布到 npm。以下命令在当前发布版本可用：
 
 ```sh
 npx -y agent-harness-wiki@1.0.0 query topic --harness codex --topic mcp --surface-id cli
 npx -y agent-harness-wiki@1.0.0 query search --text MCP --json
 npx -y agent-harness-wiki@1.0.0 mcp
 ```
+
+1.1.0 发布后可直接使用不带版本标签的 `npx -y agent-harness-wiki`，并用 `npx -y agent-harness-wiki init` 配置宿主；默认模板和 `init` 说明见 [MCP 配置指南](docs/mcp-configuration.md)。交付记录见 [发布指南](docs/publication.md)。
 
 默认入口 `https://leike0813.github.io/agent-harness-wiki/data/v1/` 已部署，数据、来源和同发布页面已通过公开回读；`--data-url` 只覆盖同协议镜像，`--offline` 只读同一入口／协议下最近一次成功初始化的必需缓存，`--cache-dir` 指定目录，`--no-file-cache` 关闭文件缓存读写。缓存默认目录：Linux 有效绝对 `$XDG_CACHE_HOME/agent-harness-wiki`（无效时 `~/.cache/agent-harness-wiki`）、macOS `~/Library/Caches/agent-harness-wiki`、Windows `%LOCALAPPDATA%\agent-harness-wiki\Cache`（无效时 `%USERPROFILE%\AppData\Local\agent-harness-wiki\Cache`）。消费者检索只有词法入口；每个产品 × 主题只保留当前章与最近一个历史版，选中被裁剪章节返回正常 `history_not_available`，完整历史需单独准备本地发布。在线发布本身也只保留 current 与最近一个已验证的恢复目标，更早的发布退出在线后绑定它的进程可能须重启，缓存不保证完整离线读取。
 

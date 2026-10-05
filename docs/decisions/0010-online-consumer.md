@@ -39,6 +39,13 @@
 - 消费者只用词法检索，结果不含 `semantic_status`，不提供语义开关或模型下载；仓库本地混合检索字段保持独立。
 - 代码 MIT（`LICENSE`），原创知识与文档 CC BY 4.0（`LICENSE-knowledge`），第三方来源摘录保留原权利（`NOTICE`）。
 
+### 消费者 init 配置命令
+
+- 消费者包 1.1.0 增加 `init`：搜索多选选择产品（界面移植自 ResearchSpec，其本身改编自 OpenSpec 1.5.0，均为 MIT，归属见 `NOTICE`），`--tools` 接受逗号分隔的产品 id、名称或别名，项目作用域默认 cwd、`--global` 为全局；始终先展示计划，确认默认否，`-y`／`--yes` 只在非 TUI 参数模式跳过确认，非交互输入必须同时给出 `--tools` 与 `--yes`。
+- `init` 按产品写入已核实的本机 MCP 入口，保留其他服务器与设置；写入前完成解析与可写性预检，任一目标非法或不可写则整轮不写；同名配置相同则保持不动，不同才在确认后更新。它只编辑宿主配置文件，不读取知识、不初始化在线服务、不访问网络、不执行 harness；查询与 MCP 保持只读。
+- 生成的启动为不带版本标签的 `npx -y agent-harness-wiki mcp`，显式传入的 `--data-url`／`--offline`／`--cache-dir`／`--no-file-cache` 随配置保留；默认 MCP 模板使用不带版本标签的包名，需要固定时用户可指定精确版本。写入成功不代表运行时健康。
+- 该命令由 change `consumer-mcp-init` 交付；公开 npm 发布与保留政策仍属 `online-publication-and-delivery`，本决定不声明 1.1.0 已发布。
+
 ## 后果
 
 - 磁盘目标是进程间软上限，不声称严格配额；容量回收后离线可能缺资源，这是按需缓存边界，不派生为 `unknown`。

@@ -16,6 +16,7 @@ import { readFileSync } from "node:fs";
 import {
   cp,
   lstat,
+  stat,
   mkdir,
   mkdtemp,
   readFile,
@@ -492,13 +493,32 @@ function isolatedEnvironment(
   prefix: string,
 ): Record<string, string> {
   const home = path.join(base, "home with spaces");
+  const executionVariables = new Set([
+    "PATH",
+    "PATHEXT",
+    "SYSTEMROOT",
+    "WINDIR",
+    "COMSPEC",
+    "TMP",
+    "TEMP",
+    "TMPDIR",
+    "LANG",
+    "LC_ALL",
+    "TZ",
+    "TERM",
+    "COLORTERM",
+    "CI",
+    "NO_COLOR",
+    "FORCE_COLOR",
+    "LD_LIBRARY_PATH",
+    "DYLD_LIBRARY_PATH",
+  ]);
   return {
     ...Object.fromEntries(
       Object.entries(process.env).filter(
         (entry): entry is [string, string] =>
           entry[1] !== undefined &&
-          !/^npm_config_/i.test(entry[0]) &&
-          !/^(?:https?|all|no)_proxy$/i.test(entry[0]),
+          executionVariables.has(entry[0].toUpperCase()),
       ),
     ),
     HOME: home,
@@ -734,6 +754,141 @@ async function main(): Promise<void> {
       ])
         await runAhw(command, 1);
     });
+
+    await check(
+      "init requires confirmation and creates nothing beforehand",
+      async () => {
+        const result = JSON.parse(
+          await runAhw(["--json", "init", "--tools", "codex,claude-code"], 1),
+        ) as { error: { code: string } };
+        assert(
+          result.error.code === "confirmation_required",
+          "non-TTY init did not require confirmation",
+        );
+        for (const target of [
+          path.join(prefix, ".codex"),
+          path.join(prefix, ".mcp.json"),
+        ]) {
+          let exists = false;
+          try {
+            await stat(target);
+            exists = true;
+          } catch (error) {
+            if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+          }
+          assert(!exists, `init wrote before confirmation: ${target}`);
+        }
+      },
+    );
+    await check(
+      "installed init configures project MCP without knowledge access",
+      async () => {
+        const before = [...data!.requests.values()].reduce(
+          (sum, count) => sum + count,
+          0,
+        );
+        const result = JSON.parse(
+          await runAhw([
+            "--json",
+            "--data-url",
+            "http://127.0.0.1:1/data/v1/",
+            "--offline",
+            "--cache-dir",
+            "demo cache",
+            "--no-file-cache",
+            "init",
+            "--tools",
+            "Codex,claude-code",
+            "-y",
+          ]),
+        ) as { status: string; plan: { scope: string } };
+        assert(
+          result.status === "configured" && result.plan.scope === "project",
+          "init did not apply project plan",
+        );
+        const config = JSON.parse(
+          await readFile(path.join(prefix, ".mcp.json"), "utf8"),
+        ) as {
+          mcpServers: Record<string, { command: string; args: string[] }>;
+        };
+        const entry = config.mcpServers["agent-harness-wiki"]!;
+        assert(entry.command === "npx", "unexpected MCP launcher");
+        assert(
+          entry.args.includes("agent-harness-wiki") &&
+            !entry.args.some((arg) => arg.startsWith("agent-harness-wiki@")),
+          "init pinned the npm package",
+        );
+        assert(
+          entry.args.includes(path.join(prefix, "demo cache")),
+          "relative cache directory was not resolved",
+        );
+        assert(
+          entry.args.includes("--offline") &&
+            entry.args.includes("--no-file-cache"),
+          "runtime options were lost",
+        );
+        assert(
+          (
+            await readFile(path.join(prefix, ".codex", "config.toml"), "utf8")
+          ).includes("agent-harness-wiki"),
+          "Codex TOML was not configured",
+        );
+        assert(
+          [...data!.requests.values()].reduce(
+            (sum, count) => sum + count,
+            0,
+          ) === before,
+          "init accessed knowledge",
+        );
+      },
+    );
+    await check(
+      "installed init is idempotent and supports global scope",
+      async () => {
+        const repeated = JSON.parse(
+          await runAhw([
+            "--json",
+            "--data-url",
+            "http://127.0.0.1:1/data/v1/",
+            "--offline",
+            "--cache-dir",
+            "demo cache",
+            "--no-file-cache",
+            "init",
+            "--tools",
+            "codex,claude-code",
+            "--yes",
+          ]),
+        ) as { status: string; backups: string[] };
+        assert(
+          repeated.status === "unchanged" && repeated.backups.length === 0,
+          "repeated init changed configuration",
+        );
+        const global = JSON.parse(
+          await runAhw([
+            "--json",
+            "init",
+            "--tools",
+            "codex",
+            "--global",
+            "-y",
+          ]),
+        ) as { status: string; plan: { scope: string } };
+        assert(
+          global.status === "configured" && global.plan.scope === "global",
+          "global init failed",
+        );
+        assert(
+          (
+            await readFile(
+              path.join(env.HOME!, ".codex", "config.toml"),
+              "utf8",
+            )
+          ).includes("agent-harness-wiki"),
+          "global configuration escaped isolated home",
+        );
+      },
+    );
 
     const cliResults: Record<string, unknown> = {};
     const cliCases: {

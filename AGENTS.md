@@ -39,7 +39,7 @@
 
 构建 M1 生产搜索发布前，核对 [本地搜索模型锁](registry/search-model.json) 与 [搜索 ADR](docs/decisions/0007-offline-hybrid-search.md)；词法索引只覆盖当前小节，语义模型缺失须显式降级。
 
-知识有两条独立交付线。本地线保留完整章节历史，以标准 JSON、SQLite、生成 Markdown 和本机语义索引验收混合检索，生产构建继续要求 [搜索 ADR](docs/decisions/0007-offline-hybrid-search.md) 的模型门禁。在线线是独立身份的静态投影：`data/v1/` 资源与同发布页面，每个产品 × 主题只收录当前章与最近一个历史版，其余章节退为裁剪标记，检索只有词法入口。在线构建从结构化真源投影，不依赖本地已发布数据，不访问上游补事实、不执行 harness，生产拒绝 fixture。消费者包与在线 DTO／网络政策由 `online-consumer-cli-mcp` 交付：公开名 `agent-harness-wiki`、命令 `ahw`，根包改名 `agent-harness-wiki-maintainer` 并保持 private；公开 CI／npm／Pages 发布由 `online-publication-and-delivery` 实现；持久台账、不可变归档、current／恢复两指针在线保留与恢复、独立 next／latest 发版见 [ADR 0011](docs/decisions/0011-public-publication.md) 和 [操作指南](docs/publication.md)。边界与预算见 [在线分发 ADR](docs/decisions/0009-online-knowledge-distribution.md)，消费者契约见 [消费者 ADR](docs/decisions/0010-online-consumer.md)。
+知识有两条独立交付线。本地线保留完整章节历史，以标准 JSON、SQLite、生成 Markdown 和本机语义索引验收混合检索，生产构建继续要求 [搜索 ADR](docs/decisions/0007-offline-hybrid-search.md) 的模型门禁。在线线是独立身份的静态投影：`data/v1/` 资源与同发布页面，每个产品 × 主题只收录当前章与最近一个历史版，其余章节退为裁剪标记，检索只有词法入口。在线构建从结构化真源投影，不依赖本地已发布数据，不访问上游补事实、不执行 harness，生产拒绝 fixture。消费者包与在线 DTO／网络政策由 `online-consumer-cli-mcp` 交付：公开名 `agent-harness-wiki`、命令 `ahw`，根包改名 `agent-harness-wiki-maintainer` 并保持 private；公开 CI／npm／Pages 发布由 `online-publication-and-delivery` 实现；持久台账、不可变归档、current／恢复两指针在线保留与恢复、独立 next／latest 发版见 [ADR 0011](docs/decisions/0011-public-publication.md) 和 [操作指南](docs/publication.md)。边界与预算见 [在线分发 ADR](docs/decisions/0009-online-knowledge-distribution.md)，消费者契约见 [消费者 ADR](docs/decisions/0010-online-consumer.md)。消费者另提供显式 `init` 配置命令（消费者包 1.1.0，change `consumer-mcp-init`）：在写入前生成计划并确认，按产品编辑宿主 MCP 配置；它与只读查询和 MCP 分离，不读取知识、不访问网络、不执行 harness，产品身份仍来自 catalog。
 
 ---
 
@@ -321,6 +321,7 @@ bash-only syntax
 - 查询不执行 shell 或 harness。
 - 查询不写入知识真源。
 - MCP 只使用已发布数据。
+- 消费者 `init` 是独立的显式配置写入命令，只编辑宿主 MCP 配置文件；它不属于查询或 MCP 工具，不读取或写入知识真源，产品身份来自 catalog。
 
 ### 6.3 版本边界
 
@@ -517,7 +518,7 @@ CLI 和 MCP 必须调用同一个 QueryService。
 
 ### 7.6 消费者在线读取
 
-负责在线固定发布、有界 HTTP 与缓存、离线读取、结构化技术错误与消费者 DTO：`src/query/chapter-query.ts`、`src/query/online-client.ts`、`src/domain/consumer.ts`、`src/query/online-error.ts`、`src/consumer/index.ts`。共享 7.4 的选版与答案投影，不引入 SQLite 或 Ollama；包身份与构建见 [ADR 0010](docs/decisions/0010-online-consumer.md) 与 [开发指南](docs/development.md)。
+负责在线固定发布、有界 HTTP 与缓存、离线读取、结构化技术错误与消费者 DTO：`src/query/chapter-query.ts`、`src/query/online-client.ts`、`src/domain/consumer.ts`、`src/query/online-error.ts`、`src/consumer/index.ts`。共享 7.4 的选版与答案投影，不引入 SQLite 或 Ollama；包身份与构建见 [ADR 0010](docs/decisions/0010-online-consumer.md) 与 [开发指南](docs/development.md)。消费者 `init` 配置命令（`src/consumer/init/`）是独立的显式写命令：产品身份来自 catalog，只编辑宿主 MCP 配置，不读取知识或发布、不访问网络、不执行 harness，也不改变查询与 MCP 的只读性。
 
 ### 7.7 文档站展示
 
@@ -970,7 +971,7 @@ ADR 应记录真实做出的决定，不要把所有细节都文书化。
 
 ### 消费者包说明与许可
 
-`packages/consumer/README.md` 说明 Node 版本、固定版本 npx 与 MCP 模板、五类 CLI 查询、`--data-url`／`--offline`／`--cache-dir`／`--no-file-cache`、三平台缓存默认目录、程序版本与知识版本的区别、有限历史、错误与协议升级、纯词法能力与许可。`LICENSE` 为代码 MIT，`LICENSE-knowledge` 为原创知识与文档 CC BY 4.0，`NOTICE` 说明第三方来源摘录保留其原有权利。消费者决定见 [ADR 0010](docs/decisions/0010-online-consumer.md)。
+`packages/consumer/README.md` 说明 Node 版本、不带版本标签的默认 npx／MCP 模板与可选精确版本、`init` 配置命令（搜索多选界面、作用域、计划与确认、`--tools`／`--global`／`--yes`、保留其他设置、预检不写）、五类 CLI 查询、`--data-url`／`--offline`／`--cache-dir`／`--no-file-cache`、三平台缓存默认目录、程序版本与知识版本的区别、有限历史、错误与协议升级、纯词法能力与许可；`init` 是唯一写命令，查询与 MCP 保持只读。`LICENSE` 为代码 MIT，`LICENSE-knowledge` 为原创知识与文档 CC BY 4.0，`NOTICE` 说明第三方来源摘录保留其原有权利，并记录搜索多选界面移植自 ResearchSpec（其本身改编自 OpenSpec）的 MIT 归属。消费者决定见 [ADR 0010](docs/decisions/0010-online-consumer.md)。
 
 ---
 

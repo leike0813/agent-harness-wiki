@@ -6,6 +6,8 @@ import { OnlineQueryService } from "../query/online-service.js";
 import { defaultDataUrl } from "../query/online-client.js";
 import { OnlineError, onlineErrorResult } from "../query/online-error.js";
 import { serveMcp } from "../mcp/server.js";
+import { runInit } from "./init/command.js";
+import { InitError } from "./init/types.js";
 import {
   listSchema,
   topicRequestSchema,
@@ -177,6 +179,44 @@ query
     ),
   );
 program
+  .command("init")
+  .description("Configure this project's MCP in selected harnesses")
+  .option(
+    "--tools <harnesses>",
+    "Comma-separated harness IDs, names or aliases",
+  )
+  .option(
+    "--global",
+    "Configure user-level entries instead of the current project",
+  )
+  .option("-y, --yes", "Skip confirmation when --tools is supplied")
+  .action(async (options) => {
+    const runtime = program.opts();
+    const result = await runInit(
+      {
+        ...optional(options.tools, "tools"),
+        global: Boolean(options.global),
+        yes: Boolean(options.yes),
+        json: Boolean(runtime.json),
+        ...(program.getOptionValueSource("dataUrl") === "cli"
+          ? { dataUrl: String(runtime.dataUrl) }
+          : {}),
+        offline: Boolean(runtime.offline),
+        ...optional(runtime.cacheDir, "cacheDir"),
+        fileCache: Boolean(runtime.fileCache),
+      },
+      { signal: lifetime.signal },
+    );
+    if (runtime.json) output(result);
+    else {
+      process.stdout.write(
+        `${result.status === "configured" ? "MCP configuration written." : result.status === "cancelled" ? "Initialization cancelled." : "No configuration changes."}\n`,
+      );
+      if (result.backups.length)
+        process.stderr.write(`Backups: ${result.backups.join(", ")}\n`);
+    }
+  });
+program
   .command("mcp")
   .description("Five read-only MCP tools over stdio")
   .action(async () => {
@@ -189,7 +229,15 @@ program
 try {
   await program.parseAsync(process.argv);
 } catch (error) {
-  if (error instanceof CommanderError && error.exitCode === 0) {
+  if (error instanceof InitError) {
+    if (program.opts().json || process.argv.includes("--json"))
+      output({
+        status: "error",
+        error: { code: error.code, reason: error.message },
+      });
+    process.stderr.write(`${error.code}: ${error.message}\n`);
+    process.exitCode = error.code === "cancelled" ? 130 : 1;
+  } else if (error instanceof CommanderError && error.exitCode === 0) {
     /* help/version */
   } else {
     const failure =

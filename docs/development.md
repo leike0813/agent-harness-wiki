@@ -33,13 +33,13 @@ pnpm online:verify <输出目录>
 
 `pnpm online:build`（`scripts/build-online.ts`）必须给定 `--dataset-root`、`--profile`、`--commit`、`--published-at`、`--base`、`--out-dir`，`--retain <已验证旧部署目录...>` 可选地把这些旧部署目录的 `data/` 并入新部署（旧页面由旧归档单独保存，不随新站点重建）；`pnpm online:verify`（`scripts/verify-online.ts`）接收一个部署目录，不需要额外的 `--`。`pnpm docs:build --online`（`scripts/build-site.ts`）接受同一组在线参数，等价于 `pnpm online:build`。输出目录不可变：已存在且校验一致的同名产物复用，内容不同则拒绝，新 release 必须用新目录。构建先写 staging，联合验证页面与数据 release 身份、引用、来源、fixture 隔离和部署目录容量（解包后的实际文件字节 ≤512 MiB）后再接受候选，失败保留既有已接受输出。身份为 `web-v1-<完整 SHA>`，协议分区为 `data/v1/`；公开清单保持精简，构建侧另写 inventory 与 hash 记录。依据见 [ADR 0009](decisions/0009-online-knowledge-distribution.md)。
 
-在线构建与校验属于第一个 change；消费者 CLI／MCP 包、在线 DTO、HTTP／缓存／取消／离线读取与网络失败政策由 `online-consumer-cli-mcp` 交付。`online-publication-and-delivery` 实现公开发布 CI、持久台账、不可变归档、Pages 恢复及独立 npm 发版，入口为 `pnpm publication`、`pnpm npm:publish` 和 `pnpm consumer:verify-public`，实际状态见 [发布指南](publication.md)。最低 Node 版本为 24.12.0；本机在线构建受测环境为 Linux x64、Node 24.12.0（ICU 77.1），消费者六组平台矩阵已在验证 CI 中通过。
+在线构建与校验属于第一个 change；消费者 CLI／MCP 包、在线 DTO、HTTP／缓存／取消／离线读取与网络失败政策由 `online-consumer-cli-mcp` 交付，消费者包 1.1.0 的 `init` 配置命令由 `consumer-mcp-init` 交付。`online-publication-and-delivery` 实现公开发布 CI、持久台账、不可变归档、Pages 恢复及独立 npm 发版，入口为 `pnpm publication`、`pnpm npm:publish` 和 `pnpm consumer:verify-public`，实际状态见 [发布指南](publication.md)。最低 Node 版本为 24.12.0；本机在线构建受测环境为 Linux x64、Node 24.12.0（ICU 77.1），消费者六组平台矩阵已在验证 CI 中通过。
 
 2026-10-02 已从无本地原件、发布或模型的干净生产输入完成子路径联合构建、独立校验与固定参数重跑：35,681 个文件，共 243,601,057 字节。`pnpm verify` 通过，38 个单元测试与 110 个集成测试通过，3 个既有环境测试跳过。实际提交、命令和分类体积见 [ADR 0009 验收记录](decisions/0009-online-knowledge-distribution.md#联合构建验收)。
 
 ## 消费者包构建与验收
 
-消费者包位于 `packages/consumer/`，公开名 `agent-harness-wiki`、版本 `1.0.0`、命令 `ahw`，入口由 `src/consumer/index.ts` 编译到 `dist/consumer/index.js`。根工作区改名 `agent-harness-wiki-maintainer`，保持 private。消费者只打包运行所需编译代码、元数据、说明与许可，不打包工作区、测试、SQLite、模型或完整知识；安装不需要 pnpm、TypeScript 或本机编译工具，也不安装任何 harness。
+消费者包位于 `packages/consumer/`，公开名 `agent-harness-wiki`、版本 `1.1.0`、命令 `ahw`，入口由 `src/consumer/index.ts` 编译到 `dist/consumer/index.js`；1.1.0 起提供 `init` 配置命令，其提示、适配器与计划／写入服务位于 `src/consumer/init/`。根工作区改名 `agent-harness-wiki-maintainer`，保持 private。消费者只打包运行所需编译代码、元数据、说明与许可，不打包工作区、测试、SQLite、模型或完整知识；安装不需要 pnpm、TypeScript 或本机编译工具，也不安装任何 harness。
 
 ```sh
 pnpm consumer:build
@@ -50,6 +50,8 @@ pnpm consumer:verify
 - `consumer:build` 编译消费者入口的依赖闭包到包内 `dist/`。
 - `consumer:pack` 生成真实 tgz 并核对文件清单与运行时依赖闭包，确认不含维护者代码、数据库、模型或知识。
 - `consumer:verify` 在源码树外安装 tgz，验证五类 CLI 查询、MCP stdio、`--version` 与依赖解析，并写出 `var/consumer-package/verification.json`（Node、ICU、arch、OS、npm）证据；默认不访问公网、真实 HOME 或全局安装。
+
+`init` 只编辑宿主 MCP 配置文件，入口已核实时可创建缺失的已知有效文件：产品身份来自 catalog，产品到配置入口的适配器按已核实路径实现，JSONC／TOML／YAML 用保留格式的编辑器修改，同名配置相同不写、不同才在确认后更新，其他服务器与设置保留。确认前完成解析与可写性预检，任一目标异常则整轮不写；确认后核对基线、备份并替换，失败尽力恢复。搜索多选界面移植自 ResearchSpec（改编自 OpenSpec 1.5.0，均为 MIT），归属见 [NOTICE](../NOTICE)。`init` 不联网、不执行 harness、不初始化知识查询；生成的启动为不带版本标签的 `npx -y agent-harness-wiki mcp`，显式传入的消费者运行选项随配置保留。
 
 仅验证 CI 工作流 [`consumer-validation.yml`](../.github/workflows/consumer-validation.yml) 覆盖 Linux x64、macOS arm64（`macos-15`）、Windows native x64 × Node 最低 24.12.0 与最新 24.x，只做校验、`contents: read`、无发布权限；由 `main`／`dev` 推送、PR 或手动调度触发。先断言 `runner.arch` 与矩阵 arch 一致，再由 `pnpm consumer:verify` 写出并上传 `var/consumer-package/verification.json` 与 `var/consumer-package/manifest.json`。2026-10-02 六个 CI runner 组合均通过，每组 25 项；实际 Node 为 24.12.0／24.21.0。包清单、本机检查与 CI 链接见 [ADR 0010 验收记录](decisions/0010-online-consumer.md#本机验收)。构建与真实 tgz 准备不等于 npm 发布或 Pages 部署，使用说明见 [消费者包说明](../packages/consumer/README.md)。
 
