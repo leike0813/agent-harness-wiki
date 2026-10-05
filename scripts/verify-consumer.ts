@@ -21,6 +21,7 @@ import {
   mkdtemp,
   readFile,
   readdir,
+  realpath,
   rm,
   writeFile,
 } from "node:fs/promises";
@@ -556,7 +557,9 @@ async function main(): Promise<void> {
   assert((await lstat(tgz)).isFile(), `Consumer tgz is missing: ${tgz}`);
 
   const npm = await npmCli();
-  const base = await mkdtemp(path.join(tmpdir(), "ahw-consumer verify "));
+  const base = await realpath(
+    await mkdtemp(path.join(tmpdir(), "ahw-consumer verify ")),
+  );
   const prefix = path.join(base, "install prefix");
   const dependencyDirectory = path.join(base, "dependency tarballs");
   await mkdir(dependencyDirectory, { recursive: true });
