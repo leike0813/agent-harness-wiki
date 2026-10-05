@@ -1,0 +1,84 @@
+schema_version: 2
+audit_id: audit-zoo-code-20261004t061205z
+harness_id: zoo-code
+checked_at: 2026-10-04T06:15:11.387Z
+status: changed
+review_status: reviewed
+pending_audit_refs: []
+checks:
+  - source_id: source-zoo-code-repo
+    kind: git_repository
+    checked_at: 2026-10-04T06:15:10.189Z
+    status: changed
+    baseline: 72143527fd33306e5541116093c2cbf803cce9e0
+    observed: 3859e5dd886980fd1f4522b9a626fb891828cf17
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs
+    kind: git_repository
+    checked_at: 2026-10-04T06:15:10.195Z
+    status: unchanged
+    baseline: dfd2628c31073ec6b111bfedbcd071d197d37ad2
+    observed: dfd2628c31073ec6b111bfedbcd071d197d37ad2
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs-site
+    kind: official_documentation
+    checked_at: 2026-10-04T06:15:10.200Z
+    status: unchanged
+    baseline: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    observed: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    resolved_url: https://docs.zoocode.dev/
+impacts:
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-entry
+      - providers-protocol
+      - providers-models
+      - providers-responses
+      - providers-diagnostics
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-docs-profiles-create
+      - ref-zoo-code-docs-profiles
+      - ref-zoo-code-src-provider-secrets
+      - ref-zoo-code-src-provider-store
+      - ref-zoo-code-src-provider-profiles
+      - ref-zoo-code-docs-profiles-security
+      - ref-zoo-code-docs-providers-index
+      - ref-zoo-code-docs-openai-compatible-general
+      - ref-zoo-code-src-openai-compatible
+      - ref-zoo-code-docs-openai-compatible-extra
+      - ref-zoo-code-src-provider-settings-base
+      - ref-zoo-code-src-model-cache
+      - ref-zoo-code-src-model-info
+      - ref-zoo-code-src-model-openai-gpt61
+      - ref-zoo-code-src-model-openai-gpt61-pricing
+      - ref-zoo-code-src-model-codex-gpt61
+      - ref-zoo-code-src-model-anthropic-opus55
+      - ref-zoo-code-src-model-opencode-deepseek
+      - ref-zoo-code-docs-openai-compatible-tools
+      - ref-zoo-code-src-error-handler
+      - ref-zoo-code-src-rate-limit
+      - ref-zoo-code-src-codex-retry
+      - ref-zoo-code-src-bedrock-throttle
+      - ref-zoo-code-docs-openai-compatible-trouble
+      - ref-zoo-code-docs-settings-vscode
+      - ref-zoo-code-src-extension-config
+    cross_topic_links: []
+    reason: 已核对 src/api/providers/utils/abort-signal.ts（+82/-11）与 openai.ts（+23/-20）：前者是把中止判定从字符串匹配扩展为同时识别 AbortError / APIUserAbortError 名称且要求 Error 实例，后者是引入文本清洗模块。未新增配置键、provider 字段或注册/优先级变化。
+pending_question_ids: []
+investigation_notes:
+  - 本轮协调者语义 triage 结论：reviewed_no_impact。已完成 triage，不派维护。
+  - "zoo-code 的实际提交为「fix(code-index): remove automatic startup embedder validation」，与 provider 注册面无关。"
+reviewed_by: harness-monitor coordinator (minimax-cn/MiniMax-M3.1-Flash-Preview)
+reviewed_at: 2026-10-04T06:12:05.000Z
+previous_audit_id: audit-zoo-code-7a86272b-6c36-4257-9ab5-eb8af9a3c768

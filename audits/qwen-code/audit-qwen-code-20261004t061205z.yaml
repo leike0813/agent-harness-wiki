@@ -1,0 +1,72 @@
+schema_version: 2
+audit_id: audit-qwen-code-20261004t061205z
+harness_id: qwen-code
+checked_at: 2026-10-04T06:14:36.084Z
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-qwen-code-repo
+    kind: git_repository
+    checked_at: 2026-10-04T06:14:34.121Z
+    status: changed
+    baseline: 2c591ecc08a6fa080342f9b1b9f7f43215178cbb
+    observed: 35616f3b643f6d87cc00112d961a0fbb448aca00
+    remote_ref: refs/heads/main
+  - source_id: source-qwen-code-npm
+    kind: npm_registry
+    checked_at: 2026-10-04T06:14:34.132Z
+    status: unchanged
+    baseline: 0.24.7@sha512-NE+Ps9juMJS7DaHEVENIAJWCrzTiO/2bNq2TidmxmFc0ZbSMVKCfX3tlu2RY+CoP8xHFfUcy3MfQDQNszBJpJQ==
+    observed: 0.24.7@sha512-NE+Ps9juMJS7DaHEVENIAJWCrzTiO/2bNq2TidmxmFc0ZbSMVKCfX3tlu2RY+CoP8xHFfUcy3MfQDQNszBJpJQ==
+impacts:
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.roles
+      - agents.limits
+    section_ids:
+      - agents-entry
+      - agents-roles
+      - agents-limits
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-sub-agents-storage-locations
+      - ref-qwen-sub-agents-extension-subagents
+      - ref-qwen-introduction-custom-subagents
+      - ref-qwen-getting-started-extensions-adding-a-custom-subagent
+      - ref-qwen-agent-plugins-supported-capabilities
+      - ref-qwen-sub-agents-cli-commands
+      - ref-qwen-sub-agents-management
+      - ref-qwen-sub-agents-quick-start
+      - ref-qwen-sub-agents-what-are-subagents
+      - ref-qwen-sub-agents-how-fork-differs-from-named-subagents
+      - ref-qwen-sub-agents-fork-subagent
+      - ref-qwen-sub-agents-when-fork-is-used
+      - ref-qwen-sub-agents-prompt-cache-sharing
+      - ref-qwen-sub-agents-reusing-fork-restrictions-with-fork-profile
+      - ref-qwen-settings-permissions
+      - ref-qwen-sub-agents-recursive-delegation-prevention
+      - ref-qwen-sub-agents-claude-code-and-codex-subagents
+      - ref-qwen-sub-agents-model-selection
+      - ref-qwen-multi-agent-coordination-enable-agent-team
+      - ref-qwen-multi-agent-coordination-choosing-the-right-multi-agent-mode
+      - ref-qwen-sub-agents-limits
+      - ref-qwen-sub-agents-current-limitation
+      - ref-qwen-sub-agents-notification-queue
+      - ref-qwen-sub-agents-agent-working-directory
+    cross_topic_links: []
+    reason: packages/core/src/agents/workspace-agents/ 在提交 35616f3b 有实质改动：host-lease.ts（+66/-5）、run-lifecycle.ts（+13/-1）、store.ts（+14）、types.ts（+6），配套测试新增约 345 行；提交说明为「distinguish accepted Host results from terminal runs」，即区分被 Host 接受的运行与终态运行。
+pending_question_ids: []
+investigation_notes:
+  - 本轮协调者语义 triage 结论：maintain。已交回隔离候选做定向维护。
+  - 本轮 qwen-code 由 2c591ecc 前进到 35616f3b；同批还有 docs/design/2026-09-11-agent-project-host-entry.md 的 1 行改动与若干 hosted-harness serve 内部改动。
+  - 定向核实结论：agents.entry、agents.roles、agents.limits 三个固定问题的已发布答案不变，不新建 edition。逐题按 docs/topic-questions.md 口径核对，而非按目录名推断。
+  - 改动语义为 Host 结果提交的幂等判定：新增 ThreadRun.hostResultReceipt（attempt/leaseId/digest 的 sha256），只有与回执完全一致的重发才返回 alreadyApplied；结算改写了上报状态（run 已 cancelling 而 Host 上报 completed）或已被恢复/取消先行结算的迟到结果返回 stale_lease，且不再把 token 计入 usageByRound。design 文档同段同步重述了这一语义。
+  - workspace-agents 承载的是协作线程在已注册 Qwen Host 上的执行位置，不是用户可定义或可配置的 agent 形态：用户态 Subagent 定义与 frontmatter 解析在 packages/core/src/agents/runtime/，本提交未触及；agents.entry 的存储位置、/agents create 与 /agents manage 入口、扩展 agents/ 目录、agents.roles 的命名子代理与 fork 区分、agents.limits 的软警告与递归禁止均无变化。
+  - 新增状态无对外暴露面：alreadyApplied 与 stale_lease 的唯一非测试消费方是内部 serve 协议，由 packages/cli/src/serve/routes/agent-hosts.ts 返回、packages/cli/src/serve/agent-host-client.ts 处理；hostResultReceipt 只写入 workspace-agents 内部持久化的 ThreadRun，未进入任何 CLI 命令、配置项或用户可见的 agent 状态枚举。
+  - 本提交未改动任何 docs/users 用户文档；docs/design/2026-09-11-agent-project-host-entry.md 及其 .zh-CN.md 各改 1 行，Limits 一节未变。
+  - 证据限于固定提交 35616f3b 的源码树与设计文档，不代表任何已发布包版本的行为；本轮未建立版本映射，保留来源级知识。
+  - 同批的 packages/cli/src/serve/hosted-harness-*、hosted-runtime-recovery.ts、packages/sdk-java/managed-agent-server/** 与 docs/design/2026-10-0* 等路径未在本轮范围内评估；其语义涉及托管 harness 会话与 Java 端 managed agent server，若后续判定构成 custom_agents 知识影响需单独交回。
+previous_audit_id: audit-qwen-code-710d09b6-7aa9-43a2-a9cc-ef87a00c3eed

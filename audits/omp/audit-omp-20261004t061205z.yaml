@@ -1,0 +1,69 @@
+schema_version: 2
+audit_id: audit-omp-20261004t061205z
+harness_id: omp
+checked_at: 2026-10-04T06:14:15.128Z
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-omp-92124b10-5a87-4186-a79a-5e6141821407
+checks:
+  - source_id: source-omp-npm
+    kind: npm_registry
+    checked_at: 2026-10-04T06:14:13.775Z
+    status: changed
+    baseline: 18.5.1@sha512-/5lSzUMUWNwk6ZexjvW5729PXg9d/BVnCxtsOnm0mGwv9Nwhmicx23758PgjmeGnKNuvZuQB5lGlIro7i67gFg==
+    observed: 18.6.0@sha512-aZkA4WU7sk8vjaJi51EN0Qv+arAYl1IfEgcFxmHioebdtafXF3NJWKDlTfwKFkocbSToq7KjLWwvbRG6rbroSw==
+  - source_id: source-omp-repo
+    kind: git_repository
+    checked_at: 2026-10-04T06:14:13.776Z
+    status: changed
+    baseline: 69e8c9e8ccaacd1ac0c917ff4e962d11d7285565
+    observed: 6d8552d7f9df1852826923f07f0eed4fe29511f3
+    remote_ref: refs/heads/main
+impacts:
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model
+      - plugins-manifest
+      - plugins-install
+      - plugins-discovery
+      - plugins-api
+      - plugins-lifecycle
+      - plugins-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-extensions-load-doc-69e8
+      - ref-omp-extension-loading-manifest-doc-69e8
+      - ref-omp-plugins-manifest-code
+      - ref-omp-plugins-command-code
+      - ref-omp-extension-loading-native-doc-69e8
+      - ref-omp-extension-loading-order-doc-69e8
+      - ref-omp-extension-loading-paths-doc-69e8
+      - ref-omp-plugins-loader-code
+      - ref-omp-extensions-settings-doc-69e8
+      - ref-omp-extensions-provider-doc-69e8
+      - ref-omp-extension-loading-allowlist-doc-69e8
+    cross_topic_links: []
+    reason: 已核对 packages/coding-agent/src/extensibility/plugins/legacy-pi-compat.ts（+93/-20），为包根查找缓存与模块源码 memo 的内部性能重构，未改变插件的发现、加载、注册或生命周期表面。
+pending_question_ids:
+  - plugins.model
+  - plugins.package
+  - plugins.install
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+investigation_notes:
+  - 本轮协调者语义 triage 结论：reviewed_no_impact。已交回隔离候选做定向维护。
+  - source-omp-npm 由 18.5.1 升到 18.6.0，仅发布身份变化，不构成章节影响。
+  - 本产品仍有 1 条未结案审计，本轮来源无与之相关的新证据，按规则保持 pending，不重复派相同探查。
+previous_audit_id: audit-omp-92124b10-5a87-4186-a79a-5e6141821407

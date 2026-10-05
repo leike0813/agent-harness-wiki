@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-providers-sampling-overrides
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261004
+locator:
+  kind: symbol
+  file: packages/coding-agent/src/core/provider-composer.ts
+  symbol: mergeSamplingParamsByThinkingLevel
+official_url: https://github.com/earendil-works/pi/blob/200387122ca450d6387f033949423114a270b96c/packages/coding-agent/src/core/provider-composer.ts
+excerpt: |-
+  function mergeSamplingParamsByThinkingLevel(
+  	base: Model<Api>["samplingParamsByThinkingLevel"],
+  	override: Model<Api>["samplingParamsByThinkingLevel"],
+  ): Model<Api>["samplingParamsByThinkingLevel"] {
+  	if (!override) return base;
+  	const merged = { ...base };
+  	for (const level of ["off", "minimal", "low", "medium", "high", "xhigh", "max"] as const) {
+  		const params = override[level];
+  		if (params) merged[level] = { ...base?.[level], ...params };
+  	}
+  	return merged;
+  }

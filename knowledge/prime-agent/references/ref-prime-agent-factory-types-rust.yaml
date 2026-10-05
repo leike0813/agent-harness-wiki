@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-factory-types-rust
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-factory-types-rust
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/types.rs
+  start: 231
+  end: 239
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+  /// `factory` (the agent factory's opt-in gate): `factory.enabled` is
+  /// unset/false by default, and the `/factory on` client command persists
+  /// it. Both the daemon's `factory_activity` lane advertisement and the
+  /// kernel's factory gate read the same shared settings key.
+  #[derive(Debug, Clone, Default, Serialize, Deserialize)]
+  #[serde(rename_all = "camelCase")]
+  pub struct FactorySettings {
+      pub enabled: Option<bool>,
+  }

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-factory-gate-py
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-factory-gate-py
+locator:
+  kind: file_lines
+  file: prime-agent-runtime/src/rlm/factory.py
+  start: 3265
+  end: 3277
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent"
+excerpt: |-
+      path = _agent_dir() / _SETTINGS_FILE_NAME
+      try:
+          with open(path, encoding="utf-8") as handle:
+              document = json.load(handle)
+      except (OSError, ValueError):
+          return False
+      if not isinstance(document, dict):
+          return False
+      factory = document.get("factory")
+      if not isinstance(factory, dict):
+          return False
+      return factory.get("enabled") is True
