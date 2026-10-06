@@ -62,9 +62,10 @@
 
 ## 启用顺序
 
-每日调度先注册为禁用状态。启用前完成两项核对：
+每日调度先注册为禁用状态。启用前完成三项核对：
 
-1. 巡检依赖的仓库内命令已在 `main` 可用：`sources:check`、`sources:workspace open`／`close`／`recover`、`monitor:session start`／`finish`。
-2. `.codex/config.toml` 选定的主会话模型可用，且 `minimax-cn/MiniMax-M3.1-Flash-Preview` 能作为显式模型参数被原生 subagent 工具实际选中。
+1. 巡检依赖的仓库内命令已在 `main` 可用：`monitor:run start`／`finish`、`sources:workspace open`／`close`／`recover`、`maintenance:candidates prepare`／`check`／`plan`。
+2. 专用工作树已同步到当前 `origin/main`，其中确有上述命令。入口命令随代码进入 `main`，工作树停在旧提交时巡检无法启动。
+3. `.codex/config.toml` 选定的主会话模型可用，且 `minimax-cn/MiniMax-M3.1-Flash-Preview` 能作为显式模型参数被原生 subagent 工具实际选中。
 
-两项都通过后手动触发一次巡检，验证 PID 锁、只读观察、必要性判断、隔离并行委派、聚合闸门与推送整条链路，再打开每日调度。候选工具也须在 main 可用。链路未验证时保持禁用，不用一次真实调度去试基础设施。模型或命令任一项变更，先停调度，改完按同样顺序复核。
+三项都通过后手动触发一次巡检，验证 PID 锁、只读观察、必要性判断、隔离并行委派、聚合闸门与推送整条链路，再打开每日调度。链路未验证时保持禁用，不用一次真实调度去试基础设施。模型或命令任一项变更，先停调度，改完按同样顺序复核。

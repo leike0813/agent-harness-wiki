@@ -444,7 +444,7 @@ M0 虚构数据仍位于 `tests/fixtures/datasets/`，不进入正式 `registry/
 
 扫描器的 `requires_maintenance` 与 `impacts` 仅提示候选，先按固定问题与实际内容判断维护必要性。版本元数据、无关改动和排版变化可结案审计；影响不明先限定入口，来源失败无修复线索时保持 blocked，同一阻塞无新证据不重复派发。手动维护与监控均使用 `maintenance:candidates prepare/check/plan` 隔离产品写入；该工具只生成临时合并数据与 before/after 清单，主 Agent 核对基线后用内置编辑工具集成。所有 worker 与 reviewer 确认停止后才统一集成、发布或清理，超时不代表停止。
 
-运行前取得 `pnpm monitor:session` 的整轮锁；只释放具有匹配归属记录的临时源码、该轮临时构建及本次构建备份。已有归档与本地发布不属于监控清理范围。来源与 PR 流程见 [每日自动化](docs/automations.md)，全局配置和凭据不写入项目。
+每轮由 `pnpm monitor:run start --owner-pid "$PPID"` 启动：脚本确认专用工作树、工作区干净与滚动分支后取得整轮锁，并完成本轮唯一一次只读观察，协调者从交接单的 `checksPath` 继续 triage；收尾用 `pnpm monitor:run finish <session-id>`。只释放具有匹配归属记录的临时源码、该轮临时构建及本次构建备份。已有归档与本地发布不属于监控清理范围。来源与 PR 流程见 [每日自动化](docs/automations.md)，全局配置和凭据不写入项目。
 
 ### 7.1 Domain
 

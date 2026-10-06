@@ -46,34 +46,25 @@ pnpm maintenance:candidates plan --batch <batch> --out <new-temp-merge> [<comple
 
 ### 1. 取得会话锁与滚动分支
 
-在调用方准备的专用、干净 worktree 中启动：
+在调用方准备的专用、干净 worktree 中启动本轮：
 
 ```sh
-pnpm -s monitor:session start --owner-pid "$PPID"
+pnpm -s monitor:run start --owner-pid "$PPID"
 ```
 
-stdout 是 JSON：`id`、`projectRoot`、`ownerPid`、`tempRoot`、`reportPath`。`$PPID` 必须是长期存活的 Codex 主进程，命令会校验 PID 存活；source workspace 均使用返回的 `ownerPid`。锁在 `var/harness-monitor/session.sqlite`，通过 immediate transaction 原子判活和接管。活 owner 阻止第二轮；死亡 owner 可被接管并清理其登记临时输出及死亡 source leases。没有守护进程，也没有基于 timeout 的解锁；锁由 `finish` 释放。
+命令完成全部确定性前置：确认当前目录是 linked worktree 而非主工作区、确认工作区无未提交改动、`fetch origin`、决定并切换滚动分支、取得会话锁、运行一次只读观察并写入 `<tempRoot>/checks.json`。stdout 是交接单：`worktree`、`branch`、`branchAction`、`branchReason`、`commitsAheadOfMain`、`pull`、`session`、`checksPath`、`observation`、`reportPath`。
 
-取滚动 PR：
+任何前置条件不满足时命令以非零退出并把原因写到 stderr，不产出交接单，也不切换分支或留下会话锁。coordinator 报告该原因并停止本轮，不绕过、不猜测。工作区有未提交改动时，归属不明的内容一律原样保留：先确认它是否属于本轮登记的遗留，确认不了就报告阻塞，不覆盖、不丢弃、不混入本轮提交。
 
-```sh
-git fetch origin
-gh pr list --base main --state open --json headRefName,number,url
-```
+`$PPID` 必须是长期存活的协调者进程，命令会校验 PID 存活；source workspace 均使用交接单里的 `ownerPid`。
 
-仅考虑 `automation/harness-monitor/` 分支。一个开放 PR 时 switch 到其分支并普通合并 `origin/main`；没有时从 `origin/main` 新建 `automation/harness-monitor/<YYYYMMDDTHHMMSSZ>`（UTC 秒级）。多个时停止交付并报告，不创建分叉 PR。无开放 PR 时检查 `latest.json` 中上轮分支：若尚未合入且含未推送/未交 PR 内容，继续它；已合入分支不复用。不得 rebase 或 force push。
+滚动分支由命令按滚动交付规则决定，判定依据和理由在交接单的 `branchAction` 与 `branchReason`。coordinator 接受该结果，不另做一份分支判断；出现 `blocked` 时报告并停止本轮，不绕过、不手工改分支。不得 rebase 或 force push。
 
-若 worktree 有改动，区分本轮已登记遗留与其他编辑。归属不明的内容原样保留；若影响安全切换、合并或干净构建则阻塞交付，不覆盖、不丢弃、不混入本轮提交。
+### 2. 全量只读观察的 semantic triage
 
-### 2. 全量只读观察与 semantic triage
+第 1 步已经运行了本轮唯一一次只读检查，完整结果在交接单的 `checksPath`，汇总计数在 `observation`。coordinator 解析完整 JSON 后开始 triage，不重复运行观察，也不因输出文件暂时为空而重启。
 
-父进程每轮只启动一次只读检查：
-
-```sh
-pnpm -s sources:check > <tempRoot>/checks.json
-```
-
-保存命令运行 ID；若仍运行就轮询同一进程直到明确退出码。退出后再解析完整 JSON。不要因输出文件暂时为空而重复启动。命令失败但 JSON 完整时继续读取所有产品；没有有效完整 JSON 时报告技术阻塞，绝不当作 no-change。stdout 写临时文件，不把全量数据打印进对话。
+`observation.degraded` 为真表示有来源失败：仍读取所有可观察产品，失败来源按本节规则标记；没有有效完整 JSON 时报告技术阻塞，绝不当作 no-change。全量数据留在临时文件，不打印进对话。
 
 范围为 catalog 与 registry 交集。每产品含汇总 `status`（`no_change|changed|blocked`）、来源 `checks`（`baseline`、`observed`、`unchanged|changed|blocked`、错误）、`pending_audit_refs` 与 `requires_maintenance`。三类身份互不证明：npm 版本/integrity 只说明 registry 发布身份；源码 HEAD 不自动说明 npm 包行为；文档 hash 不说明语义变化。`requires_maintenance` 只代表存在候选调查线索。
 
@@ -178,7 +169,7 @@ pnpm -s sources:workspace close <本轮 workspace-id>
 若失败或冲突候选尚未集成，需要恢复的 diff、before/after 与诊断先保存到 `var/harness-monitor/` 下的报告附件并登记路径，再 finish；不能只报告即将被删除的 tempRoot 路径。仍有使用者未确认停止时保留会话锁与目录，不执行 finish。
 
 ```sh
-pnpm -s monitor:session finish <session-id>
+pnpm -s monitor:run finish <session-id>
 ```
 
 `finish` 校验本轮 session id，只释放本轮 `tempRoot` 与锁；report 位于其外，finish 后仍可读。清理仅限本轮有 owner 记录的源码工作区、临时 build 和 backup；不扫目录、不删除 archive、release、用户文件或仍活跃 worker 的内容。收尾失败逐项报告，不伪报清理成功。
@@ -200,7 +191,7 @@ LLM 判断变化是否影响固定知识问题，写 triage rationale、章节�
 
 ### 8. 启用与错误报告
 
-每日调度保持禁用，直到依赖命令已在 main 可用、配置的 monitor 主模型与显式 MiniMax 子代理模型均可被原生工具选择，并且维护者完成一次手动全链路试跑。模型不可用时报告阻塞，不自动换模型。来源观察部分失败不阻止其他产品；候选校验、aggregate gate、online build/verify 任一失败都停止推送，保留候选和诊断供恢复。
+每日调度保持禁用，直到依赖命令已在 main 可用、专用工作树已同步到最新 `origin/main`、配置的 monitor 主模型与显式 MiniMax 子代理模型均可被原生工具选择，并且维护者完成一次手动全链路试跑。入口命令随代码进入 main，工作树停在旧提交时本 Skill 无法启动；这种状态报告阻塞，不以旧命令代替。模型不可用时报告阻塞，不自动换模型。来源观察部分失败不阻止其他产品；候选校验、aggregate gate、online build/verify 任一失败都停止推送，保留候选和诊断供恢复。
 
 最终答复列出 session id/reportPath、滚动分支和 PR 链接、观察产品总数、所有 triage 分类与关键理由、派发产品及 topic、worker/reviewer 停止确认、accepted/rejected/stale 候选、每项验证结果、blocked 来源/问题和未清理 lease。没有 maintenance 候选时说明逐项结案依据；有剩余 PR 内容时说明其来自本轮或上一轮未交付任务。
 

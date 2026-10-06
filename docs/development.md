@@ -109,9 +109,11 @@ pnpm sources:workspace open --source-id <id> --commit <40 位 SHA> --owner-pid <
 pnpm sources:workspace close <workspace-id>
 pnpm sources:workspace list --owner-pid <pid>
 pnpm sources:workspace recover
-pnpm monitor:session start --owner-pid <pid>                    # 取得 PID 锁，返回 id、reportPath、tempRoot
-pnpm monitor:session finish <session-id>
+pnpm monitor:run start --owner-pid <pid>                      # 巡检前置：工作树、分支、整轮锁与本轮唯一一次观察
+pnpm monitor:run finish <session-id>
 ```
+
+`monitor:run` 必须在专用 worktree 内运行，它已包含 `monitor:session` 的锁语义和一次 `sources:check`。
 
 - 读 Git 源码走 `sources:workspace`，官方文档读取归档候选。`open` 固定到观察到的精确提交；给 `--baseline` 时可返回 changed_paths，缺少差异时先限定相关入口。工作区以原项目根目录与长期存活 owner PID 登记，候选目录不是归属项目。调查与独立复核全部完成后按唯一 workspace ID 关闭；`recover` 只回收本项目死亡 owner 的条目。临时路径不写进知识记录。
 - 引用原件用 `git_source_file`（`commit`、`file`、`content_sha256`），不写 checkout 路径。`archive_path` 只指向长期保留位置：Git catalog 引用必须带精确 revision，归档路径可选；官方文档快照必须带它。

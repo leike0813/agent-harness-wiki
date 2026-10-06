@@ -28,23 +28,45 @@
 
 滚动 PR：未合并时每天在同一分支上更新同一个 PR，合并后下一轮另开分支。合并后既有 CI 自动完成发布，维护者不需要再手动跑一次本地发布或受管二进制核对。
 
+## 手动触发
+
+`pnpm monitor:run` 是与每日调度等价的触发入口，走同一条 Skill、同一把会话锁、同一套交付闸门：
+
+```sh
+pnpm -s monitor:run start --owner-pid "$PPID"
+pnpm -s monitor:run finish <session-id>
+```
+
+命令只做与 harness 无关的确定性前置：确认当前目录是 linked worktree 而非主工作区、确认工作区干净、`fetch origin`、决定并切换滚动分支、取得会话锁、运行一次只读观察并写入交接单给出的 `checksPath`。语义判断、隔离候选、复核、集成和 PR 更新仍由协调者按 `harness-monitor` Skill 执行。
+
+因此触发它的是哪个 harness，取决于哪个 harness 发起了会话：在本项目 Skill 可见的会话里发起就用该会话的模型和子代理能力，不受编排工具支持的 harness 列表限制。命令本身不启动、不调用任何 harness，也不接受 harness 参数。
+
+必须从专用 worktree 发起。会话锁写在各自的 `var/harness-monitor/session.sqlite`，主工作区持有的是另一条互不相关的记录；在那里运行既得不到正确互斥，也会把维护者的未提交改动卷进 PR。脚本据此直接拒绝主工作区并以非零退出。专用 worktree 还要有可用依赖，`pnpm install` 只在该 worktree 内执行一次。
+
+前置不满足时命令只把原因写到 stderr，不切换分支、不留会话锁、不产出交接单。协调者报告原因并停止本轮。
+
+每轮的来源观察只由该命令运行一次；协调者读取 `checksPath` 做 triage，不重复观察。
+
 ## 启用顺序
 
-每日调度先注册为禁用状态，启用前完成三项核对：
+每日调度先注册为禁用状态，启用前完成四项核对：
 
-1. 巡检依赖的仓库内命令已在 `main` 上可用：`pnpm sources:check`、`pnpm sources:workspace open`／`close`、`pnpm monitor:session start`／`finish`、`pnpm maintenance:candidates prepare`／`check`／`plan`。
-2. 项目模型在 `.codex/config.toml` 中已配置并实测可用，`minimax-cn/MiniMax-M3.1-Flash-Preview` 能被原生 subagent 工具选中。
-3. 维护者在 Codex 首次打开专用工作树时确认信任该目录，使项目模型配置能够加载。目录信任涉及用户级配置，由维护者确认。
+1. 巡检依赖的仓库内命令已在 `main` 上可用：`pnpm monitor:run start`／`finish`、`pnpm sources:workspace open`／`close`、`pnpm maintenance:candidates prepare`／`check`／`plan`。
+2. 专用工作树已同步到当前 `origin/main`，其中确有上述命令。工作树停在旧提交时入口命令尚不存在，巡检无法启动；快进到最新 `origin/main` 即可，本次入口改动没有新增依赖，无需重装 `node_modules`。
+3. 项目模型在 `.codex/config.toml` 中已配置并实测可用，`minimax-cn/MiniMax-M3.1-Flash-Preview` 能被原生 subagent 工具选中。
+4. 维护者在 Codex 首次打开专用工作树时确认信任该目录，使项目模型配置能够加载。目录信任涉及用户级配置，由维护者确认。
 
-三项都通过后，手动触发一次巡检验证整条链路（会话锁、只读观察、影响判断、隔离并行候选、聚合闸门、推送），再打开每日调度。链路未验证时保持禁用，不用一次真实调度去试基础设施。
+四项都通过后，手动触发一次巡检验证整条链路（会话锁、只读观察、影响判断、隔离并行候选、聚合闸门、推送），再打开每日调度。链路未验证时保持禁用，不用一次真实调度去试基础设施。
 
-当前本机注册：工作树为 `/home/joshua/orca/workspaces/agent-harness-wiki/harness-monitor`，自动化 ID 为 `93f32c61-1d0d-4da3-97ac-3861a74af596`，初始状态为禁用。该工作树与已复制的现有依赖合计约 349 MiB，未检出任何上游源码；每轮的源码检出和验证产物在临时目录中使用后释放。首次 Orca 手动启动已到达目录信任提示，完整维护试跑尚待确认信任及合入实现 PR。
+当前本机注册：工作树为 `/home/joshua/orca/workspaces/agent-harness-wiki/harness-monitor`，自动化 ID 为 `93f32c61-1d0d-4da3-97ac-3861a74af596`，状态为禁用。该工作树与已复制的现有依赖合计约 349 MiB，未检出任何上游源码；每轮的源码检出和验证产物在临时目录中使用后释放。
+
+全链路已完成一次真实巡检并合入 `main`：分支 `automation/harness-monitor/20261004T061205Z`，PR #11，观察 50 个产品。该分支已合入，按滚动规则不复用；工作树当前停在该已合入分支上，下一轮从 `origin/main` 切新分支。每日调度是否启用仍待单独决定。
 
 ## 会话锁
 
-每轮用 `pnpm -s monitor:session start --owner-pid "$PPID"` 起会话：`-s` 让 stdout 只剩 JSON（`id`、`projectRoot`、`ownerPid`、`tempRoot`、`reportPath`），`--owner-pid` 传本轮长期存活的 codex 进程 PID，命令会校验它存活。原生工具执行的 shell 里 `$PPID` 就是该 codex 进程，来源工作区的 `--owner-pid` 用返回的 `ownerPid`。
+每轮用 `pnpm -s monitor:run start --owner-pid "$PPID"` 启动：命令在前置检查、分支切换和观察之后取得会话锁，stdout 是交接单 JSON。`--owner-pid` 传本轮长期存活的协调者进程 PID，命令会校验它存活。原生工具执行的 shell 里 `$PPID` 就是该协调者进程，来源工作区的 `--owner-pid` 用交接单里的 `ownerPid`。
 
-互斥是一条持久锁记录，写在 `var/harness-monitor/session.sqlite` 的单行 `session` 表里。`start` 在一个 immediate 事务里读旧记录、判活、写入本次记录，读判与写入同属一个事务，并发的过期 owner 回收因此不会互相踩到。记录里的 owner 仍存活时本轮不启动第二个实例，命令非零退出；owner 已死则释放它留下的临时目录后接管。命令随后对本项目已无存活 owner 的来源工作区做一次回收。没有守护进程、没有超时，锁活到 `pnpm -s monitor:session finish <id>`。
+互斥是一条持久锁记录，写在 `var/harness-monitor/session.sqlite` 的单行 `session` 表里。`monitor:session start` 在一个 immediate 事务里读旧记录、判活、写入本次记录，读判与写入同属一个事务，并发的过期 owner 回收因此不会互相踩到。记录里的 owner 仍存活时本轮不启动第二个实例，命令非零退出；owner 已死则释放它留下的临时目录后接管。命令随后对本项目已无存活 owner 的来源工作区做一次回收。没有守护进程、没有超时，锁活到 `pnpm -s monitor:run finish <id>`。
 
 来源租约按记录里的 owner 身份管理：回收只处理 owner 已不存活的工作区，不碰仍存活 owner 持有的工作区。巡检自己开的工作区由父进程按记下的 `id` 显式关闭，并且关在独立复核之后——读完第一遍就释放，会让复核失去可复看的原件。
 
