@@ -237,7 +237,8 @@ test("derives catalog registration and surface coverage", async () => {
     (item) => item.harness_id === "demo-open-cli",
   )!;
   expect(product.registration).toBe("registered");
-  expect(product.topics).toHaveLength(7);
+  expect(product.topics).toHaveLength(8);
+  expect(product.topics).toContain("local_transcripts");
   const desktop = product.coverage.find(
     (entry) => entry.topic === "skills" && entry.surface_id === "desktop",
   );

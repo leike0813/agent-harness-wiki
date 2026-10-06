@@ -45,6 +45,19 @@ test("CLI chapter commands share a release and preserve uncertainty", () => {
     return JSON.parse(result.stdout);
   };
   expect(call("list").items).toHaveLength(2);
+  expect(
+    call("topic", "--harness", "demo-open-cli", "--topic", "local_transcripts")
+      .questions,
+  ).toHaveLength(10);
+  expect(
+    call(
+      "topic",
+      "--harness",
+      "demo-package-cli",
+      "--topic",
+      "local_transcripts",
+    ).status,
+  ).toBe("not_investigated");
   const catalog = call("list", "--scope", "catalog");
   expect(
     catalog.items.some((x: { registered: boolean }) => !x.registered),

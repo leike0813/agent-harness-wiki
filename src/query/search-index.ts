@@ -65,6 +65,16 @@ const topicAliases: Record<Topic, string[]> = {
   hooks: ["钩子", "hook"],
   native_plugins: ["原生插件", "扩展", "plugin"],
   configuration: ["配置", "设置", "config"],
+  local_transcripts: [
+    "本地 transcript",
+    "transcript",
+    "transcripts",
+    "会话记录",
+    "对话记录",
+    "会话存储",
+    "会话归档",
+    "会话清理",
+  ],
 };
 
 export function buildSearchSections(

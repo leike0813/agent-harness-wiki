@@ -13,6 +13,7 @@ type Product = {
   aliases: string[];
   surfaces: Surface[];
   topics: Topic[];
+  uninvestigatedTopics: Pick<Topic, "id" | "name">[];
   href?: string;
   candidate: boolean;
   sources: Source[];
@@ -216,6 +217,9 @@ const topicCount = (product: Product): string =>
       </li>
     </ul>
     <p v-else class="ahw-empty">该产品当前没有已发布的主题章节。</p>
+    <p v-if="overview.uninvestigatedTopics.length" class="ahw-portal__note">
+      尚未调查：{{ overview.uninvestigatedTopics.map((topic) => `${topic.name}（${topic.id}）`).join("、") }}
+    </p>
 
     <h2 class="ahw-portal__subheading">界面范围</h2>
     <p class="ahw-portal__note">

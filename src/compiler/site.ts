@@ -31,50 +31,54 @@ export async function buildSitePages(options: {
     const registered = new Set(
       knowledge.records.harnesses.map((x) => x.harness_id),
     );
-    const products = knowledge.records.catalog.products.map((product) => ({
-      id: product.harness_id,
-      name: product.name,
-      aliases: product.aliases,
-      surfaces: product.surfaces.map((surface) => ({
-        id: surface.surface_id,
-        name: surface.name,
-        kind: surface.kind,
-      })),
-      topics: topicSchema.options
-        .filter((topic) =>
-          knowledge.records.current.some(
-            (selection) =>
-              selection.harness_id === product.harness_id &&
-              selection.topic === topic,
-          ),
-        )
-        .map((topic) => ({
-          id: topic,
-          name: topicNames[topic],
-          href: `/harnesses/${product.harness_id}/${topic}`,
+    const products = knowledge.records.catalog.products.map((product) => {
+      const currentTopics = new Set(
+        knowledge.records.current
+          .filter((selection) => selection.harness_id === product.harness_id)
+          .map((selection) => selection.topic),
+      );
+      return {
+        id: product.harness_id,
+        name: product.name,
+        aliases: product.aliases,
+        surfaces: product.surfaces.map((surface) => ({
+          id: surface.surface_id,
+          name: surface.name,
+          kind: surface.kind,
         })),
-      ...(registered.has(product.harness_id)
-        ? { href: `/harnesses/${product.harness_id}/index` }
-        : {}),
-      candidate: !registered.has(product.harness_id),
-      sources: [
-        ...new Set([
-          ...product.reference_ids,
-          ...product.surfaces.flatMap((surface) => surface.reference_ids),
-          ...product.runtimes.flatMap((runtime) => runtime.reference_ids),
-          ...product.bindings.flatMap((binding) => binding.reference_ids),
-        ]),
-      ].map((id) => ({ id, href: `/sources/${id}` })),
-      runtimes: product.runtimes.map((runtime) => ({
-        id: runtime.runtime_id,
-        name: runtime.name,
-      })),
-      bindings: product.bindings.map((binding) => ({
-        surface_id: binding.surface_id,
-        ...(binding.runtime_id ? { runtime_id: binding.runtime_id } : {}),
-        status: binding.status,
-      })),
-    }));
+        topics: topicSchema.options
+          .filter((topic) => currentTopics.has(topic))
+          .map((topic) => ({
+            id: topic,
+            name: topicNames[topic],
+            href: `/harnesses/${product.harness_id}/${topic}`,
+          })),
+        uninvestigatedTopics: topicSchema.options
+          .filter((topic) => !currentTopics.has(topic))
+          .map((topic) => ({ id: topic, name: topicNames[topic] })),
+        ...(registered.has(product.harness_id)
+          ? { href: `/harnesses/${product.harness_id}/index` }
+          : {}),
+        candidate: !registered.has(product.harness_id),
+        sources: [
+          ...new Set([
+            ...product.reference_ids,
+            ...product.surfaces.flatMap((surface) => surface.reference_ids),
+            ...product.runtimes.flatMap((runtime) => runtime.reference_ids),
+            ...product.bindings.flatMap((binding) => binding.reference_ids),
+          ]),
+        ].map((id) => ({ id, href: `/sources/${id}` })),
+        runtimes: product.runtimes.map((runtime) => ({
+          id: runtime.runtime_id,
+          name: runtime.name,
+        })),
+        bindings: product.bindings.map((binding) => ({
+          surface_id: binding.surface_id,
+          ...(binding.runtime_id ? { runtime_id: binding.runtime_id } : {}),
+          status: binding.status,
+        })),
+      };
+    });
     const productById = new Map(
       products.map((product) => [product.id, product]),
     );

@@ -1,6 +1,6 @@
 ---
 name: harness-investigation
-description: 为新收录的 CLI 产品在 catalog 登记产品与界面、建立固定来源并采写七类主题知识章节，自检后分段发布。当维护者要求把新的 CLI 产品加入知识库时使用。
+description: 为新收录的 CLI 产品在 catalog 登记产品与界面、建立固定来源并采写八类主题知识章节，自检后分段发布。当维护者要求把新的 CLI 产品加入知识库时使用。
 disable-model-invocation: true
 ---
 
@@ -8,14 +8,14 @@ disable-model-invocation: true
 
 ## 目标
 
-把一个尚未收录的 CLI 产品接入知识库：先在 catalog 固定产品与界面身份，登记官方来源，直接固定可复核的来源身份，按 53 个固定问题逐界面采写七个主题章节，自检（高影响时另请 Agent 复核）后先构建再切换本地发布，最后用面向维护者的问题明确询问是否继续接入受管二进制。二进制接入由 [harness-binary](../harness-binary/SKILL.md) 单独执行。
+把一个尚未收录的 CLI 产品接入知识库：先在 catalog 固定产品与界面身份，登记官方来源，直接固定可复核的来源身份，按 63 个固定问题逐界面采写八个主题章节，自检（高影响时另请 Agent 复核）后先构建再切换本地发布，最后用面向维护者的问题明确询问是否继续接入受管二进制。二进制接入由 [harness-binary](../harness-binary/SKILL.md) 单独执行。
 
 首次接入不运行增量扫描，也不写来源审计 YAML：`pnpm sources:scan` 依赖已发布的当前章节，来源审计台账从维护阶段开始。
 
 ## 输入
 
 - 一个或多个要新收录的 CLI 产品名称或 ID；维护者给出的官方链接是调查线索，未给链接时由本 Skill 查找并核对官方来源，再确定稳定的产品 id 与界面。产品 id 命名产品本身，界面用 `surface_id` 命名同一产品的一个前端。多个产品逐一完成接入。
-- 若产品已在 `registry/harnesses/` 登记且七个主题都有当前章节，改用 [harness-maintenance](../harness-maintenance/SKILL.md)；否则按本 Skill 继续接入。
+- 若产品已在 `registry/harnesses/` 登记且已有任意当前章节，改用 [harness-maintenance](../harness-maintenance/SKILL.md)，由它补写缺失主题或维护已有内容；完全没有当前章节的登记产品，以及尚未登记的 catalog 候选，按本 Skill 接入并使用既有 catalog 身份。
 
 ## 执行流程
 
@@ -39,17 +39,17 @@ disable-model-invocation: true
 - 官方 npm 来源只需 `registry/sources/` 里的渠道与包名身份：不在知识中造 npm snapshot、artifact 或软件版本映射，除非实际检查过包字节；只有检查过包字节并有证据时才写 `mappings/`。
 - 文档候选原件留在 Git 忽略的 `archive/`，源码比对在临时工作区中完成；工作区保留到自检和必要的独立复核结束后再关闭。包字节由 harness-binary 处理，不进入知识发布。
 
-### 3. 采写七章
+### 3. 采写八章
 
-对 `skills`、`mcp`、`custom_agents`、`custom_providers`、`hooks`、`native_plugins`、`configuration` 各写一份完整章节版本 `knowledge/<harness-id>/chapters/<edition-id>.md`：
+对 `skills`、`mcp`、`custom_agents`、`custom_providers`、`hooks`、`native_plugins`、`configuration`、`local_transcripts` 各写一份完整章节版本 `knowledge/<harness-id>/chapters/<edition-id>.md`：
 
-- frontmatter 用 `schema_version: 3`：每个小节列出其 `surface_ids`，每道固定问题给出 `answers`，每条答案记录 `surface_ids`、状态、主要小节 ID 与本答案来源引用。没有调查的已声明界面可以不给答案，查询会把它报为 `not_investigated`，不要写成 `unknown`；七个主题合计覆盖全部 53 个问题。
+- frontmatter 用 `schema_version: 3`：每个小节列出其 `surface_ids`，每道固定问题给出 `answers`，每条答案记录 `surface_ids`、状态、主要小节 ID 与本答案来源引用。没有调查的已声明界面可以不给答案，查询会把它报为 `not_investigated`，不要写成 `unknown`；八个主题合计覆盖全部 63 个问题，编号与成稿细则以 [docs/topic-questions.md](../../../docs/topic-questions.md) 为准。
 - 正文按机制分稳定小节（`{#section-id}`），引用用 `[@reference-id]`；未知、不适用与冲突在对应小节写明理由与缺口。
 - 只有对具体软件发行版有证据时才建 `mappings/`；无证据保持来源级知识。
 
 ### 4. 自检与复核
 
-读实际 diff，确认每处改动都有引用、问题状态与正文一致、条件与版本边界写明。全部七章写入后，在 `registry/chapter-current.yaml` 选入七个新版本；此时新产品已有完整当前章节，再运行：
+读实际 diff，确认每处改动都有引用、问题状态与正文一致、条件与版本边界写明。新产品按完整八章验收：全部八章写入后，在 `registry/chapter-current.yaml` 为该产品的八个主题选入八个新版本；此时新产品已有完整当前章节，再运行：
 
 ```sh
 pnpm knowledge:validate
@@ -57,7 +57,7 @@ git diff --check
 git status --short --untracked-files=all
 ```
 
-七个当前选择写完前不要运行校验：新产品缺少当前章节会被校验器拒绝。首次接入不写审计 YAML，也不运行 `pnpm sources:audit-log`。
+八个当前选择写完前不要运行校验：新产品缺少任何当前章节都不算完成，校验器也要求登记产品至少有一个当前章节、每个已写的产品 × 主题恰有一个当前选择。首次接入不写审计 YAML，也不运行 `pnpm sources:audit-log`。
 
 出现来源冲突、推翻已发布配置步骤或跨主题关键加载机制变化时，用原生 subagent 委派一个只读 Agent 独立复核，先说明其任务与所选模型、输入、输出位置和禁止修改范围；复核未完成的问题保留待处理，不进入发布。
 

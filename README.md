@@ -65,7 +65,7 @@ pnpm online:verify <输出目录>
 
 公开包 `agent-harness-wiki` 提供在线只读查询与本地 stdio MCP，按需读取已发布知识，不携带完整历史、SQLite 或语义模型；1.1.0 起增加 `init` 配置命令，在写文件前生成计划并确认，按产品写入宿主 MCP 配置。`init` 不读取知识、不访问网络、不执行 harness，查询与 MCP 仍只读。完整说明见 [消费者包说明](packages/consumer/README.md)，取舍见 [ADR 0010](docs/decisions/0010-online-consumer.md)。
 
-[npm latest 仍为 1.0.0](https://www.npmjs.com/package/agent-harness-wiki)，六组公开平台验收与 OIDC latest 推广已通过；1.1.0 增加 `init` 与不带版本标签的默认 MCP 模板，尚未发布到 npm。以下命令在当前发布版本可用：
+[仓库记录的公开消费者版本为 1.0.0](https://www.npmjs.com/package/agent-harness-wiki)，六组公开平台验收与 OIDC latest 推广已通过；当前源码版本为 1.2.0，包含 1.1.0 引入的 `init` 与默认 MCP 模板，并支持 `local_transcripts`（本地 Transcript），尚未发布到 npm。读取含新主题的在线知识需要消费者 1.2.0 或更高版本，`data/v1/` 布局不变。以下是已发布 1.0.0 的用法：
 
 ```sh
 npx -y agent-harness-wiki@1.0.0 query topic --harness codex --topic mcp --surface-id cli
@@ -73,11 +73,13 @@ npx -y agent-harness-wiki@1.0.0 query search --text MCP --json
 npx -y agent-harness-wiki@1.0.0 mcp
 ```
 
-1.1.0 发布后可直接使用不带版本标签的 `npx -y agent-harness-wiki`，并用 `npx -y agent-harness-wiki init` 配置宿主；默认模板和 `init` 说明见 [MCP 配置指南](docs/mcp-configuration.md)。交付记录见 [发布指南](docs/publication.md)。
+新版消费者发布后可直接使用不带版本标签的 `npx -y agent-harness-wiki`，并用 `npx -y agent-harness-wiki init` 配置宿主；默认模板和 `init` 说明见 [MCP 配置指南](docs/mcp-configuration.md)。交付记录见 [发布指南](docs/publication.md)。
 
 默认入口 `https://leike0813.github.io/agent-harness-wiki/data/v1/` 已部署，数据、来源和同发布页面已通过公开回读；`--data-url` 只覆盖同协议镜像，`--offline` 只读同一入口／协议下最近一次成功初始化的必需缓存，`--cache-dir` 指定目录，`--no-file-cache` 关闭文件缓存读写。缓存默认目录：Linux 有效绝对 `$XDG_CACHE_HOME/agent-harness-wiki`（无效时 `~/.cache/agent-harness-wiki`）、macOS `~/Library/Caches/agent-harness-wiki`、Windows `%LOCALAPPDATA%\agent-harness-wiki\Cache`（无效时 `%USERPROFILE%\AppData\Local\agent-harness-wiki\Cache`）。消费者检索只有词法入口；每个产品 × 主题只保留当前章与最近一个历史版，选中被裁剪章节返回正常 `history_not_available`，完整历史需单独准备本地发布。在线发布本身也只保留 current 与最近一个已验证的恢复目标，更早的发布退出在线后绑定它的进程可能须重启，缓存不保证完整离线读取。
 
 生产搜索发布使用本机 Ollama 的 `qwen3-embedding:4b`；模型 digest 固定在 `registry/search-model.json`。构建和查询不会下载模型。搜索只覆盖当前章节小节，返回命中原因、正文片段、来源范围及 `semantic_status`；本机模型不可用时显示 `semantic_unavailable` 并继续词法搜索。语义相似度只表示相关性，章节的软件版本仍由 `topic` 查询的映射决定。
+
+本地 Transcript 的十个固定问题覆盖记录范围、保存位置、命名、格式、schema、生命周期、数据库关联、外部归档、清理与诊断。尚未采写的产品主题正常返回 `not_investigated`；本次仅接入主题机制与虚构验收数据，真实产品内容通过维护流程逐项补写。
 
 新增章节时按 [成稿规则](docs/topic-questions.md) 写路径、配置文件示例、处理链、检查方式与固定来源，再用 [开发指南](docs/development.md) 中的 staging 编译和发布命令；已发布的 release ID 不可重用。
 

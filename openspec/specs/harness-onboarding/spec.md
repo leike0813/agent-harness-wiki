@@ -2,16 +2,16 @@
 
 ## Purpose
 
-Defines the user-invoked path that onboards a new CLI product into the knowledge base: register official sources, pin source identities directly, author seven cited topic chapters, and publish knowledge before any managed-binary step.
+Defines the user-invoked path that onboards a new CLI product into the knowledge base: register official sources, pin source identities directly, author eight cited topic chapters, and publish knowledge before any managed-binary step.
 
 ## Requirements
 
 ### Requirement: New CLI knowledge onboarding
-A user-invoked onboarding Skill SHALL register a new product in the catalog with its product id, name, aliases, surfaces, runtime entities and bindings, promoting an existing candidate entry instead of inventing a new identity, register its official sources including an official `npm_registry` source identity when the product has one, pin the source identities directly, and produce a complete chapter edition for each of the seven topics covering all 53 fixed questions with per-surface answers, states and source references for every surface it investigates. It SHALL validate only after all seven current selections exist, and SHALL NOT run the incremental source scan, write an audit record, or reuse the maintenance report template.
+A user-invoked onboarding Skill SHALL register a new product in the catalog with its product id, name, aliases, surfaces, runtime entities and bindings, promoting an existing candidate entry instead of inventing a new identity, register its official sources including an official `npm_registry` source identity when the product has one, pin the source identities directly, and produce a complete chapter edition for each of the eight topics covering all 63 fixed questions with per-surface answers, states and source references for every surface it investigates. It SHALL validate only after all eight current selections exist, and SHALL NOT run the incremental source scan, write an audit record, or reuse the maintenance report template.
 
 #### Scenario: Complete onboarding
 - **WHEN** a maintainer requests that a new product be added with its official sources
-- **THEN** the Skill registers its catalog entry, surfaces, runtime entities and bindings, produces seven cited chapter editions, validates them with the current selections in place, and stages a new local release; a declared surface it did not investigate stays unanswered and reads as not_investigated
+- **THEN** the Skill registers its catalog entry, surfaces, runtime entities and bindings, produces eight cited chapter editions, validates them with the current selections in place, and stages a new local release; a declared surface it did not investigate stays unanswered and reads as not_investigated
 
 #### Scenario: npm source registered as identity only
 - **WHEN** the new product has an official npm package
@@ -25,10 +25,10 @@ The onboarding Skill SHALL build the new release with `chapters:update --stage` 
 - **THEN** `ahw publish --release-id <same-id>` selects it as current
 
 ### Requirement: Existing product routing
-The onboarding Skill SHALL route a product that already has all seven current chapters to the maintenance Skill, and SHALL resume onboarding for a registered product that is missing any current chapter. A catalog candidate SHALL be onboarded under its existing catalog identity rather than treated as maintained.
+The onboarding Skill SHALL route a product that already has all eight current chapters to the maintenance Skill, and SHALL resume onboarding for a registered product that is missing any current chapter. A catalog candidate SHALL be onboarded under its existing catalog identity rather than treated as maintained.
 
 #### Scenario: Partially onboarded product
-- **WHEN** the product is registered but lacks a current chapter for some topic
+- **WHEN** the product is registered but has no current chapter
 - **THEN** the Skill continues onboarding rather than treating it as maintained
 
 #### Scenario: Catalog candidate
@@ -41,3 +41,10 @@ Only after a successful knowledge publication SHALL the onboarding Skill ask the
 #### Scenario: Knowledge published, binary undecided
 - **WHEN** onboarding completes its knowledge release
 - **THEN** the Skill asks the maintainer and does not run `managed:packages` before an affirmative answer
+
+### Requirement: Missing topic maintenance
+Maintenance SHALL support adding a missing declared topic to a registered product with existing current knowledge using its normal fixed-source, isolated-candidate and publication workflow. Adding a topic SHALL NOT require rewriting unrelated current chapters.
+
+#### Scenario: Add transcript to maintained product
+- **WHEN** a maintainer explicitly requests local_transcripts for a product with existing current chapters
+- **THEN** maintenance authors and selects the new topic while retaining unrelated editions

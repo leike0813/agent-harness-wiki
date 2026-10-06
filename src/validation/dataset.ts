@@ -76,6 +76,7 @@ const topicType: Record<Topic, string[]> = {
   hooks: ["hook_event", "capability_support"],
   native_plugins: ["plugin_lifecycle", "capability_support"],
   configuration: ["precedence_rule", "capability_support"],
+  local_transcripts: ["search_path", "capability_support"],
 };
 
 function emptyDataset(): Dataset {

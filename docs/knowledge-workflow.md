@@ -1,6 +1,6 @@
 # 知识怎样进入读者章节
 
-读者从产品概览进入 Skills、MCP、自定义 Agent、自定义 Provider、Hooks、原生插件与配置机制七个主题页。每篇章节按 [53 个固定问题](topic-questions.md)记录 `answered`、`partial`、`unknown`、`not_applicable` 或 `conflict`，在正文相应位置说明机制、条件和缺口。状态属于问题 × 界面：一条答案按其 `surface_ids` 适用；产品已声明、但章节没有答案的界面由查询派生为 `not_investigated`（界面已知但本轮未调查），不写成 `unknown`；同一页中已知与未知可以并存。
+读者从产品概览进入 Skills、MCP、自定义 Agent、自定义 Provider、Hooks、原生插件、配置机制与本地 Transcript 八类主题；概览只链接已有当前章节，缺失主题标为尚未调查。每篇章节按 [63 个固定问题](topic-questions.md)记录 `answered`、`partial`、`unknown`、`not_applicable` 或 `conflict`，在正文相应位置说明机制、条件和缺口。状态属于问题 × 界面：一条答案按其 `surface_ids` 适用；产品已声明、但章节没有答案的界面由查询派生为 `not_investigated`（界面已知但本轮未调查），不写成 `unknown`；同一页中已知与未知可以并存。
 
 ## 来源和版本
 
@@ -10,9 +10,11 @@
 
 ## 新收录产品
 
-新 CLI 由维护者调用 `$harness-investigation <harness-id>` 接入：先在 catalog 固定产品 id 与界面（`surface_id`），登记产品与官方来源、固定来源身份、按 53 个固定问题逐界面采写七章、自检（高影响时另请 Agent 复核）后分段发布知识。知识发布成功后，由维护者决定是否继续调用 `harness-binary` 接入受管二进制；二进制不进入知识发布。
+新 CLI 由维护者调用 `$harness-investigation <harness-id>` 接入：先在 catalog 固定产品 id 与界面（`surface_id`），登记产品与官方来源、固定来源身份、按 63 个固定问题逐界面采写八章、自检（高影响时另请 Agent 复核）后分段发布知识。知识发布成功后，由维护者决定是否继续调用 `harness-binary` 接入受管二进制；二进制不进入知识发布。
 
 ## 手动观察与审计
+
+已有当前章节的登记产品可在隔离候选中补写缺失主题，保留无关章节。每个已写产品 × 主题须有唯一当前选择，登记产品至少有一个当前章节；未采写的主题不建占位，由查询派生为 `not_investigated`。本地 Transcript 的调查范围与成稿规则见 [固定问题](topic-questions.md)。
 
 用户手动调用维护 Skill（默认 `$harness-maintenance <harness-id>...`）时先运行 `pnpm sources:scan <harness-id>...`，逐个观察登记来源。扫描是元数据优先的：Git 源用 `ls-remote` 取精确 HEAD 和默认分支 ref；官方文档取固定字节并算 sha256；npm 源只读 registry 元数据里的 `dist-tags.latest` 与对应版本 integrity，不下载包字节。三类身份各自与上次基线比对，互不证明：新包版本只是线索，不能说明章节改变，也不能说明某个源码提交对应到这个包。读源码或文档原件时走 `pnpm sources:workspace open --source-id ... --commit ... --owner-pid ...`，在项目外的临时 pinned checkout 读取、读完 `close`、残留按 owner PID `recover`；官方文档原件按保留策略留在忽略归档，源码只留 `git_source_file` 的提交、文件与内容 hash。包字节由受管环境流程另行获取。ID 模式每一轮还会另行调用 `harness-binary` 核对受管二进制最新版本；定向模式只在维护者明确要求时核对。
 
@@ -88,5 +90,7 @@ Git 中的章节 Markdown、来源引用 YAML、版本映射 YAML 与 `registry/
 在线分发是独立于本地发布的读取路径：从同一份已校验真源生成 `data/v1/` 机器资源与同发布页面，每个产品 × 主题只收录当前章与最近一个历史版，其余章节退为裁剪标记，检索只有词法入口；身份为 `web-v1-<完整 Git commit SHA>`。最近历史版按指定 commit 的 first-parent 树引入顺序排序；只有存在多个非 current 版本时才需要完整 Git 历史，浅克隆或定位不到引入点时构建失败。生产 main 发布由 `knowledge-publication.yml` 承接；构建、归档、部署与公开可用性分别验收。
 
 `publication-state/state.json` 保存发布预约、current／恢复目标、转换记录及未完成部署；`src/publication/state.ts` 选定在线的 current 与最近已独立验证 recovery 两个数据指针，正常新发布用上一个已验证 current 作为 recovery，原 current 未验证时沿用原已验证 recovery 并去重目标，旧协议冻结公告至少 90 天。每份不可变 Release 归档仅保存本发布页面与数据，部署组装保留目标页面并选入这两份数据，解包字节上限 768 MiB。未知部署必须 reconcile，不能继续后续发布；超限保留现站。归档不自动清理，退出在线的已验证旧发布仍可从归档手动恢复。恢复和真实 Pages／npm 验收见 [发布指南](publication.md)。
+
+在线知识含 `local_transcripts` 时，需要消费者 1.2.0 或更高版本；旧消费者的闭合主题枚举会拒绝新主题，`data/v1/` 布局不变。
 
 消费者侧：公开 `agent-harness-wiki` 包的 `ahw` 只做词法在线读取，每个产品 × 主题只看到当前章与最近一个历史版。按既有选版规则选中被裁剪章节时返回正常 `history_not_available` 并指向本地完整历史；它不是 `unsupported` 或从未调查。完整历史不随包分发，需要按本仓库流程单独准备本地发布，`--offline` 只读已缓存资源、不能补齐被裁剪章节。说明与接入见 [消费者包说明](../packages/consumer/README.md) 与 [ADR 0010](decisions/0010-online-consumer.md)。

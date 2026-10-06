@@ -8,12 +8,14 @@
 
 ## 使用
 
-默认使用 npm `latest`，不需要版本标签；需要固定时再指定精确版本（例如 `@1.1.0`）。也可通过 `npm exec --yes --package /path/to/agent-harness-wiki-1.1.0.tgz -- ahw --data-url <同协议入口> query list` 运行本地工件。公开发布和平台验收记录见[发布指南](https://github.com/leike0813/agent-harness-wiki/blob/main/docs/publication.md)。
+当前源码版本为 1.2.0，支持 `local_transcripts`（本地 Transcript），尚未发布到 npm。读取含该主题的在线知识需要 1.2.0 或更高版本：旧消费者校验闭合主题枚举，会拒绝新主题。`data/v1/` 协议与资源布局不变；产品尚无该主题章节时正常返回 `not_investigated`。该功能只查询知识，不读取用户实际会话或提供清理命令。
+
+默认使用 npm `latest`，不需要版本标签；需要固定时再指定精确版本（例如 `@1.2.0`）。也可通过 `npm exec --yes --package /path/to/agent-harness-wiki-1.2.0.tgz -- ahw --data-url <同协议入口> query list` 运行本地工件。公开发布和平台验收记录见[发布指南](https://github.com/leike0813/agent-harness-wiki/blob/main/docs/publication.md)。
 
 ```sh
 npx -y agent-harness-wiki query topic --harness codex --topic mcp --surface-id cli
 npx -y agent-harness-wiki query search --text MCP
-npx -y agent-harness-wiki@1.1.0 --version   # 可选：固定精确版本
+npx -y agent-harness-wiki@1.2.0 --version   # 可选：固定精确版本
 npx -y agent-harness-wiki mcp
 npx -y agent-harness-wiki init
 npx -y agent-harness-wiki --help

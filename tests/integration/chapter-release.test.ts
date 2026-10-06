@@ -16,10 +16,14 @@ import YAML from "yaml";
 import { afterEach, expect, test } from "vitest";
 import {
   compileChapterRelease,
+  renderChapterDocs,
   type ChapterCompileOptions,
   verifyChapterRelease,
 } from "../../src/compiler/chapter-release.js";
-import { chapterEditionSchema } from "../../src/domain/chapter.js";
+import {
+  chapterEditionSchema,
+  chapterPublishedKnowledgeSchema,
+} from "../../src/domain/chapter.js";
 import { catalogSchema } from "../../src/domain/catalog.js";
 import { sha256 } from "../../src/compiler/projection.js";
 import { QueryService } from "../../src/query/service.js";
@@ -117,8 +121,8 @@ test("fixture chapters parse, preserve uncertainty, and reject malformed IDs", a
   });
   expect(result.ok).toBe(true);
   if (!result.ok) return;
-  expect(result.dataset.chapters).toHaveLength(15);
-  expect(result.dataset.current).toHaveLength(14);
+  expect(result.dataset.chapters).toHaveLength(16);
+  expect(result.dataset.current).toHaveLength(15);
   expect(
     result.dataset.chapters
       .find((x) => x.edition_id === "demo-open-cli-skills-v1")
@@ -150,6 +154,87 @@ test("fixture chapters parse, preserve uncertainty, and reject malformed IDs", a
     (await loadAndValidateChapters({ root: fixture, profile: "production" }))
       .ok,
   ).toBe(false);
+});
+
+test("authored topics require current selections while unauthored topics may be absent", async () => {
+  const root = await copy();
+  const valid = await loadAndValidateChapters({ root, profile: "fixture" });
+  expect(valid.ok).toBe(true);
+  if (valid.ok)
+    expect(
+      valid.dataset.current.some(
+        (item) =>
+          item.harness_id === "demo-package-cli" &&
+          item.topic === "local_transcripts",
+      ),
+    ).toBe(false);
+  await edit(root, "registry/chapter-current.yaml", (text) => {
+    const selection = YAML.parse(text);
+    selection.selections = selection.selections.filter(
+      (item: { topic: string }) => item.topic !== "local_transcripts",
+    );
+    return YAML.stringify(selection);
+  });
+  const result = await loadAndValidateChapters({ root, profile: "fixture" });
+  expect(result.ok).toBe(false);
+  expect(result.diagnostics.map((item) => item.code)).toContain(
+    "CURRENT_MISSING",
+  );
+});
+
+test("transcript chapters must index every fixed question", async () => {
+  const root = await copy();
+  await mutateFrontmatter(
+    root,
+    "knowledge/demo-open-cli/chapters/demo-open-cli-local_transcripts-v1.md",
+    (doc) => {
+      doc.questions = (doc.questions as { question_id: string }[]).filter(
+        (question) => question.question_id !== "transcripts.cleanup",
+      );
+    },
+  );
+  const result = await loadAndValidateChapters({ root, profile: "fixture" });
+  expect(result.ok).toBe(false);
+  expect(result.diagnostics.map((item) => item.code)).toContain(
+    "QUESTION_MISSING",
+  );
+});
+
+test("builder 6 remains readable with its frozen Markdown and builder 7 compiles current counts", async () => {
+  const { releaseDir, manifest } = await build(
+    fixture,
+    await temp(),
+    "frozen-builder",
+  );
+  expect(manifest.builder_version).toBe("7");
+  const knowledge = chapterPublishedKnowledgeSchema.parse(
+    JSON.parse(await readFile(path.join(releaseDir, "knowledge.json"), "utf8")),
+  );
+  const frozen = { ...manifest, builder_version: "6" };
+  for (const [file, content] of renderChapterDocs(knowledge, {
+    builderVersion: "6",
+  })) {
+    await writeFile(path.join(releaseDir, file), content);
+    frozen.artifacts[file] = sha256(content);
+  }
+  await writeFile(
+    path.join(releaseDir, "manifest.json"),
+    JSON.stringify(frozen),
+  );
+  const before = await digests(releaseDir);
+  expect((await verifyChapterRelease(releaseDir)).builder_version).toBe("6");
+  const service = await QueryService.open({
+    releasesRoot: path.dirname(releaseDir),
+    releaseId: "frozen-builder",
+  });
+  try {
+    expect(
+      service.getTopic({ harness: "demo-open-cli", topic: "skills" }).status,
+    ).toBe("ok");
+  } finally {
+    service.close();
+  }
+  expect(await digests(releaseDir)).toEqual(before);
 });
 
 test("registering a catalog candidate without chapters reports missing editions", async () => {
@@ -332,8 +417,8 @@ test("repeat builds agree across JSON, SQLite, Markdown; mapping-only release ke
   const knowledge = JSON.parse(
     await readFile(path.join(left.releaseDir, "knowledge.json"), "utf8"),
   );
-  expect(knowledge.records.current).toHaveLength(14);
-  expect(knowledge.records.chapters).toHaveLength(15);
+  expect(knowledge.records.current).toHaveLength(15);
+  expect(knowledge.records.chapters).toHaveLength(16);
   expect(knowledge.records.mappings[0].scope).toBe("section");
   expect(
     await readFile(
@@ -346,7 +431,7 @@ test("repeat builds agree across JSON, SQLite, Markdown; mapping-only release ke
   });
   try {
     expect(db.prepare("SELECT count(*) AS n FROM current").get()).toEqual({
-      n: 14,
+      n: knowledge.records.current.length,
     });
     expect(db.prepare("SELECT count(*) AS n FROM questions").get()).toEqual({
       n: knowledge.records.chapters.reduce(

@@ -200,6 +200,25 @@ test("maps changed fixed sources to cited question and section IDs", async () =>
       cross_topic_links: [],
       reason: "source-demo-open-doc: cited source changed",
     },
+    {
+      topic: "local_transcripts",
+      question_ids: [
+        "transcripts.scope",
+        "transcripts.location",
+        "transcripts.naming",
+        "transcripts.format",
+        "transcripts.schema",
+        "transcripts.lifecycle",
+        "transcripts.database",
+        "transcripts.archive",
+        "transcripts.cleanup",
+      ],
+      section_ids: ["transcript-storage"],
+      source_refs: ["ref-demo-open-transcripts"],
+      surface_ids: ["cli"],
+      cross_topic_links: [],
+      reason: "source-demo-open-doc: cited source changed",
+    },
   ]);
   const broad = mapAuditImpacts(result.dataset, [
     {
@@ -211,7 +230,7 @@ test("maps changed fixed sources to cited question and section IDs", async () =>
       changed_paths: ["src/loader.ts"],
     },
   ]);
-  expect(broad).toHaveLength(7);
+  expect(broad).toHaveLength(8);
   expect(
     broad.every((impact) => impact.reason.includes("shared or unknown impact")),
   ).toBe(true);

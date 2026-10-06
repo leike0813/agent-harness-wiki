@@ -39,7 +39,9 @@ pnpm online:verify <输出目录>
 
 ## 消费者包构建与验收
 
-消费者包位于 `packages/consumer/`，公开名 `agent-harness-wiki`、版本 `1.1.0`、命令 `ahw`，入口由 `src/consumer/index.ts` 编译到 `dist/consumer/index.js`；1.1.0 起提供 `init` 配置命令，其提示、适配器与计划／写入服务位于 `src/consumer/init/`。根工作区改名 `agent-harness-wiki-maintainer`，保持 private。消费者只打包运行所需编译代码、元数据、说明与许可，不打包工作区、测试、SQLite、模型或完整知识；安装不需要 pnpm、TypeScript 或本机编译工具，也不安装任何 harness。
+消费者 1.2.0 支持 `local_transcripts`。旧消费者校验闭合主题枚举，不能读取含新主题的在线发布；发布该主题前须先交付升级的消费者。在线协议和资源布局仍为 `data/v1/`，本次未发布 npm 或真实产品的新主题知识。
+
+消费者包位于 `packages/consumer/`，公开名 `agent-harness-wiki`、版本 `1.2.0`、命令 `ahw`，入口由 `src/consumer/index.ts` 编译到 `dist/consumer/index.js`；1.1.0 起提供 `init` 配置命令，其提示、适配器与计划／写入服务位于 `src/consumer/init/`。根工作区改名 `agent-harness-wiki-maintainer`，保持 private。消费者只打包运行所需编译代码、元数据、说明与许可，不打包工作区、测试、SQLite、模型或完整知识；安装不需要 pnpm、TypeScript 或本机编译工具，也不安装任何 harness。
 
 ```sh
 pnpm consumer:build
@@ -57,9 +59,11 @@ pnpm consumer:verify
 
 ## 新收录产品接入
 
-新 CLI 由维护者调用 `$harness-investigation <harness-id>`：在 `catalog/harnesses.yaml` 固定产品与界面身份，登记 `registry/harnesses/`、`registry/sources/` 的官方来源（有 npm 包时登记 `npm_registry` 身份），直接固定 Git commit/文档 sha256 并写入 `snapshots/`、`artifacts/`、`references/`，按 [固定问题清单](topic-questions.md) 采写七章，在 `registry/chapter-current.yaml` 选入七个新版本后运行 `pnpm knowledge:validate`。发布用 `pnpm chapters:update ... --stage --blocked '[]'` 构建不可变 release，验收后 `pnpm ahw publish --release-id <new-id>` 切换；首次接入不运行 `pnpm sources:scan`，也不写审计 YAML。知识发布成功后，Skill 会明确询问是否继续接入受管二进制；同意后由 `harness-binary` 先在 `src/sources/managed.ts` 登记官方包信息，再运行 `pnpm managed:packages update <harness-id>`。
+新 CLI 由维护者调用 `$harness-investigation <harness-id>`：在 `catalog/harnesses.yaml` 固定产品与界面身份，登记 `registry/harnesses/`、`registry/sources/` 的官方来源（有 npm 包时登记 `npm_registry` 身份），直接固定 Git commit/文档 sha256 并写入 `snapshots/`、`artifacts/`、`references/`，按 [固定问题清单](topic-questions.md) 采写八章（含 `local_transcripts` 的十个固定问题，共 63 问），在 `registry/chapter-current.yaml` 为八个主题选入新版本后运行 `pnpm knowledge:validate`。发布用 `pnpm chapters:update ... --stage --blocked '[]'` 构建不可变 release，验收后 `pnpm ahw publish --release-id <new-id>` 切换；首次接入不运行 `pnpm sources:scan`，也不写审计 YAML。知识发布成功后，Skill 会明确询问是否继续接入受管二进制；同意后由 `harness-binary` 先在 `src/sources/managed.ts` 登记官方包信息，再运行 `pnpm managed:packages update <harness-id>`。
 
 ## 手动增量更新流程
+
+已有任意当前章节的登记产品可通过此流程补写缺失主题，在隔离候选中新增完整章节和当前选择，保留无关章节。
 
 手动更新由维护者调用 `harness-maintenance` 启动：`$harness-maintenance pi` 是 ID 模式，给出固定来源与具体问题则走定向模式。ID 模式每一轮还会调用 `harness-binary` 核对受管二进制最新版本；定向模式只在明确要求时核对。流程没有逐条人工接受门禁，普通更新由调查 Agent 自检后直接采纳。
 

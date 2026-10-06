@@ -19,7 +19,7 @@ description: 调查已登记 harness 的固定来源并维护受影响的产品�
 - **固定来源模式**：提供固定 Git commit、官方文档快照或精确 npm 版本及要回答的问题。只调查这些问题及必要交叉引用；coordinator 无需 scan。多个产品可并行；同产品的多个问题放在同一 worker 中。
 - **worker 模式**：由 coordinator 给出唯一任务 ID、隔离 candidate root、原项目根目录与长期 owner PID、固定 observation/revision、workspace IDs、问题范围、pending 子集、delivery 与完成标准。worker 不重新扫描；发现新的关联证据时请父进程调整同一任务范围再继续。返回 `changed`、`completed`、`blocked`、`selection`、`audit`、`review`、`workspaceIDs` 及停止确认。任务输入和结果文件在候选根外，仅 dataset 文件在候选根内编辑。
 
-覆盖主题为 `skills`、`mcp`、`custom_agents`、`custom_providers`、`hooks`、`native_plugins`、`configuration`。每道固定问题按 `surface_id` 记录 `answered`、`partial`、`unknown`、`not_applicable` 或 `conflict`；已声明但未调查的界面不造答案，查询派生 `not_investigated`。固定问题编号以 `docs/topic-questions.md` 为准。
+覆盖主题为 `skills`、`mcp`、`custom_agents`、`custom_providers`、`hooks`、`native_plugins`、`configuration`、`local_transcripts`。每道固定问题按 `surface_id` 记录 `answered`、`partial`、`unknown`、`not_applicable` 或 `conflict`；已声明但未调查的界面不造答案，查询派生 `not_investigated`。固定问题编号以 `docs/topic-questions.md` 为准。已收录产品可补写缺失主题：按固定来源与隔离候选流程新增该产品 × 主题的完整章节，不重写无关当前章节。
 
 用户给出多个产品/topic 时完整处理。恢复中断任务时读取审计、候选、章节 diff 和 worker 状态，只恢复未完成的问题，已完成问题不重新调查。
 
@@ -156,7 +156,7 @@ pnpm maintenance:candidates plan --batch <batch> --out <new-temp-merge> <complet
 pnpm chapters:update --dataset-root . --profile production --release-id <new-id> --published-at <fixed-time> --releases-root releases --stage --blocked '<JSON 数组>'
 ```
 
-`--blocked` 是 `[{"harness_id":"<id>","topic":"<topic>"}]`，枚举 topic 与本 Skill 的七主题一致；空数组写 `[]`，不含 question 字段。先检查结果 JSON：`audit_only` 不产生新 release，`blocked` 保留旧指针；只有 `staged` 并验收 hash、引用、SQLite 和查询可读性后运行：
+`--blocked` 是 `[{"harness_id":"<id>","topic":"<topic>"}]`，枚举 topic 与本 Skill 的八主题一致；空数组写 `[]`，不含 question 字段。先检查结果 JSON：`audit_only` 不产生新 release，`blocked` 保留旧指针；只有 `staged` 并验收 hash、引用、SQLite 和查询可读性后运行：
 
 ```sh
 pnpm ahw publish --release-id <new-id>

@@ -622,6 +622,10 @@ async function main(): Promise<void> {
     data = await startStaticServer(deployment.files);
     const dataUrl = `${data.origin}${dataPrefix}`;
     const inputs = deriveInputs(deployment.resources);
+    const transcriptRequests = ["demo-open-cli", "demo-package-cli"].map(
+      (harness) => ({ harness, topic: "local_transcripts" }),
+    );
+    const transcriptCliResults: unknown[] = [];
     const sourcePath = (id: string) =>
       `${dataPrefix}releases/${deployment.releaseId}/sources/${id}.json`;
 
@@ -965,6 +969,37 @@ async function main(): Promise<void> {
         cliResults[entry.key] = parsed;
       });
 
+    await check(
+      "CLI transcripts preserve authored and missing coverage",
+      async () => {
+        for (const [index, request] of transcriptRequests.entries()) {
+          const result = consumerResultSchemas.get_topic.parse(
+            JSON.parse(
+              await runAhw(
+                query([
+                  "topic",
+                  "--harness",
+                  request.harness,
+                  "--topic",
+                  request.topic,
+                ]),
+              ),
+            ),
+          );
+          assert(
+            result.status === (index === 0 ? "ok" : "not_investigated"),
+            "Transcript coverage differs",
+          );
+          if ("questions" in result)
+            assert(
+              result.questions.length === 10,
+              "Transcript questions are missing",
+            );
+          transcriptCliResults.push(result);
+        }
+      },
+    );
+
     await check("CLI technical error is structured and nonzero", async () => {
       const parsed = consumerResultSchemas.error.parse(
         JSON.parse(
@@ -1090,6 +1125,18 @@ async function main(): Promise<void> {
         assert(!capabilities?.resources, "server advertised resources");
         assert(!capabilities?.prompts, "server advertised prompts");
       });
+      await check(
+        "MCP transcripts equal CLI authored and missing results",
+        async () => {
+          for (const [index, request] of transcriptRequests.entries())
+            deepStrictEqual(
+              consumerResultSchemas.get_topic.parse(
+                await mcpCall("get_topic", request),
+              ),
+              transcriptCliResults[index],
+            );
+        },
+      );
       await check("MCP list equals CLI list", async () => {
         deepStrictEqual(
           consumerResultSchemas.list_harnesses.parse(

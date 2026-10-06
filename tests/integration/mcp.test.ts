@@ -66,6 +66,22 @@ test("stdio exposes exactly five chapter tools and calls all five", async () => 
     "get_source",
   ]);
   await call("list_harnesses", { limit: 1 });
+  expect(
+    (
+      await call("get_topic", {
+        harness: "demo-open-cli",
+        topic: "local_transcripts",
+      })
+    ).structuredContent,
+  ).toMatchObject({ status: "ok", topic: "local_transcripts" });
+  expect(
+    (
+      await call("get_topic", {
+        harness: "demo-package-cli",
+        topic: "local_transcripts",
+      })
+    ).structuredContent,
+  ).toMatchObject({ status: "not_investigated" });
   const catalog = await call("list_harnesses", { scope: "catalog" });
   const candidate = (
     catalog.structuredContent as {

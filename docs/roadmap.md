@@ -16,7 +16,7 @@ M1-1 → M1-2 → M1-3 是知识主链；M1-4 可独立推进，但四项均完�
 
 ## 内容与发布
 
-首批登记产品为 Codex、Antigravity、Claude Code、OpenCode、Pi、OMP（即 catalog 中的产品 id）；产品名称与界面（`surface_id`）以 `catalog/harnesses.yaml` 为准。共同导航为 Skills、MCP、Custom agents、Custom providers、Hooks、原生插件、配置机制。每个产品的 53 个固定调查问题按主题落入章节索引，允许局部 unknown、partial、not_applicable 和 conflict，必须说明来源及缺口。旧 35 篇正文、三条已接受 Claim 与 Coverage 可作调查线索，需逐项重查，不自动生成软件发行版映射。
+首批登记产品为 Codex、Antigravity、Claude Code、OpenCode、Pi、OMP（即 catalog 中的产品 id）；产品名称与界面（`surface_id`）以 `catalog/harnesses.yaml` 为准。共同导航为 Skills、MCP、Custom agents、Custom providers、Hooks、原生插件、配置机制、本地 Transcript。每个产品的 63 个固定调查问题按主题落入章节索引，允许局部 unknown、partial、not_applicable 和 conflict，必须说明来源及缺口。尚未采写的主题由查询派生为 not_investigated，已有产品可通过维护流程逐项补写。首批 42 篇仍描述原七主题交付范围。旧 35 篇正文、三条已接受 Claim 与 Coverage 可作调查线索，需逐项重查，不自动生成软件发行版映射。
 
 Git 记录章节、固定来源元数据、映射与审计；完整原件、二进制、模型和日志在忽略的本地目录。发布先写 staging，验证后原子切换；文档站、CLI 和 MCP 从同一发布读取。当前发布索引新格式历史章节；旧格式 release 不承担兼容义务，也无需为它们保留旧查询适配器。正在运行的 MCP 进程继续读取启动时固定的发布，重启后才读新当前发布。
 
@@ -28,4 +28,4 @@ Git 记录章节、固定来源元数据、映射与审计；完整原件、二�
 
 在线分发分三步推进：`online-knowledge-release` 与 `online-consumer-cli-mcp` 已归档；`online-publication-and-delivery` 实现 main／PR／手动 Pages 工作流、独立持久台账、不可变归档与恢复、30／90 天保留政策及 tag 触发的 npm next／latest。真实 Pages、恢复演练和公开包六组平台验收各自记录，未通过前保持相应任务未完成，见 [发布指南](publication.md)。
 
-`catalog/harnesses.yaml` 是产品与界面的唯一事实源，并记录完整候选并集：登记产品与候选共用同一套产品 id、名称和界面声明，候选只提供身份、不产生章节或事实。候选晋升为登记产品时沿用 catalog 中既有的 id、名称和界面，注册一步只加 registry 来源与知识。名录修订从 Orca 官方具名支持名单、OpenSpec 官方支持工具名单等固定来源汇总；每波先固定名单 revision 与日期、扣除已有对象，再逐个调查七主题并建立来源边界。每个新产品先由 `harness-investigation` 采写七章知识；知识发布成功后由维护者决定是否交由 `harness-binary` 接入受管二进制。扩容波次与 M2 手动维护分开规划；名单不证明产品能力。
+`catalog/harnesses.yaml` 是产品与界面的唯一事实源，并记录完整候选并集：登记产品与候选共用同一套产品 id、名称和界面声明，候选只提供身份、不产生章节或事实。候选晋升为登记产品时沿用 catalog 中既有的 id、名称和界面，注册一步只加 registry 来源与知识。名录修订从 Orca 官方具名支持名单、OpenSpec 官方支持工具名单等固定来源汇总；每波先固定名单 revision 与日期、扣除已有对象，再逐个调查八主题并建立来源边界。每个新产品先由 `harness-investigation` 采写八章知识；知识发布成功后由维护者决定是否交由 `harness-binary` 接入受管二进制。扩容波次与 M2 手动维护分开规划；名单不证明产品能力。

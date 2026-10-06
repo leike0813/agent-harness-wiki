@@ -22,6 +22,7 @@
 5. Hooks。
 6. 原生插件。
 7. 横切配置机制。
+8. 本地 Transcript。
 
 本项目不是新的通用 agent harness，不是自动配置管理器，也不是查询时调用 LLM 的 RAG 聊天应用。
 
@@ -33,13 +34,15 @@
 
 产品与界面的身份以 [`catalog/harnesses.yaml`](catalog/harnesses.yaml) 为唯一事实源：产品 id 命名产品，界面 id（`surface_id`）命名同一产品的一个前端，界面到运行时的绑定单独记录、未证实时记 `unknown`；`registry/harnesses/` 只登记产品 id 与来源引用，不复制名称、别名或形态。章节问题按界面记录答案；已声明但章节没有答案的界面不在章节里存状态，查询把它派生为 `not_investigated`。带 `--version` 的读取必须同时指定界面，否则返回 `ambiguous`。
 
-新知识主稿是带逐题状态和固定来源的产品 × 主题章节；新 MCP 五工具为 `list_harnesses`、`get_topic`、`search_knowledge`、`compare_topics`、`get_source`。普通更新由 Agent 自检后可发布，指定高影响情况由另一 Agent 复核；M1 的本地离线混合检索是交付门槛。受管二进制启动与知识发布分别验收：新 CLI 由 `harness-investigation` 接入七章知识、`harness-maintenance` 维护上游变化、`harness-binary` 接入受管二进制。旧格式 release 无兼容义务，新发布内的历史章节仍须可查。
+新知识主稿是带逐题状态和固定来源的产品 × 主题章节；新 MCP 五工具为 `list_harnesses`、`get_topic`、`search_knowledge`、`compare_topics`、`get_source`。普通更新由 Agent 自检后可发布，指定高影响情况由另一 Agent 复核；M1 的本地离线混合检索是交付门槛。受管二进制启动与知识发布分别验收：新 CLI 由 `harness-investigation` 接入八章知识、`harness-maintenance` 维护上游变化、`harness-binary` 接入受管二进制。旧格式 release 无兼容义务，新发布内的历史章节仍须可查。
+
+主题允许增量覆盖：产品尚未采写的已声明主题不要求占位章节，查询把它派生为 `not_investigated`；每个已写的产品 × 主题必须恰好有一个当前章节，登记产品至少需要一个当前章节。新产品接入按全部八个主题采写（63 个固定问题，含 `local_transcripts` 的十个 `transcripts.*` 问题）；已登记产品缺失的主题由 `harness-maintenance` 在隔离候选中按固定来源补写，不重写无关章节。
 
 编写或修订产品 × 主题章节时，按 [固定问题与成稿规则](docs/topic-questions.md) 核对机制分节、问题索引、配置文件示例、来源和版本边界；审阅正文后再选为当前版。
 
 构建 M1 生产搜索发布前，核对 [本地搜索模型锁](registry/search-model.json) 与 [搜索 ADR](docs/decisions/0007-offline-hybrid-search.md)；词法索引只覆盖当前小节，语义模型缺失须显式降级。
 
-知识有两条独立交付线。本地线保留完整章节历史，以标准 JSON、SQLite、生成 Markdown 和本机语义索引验收混合检索，生产构建继续要求 [搜索 ADR](docs/decisions/0007-offline-hybrid-search.md) 的模型门禁。在线线是独立身份的静态投影：`data/v1/` 资源与同发布页面，每个产品 × 主题只收录当前章与最近一个历史版，其余章节退为裁剪标记，检索只有词法入口。在线构建从结构化真源投影，不依赖本地已发布数据，不访问上游补事实、不执行 harness，生产拒绝 fixture。消费者包与在线 DTO／网络政策由 `online-consumer-cli-mcp` 交付：公开名 `agent-harness-wiki`、命令 `ahw`，根包改名 `agent-harness-wiki-maintainer` 并保持 private；公开 CI／npm／Pages 发布由 `online-publication-and-delivery` 实现；持久台账、不可变归档、current／恢复两指针在线保留与恢复、独立 next／latest 发版见 [ADR 0011](docs/decisions/0011-public-publication.md) 和 [操作指南](docs/publication.md)。边界与预算见 [在线分发 ADR](docs/decisions/0009-online-knowledge-distribution.md)，消费者契约见 [消费者 ADR](docs/decisions/0010-online-consumer.md)。消费者另提供显式 `init` 配置命令（消费者包 1.1.0，change `consumer-mcp-init`）：在写入前生成计划并确认，按产品编辑宿主 MCP 配置；它与只读查询和 MCP 分离，不读取知识、不访问网络、不执行 harness，产品身份仍来自 catalog。
+知识有两条独立交付线。本地线保留完整章节历史，以标准 JSON、SQLite、生成 Markdown 和本机语义索引验收混合检索，生产构建继续要求 [搜索 ADR](docs/decisions/0007-offline-hybrid-search.md) 的模型门禁。在线线是独立身份的静态投影：`data/v1/` 资源与同发布页面，每个产品 × 主题只收录当前章与最近一个历史版，其余章节退为裁剪标记，检索只有词法入口。在线构建从结构化真源投影，不依赖本地已发布数据，不访问上游补事实、不执行 harness，生产拒绝 fixture。消费者包与在线 DTO／网络政策由 `online-consumer-cli-mcp` 交付：公开名 `agent-harness-wiki`、命令 `ahw`，根包改名 `agent-harness-wiki-maintainer` 并保持 private；公开 CI／npm／Pages 发布由 `online-publication-and-delivery` 实现；持久台账、不可变归档、current／恢复两指针在线保留与恢复、独立 next／latest 发版见 [ADR 0011](docs/decisions/0011-public-publication.md) 和 [操作指南](docs/publication.md)。边界与预算见 [在线分发 ADR](docs/decisions/0009-online-knowledge-distribution.md)，消费者契约见 [消费者 ADR](docs/decisions/0010-online-consumer.md)。消费者另提供显式 `init` 配置命令（消费者包 1.1.0，change `consumer-mcp-init`）：在写入前生成计划并确认，按产品编辑宿主 MCP 配置；它与只读查询和 MCP 分离，不读取知识、不访问网络、不执行 harness，产品身份仍来自 catalog。读取含 `local_transcripts` 的在线知识需要消费者 1.2.0 及以上：更早版本校验闭合主题枚举，会拒绝该主题，`data/v1/` 资源布局不变。
 
 ---
 
@@ -433,7 +436,7 @@ LICENSE-knowledge   # CC BY 4.0（原创知识与文档）
 NOTICE              # 第三方来源摘录的权利边界
 ```
 
-M0 虚构数据仍位于 `tests/fixtures/datasets/`，不进入正式 `registry/`、`knowledge/`。目录按实际接入创建，不预建空的 harness 子树。项目 Skill 放在 `.agents/skills/`，只豁免这些 Skill 的子目录：`harness-investigation` 为新 CLI 登记来源、采写七章并分段发布知识，`harness-maintenance` 维护已收录产品的上游变化，`harness-binary` 完成受管二进制的首次接入与最新更新，`harness-monitor` 检查已登记产品并汇总维护 PR。上游检查在 `audits/<harness-id>/` 留 Git 审计 YAML；有实质变化、来源失败或未解决分歧时，同目录放同名主干的简短 Markdown 报告。文档候选原件保留在忽略的 `archive/`，源码工作区由任务在调查和独立复核完成后释放。调查 Agent 自检普通章节更新，高影响情形由另一 Agent 复核；本地交付经 staged 校验后可用 `ahw publish` 切换本地发布，受管二进制由 `harness-binary` 单独记录结果，不进知识发布。`delivery=pr` 只交付知识与审计，合入 main 后沿用公开发布 CI。
+M0 虚构数据仍位于 `tests/fixtures/datasets/`，不进入正式 `registry/`、`knowledge/`。目录按实际接入创建，不预建空的 harness 子树。项目 Skill 放在 `.agents/skills/`，只豁免这些 Skill 的子目录：`harness-investigation` 为新 CLI 登记来源、采写八章并分段发布知识，`harness-maintenance` 维护已收录产品的上游变化与缺失主题，`harness-binary` 完成受管二进制的首次接入与最新更新，`harness-monitor` 检查已登记产品并汇总维护 PR。上游检查在 `audits/<harness-id>/` 留 Git 审计 YAML；有实质变化、来源失败或未解决分歧时，同目录放同名主干的简短 Markdown 报告。文档候选原件保留在忽略的 `archive/`，源码工作区由任务在调查和独立复核完成后释放。调查 Agent 自检普通章节更新，高影响情形由另一 Agent 复核；本地交付经 staged 校验后可用 `ahw publish` 切换本地发布，受管二进制由 `harness-binary` 单独记录结果，不进知识发布。`delivery=pr` 只交付知识与审计，合入 main 后沿用公开发布 CI。
 
 ### 7.0 每日监控授权
 

@@ -11,7 +11,7 @@ import {
   sourceReferenceSchema,
   type ChapterDataset,
 } from "../domain/chapter.js";
-import { topicSchema, type Topic } from "../domain/schema.js";
+import { type Topic } from "../domain/schema.js";
 import { parseQuestionCatalog } from "../domain/question-catalog.js";
 import { loadAndValidateDataset, type Diagnostic } from "./dataset.js";
 
@@ -622,8 +622,22 @@ export async function loadAndValidateChapters(input: {
           chapter.edition_id,
         );
   }
-  for (const harness of dataset.harnesses)
-    for (const topic of topicSchema.options)
+  for (const harness of dataset.harnesses) {
+    const topics = new Set(
+      dataset.chapters
+        .filter((chapter) => chapter.harness_id === harness.harness_id)
+        .map((chapter) => chapter.topic),
+    );
+    if (topics.size === 0)
+      fail(
+        "CURRENT_MISSING",
+        "publishability",
+        selectionFile,
+        "selections",
+        `No current knowledge for ${harness.harness_id}.`,
+        "Publish at least one current chapter for a registered product.",
+      );
+    for (const topic of topics)
       if (!current.has(`${harness.harness_id}|${topic}`))
         fail(
           "CURRENT_MISSING",
@@ -631,8 +645,9 @@ export async function loadAndValidateChapters(input: {
           selectionFile,
           "selections",
           `No current ${topic} edition for ${harness.harness_id}.`,
-          "Publish one current edition for every registered topic.",
+          "Select one current edition for every authored topic.",
         );
+  }
   for (const item of dataset.current)
     if (
       chapters.get(item.edition_id)?.harness_id !== item.harness_id ||

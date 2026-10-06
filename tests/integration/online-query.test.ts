@@ -139,6 +139,55 @@ test("opens one fixed release and lists registry and catalog scope", async () =>
   expect(candidate?.topics).toEqual([]);
 });
 
+test("online transcript reads and comparisons preserve missing coverage without fetching absent resources", async () => {
+  const topic = consumerResultSchemas.get_topic.parse(
+    await service!.getTopic({
+      harness: "demo-open-cli",
+      topic: "local_transcripts",
+    }),
+  );
+  expect(topic.status).toBe("ok");
+  if (!("questions" in topic))
+    throw new Error("Expected transcript questions.");
+  expect(topic.questions).toHaveLength(10);
+  const start = requests.length;
+  expect(
+    (
+      await service!.getTopic({
+        harness: "demo-package-cli",
+        topic: "local_transcripts",
+      })
+    ).status,
+  ).toBe("not_investigated");
+  expect(
+    requests
+      .slice(start)
+      .some((request) =>
+        request.endsWith(
+          "topics/demo-package-cli/local_transcripts/index.json",
+        ),
+      ),
+  ).toBe(false);
+  const found = await service!.searchKnowledge({
+    topic: "local_transcripts",
+    text: "transcripts.schema",
+  });
+  expect(found.items[0]).toMatchObject({
+    topic: "local_transcripts",
+    section_id: "transcript-storage",
+  });
+  const compared = consumerResultSchemas.compare_topics.parse(
+    await service!.compareTopics({
+      topic: "local_transcripts",
+      targets: [{ harness: "demo-open-cli" }, { harness: "demo-package-cli" }],
+    }),
+  );
+  expect(compared.results.map((result) => result.status)).toEqual([
+    "ok",
+    "not_investigated",
+  ]);
+});
+
 test("reads the current chapter with metadata and limited history", async () => {
   const topic = consumerResultSchemas.get_topic.parse(
     await service!.getTopic({ harness: "demo-open-cli", topic: "skills" }),

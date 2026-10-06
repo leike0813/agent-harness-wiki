@@ -10,6 +10,7 @@ export const topicNames: Record<Topic, string> = {
   hooks: "Hooks（钩子）",
   native_plugins: "原生插件",
   configuration: "配置机制",
+  local_transcripts: "本地 Transcript",
 };
 
 const escapeText = (value: string): string =>

@@ -341,7 +341,13 @@ const packedManifest = path.resolve("var/consumer-package/manifest.json");
  */
 describe("runPublicConsumerVerification (packed artifact)", () => {
   beforeAll(async () => {
-    if (existsSync(packedManifest)) return;
+    if (existsSync(packedManifest)) {
+      const packed = JSON.parse(await readFile(packedManifest, "utf8"));
+      const current = JSON.parse(
+        await readFile("packages/consumer/package.json", "utf8"),
+      );
+      if (packed.version === current.version) return;
+    }
     const tsx = path.resolve("node_modules/tsx/dist/cli.mjs");
     const cwd = path.resolve(".");
     await runNode([tsx, "scripts/build-consumer.ts"], cwd);

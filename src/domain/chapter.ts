@@ -110,7 +110,7 @@ export const chapterSelectionSchema = z.strictObject({
 
 export const chapterReleaseManifestSchema = z.strictObject({
   schema_version: z.literal(3),
-  builder_version: z.literal("6"),
+  builder_version: z.enum(["6", "7"]),
   release_id: id,
   profile: z.enum(["fixture", "production"]),
   knowledge_published_at: z.iso.datetime(),

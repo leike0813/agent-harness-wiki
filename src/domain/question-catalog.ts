@@ -8,6 +8,7 @@ const topicPrefix: Record<string, Topic> = {
   hooks: "hooks",
   plugins: "native_plugins",
   config: "configuration",
+  transcripts: "local_transcripts",
 };
 
 export function parseQuestionCatalog(

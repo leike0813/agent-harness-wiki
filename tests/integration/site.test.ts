@@ -119,6 +119,19 @@ test.each(["/", "/wiki/"])(
         "utf8",
       );
       expect(overview).toContain("Fictional fixture data");
+      if (harness === "demo-package-cli") {
+        expect(overview).toContain("local_transcripts");
+        expect(overview).toContain("尚未调查");
+        expect(overview).not.toContain(
+          `href="${base}harnesses/${harness}/local_transcripts"`,
+        );
+        expect(catalog).toContain("7 个可读主题");
+      } else {
+        expect(overview).toContain(
+          `href="${base}harnesses/${harness}/local_transcripts"`,
+        );
+        expect(catalog).toContain("8 个可读主题");
+      }
       for (const topic of [
         "skills",
         "mcp",

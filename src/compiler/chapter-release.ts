@@ -120,7 +120,10 @@ export function projectChapters(
 
 export function renderChapterDocs(
   knowledge: ChapterPublishedKnowledge,
-  options: { online?: boolean } = {},
+  options: {
+    online?: boolean;
+    builderVersion?: ChapterReleaseManifest["builder_version"];
+  } = {},
 ): Map<string, string> {
   const pages = new Map<string, string>();
   const fixture =
@@ -216,9 +219,13 @@ export function renderChapterDocs(
     const selections = knowledge.records.current.filter(
       (x) => x.harness_id === harness.harness_id,
     );
+    const overview =
+      options.builderVersion === "6"
+        ? "本页列出当前发布的七个主题。"
+        : `本页列出当前发布的 ${selections.length} 个可读主题。`;
     pages.set(
       `docs/harnesses/${harness.harness_id}/index.md`,
-      `# ${textSafe(harness.name)}\n\n${fixture}${productDetails(harness.harness_id, "../../sources")}\n\n本页列出当前发布的七个主题。章节引用固定来源；软件版本适用性以章节映射为准。\n\n${selections.map((x) => `- [${x.topic}](./${x.topic}.md)`).join("\n")}\n`,
+      `# ${textSafe(harness.name)}\n\n${fixture}${productDetails(harness.harness_id, "../../sources")}\n\n${overview}章节引用固定来源；软件版本适用性以章节映射为准。\n\n${selections.map((x) => `- [${x.topic}](./${x.topic}.md)`).join("\n")}\n`,
     );
     for (const selection of selections) {
       const chapter = knowledge.records.chapters.find(
@@ -617,7 +624,9 @@ export async function verifyChapterRelease(
   for (const item of knowledge.records.current)
     if (!index.includes(`harnesses/${item.harness_id}/${item.topic}.md`))
       throw new Error("Current chapter missing from Markdown index.");
-  const expectedPages = renderChapterDocs(knowledge);
+  const expectedPages = renderChapterDocs(knowledge, {
+    builderVersion: manifest.builder_version,
+  });
   for (const [relative, expected] of expectedPages) {
     if ((await readFile(path.join(dir, relative), "utf8")) !== expected)
       throw new Error(`Markdown page differs from JSON: ${relative}`);
@@ -1013,7 +1022,7 @@ export async function compileChapterDataset(
       artifacts[file] = sha256(await readFile(path.join(stage, file)));
     const manifest: ChapterReleaseManifest = {
       schema_version: 3,
-      builder_version: "6",
+      builder_version: "7",
       release_id: options.releaseId,
       profile: options.profile,
       knowledge_published_at: options.publishedAt,

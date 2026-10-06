@@ -29,6 +29,61 @@ afterAll(async () => {
   if (root) await rm(root, { recursive: true, force: true });
 });
 
+test("local transcripts preserve cited schema, missing coverage and comparison uncertainty", async () => {
+  const topic = service.getTopic({
+    harness: "demo-open-cli",
+    topic: "local_transcripts",
+    surface_id: "cli",
+  });
+  expect(topic.status).toBe("ok");
+  if (topic.status !== "ok") throw new Error("Expected transcript chapter.");
+  expect(topic.questions).toHaveLength(10);
+  expect(
+    topic.questions.find((q) => q.question_id === "transcripts.schema")
+      ?.answers[0],
+  ).toMatchObject({
+    status: "partial",
+    source_refs: ["ref-demo-open-transcripts"],
+  });
+  expect(topic.resolution.selected_version).toBeNull();
+  expect(
+    service.getTopic({
+      harness: "demo-package-cli",
+      topic: "local_transcripts",
+    }).status,
+  ).toBe("not_investigated");
+  expect(
+    service.getTopic({
+      harness: "demo-open-cli",
+      topic: "local_transcripts",
+      surface_id: "desktop",
+    }).status,
+  ).toBe("not_investigated");
+  const search = await service.searchKnowledge({ text: "transcripts.schema" });
+  expect(search.items[0]).toMatchObject({
+    topic: "local_transcripts",
+    section_id: "transcript-storage",
+    match: "exact_question_id",
+  });
+  expect(
+    (
+      await service.searchKnowledge({
+        text: "会话记录",
+        topic: "local_transcripts",
+      })
+    ).items.length,
+  ).toBeGreaterThan(0);
+  const compare = service.compareTopics({
+    topic: "local_transcripts",
+    targets: [{ harness: "demo-open-cli" }, { harness: "demo-package-cli" }],
+  });
+  expect(compare.results.map((result) => result.status)).toEqual([
+    "ok",
+    "not_investigated",
+  ]);
+  expect(compare.questions).toEqual([]);
+});
+
 test("chapter, section, source and history preserve source-only uncertainty", () => {
   const current = service.getTopic({
     harness: "demo-open-cli",

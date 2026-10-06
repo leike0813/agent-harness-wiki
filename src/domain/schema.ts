@@ -16,6 +16,7 @@ export const topicSchema = z.enum([
   "hooks",
   "native_plugins",
   "configuration",
+  "local_transcripts",
 ]);
 
 export const versionIdentitySchema = z.discriminatedUnion("kind", [
