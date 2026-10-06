@@ -1,0 +1,1116 @@
+schema_version: 2
+audit_id: audit-cline-20261006t134000z
+harness_id: cline
+checked_at: 2026-10-06T13:41:41.865Z
+previous_audit_id: audit-cline-aa3cc0d5-108c-41d3-a6a7-5cc6bcfc33de
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-cline-9b63d164-3625-433b-9dc7-363151d97b66
+  - audit-cline-20261004t061205z
+  - audit-cline-aa3cc0d5-108c-41d3-a6a7-5cc6bcfc33de
+checks:
+  - source_id: source-cline-repo
+    kind: git_repository
+    checked_at: 2026-10-06T13:41:30.805Z
+    status: changed
+    baseline: dec80dadfa4fcb5ec6978aa7055406709dddd43d
+    observed: cd80a20e96481f5f5d413789f6847accf846487b
+    remote_ref: refs/heads/main
+  - source_id: source-cline-npm
+    kind: npm_registry
+    checked_at: 2026-10-06T13:41:30.812Z
+    status: unchanged
+    baseline: 3.0.68@sha512-DC5DsWqufWXYqCvGbC39KsqKQPqqybsZ6kqtFwca8kSqDSqVQ0GDDEXjp2S92qAQHio1lEyAmaGNopSxmPc6tg==
+    observed: 3.0.68@sha512-DC5DsWqufWXYqCvGbC39KsqKQPqqybsZ6kqtFwca8kSqDSqVQ0GDDEXjp2S92qAQHio1lEyAmaGNopSxmPc6tg==
+  - source_id: source-cline-docs-skills
+    kind: official_documentation
+    checked_at: 2026-10-06T13:41:30.813Z
+    status: unchanged
+    baseline: aaee85c3e6ea70283edabf5ea08016f9696e31b78a831ce521e91ddcc2ca6c63
+    observed: aaee85c3e6ea70283edabf5ea08016f9696e31b78a831ce521e91ddcc2ca6c63
+    resolved_url: https://docs.cline.bot/customization/skills.md
+  - source_id: source-cline-docs-mcp
+    kind: official_documentation
+    checked_at: 2026-10-06T13:41:30.815Z
+    status: unchanged
+    baseline: d47383fc4419cb67e5b61abbd66fab303174003eae49e99be446f040cd4e313c
+    observed: d47383fc4419cb67e5b61abbd66fab303174003eae49e99be446f040cd4e313c
+    resolved_url: https://docs.cline.bot/mcp/mcp-overview.md
+  - source_id: source-cline-docs-plugins
+    kind: official_documentation
+    checked_at: 2026-10-06T13:41:31.409Z
+    status: unchanged
+    baseline: 634dfe11cff0e3aad9844f04b5af028cf76d5b729dcee7b6f15bb20a25e2c42e
+    observed: 634dfe11cff0e3aad9844f04b5af028cf76d5b729dcee7b6f15bb20a25e2c42e
+    resolved_url: https://docs.cline.bot/sdk/plugins.md
+  - source_id: source-cline-docs-config
+    kind: official_documentation
+    checked_at: 2026-10-06T13:41:32.766Z
+    status: unchanged
+    baseline: b1babf605692c9f9cd0ffd1058aefaa414c4d09478d9a697d83ad6e7cc2df4db
+    observed: b1babf605692c9f9cd0ffd1058aefaa414c4d09478d9a697d83ad6e7cc2df4db
+    resolved_url: https://docs.cline.bot/getting-started/config.md
+  - source_id: source-cline-docs-cli
+    kind: official_documentation
+    checked_at: 2026-10-06T13:41:33.112Z
+    status: unchanged
+    baseline: dbb4abba8b3362695fa57dc4f17fe976aecd80132954d00675fb3f7cfabd4914
+    observed: dbb4abba8b3362695fa57dc4f17fe976aecd80132954d00675fb3f7cfabd4914
+    resolved_url: https://docs.cline.bot/cli/cli-reference.md
+  - source_id: source-cline-docs-install-plugins
+    kind: official_documentation
+    checked_at: 2026-10-06T13:41:33.341Z
+    status: unchanged
+    baseline: 19e4c8278924d25fce33fd3ec1b16dd29314eb599059f79433c3f41acea46d72
+    observed: 19e4c8278924d25fce33fd3ec1b16dd29314eb599059f79433c3f41acea46d72
+    resolved_url: https://docs.cline.bot/customization/plugins.md
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-overrides
+      - config-runtime
+      - config-trust
+      - config-defaults
+      - config-migration
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-cline-cli-config-cmd
+      - ref-cline-cli-config-prep
+      - ref-cline-cli-config-refresh
+      - ref-cline-cli-config-source-rank
+      - ref-cline-cli-defaults
+      - ref-cline-cli-doctor
+      - ref-cline-cli-enterprise-prep
+      - ref-cline-cli-enterprise
+      - ref-cline-cli-feature-flags
+      - ref-cline-cli-hooks-dir
+      - ref-cline-cli-precedence
+      - ref-cline-cli-ref-env
+      - ref-cline-cli-ref-files
+      - ref-cline-cli-ref-options
+      - ref-cline-cli-root-options
+      - ref-cline-cli-safe-tools
+      - ref-cline-cli-sandbox-env
+      - ref-cline-cli-sandbox
+      - ref-cline-cli-startup-settings
+      - ref-cline-config-doc-cli
+      - ref-cline-config-doc-env
+      - ref-cline-config-doc-layout
+      - ref-cline-config-doc-whatgoes
+      - ref-cline-config-migration-paths
+      - ref-cline-config-migration
+      - ref-cline-global-settings-cache
+      - ref-cline-global-settings-compaction
+      - ref-cline-global-settings-defaults
+      - ref-cline-global-settings-load
+      - ref-cline-global-settings-schema
+      - ref-cline-global-settings-stringlist
+      - ref-cline-global-settings-webtool
+      - ref-cline-global-settings-write
+      - ref-cline-hooks-spawn
+      - ref-cline-paths-agent-plugins
+      - ref-cline-paths-agents
+      - ref-cline-paths-clinedir
+      - ref-cline-paths-datadir
+      - ref-cline-paths-dir-constants
+      - ref-cline-paths-home
+      - ref-cline-paths-hooks
+      - ref-cline-paths-plugins
+      - ref-cline-paths-rules
+      - ref-cline-paths-settings
+      - ref-cline-paths-workflows
+      - ref-cline-paths-workspace-skills
+      - ref-cline-provider-manager
+      - ref-cline-provider-write
+      - ref-cline-remote-config-schema
+      - ref-cline-watcher-debounce
+      - ref-cline-watcher-records
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-cline-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-entry
+      - agents-format
+      - agents-roles
+      - agents-invocation
+      - agents-limits
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-cline-agent-tool-aliases
+      - ref-cline-agents-body
+      - ref-cline-agents-delegated
+      - ref-cline-agents-load-loop
+      - ref-cline-agents-load
+      - ref-cline-agents-override
+      - ref-cline-agents-schema
+      - ref-cline-agents-spawn-run
+      - ref-cline-agents-spawn-timeout
+      - ref-cline-agents-spawn-tool
+      - ref-cline-agents-stringlist
+      - ref-cline-agents-team-schema
+      - ref-cline-agents-team-tools
+      - ref-cline-agents-teammate-prompt
+      - ref-cline-agents-tool-name-build
+      - ref-cline-agents-tool-name
+      - ref-cline-agents-tool-timeout
+      - ref-cline-agents-tool
+      - ref-cline-agents-yaml
+      - ref-cline-cli-agent-flags
+      - ref-cline-cli-agents-cmd
+      - ref-cline-cli-ref-files-v2
+      - ref-cline-cli-root-options
+      - ref-cline-cli-team-command
+      - ref-cline-cli-team-run
+      - ref-cline-config-doc-layout
+      - ref-cline-paths-agents
+      - ref-cline-paths-clinedir
+      - ref-cline-session-tool-filter
+      - ref-cline-subagents-doc-enable
+      - ref-cline-teams-doc-disable
+      - ref-cline-teams-doc-state
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-cline-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-entry
+      - providers-auth
+      - providers-protocol
+      - providers-models
+      - providers-forwarding
+      - providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-cline-cli-auth-save
+      - ref-cline-cli-auth
+      - ref-cline-cli-doctor
+      - ref-cline-openai-compatible-doc-general
+      - ref-cline-openai-compatible-doc-trouble
+      - ref-cline-paths-settings
+      - ref-cline-provider-builtin-ids
+      - ref-cline-provider-capabilities
+      - ref-cline-provider-capture
+      - ref-cline-provider-config-iface
+      - ref-cline-provider-errors
+      - ref-cline-provider-fields
+      - ref-cline-provider-gateway
+      - ref-cline-provider-ids
+      - ref-cline-provider-manager
+      - ref-cline-provider-max-tokens
+      - ref-cline-provider-model-source
+      - ref-cline-provider-models-file
+      - ref-cline-provider-protocol
+      - ref-cline-provider-refresh
+      - ref-cline-provider-retry
+      - ref-cline-provider-runtime-config
+      - ref-cline-provider-settings-schema
+      - ref-cline-provider-stored
+      - ref-cline-provider-stream
+      - ref-cline-sdk-providers-doc-config
+      - ref-cline-sdk-providers-doc-metadata
+      - ref-cline-sdk-providers-doc-openai
+      - ref-cline-provider-anthropic-endpoint
+      - ref-cline-provider-anthropic-fallback-rule
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-cline-repo: provider-option-rules.ts 的 directAnthropicProviderRule 改为按端点条件注入 fallbacks，命中 providers.auth；providers.entry/models/responses/protocol/metadata/diagnostics 复核无影响，providers.forwarding 已定位但本轮范围外"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-events
+      - hooks-entry
+      - hooks-io
+      - hooks-order
+      - hooks-conditions
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-cline-cli-hook-audit
+      - ref-cline-cli-hook-invocation
+      - ref-cline-cli-hook-payload
+      - ref-cline-cli-hook-yolo
+      - ref-cline-cli-hooks-cmd
+      - ref-cline-cli-hooks-dir-opt
+      - ref-cline-cli-hooks-dir
+      - ref-cline-cli-ref-env
+      - ref-cline-cli-run-agent-hooks
+      - ref-cline-hook-error-mode
+      - ref-cline-hooks-after-run
+      - ref-cline-hooks-base-payload
+      - ref-cline-hooks-blocking
+      - ref-cline-hooks-context-cap
+      - ref-cline-hooks-detached-const
+      - ref-cline-hooks-discovery-ctor
+      - ref-cline-hooks-doc-clineignore-v2
+      - ref-cline-hooks-doc-stub
+      - ref-cline-hooks-event-map
+      - ref-cline-hooks-events
+      - ref-cline-hooks-example-debug
+      - ref-cline-hooks-example-fields
+      - ref-cline-hooks-example-map
+      - ref-cline-hooks-example-yolo
+      - ref-cline-hooks-file-ext
+      - ref-cline-hooks-file-extension
+      - ref-cline-hooks-file-names
+      - ref-cline-hooks-layer-merge
+      - ref-cline-hooks-list-sort
+      - ref-cline-hooks-list
+      - ref-cline-hooks-merge-control
+      - ref-cline-hooks-output-schema
+      - ref-cline-hooks-parse-stdout
+      - ref-cline-hooks-sigkill
+      - ref-cline-hooks-spawn
+      - ref-cline-hooks-tool-timeout
+      - ref-cline-paths-hooks
+      - ref-cline-plugin-hooks-cap
+      - ref-cline-sdk-plugins-doc-policies
+      - ref-cline-sdk-plugins-doc-stages
+      - ref-cline-sdk-plugins-doc-what
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-cline-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-entry
+      - mcp-definition
+      - mcp-transport
+      - mcp-auth
+      - mcp-exposure
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-cline-cli-doctor
+      - ref-cline-cli-mcp-cmd
+      - ref-cline-cli-mcp-oauth-client-set
+      - ref-cline-cli-mcp-oauth
+      - ref-cline-cli-mcp-wizard-settings
+      - ref-cline-cli-precedence
+      - ref-cline-cli-ref-files
+      - ref-cline-cli-safe-tools
+      - ref-cline-mcp-changelog-oversized
+      - ref-cline-mcp-connect-budgets
+      - ref-cline-mcp-default-path
+      - ref-cline-mcp-doc-add
+      - ref-cline-mcp-doc-cli
+      - ref-cline-mcp-doc-manage
+      - ref-cline-mcp-doc-transports
+      - ref-cline-mcp-init
+      - ref-cline-mcp-install-type
+      - ref-cline-mcp-install
+      - ref-cline-mcp-legacy
+      - ref-cline-mcp-list-tools
+      - ref-cline-mcp-manager-ctor
+      - ref-cline-mcp-manager-disabled
+      - ref-cline-mcp-name-transform
+      - ref-cline-mcp-oauth-client
+      - ref-cline-mcp-oauth-metadata
+      - ref-cline-mcp-oauth-ports
+      - ref-cline-mcp-oauth-state
+      - ref-cline-mcp-probe
+      - ref-cline-mcp-proto
+      - ref-cline-mcp-runtime-load
+      - ref-cline-mcp-schema
+      - ref-cline-mcp-stdio-spawn
+      - ref-cline-mcp-stdio
+      - ref-cline-mcp-timeout-defaults
+      - ref-cline-mcp-tool-build
+      - ref-cline-mcp-tool-result-policy
+      - ref-cline-mcp-tools
+      - ref-cline-mcp-transport-union
+      - ref-cline-paths-datadir
+      - ref-cline-paths-settings
+      - ref-cline-plugin-mcp-sync
+      - ref-cline-remote-config-schema
+      - ref-cline-tool-result-cache-budget
+      - ref-cline-tool-result-cache-lifetime
+      - ref-cline-tool-result-cache-oversize
+      - ref-cline-tool-result-cache-read
+      - ref-cline-tool-result-cache-session
+      - ref-cline-tool-result-cache-store
+      - ref-cline-tool-result-cache-uri
+      - ref-cline-tool-result-char-env
+      - ref-cline-tool-result-char-limit
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-cline-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model
+      - plugins-package
+      - plugins-install
+      - plugins-discovery
+      - plugins-api
+      - plugins-lifecycle
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-cline-cli-config-refresh
+      - ref-cline-cli-plugin-cmd
+      - ref-cline-cli-plugin-error-label
+      - ref-cline-cli-plugin-json
+      - ref-cline-cli-plugin-sections
+      - ref-cline-paths-agent-plugins
+      - ref-cline-paths-plugin-entries
+      - ref-cline-paths-plugins
+      - ref-cline-plugin-alias
+      - ref-cline-plugin-api
+      - ref-cline-plugin-capabilities
+      - ref-cline-plugin-declared-entry
+      - ref-cline-plugin-duplicate
+      - ref-cline-plugin-export
+      - ref-cline-plugin-extension-iface
+      - ref-cline-plugin-failed-retry
+      - ref-cline-plugin-file-ext
+      - ref-cline-plugin-hooks-cap
+      - ref-cline-plugin-idle
+      - ref-cline-plugin-install-consts
+      - ref-cline-plugin-install-force
+      - ref-cline-plugin-install-path
+      - ref-cline-plugin-load-report
+      - ref-cline-plugin-mcp-cap
+      - ref-cline-plugin-mcp-sync
+      - ref-cline-plugin-paths
+      - ref-cline-plugin-skill-dirs
+      - ref-cline-plugin-summary
+      - ref-cline-plugin-targeting
+      - ref-cline-plugin-timeouts
+      - ref-cline-plugin-uninstall-cleanup
+      - ref-cline-plugin-uninstall
+      - ref-cline-plugin-validate
+      - ref-cline-plugin-wrapper
+      - ref-cline-plugins-doc-dirs
+      - ref-cline-plugins-doc-install
+      - ref-cline-plugins-doc-manifest
+      - ref-cline-plugins-doc-peer
+      - ref-cline-sdk-plugins-doc-glossary
+      - ref-cline-sdk-plugins-doc-what
+      - ref-cline-settings-plugin-inspection
+      - ref-cline-writing-plugins-doc-cli
+      - ref-cline-writing-plugins-doc-structure
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-cline-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-scope
+      - skills-roots
+      - skills-discovery
+      - skills-invocation
+      - skills-conditions
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-cline-agent-skill-fields
+      - ref-cline-agent-skill-name
+      - ref-cline-agent-skill-unknown
+      - ref-cline-cli-config-refresh
+      - ref-cline-cli-config-skills
+      - ref-cline-cli-prompt-expand
+      - ref-cline-cli-skill-cmd
+      - ref-cline-cli-skills-cmd
+      - ref-cline-cli-skills-wiring
+      - ref-cline-config-ext-gate
+      - ref-cline-paths-agent-plugins
+      - ref-cline-paths-clinedir
+      - ref-cline-paths-dir-constants
+      - ref-cline-paths-settings
+      - ref-cline-paths-skills
+      - ref-cline-paths-workspace-skills
+      - ref-cline-plugin-skill-dirs
+      - ref-cline-presets-act
+      - ref-cline-presets-yolo
+      - ref-cline-runtime-config-ext
+      - ref-cline-settings-skill-row
+      - ref-cline-settings-skill-toggle
+      - ref-cline-skills-ambiguous
+      - ref-cline-skills-discovery
+      - ref-cline-skills-doc-formats
+      - ref-cline-skills-doc-loading
+      - ref-cline-skills-doc-roots
+      - ref-cline-skills-doc-structure
+      - ref-cline-skills-doc-toggling
+      - ref-cline-skills-executor
+      - ref-cline-skills-format-invocation
+      - ref-cline-skills-frontmatter
+      - ref-cline-skills-include-file
+      - ref-cline-skills-lock
+      - ref-cline-skills-managed-roots
+      - ref-cline-skills-not-found
+      - ref-cline-skills-parse
+      - ref-cline-skills-register-tool
+      - ref-cline-skills-resolve-id
+      - ref-cline-skills-resolve
+      - ref-cline-skills-toggle
+      - ref-cline-skills-token-ownership
+      - ref-cline-skills-tool-desc
+      - ref-cline-skills-tool
+      - ref-cline-watcher-debounce
+      - ref-cline-watcher-start
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-cline-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-scope
+      - transcripts-layout
+      - transcripts-schema
+      - transcripts-lifecycle
+      - transcripts-index
+      - transcripts-archive-cleanup-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-cline-lt-backend-selection
+      - ref-cline-lt-cli-session-list
+      - ref-cline-lt-cline-dir
+      - ref-cline-lt-compaction-schema
+      - ref-cline-lt-compaction-sidecar-recovery
+      - ref-cline-lt-db-data-dir
+      - ref-cline-lt-delete-session-files
+      - ref-cline-lt-delete-session
+      - ref-cline-lt-empty-messages-file
+      - ref-cline-lt-export-output
+      - ref-cline-lt-file-backend-paths
+      - ref-cline-lt-fork-command
+      - ref-cline-lt-fork-metadata
+      - ref-cline-lt-history-delete
+      - ref-cline-lt-history-export
+      - ref-cline-lt-history-list
+      - ref-cline-lt-input-history-append
+      - ref-cline-lt-input-history-path
+      - ref-cline-lt-manifest-compaction-path
+      - ref-cline-lt-manifest-rebuild
+      - ref-cline-lt-manifest-schema
+      - ref-cline-lt-message-fields
+      - ref-cline-lt-message-metrics
+      - ref-cline-lt-messages-file-context
+      - ref-cline-lt-messages-file-payload
+      - ref-cline-lt-messages-path
+      - ref-cline-lt-persist-after-assistant
+      - ref-cline-lt-persist-iteration-end
+      - ref-cline-lt-persist-messages-upload
+      - ref-cline-lt-persist-messages
+      - ref-cline-lt-read-messages-artifact
+      - ref-cline-lt-read-messages-file-fallback
+      - ref-cline-lt-read-messages-file
+      - ref-cline-lt-read-session-messages
+      - ref-cline-lt-schema-legacy-migrations
+      - ref-cline-lt-schema-wal
+      - ref-cline-lt-session-data-dir
+      - ref-cline-lt-session-id
+      - ref-cline-lt-session-manifest-init
+      - ref-cline-lt-session-row-delete
+      - ref-cline-lt-session-start-artifacts
+      - ref-cline-lt-sessions-db
+      - ref-cline-lt-sessions-ddl
+      - ref-cline-lt-stale-hook-log
+      - ref-cline-lt-subsession-id
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-cline-repo: shared or unknown impact; assess relevant entrypoints"
+pending_question_ids:
+  - config.sources
+  - config.overrides
+  - config.runtime
+  - config.trust
+  - config.defaults
+  - config.migration
+  - config.diagnostics
+  - agents.entry
+  - agents.format
+  - agents.roles
+  - agents.invocation
+  - agents.overrides
+  - agents.limits
+  - agents.diagnostics
+  - providers.forwarding
+  - hooks.events
+  - hooks.entry
+  - hooks.input
+  - hooks.output
+  - hooks.order
+  - hooks.conditions
+  - hooks.diagnostics
+  - mcp.entry
+  - mcp.definition
+  - mcp.transport
+  - mcp.auth
+  - mcp.lifecycle
+  - mcp.capabilities
+  - mcp.exposure
+  - mcp.diagnostics
+  - plugins.model
+  - plugins.package
+  - plugins.install
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+  - skills.roots
+  - skills.discovery
+  - skills.collision
+  - skills.format
+  - skills.extensions
+  - skills.loading
+  - skills.invocation
+  - skills.conditions
+  - skills.diagnostics
+  - transcripts.scope
+  - transcripts.location
+  - transcripts.naming
+  - transcripts.format
+  - transcripts.schema
+  - transcripts.lifecycle
+  - transcripts.database
+  - transcripts.archive
+  - transcripts.cleanup
+  - transcripts.diagnostics
+investigation_notes:
+  - 本轮 triage 分类：maintain
+  - sdk/packages/llms/src/providers/url.ts 新增
+    isOfficialAnthropicEndpoint(baseUrl)：未设置视为官方端点，new URL(baseUrl).origin ===
+    https://api.anthropic.com 视为官方，畸形 URL 按自定义处理。
+  - 'provider-option-rules.ts 的 directAnthropicProviderRule.build 由无条件返回 {
+    anthropic: { fallbacks: "default" } } 改为按端点判定；端点检查刻意放在 build 而非
+    applies，因此自定义端点仍保留 suppresses.genericFanout。基线版本此前对 anthropic 直连一律注入
+    fallbacks。'
+  - runtime/safety/rules.ts 与 extensions/config/user-instruction-service.ts
+    的改动只是把规则筛选与排序收敛到共享函数，选择语义（仅启用项、按 name localeCompare 排序）未变，不构成知识变化。
+  - hooks、MCP、custom agent 入口目录均不在 changed_paths 内，相关章节定位未失效；VS Code 宿主与测试文件按
+    CLI 界面条件边界排除。
+  - custom_providers worker 范围：固定 source-cline-repo 提交 cd80a20e，只调查 providers.auth/entry/models/responses，
+    正文改在新版本 cline-cli-custom_providers-v3，v1 与 v2 均未改写；registry/chapter-current.yaml 由 coordinator 统一处理。
+  - providers.auth 已完成：baseUrl 除拼请求地址外还决定 provider 选项注入。provider.anthropic.direct 的 applies 只看
+    providerId 为 anthropic，命中即 suppresses.genericFanout；build 仅在 baseUrl 未设置或 origin 为
+    https://api.anthropic.com 时返回 anthropic.fallbacks=default，自定义端点（含畸形 URL）返回 undefined，
+    请求体其余部分不变。新证据 ref-cline-provider-anthropic-endpoint 与 ref-cline-provider-anthropic-fallback-rule
+    固定到 cd80a20e，摘录逐行核对一致。
+  - providers.entry/models/responses 复核无影响：两个改动文件分别是 url 工具函数与单条 provider 选项规则，不触及
+    providers.json 信封与 models.json/modelsSourceUrl 刷新链路，也不触及流式、错误分类与重试路径；本区间内
+    gateway.ts 与 provider-config-fields.ts 逐字节未变。
+  - providers.forwarding 保留 pending：同一条件化注入也是「可写参数如何映射到请求」的答案，但小节
+    providers-forwarding 只描述 ProviderConfig 字段与 capabilities 不变成请求字段，未提 provider 选项规则；
+    本轮任务范围限定为 auth/entry/models/responses，故只登记不改正文。
+  - configuration/skills 已核对并排除：runtime/safety/rules.ts 新增 listEnabledRulesFromRecords 与
+    loadRulesForSystemPromptFromRecords，isRuleEnabled 即 disabled 不为 true，formatRulesForSystemPrompt 不排序，
+    因此 watcher 路径的过滤与排序完全一致。user-instruction-service.ts 的合并规则路径此前只按 disabled 不为 true
+    过滤、现在经共享函数后也按 name localeCompare 排序，system prompt 里规则段的渲染顺序由记录顺序变为按名排序；
+    两章都没有记录该渲染顺序，故不改写正文。被引用的 ref-cline-skills-ambiguous（user-instruction-service.ts
+    88-122 行）与 ref-cline-plugin-alias（core/src/index.ts 30-40 行）在本区间逐字节未变，无定位漂移。
+  - native_plugins 无影响：core/src/index.ts 本轮只在 runtime/safety 的规则渲染导出块多导出一个
+    loadRulesForSystemPromptFromRecords，与插件 manifest/extension 可导入的符号无关，plugins.api 答案不变。
+  - 未新增版本映射：源码 commit 只代表源码树；source-cline-npm 观察到 3.0.68 且与基线一致，本轮不把 cd80a20e
+    映射为任何 npm 版本。
+  - 仓库状态提示：main 上已存在未选中的 cline-cli-custom_providers-v2 与 cline-cli-custom_agents-v4（20261004
+    轮次因独立复核未签署而退回已发布版本）。本轮 v3 以当前已发布版本 v1 为基线新建，不改写 v2，v2 的复核欠账
+    不在本轮解决。

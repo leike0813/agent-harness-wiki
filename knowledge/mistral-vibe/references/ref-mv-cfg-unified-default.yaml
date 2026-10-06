@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-cfg-unified-default
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-harness-select
+locator:
+  kind: file_lines
+  file: vibe/_experimental_harness.py
+  start: 108
+  end: 120
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+    @dataclass(frozen=True)
+    class HarnessSelection:
+        """The resolved harness decision, combining the CLI flags.
+
+        The GrowthBook ``vibe_cli_unified_harness_rollout`` assignment is no
+        longer consulted: the Unified Harness is the deterministic default, and
+        a missing, expired, or absent rollout cache entry must not select a
+        different engine. A missing or incompatible Runtime fails startup
+        instead of falling back.
+        """
+
+        use_unified: bool
+        source: HarnessSelectionSource

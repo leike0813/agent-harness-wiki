@@ -1,0 +1,65 @@
+schema_version: 2
+audit_id: audit-codex-20261006t134000z
+harness_id: codex
+checked_at: 2026-10-06T13:42:20.998Z
+previous_audit_id: audit-codex-1d2b16ca-6d47-4dbe-873f-533a8c9297ab
+status: blocked
+review_status: pending
+pending_audit_refs:
+  - audit-codex-d41084bf-85cb-4e47-8c81-c18349ef1135
+  - audit-codex-20261004t061205z
+  - audit-codex-1d2b16ca-6d47-4dbe-873f-533a8c9297ab
+checks:
+  - source_id: source-codex-repo
+    kind: git_repository
+    checked_at: 2026-10-06T13:41:50.986Z
+    status: blocked
+    baseline: 822e58cc3d666166c7446c5b1ea2e52f5d09594c
+    error: >
+      Command failed: git -c core.hooksPath=/dev/null -c credential.helper= -c
+      protocol.ext.allow=never ls-remote --symref
+      https://github.com/openai/codex.git HEAD
+  - source_id: source-codex-cli-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-06T13:41:50.993Z
+    status: unchanged
+    baseline: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+    observed: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+    resolved_url: https://learn.chatgpt.com/docs/codex/cli.md
+  - source_id: source-codex-cli-npm
+    kind: npm_registry
+    checked_at: 2026-10-06T13:41:50.995Z
+    status: unchanged
+    baseline: 0.160.1@sha512-f1yrJhwgimKQI1kYQlxdPJcFwkNZxZrbz7Hf89EAcnLqkQ7TiESzr2FgSZn13Ga5RuHjlVUfurzwq10wk9zw2g==
+    observed: 0.160.1@sha512-f1yrJhwgimKQI1kYQlxdPJcFwkNZxZrbz7Hf89EAcnLqkQ7TiESzr2FgSZn13Ga5RuHjlVUfurzwq10wk9zw2g==
+  - source_id: source-codex-cli-skills-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-06T13:41:50.997Z
+    status: unchanged
+    baseline: d15791562748e64a53dfec534b8558aa522e732cec0fdedcf7257fa4ef486a20
+    observed: d15791562748e64a53dfec534b8558aa522e732cec0fdedcf7257fa4ef486a20
+    resolved_url: https://learn.chatgpt.com/docs/build-skills.md
+  - source_id: source-codex-cli-mcp-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-06T13:41:53.415Z
+    status: unchanged
+    baseline: adb28990c0c7be47b9ff6c177e3cdeae5803978935cd792f781af2c8b5643e92
+    observed: adb28990c0c7be47b9ff6c177e3cdeae5803978935cd792f781af2c8b5643e92
+    resolved_url: https://learn.chatgpt.com/docs/extend/mcp.md?surface=cli
+  - source_id: source-codex-cli-configuration-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-06T13:41:54.235Z
+    status: unchanged
+    baseline: 73242945d7891bc09bf95a39d83117025abd8eca61ae5707db38fda40db16d62
+    observed: 73242945d7891bc09bf95a39d83117025abd8eca61ae5707db38fda40db16d62
+    resolved_url: https://learn.chatgpt.com/docs/config-file/config-reference.md
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：maintain
+  - 只读观察的 git 来源一度失败（ls-remote 报 hardened git 配置下的 RPC 中断），单独重扫后取得新身份
+    822e58cc→c0c230e6，npm 仍为 0.160.1 且四份官方文档来源 unchanged。
+  - 67
+    个变更文件中命中机制入口：core/src/agent/{control/*,registry.rs,types.rs}、core/src/tools/handlers/multi_agents*、core/src/tools/runtimes/unified_exec*、prompts/src/multi_agent_instructions.rs、core/src/thread_rollout_truncation.rs、exec-server/src/shell_snapshot.rs、protocol/src/agent_error.rs。
+  - 多代理控制/注册/派生工具与 rollout 截断分别落在 custom_agents 与 local_transcripts，其余为
+    analytics、otel、tests 与快照文件。

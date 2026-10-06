@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-cfg-utility-model-resolution
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-schema
+locator:
+  kind: file_lines
+  file: vibe/core/config/vibe_schema.py
+  start: 767
+  end: 780
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |4-
+        def get_utility_model(self, feature: UtilityFeature) -> ModelConfig | None:
+            """The model configured for ``feature``; None means automatic selection.
+
+            A model aliased ``active`` wins over the active-model selector.
+            """
+            alias = self.utility_models.alias_for(feature)
+            if not alias:
+                return None
+            available = self.available_models()
+            if alias in available:
+                return available[alias]
+            if alias == ACTIVE_MODEL_SELECTOR and alias not in self.models:
+                return self.get_active_model()
+            return None

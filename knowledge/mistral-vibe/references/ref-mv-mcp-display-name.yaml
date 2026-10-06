@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-mcp-display-name
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-mcp-display
+locator:
+  kind: file_lines
+  file: vibe/cli-rust/src/server/proto_mcp.rs
+  start: 114
+  end: 126
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+    impl MCPState {
+        /// The source `/mcp <query>` names: by alias, else by its shown display name.
+        pub fn resolve_source(&self, query: &str) -> Option<&MCPSourceSummary> {
+            let needle = casefold(query);
+            self.sources
+                .iter()
+                .find(|source| source.name == query)
+                .or_else(|| {
+                    self.sources
+                        .iter()
+                        .find(|source| casefold(source.label()) == needle)
+                })
+        }

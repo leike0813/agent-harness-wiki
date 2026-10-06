@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-config-memory-model-resolve
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-kilocode-memory-ports-ts-20261006
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/memory/ports.ts
+  start: 310
+  end: 319
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: "          if (!configured) return { handle: yield* load(session) }\n          if (!parsed) return yield* fallback(\"invalid model\")\n          // A configured model is unavailable when it cannot be found or its language model cannot\n          // load. getLanguage reports SDK load failures as defects, so cover both channels.\n          const handle = yield* load(parsed).pipe(\n            Effect.catch(() => Effect.succeed(undefined)),\n            Effect.catchDefect(() => Effect.succeed(undefined)),\n          )\n          if (handle) return { handle }\n          return yield* fallback(\"model unavailable\")"

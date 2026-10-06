@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-cfg-envfile-permissions
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-envfile
+locator:
+  kind: file_lines
+  file: vibe/setup/auth/api_key_persistence.py
+  start: 36
+  end: 50
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+    def _restrict_env_file_permissions() -> None:
+        """Keep the plaintext ``.env`` fallback owner-only (create-or-tighten 0600).
+
+        The directory itself is already covered by ``bootstrap_vibe_home``'s 0700;
+        this closes the file-mode gap python-dotenv's umask default leaves open.
+        """
+        if is_windows():
+            return
+        path = GLOBAL_ENV_FILE.path
+        try:
+            mode = stat.S_IMODE(os.lstat(path).st_mode)
+            if mode & _GROUP_OTHER:
+                os.chmod(path, mode & ~_GROUP_OTHER)
+        except OSError as err:
+            logger.warning("Could not restrict .env file permissions: %s", err)

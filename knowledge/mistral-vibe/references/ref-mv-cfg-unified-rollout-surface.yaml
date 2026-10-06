@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-cfg-unified-rollout-surface
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-experiments
+locator:
+  kind: file_lines
+  file: vibe/core/experiments/active.py
+  start: 55
+  end: 63
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |4-
+        ExperimentName.REGISTRY_SKILLS: frozenset(ExperimentSurface),
+        # No surface consumes the Unified Harness rollout assignment anymore:
+        # unflagged startup constructs the Unified Runtime unconditionally and
+        # fails fast, so reporting an exposure would claim a treatment that is
+        # never served. The variant still resolves and caches (harmless), and the
+        # remote GrowthBook feature stays pinned to "unified" while older Vibe
+        # releases that still read it are supported. The declaration is removed
+        # with the rest of the rollout contract in the legacy-harness cutover.
+        ExperimentName.UNIFIED_HARNESS_ROLLOUT: frozenset(),
