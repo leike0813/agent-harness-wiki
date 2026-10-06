@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-lt-diagnostics-api-history
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-lt-src-core-webview-diagnosticshandler-ts
+locator:
+  kind: file_lines
+  file: src/core/webview/diagnosticsHandler.ts
+  start: 40
+  end: 56
+official_url: https://github.com/Zoo-Code-Org/Zoo-Code/blob/d7963fc2db8ff07189e9f22079b15d67ad3a8bfd/src/core/webview/diagnosticsHandler.ts
+excerpt: "\t\t// Load API conversation history from the same file used by openDebugApiHistory\n\t\tconst apiHistoryPath = path.join(taskDirPath, \"api_conversation_history.json\")\n\t\tlet history: unknown = []\n\n\t\tif (await fileExistsAtPath(apiHistoryPath)) {\n\t\t\tconst content = await fs.readFile(apiHistoryPath, \"utf8\")\n\t\t\ttry {\n\t\t\t\thistory = JSON.parse(content)\n\t\t\t} catch {\n\t\t\t\t// If parsing fails, fall back to empty history but still generate diagnostics file\n\t\t\t\tvscode.window.showErrorMessage(\"Failed to parse api_conversation_history.json\")\n\t\t\t}\n\t\t}\n\n\t\tconst diagnostics = {\n\t\t\terror: {"

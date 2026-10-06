@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt-lifecycle-set-session-file
+harness_id: omp
+snapshot_id: snapshot-omp-lt-repo-fc6c-docs-session-md
+locator:
+  kind: file_lines
+  file: docs/session.md
+  start: 470
+  end: 473
+official_url: https://github.com/can1357/oh-my-pi/blob/fc6c0c90dab012a0b7edea731af92f5bbd09cff0/docs/session.md#L470-L473
+excerpt: '`SessionManager.setSessionFile()` behavior:
+
+
+  - Missing or genuinely empty files initialize a new session at that exact path and materialize its header immediately. `SessionManager.open(..., { throwIfMissing: true })` instead rejects missing/empty input.
+
+  - Non-empty data without a valid leading session header is rejected without modifying the file. An array-only `loadEntriesFromFile()` result of `[]` therefore does not distinguish empty from corrupt input; the manager uses `loadSessionFile()` diagnostics.'

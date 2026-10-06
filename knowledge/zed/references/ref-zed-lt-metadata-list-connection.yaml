@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-metadata-list-connection
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-ui-src-thread-metadata-store-rs
+locator:
+  kind: file_lines
+  file: crates/agent_ui/src/thread_metadata_store.rs
+  start: 64
+  end: 71
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent_ui/src/thread_metadata_store.rs
+excerpt: "///\n/// This is used to read thread metadata from another release channel's\n/// database without opening a full `ThreadSafeConnection`.\npub(crate) fn list_thread_metadata_from_connection(\n    connection: &db::sqlez::connection::Connection,\n) -> anyhow::Result<Vec<ThreadMetadata>> {\n    connection.select::<ThreadMetadata>(ThreadMetadataDb::LIST_QUERY)?()\n}"

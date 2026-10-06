@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-stale-hook-log
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-session-stores-session-manifest-store-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/session/stores/session-manifest-store.ts
+  start: 320
+  end: 341
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/session/stores/session-manifest-store.ts
+excerpt: "\tappendStaleSessionHookLog(\n\t\tdetectedAt: string,\n\t\tsessionId: string,\n\t\tpid: number,\n\t\treason: string,\n\t\tsource: string,\n\t): void {\n\t\tconst envPath = process.env.CLINE_HOOKS_LOG_PATH?.trim() || undefined;\n\t\tconst logPath = envPath ?? join(ensureHookLogDir(), \"hooks.jsonl\");\n\t\tappendFileSync(\n\t\t\tlogPath,\n\t\t\t`${JSON.stringify({\n\t\t\t\tts: detectedAt,\n\t\t\t\thookName: \"session_shutdown\",\n\t\t\t\treason,\n\t\t\t\tsessionId,\n\t\t\t\tpid,\n\t\t\t\tsource,\n\t\t\t})}\\n`,\n\t\t\t\"utf8\",\n\t\t);\n\t}"

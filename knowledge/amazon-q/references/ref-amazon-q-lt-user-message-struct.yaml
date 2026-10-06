@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-lt-user-message-struct
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-lt-crates-chat-cli-src-cli-chat-message-rs
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/chat/message.rs
+  start: 49
+  end: 66
+official_url: https://github.com/aws/amazon-q-developer-cli/blob/15cc8f3cd18c4272925ce1c7053268eedff1ea0a/crates/chat-cli/src/cli/chat/message.rs
+excerpt: "const USER_ENTRY_START_HEADER: &str = \"--- USER MESSAGE BEGIN ---\\n\";\nconst USER_ENTRY_END_HEADER: &str = \"--- USER MESSAGE END ---\\n\\n\";\n\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct UserMessage {\n    pub additional_context: String,\n    pub env_context: UserEnvContext,\n    pub content: UserMessageContent,\n    pub timestamp: Option<DateTime<FixedOffset>>,\n    pub images: Option<Vec<ImageBlock>>,\n}\n\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub enum UserMessageContent {\n    Prompt {\n        /// The original prompt as input by the user.\n        prompt: String,"

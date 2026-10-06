@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-lt-repo-delete
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-lt-crates-forge-repo-src-conversation-conversation-repo-rs
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/conversation/conversation_repo.rs
+  start: 132
+  end: 147
+official_url: https://github.com/tailcallhq/forgecode/blob/1469f75aa0fa3a2a768bde24f7dc528723b67259/crates/forge_repo/src/conversation/conversation_repo.rs
+excerpt: "    async fn delete_conversation(&self, conversation_id: &ConversationId) -> anyhow::Result<()> {\n        let conversation_id = *conversation_id;\n        self.run_with_connection(move |connection, wid| {\n            let workspace_id = wid.id() as i64;\n\n            // Security: Ensure users can only delete conversations within their\n            // workspace\n            diesel::delete(conversations::table)\n                .filter(conversations::workspace_id.eq(&workspace_id))\n                .filter(conversations::conversation_id.eq(conversation_id.into_string()))\n                .execute(connection)?;\n\n            Ok(())\n        })\n        .await\n    }"

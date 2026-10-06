@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-deserialize-thread
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-db-rs
+locator:
+  kind: file_lines
+  file: crates/agent/src/db.rs
+  start: 658
+  end: 667
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent/src/db.rs
+excerpt: "    fn deserialize_thread(data_type: DataType, data: Vec<u8>) -> Result<DbThread> {\n        let json_data = match data_type {\n            DataType::Zstd => {\n                let decompressed = zstd::decode_all(&data[..])?;\n                String::from_utf8(decompressed)?\n            }\n            DataType::Json => String::from_utf8(data)?,\n        };\n        DbThread::from_json(json_data.as_bytes())\n    }"

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-effects-append
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-state-machine-session
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/state_machine/session.rs
+  start: 51
+  end: 64
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+          for effect in effects.iter_mut() {
+              match effect {
+                  GooseEffect::Conversation(ConversationEffect::AppendMessage(message)) => {
+                      self.add_message(&session.id, message).await?;
+                  }
+                  GooseEffect::Conversation(ConversationEffect::ReplaceConversation(
+                      conversation,
+                  )) => {
+                      self.replace_conversation(&session.id, conversation).await?;
+                      self.update(&session.id)
+                          .usage(usage::estimate_context(conversation).await?)
+                          .apply()
+                          .await?;
+                  }

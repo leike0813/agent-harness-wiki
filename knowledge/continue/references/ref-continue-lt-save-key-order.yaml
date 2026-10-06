@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-save-key-order
+harness_id: continue
+snapshot_id: snapshot-continue-lt-core-util-history-ts
+locator:
+  kind: file_lines
+  file: core/util/history.ts
+  start: 111
+  end: 128
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/core/util/history.ts
+excerpt: "  save(session: Session) {\n    // Save the main session json file\n    // Explicitely rewriting here to influence the written key order in the file!\n    // e.g. id at the top, history next, etc.\n    const orderedSession: Session = {\n      sessionId: session.sessionId,\n      title: session.title,\n      workspaceDirectory: session.workspaceDirectory,\n      history: session.history,\n    };\n    if (session.mode) {\n      orderedSession.mode = session.mode;\n    }\n    if (session.chatModelTitle !== undefined) {\n      orderedSession.chatModelTitle = session.chatModelTitle;\n    }\n    if (session.usage !== undefined) {\n      orderedSession.usage = session.usage;"

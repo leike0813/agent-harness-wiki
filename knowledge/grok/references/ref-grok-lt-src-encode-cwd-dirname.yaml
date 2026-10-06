@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-lt-src-encode-cwd-dirname
+harness_id: grok
+snapshot_id: snapshot-grok-lt-crates-codegen-xai-grok-config-src-paths-rs
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/paths.rs
+  start: 58
+  end: 70
+official_url: https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-config/src/paths.rs
+excerpt: "/// Encode a CWD string into a filesystem-safe directory name component.\n/// Long CWDs (> 255 bytes encoded) use a compact `{slug}-{blake3_hex16}` form that is always <= 57 bytes.\n/// Callers must write a `.cwd` metadata file via [`ensure_sessions_cwd_dir`] so the original CWD can be recovered by [`decode_cwd_from_dirname`].\npub fn encode_cwd_dirname(cwd: &str) -> String {\n    let url_encoded = urlencoding::encode(cwd);\n    if url_encoded.len() <= MAX_DIRNAME_BYTES {\n        return url_encoded.into_owned();\n    }\n    let hash = blake3::hash(cwd.as_bytes());\n    let hex = hash.to_hex();\n    let leaf = std::path::Path::new(cwd)\n        .file_name()\n        .and_then(|n| n.to_str())"

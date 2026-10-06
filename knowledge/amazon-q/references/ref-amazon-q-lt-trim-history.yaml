@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-lt-trim-history
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-lt-crates-chat-cli-src-cli-chat-conversation-rs
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/chat/conversation.rs
+  start: 1121
+  end: 1136
+official_url: https://github.com/aws/amazon-q-developer-cli/blob/15cc8f3cd18c4272925ce1c7053268eedff1ea0a/crates/chat-cli/src/cli/chat/conversation.rs
+excerpt: "fn enforce_conversation_invariants(\n    history: &mut VecDeque<HistoryEntry>,\n    next_message: &mut Option<UserMessage>,\n    tools: &HashMap<ToolOrigin, Vec<Tool>>,\n) -> (usize, usize) {\n    // First set the valid range as the entire history - this will be truncated as necessary\n    // later below.\n    let mut valid_history_range = (0, history.len());\n\n    // Trim the conversation history by finding the second oldest message from the user without\n    // tool results - this will be the new oldest message in the history.\n    //\n    // Note that we reserve extra slots for [ConversationState::context_messages].\n    if (history.len() * 2) > MAX_CONVERSATION_STATE_HISTORY_LEN - 6 {\n        match history\n            .iter()"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-conversation-append
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-session-sessionmanager-ts
+locator:
+  kind: file_lines
+  file: src/session/SessionManager.ts
+  start: 591
+  end: 604
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/session/SessionManager.ts
+excerpt: "    async append(message: SessionMessage): Promise<void> {\n        this.messages.push(message);\n        this.metadata.messageCount = this.messages.length;\n        this.metadata.lastActiveAt = new Date().toISOString();\n        if (!this.persist) return;\n\n        // Append to JSONL file\n        await this.ensureSessionDir();\n        const conversationPath = path.join(this.sessionDir, 'conversation.jsonl');\n        await fs.appendFile(conversationPath, JSON.stringify(message) + '\\n');\n\n        // Update metadata\n        await this.save();\n    }"

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-session-mutate-commands
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-cmd-session-go
+locator:
+  kind: file_lines
+  file: internal/cmd/session.go
+  start: 66
+  end: 83
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  	Short: "Show most recent session",
+  	Long:  "Show the last updated session. Use --json for machine-readable output.",
+  	RunE:  runSessionLast,
+  }
+  
+  var sessionDeleteCmd = &cobra.Command{
+  	Use:     "delete <id>",
+  	Aliases: []string{"rm"},
+  	Short:   "Delete a session",
+  	Long:    "Delete a session by ID. Use --json for machine-readable output. ID can be a UUID, full hash, or hash prefix.",
+  	Args:    cobra.ExactArgs(1),
+  	RunE:    runSessionDelete,
+  }
+  
+  var sessionRenameCmd = &cobra.Command{
+  	Use:   "rename <id> <title>",
+  	Short: "Rename a session",
+  	Long:  "Rename a session by ID. Use --json for machine-readable output. ID can be a UUID, full hash, or hash prefix.",

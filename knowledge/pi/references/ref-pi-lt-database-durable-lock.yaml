@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-lt-database-durable-lock
+harness_id: pi
+snapshot_id: snapshot-pi-lt-packages-coding-agent-src-experimental-durable-sessions-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/experimental/durable/sessions.ts
+  start: 16
+  end: 30
+official_url: https://github.com/earendil-works/pi/blob/28dcce2ba45ce4a9efeb0f5b686f0be830fd89b9/packages/coding-agent/src/experimental/durable/sessions.ts
+excerpt: "/** A new session for `cwd`, or its newest one with `continueSession`. */\nexport async function selectSession(cwdInput: string, continueSession: boolean): Promise<SessionLocation> {\n\tconst cwd = await realpath(resolve(cwdInput));\n\tconst root = join(\n\t\tgetAgentDir(),\n\t\t\"experimental\",\n\t\t\"durable-sessions\",\n\t\tcreateHash(\"sha256\").update(cwd).digest(\"hex\").slice(0, 24),\n\t);\n\tawait mkdir(root, { recursive: true });\n\n\tlet directory: string;\n\tlet created = false;\n\tif (continueSession) {"

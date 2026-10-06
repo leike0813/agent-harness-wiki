@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-debug-history-export
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-service-session-system-messages-history-history-debug-service-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/session-system/messages/history/history-debug-service.ts
+  start: 19
+  end: 34
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/service/session-system/messages/history/history-debug-service.ts
+excerpt: "/** Diagnostic projection over the current v2 canonical messages.jsonl only. */\nexport class CanonicalHistoryDebugService {\n  private readonly nowMs: () => number;\n\n  constructor(private readonly options: CanonicalHistoryDebugServiceOptions) {\n    this.nowMs = options.nowMs ?? (() => Date.now());\n  }\n\n  async readCurrentHistoryExport(\n    sessionId: string,\n  ): Promise<CanonicalHistoryDebugExport | undefined> {\n    const session = await this.options.sessions.get(sessionId);\n    if (!session) return undefined;\n    const messages = await this.options.history.readCurrentHistory(sessionId, session.createdAtMs);\n    return { sessionId, exportedAtMs: this.nowMs(), messages };\n  }"

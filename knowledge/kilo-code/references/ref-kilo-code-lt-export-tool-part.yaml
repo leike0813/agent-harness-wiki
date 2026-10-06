@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-export-tool-part
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-cli-cmd-export-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/cli/cmd/export.ts
+  start: 97
+  end: 112
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/cli/cmd/export.ts
+excerpt: "    case \"tool\":\n      return {\n        ...part,\n        metadata: data(\"tool-metadata\", part.id, part.metadata),\n        state:\n          part.state.status === \"pending\"\n            ? {\n                ...part.state,\n                input: data(\"tool-input\", part.id, part.state.input) ?? part.state.input,\n                raw: redact(\"tool-raw\", part.id, part.state.raw),\n              }\n            : part.state.status === \"running\"\n              ? {\n                  ...part.state,\n                  input: data(\"tool-input\", part.id, part.state.input) ?? part.state.input,\n                  title: part.state.title === undefined ? undefined : redact(\"tool-title\", part.id, part.state.title),"

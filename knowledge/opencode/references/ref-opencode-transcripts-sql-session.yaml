@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-sql-session
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-sql-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/core/src/session/sql.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/sql.ts
+  start: 22
+  end: 33
+excerpt: "export const SessionTable = sqliteTable(\n  \"session\",\n  {\n    id: text().$type<SessionSchema.ID>().primaryKey(),\n    project_id: text()\n      .$type<ProjectV2.ID>()\n      .notNull()\n      .references(() => ProjectTable.id, { onDelete: \"cascade\" }),\n    workspace_id: text().$type<WorkspaceV2.ID>(),\n    parent_id: text().$type<SessionSchema.ID>(),\n    slug: text().notNull(),\n    directory: DatabasePath.directoryColumn().notNull(),"

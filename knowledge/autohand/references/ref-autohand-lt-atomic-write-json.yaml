@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-atomic-write-json
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-utils-atomicfile-ts
+locator:
+  kind: file_lines
+  file: src/utils/atomicFile.ts
+  start: 523
+  end: 534
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/utils/atomicFile.ts
+excerpt: "export async function atomicWriteJson(\n  filePath: string,\n  value: unknown,\n  options: AtomicWriteJsonOptions = {},\n): Promise<void> {\n  const serialized = JSON.stringify(value, null, 2);\n  if (serialized === undefined) {\n    throw new Error('Cannot serialize undefined as JSON');\n  }\n\n  await atomicWriteFile(filePath, `${serialized}\\n`, options);\n}"

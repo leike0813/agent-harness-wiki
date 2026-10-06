@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-delete-session
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-session-services-persistence-service-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/session/services/persistence-service.ts
+  start: 586
+  end: 606
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/session/services/persistence-service.ts
+excerpt: "\tasync deleteSession(sessionId: string): Promise<{ deleted: boolean }> {\n\t\tconst id = sessionId.trim();\n\t\tif (!id) throw new Error(\"session id is required\");\n\n\t\tconst indexedRow = await this.adapter.getSession(id);\n\t\tconst row = indexedRow ?? this.manifestStore.readSessionRowFromManifest(id);\n\t\tif (!row) return { deleted: false };\n\n\t\tawait this.adapter.deleteSession(id, false);\n\n\t\tif (!row.isSubagent) {\n\t\t\tconst children = await this.adapter.listSessions({\n\t\t\t\tlimit: 2000,\n\t\t\t\tparentSessionId: id,\n\t\t\t});\n\t\t\tawait this.adapter.deleteSession(id, true);\n\t\t\tawait Promise.allSettled(\n\t\t\t\tchildren.map(async (child) => {\n\t\t\t\t\tawait deleteCheckpointRefs(child.cwd, child.sessionId);\n\t\t\t\t\tunlinkIfExists(child.messagesPath);\n\t\t\t\t\tawait this.deleteSessionCompactionStateIfExists(child.sessionId);"

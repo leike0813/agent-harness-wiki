@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-checkpoint-shadow-dir
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-checkpoints-index-ts
+locator:
+  kind: file_lines
+  file: src/core/checkpoints/index.ts
+  start: 53
+  end: 75
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/checkpoints/index.ts
+excerpt: "\ttry {\n\t\tconst workspaceDir = task.cwd || getWorkspacePath()\n\n\t\tif (!workspaceDir) {\n\t\t\tlog(\"[Task#getCheckpointService] workspace folder not found, disabling checkpoints\")\n\t\t\ttask.enableCheckpoints = false\n\t\t\treturn undefined\n\t\t}\n\n\t\tconst globalStorageDir = provider?.context.globalStorageUri.fsPath\n\n\t\tif (!globalStorageDir) {\n\t\t\tlog(\"[Task#getCheckpointService] globalStorageDir not found, disabling checkpoints\")\n\t\t\ttask.enableCheckpoints = false\n\t\t\treturn undefined\n\t\t}\n\n\t\tconst options: CheckpointServiceOptions = {\n\t\t\ttaskId: task.taskId,\n\t\t\tworkspaceDir,\n\t\t\tshadowDir: globalStorageDir,\n\t\t\tlog,\n\t\t}"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-lt-debug-dir-resolution
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-code-deepagents-code-debug-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/_debug.py
+  start: 386
+  end: 401
+official_url: https://github.com/langchain-ai/deepagents/blob/4b9410272a4e4885ec70fb1ec8549e307a15e585/libs/code/deepagents_code/_debug.py
+excerpt: "def _debug_directory() -> Path:\n    \"\"\"Return the configured directory, preserving legacy path overrides.\"\"\"\n    if directory := os.environ.get(DEBUG_DIRECTORY):\n        return Path(directory)\n    if legacy_file := os.environ.get(DEBUG_FILE):\n        return Path(legacy_file).parent\n\n    from deepagents_code.config_manifest import load_config_toml\n\n    debug = load_config_toml().get(\"debug\")\n    if isinstance(debug, dict):\n        if (directory := debug.get(\"directory\")) and isinstance(directory, str):\n            return Path(directory)\n        if (legacy_file := debug.get(\"file\")) and isinstance(legacy_file, str):\n            return Path(legacy_file).parent\n    return Path(DEFAULT_DEBUG_DIRECTORY)"

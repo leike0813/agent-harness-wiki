@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-load-messages-fallback
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-cli-src-utils-run-state-storage-ts
+locator:
+  kind: file_lines
+  file: cli/src/utils/run-state-storage.ts
+  start: 522
+  end: 540
+official_url: https://github.com/CodebuffAI/codebuff/blob/bd198ff2df3ea9b333e8bf2e5b843735afd4ad9c/cli/src/utils/run-state-storage.ts
+excerpt: "    let messages: ChatMessage[] | null = null\n    try {\n      messages = JSON.parse(\n        fs.readFileSync(messagesPath, 'utf8'),\n      ) as ChatMessage[]\n    } catch (error) {\n      logger.warn(\n        {\n          messagesPath,\n          error: error instanceof Error ? error.message : String(error),\n        },\n        'Could not read chat messages; restoring agent context without transcript',\n      )\n    }\n\n    if (!runState && !messages) {\n      logger.debug(\n        { runStatePath, messagesPath },\n        'No readable state files in chat directory',"

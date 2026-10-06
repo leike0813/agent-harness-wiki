@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-session-dir-init
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-session-dir-init
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_logger.py
+  start: 76
+  end: 86
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/session_logger.py
+excerpt: "        self.save_dir = Path(session_config.save_dir)\n        self.session_prefix = session_config.session_prefix\n        self.session_id = session_id\n        self.session_start_time = utc_now().isoformat()\n\n        self.save_dir.mkdir(parents=True, mode=0o700, exist_ok=True)\n        if session_dir is not None:\n            self.resume_existing_session(session_id, session_dir)\n            return\n        self.session_dir = self.save_folder\n        self.session_metadata = self._initialize_session_metadata()"

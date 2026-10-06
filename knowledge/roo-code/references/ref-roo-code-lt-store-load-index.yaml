@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-store-load-index
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-task-persistence-taskhistorystore-ts
+locator:
+  kind: file_lines
+  file: src/core/task-persistence/TaskHistoryStore.ts
+  start: 364
+  end: 385
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/task-persistence/TaskHistoryStore.ts
+excerpt: "\t/**\n\t * Load the `_index.json` file into the in-memory cache.\n\t */\n\tprivate async loadIndex(): Promise<void> {\n\t\tconst indexPath = await this.getIndexPath()\n\n\t\ttry {\n\t\t\tconst raw = await fs.readFile(indexPath, \"utf8\")\n\t\t\tconst index: HistoryIndex = JSON.parse(raw)\n\n\t\t\tif (index.version === 1 && Array.isArray(index.entries)) {\n\t\t\t\tfor (const entry of index.entries) {\n\t\t\t\t\tif (entry.id) {\n\t\t\t\t\t\tthis.cache.set(entry.id, entry)\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t} catch {\n\t\t\t// Index doesn't exist or is corrupted; cache stays empty.\n\t\t\t// Reconciliation will rebuild it from per-task files.\n\t\t}\n\t}"

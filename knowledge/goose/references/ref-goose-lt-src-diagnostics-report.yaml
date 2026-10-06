@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-diagnostics-report
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-diagnostics
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/diagnostics.rs
+  start: 87
+  end: 100
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+  pub struct DiagnosticsReport {
+      pub schema_version: u32,
+      pub generated_at: String,
+      pub level: DiagnosticsLevel,
+      pub system: SystemInfo,
+      pub config: Option<DiagnosticsConfig>,
+      pub extensions: DiagnosticsExtensions,
+      pub session: Option<serde_json::Value>,
+      pub logs: DiagnosticsLogs,
+      pub prompts: Vec<DiagnosticsPrompt>,
+      pub schedule: Option<serde_json::Value>,
+      pub scheduled_recipes: Vec<DiagnosticsScheduledRecipe>,
+      pub errors: Vec<DiagnosticsError>,
+  }

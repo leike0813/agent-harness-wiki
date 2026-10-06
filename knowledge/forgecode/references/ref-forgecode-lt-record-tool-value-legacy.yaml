@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-lt-record-tool-value-legacy
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-lt-crates-forge-repo-src-conversation-conversation-record-rs
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/conversation/conversation_record.rs
+  start: 370
+  end: 390
+official_url: https://github.com/tailcallhq/forgecode/blob/1469f75aa0fa3a2a768bde24f7dc528723b67259/crates/forge_repo/src/conversation/conversation_record.rs
+excerpt: "/// Repository-specific representation of ToolValue\n#[derive(Debug, Clone, Serialize, Deserialize)]\n#[serde(rename_all = \"camelCase\")]\npub(super) enum ToolValueRecord {\n    Text(String),\n    AI {\n        value: String,\n        conversation_id: String,\n    },\n    Image(ImageRecord),\n    Empty,\n    // Legacy variants for backward compatibility with old conversations\n    // These were removed from the domain model but may exist in stored data\n    /// Legacy: Markdown-formatted text (now converted to Text)\n    Markdown(String),\n    /// Legacy: File diff information (now converted to Text summary)\n    FileDiff(FileDiffRecord),\n    /// Legacy: Paired value for LLM/display (now flattened to first element)\n    Pair(Box<ToolValueRecord>, Box<ToolValueRecord>),\n}"

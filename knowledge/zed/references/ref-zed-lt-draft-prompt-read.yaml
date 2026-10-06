@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-draft-prompt-read
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-ui-src-draft-prompt-store-rs
+locator:
+  kind: file_lines
+  file: crates/agent_ui/src/draft_prompt_store.rs
+  start: 30
+  end: 38
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent_ui/src/draft_prompt_store.rs
+excerpt: "pub fn read(thread_id: ThreadId, cx: &App) -> Option<Vec<acp_v2::ContentBlock>> {\n    let kvp = KeyValueStore::global(cx);\n    let raw = kvp\n        .scoped(NAMESPACE)\n        .read(&thread_id.to_key_string())\n        .log_err()\n        .flatten()?;\n    serde_json::from_str(&raw).log_err()\n}"

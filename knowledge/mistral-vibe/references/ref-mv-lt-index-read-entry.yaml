@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-index-read-entry
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-index-read-entry
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_index.py
+  start: 243
+  end: 256
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/session_index.py
+excerpt: "            metadata = json.loads(read_safe(session_dir / METADATA_FILENAME).text)\n        except (OSError, json.JSONDecodeError):\n            return None\n        if not isinstance(metadata, dict):\n            return None\n        # An empty transcript is loadable only when the session recorded no\n        # messages; otherwise it is a corrupt/interrupted session that\n        # load_session would reject, so keep it out of the listing.\n        if msg_size == 0 and metadata.get(\"total_messages\") != 0:\n            return None\n        info = _build_info(metadata, _mtime_to_utc_iso(mtime_ns))\n        if info is None:\n            return None\n        return _Entry(mtime_ns=mtime_ns, info=info)"

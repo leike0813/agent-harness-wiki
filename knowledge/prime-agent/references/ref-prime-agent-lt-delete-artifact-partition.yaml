@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-delete-artifact-partition
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-crates-pa-daemon-src-saved-session-commands-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/saved_session_commands.rs
+  start: 162
+  end: 176
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/7a52276cb17310f331f1075f28fa5cf9c4ae0a0a/crates/pa-daemon/src/saved_session_commands.rs
+excerpt: "/// Remove the session's artifact partition (TS `deleteSessionArtifacts`):\n/// `<root>/session-artifacts/<id>`, only once the session file is gone.\npub(crate) fn remove_session_artifacts(session_path: &Path) {\n    let Some(stem) = session_path\n        .file_stem()\n        .and_then(|stem| stem.to_str())\n        .filter(|stem| !stem.is_empty())\n    else {\n        return;\n    };\n    let Some(artifacts) = crate::scheduled_jobs::session_artifact_dir(session_path, stem) else {\n        return;\n    };\n    let _ = std::fs::remove_dir_all(artifacts);\n}"

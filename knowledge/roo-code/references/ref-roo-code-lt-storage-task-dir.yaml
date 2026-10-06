@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-storage-task-dir
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-utils-storage-ts
+locator:
+  kind: file_lines
+  file: src/utils/storage.ts
+  start: 50
+  end: 58
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/utils/storage.ts
+excerpt: "/**\n * Gets the storage directory path for a task\n */\nexport async function getTaskDirectoryPath(globalStoragePath: string, taskId: string): Promise<string> {\n\tconst basePath = await getStorageBasePath(globalStoragePath)\n\tconst taskDir = path.join(basePath, \"tasks\", taskId)\n\tawait fs.mkdir(taskDir, { recursive: true })\n\treturn taskDir\n}"

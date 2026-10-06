@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-repair-damage-signals
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-crates-pa-core-src-session-manager-repair-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session/manager/repair.rs
+  start: 45
+  end: 60
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/7a52276cb17310f331f1075f28fa5cf9c4ae0a0a/crates/pa-core/src/session/manager/repair.rs
+excerpt: "    if window.contains(&0) {\n        return true;\n    }\n    if window.last() != Some(&0x0a) {\n        return true;\n    }\n    let previous_newline = window[..window_bytes - 1]\n        .iter()\n        .rposition(|byte| *byte == 0x0a);\n    match previous_newline {\n        None => window_bytes < size,\n        Some(position) => {\n            let last_line = &window[position + 1..window_bytes - 1];\n            !last_line.is_empty() && !parses_as_json(last_line)\n        }\n    }"

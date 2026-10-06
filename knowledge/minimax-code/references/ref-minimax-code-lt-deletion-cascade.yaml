@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-deletion-cascade
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-service-session-system-sessions-lifecycle-deletion-service-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/session-system/sessions/lifecycle/deletion-service.ts
+  start: 45
+  end: 57
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/service/session-system/sessions/lifecycle/deletion-service.ts
+excerpt: "    await this.options.cleanup.markLegacyMigrationDeleted(sessionId);\n    await this.options.cleanup.deleteCanvas(sessionId);\n    // Peek Sessions are ephemeral, but their token/cost ledger is not. Drop\n    // transcript, files and every other Session-owned artifact while retaining\n    // the usage rows keyed by side sessionId + turnId for attribution.\n    if (isPeekSession(current)) {\n      await this.options.cleanup.deleteArtifacts(sessionId, { preserveUsage: true });\n    } else {\n      await this.options.cleanup.deleteArtifacts(sessionId);\n    }\n    await this.options.cleanup.deleteDiff(sessionId);\n    await this.options.cleanup.deleteCommunication(sessionId);\n    await this.options.cleanup.deleteChannelBindings(sessionId);"

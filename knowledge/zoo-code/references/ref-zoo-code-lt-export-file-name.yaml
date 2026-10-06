@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-lt-export-file-name
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-lt-src-integrations-misc-export-markdown-ts
+locator:
+  kind: file_lines
+  file: src/integrations/misc/export-markdown.ts
+  start: 22
+  end: 35
+official_url: https://github.com/Zoo-Code-Org/Zoo-Code/blob/d7963fc2db8ff07189e9f22079b15d67ad3a8bfd/src/integrations/misc/export-markdown.ts
+excerpt: "export function getTaskFileName(dateTs: number): string {\n\tconst date = new Date(dateTs)\n\tconst month = date.toLocaleString(\"en-US\", { month: \"short\" }).toLowerCase()\n\tconst day = date.getDate()\n\tconst year = date.getFullYear()\n\tlet hours = date.getHours()\n\tconst minutes = date.getMinutes().toString().padStart(2, \"0\")\n\tconst seconds = date.getSeconds().toString().padStart(2, \"0\")\n\tconst ampm = hours >= 12 ? \"pm\" : \"am\"\n\thours = hours % 12\n\thours = hours ? hours : 12 // the hour '0' should be '12'\n\treturn `roo_task_${month}-${day}-${year}_${hours}-${minutes}-${seconds}-${ampm}.md`\n}"

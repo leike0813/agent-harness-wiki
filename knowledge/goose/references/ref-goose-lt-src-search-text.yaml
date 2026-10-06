@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-search-text
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-chat-history-search
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/chat_history_search.rs
+  start: 160
+  end: 170
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+              AND EXISTS (
+                  SELECT 1 FROM json_each(m.content_json) AS content
+                  WHERE json_extract(content.value, '$.type') = 'text'
+                  AND (
+                      json_type(content.value, '$.annotations.audience') IS NULL
+                      OR EXISTS (
+                          SELECT 1
+                          FROM json_each(content.value, '$.annotations.audience') AS audience
+                          WHERE audience.value = 'assistant'
+                      )
+                  )

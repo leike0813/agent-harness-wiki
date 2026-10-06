@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-clean-artifacts-c
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-session-operations
+locator:
+  kind: file_lines
+  file: packages/core/src/utils/sessionOperations.ts
+  start: 91
+  end: 111
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+      //
+      // `safeSessionId` should never contain path separators (sanitizeFilenamePart
+      // replaces every non-`[a-zA-Z0-9_-]` character with `_`), but we re-assert
+      // it here so this deletion path is internally defended against future
+      // changes to the sanitizer.
+      const hasSeparator =
+        safeSessionId.includes(path.sep) ||
+        safeSessionId.includes('/') ||
+        safeSessionId.includes('\\');
+      if (
+        !hasSeparator &&
+        !RESERVED_SESSION_DIR_NAMES.has(safeSessionId.toLowerCase())
+      ) {
+        const sessionDir = path.join(tempDir, safeSessionId);
+        await fs
+          .rm(sessionDir, { recursive: true, force: true })
+          .catch((err: NodeJS.ErrnoException) => {
+            if (err.code !== 'ENOENT') throw err;
+          });
+      }
+    } catch (error) {

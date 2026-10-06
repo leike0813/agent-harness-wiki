@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-clean-identify-c
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-cli-session-cleanup
+locator:
+  kind: file_lines
+  file: packages/cli/src/utils/sessionCleanup.ts
+  start: 346
+  end: 362
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+    // Calculate how many deletable sessions to keep (accounting for the active session)
+    const hasActiveSession = sortedValidSessions.some(
+      (e) => e.sessionInfo!.isCurrentSession,
+    );
+    const maxDeletableSessions =
+      retentionConfig.maxCount && hasActiveSession
+        ? Math.max(0, retentionConfig.maxCount - 1)
+        : retentionConfig.maxCount;
+
+    for (let i = 0; i < deletableSessions.length; i++) {
+      const entry = deletableSessions[i];
+      const session = entry.sessionInfo!;
+
+      let shouldDelete = false;
+
+      // Age-based retention check
+      if (cutoffDate) {

@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-junie-lt-shim-log-dir
+harness_id: junie
+snapshot_id: snapshot-junie-lt-templates-junie-shim-sh
+locator:
+  kind: file_lines
+  file: templates/junie.shim.sh
+  start: 33
+  end: 37
+official_url: https://github.com/JetBrains/junie/blob/e75d6eef6bb955495d3b3c72befdb5166147195e/templates/junie.shim.sh
+excerpt: '# Persistent upgrade log. Lives under ~/.junie/logs (separate from the data dir,
+
+  # so wiping ~/.local/share/junie during reinstall does not lose update history).
+
+  # Always APPEND -- never truncate.
+
+  UPGRADE_LOG_DIR="${JUNIE_LOG_DIR:-$HOME/.junie/logs}"
+
+  UPGRADE_LOG="$UPGRADE_LOG_DIR/upgrade.log"'

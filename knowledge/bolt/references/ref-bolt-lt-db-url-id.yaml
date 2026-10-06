@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-lt-db-url-id
+harness_id: bolt
+snapshot_id: snapshot-bolt-lt-app-lib-persistence-db-ts
+locator:
+  kind: file_lines
+  file: app/lib/persistence/db.ts
+  start: 121
+  end: 135
+official_url: https://github.com/stackblitz/bolt.new/blob/eda10b121221b30825a4c16eec5da1fd3eb1eb99/app/lib/persistence/db.ts
+excerpt: "export async function getUrlId(db: IDBDatabase, id: string): Promise<string> {\n  const idList = await getUrlIds(db);\n\n  if (!idList.includes(id)) {\n    return id;\n  } else {\n    let i = 2;\n\n    while (idList.includes(`${id}-${i}`)) {\n      i++;\n    }\n\n    return `${id}-${i}`;\n  }\n}"

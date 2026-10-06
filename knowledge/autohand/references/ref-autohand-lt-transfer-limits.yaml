@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-transfer-limits
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-session-transfer-session-transfer-ts
+locator:
+  kind: file_lines
+  file: src/session/transfer/session-transfer.ts
+  start: 124
+  end: 131
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/session/transfer/session-transfer.ts
+excerpt: "export function parseSessionTransfer(value: unknown): SessionTransfer {\n  const input = fields(value, ['version', 'source', 'sourceSessionId', 'title', 'createdAt', 'provider', 'model', 'messages', 'repository'], 'session transfer');\n  if ((input.version !== 1 && input.version !== TRANSFER_VERSION) || !['vscode', 'web', 'cli'].includes(String(input.source))) {\n    throw new Error('This session transfer uses an unsupported format.');\n  }\n  if (!Array.isArray(input.messages) || !input.messages.length || input.messages.length > 500) {\n    throw new Error('Transfer between 1 and 500 saved messages.');\n  }"

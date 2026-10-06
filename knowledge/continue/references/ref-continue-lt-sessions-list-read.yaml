@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-sessions-list-read
+harness_id: continue
+snapshot_id: snapshot-continue-lt-core-util-history-ts
+locator:
+  kind: file_lines
+  file: core/util/history.ts
+  start: 25
+  end: 40
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/core/util/history.ts
+excerpt: "  list(options: ListHistoryOptions): BaseSessionMetadata[] {\n    const filepath = getSessionsListPath();\n    if (!fs.existsSync(filepath)) {\n      return [];\n    }\n    const content = fs.readFileSync(filepath, \"utf8\");\n\n    let sessions = safeParseArray<BaseSessionMetadata>(content) ?? [];\n    sessions = sessions\n      .filter((session: any) => {\n        // Filter out old format\n        return typeof session.session_id !== \"string\";\n        // Reverse to show newest first; sessions.json is chronological by creation\n      })\n      .reverse();"

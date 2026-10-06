@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-cli-session-remove
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-cli-args
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/cli.rs
+  start: 547
+  end: 557
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+      #[command(about = "Remove sessions. Runs interactively if no ID, name, or regex is provided.")]
+      Remove {
+          #[command(flatten)]
+          identifier: Option<Identifier>,
+          #[arg(
+              short = 'r',
+              long,
+              help = "Regex for removing matched sessions (optional)"
+          )]
+          regex: Option<String>,
+      },

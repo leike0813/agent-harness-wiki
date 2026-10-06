@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-cleanup-maintenance-lock
+harness_id: codex
+snapshot_id: snapshot-codex-repo-822e58cc-rollout-maintenance
+locator:
+  kind: file_lines
+  file: codex-rs/rollout/src/maintenance.rs
+  start: 1
+  end: 16
+official_url: https://github.com/openai/codex/blob/822e58cc3d666166c7446c5b1ea2e52f5d09594c/codex-rs/rollout/src/maintenance.rs
+excerpt: "//! Coordinates maintenance jobs that replace local rollout files.\n//!\n//! Rollout compression and legacy rollout migration both publish by renaming a replacement over an\n//! existing rollout path. They must not do that at the same time for one Codex home, so they share\n//! this process-scoped, nonblocking file lock.\n//!\n//! This is separate from per-thread writer locks, which protect live rollout appenders. It is also\n//! separate from compression's durable run marker, which throttles how often compression scans.\n\nuse std::fs;\nuse std::fs::File;\nuse std::fs::OpenOptions;\nuse std::io;\nuse std::path::Path;\n\nconst ROLLOUT_MAINTENANCE_LOCK: &str = \"rollout-maintenance.lock\";"

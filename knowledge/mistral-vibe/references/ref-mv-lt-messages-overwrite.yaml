@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-messages-overwrite
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-messages-overwrite
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_logger.py
+  start: 413
+  end: 430
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/session_logger.py
+excerpt: "    def _overwrite_messages_sync(messages: list[dict], session_dir: Path) -> None:\n        messages_filepath = session_dir / MESSAGES_FILENAME\n        temp_filepath = None\n        try:\n            with tempfile.NamedTemporaryFile(\n                mode=\"w\",\n                suffix=\".jsonl.tmp\",\n                dir=str(session_dir),\n                delete=False,\n                encoding=\"utf-8\",\n            ) as f:\n                temp_filepath = Path(f.name)\n                for message in messages:\n                    f.write(json.dumps(message, ensure_ascii=False) + \"\\n\")\n                f.flush()\n                os.fsync(f.fileno())\n\n            os.replace(temp_filepath, str(messages_filepath))"

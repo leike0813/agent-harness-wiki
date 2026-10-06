@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-stale-compaction-repair
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-service-session-system-messages-stale-compaction-repair-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/session-system/messages/stale-compaction-repair.ts
+  start: 11
+  end: 28
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/service/session-system/messages/stale-compaction-repair.ts
+excerpt: "  async repair(\n    sessionId: string,\n    messages: readonly DisplayMessageRecord[],\n  ): Promise<readonly DisplayMessageRecord[]> {\n    const lastIndex = messages.length - 1;\n    const reconciled = [...messages];\n    for (const [index, message] of messages.entries()) {\n      if (message.kind !== 'compaction_start') continue;\n      const emittedByThisProcess =\n        typeof message.timestamp === 'number' &&\n        message.timestamp >= this.options.processStartedAtMs;\n      if (emittedByThisProcess && index === lastIndex) continue;\n      const patched: DisplayMessageRecord = { ...message, kind: 'compaction_failed' };\n      await this.options.messages.upsert({ sessionId, message: patched });\n      reconciled[index] = patched;\n    }\n    return reconciled;\n  }"

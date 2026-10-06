@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-cli-session-export
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-cli-args
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/cli.rs
+  start: 558
+  end: 578
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+      #[command(about = "Export a session")]
+      Export {
+          #[command(flatten)]
+          identifier: Option<Identifier>,
+
+          #[arg(
+              short,
+              long,
+              help = "Output file path (default: stdout)",
+              long_help = "Path to save the exported Markdown. If not provided, output will be sent to stdout"
+          )]
+          output: Option<PathBuf>,
+
+          #[arg(
+              long = "format",
+              value_name = "FORMAT",
+              help = "Output format (markdown, json, yaml, html)",
+              default_value = "markdown"
+          )]
+          format: String,
+      },

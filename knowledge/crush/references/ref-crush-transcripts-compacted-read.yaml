@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-compacted-read
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-agent-agent-go
+locator:
+  kind: file_lines
+  file: internal/agent/agent.go
+  start: 1792
+  end: 1800
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (a *sessionAgent) getSessionMessages(ctx context.Context, session session.Session) ([]message.Message, error) {
+  	// Read only the tail a compacted session actually sends. The full
+  	// transcript can be tens of megabytes on the single shared connection.
+  	msgs, err := a.messages.ListFromSummary(ctx, session.ID, session.SummaryMessageID)
+  	if err != nil {
+  		return nil, fmt.Errorf("failed to list messages: %w", err)
+  	}
+  
+  	if session.SummaryMessageID != "" {

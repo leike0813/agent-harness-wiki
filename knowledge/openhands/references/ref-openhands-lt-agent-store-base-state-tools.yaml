@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-lt-agent-store-base-state-tools
+harness_id: openhands
+snapshot_id: snapshot-openhands-lt-openhands-cli-stores-agent-store-py
+locator:
+  kind: file_lines
+  file: openhands_cli/stores/agent_store.py
+  start: 75
+  end: 85
+official_url: https://github.com/OpenHands/OpenHands-CLI/blob/954f2ba646e8d749261a8f2b2b7e3031fa39be9f/openhands_cli/stores/agent_store.py
+excerpt: "        # Extract tools from the persisted agent\n        agent_data = state_data.get(\"agent\", {})\n        tools_data = agent_data.get(\"tools\", [])\n\n        if not tools_data:\n            return None\n\n        # Convert tool data to Tool objects\n        return [Tool.model_validate(tool) for tool in tools_data]\n    except (json.JSONDecodeError, KeyError, OSError):\n        return None"

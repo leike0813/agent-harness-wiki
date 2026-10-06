@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-read-messages-artifact
+harness_id: cline
+snapshot_id: snapshot-cline-lt-apps-cli-src-session-session-ts
+locator:
+  kind: file_lines
+  file: apps/cli/src/session/session.ts
+  start: 177
+  end: 206
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/apps/cli/src/session/session.ts
+excerpt: "export async function readSessionMessagesArtifact(\n\tsessionId: string,\n): Promise<ConversationHistory | undefined> {\n\tconst target = sessionId.trim();\n\tif (!target) {\n\t\treturn undefined;\n\t}\n\treturn await withCliCore(\n\t\tasync (core) => {\n\t\t\tconst [row, messages] = await Promise.all([\n\t\t\t\tcore.get(target),\n\t\t\t\tcore.readMessages(target),\n\t\t\t]);\n\t\t\tif (!row || messages.length === 0) {\n\t\t\t\treturn undefined;\n\t\t\t}\n\t\t\treturn {\n\t\t\t\tversion: 1,\n\t\t\t\tupdated_at: row.updatedAt,\n\t\t\t\tmessages: messages as ConversationHistory[\"messages\"],\n\t\t\t\tsessionId: row.sessionId,\n\t\t\t\tsystemPrompt:\n\t\t\t\t\ttypeof row.metadata?.systemPrompt === \"string\"\n\t\t\t\t\t\t? row.metadata.systemPrompt\n\t\t\t\t\t\t: undefined,\n\t\t\t};\n\t\t},\n\t\t{ forceLocalBackend: true },\n\t);\n}"

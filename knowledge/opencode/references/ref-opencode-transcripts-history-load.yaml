@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-history-load
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-history-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/core/src/session/history.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/history.ts
+  start: 64
+  end: 79
+excerpt: "  )\n\nexport const load = Effect.fn(\"SessionHistory.load\")(function* (db: DatabaseService, sessionID: SessionSchema.ID) {\n  const [epoch, compaction] = yield* Effect.all(\n    [\n      db\n        .select({ baselineSeq: SessionContextEpochTable.baseline_seq })\n        .from(SessionContextEpochTable)\n        .where(eq(SessionContextEpochTable.session_id, sessionID))\n        .get()\n        .pipe(Effect.orDie),\n      latestCompaction(db, sessionID),\n    ],\n    { concurrency: \"unbounded\" },\n  )\n  return yield* Effect.forEach(yield* messageRows(db, sessionID, compaction, epoch?.baselineSeq), decodeMessageRow)"

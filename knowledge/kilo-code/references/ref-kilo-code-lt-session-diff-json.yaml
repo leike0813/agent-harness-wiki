@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-session-diff-json
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-session-summary-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/session/summary.ts
+  start: 130
+  end: 139
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/session/summary.ts
+excerpt: "      yield* sessions.setSummary({\n        sessionID: input.sessionID,\n        summary: {\n          additions: diffs.reduce((sum, x) => sum + x.additions, 0),\n          deletions: diffs.reduce((sum, x) => sum + x.deletions, 0),\n          files: diffs.length,\n        },\n      })\n      yield* storage.write([\"session_diff\", input.sessionID], diffs).pipe(Effect.ignore) // kilocode_change\n      yield* events.publish(Session.Event.Diff, { sessionID: input.sessionID, diff: diffs })"

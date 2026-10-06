@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-run-migrations
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/session_manager.rs
+  start: 1260
+  end: 1263
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+      async fn run_migrations(pool: &Pool<Sqlite>) -> Result<()> {
+          let mut tx = pool.begin_with("BEGIN IMMEDIATE").await?;
+
+          let current_version = Self::get_schema_version(&mut tx).await?;

@@ -1,0 +1,78 @@
+schema_version: 2
+audit_id: audit-aider-3f1b9ffe-adb0-4982-bfcd-3fd6c71f34dc
+harness_id: aider
+checked_at: 2026-10-06T04:32:39.545Z
+status: no_change
+review_status: not_required
+pending_audit_refs: []
+checks:
+  - source_id: source-aider-repo
+    kind: git_repository
+    checked_at: 2026-10-06T04:32:37.248Z
+    status: unchanged
+    baseline: 5dc9490bb35f9729ef2c95d00a19ccd30c26339c
+    observed: 5dc9490bb35f9729ef2c95d00a19ccd30c26339c
+    remote_ref: refs/heads/main
+impacts:
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-recording-scope
+      - transcripts-storage-layout
+      - transcripts-record-schema
+      - transcripts-session-lifecycle
+      - transcripts-archive-and-cleanup
+      - transcripts-state-and-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-aider-lt-io-user-ai-output
+      - ref-aider-lt-io-tool-message
+      - ref-aider-lt-io-llm-history
+      - ref-aider-lt-io-append-chat-history
+      - ref-aider-lt-args-history-file-defaults
+      - ref-aider-lt-utils-split-markdown-body
+      - ref-aider-lt-base-restore-history
+      - ref-aider-lt-faq-share-transcript
+      - ref-aider-lt-cmd-clear-reset
+      - ref-aider-lt-repomap-tags-cache
+      - ref-aider-lt-io-read-text
+    cross_topic_links:
+      - config.sources
+      - config.defaults
+    reason: >-
+      local_transcripts 首次采写。固定来源为官方仓库提交 5dc9490bb35f9729ef2c95d00a19ccd30c26339c，
+      调查 CLI 界面的会话记录文件、恢复、归档与清理机制，产出章节 aider-local_transcripts-v1。
+      本轮 scan 结果为 unchanged，章节内容来自对该提交的源码与仓库内文档取证，不依赖上游变化。
+pending_question_ids: []
+investigation_notes:
+  - >-
+    本轮为 aider 的 local_transcripts 首采：此前产品未登记该主题，本候选新增章节
+    aider-local_transcripts-v1 并登记 selection。既有七章未改动。
+  - >-
+    固定来源：source-aider-repo，pinned commit 5dc9490bb35f9729ef2c95d00a19ccd30c26339c，
+    取用时间 2026-10-06；界面限定为 catalog 登记的 cli。全部证据为 git_source_file，
+    绑定 9 个按文件区分的 snapshot（artifact 各对应一个文件），未新建 archived_document
+    （项目根 archive/aider/ 不存在该产品原件），因此没有文档来源证据。
+  - >-
+    结论边界：提交号只代表源码树，未写任何 mappings/；路径形态在 Linux 上取证，
+    Windows 与 macOS 未验证；未把 CLI 结论外推到其它界面形态。
+  - >-
+    十题状态：location、format、lifecycle、database 为 answered；scope、naming、schema、
+    archive、cleanup、diagnostics 为 partial。partial 的原因分别是：token/费用与多模态内容
+    是否入档未确认；固定来源没有会话 id、分支或父子会话标识；记录格式没有版本字段与迁移路径，
+    也无 schema 文档；没有原生归档/导出开关，只能人工复制 Markdown，/save 不含对话文本；
+    没有官方删除或保留机制，/clear 与 /reset 只清内存；没有校验工具，只能按行前缀人工核对。
+  - >-
+    明确未覆盖：仓库图缓存目录、模型响应缓存、日志与 analytics 等非会话记录文件按主题边界排除，
+    仅在 database 一题说明其不属于会话记录依赖。

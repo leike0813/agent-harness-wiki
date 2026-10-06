@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-sql-input
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-sql-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/core/src/session/sql.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/sql.ts
+  start: 137
+  end: 152
+excerpt: "  ],\n)\n\nexport const SessionInputTable = sqliteTable(\n  \"session_input\",\n  {\n    id: text().$type<SessionMessage.ID>().primaryKey(),\n    session_id: text()\n      .$type<SessionSchema.ID>()\n      .notNull()\n      .references(() => SessionTable.id, { onDelete: \"cascade\" }),\n    prompt: text({ mode: \"json\" }).notNull().$type<Prompt>(),\n    delivery: text().$type<SessionInput.Delivery>().notNull(),\n    admitted_seq: integer().notNull(),\n    promoted_seq: integer(),\n    time_created: integer()"

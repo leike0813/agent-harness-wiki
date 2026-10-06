@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-sql-part
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-sql-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/core/src/session/sql.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/sql.ts
+  start: 78
+  end: 92
+excerpt: "  },\n  (table) => [index(\"message_session_time_created_id_idx\").on(table.session_id, table.time_created, table.id)],\n)\n\nexport const PartTable = sqliteTable(\n  \"part\",\n  {\n    id: text().$type<PartID>().primaryKey(),\n    message_id: text()\n      .$type<MessageID>()\n      .notNull()\n      .references(() => MessageTable.id, { onDelete: \"cascade\" }),\n    session_id: text().$type<SessionSchema.ID>().notNull(),\n    ...Timestamps,\n    data: text({ mode: \"json\" }).notNull().$type<V1PartData>(),"

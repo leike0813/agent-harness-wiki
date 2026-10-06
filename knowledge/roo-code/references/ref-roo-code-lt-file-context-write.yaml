@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-file-context-write
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-context-tracking-filecontexttracker-ts
+locator:
+  kind: file_lines
+  file: src/core/context-tracking/FileContextTracker.ts
+  start: 128
+  end: 138
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/context-tracking/FileContextTracker.ts
+excerpt: "\t// Saves task metadata to storage\n\tasync saveTaskMetadata(taskId: string, metadata: TaskMetadata) {\n\t\ttry {\n\t\t\tconst globalStoragePath = this.getContextProxy()!.globalStorageUri.fsPath\n\t\t\tconst taskDir = await getTaskDirectoryPath(globalStoragePath, taskId)\n\t\t\tconst filePath = path.join(taskDir, GlobalFileNames.taskMetadata)\n\t\t\tawait safeWriteJson(filePath, metadata)\n\t\t} catch (error) {\n\t\t\tconsole.error(\"Failed to save task metadata:\", error)\n\t\t}\n\t}"

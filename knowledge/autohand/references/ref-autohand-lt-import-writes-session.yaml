@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-import-writes-session
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-session-transfer-transfer-session-store-ts
+locator:
+  kind: file_lines
+  file: src/session/transfer/transfer-session-store.ts
+  start: 67
+  end: 70
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/session/transfer/transfer-session-store.ts
+excerpt: "      await fs.writeFile(path.join(temporary, 'metadata.json'), JSON.stringify(metadata, null, 2), { mode: 0o600 });\n      await fs.writeFile(path.join(temporary, 'conversation.jsonl'), value.messages.map(message => JSON.stringify({ role: message.role, content: transferMessageContent(message),\n        ...(message.images?.length ? { attachmentNames: message.images.map(image => image.name) } : {}), timestamp: message.createdAt })).join('\\n') + '\\n', { mode: 0o600 });\n      await fs.rename(temporary, destination); temporary = undefined;"

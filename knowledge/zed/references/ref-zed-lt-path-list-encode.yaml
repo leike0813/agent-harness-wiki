@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-path-list-encode
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-util-src-path-list-rs
+locator:
+  kind: file_lines
+  file: crates/util/src/path_list.rs
+  start: 130
+  end: 149
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/util/src/path_list.rs
+excerpt: "    pub fn serialize(&self) -> SerializedPathList {\n        use std::fmt::Write as _;\n\n        let mut paths = String::new();\n        for path in self.paths.iter() {\n            if !paths.is_empty() {\n                paths.push('\\n');\n            }\n            paths.push_str(&path.to_string_lossy());\n        }\n\n        let mut order = String::new();\n        for ix in self.order.iter() {\n            if !order.is_empty() {\n                order.push(',');\n            }\n            write!(&mut order, \"{}\", *ix).unwrap();\n        }\n        SerializedPathList { paths, order }\n    }"

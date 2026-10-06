@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-ephemeral-skips-sync
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-core-agent-agentsessionaccounting-ts
+locator:
+  kind: file_lines
+  file: src/core/agent/AgentSessionAccounting.ts
+  start: 232
+  end: 240
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/core/agent/AgentSessionAccounting.ts
+excerpt: "export function syncAgentSessionSnapshot(\n  host: AgentSessionAccountingHost,\n  options: { force?: boolean; session?: SyncableSession; endTimeMs?: number } = {}\n): Promise<void> {\n  // An ephemeral run keeps nothing, locally or remotely.\n  if (host.runtime.options?.ephemeral) return Promise.resolve();\n  const existing = host.sessionSyncPromise;\n  if (existing && !options.force) return existing;"

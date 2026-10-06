@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-sanitize-cwd
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-paths-core
+locator:
+  kind: file_lines
+  file: packages/core/src/utils/paths.ts
+  start: 388
+  end: 392
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/packages/core/src/utils/paths.ts"
+excerpt: |2-
+  export function sanitizeCwd(cwd: string): string {
+    // On Windows, normalize to lowercase for case-insensitive matching
+    const normalizedCwd = os.platform() === 'win32' ? cwd.toLowerCase() : cwd;
+    return normalizedCwd.replace(/[^a-zA-Z0-9]/g, '-');
+  }

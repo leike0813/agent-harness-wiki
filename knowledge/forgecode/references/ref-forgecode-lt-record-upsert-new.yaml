@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-lt-record-upsert-new
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-lt-crates-forge-repo-src-conversation-conversation-record-rs
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/conversation/conversation_record.rs
+  start: 954
+  end: 966
+official_url: https://github.com/tailcallhq/forgecode/blob/1469f75aa0fa3a2a768bde24f7dc528723b67259/crates/forge_repo/src/conversation/conversation_record.rs
+excerpt: "impl ConversationRecord {\n    /// Creates a new ConversationRecord from a Conversation domain object\n    pub fn new(\n        conversation: forge_domain::Conversation,\n        workspace_id: forge_domain::WorkspaceHash,\n    ) -> Self {\n        let context = conversation\n            .context\n            .as_ref()\n            .filter(|ctx| !ctx.messages.is_empty() || ctx.initiator.is_some())\n            .map(ContextRecord::from)\n            .and_then(|ctx_record| serde_json::to_string(&ctx_record).ok());\n        let updated_at = context.as_ref().map(|_| chrono::Utc::now().naive_utc());"

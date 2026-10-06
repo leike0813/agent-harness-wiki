@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-scope-history-file
+harness_id: codex
+snapshot_id: snapshot-codex-repo-822e58cc-message-history-lib
+locator:
+  kind: file_lines
+  file: codex-rs/message-history/src/lib.rs
+  start: 1
+  end: 16
+official_url: https://github.com/openai/codex/blob/822e58cc3d666166c7446c5b1ea2e52f5d09594c/codex-rs/message-history/src/lib.rs
+excerpt: "//! Persistence layer for the global, append-only *message history* file.\n//!\n//! The history is stored at `~/.codex/history.jsonl` with **one JSON object per\n//! line** so that it can be efficiently appended to and parsed with standard\n//! JSON-Lines tooling. Each record has the following schema:\n//!\n//! ````text\n//! {\"session_id\":\"<uuid>\",\"ts\":<unix_seconds>,\"text\":\"<message>\"}\n//! ````\n//!\n//! To minimize the chance of interleaved writes when multiple processes are\n//! appending concurrently, callers should *prepare the full line* (record +\n//! trailing `\\n`) and write it with a **single `write(2)` system call** while\n//! the file descriptor is opened with the `O_APPEND` flag. POSIX guarantees\n//! that writes up to `PIPE_BUF` bytes are atomic in that case.\n"

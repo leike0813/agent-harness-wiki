@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-import-handler
+harness_id: continue
+snapshot_id: snapshot-continue-lt-extensions-cli-src-slashcommands-ts
+locator:
+  kind: file_lines
+  file: extensions/cli/src/slashCommands.ts
+  start: 208
+  end: 232
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/slashCommands.ts
+excerpt: "  try {\n    const fileContent = fs.readFileSync(filePath, \"utf-8\");\n    const exportedData: unknown = JSON.parse(fileContent);\n\n    if (!isValidExportedSession(exportedData)) {\n      return {\n        exit: false,\n        output: chalk.red(\n          \"Invalid session file: expected a valid Continue exported session (version 1).\",\n        ),\n      };\n    }\n\n    let session = exportedData.session;\n\n    const existing = historyManager.load(session.sessionId);\n    const sessionExists = existing.history.length > 0;\n\n    if (sessionExists) {\n      const originalId = session.sessionId;\n      session = {\n        ...session,\n        sessionId: uuidv4(),\n      };\n      historyManager.save(session);"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-retention-run
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-kilocode-session-retention-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/session/retention.ts
+  start: 355
+  end: 372
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/kilocode/session/retention.ts
+excerpt: "      const config = yield* Config.Service\n      const active = policy(yield* config.get())\n      const now = Date.now()\n      const previous = yield* readState()\n      const gate = shouldRun(active, input, previous, now)\n      if (!gate.ok) return { ran: false as const, reason: gate.reason }\n\n      const { db } = yield* Database.Service\n      const rows = yield* db\n        .select({ id: SessionTable.id, parent: SessionTable.parent_id, updated: SessionTable.time_updated })\n        .from(SessionTable)\n        .all()\n        .pipe(Effect.orDie)\n\n      const mapped: Row[] = rows.map((row) => ({\n        id: row.id,\n        parentID: row.parent ?? undefined,\n        updated: row.updated ?? now,"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-lt-io-user-ai-output
+harness_id: aider
+snapshot_id: snapshot-aider-lt-aider-io-py
+locator:
+  kind: file_lines
+  file: aider/io.py
+  start: 775
+  end: 796
+official_url: https://github.com/Aider-AI/aider/blob/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/io.py
+excerpt: "    def user_input(self, inp, log_only=True):\n        if not log_only:\n            self.display_user_input(inp)\n\n        prefix = \"####\"\n        if inp:\n            hist = inp.splitlines()\n        else:\n            hist = [\"<blank>\"]\n\n        hist = f\"  \\n{prefix} \".join(hist)\n\n        hist = f\"\"\"\n{prefix} {hist}\"\"\"\n        self.append_chat_history(hist, linebreak=True)\n\n    # OUTPUT\n\n    def ai_output(self, content):\n        hist = \"\\n\" + content.strip() + \"\\n\\n\"\n        self.append_chat_history(hist)"

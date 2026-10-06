@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-clean-subagent-b
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-session-operations
+locator:
+  kind: file_lines
+  file: packages/core/src/utils/sessionOperations.ts
+  start: 146
+  end: 160
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+          file.isFile() &&
+          (file.name.endsWith('.json') || file.name.endsWith('.jsonl'))
+        ) {
+          const agentId = path.basename(file.name, path.extname(file.name));
+          await deleteSessionArtifactsAsync(agentId, tempDir);
+        }
+      }
+
+      // Finally, remove the directory itself
+      await fs
+        .rm(subagentDir, { recursive: true, force: true })
+        .catch((err: NodeJS.ErrnoException) => {
+          if (err.code !== 'ENOENT') throw err;
+        });
+    } catch (error) {

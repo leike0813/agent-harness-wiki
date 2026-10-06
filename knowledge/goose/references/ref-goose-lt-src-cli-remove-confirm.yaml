@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-cli-remove-confirm
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-cli-session
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/commands/session.rs
+  start: 28
+  end: 53
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+  async fn remove_sessions(session_manager: &SessionManager, sessions: Vec<Session>) -> Result<()> {
+      println!("The following sessions will be removed:");
+      for session in &sessions {
+          println!(
+              "- {} {} ({})",
+              session.id,
+              session.name,
+              display_path_with_tilde(&session.working_dir)
+          );
+      }
+
+      let should_delete = confirm("Are you sure you want to delete these sessions?")
+          .initial_value(false)
+          .interact()?;
+
+      if should_delete {
+          for session in sessions {
+              session_manager.delete_session(&session.id).await?;
+              println!("Session `{}` removed.", session.id);
+          }
+      } else {
+          println!("Skipping deletion of the sessions.");
+      }
+
+      Ok(())
+  }

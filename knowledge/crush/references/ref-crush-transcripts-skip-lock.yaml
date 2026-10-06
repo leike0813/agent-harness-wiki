@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-skip-lock
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-db-datadirlock-go
+locator:
+  kind: file_lines
+  file: internal/db/datadirlock.go
+  start: 82
+  end: 86
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // skipDataDirLock reports whether the data-dir lock should be bypassed.
+  func skipDataDirLock() bool {
+  	v, _ := strconv.ParseBool(os.Getenv("CRUSH_SKIP_DATADIR_LOCK"))
+  	return v
+  }

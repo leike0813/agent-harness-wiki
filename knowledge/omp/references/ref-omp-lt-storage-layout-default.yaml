@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt-storage-layout-default
+harness_id: omp
+snapshot_id: snapshot-omp-lt-repo-fc6c-docs-session-md
+locator:
+  kind: file_lines
+  file: docs/session.md
+  start: 37
+  end: 47
+official_url: https://github.com/can1357/oh-my-pi/blob/fc6c0c90dab012a0b7edea731af92f5bbd09cff0/docs/session.md#L37-L47
+excerpt: '## On-Disk Layout
+
+
+  Default file-session location:
+
+
+  ```text
+
+  ~/.omp/agent/sessions/<encoded-cwd>/<timestamp>_<sessionId>.jsonl
+
+  ```
+
+
+  `<encoded-cwd>` is derived from the canonicalized cwd (so symlink aliases share a bucket): `-<relative>` for directories under home, `-tmp-<relative>` for directories under the temp root, and `--<encoded-absolute>--` for anything else, with path separators replaced by `-`.
+
+
+  On access, buckets written by the short-lived hashed scheme (`<scope>-<project-basename>-<sha256(canonical-cwd)>`, used in 17.2.5-17.2.8 and reverted in 17.2.9 by #7397) are migrated back into the path-encoded names best-effort, along with older `--<home-encoded>-*--` spellings of home-relative buckets.'

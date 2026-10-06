@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-parts-encoding
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-message-message-go
+locator:
+  kind: file_lines
+  file: internal/message/message.go
+  start: 613
+  end: 630
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  type partType string
+  
+  const (
+  	reasoningType    partType = "reasoning"
+  	textType         partType = "text"
+  	imageURLType     partType = "image_url"
+  	binaryType       partType = "binary"
+  	toolCallType     partType = "tool_call"
+  	toolResultType   partType = "tool_result"
+  	finishType       partType = "finish"
+  	shellCommandType partType = "shell_command"
+  )
+  
+  type partWrapper struct {
+  	Type partType    `json:"type"`
+  	Data ContentPart `json:"data"`
+  }

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-schema-wal
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-shared-src-db-sqlite-db-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/shared/src/db/sqlite-db.ts
+  start: 351
+  end: 360
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/shared/src/db/sqlite-db.ts
+excerpt: "export function ensureSessionSchema(\n\tdb: SqliteDb,\n\toptions: SessionSchemaOptions = {},\n): void {\n\tdb.exec(\"PRAGMA journal_mode = WAL;\");\n\tdb.exec(\"PRAGMA busy_timeout = 5000;\");\n\tfor (const stmt of SCHEMA_STATEMENTS) {\n\t\tdb.exec(stmt);\n\t}"

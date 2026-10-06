@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-metadata-dump
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-metadata-dump
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_logger.py
+  start: 573
+  end: 587
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/session_logger.py
+excerpt: "            metadata_dump = {\n                **session_metadata.model_dump(),\n                \"end_time\": utc_now().isoformat(),\n                \"stats\": stats.model_dump(),\n                \"total_messages\": len(non_system_messages),\n                \"last_message_fingerprint\": last_message_fingerprint,\n                \"tools_available\": tools_available,\n                \"agent_profile\": {\n                    \"name\": agent_profile.name,\n                    \"overrides\": agent_profile.overrides,\n                },\n                \"system_prompt\": system_prompt,\n            }\n\n            SessionLogger._persist_metadata_sync(metadata_dump, session_dir)"

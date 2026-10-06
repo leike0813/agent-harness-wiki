@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-project-dirs
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-storage-core
+locator:
+  kind: file_lines
+  file: packages/core/src/config/storage.ts
+  start: 619
+  end: 630
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/packages/core/src/config/storage.ts"
+excerpt: |2-
+    getProjectDir(): string {
+      const projectId = sanitizeCwd(this.getProjectRoot());
+      const projectsDir = path.join(this.runtimeBaseDir, PROJECT_DIR_NAME);
+      return path.join(projectsDir, projectId);
+    }
+
+    getProjectTempDir(): string {
+      const hash = getProjectHash(this.getProjectRoot());
+      const tempDir = path.join(this.runtimeBaseDir, TMP_DIR_NAME);
+      const targetDir = path.join(tempDir, hash);
+      return targetDir;
+    }

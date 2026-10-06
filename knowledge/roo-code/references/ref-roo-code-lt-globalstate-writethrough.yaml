@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-globalstate-writethrough
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-webview-clineprovider-ts
+locator:
+  kind: file_lines
+  file: src/core/webview/ClineProvider.ts
+  start: 2284
+  end: 2300
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/webview/ClineProvider.ts
+excerpt: "\tprivate scheduleGlobalStateWriteThrough(): void {\n\t\tif (this.globalStateWriteThroughTimer) {\n\t\t\tclearTimeout(this.globalStateWriteThroughTimer)\n\t\t}\n\n\t\tthis.globalStateWriteThroughTimer = setTimeout(async () => {\n\t\t\tthis.globalStateWriteThroughTimer = null\n\t\t\ttry {\n\t\t\t\tconst items = this.taskHistoryStore.getAll()\n\t\t\t\tawait this.updateGlobalState(\"taskHistory\", items)\n\t\t\t} catch (err) {\n\t\t\t\tthis.log(\n\t\t\t\t\t`[scheduleGlobalStateWriteThrough] Failed: ${err instanceof Error ? err.message : String(err)}`,\n\t\t\t\t)\n\t\t\t}\n\t\t}, ClineProvider.GLOBAL_STATE_WRITE_THROUGH_DEBOUNCE_MS)\n\t}"

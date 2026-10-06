@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-update-archived
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-ui-src-thread-metadata-store-rs
+locator:
+  kind: file_lines
+  file: crates/agent_ui/src/thread_metadata_store.rs
+  start: 1130
+  end: 1138
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent_ui/src/thread_metadata_store.rs
+excerpt: "    fn update_archived(&mut self, thread_id: ThreadId, archived: bool, cx: &mut Context<Self>) {\n        if let Some(thread) = self.threads.get(&thread_id) {\n            self.save_internal(ThreadMetadata {\n                archived,\n                ..thread.clone()\n            });\n            cx.notify();\n        }\n    }"

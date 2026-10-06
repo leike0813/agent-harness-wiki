@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt-cleanup-gc-run-order-code
+harness_id: omp
+snapshot_id: snapshot-omp-lt-repo-fc6c-packages-coding-agent-src-cli-gc-cli-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/cli/gc-cli.ts
+  start: 2010
+  end: 2021
+official_url: https://github.com/can1357/oh-my-pi/blob/fc6c0c90dab012a0b7edea731af92f5bbd09cff0/packages/coding-agent/src/cli/gc-cli.ts#L2010-L2021
+excerpt: "export async function runGcCommand(args: GcCommandArgs): Promise<GcResult> {\n\tconst options = await resolveOptions(args.flags);\n\tconst archiveRoot = getArchivedSessionsDir(options.agentDir);\n\tconst result = await withGcLock(options.agentDir, async lockPath => {\n\t\tconst next: GcResult = { agentDir: options.agentDir, apply: options.apply, lockPath };\n\t\t// Stale state first: pruned collab replicas then release their blobs to this run's sweep.\n\t\tif (options.runStale) next.stale = await runStaleGc(options);\n\t\tif (options.runBlobs) next.blobs = await runBlobGc(options, archiveRoot);\n\t\tif (options.runArchive) next.archive = await runArchiveGc(options, archiveRoot);\n\t\tif (options.runWal) next.wal = await runWalGc(options);\n\t\treturn next;\n\t});"

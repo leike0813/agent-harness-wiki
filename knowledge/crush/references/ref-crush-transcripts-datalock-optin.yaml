@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-datalock-optin
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-db-connect-go
+locator:
+  kind: file_lines
+  file: internal/db/connect.go
+  start: 69
+  end: 76
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // WithDataDirLock toggles acquisition of the per-data-directory lock
+  // for this Connect call. The lock is off by default so local-mode
+  // invocations do not regress today's behavior; the server's
+  // workspace-bootstrap path opts in. CRUSH_SKIP_DATADIR_LOCK still
+  // bypasses acquisition even when this option is set.
+  func WithDataDirLock(enable bool) ConnectOption {
+  	return func(o *connectOptions) { o.lockDataDir = enable }
+  }

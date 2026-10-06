@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-residual-lock-recovery
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-doc-conversations-recovery
+locator:
+  kind: file_lines
+  file: docs/users/conversations-recovery.md
+  start: 54
+  end: 59
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/docs/users/conversations-recovery.md"
+excerpt: |2-
+  1. Identify the exact affected session and storage from local diagnostics.
+     Preserve the failure log and a private backup of its transcript and lock
+     artifacts. Record which binaries and hosts may access this storage.
+  2. Stop or otherwise fence **every possible writer**, including detached ACP
+     children, other daemons, containers, namespaces, and machines sharing the
+     filesystem. Verify the fence from the relevant host/namespace. If you cannot

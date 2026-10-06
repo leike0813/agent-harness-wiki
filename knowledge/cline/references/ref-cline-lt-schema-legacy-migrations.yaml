@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-schema-legacy-migrations
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-shared-src-db-sqlite-db-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/shared/src/db/sqlite-db.ts
+  start: 371
+  end: 384
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/shared/src/db/sqlite-db.ts
+excerpt: "\t};\n\n\tfor (const migration of LEGACY_MIGRATIONS) {\n\t\tif (!getColumns(migration.table).has(migration.column)) {\n\t\t\tdb.exec(migration.sql);\n\t\t\tif (migration.column === \"workspace_root\") {\n\t\t\t\tdb.exec(\n\t\t\t\t\t\"UPDATE sessions SET workspace_root = cwd WHERE workspace_root IS NULL OR workspace_root = '';\",\n\t\t\t\t);\n\t\t\t}\n\t\t\tcolumnCache.delete(migration.table);\n\t\t}\n\t}\n}"

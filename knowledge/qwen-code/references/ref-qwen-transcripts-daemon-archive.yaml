@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-daemon-archive
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-doc-daemon-lifecycle
+locator:
+  kind: file_lines
+  file: docs/developers/daemon/08-session-lifecycle.md
+  start: 238
+  end: 249
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/docs/developers/daemon/08-session-lifecycle.md"
+excerpt: |2-
+
+  `POST /sessions/archive` moves inactive session JSONL files from `chats/` into
+  `chats/archive/`. If the target session is live, the daemon first enters a
+  per-session archive gate and performs a strict close that requires the ACP child
+  to flush `ChatRecordingService`; archive leaves the JSONL in place if close or
+  flush fails.
+
+  `POST /sessions/unarchive` moves archived JSONL files back to `chats/`. This is
+  only a storage-state transition; clients must call `session/load` or
+  `session/resume` afterward. Archived sessions return `409 session_archived` for
+  load/resume, and mutations racing an archive transition return
+  `409 session_archiving`.

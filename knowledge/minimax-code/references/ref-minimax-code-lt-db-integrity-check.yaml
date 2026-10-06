@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-db-integrity-check
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-infra-db-client-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/infra/db/client.ts
+  start: 86
+  end: 100
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/infra/db/client.ts
+excerpt: "  /** Validate the backup through an independent read-only connection; only a single `ok` row passes. */\n  hasValidIntegrity(databasePath: string): boolean {\n    const Database = loadSqlite3Constructor(this.options.sqlite3ModulePath);\n    const verificationDb = new Database(databasePath, {\n      readonly: true,\n      fileMustExist: true,\n    });\n    try {\n      const rows = verificationDb.prepare('PRAGMA integrity_check').all();\n      return rows.length === 1 && isIntegrityOkRow(rows[0]);\n    } finally {\n      verificationDb.close();\n    }\n  }"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-read-session-messages
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-runtime-host-local-runtime-host-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/runtime/host/local-runtime-host.ts
+  start: 1559
+  end: 1570
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/runtime/host/local-runtime-host.ts
+excerpt: "\tasync readSessionMessages(\n\t\tsessionId: string,\n\t): Promise<LlmsProviders.MessageWithMetadata[]> {\n\t\tconst target = sessionId.trim();\n\t\tif (!target) return [];\n\t\tconst row = await this.getRow(target);\n\t\tif (row?.messagesPath) {\n\t\t\treturn readPersistedMessagesFile(row.messagesPath);\n\t\t}\n\t\tconst manifest = await this.readManifest(target);\n\t\treturn readPersistedMessagesFile(manifest?.messages_path);\n\t}"

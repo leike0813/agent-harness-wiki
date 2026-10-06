@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-timestamp-normalize
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/session_manager.rs
+  start: 728
+  end: 735
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+  fn message_timestamp_to_datetime(timestamp: i64) -> Option<DateTime<Utc>> {
+      let timestamp = if timestamp > MILLISECOND_TIMESTAMP_THRESHOLD {
+          timestamp / 1000
+      } else {
+          timestamp
+      };
+      Utc.timestamp_opt(timestamp, 0).single()
+  }

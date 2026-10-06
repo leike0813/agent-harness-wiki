@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-trim-oversized-logs
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-cli-src-utils-chat-history-ts
+locator:
+  kind: file_lines
+  file: cli/src/utils/chat-history.ts
+  start: 144
+  end: 158
+official_url: https://github.com/CodebuffAI/codebuff/blob/bd198ff2df3ea9b333e8bf2e5b843735afd4ad9c/cli/src/utils/chat-history.ts
+excerpt: "// Older CLI versions logged the full conversation (including attachments) to\n// log.jsonl on every step, leaving multi-GB files in chat directories. Delete\n// any log file over this cap; with summary-only logging, healthy logs stay\n// far below it.\nconst MAX_LOG_FILE_BYTES = 10 * 1024 * 1024\n// Only delete logs from chats untouched for this long, so debug logs for\n// recent chats stay available.\nconst MIN_LOG_AGE_MS = 14 * 24 * 60 * 60 * 1000\n\n/**\n * Delete oversized log.jsonl files from chat directories that haven't been\n * touched in 14+ days. Only debug logs are removed — chat history files are\n * untouched.\n */\nexport function trimOversizedChatLogs(dataDir?: string): void {"

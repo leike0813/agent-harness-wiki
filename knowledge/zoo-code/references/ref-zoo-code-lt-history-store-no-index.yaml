@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-lt-history-store-no-index
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-lt-src-core-task-persistence-taskhistorystore-ts
+locator:
+  kind: file_lines
+  file: src/core/task-persistence/TaskHistoryStore.ts
+  start: 57
+  end: 70
+official_url: https://github.com/Zoo-Code-Org/Zoo-Code/blob/d7963fc2db8ff07189e9f22079b15d67ad3a8bfd/src/core/task-persistence/TaskHistoryStore.ts
+excerpt: " *\n * Each task's HistoryItem is stored as an individual JSON file in its\n * existing task directory (`globalStorage/tasks/<taskId>/history_item.json`).\n * There is no shared index file. Reads scan the task directories.\n *\n * Cross-process safety for per-task files comes from `safeWriteJson`'s\n * `proper-lockfile` with a `merge` callback: each write reads the\n * current file under the advisory lock and merges incoming fields, so\n * a concurrent writer's changes are preserved rather than silently\n * dropped. Within a single extension host process, an in-process write\n * lock serializes mutations.\n */\n/**\n * Options for TaskHistoryStore constructor."

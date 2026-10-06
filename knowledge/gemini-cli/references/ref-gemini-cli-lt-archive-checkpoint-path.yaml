@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-archive-checkpoint-path
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-logger
+locator:
+  kind: file_lines
+  file: packages/core/src/core/logger.ts
+  start: 285
+  end: 296
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+    private _checkpointPath(tag: string): string {
+      if (!tag.length) {
+        throw new Error('No checkpoint tag specified.');
+      }
+      if (!this.geminiDir) {
+        throw new Error('Checkpoint file path not set.');
+      }
+      // Encode the tag to handle all special characters safely.
+      const encodedTag = encodeTagName(tag);
+      return path.join(this.geminiDir, `checkpoint-${encodedTag}.json`);
+    }

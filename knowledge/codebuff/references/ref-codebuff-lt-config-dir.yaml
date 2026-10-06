@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-config-dir
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-cli-src-utils-config-dir-ts
+locator:
+  kind: file_lines
+  file: cli/src/utils/config-dir.ts
+  start: 16
+  end: 36
+official_url: https://github.com/CodebuffAI/codebuff/blob/bd198ff2df3ea9b333e8bf2e5b843735afd4ad9c/cli/src/utils/config-dir.ts
+excerpt: "export const getConfigDir = (): string => {\n  const configuredDir = getCliEnv().FREEBUFF_CONFIG_DIR\n  if (configuredDir) {\n    if (!path.isAbsolute(configuredDir)) {\n      throw new Error(\n        'FREEBUFF_CONFIG_DIR must be an absolute path so CLI settings cannot be written relative to the current project.',\n      )\n    }\n    return configuredDir\n  }\n\n  return path.join(\n    os.homedir(),\n    '.config',\n    'manicode' +\n      // on a development stack?\n      (env.NEXT_PUBLIC_CB_ENVIRONMENT !== 'prod'\n        ? `-${env.NEXT_PUBLIC_CB_ENVIRONMENT}`\n        : ''),\n  )\n}"

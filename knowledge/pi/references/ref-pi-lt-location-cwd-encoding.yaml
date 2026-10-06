@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-lt-location-cwd-encoding
+harness_id: pi
+snapshot_id: snapshot-pi-lt-packages-coding-agent-src-core-session-manager-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/session-manager.ts
+  start: 585
+  end: 593
+official_url: https://github.com/earendil-works/pi/blob/28dcce2ba45ce4a9efeb0f5b686f0be830fd89b9/packages/coding-agent/src/core/session-manager.ts
+excerpt: "/**\n * Compute the default session directory for a cwd.\n * Encodes cwd into a safe directory name under ~/.pi/agent/sessions/.\n */\nfunction getDefaultSessionDirPath(cwd: string, agentDir: string = getDefaultAgentDir()): string {\n\tconst resolvedCwd = resolvePath(cwd);\n\tconst resolvedAgentDir = resolvePath(agentDir);\n\tconst safePath = `--${resolvedCwd.replace(/^[/\\\\]/, \"\").replace(/[/\\\\:]/g, \"-\")}--`;\n\treturn join(resolvedAgentDir, \"sessions\", safePath);"

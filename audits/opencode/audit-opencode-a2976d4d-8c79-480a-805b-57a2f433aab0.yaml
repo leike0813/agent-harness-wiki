@@ -1,0 +1,705 @@
+schema_version: 2
+audit_id: audit-opencode-a2976d4d-8c79-480a-805b-57a2f433aab0
+harness_id: opencode
+checked_at: 2026-10-06T04:34:35.713Z
+previous_audit_id: audit-opencode-ce0d3f6d-b79a-426b-85cf-c335bf5fc2ba
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-opencode-npm
+    kind: npm_registry
+    checked_at: 2026-10-06T04:34:33.440Z
+    status: unchanged
+    baseline: 1.18.34@sha512-9WUS2T0t4HHDVzXvuwTHF0nvhXvZ9mQ0r+ozCvKdJu0LVoQpOzqAW4qWTC3ygNc5Oedcc7j+Oct24JYlQYnySA==
+    observed: 1.18.34@sha512-9WUS2T0t4HHDVzXvuwTHF0nvhXvZ9mQ0r+ozCvKdJu0LVoQpOzqAW4qWTC3ygNc5Oedcc7j+Oct24JYlQYnySA==
+  - source_id: source-opencode-repo
+    kind: git_repository
+    checked_at: 2026-10-06T04:34:33.440Z
+    status: changed
+    baseline: 907b3bc518fa48e90e8ec24dd327d13eee71c36c
+    observed: 652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef
+    remote_ref: refs/heads/dev
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-trust
+      - config-defaults
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-config-debug-cmd
+      - ref-opencode-config-defaults
+      - ref-opencode-config-diagnostics
+      - ref-opencode-config-merge
+      - ref-opencode-config-migration
+      - ref-opencode-config-redact
+      - ref-opencode-config-runtime
+      - ref-opencode-config-schema
+      - ref-opencode-config-sources
+      - ref-opencode-config-trust
+      - ref-opencode-config-vars
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-opencode-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-definition
+      - agents-invocation
+      - agents-limits
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-agents-create
+      - ref-opencode-agents-depth
+      - ref-opencode-agents-hidden
+      - ref-opencode-agents-invocation
+      - ref-opencode-agents-json
+      - ref-opencode-agents-markdown
+      - ref-opencode-agents-options
+      - ref-opencode-agents-permissions
+      - ref-opencode-agents-taskperm
+      - ref-opencode-agents-types
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-opencode-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-definition
+      - providers-models
+      - providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-providers-aigateway-timeout
+      - ref-opencode-providers-auth
+      - ref-opencode-providers-custom
+      - ref-opencode-providers-entry
+      - ref-opencode-providers-forwarding
+      - ref-opencode-providers-gemini-defaults
+      - ref-opencode-providers-gemini-efforts
+      - ref-opencode-providers-metadata
+      - ref-opencode-providers-models
+      - ref-opencode-providers-protocol
+      - ref-opencode-providers-session-headers
+      - ref-opencode-providers-timeout-combine
+      - ref-opencode-providers-timeout-fetch
+      - ref-opencode-providers-trouble
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-opencode-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-entry
+      - hooks-order
+      - hooks-events
+      - hooks-io
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-hooks-context
+      - ref-opencode-hooks-entry
+      - ref-opencode-hooks-examples
+      - ref-opencode-hooks-experimental
+      - ref-opencode-hooks-interface
+      - ref-opencode-hooks-loadorder
+      - ref-opencode-hooks-logging
+      - ref-opencode-hooks-toolhooks
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-opencode-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-config
+      - mcp-transport
+      - mcp-auth
+      - mcp-runtime
+      - mcp-exposure
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-mcp-auth
+      - ref-opencode-mcp-browser-exit
+      - ref-opencode-mcp-catalog
+      - ref-opencode-mcp-code
+      - ref-opencode-mcp-config
+      - ref-opencode-mcp-debug
+      - ref-opencode-mcp-lifecycle
+      - ref-opencode-mcp-local
+      - ref-opencode-mcp-manage
+      - ref-opencode-mcp-oauth-scheme
+      - ref-opencode-mcp-remote
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-opencode-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model
+      - plugins-discovery
+      - plugins-api
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-hooks-loadorder
+      - ref-opencode-hooks-logging
+      - ref-opencode-plugins-api
+      - ref-opencode-plugins-compat
+      - ref-opencode-plugins-deprecated
+      - ref-opencode-plugins-install
+      - ref-opencode-plugins-loader
+      - ref-opencode-plugins-model
+      - ref-opencode-plugins-package
+      - ref-opencode-plugins-types
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-opencode-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-locations
+      - skills-authoring
+      - skills-extension-paths
+      - skills-selection
+      - skills-loading
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-skills-builtin
+      - ref-opencode-skills-code
+      - ref-opencode-skills-diagnostics
+      - ref-opencode-skills-extensions
+      - ref-opencode-skills-frontmatter
+      - ref-opencode-skills-listing
+      - ref-opencode-skills-loading
+      - ref-opencode-skills-locations
+      - ref-opencode-skills-permissions
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    reason: "source-opencode-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-storage-layout
+      - transcripts-record-content
+      - transcripts-session-lifecycle
+      - transcripts-database-layout
+      - transcripts-retention-and-recovery
+      - transcripts-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-transcripts-global-paths
+      - ref-opencode-transcripts-db-path
+      - ref-opencode-transcripts-db-pragmas
+      - ref-opencode-transcripts-db-migration
+      - ref-opencode-transcripts-ids
+      - ref-opencode-transcripts-sql-session
+      - ref-opencode-transcripts-sql-session-index
+      - ref-opencode-transcripts-sql-message
+      - ref-opencode-transcripts-sql-part
+      - ref-opencode-transcripts-sql-todo
+      - ref-opencode-transcripts-sql-input
+      - ref-opencode-transcripts-sql-context-epoch
+      - ref-opencode-transcripts-sql-event
+      - ref-opencode-transcripts-schema-session
+      - ref-opencode-transcripts-schema-user
+      - ref-opencode-transcripts-schema-assistant
+      - ref-opencode-transcripts-schema-parts
+      - ref-opencode-transcripts-schema-toolpart
+      - ref-opencode-transcripts-schema-compaction
+      - ref-opencode-transcripts-projector-message
+      - ref-opencode-transcripts-projector-part
+      - ref-opencode-transcripts-history-load
+      - ref-opencode-transcripts-message-page
+      - ref-opencode-transcripts-session-remove
+      - ref-opencode-transcripts-session-fork
+      - ref-opencode-transcripts-session-child
+      - ref-opencode-transcripts-session-archive-list
+      - ref-opencode-transcripts-server-archive
+      - ref-opencode-transcripts-tool-output
+      - ref-opencode-transcripts-tool-output-bound
+      - ref-opencode-transcripts-tool-output-cleanup
+      - ref-opencode-transcripts-tool-output-schedule
+      - ref-opencode-transcripts-tool-output-config
+      - ref-opencode-transcripts-truncate-legacy
+      - ref-opencode-transcripts-truncate-hint
+      - ref-opencode-transcripts-plan-path
+      - ref-opencode-transcripts-snapshot-gitdir
+      - ref-opencode-transcripts-compaction-prune
+      - ref-opencode-transcripts-compaction-create
+      - ref-opencode-transcripts-legacy-storage
+      - ref-opencode-transcripts-import-tables
+      - ref-opencode-transcripts-export-sanitize
+      - ref-opencode-transcripts-debug-paths
+      - ref-opencode-transcripts-doc-cli-session
+      - ref-opencode-transcripts-doc-cli-export
+      - ref-opencode-transcripts-doc-cli-import
+      - ref-opencode-transcripts-doc-cli-db
+      - ref-opencode-transcripts-doc-compaction
+      - ref-opencode-transcripts-doc-env
+      - ref-opencode-transcripts-doc-share
+    cross_topic_links:
+      - agents.roles
+      - agents.limits
+      - config.sources
+      - config.defaults
+      - config.runtime
+    reason: "local_transcripts 首次采写：固定 source-opencode-repo 在 652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef
+      的源码树，逐题核对 session/message/part 存储、事件投影、归档导出与清理入口"
+pending_question_ids:
+  - config.sources
+  - config.overrides
+  - config.runtime
+  - config.trust
+  - config.defaults
+  - config.migration
+  - config.diagnostics
+  - agents.entry
+  - agents.format
+  - agents.roles
+  - agents.invocation
+  - agents.overrides
+  - agents.limits
+  - agents.diagnostics
+  - providers.entry
+  - providers.auth
+  - providers.protocol
+  - providers.models
+  - providers.metadata
+  - providers.forwarding
+  - providers.responses
+  - providers.diagnostics
+  - hooks.events
+  - hooks.entry
+  - hooks.input
+  - hooks.output
+  - hooks.order
+  - hooks.conditions
+  - hooks.diagnostics
+  - mcp.entry
+  - mcp.definition
+  - mcp.transport
+  - mcp.auth
+  - mcp.lifecycle
+  - mcp.capabilities
+  - mcp.exposure
+  - mcp.diagnostics
+  - plugins.model
+  - plugins.package
+  - plugins.install
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+  - skills.roots
+  - skills.discovery
+  - skills.collision
+  - skills.format
+  - skills.extensions
+  - skills.loading
+  - skills.invocation
+  - skills.conditions
+  - skills.diagnostics
+investigation_notes:
+  - "本轮由 harness-maintenance worker 以 delivery=pr 完成 local_transcripts 首次采写，只调查 catalog 中 opencode 的 cli 界面；desktop 界面未取证，查询会派生 not_investigated。"
+  - "固定来源为 source-opencode-repo 在 commit 652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef 的只读工作区，新增来源记录 artifact-opencode-20261006-*（24 条 git_source_file）与 50 条 reference，全部 record_kind: production，sha256 由真实文件内容计算。"
+  - "可追溯性修正（coordinator 复核后）：原先 50 条 reference 统一绑定单个 snapshot-opencode-repo-20261006，而该 snapshot 实际只固定 packages/core/src/session/sql.ts，导致 43 条引用的 locator.file 与其 snapshot 绑定的 artifact 文件不一致、23 个 artifact 成为孤儿。已按每个被引用的源码文件各建一个 kind: source_revision 快照 snapshot-opencode-<文件路径>-20261006，各自绑定对应 artifact，并把每条 reference 的 snapshot_id 改绑到与其 locator.file 一致的那个快照；50/50 一致，无孤儿 artifact，excerpt、行号与 sha256 未改动；已删除无人引用的总名快照 snapshot-opencode-repo-20261006，章节首段与本条说明同步更新。"
+  - "关键机制结论：会话正文落单个 SQLite 文件（通道决定文件名，OPENCODE_DB 可覆盖）；event 表为事件日志，投影器在同一事务内写 session/message/part/session_message；超限工具输出全文写 data/tool-output 并有 7 天保留；归档是 time_archived 标记而非搬移，导出与导入只搬运 session/message/part 三表。"
+  - "transcripts.location 记为 partial：各平台的 XDG 基目录由 xdg-basedir 决定，固定来源只给出委托关系，未核验其逐平台字面值，正文要求读者用 opencode debug paths 确认。"
+  - "transcripts.cleanup 记为 partial：官方删除入口与 tool-output 保留策略有源码证据，但运行中进程与 WAL 边车文件在手工删库时的行为在固定来源中没有对应处理，未取证；未找到会话级自动保留或过期删除机制，按纪律不据此断言可以安全手删。"
+  - "未改写 scan 观察到的 checks、status 与其它主题 impact；其它主题仍有 53 条 pending_question_ids，因此 review_status 保持 pending，未写 reviewed_by/reviewed_at。transcripts.* 十题均已给出可用答案（八题 answered、两题 partial），未加入 pending_question_ids。"
+  - "按契约未建立源码到 npm 发行包的 mappings，未运行 sources:scan、publish 或 managed package 更新，未执行真实 harness。status 保持 changed（source-opencode-repo 相对基线 907b3bc518fa48e90e8ec24dd327d13eee71c36c 前移，check 观察为 changed），无来源失败。"
+

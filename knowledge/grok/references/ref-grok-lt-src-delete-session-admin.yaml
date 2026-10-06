@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-lt-src-delete-session-admin
+harness_id: grok
+snapshot_id: snapshot-grok-lt-crates-codegen-xai-grok-shell-src-extensions-session-admin-rs
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-shell/src/extensions/session_admin.rs
+  start: 439
+  end: 454
+official_url: https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-shell/src/extensions/session_admin.rs
+excerpt: "    let needs_remote =\n        agent.is_writeback_storage() && agent.current_auth().is_some_and(|a| !a.is_zdr_team());\n\n    // Always drain: even a non-resident session can still have coordinator children finishing after an earlier fire-and-forget TeardownSession\n    // That happens on e.g. idle unload. hard_stop / kill_all no-op when not resident.\n    agent.teardown_live_session_before_delete(&session_id).await;\n\n    // Shared delete: remote-first, then local disk and FTS eviction\n    // Mirrored by the `grok sessions delete <id>` CLI path.\n    crate::session::persistence::delete_session_history(\n        &req.session_id,\n        req.cwd.as_deref(),\n        needs_remote,\n        agent.auth_manager.clone(),\n        agent.search_index().writer(),\n    )"

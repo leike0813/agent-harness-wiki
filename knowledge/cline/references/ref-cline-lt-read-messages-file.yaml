@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-read-messages-file
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-runtime-host-runtime-host-support-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/runtime/host/runtime-host-support.ts
+  start: 51
+  end: 69
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/runtime/host/runtime-host-support.ts
+excerpt: "// context) a little more on every restart. Display surfaces are responsible\n// for their own formatting via formatDisplayUserInput.\nexport async function readPersistedMessagesFile(\n\tmessagesPath?: string | null,\n): Promise<LlmsProviders.MessageWithMetadata[]> {\n\tconst path = messagesPath?.trim();\n\tif (!path || !existsSync(path)) return [];\n\ttry {\n\t\tconst raw = (await readFile(path, \"utf8\")).trim();\n\t\tif (!raw) return [];\n\t\tconst parsed = JSON.parse(raw) as unknown;\n\t\tif (Array.isArray(parsed)) {\n\t\t\treturn parsed as LlmsProviders.MessageWithMetadata[];\n\t\t}\n\t\tif (parsed && typeof parsed === \"object\" && !Array.isArray(parsed)) {\n\t\t\tconst messages = (parsed as { messages?: unknown }).messages;\n\t\t\tif (Array.isArray(messages)) {\n\t\t\t\treturn messages as LlmsProviders.MessageWithMetadata[];\n\t\t\t}"

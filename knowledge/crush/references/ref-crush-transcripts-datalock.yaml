@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-datalock
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-db-datadirlock-go
+locator:
+  kind: file_lines
+  file: internal/db/datadirlock.go
+  start: 17
+  end: 33
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // ErrDataDirLocked is returned by Connect when the data directory is
+  // already in use by another crush process.
+  var ErrDataDirLocked = errors.New("data directory already in use by another crush process")
+  
+  // dataDirLockFile is the name of the lock file inside the data
+  // directory. It lives next to crush.db so users can `ls` and find it.
+  const dataDirLockFile = "crush.lock"
+  
+  // dataDirOwnerInfo is the JSON payload written into the lock file by
+  // the process that currently owns it. It is purely informational; the
+  // authoritative state of ownership is the operating system flock on
+  // the file descriptor.
+  type dataDirOwnerInfo struct {
+  	PID       int    `json:"pid"`
+  	Version   string `json:"version,omitempty"`
+  	StartedAt string `json:"started_at,omitempty"`
+  }

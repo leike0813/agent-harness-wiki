@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-delete-task-state
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-webview-clineprovider-ts
+locator:
+  kind: file_lines
+  file: src/core/webview/ClineProvider.ts
+  start: 1774
+  end: 1786
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/webview/ClineProvider.ts
+excerpt: "\t\t\t// Delete all tasks from state in one batch\n\t\t\tawait this.taskHistoryStore.deleteMany(allIdsToDelete)\n\t\t\tthis.recentTasksCache = undefined\n\n\t\t\t// Delete associated shadow repositories or branches and task directories\n\t\t\tconst globalStorageDir = this.contextProxy.globalStorageUri.fsPath\n\t\t\tconst workspaceDir = this.cwd\n\t\t\tconst { getTaskDirectoryPath } = await import(\"../../utils/storage\")\n\t\t\tconst globalStoragePath = this.contextProxy.globalStorageUri.fsPath\n\n\t\t\tfor (const taskId of allIdsToDelete) {\n\t\t\t\ttry {\n\t\t\t\t\tawait ShadowCheckpointService.deleteTask({ taskId, globalStorageDir, workspaceDir })"

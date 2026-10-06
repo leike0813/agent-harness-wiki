@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-event-row-serialization
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-packages-session-session-persistence-jsonl-src-format-ts
+locator:
+  kind: file_lines
+  file: packages/session/session-persistence-jsonl/src/format.ts
+  start: 307
+  end: 324
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/format.ts
+excerpt: "/**\n * Serialize a current event batch as JSONL lines (no trailing newline). Compact\n * Assistant streams are nested event data; every event occupies one row.\n * @param events - the batch to serialize, in log order.\n * @returns the batch's JSONL text; the writer adds the final newline.\n */\nexport function eventLines(events: readonly SessionEvent[]): string {\n  return events.map(eventLine).join('\\n')\n}\n\n/**\n * Serialize one current event as one JSONL record without its trailing newline.\n * @param event - current event to encode.\n * @returns one physical JSON record.\n */\nexport function eventLine(event: SessionEvent): string {\n  return JSON.stringify(sessionFormatCatalog.encodeCurrentEvent(event as unknown as SessionFormatEvent))\n}"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-diagnostics-parity-check
+harness_id: codex
+snapshot_id: snapshot-codex-repo-822e58cc-cli-doctor-thread-inventory
+locator:
+  kind: file_lines
+  file: codex-rs/cli/src/doctor/thread_inventory.rs
+  start: 1
+  end: 23
+official_url: https://github.com/openai/codex/blob/822e58cc3d666166c7446c5b1ea2e52f5d09594c/codex-rs/cli/src/doctor/thread_inventory.rs
+excerpt: "//! Doctor check that compares rollout files against the SQLite thread inventory.\n\nuse super::CheckStatus;\nuse super::Config;\nuse super::DoctorCheck;\nuse super::DoctorIssue;\nuse codex_history::RolloutItem;\nuse codex_protocol::protocol::InternalSessionSource;\nuse codex_protocol::protocol::SessionSource;\nuse codex_protocol::protocol::SubAgentSource;\nuse codex_state::ThreadStateAuditRow;\nuse codex_utils_path::normalize_for_path_comparison;\nuse std::collections::BTreeMap;\nuse std::collections::HashMap;\nuse std::collections::HashSet;\nuse std::ffi::OsStr;\nuse std::path::Path;\nuse std::path::PathBuf;\n\nconst MAX_PARITY_SCAN_FILES: usize = 10_000;\nconst MAX_ROLLOUT_HEADER_LINES: usize = 64;\nconst SAMPLE_LIMIT: usize = 5;\nconst SUMMARY_LIMIT: usize = 8;"

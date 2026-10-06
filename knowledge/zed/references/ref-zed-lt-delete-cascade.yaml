@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-delete-cascade
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-db-rs
+locator:
+  kind: file_lines
+  file: crates/agent/src/db.rs
+  start: 700
+  end: 713
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent/src/db.rs
+excerpt: "                    connection.select_bound::<Arc<str>, Arc<str>>(indoc! {\"\n                    SELECT id FROM threads WHERE parent_id = ?\n                \"})?;\n\n                // Collect target thread together with all of its transitive\n                // subagent threads\n                let mut ids_to_delete = vec![id.0.clone()];\n                let mut frontier = vec![id.0.clone()];\n                while let Some(parent) = frontier.pop() {\n                    for child in select_children(parent)? {\n                        ids_to_delete.push(child.clone());\n                        frontier.push(child);\n                    }\n                }"

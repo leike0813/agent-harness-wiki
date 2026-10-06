@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-wire-version
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-lt-packages-agent-core-v2-src-wire-migration-migration-ts
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/wire/migration/migration.ts
+  start: 19
+  end: 39
+official_url: https://github.com/MoonshotAI/kimi-code/blob/21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3/packages/agent-core-v2/src/wire/migration/migration.ts
+excerpt: "export const WIRE_PROTOCOL_VERSION = '1.5';\n\nexport type WireMigrationRecord = WireRecord;\n\nexport interface WireMigration {\n  readonly sourceVersion: string;\n  readonly targetVersion: string;\n  migrateRecord(record: WireMigrationRecord): WireMigrationRecord;\n}\n\nconst MIGRATIONS: readonly WireMigration[] = [\n  migrateV1_0ToV1_1,\n  migrateV1_1ToV1_2,\n  migrateV1_2ToV1_3,\n  migrateV1_3ToV1_4,\n  migrateV1_4ToV1_5,\n];\n\nexport function isNewerWireVersion(readVersion: string): boolean {\n  return compareWireVersions(readVersion, WIRE_PROTOCOL_VERSION) > 0;\n}"

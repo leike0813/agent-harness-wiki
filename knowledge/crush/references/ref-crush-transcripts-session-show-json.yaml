@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-session-show-json
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-cmd-session-go
+locator:
+  kind: file_lines
+  file: internal/cmd/session.go
+  start: 413
+  end: 427
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func outputSessionJSON(w io.Writer, sess session.Session, msgs []*message.Message) error {
+  	skills := extractSkillsFromMessages(msgs)
+  	output := sessionShowOutput{
+  		Meta: sessionShowMeta{
+  			ID:               session.HashID(sess.ID),
+  			UUID:             sess.ID,
+  			Title:            sess.Title,
+  			Created:          time.Unix(sess.CreatedAt, 0).Format(time.RFC3339),
+  			Modified:         time.Unix(sess.UpdatedAt, 0).Format(time.RFC3339),
+  			Cost:             sess.Cost,
+  			PromptTokens:     sess.PromptTokens,
+  			CompletionTokens: sess.CompletionTokens,
+  			TotalTokens:      sess.PromptTokens + sess.CompletionTokens,
+  			Skills:           skills,
+  		},

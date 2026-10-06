@@ -1,0 +1,24 @@
+---
+schema_version: 2
+record_kind: production
+reference_id: ref-qoder-lt-jq-commands
+harness_id: qoder
+snapshot_id: snapshot-qoder-docs-ide-hooks
+locator:
+  kind: document_section
+  heading: "Common jq Extraction Commands"
+official_url: "https://docs.qoder.com/extensions/hooks.md"
+excerpt: |-
+  TRANSCRIPT="$TRANSCRIPT_PATH"
+
+  # Extract all user questions (filter out tool results)
+  jq -r 'select(.type == "user" and (.message.content | type == "string")) | .message.content' "$TRANSCRIPT"
+
+  # Extract all model text replies
+  jq -r 'select(.type == "assistant") | .message.content[ ]? | select(.type == "text") | .text' "$TRANSCRIPT"
+
+  # Extract all tool calls (tool name + parameters)
+  jq -c 'select(.type == "assistant") | .message.content[ ]? | select(.type == "tool_use") | {name, input}' "$TRANSCRIPT"
+
+  # Count tool call distribution (tool name + count)
+  jq -r 'select(.type == "assistant") | .message.content[ ]? | select(.type == "tool_use") | .name' "$TRANSCRIPT" | sort | uniq -c | sort -rn

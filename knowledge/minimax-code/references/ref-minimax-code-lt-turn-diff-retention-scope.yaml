@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-turn-diff-retention-scope
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-service-session-system-storage-retention-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/session-system/storage-retention.ts
+  start: 21
+  end: 39
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/service/session-system/storage-retention.ts
+excerpt: "/**\n * One bounded post-ready pass over current Turn Diff state. Migrated Session\n * history is intentionally outside automatic retention and is never read here.\n */\nexport function createSessionStorageRetention(options: SessionStorageRetentionOptions) {\n  return {\n    run: async (): Promise<SessionStorageRetentionResult> => {\n      if (!options.pruneTurnDiffs) return { attempted: false };\n      const cutoffMs = retentionCutoff(options);\n      if (cutoffMs === undefined) return { attempted: false };\n      try {\n        await options.pruneTurnDiffs(cutoffMs, TURN_DIFF_RETENTION_BATCH_SIZE);\n      } catch (error) {\n        options.logger?.warn({ error }, 'Turn Diff retention failed');\n      }\n      return { attempted: true, cutoffMs };\n    },\n  };\n}"

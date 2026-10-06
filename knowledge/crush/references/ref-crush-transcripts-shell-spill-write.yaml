@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-shell-spill-write
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-shell-truncate-go
+locator:
+  kind: file_lines
+  file: internal/shell/truncate.go
+  start: 145
+  end: 160
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func SpillOutput(output, dir string) (string, error) {
+  	if dir == "" {
+  		// No data directory to own: fall back to the system temp
+  		// directory and leave pruning to the OS. Sweeping a shared
+  		// directory for a name we do not exclusively own would risk
+  		// deleting someone else's files.
+  		dir = os.TempDir()
+  	} else {
+  		dir = filepath.Join(dir, spillSubdir)
+  		if err := os.MkdirAll(dir, 0o700); err != nil {
+  			return "", err
+  		}
+  		pruneSpills(dir)
+  	}
+  
+  	f, err := os.CreateTemp(dir, spillPattern)

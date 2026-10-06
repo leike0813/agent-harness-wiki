@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-lt-hook-transcript-store
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-code-deepagents-code-hooks-transcript-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/hooks/transcript.py
+  start: 1
+  end: 12
+official_url: https://github.com/langchain-ai/deepagents/blob/4b9410272a4e4885ec70fb1ec8549e307a15e585/libs/code/deepagents_code/hooks/transcript.py
+excerpt: "\"\"\"Client-owned conversation transcript projections for Hooks v2.\n\nMaterializes versioned per-thread and per-subagent JSONL files that hook\ncommands can read via `transcript_path` / `agent_transcript_path`.\n\nLag semantics:\n    The on-disk JSONL may lag behind live checkpoint/UI state. Callers that need\n    the just-finished assistant turn must prefer `last_assistant_message` on\n    Stop/SubagentStop. `materialize()` flushes pending records immediately before\n    returning a path so hooks see a consistent snapshot of what the store has\n    accepted so far, not a live tail of the server checkpoint.\n\"\"\""

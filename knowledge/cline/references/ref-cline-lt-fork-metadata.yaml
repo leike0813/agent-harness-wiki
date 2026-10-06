@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-fork-metadata
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-session-fork-metadata-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/session/fork-metadata.ts
+  start: 1
+  end: 26
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/session/fork-metadata.ts
+excerpt: "export function createForkSessionMetadata(input: {\n\tmetadata?: Record<string, unknown> | null;\n\tforkedFromSessionId: string;\n\tforkedAt: string;\n\tsource: string;\n\tbeforeRunCount?: number;\n}): Record<string, unknown> {\n\tconst {\n\t\thandoff: _handoff,\n\t\tcloudHandoffScope: _scope,\n\t\tcloudHandoffIntent: _intent,\n\t\tcloudHandoffSeedDispatched: _seedDispatched,\n\t\t...metadata\n\t} = input.metadata ?? {};\n\treturn {\n\t\t...metadata,\n\t\tfork: {\n\t\t\tforkedFromSessionId: input.forkedFromSessionId,\n\t\t\tforkedAt: input.forkedAt,\n\t\t\tsource: input.source,\n\t\t\t...(input.beforeRunCount !== undefined\n\t\t\t\t? { beforeRunCount: input.beforeRunCount }\n\t\t\t\t: {}),\n\t\t\t...(metadata.checkpoint !== undefined\n\t\t\t\t? { checkpoints: metadata.checkpoint }\n\t\t\t\t: {}),"

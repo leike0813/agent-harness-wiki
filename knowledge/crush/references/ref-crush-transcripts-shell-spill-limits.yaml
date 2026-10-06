@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-shell-spill-limits
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-shell-truncate-go
+locator:
+  kind: file_lines
+  file: internal/shell/truncate.go
+  start: 27
+  end: 38
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // spillSubdir is where oversized command output is parked, relative to the
+  // caller-supplied data directory.
+  const spillSubdir = "shell-output"
+  
+  // spillPattern matches the files SpillOutput creates. Pruning is limited to
+  // this shape so a misconfigured directory cannot lose unrelated files.
+  const spillPattern = "output-*.log"
+  
+  // spillRetention is how long a spill file outlives the command that wrote
+  // it. Long enough to resume yesterday's session and still read what it
+  // referenced, short enough that stale output does not pile up.
+  const spillRetention = 7 * 24 * time.Hour

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-sub-session-id
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-session-session-go
+locator:
+  kind: file_lines
+  file: internal/session/session.go
+  start: 411
+  end: 420
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  
+  // CreateAgentToolSessionID creates a session ID for agent tool sessions using the format "messageID$$toolCallID"
+  func (s *service) CreateAgentToolSessionID(messageID, toolCallID string) string {
+  	return fmt.Sprintf("%s$$%s", messageID, toolCallID)
+  }
+  
+  // ParseAgentToolSessionID parses an agent tool session ID into its components
+  func (s *service) ParseAgentToolSessionID(sessionID string) (messageID string, toolCallID string, ok bool) {
+  	parts := strings.Split(sessionID, "$$")
+  	if len(parts) != 2 {

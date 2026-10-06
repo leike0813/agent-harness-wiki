@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-atomic-tmp-rename
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-lt-packages-agent-core-v2-src-base-utils-fs-ts
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/_base/utils/fs.ts
+  start: 74
+  end: 94
+official_url: https://github.com/MoonshotAI/kimi-code/blob/21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3/packages/agent-core-v2/src/_base/utils/fs.ts
+excerpt: "export async function atomicWrite(\n  filePath: string,\n  content: string | Uint8Array,\n  _syncOverride?: (fd: number) => Promise<void>,\n  mode?: number,\n  signal?: AbortSignal,\n): Promise<void> {\n  signal?.throwIfAborted();\n  const hex = randomBytes(4).toString('hex');\n  const tmpPath = `${filePath}.tmp.${process.pid}.${hex}`;\n  let renamed = false;\n  try {\n    const fh = await open(tmpPath, 'w', mode);\n    try {\n      signal?.throwIfAborted();\n      await fh.writeFile(content);\n      signal?.throwIfAborted();\n      await (_syncOverride ?? syncFd)(fh.fd);\n    } finally {\n      await fh.close();\n    }"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt-database-history-fts-code
+harness_id: omp
+snapshot_id: snapshot-omp-lt-repo-fc6c-packages-coding-agent-src-session-history-storage-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/history-storage.ts
+  start: 123
+  end: 131
+official_url: https://github.com/can1357/oh-my-pi/blob/fc6c0c90dab012a0b7edea731af92f5bbd09cff0/packages/coding-agent/src/session/history-storage.ts#L123-L131
+excerpt: "\t\tthis.#db.run(`\nCREATE VIRTUAL TABLE IF NOT EXISTS history_fts USING fts5(prompt, content='history', content_rowid='id');\n\nCREATE TRIGGER IF NOT EXISTS history_ai AFTER INSERT ON history BEGIN\n\tINSERT INTO history_fts(rowid, prompt) VALUES (new.id, new.prompt);\nEND;\n\t\t`);"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-lt-state-struct-head
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-lt-crates-chat-cli-src-cli-chat-conversation-rs
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/chat/conversation.rs
+  start: 102
+  end: 116
+official_url: https://github.com/aws/amazon-q-developer-cli/blob/15cc8f3cd18c4272925ce1c7053268eedff1ea0a/crates/chat-cli/src/cli/chat/conversation.rs
+excerpt: "    pub config: CustomToolConfig,\n}\n\n/// Tracks state related to an ongoing conversation.\n#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct ConversationState {\n    /// Randomly generated on creation.\n    conversation_id: String,\n    /// The next user message to be sent as part of the conversation. Required to be [Some] before\n    /// calling [Self::as_sendable_conversation_state].\n    next_message: Option<UserMessage>,\n    history: VecDeque<HistoryEntry>,\n    /// The range in the history sendable to the backend (start inclusive, end exclusive).\n    valid_history_range: (usize, usize),\n    /// Similar to history in that stores user and assistant responses, except that it is not used"

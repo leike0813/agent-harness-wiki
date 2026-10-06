@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-format-append-open
+harness_id: codex
+snapshot_id: snapshot-codex-repo-822e58cc-rollout-recorder
+locator:
+  kind: file_lines
+  file: codex-rs/rollout/src/recorder.rs
+  start: 1761
+  end: 1781
+official_url: https://github.com/openai/codex/blob/822e58cc3d666166c7446c5b1ea2e52f5d09594c/codex-rs/rollout/src/recorder.rs
+excerpt: "fn open_log_file(path: &Path) -> std::io::Result<File> {\n    let refresh_modified_time = !compression::plain_rollout_path(path).try_exists()?;\n    let path = compression::materialize_rollout_for_append_blocking(path)?;\n    let Some(parent) = path.parent() else {\n        return Err(IoError::other(format!(\n            \"rollout path has no parent: {}\",\n            path.display()\n        )));\n    };\n    fs::create_dir_all(parent)?;\n    let mut file = std::fs::OpenOptions::new()\n        .read(true)\n        .append(true)\n        .create(true)\n        .open(path)?;\n    if refresh_modified_time {\n        file.set_times(std::fs::FileTimes::new().set_modified(std::time::SystemTime::now()))?;\n    }\n    ensure_rollout_is_newline_terminated(&mut file)?;\n    Ok(file)\n}"

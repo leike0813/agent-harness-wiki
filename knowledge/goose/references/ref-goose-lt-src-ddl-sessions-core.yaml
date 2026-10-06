@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-ddl-sessions-core
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/session_manager.rs
+  start: 1028
+  end: 1041
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+              CREATE TABLE IF NOT EXISTS sessions (
+                  id TEXT PRIMARY KEY,
+                  name TEXT NOT NULL DEFAULT '',
+                  description TEXT NOT NULL DEFAULT '',
+                  user_set_name BOOLEAN DEFAULT FALSE,
+                  session_type TEXT NOT NULL DEFAULT 'user',
+                  working_dir TEXT NOT NULL,
+                  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                  extension_data TEXT DEFAULT '{}',
+                  total_tokens INTEGER,
+                  input_tokens INTEGER,
+                  output_tokens INTEGER,
+                  cache_read_tokens INTEGER,

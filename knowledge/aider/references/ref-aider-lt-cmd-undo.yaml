@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-lt-cmd-undo
+harness_id: aider
+snapshot_id: snapshot-aider-lt-aider-commands-py
+locator:
+  kind: file_lines
+  file: aider/commands.py
+  start: 553
+  end: 562
+official_url: https://github.com/Aider-AI/aider/blob/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/commands.py
+excerpt: "    def cmd_undo(self, args):\n        \"Undo the last git commit if it was done by aider\"\n        try:\n            self.raw_cmd_undo(args)\n        except ANY_GIT_ERROR as err:\n            self.io.tool_error(f\"Unable to complete undo: {err}\")\n\n    def raw_cmd_undo(self, args):\n        if not self.coder.repo:\n            self.io.tool_error(\"No git repository found.\")"

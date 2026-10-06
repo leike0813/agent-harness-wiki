@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-lt-local-store-validate-event
+harness_id: openhands
+snapshot_id: snapshot-openhands-lt-openhands-cli-conversations-store-local-py
+locator:
+  kind: file_lines
+  file: openhands_cli/conversations/store/local.py
+  start: 204
+  end: 211
+official_url: https://github.com/OpenHands/OpenHands-CLI/blob/954f2ba646e8d749261a8f2b2b7e3031fa39be9f/openhands_cli/conversations/store/local.py
+excerpt: "    def _load_event_from_file(self, event_file: Path) -> Event | None:\n        \"\"\"Load and validate an event from a file.\"\"\"\n        try:\n            with open(event_file, encoding=\"utf-8\") as f:\n                event_data = json.load(f)\n            return self._event_adapter.validate_python(event_data)\n        except (OSError, json.JSONDecodeError, ValueError):\n            return None"

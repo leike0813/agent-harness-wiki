@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-core-history-clear
+harness_id: continue
+snapshot_id: snapshot-continue-lt-core-core-ts
+locator:
+  kind: file_lines
+  file: core/core.ts
+  start: 322
+  end: 332
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/core/core.ts
+excerpt: "    on(\"history/share\", async (msg) => {\n      const session = historyManager.load(msg.data.id);\n      const outputDir = msg.data.outputDir;\n      const history = session.history.map((msg) => msg.message);\n      await shareSession(this.ide, history, outputDir);\n    });\n\n    on(\"history/clear\", (msg) => {\n      historyManager.clearAll();\n    });"

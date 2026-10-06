@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-export-filename
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-session-exportsession-ts
+locator:
+  kind: file_lines
+  file: src/session/exportSession.ts
+  start: 378
+  end: 388
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/session/exportSession.ts
+excerpt: "export function getSuggestedFilename(\n  metadata: SessionMetadata,\n  format: 'md' | 'json' | 'html'\n): string {\n  const date = new Date(metadata.createdAt);\n  const dateStr = date.toISOString().split('T')[0];\n  const projectSlug = metadata.projectName.toLowerCase().replace(/[^a-z0-9]+/g, '-');\n  const sessionShort = metadata.sessionId.slice(0, 8);\n\n  return `${projectSlug}-${dateStr}-${sessionShort}.${format}`;\n}"

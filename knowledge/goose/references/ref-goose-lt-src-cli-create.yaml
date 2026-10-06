@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-cli-create
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-cli-args
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/cli.rs
+  start: 446
+  end: 457
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+      } else {
+          let Some(id) = identifier else {
+              let session = session_manager
+                  .create_session(
+                      std::env::current_dir()?,
+                      "CLI Session".to_string(),
+                      SessionType::User,
+                      goose_mode,
+                  )
+                  .await?;
+              return Ok(Some(session.id));
+          };

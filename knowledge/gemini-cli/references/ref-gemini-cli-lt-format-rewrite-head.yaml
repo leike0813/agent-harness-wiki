@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-format-rewrite-head
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-recording-service
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingService.ts
+  start: 915
+  end: 930
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+    private rewriteConversationFile(conversation: ConversationRecord): void {
+      if (!this.conversationFile) return;
+      this.isCacheDirty = true;
+      this.fullConversationCache = null;
+
+      // Normalize legacy `.json` paths to the `.jsonl` format we write.
+      if (this.conversationFile.endsWith('.json')) {
+        this.conversationFile = this.conversationFile + 'l';
+      }
+
+      const { messages, memoryScratchpad, ...metadata } = conversation;
+      const lines: string[] = [JSON.stringify(metadata)];
+      for (const msg of messages) {
+        lines.push(JSON.stringify(msg));
+      }
+      if (memoryScratchpad) {

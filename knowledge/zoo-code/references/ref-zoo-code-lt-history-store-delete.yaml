@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-lt-history-store-delete
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-lt-src-core-task-persistence-taskhistorystore-ts
+locator:
+  kind: file_lines
+  file: src/core/task-persistence/TaskHistoryStore.ts
+  start: 275
+  end: 290
+official_url: https://github.com/Zoo-Code-Org/Zoo-Code/blob/d7963fc2db8ff07189e9f22079b15d67ad3a8bfd/src/core/task-persistence/TaskHistoryStore.ts
+excerpt: "\tasync delete(taskId: string): Promise<void> {\n\t\treturn this.withLock(async () => {\n\t\t\tthis.cache.delete(taskId)\n\t\t\tthis.taskFileMtimes.delete(taskId)\n\n\t\t\t// Remove per-task file (best-effort)\n\t\t\ttry {\n\t\t\t\tconst filePath = await this.getTaskFilePath(taskId)\n\t\t\t\tawait withFileLock(filePath, (absoluteFilePath) => fs.unlink(absoluteFilePath))\n\t\t\t} catch {\n\t\t\t\t// File may already be deleted\n\t\t\t}\n\n\t\t\t// Call onWrite callback inside the lock for serialized write-through\n\t\t\tif (this.onWrite) {\n\t\t\t\tawait this.onWrite(this.getAll())"

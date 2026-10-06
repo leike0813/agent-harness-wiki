@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-sidecar-version-gate
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-crates-pa-daemon-src-session-store-info-sidecar-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_store/info_sidecar.rs
+  start: 17
+  end: 34
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/7a52276cb17310f331f1075f28fa5cf9c4ae0a0a/crates/pa-daemon/src/session_store/info_sidecar.rs
+excerpt: "/// The sidecar format version: a sidecar serves only at exactly this\n/// version; any other version (an older or a newer build's) is a cold\n/// scan, the behavior without a sidecar. Bump on any change to\n/// [`SessionScanAccumulator`](super::info::SessionScanAccumulator) or\n/// [`UsageScan`](crate::session_usage::UsageScan) - the persisted fold's\n/// fields or semantics.\nconst INFO_SIDECAR_VERSION: u32 = 1;\n\n/// The on-disk envelope: the version gate plus the scan state.\n#[derive(Serialize, Deserialize)]\nstruct InfoSidecar {\n    version: u32,\n    state: SessionScanState,\n}\n\nfn sidecar_path(path: &Path) -> PathBuf {\n    path.with_extension(\"info-cache.json\")\n}"

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt-lifecycle-in-memory-mode
+harness_id: omp
+snapshot_id: snapshot-omp-lt-repo-fc6c-docs-session-operations-export-share-fork-resume-md
+locator:
+  kind: file_lines
+  file: docs/session-operations-export-share-fork-resume.md
+  start: 481
+  end: 487
+official_url: https://github.com/can1357/oh-my-pi/blob/fc6c0c90dab012a0b7edea731af92f5bbd09cff0/docs/session-operations-export-share-fork-resume.md#L481-L487
+excerpt: 'When session manager is created with `SessionManager.inMemory()` (`--no-session`):
+
+
+  - Session file path is absent.
+
+  - `/export` fails with `Cannot export in-memory session to HTML` (propagated to command error UI). `/share` still works: the snapshot is built from live entries.
+
+  - `/fork` fails because `SessionManager.fork()` requires persistence.
+
+  - `/dump` still works because it serializes in-memory agent state.
+
+  - Native CLI `--resume`, `--continue`, and `--fork` are rejected with `--no-session`; the preliminary startup parse may allocate an in-memory manager, but validation rejects these combinations before normal execution.'

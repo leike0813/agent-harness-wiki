@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-naming-shortid
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-session-operations
+locator:
+  kind: file_lines
+  file: packages/core/src/utils/sessionOperations.ts
+  start: 169
+  end: 183
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+  }
+
+  /**
+   * Derives an 8-character short id from either a raw session id or a stored
+   * session file basename. Throws if the input cannot produce a valid short id.
+   */
+  export function deriveSessionShortId(sessionIdOrBasename: string): string {
+    let shortId = sessionIdOrBasename;
+    if (sessionIdOrBasename.startsWith(SESSION_FILE_PREFIX)) {
+      const withoutExt = sessionIdOrBasename.replace(/\.jsonl?$/, '');
+      const parts = withoutExt.split('-');
+      shortId = parts[parts.length - 1];
+    } else if (sessionIdOrBasename.length >= 8) {
+      shortId = sessionIdOrBasename.slice(0, 8);
+    } else {

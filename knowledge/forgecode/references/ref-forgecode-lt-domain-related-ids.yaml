@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-lt-domain-related-ids
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-lt-crates-forge-domain-src-conversation-rs
+locator:
+  kind: file_lines
+  file: crates/forge_domain/src/conversation.rs
+  start: 183
+  end: 202
+official_url: https://github.com/tailcallhq/forgecode/blob/1469f75aa0fa3a2a768bde24f7dc528723b67259/crates/forge_domain/src/conversation.rs
+excerpt: "    pub fn related_conversation_ids(&self) -> Vec<ConversationId> {\n        self.context\n            .as_ref()\n            .map(|ctx| {\n                ctx.messages\n                    .iter()\n                    .filter_map(|msg| msg.as_tool_result())\n                    .flat_map(|result| &result.output.values)\n                    .filter_map(|value| {\n                        if let crate::ToolValue::AI { conversation_id, .. } = value {\n                            Some(conversation_id)\n                        } else {\n                            None\n                        }\n                    })\n                    .copied()\n                    .collect()\n            })\n            .unwrap_or_default()\n    }"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-adr-rewind
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-adr-rewind
+locator:
+  kind: file_lines
+  file: docs/adr/0006-local-sessions.md
+  start: 27
+  end: 36
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/docs/adr/0006-local-sessions.md
+excerpt: "statistics, and persisted child links. A reconnect to the same live harness can\nrecover its snapshot and open callbacks; a new process does not restore an\nin-flight turn, open callback future, or live event sequence from JSONL. Do not\npresent live reconnect behavior as crash recovery.\n\nRewind has two explicit persistence modes:\n\n- A forked rewind preserves the source session and attaches a new session\n  derived from the selected history prefix.\n- An in-place rewind keeps the current session identity and persists the"

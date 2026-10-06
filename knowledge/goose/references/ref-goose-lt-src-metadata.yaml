@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-metadata
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-message-types
+locator:
+  kind: file_lines
+  file: crates/goose-provider-types/src/conversation/message.rs
+  start: 826
+  end: 838
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+  #[derive(Clone, PartialEq, Serialize, Deserialize, Debug)]
+  /// Metadata for message visibility and model inference details
+  #[serde(rename_all = "camelCase")]
+  pub struct MessageMetadata {
+      /// Whether the message should be visible to the user in the UI
+      pub user_visible: bool,
+      /// Whether the message should be included in the agent's context window
+      pub agent_visible: bool,
+      #[serde(skip_serializing_if = "Option::is_none")]
+      pub inference: Option<InferenceMetadata>,
+      /// Whether the provider stopped generating because it reached its output token limit
+      #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+      pub output_token_limit_reached: bool,

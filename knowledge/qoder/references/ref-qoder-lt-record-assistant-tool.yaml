@@ -1,0 +1,35 @@
+---
+schema_version: 2
+record_kind: production
+reference_id: ref-qoder-lt-record-assistant-tool
+harness_id: qoder
+snapshot_id: snapshot-qoder-docs-ide-hooks
+locator:
+  kind: document_section
+  heading: "Record Types"
+official_url: "https://docs.qoder.com/extensions/hooks.md"
+excerpt: |-
+  **Tool call** (`type: "tool_use"`):
+
+  ```json
+  {
+    "type": "assistant",
+    "message": {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "call_d498c5988a...",
+          "name": "read_file",
+          "input": {
+            "file_path": "/path/to/file.py"
+          }
+        }
+      ]
+    }
+  }
+  ```
+
+  - `name`: Tool name (e.g. `read_file`, `search_replace`, `run_in_terminal`, `Skill`)
+  - `input`: Tool call parameters
+  - `id`: Corresponds to `tool_use_id` in the subsequent `tool_result`

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-indexes-sessions
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/session_manager.rs
+  start: 1117
+  end: 1132
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+          sqlx::query("CREATE INDEX IF NOT EXISTS idx_sessions_updated ON sessions(updated_at DESC)")
+              .execute(&mut *tx)
+              .await?;
+          sqlx::query("CREATE INDEX IF NOT EXISTS idx_sessions_type ON sessions(session_type)")
+              .execute(&mut *tx)
+              .await?;
+          sqlx::query(
+              "CREATE INDEX IF NOT EXISTS idx_sessions_parent ON sessions(parent_session_id)",
+          )
+          .execute(&mut *tx)
+          .await?;
+          sqlx::query(
+              "CREATE INDEX IF NOT EXISTS idx_usage_ledger_session ON usage_ledger(session_id)",
+          )
+          .execute(&mut *tx)
+          .await?;

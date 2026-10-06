@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-lt-cloud-store-unimplemented
+harness_id: openhands
+snapshot_id: snapshot-openhands-lt-openhands-cli-conversations-store-cloud-py
+locator:
+  kind: file_lines
+  file: openhands_cli/conversations/store/cloud.py
+  start: 10
+  end: 25
+official_url: https://github.com/OpenHands/OpenHands-CLI/blob/954f2ba646e8d749261a8f2b2b7e3031fa39be9f/openhands_cli/conversations/store/cloud.py
+excerpt: "class CloudStore(ConversationStore):\n    \"\"\"\n    Cloud-based implementation of the ConversationStore.\n\n    This provider interacts with the OpenHands Cloud API to manage conversations,\n    replacing direct file system access with network requests.\n\n    Future implementation details:\n    - Should authorize using the session token from `openhands_cli.auth`\n    - Should implement local caching of remote events for performance\n    - Maps API responses to `ConversationMetadata` and `Event` objects\n    \"\"\"\n\n    def list_conversations(self, limit: int = 100) -> list[ConversationMetadata]:\n        # TODO: Implement API call to GET /conversations\n        raise NotImplementedError(\"Cloud storage is not yet implemented\")"

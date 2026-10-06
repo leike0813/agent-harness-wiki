@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-storage-base-path
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-utils-storage-ts
+locator:
+  kind: file_lines
+  file: src/utils/storage.ts
+  start: 14
+  end: 30
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/utils/storage.ts
+excerpt: "export async function getStorageBasePath(defaultPath: string): Promise<string> {\n\t// Get user-configured custom storage path\n\tlet customStoragePath = \"\"\n\n\ttry {\n\t\t// This is the line causing the error in tests\n\t\tconst config = vscode.workspace.getConfiguration(Package.name)\n\t\tcustomStoragePath = config.get<string>(\"customStoragePath\", \"\")\n\t} catch (error) {\n\t\tconsole.warn(\"Could not access VSCode configuration - using default path\")\n\t\treturn defaultPath\n\t}\n\n\t// If no custom path is set, use default path\n\tif (!customStoragePath) {\n\t\treturn defaultPath\n\t}"

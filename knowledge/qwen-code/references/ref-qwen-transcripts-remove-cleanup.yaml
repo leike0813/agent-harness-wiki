@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-remove-cleanup
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-session-service
+locator:
+  kind: file_lines
+  file: packages/core/src/services/sessionService.ts
+  start: 3536
+  end: 3555
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/packages/core/src/services/sessionService.ts"
+excerpt: |2-
+    private cleanupRemovedSessionFiles(
+      sessionId: string,
+      options: RemoveSessionOptions,
+    ): void {
+      const assertCleanupOwned =
+        options.assertCleanupOwned ?? options.assertCanMutate;
+      assertCleanupOwned?.();
+      this.removeWorktreeSidecars(sessionId);
+      assertCleanupOwned?.();
+      this.removePrSidecars(sessionId);
+      assertCleanupOwned?.();
+      this.removePromptLedgers(sessionId);
+      assertCleanupOwned?.();
+      this.removeFileHistoryBackups(sessionId);
+      assertCleanupOwned?.();
+      fs.rmSync(
+        managedSessionResourceRoot(this.storage.getRuntimeBaseDir(), sessionId),
+        { recursive: true, force: true },
+      );
+    }

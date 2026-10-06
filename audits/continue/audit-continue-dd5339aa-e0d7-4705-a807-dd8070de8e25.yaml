@@ -1,0 +1,121 @@
+schema_version: 2
+audit_id: audit-continue-dd5339aa-e0d7-4705-a807-dd8070de8e25
+harness_id: continue
+checked_at: '2026-10-06T04:33:19.903Z'
+previous_audit_id: audit-continue-1200a8b8-cc84-4b12-babf-aeea242b62bb
+status: no_change
+review_status: not_required
+pending_audit_refs: []
+checks:
+- source_id: source-continue-repo
+  kind: git_repository
+  checked_at: '2026-10-06T04:33:18.367Z'
+  status: unchanged
+  baseline: 5522c6f44ca0ac3528b37244818fbfa39b5af470
+  observed: 5522c6f44ca0ac3528b37244818fbfa39b5af470
+  remote_ref: refs/heads/main
+- source_id: source-continue-npm
+  kind: npm_registry
+  checked_at: '2026-10-06T04:33:18.372Z'
+  status: unchanged
+  baseline: 1.5.47@sha512-gtpewV3RoIOD9dyTtKIBi1SY0VOHRu3Ehe7C/mmnswm+j34MPyrcQhQaWj/m+jdfGO4fNIKdrgGIlLso1ULDFw==
+  observed: 1.5.47@sha512-gtpewV3RoIOD9dyTtKIBi1SY0VOHRu3Ehe7C/mmnswm+j34MPyrcQhQaWj/m+jdfGO4fNIKdrgGIlLso1ULDFw==
+impacts:
+- topic: local_transcripts
+  question_ids:
+  - transcripts.scope
+  - transcripts.location
+  - transcripts.naming
+  - transcripts.format
+  - transcripts.schema
+  - transcripts.lifecycle
+  - transcripts.database
+  - transcripts.archive
+  - transcripts.cleanup
+  - transcripts.diagnostics
+  section_ids:
+  - transcripts-what-gets-recorded
+  - transcripts-storage-layout
+  - transcripts-record-schema
+  - transcripts-lifecycle
+  - transcripts-databases
+  - transcripts-archive-export
+  - transcripts-cleanup-and-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-continue-lt-clear-all-sessions
+  - ref-continue-lt-cli-log-path
+  - ref-continue-lt-cli-session-dir
+  - ref-continue-lt-cli-session-file-path
+  - ref-continue-lt-compact-and-clear
+  - ref-continue-lt-compacted-history
+  - ref-continue-lt-continue-global-path
+  - ref-continue-lt-continue-home-env
+  - ref-continue-lt-core-history-clear
+  - ref-continue-lt-core-history-protocol
+  - ref-continue-lt-delete-list-entry
+  - ref-continue-lt-delete-session-file
+  - ref-continue-lt-devdata-sqlite-path
+  - ref-continue-lt-edit-rewind-history
+  - ref-continue-lt-export-envelope-guard
+  - ref-continue-lt-global-dir-resolution
+  - ref-continue-lt-has-content-guard
+  - ref-continue-lt-import-handler
+  - ref-continue-lt-import-save-result
+  - ref-continue-lt-index-db-paths
+  - ref-continue-lt-init-chat-history
+  - ref-continue-lt-input-history-cap
+  - ref-continue-lt-input-history-file
+  - ref-continue-lt-load-latest-by-mtime
+  - ref-continue-lt-load-latest-read
+  - ref-continue-lt-load-or-create-by-id
+  - ref-continue-lt-load-session-fallback
+  - ref-continue-lt-load-session-read
+  - ref-continue-lt-ls-json-output
+  - ref-continue-lt-metadata-preview
+  - ref-continue-lt-metadata-preview-fields
+  - ref-continue-lt-persist-filter
+  - ref-continue-lt-persist-on-change
+  - ref-continue-lt-resume-fork-flags
+  - ref-continue-lt-resume-fork-init
+  - ref-continue-lt-save-key-order
+  - ref-continue-lt-save-list-entry
+  - ref-continue-lt-save-list-metadata
+  - ref-continue-lt-save-session-write
+  - ref-continue-lt-session-command-handlers
+  - ref-continue-lt-session-file-paths
+  - ref-continue-lt-session-types
+  - ref-continue-lt-sessions-folder-path
+  - ref-continue-lt-sessions-list-filter
+  - ref-continue-lt-sessions-list-read
+  - ref-continue-lt-share-markdown-export
+  - ref-continue-lt-share-markdown-file
+  - ref-continue-lt-start-new-session-id
+  - ref-continue-lt-storage-sync-start
+  - ref-continue-lt-storage-upload-interval
+  - ref-continue-lt-subagent-child-history
+  - ref-continue-lt-subagent-parent-record
+  - ref-continue-lt-tool-call-state-type
+  - ref-continue-lt-tool-call-state-update
+  - ref-continue-lt-tool-status-values
+  - ref-continue-lt-tui-export-session
+  - ref-continue-lt-tui-load-session
+  - ref-continue-lt-verbose-log-hint
+  cross_topic_links:
+  - config.sources
+  - custom_agents.roles
+  reason: local_transcripts 首采：source-continue-repo 观察到 5522c6f44ca0ac3528b37244818fbfa39b5af470 与基线相同，本轮按首采处理，只调查 catalog 中能取到证据的 cli 界面，vscode 与 jetbrains 不写答案
+pending_question_ids:
+- transcripts.scope
+- transcripts.schema
+- transcripts.archive
+- transcripts.cleanup
+- transcripts.diagnostics
+investigation_notes:
+- local_transcripts 首采：既有七章未改动，只新增 continue-local_transcripts-v1。
+- 固定来源：source-continue-repo，仓库 https://github.com/continuedev/continue.git，commit 5522c6f44ca0ac3528b37244818fbfa39b5af470；证据全部为该 commit 的 git_source_file，20 个文件各自一个 artifact 与一个 snapshot，content_sha256 由 pinned 工作区真实字节计算。
+- 界面范围：只调查 cli（Continue CLI）。catalog 中 vscode 与 jetbrains 已声明，本轮未取到能证明其会话记录落盘入口的证据，不写答案，由查询派生 not_investigated。
+- 未写 mappings/：source-continue-npm 本轮观察 1.5.47 且与基线一致，但未固定也未比较发行包内容，源码 commit 不证明 npm 包行为。
+- 缺口（对应 5 条 pending）：落盘开关未找到（scope）；ContextItemWithId 等嵌套类型逐字段 schema 无来源、且 archive/continue 无官方文档原件可引用（schema）；无原生归档开关与保留策略（archive）；CLI 界面未接上 history/delete 与 history/clear，且无任何保留期或自动清理代码，因此不能断言手动删除安全（cleanup）；无一致性校验或重建列表命令（diagnostics）。以上均按「未找到证据」记录，不写成不支持。
+- review_status 保留 scan 写入的 not_required（status 为 no_change）；pending_question_ids 的 5 条均已在本 impact 的 question_ids 内。

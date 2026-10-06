@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-session-remove
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-opencode-src-session-session-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/opencode/src/session/session.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/session/session.ts
+  start: 613
+  end: 627
+excerpt: "          Effect.catchCause(() => Effect.succeed(false)),\n        )\n\n        if (hasInstance) yield* cancelBackgroundJobs(background, sessionID)\n        const kids = yield* children(sessionID)\n        for (const child of kids) {\n          yield* remove(child.id)\n        }\n\n        yield* events.publish(SessionV1.Event.Deleted, { sessionID, info: session })\n        yield* events.remove(sessionID)\n      } catch (error) {\n        yield* Effect.logError(\"failed to remove session\", { sessionID, error })\n      }\n    })"

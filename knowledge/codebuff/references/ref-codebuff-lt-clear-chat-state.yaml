@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-clear-chat-state
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-cli-src-utils-run-state-storage-ts
+locator:
+  kind: file_lines
+  file: cli/src/utils/run-state-storage.ts
+  start: 578
+  end: 592
+official_url: https://github.com/CodebuffAI/codebuff/blob/bd198ff2df3ea9b333e8bf2e5b843735afd4ad9c/cli/src/utils/run-state-storage.ts
+excerpt: "/**\n * Clear the saved state files\n */\nexport function clearChatState(): void {\n  try {\n    const runStatePath = getRunStatePath()\n    const messagesPath = getChatMessagesPath()\n    const metaPath = path.join(resolveCurrentChatDir(), CHAT_META_FILENAME)\n\n    for (const filePath of [runStatePath, messagesPath, metaPath]) {\n      fs.rmSync(filePath, { force: true })\n    }\n\n    logger.debug(\n      { runStatePath, messagesPath, metaPath },"

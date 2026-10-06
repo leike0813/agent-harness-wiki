@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt-database-index-tables-doc
+harness_id: omp
+snapshot_id: snapshot-omp-lt-repo-fc6c-packages-coding-agent-src-session-session-index-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-index.ts
+  start: 1
+  end: 14
+official_url: https://github.com/can1357/oh-my-pi/blob/fc6c0c90dab012a0b7edea731af92f5bbd09cff0/packages/coding-agent/src/session/session-index.ts#L1-L14
+excerpt: "/**\n * Per-session index tables in history.db, keyed by session id:\n *\n * - `session_titles`: session id → display title, written whenever a title is\n *   created or renamed ({@link SessionManager.setSessionName}) and backfilled by\n *   the recent-session fallback scan. Lets the welcome \"Recent sessions\" list\n *   resolve names from a stat + lookup instead of content-scanning every session\n *   file in the project directory (multi-hundred-ms on dirs with thousands of\n *   sessions).\n * - `session_recaps`: append-only journal of idle recaps\n *   ({@link SessionManager.recordRecap}). Recaps are side-channel output that\n *   never enters the session JSONL or LLM context; this table is their only\n *   durable record. `omp gc` drops rows of archived sessions.\n *"

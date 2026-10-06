@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-lt-ui-user-initiated
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-lt-crates-forge-main-src-ui-rs
+locator:
+  kind: file_lines
+  file: crates/forge_main/src/ui.rs
+  start: 2148
+  end: 2165
+official_url: https://github.com/tailcallhq/forgecode/blob/1469f75aa0fa3a2a768bde24f7dc528723b67259/crates/forge_main/src/ui.rs
+excerpt: "    fn user_initiated_conversations(conversations: Vec<Conversation>) -> Vec<Conversation> {\n        let related_ids: HashSet<ConversationId> = conversations\n            .iter()\n            .flat_map(Conversation::related_conversation_ids)\n            .collect();\n\n        conversations\n            .into_iter()\n            .filter(|conversation| {\n                conversation\n                    .context\n                    .as_ref()\n                    .and_then(|context| context.initiator.as_deref())\n                    .is_none_or(|initiator| initiator == \"user\")\n                    && !related_ids.contains(&conversation.id)\n            })\n            .collect()\n    }"

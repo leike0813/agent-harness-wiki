@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-share-gate
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-share-session-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/share/session.ts
+  start: 25
+  end: 31
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/share/session.ts
+excerpt: "    const share = Effect.fn(\"SessionShare.share\")(function* (sessionID: SessionID) {\n      const conf = yield* cfg.get()\n      if (conf.share === \"disabled\") throw new Error(\"Sharing is disabled in configuration\")\n      const result = yield* KiloSession.shareSession(sessionID) // kilocode_change - use Kilo public share URLs\n      yield* session.setShare({ sessionID, share: { url: result.url } })\n      return result\n    })"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-lt-reconcile-scan
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-lt-src-core-task-persistence-taskhistorystore-ts
+locator:
+  kind: file_lines
+  file: src/core/task-persistence/TaskHistoryStore.ts
+  start: 332
+  end: 352
+official_url: https://github.com/Zoo-Code-Org/Zoo-Code/blob/d7963fc2db8ff07189e9f22079b15d67ad3a8bfd/src/core/task-persistence/TaskHistoryStore.ts
+excerpt: "\tasync reconcile(options: { forceRefresh?: boolean } = {}): Promise<void> {\n\t\t// Run through the write lock to prevent interleaving with upsert/delete\n\t\treturn this.withLock(async () => {\n\t\t\tconst tasksDir = await this.getTasksDir()\n\n\t\t\tlet dirEntries: string[]\n\t\t\ttry {\n\t\t\t\tdirEntries = await fs.readdir(tasksDir)\n\t\t\t} catch {\n\t\t\t\treturn // tasks dir doesn't exist yet\n\t\t\t}\n\n\t\t\t// Filter out hidden and reserved names\n\t\t\tconst taskDirNames = dirEntries.filter((name) => !name.startsWith(\"_\") && !name.startsWith(\".\"))\n\n\t\t\tconst onDiskIds = new Set(taskDirNames)\n\t\t\tconst cacheIds = new Set(this.cache.keys())\n\t\t\tconst liveIds = new Set<string>()\n\n\t\t\tfor (const taskId of onDiskIds) {\n\t\t\t\ttry {"

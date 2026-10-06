@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-lt-db-pool-config
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-lt-crates-forge-repo-src-database-pool-rs
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/database/pool.rs
+  start: 19
+  end: 38
+official_url: https://github.com/tailcallhq/forgecode/blob/1469f75aa0fa3a2a768bde24f7dc528723b67259/crates/forge_repo/src/database/pool.rs
+excerpt: "pub struct PoolConfig {\n    pub max_size: u32,\n    pub min_idle: Option<u32>,\n    pub connection_timeout: Duration,\n    pub idle_timeout: Option<Duration>,\n    pub max_retries: usize,\n    pub database_path: PathBuf,\n}\n\nimpl PoolConfig {\n    pub fn new(database_path: PathBuf) -> Self {\n        Self {\n            max_size: 5,\n            min_idle: Some(1),\n            connection_timeout: Duration::from_secs(5),\n            idle_timeout: Some(Duration::from_secs(600)), // 10 minutes\n            max_retries: 5,\n            database_path,\n        }\n    }"

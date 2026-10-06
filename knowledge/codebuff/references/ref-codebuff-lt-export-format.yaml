@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-export-format
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-cli-src-commands-export-conversation-ts
+locator:
+  kind: file_lines
+  file: cli/src/commands/export-conversation.ts
+  start: 90
+  end: 105
+official_url: https://github.com/CodebuffAI/codebuff/blob/bd198ff2df3ea9b333e8bf2e5b843735afd4ad9c/cli/src/commands/export-conversation.ts
+excerpt: "    const format = filePath.toLowerCase().endsWith('.json')\n      ? ('json' as const)\n      : ('markdown' as const)\n    // Inside the try: a multi-MB transcript can throw from serialization\n    // itself (RangeError: Invalid string length), and that must surface as an\n    // ExportResult error rather than an unhandled rejection.\n    const data =\n      format === 'json'\n        ? // Persistence-safe: raw messages can smuggle cyclic tool output that\n          // would make a plain JSON.stringify throw.\n          serializeForPersistence(messages).json\n        : // No maxBytes: files have no clipboard ceiling, so nothing is trimmed.\n          serializeConversation(messages).text\n\n    await deps.writeFile(filePath, data)\n    return { ok: true, filePath, format }"

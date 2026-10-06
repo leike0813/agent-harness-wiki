@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-messages-path
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-services-session-artifacts-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/session-artifacts.ts
+  start: 62
+  end: 81
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/services/session-artifacts.ts
+excerpt: "\tpublic sessionArtifactsDir(sessionId: string): string {\n\t\treturn join(this.ensureSessionsDir(), sessionId);\n\t}\n\n\tpublic ensureSessionArtifactsDir(sessionId: string): string {\n\t\tconst dir = this.sessionArtifactsDir(sessionId);\n\t\tif (!existsSync(dir)) {\n\t\t\tmkdirSync(dir, { recursive: true });\n\t\t}\n\t\treturn dir;\n\t}\n\n\tpublic sessionMessagesPath(sessionId: string): string {\n\t\treturn join(\n\t\t\tthis.sessionArtifactsDir(sessionId),\n\t\t\t`${sessionId}.messages.json`,\n\t\t);\n\t}"

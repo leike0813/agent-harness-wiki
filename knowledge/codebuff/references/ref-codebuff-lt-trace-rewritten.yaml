@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-trace-rewritten
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-cli-src-utils-trace-writer-ts
+locator:
+  kind: file_lines
+  file: cli/src/utils/trace-writer.ts
+  start: 84
+  end: 100
+official_url: https://github.com/CodebuffAI/codebuff/blob/bd198ff2df3ea9b333e8bf2e5b843735afd4ad9c/cli/src/utils/trace-writer.ts
+excerpt: "      const appendLine = (record: Record<string, unknown>): void => {\n        lines.push(JSON.stringify({ timestamp, ...record }))\n      }\n\n      const rewritten =\n        messages.length < state.writtenRoles.length ||\n        state.writtenRoles.some((role, i) => messages[i]?.role !== role)\n      if (rewritten) {\n        appendLine({\n          ...base,\n          type: 'history_rewritten',\n          previousMessageCount: state.writtenRoles.length,\n          messageCount: messages.length,\n        })\n        state.writtenRoles = []\n      }"

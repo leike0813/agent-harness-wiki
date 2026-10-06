@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-session-header-fields
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-crates-pa-types-src-session-rs
+locator:
+  kind: file_lines
+  file: crates/pa-types/src/session.rs
+  start: 50
+  end: 63
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/7a52276cb17310f331f1075f28fa5cf9c4ae0a0a/crates/pa-types/src/session.rs
+excerpt: "    /// A single file name: the session's artifact dir joins it under\n    /// `session-artifacts/`, so a header id that names another path is a\n    /// malformed header.\n    #[serde(deserialize_with = \"deserialize_session_id\")]\n    pub id: String,\n    /// ISO-8601 creation timestamp.\n    pub timestamp: String,\n    pub cwd: String,\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub parent_session: Option<String>,\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub rlm_depth: Option<u64>,\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub git: Option<GitContext>,"

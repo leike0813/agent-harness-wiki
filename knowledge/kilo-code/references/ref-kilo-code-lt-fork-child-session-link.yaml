@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-fork-child-session-link
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-kilocode-session-fork-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/session/fork.ts
+  start: 53
+  end: 65
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/kilocode/session/fork.ts
+excerpt: "function childID(part: MessageV2.Part) {\n  if (part.type !== \"tool\" || part.tool !== task) return undefined\n  const state = part.state\n  const metadata = state.status === \"pending\" ? undefined : state.metadata\n  const values = [\n    metadata?.sessionId,\n    metadata?.sessionID,\n    part.metadata?.sessionId,\n    part.metadata?.sessionID,\n    state.input.task_id,\n  ]\n  return values.find((value): value is string => typeof value === \"string\")\n}"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt-cleanup-stale-collab-code
+harness_id: omp
+snapshot_id: snapshot-omp-lt-repo-fc6c-packages-coding-agent-src-cli-gc-cli-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/cli/gc-cli.ts
+  start: 699
+  end: 712
+official_url: https://github.com/can1357/oh-my-pi/blob/fc6c0c90dab012a0b7edea731af92f5bbd09cff0/packages/coding-agent/src/cli/gc-cli.ts#L699-L712
+excerpt: "\t\t\tconst cwd = crumb.cwd.trim();\n\t\t\tconst sessionFile = crumb.sessionFile.trim();\n\t\t\treturn cwd && sessionFile ? path.resolve(cwd, sessionFile) : undefined;\n\t\t})),\n\t];\n\tconst stores = resolveConfigRootStores(options.agentDir);\n\tif (stores) {\n\t\tfor (const { file, bytes } of await collectExpiredFiles(stores.reportsDir, \".tar.gz\", options)) {\n\t\t\tcandidates.push({ kind: \"expiredReports\", paths: [file], bytes });\n\t\t}\n\t\t// A replica a terminal's breadcrumb points at is what `--continue` resumes\n\t\t// there; one a running guest holds is skipped at removal (ownership lease).\n\t\tconst resumable = new Set(\n\t\t\t(await collectBreadcrumbSessionFiles(breadcrumbDir)).map(file => normalizePathForComparison(file)),"

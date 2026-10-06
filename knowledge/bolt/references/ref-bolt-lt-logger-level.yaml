@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-lt-logger-level
+harness_id: bolt
+snapshot_id: snapshot-bolt-lt-app-utils-logger-ts
+locator:
+  kind: file_lines
+  file: app/utils/logger.ts
+  start: 1
+  end: 15
+official_url: https://github.com/stackblitz/bolt.new/blob/eda10b121221b30825a4c16eec5da1fd3eb1eb99/app/utils/logger.ts
+excerpt: "export type DebugLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error';\n\ntype LoggerFunction = (...messages: any[]) => void;\n\ninterface Logger {\n  trace: LoggerFunction;\n  debug: LoggerFunction;\n  info: LoggerFunction;\n  warn: LoggerFunction;\n  error: LoggerFunction;\n  setLevel: (level: DebugLevel) => void;\n}\n\nlet currentLevel: DebugLevel = import.meta.env.VITE_LOG_LEVEL ?? import.meta.env.DEV ? 'debug' : 'info';"

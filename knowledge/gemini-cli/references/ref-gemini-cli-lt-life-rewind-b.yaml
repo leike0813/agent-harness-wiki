@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-life-rewind-b
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-recording-service
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingService.ts
+  start: 1321
+  end: 1330
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+        );
+        const allMessages =
+          fullConversation?.messages ?? this.cachedConversation.messages;
+        const messageIndex = allMessages.findIndex((m) => m.id === messageId);
+        rewoundMessages =
+          messageIndex !== -1 ? allMessages.slice(0, messageIndex) : [];
+      }
+
+      this.appendRecord({ $rewindTo: messageId });
+      this.rebuildIndexAndWindow(rewoundMessages);

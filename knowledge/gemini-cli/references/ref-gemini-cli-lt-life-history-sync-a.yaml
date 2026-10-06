@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-life-history-sync-a
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-recording-service
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingService.ts
+  start: 1477
+  end: 1492
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+
+        const isPureTailRollback =
+          removedIds.length > 0 &&
+          !newMessagesAdded &&
+          patchesByMsgId.size === 0 &&
+          !orderChanged &&
+          previousMessageOrder.length === historyIds.length + removedIds.length &&
+          previousMessageOrder
+            .slice(historyIds.length)
+            .every((id, idx) => id === removedIds[idx]);
+
+        if (isPureTailRollback) {
+          this.appendRecord({ $rewindTo: removedIds[0] });
+          anyChange = true;
+        } else if (
+          patchesByMsgId.size > 0 ||

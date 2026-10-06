@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-legacy-import
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/session_manager.rs
+  start: 1146
+  end: 1159
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+      async fn import_legacy(pool: &Pool<Sqlite>, session_dir: &PathBuf) -> Result<()> {
+          use crate::session::legacy;
+
+          let sessions = match legacy::list_sessions(session_dir) {
+              Ok(sessions) => sessions,
+              Err(_) => {
+                  warn!("No legacy sessions found to import");
+                  return Ok(());
+              }
+          };
+
+          if sessions.is_empty() {
+              return Ok(());
+          }

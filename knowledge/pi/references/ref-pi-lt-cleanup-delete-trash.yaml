@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-lt-cleanup-delete-trash
+harness_id: pi
+snapshot_id: snapshot-pi-lt-packages-coding-agent-src-modes-interactive-components-session-selector-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/modes/interactive/components/session-selector.ts
+  start: 652
+  end: 660
+official_url: https://github.com/earendil-works/pi/blob/28dcce2ba45ce4a9efeb0f5b686f0be830fd89b9/packages/coding-agent/src/modes/interactive/components/session-selector.ts
+excerpt: " * Delete a session file, trying the `trash` CLI first, then falling back to unlink\n */\nasync function deleteSessionFile(\n\tsessionPath: string,\n): Promise<{ ok: boolean; method: \"trash\" | \"unlink\"; error?: string }> {\n\t// Try `trash` first (if installed)\n\tconst trashArgs = sessionPath.startsWith(\"-\") ? [\"--\", sessionPath] : [sessionPath];\n\tconst trashResult = spawnSync(\"trash\", trashArgs, { encoding: \"utf-8\" });"

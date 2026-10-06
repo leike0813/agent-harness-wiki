@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-projector-message-write
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-core-src-session-projector-ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/projector.ts
+  start: 282
+  end: 295
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/core/src/session/projector.ts
+excerpt: "    yield* events.project(SessionV1.Event.MessageUpdated, (event) =>\n      Effect.gen(function* () {\n        const time_created = event.data.info.time.created\n        const id = event.data.info.id\n        const sessionID = event.data.info.sessionID\n        const data = messageData(event.data.info)\n        yield* db\n          .insert(MessageTable)\n          .values({ id, session_id: sessionID, time_created, data })\n          .onConflictDoUpdate({ target: MessageTable.id, set: { data } })\n          .run()\n          .pipe(Effect.orDie)\n      }),\n    )"

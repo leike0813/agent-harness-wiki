@@ -1,0 +1,734 @@
+schema_version: 2
+audit_id: audit-zoo-code-440f520d-3ade-4318-b258-c53e67eb53ea
+harness_id: zoo-code
+checked_at: 2026-10-06T04:35:40.643Z
+previous_audit_id: audit-zoo-code-20261004t061205z
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-zoo-code-repo
+    kind: git_repository
+    checked_at: 2026-10-06T04:35:39.019Z
+    status: changed
+    baseline: 3859e5dd886980fd1f4522b9a626fb891828cf17
+    observed: d7963fc2db8ff07189e9f22079b15d67ad3a8bfd
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs
+    kind: git_repository
+    checked_at: 2026-10-06T04:35:39.028Z
+    status: unchanged
+    baseline: dfd2628c31073ec6b111bfedbcd071d197d37ad2
+    observed: dfd2628c31073ec6b111bfedbcd071d197d37ad2
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs-site
+    kind: official_documentation
+    checked_at: 2026-10-06T04:35:39.037Z
+    status: unchanged
+    baseline: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    observed: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    resolved_url: https://docs.zoocode.dev/
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-overrides
+      - config-runtime
+      - config-defaults
+      - config-migration
+      - config-diagnostics
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-src-auto-deny-blanket-branch
+      - ref-zoo-code-src-auto-deny-detail
+      - ref-zoo-code-src-auto-deny-guard-unavailable
+      - ref-zoo-code-src-auto-deny-reasons
+      - ref-zoo-code-src-auto-deny-ui
+      - ref-zoo-code-src-blanket-deny-default
+      - ref-zoo-code-src-blanket-deny-schema
+      - ref-zoo-code-src-context-proxy
+      - ref-zoo-code-src-experiments
+      - ref-zoo-code-src-extension-activation
+      - ref-zoo-code-src-extension-config
+      - ref-zoo-code-src-global-file-names
+      - ref-zoo-code-src-marketplace-install
+      - ref-zoo-code-src-mcp-global-path
+      - ref-zoo-code-src-mcp-global-watch
+      - ref-zoo-code-src-mdm
+      - ref-zoo-code-src-modes-parse
+      - ref-zoo-code-src-package-identity
+      - ref-zoo-code-src-provider-profiles
+      - ref-zoo-code-src-provider-secrets
+      - ref-zoo-code-src-roo-history-import
+      - ref-zoo-code-src-router-removal
+      - ref-zoo-code-src-storage-paths
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-zoo-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-entry
+      - agents-format
+      - agents-roles
+      - agents-invocation
+      - agents-overrides
+      - agents-limits
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-schema-roomodes
+      - ref-zoo-code-src-default-modes
+      - ref-zoo-code-src-global-file-names
+      - ref-zoo-code-src-mode-schema
+      - ref-zoo-code-src-modes-merge
+      - ref-zoo-code-src-modes-parse
+      - ref-zoo-code-src-modes-path
+      - ref-zoo-code-src-new-task
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-zoo-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-entry
+      - providers-protocol
+      - providers-models
+      - providers-responses
+      - providers-diagnostics
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-src-bedrock-throttle
+      - ref-zoo-code-src-codex-retry
+      - ref-zoo-code-src-error-handler
+      - ref-zoo-code-src-extension-config
+      - ref-zoo-code-src-model-anthropic-opus55
+      - ref-zoo-code-src-model-cache
+      - ref-zoo-code-src-model-codex-gpt61
+      - ref-zoo-code-src-model-info
+      - ref-zoo-code-src-model-openai-gpt61-pricing
+      - ref-zoo-code-src-model-openai-gpt61
+      - ref-zoo-code-src-model-opencode-deepseek
+      - ref-zoo-code-src-openai-compatible
+      - ref-zoo-code-src-provider-profiles
+      - ref-zoo-code-src-provider-secrets
+      - ref-zoo-code-src-provider-settings-base
+      - ref-zoo-code-src-provider-store
+      - ref-zoo-code-src-rate-limit
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-zoo-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-events
+      - hooks-entry
+      - hooks-diagnostics
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-src-custom-tools-load
+      - ref-zoo-code-src-experiments
+      - ref-zoo-code-src-extension-contrib
+      - ref-zoo-code-src-mcp-config-schema
+      - ref-zoo-code-src-mcp-global-watch
+      - ref-zoo-code-src-mcp-init-fetch
+      - ref-zoo-code-src-mcp-watchpaths
+      - ref-zoo-code-src-mdm
+      - ref-zoo-code-src-tool-policy
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-zoo-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-entry
+      - mcp-definition
+      - mcp-transport
+      - mcp-lifecycle
+      - mcp-capabilities
+      - mcp-diagnostics
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-src-mcp-config-schema
+      - ref-zoo-code-src-mcp-const
+      - ref-zoo-code-src-mcp-disable
+      - ref-zoo-code-src-mcp-global-path
+      - ref-zoo-code-src-mcp-global-watch
+      - ref-zoo-code-src-mcp-init-fetch
+      - ref-zoo-code-src-mcp-name
+      - ref-zoo-code-src-mcp-oauth-provider
+      - ref-zoo-code-src-mcp-oauth
+      - ref-zoo-code-src-mcp-project-watch
+      - ref-zoo-code-src-mcp-read-resource
+      - ref-zoo-code-src-mcp-resources
+      - ref-zoo-code-src-mcp-server-tools
+      - ref-zoo-code-src-mcp-stdio
+      - ref-zoo-code-src-mcp-tool-name
+      - ref-zoo-code-src-mcp-type-infer
+      - ref-zoo-code-src-mcp-watchpaths
+      - ref-zoo-code-src-tool-policy
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-zoo-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model
+      - plugins-package
+      - plugins-install
+      - plugins-discovery
+      - plugins-api
+      - plugins-diagnostics
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-readme
+      - ref-zoo-code-src-build-tools-custom
+      - ref-zoo-code-src-custom-tool-api
+      - ref-zoo-code-src-custom-tools-bundle
+      - ref-zoo-code-src-custom-tools-dirs
+      - ref-zoo-code-src-custom-tools-load
+      - ref-zoo-code-src-custom-tools-validate
+      - ref-zoo-code-src-define-custom-tool
+      - ref-zoo-code-src-experiments
+      - ref-zoo-code-src-extension-contrib
+      - ref-zoo-code-src-marketplace-config
+      - ref-zoo-code-src-marketplace-install
+      - ref-zoo-code-src-roo-dirs-for-cwd
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-zoo-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-roots
+      - skills-discovery
+      - skills-format
+      - skills-invocation
+      - skills-conditions
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-src-agents-home-dir
+      - ref-zoo-code-src-project-agents-dir
+      - ref-zoo-code-src-roo-home-dir
+      - ref-zoo-code-src-skill-metadata
+      - ref-zoo-code-src-skill-tool
+      - ref-zoo-code-src-skills-content
+      - ref-zoo-code-src-skills-dirs
+      - ref-zoo-code-src-skills-metadata
+      - ref-zoo-code-src-skills-mode-filter
+      - ref-zoo-code-src-skills-modeslugs
+      - ref-zoo-code-src-skills-override
+      - ref-zoo-code-src-skills-scan
+      - ref-zoo-code-src-skills-watchers
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    reason: "source-zoo-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-recorded-content
+      - transcripts-storage-layout
+      - transcripts-record-schema
+      - transcripts-lifecycle
+      - transcripts-index-and-state
+      - transcripts-export-and-delete
+      - transcripts-diagnostics
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-lt-global-file-names
+      - ref-zoo-code-lt-storage-base-path
+      - ref-zoo-code-lt-storage-base-path-fallback
+      - ref-zoo-code-lt-storage-task-dir
+      - ref-zoo-code-lt-task-id-uuidv7
+      - ref-zoo-code-lt-history-item-fields
+      - ref-zoo-code-lt-safe-write-atomic-rename
+      - ref-zoo-code-lt-safe-write-stream-format
+      - ref-zoo-code-lt-api-message-fields
+      - ref-zoo-code-lt-api-message-condense-fields
+      - ref-zoo-code-lt-api-messages-array-check
+      - ref-zoo-code-lt-api-legacy-migration
+      - ref-zoo-code-lt-ui-messages-write
+      - ref-zoo-code-lt-ui-messages-parse-check
+      - ref-zoo-code-lt-cline-message-fields
+      - ref-zoo-code-lt-history-item-schema-core
+      - ref-zoo-code-lt-history-item-schema-lineage
+      - ref-zoo-code-lt-task-save-api-history
+      - ref-zoo-code-lt-task-save-cline-messages
+      - ref-zoo-code-lt-task-status-transitions
+      - ref-zoo-code-lt-read-task-history-item
+      - ref-zoo-code-lt-condense-summary-markers
+      - ref-zoo-code-lt-history-store-no-index
+      - ref-zoo-code-lt-history-store-delete
+      - ref-zoo-code-lt-reconcile-scan
+      - ref-zoo-code-lt-reconcile-evict
+      - ref-zoo-code-lt-checkpoint-disabled-switch
+      - ref-zoo-code-lt-checkpoint-shadow-path
+      - ref-zoo-code-lt-checkpoint-global-storage-root
+      - ref-zoo-code-lt-import-file-names
+      - ref-zoo-code-lt-import-staging-atomic
+      - ref-zoo-code-lt-export-task-markdown
+      - ref-zoo-code-lt-export-file-name
+      - ref-zoo-code-lt-delete-task-cascade
+      - ref-zoo-code-lt-delete-current-task-removed
+      - ref-zoo-code-lt-delete-task-files
+      - ref-zoo-code-lt-open-debug-history
+      - ref-zoo-code-lt-diagnostics-api-history
+    cross_topic_links:
+      - config.sources
+      - config.defaults
+      - config.diagnostics
+    reason: "local_transcripts first pass: the repo source at the pinned commit
+      carries a first-party per-task record store (src/core/task-persistence plus
+      a vendored @roo-code/types), so the ten fixed questions are answerable from
+      source without the documentation repository"
+pending_question_ids:
+  - config.sources
+  - config.overrides
+  - config.runtime
+  - config.trust
+  - config.defaults
+  - config.migration
+  - config.diagnostics
+  - agents.entry
+  - agents.format
+  - agents.roles
+  - agents.invocation
+  - agents.overrides
+  - agents.limits
+  - agents.diagnostics
+  - providers.entry
+  - providers.auth
+  - providers.protocol
+  - providers.models
+  - providers.metadata
+  - providers.forwarding
+  - providers.responses
+  - providers.diagnostics
+  - hooks.events
+  - hooks.entry
+  - hooks.input
+  - hooks.output
+  - hooks.order
+  - hooks.conditions
+  - hooks.diagnostics
+  - mcp.entry
+  - mcp.definition
+  - mcp.transport
+  - mcp.auth
+  - mcp.lifecycle
+  - mcp.capabilities
+  - mcp.exposure
+  - mcp.diagnostics
+  - plugins.model
+  - plugins.package
+  - plugins.install
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+  - skills.roots
+  - skills.discovery
+  - skills.collision
+  - skills.format
+  - skills.extensions
+  - skills.loading
+  - skills.invocation
+  - skills.conditions
+  - skills.diagnostics
+investigation_notes:
+  - "本轮工作是 local_transcripts 主题的首采，不是对 3859e5dd → d7963fc2 这次上游推进的增量维护。章节只依据固定源码 source-zoo-code-repo 的 commit d7963fc2db8ff07189e9f22079b15d67ad3a8bfd（抓取时间 2026-10-06T04:35:39.019Z），由 coordinator 已打开的 pinned workspace 只读检出；本 worker 没有新建工作区，也没有执行扩展或受管二进制。"
+  - "来源身份：可用来源只有 source-zoo-code-repo。该产品另有登记来源 source-zoo-code-docs（Zoo-Code-Docs.git）与 source-zoo-code-docs-site，coordinator 报告按 commit dfd2628c 打开 docs 检出时上游返回 not our ref（该 commit 当前不可达），因此本轮无法为 docs 建立新证据。这只是本轮观察，不构成对该来源已失效的结论；checks 中 source-zoo-code-docs 记为 unchanged 是扫描器自身的结果，本 worker 未改写。"
+  - "另一个边界：项目根 archive/zoo-code/ 在本轮不存在，因此既有的 archived_document 路径不可用，本轮没有新建任何 archived_document artifact，38 条引用全部是 git_source_file。"
+  - "章节覆盖的界面只有 catalog 中登记的 vscode。源码树里的 apps/cli 未在 catalog 登记为界面，本轮不为它写答案，查询会派生为未调查。"
+  - "逐题状态：scope / naming / format / schema / lifecycle / database 为 answered；location / archive / cleanup / diagnostics 为 partial。partial 的原因分别是：宿主 VS Code 决定 globalStorageUri 的各操作系统实际绝对路径（源码不含路径模板）、导出只覆盖 API 对话历史且没有对应的 Markdown 回灌路径、找不到任何任务目录保留期或自动清理机制（这是「未找到」而非「不存在」，且不等于可以安全删除）、源码里没有校验全部任务完整性的产品内命令。四题都在正文写明了已查入口与剩余缺口，本轮没有 runtime 观察。"
+  - "pending_question_ids 未加入任何 transcripts.* ：十题都给出了可用答案（answered 或 partial）。该列表里的其它主题 pending 题来自本轮 scan 的 requires_maintenance 提示，按契约未改动；因此 review_status 保持 pending。"
+  - "本轮未写 mappings/：没有该 commit 对应的 npm 发行包快照，源码 commit 不证明发行包行为。"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-session-folder-naming
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-session-folder-naming
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_logger.py
+  start: 88
+  end: 99
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/session_logger.py
+excerpt: "    @property\n    def save_folder(self) -> Path:\n        if self.save_dir is None or self.session_prefix is None:\n            raise RuntimeError(\n                \"Cannot get session save folder when logging is disabled\"\n            )\n\n        timestamp = utc_now().strftime(\"%Y%m%d_%H%M%S\")\n        folder_name = (\n            f\"{self.session_prefix}_{timestamp}_{shorten_session_id(self.session_id)}\"\n        )\n        return self.save_dir / folder_name"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-tui-load-session
+harness_id: continue
+snapshot_id: snapshot-continue-lt-extensions-cli-src-ui-tuichat-tsx
+locator:
+  kind: file_lines
+  file: extensions/cli/src/ui/TUIChat.tsx
+  start: 60
+  end: 82
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/ui/TUIChat.tsx
+excerpt: "    // Import session functions\n    const { loadSessionById } = await import(\"../session.js\");\n\n    // Load the session\n    const session = loadSessionById(sessionId);\n    if (!session) {\n      logger.error(`Session ${sessionId} could not be loaded.`);\n      return;\n    }\n\n    // Set the session ID so future operations use this session\n    process.env.CONTINUE_CLI_TEST_SESSION_ID = sessionId.replace(\n      \"continue-cli-\",\n      \"\",\n    );\n\n    // Set the chat history from the session\n    setChatHistory(session.history);\n\n    // Clear the intro message since we're now showing a resumed session\n    setShowIntroMessage(false);\n  } catch (error) {\n    console.error(\"Error loading session:\", error);"

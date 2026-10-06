@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-lt-repo-upsert
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-lt-crates-forge-repo-src-conversation-conversation-repo-rs
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/conversation/conversation_repo.rs
+  start: 47
+  end: 64
+official_url: https://github.com/tailcallhq/forgecode/blob/1469f75aa0fa3a2a768bde24f7dc528723b67259/crates/forge_repo/src/conversation/conversation_repo.rs
+excerpt: "    async fn upsert_conversation(&self, conversation: Conversation) -> anyhow::Result<()> {\n        self.run_with_connection(move |connection, wid| {\n            let record = ConversationRecord::new(conversation, wid);\n            diesel::insert_into(conversations::table)\n                .values(&record)\n                .on_conflict(conversations::conversation_id)\n                .do_update()\n                .set((\n                    conversations::title.eq(&record.title),\n                    conversations::context.eq(&record.context),\n                    conversations::updated_at.eq(record.updated_at),\n                    conversations::metrics.eq(&record.metrics),\n                ))\n                .execute(connection)?;\n            Ok(())\n        })\n        .await\n    }"

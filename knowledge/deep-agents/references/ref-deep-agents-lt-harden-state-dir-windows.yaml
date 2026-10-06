@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-lt-harden-state-dir-windows
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-code-deepagents-code-paths-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/_paths.py
+  start: 534
+  end: 546
+official_url: https://github.com/langchain-ai/deepagents/blob/4b9410272a4e4885ec70fb1ec8549e307a15e585/libs/code/deepagents_code/_paths.py
+excerpt: "    Note:\n        Failures are logged, never raised. `mkdir` can fail on a read-only or\n        full filesystem, and `chmod` is routinely refused on CIFS/exFAT mounts.\n        Neither is a reason to abort the launch that needed the directory.\n\n        On Windows the `chmod` step is skipped. POSIX mode bits do not restrict\n        access there, so the directory keeps the ACL it inherits from its\n        parent and this function adds no protection of its own.\n    \"\"\"\n    if state_dir is None:\n        state_dir = PATHS.profile.state_dir\n    try:\n        state_dir.mkdir(parents=True, exist_ok=True, mode=0o700)"

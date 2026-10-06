@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-saved-session-delete
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-saved-session-delete
+locator:
+  kind: file_lines
+  file: vibe/core/session/saved_sessions.py
+  start: 143
+  end: 151
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/saved_sessions.py
+excerpt: "    \"\"\"Remove a saved session, reporting whether this store held one.\"\"\"\n    session_dir = _find_saved_session_dir(session_id, session_config)\n    if session_dir is None:\n        last_session_pointer.clear_matching(session_config, session_id)\n        return False\n\n    await asyncio.to_thread(shutil.rmtree, session_dir)\n    last_session_pointer.clear_matching(session_config, session_id)\n    return True"

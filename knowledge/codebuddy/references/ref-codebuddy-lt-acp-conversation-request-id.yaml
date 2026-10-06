@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-lt-acp-conversation-request-id
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-lt-docs-acp-md
+locator:
+  kind: file_lines
+  file: docs/acp.md
+  start: 73
+  end: 73
+official_url: https://cnb.cool/codebuddy/codebuddy-code
+excerpt: 该值必须是小写、无连字符的 32 位 UUIDv7 十六进制字符串；省略时由 CLI 生成。CLI 不扫描会话历史做碰撞检测，调用方负责保证唯一性。普通 prompt 真正进入 history 后，相同值会写入本轮 `PromptResponse._meta`、语义消息的 `SessionUpdate._meta`、JSONL `providerData.conversationRequestId` 和模型请求头 `X-Conversation-Request-ID`。`/clear`、`/compact` 等短路命令或在 history 前被拒绝的 prompt 不保证产生这些输出。现有 `_meta['codebuddy.ai/requestId']` 语义保持不变。

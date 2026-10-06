@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-lt-local-store-event-count
+harness_id: openhands
+snapshot_id: snapshot-openhands-lt-openhands-cli-conversations-store-local-py
+locator:
+  kind: file_lines
+  file: openhands_cli/conversations/store/local.py
+  start: 72
+  end: 80
+official_url: https://github.com/OpenHands/OpenHands-CLI/blob/954f2ba646e8d749261a8f2b2b7e3031fa39be9f/openhands_cli/conversations/store/local.py
+excerpt: "    def get_event_count(self, conversation_id: str) -> int:\n        \"\"\"Get the total number of events in a conversation.\"\"\"\n        conversation_dir = self.base_dir / conversation_id\n        events_dir = conversation_dir / \"events\"\n\n        if not events_dir.exists() or not events_dir.is_dir():\n            return 0\n\n        return len(list(events_dir.glob(\"event-*.json\")))"

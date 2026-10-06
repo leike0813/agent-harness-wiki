@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-save-list-entry
+harness_id: continue
+snapshot_id: snapshot-continue-lt-core-util-history-ts
+locator:
+  kind: file_lines
+  file: core/util/history.ts
+  start: 153
+  end: 172
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/core/util/history.ts
+excerpt: "      let found = false;\n      const messageCount = session.history.filter(\n        (item) => item.message.role === \"assistant\",\n      ).length;\n      for (const sessionMetadata of sessionsList) {\n        if (sessionMetadata.sessionId === session.sessionId) {\n          sessionMetadata.title = session.title;\n          sessionMetadata.workspaceDirectory = session.workspaceDirectory;\n          sessionMetadata.messageCount = messageCount;\n          found = true;\n          break;\n        }\n      }\n\n      if (!found) {\n        const sessionMetadata: BaseSessionMetadata = {\n          sessionId: session.sessionId,\n          title: session.title,\n          dateCreated: String(Date.now()),\n          workspaceDirectory: session.workspaceDirectory,"

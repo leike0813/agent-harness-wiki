@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-cli-resolve
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-cli-args
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/cli.rs
+  start: 403
+  end: 425
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+  async fn get_or_create_session_id(
+      identifier: Option<Identifier>,
+      resume: bool,
+      no_session: bool,
+      goose_mode: GooseMode,
+  ) -> Result<Option<String>> {
+      if no_session {
+          return Ok(None);
+      }
+
+      let session_manager = SessionManager::instance();
+
+      let resolved_id = if resume {
+          let Some(id) = identifier else {
+              let sessions = session_manager
+                  .list_sessions_by_types(&[SessionType::User])
+                  .await?;
+              let session_id = sessions
+                  .first()
+                  .map(|s| s.id.clone())
+                  .ok_or_else(|| anyhow::anyhow!("No session found to resume"))?;
+              return Ok(Some(session_id));
+          };

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-retention-http-trigger
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-kilocode-server-httpapi-handlers-kilocode-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/server/httpapi/handlers/kilocode.ts
+  start: 575
+  end: 588
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/kilocode/server/httpapi/handlers/kilocode.ts
+excerpt: "    const retentionStatus = Effect.fn(\"KilocodeHttpApi.retentionStatus\")(function* () {\n      const progress = yield* KiloSessionRetention.readProgress()\n      const last = yield* KiloSessionRetention.readState()\n      return { ...(yield* retentionActive()), ...(last ? { last } : {}), ...(progress ? { progress } : {}) }\n    })\n\n    const retentionRun = Effect.fn(\"KilocodeHttpApi.retentionRun\")(function* (ctx: {\n      payload: typeof RetentionRunPayload.Type\n    }) {\n      const outcome = yield* KiloSessionRetention.run({ force: ctx.payload.force === true })\n      if (!outcome.ran) return yield* retentionStatus()\n      return { ...(yield* retentionActive()), last: outcome.result }\n    })"

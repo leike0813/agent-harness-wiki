@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-loc-chats-list
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-storage
+locator:
+  kind: file_lines
+  file: packages/core/src/config/storage.ts
+  start: 411
+  end: 425
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+    }
+
+    async listProjectChatFiles(): Promise<
+      Array<{ filePath: string; lastUpdated: string }>
+    > {
+      const chatsDir = path.join(this.getProjectTempDir(), 'chats');
+      try {
+        const files = await fs.promises.readdir(chatsDir);
+        const jsonFiles = files.filter(
+          (f) => f.endsWith('.json') || f.endsWith('.jsonl'),
+        );
+
+        const sessions = await Promise.all(
+          jsonFiles.map(async (file) => {
+            const absolutePath = path.join(chatsDir, file);

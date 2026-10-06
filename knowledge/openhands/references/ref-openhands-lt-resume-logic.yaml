@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-lt-resume-logic
+harness_id: openhands
+snapshot_id: snapshot-openhands-lt-openhands-cli-entrypoint-py
+locator:
+  kind: file_lines
+  file: openhands_cli/entrypoint.py
+  start: 58
+  end: 77
+official_url: https://github.com/OpenHands/OpenHands-CLI/blob/954f2ba646e8d749261a8f2b2b7e3031fa39be9f/openhands_cli/entrypoint.py
+excerpt: "        # Get the latest conversation ID\n        from openhands_cli.conversations.store.local import LocalFileStore\n\n        store = LocalFileStore()\n        conversations = store.list_conversations(limit=1)\n\n        if not conversations:\n            console.print(\n                \"No conversations found to resume.\", style=OPENHANDS_THEME.warning\n            )\n            return None\n\n        latest_id = conversations[0].id\n\n        console.print(\n            f\"Resuming latest conversation: {latest_id}\",\n            style=OPENHANDS_THEME.success,\n        )\n        return latest_id"

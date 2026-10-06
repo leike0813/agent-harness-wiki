@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-format-legacy
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-recording-service
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingService.ts
+  start: 1568
+  end: 1582
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+    options?: LoadConversationOptions,
+  ): LoadedConversationResult | null {
+    try {
+      const parsed = JSON.parse(fileContent) as unknown;
+
+      const isLegacyRecord = (val: unknown): val is ConversationRecord =>
+        typeof val === 'object' && val !== null && 'sessionId' in val;
+
+      if (isLegacyRecord(parsed)) {
+        const legacyRecord = parsed;
+        if (options?.metadataOnly) {
+          let fallbackFirstUserMessageStr: string | undefined;
+          const firstUserMessage = legacyRecord.messages?.find(
+            (m) => m.type === 'user' && isResumableMessageRecord(m),
+          );

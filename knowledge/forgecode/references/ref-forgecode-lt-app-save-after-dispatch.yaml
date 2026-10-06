@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-lt-app-save-after-dispatch
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-lt-crates-forge-app-src-app-rs
+locator:
+  kind: file_lines
+  file: crates/forge_app/src/app.rs
+  start: 189
+  end: 200
+official_url: https://github.com/tailcallhq/forgecode/blob/1469f75aa0fa3a2a768bde24f7dc528723b67259/crates/forge_app/src/app.rs
+excerpt: "                    // Execute dispatch and always save conversation afterwards\n                    let mut orch = orch.sender(tx.clone());\n                    let dispatch_result = orch.run().await;\n\n                    // Always save conversation using get_conversation()\n                    let conversation = orch.get_conversation().clone();\n                    let save_result = services.upsert_conversation(conversation).await;\n\n                    // Send any error to the stream (prioritize dispatch error\n                    // over save error)\n                    #[allow(clippy::collapsible_if)]\n                    if let Some(err) = dispatch_result.err().or(save_result.err()) {"

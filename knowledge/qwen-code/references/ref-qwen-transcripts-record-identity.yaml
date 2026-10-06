@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-record-identity
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-chat-recording
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingService.ts
+  start: 343
+  end: 356
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/packages/core/src/services/chatRecordingService.ts"
+excerpt: |2-
+    /** Unique identifier for this logical message */
+    uuid: string;
+    /** UUID of the parent message; null for root (first message in session) */
+    parentUuid: string | null;
+    /** Session identifier - groups records into a logical conversation */
+    sessionId: string;
+    /** ISO 8601 timestamp of when the record was created */
+    timestamp: string;
+    /**
+     * Message type: user input, assistant response, tool result, or system event.
+     * System records are append-only events that can alter how history is reconstructed
+     * (e.g., chat compression checkpoints) while keeping the original UI history intact.
+     */
+    type: 'user' | 'assistant' | 'tool_result' | 'system';

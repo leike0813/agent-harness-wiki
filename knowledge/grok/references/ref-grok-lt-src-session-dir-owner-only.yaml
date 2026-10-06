@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-lt-src-session-dir-owner-only
+harness_id: grok
+snapshot_id: snapshot-grok-lt-crates-codegen-xai-grok-config-src-paths-rs
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/paths.rs
+  start: 98
+  end: 113
+official_url: https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-config/src/paths.rs
+excerpt: "/// Best-effort chmod 0700 on Unix, no-op elsewhere: session dirs hold chat history, and creators re-run on every touch so the mode self-heals.\n/// Failures are logged (not returned): on chmod-hostile filesystems (FAT, some network mounts) healing pre-existing loose dirs can never succeed.\n/// That must be visible.\npub fn set_dir_owner_only(dir: &std::path::Path) {\n    #[cfg(unix)]\n    {\n        use std::os::unix::fs::PermissionsExt;\n        if let Err(e) = std::fs::set_permissions(dir, std::fs::Permissions::from_mode(0o700)) {\n            tracing::debug!(?e, dir = %dir.display(), \"failed to chmod session dir owner-only\");\n        }\n    }\n    #[cfg(not(unix))]\n    {\n        let _ = dir;\n    }\n}"

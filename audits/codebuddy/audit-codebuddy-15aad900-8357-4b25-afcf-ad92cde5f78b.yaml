@@ -1,0 +1,803 @@
+schema_version: 2
+audit_id: audit-codebuddy-15aad900-8357-4b25-afcf-ad92cde5f78b
+harness_id: codebuddy
+checked_at: 2026-10-06T04:33:10.091Z
+previous_audit_id: audit-codebuddy-5389ed11-ce72-4b34-b1a0-ac1ff5a73582
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-codebuddy-docs
+    kind: git_repository
+    checked_at: 2026-10-06T04:33:09.242Z
+    status: changed
+    baseline: 694ae23f44308ca901d620d2e48c2c3d35c75fc9
+    observed: 8c7caf7ad5edd6ec9367a51fbeec2f4f167aa109
+    remote_ref: refs/heads/main
+  - source_id: source-codebuddy-site
+    kind: official_documentation
+    checked_at: 2026-10-06T04:33:09.247Z
+    status: unchanged
+    baseline: 6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b
+    observed: 6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b
+    resolved_url: https://www.codebuddy.cn/llms.txt
+  - source_id: source-codebuddy-npm
+    kind: npm_registry
+    checked_at: 2026-10-06T04:33:09.249Z
+    status: changed
+    baseline: 2.161.1@sha512-Ii1ziKuvDlEj0e6/Re8tnKYU0CA9Lf73XtolPYVKUnugqNjPHBG2mxPxshB/tJy5Wy6NyDDB97enrnqFKjP3tQ==
+    observed: 2.161.4@sha512-JBoVzj8rdcpWsgbTlfmsy0TYE61RGHbBlXPoEeWHFbuNCtj0DCAXA9tQ435zJGGUAQmqOI+35Ag35FWNPf4mXg==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-overrides
+      - config-runtime
+      - config-trust
+      - config-defaults
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-changelog-context-usage
+      - ref-codebuddy-cli-args
+      - ref-codebuddy-dir-core
+      - ref-codebuddy-dir-global
+      - ref-codebuddy-dir-priority
+      - ref-codebuddy-dir-project
+      - ref-codebuddy-env-context-usage
+      - ref-codebuddy-env-debug
+      - ref-codebuddy-env-fs
+      - ref-codebuddy-env-image-history
+      - ref-codebuddy-env-settings
+      - ref-codebuddy-env-shell
+      - ref-codebuddy-env-tools
+      - ref-codebuddy-install-dir
+      - ref-codebuddy-mcp-locations
+      - ref-codebuddy-mcp-troubleshoot
+      - ref-codebuddy-memory-cache
+      - ref-codebuddy-memory-types
+      - ref-codebuddy-models-hotreload
+      - ref-codebuddy-perms-rules
+      - ref-codebuddy-perms-trust
+      - ref-codebuddy-perms-where
+      - ref-codebuddy-settings-configcmds
+      - ref-codebuddy-settings-exclude
+      - ref-codebuddy-settings-files
+      - ref-codebuddy-settings-keys
+      - ref-codebuddy-settings-permissions
+      - ref-codebuddy-settings-plugins
+      - ref-codebuddy-settings-priority
+      - ref-codebuddy-settings-subagents
+      - ref-codebuddy-slash-builtin
+      - ref-codebuddy-trouble-logs
+      - ref-codebuddy-trouble-migrate
+      - ref-codebuddy-trouble-update
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-codebuddy-docs: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-entry
+      - agents-format
+      - agents-roles
+      - agents-invocation
+      - agents-overrides
+      - agents-limits
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-agents-advanced
+      - ref-codebuddy-agents-background
+      - ref-codebuddy-agents-builtin
+      - ref-codebuddy-agents-cli
+      - ref-codebuddy-agents-format
+      - ref-codebuddy-agents-limits
+      - ref-codebuddy-agents-locations
+      - ref-codebuddy-agents-manage
+      - ref-codebuddy-agents-mcp
+      - ref-codebuddy-agents-model
+      - ref-codebuddy-agents-plugin
+      - ref-codebuddy-agents-resume
+      - ref-codebuddy-agents-tools
+      - ref-codebuddy-cli-agents
+      - ref-codebuddy-cli-commands
+      - ref-codebuddy-env-tools
+      - ref-codebuddy-plugins-troubleshoot
+      - ref-codebuddy-pluginsref-components
+      - ref-codebuddy-settings-keys
+      - ref-codebuddy-settings-permissions
+      - ref-codebuddy-settings-subagents
+      - ref-codebuddy-teams-limits
+      - ref-codebuddy-teams-vs
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-codebuddy-docs: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-entry
+      - providers-auth
+      - providers-models
+      - providers-metadata
+      - providers-responses
+      - providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-changelog-error-4100
+      - ref-codebuddy-changelog-stream-interrupt
+      - ref-codebuddy-env-auth
+      - ref-codebuddy-env-debug
+      - ref-codebuddy-env-endpoints
+      - ref-codebuddy-env-models
+      - ref-codebuddy-env-perf
+      - ref-codebuddy-iam-auth
+      - ref-codebuddy-iam-cred
+      - ref-codebuddy-iam-details
+      - ref-codebuddy-iam-faq
+      - ref-codebuddy-iam-thirdparty
+      - ref-codebuddy-models-available
+      - ref-codebuddy-models-envref
+      - ref-codebuddy-models-fields
+      - ref-codebuddy-models-hotreload
+      - ref-codebuddy-models-locations
+      - ref-codebuddy-models-merge
+      - ref-codebuddy-models-priority
+      - ref-codebuddy-models-related
+      - ref-codebuddy-models-troubleshoot
+      - ref-codebuddy-models-urlformat
+      - ref-codebuddy-settings-configcmds
+      - ref-codebuddy-settings-keys
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-codebuddy-docs: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-events
+      - hooks-config
+      - hooks-io
+      - hooks-execution
+      - hooks-conditions
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-changelog-filechanged-batch
+      - ref-codebuddy-env-debug
+      - ref-codebuddy-funchooks-quickstart
+      - ref-codebuddy-hooks-config
+      - ref-codebuddy-hooks-debug
+      - ref-codebuddy-hooks-events
+      - ref-codebuddy-hooks-exec
+      - ref-codebuddy-hooks-frontmatter
+      - ref-codebuddy-hooks-input
+      - ref-codebuddy-hooks-mcp
+      - ref-codebuddy-hooks-output
+      - ref-codebuddy-hooks-overview
+      - ref-codebuddy-hooks-project
+      - ref-codebuddy-hooks-prompt
+      - ref-codebuddy-hooks-security
+      - ref-codebuddy-hooks-structure
+      - ref-codebuddy-hooksguide-start
+      - ref-codebuddy-pluginsref-components
+      - ref-codebuddy-settings-keys
+      - ref-codebuddy-skills-hooks
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-codebuddy-docs: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-entry
+      - mcp-definition
+      - mcp-auth
+      - mcp-lifecycle
+      - mcp-capabilities
+      - mcp-exposure
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-env-auth
+      - ref-codebuddy-env-mcp
+      - ref-codebuddy-env-tools
+      - ref-codebuddy-marketplaces-runtime
+      - ref-codebuddy-mcp-approval
+      - ref-codebuddy-mcp-cli
+      - ref-codebuddy-mcp-defer
+      - ref-codebuddy-mcp-envexpand
+      - ref-codebuddy-mcp-format
+      - ref-codebuddy-mcp-large
+      - ref-codebuddy-mcp-locations
+      - ref-codebuddy-mcp-permissions
+      - ref-codebuddy-mcp-prompts
+      - ref-codebuddy-mcp-scope
+      - ref-codebuddy-mcp-structure
+      - ref-codebuddy-mcp-transport
+      - ref-codebuddy-mcp-troubleshoot
+      - ref-codebuddy-mcpapps-core
+      - ref-codebuddy-mcpapps-scope
+      - ref-codebuddy-mcpstatus-schema
+      - ref-codebuddy-mcpstatus-tldr
+      - ref-codebuddy-perms-rules
+      - ref-codebuddy-settings-keys
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-codebuddy-docs: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model
+      - plugins-package
+      - plugins-install
+      - plugins-discovery
+      - plugins-api
+      - plugins-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-funchooks-mod
+      - ref-codebuddy-funchooks-tier
+      - ref-codebuddy-marketplaces-manage
+      - ref-codebuddy-marketplaces-official
+      - ref-codebuddy-marketplaces-overview
+      - ref-codebuddy-marketplaces-runtime
+      - ref-codebuddy-marketplaces-troubleshoot
+      - ref-codebuddy-plugins-defaults
+      - ref-codebuddy-plugins-model
+      - ref-codebuddy-plugins-structure
+      - ref-codebuddy-plugins-test
+      - ref-codebuddy-plugins-troubleshoot
+      - ref-codebuddy-pluginsref-cache
+      - ref-codebuddy-pluginsref-cli
+      - ref-codebuddy-pluginsref-components
+      - ref-codebuddy-pluginsref-dep
+      - ref-codebuddy-pluginsref-env
+      - ref-codebuddy-pluginsref-metadata
+      - ref-codebuddy-pluginsref-paths
+      - ref-codebuddy-pluginsref-required
+      - ref-codebuddy-pluginsref-scope
+      - ref-codebuddy-pluginsref-userconfig
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-codebuddy-docs: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-roots
+      - skills-format
+      - skills-loading
+      - skills-invocation
+      - skills-conditions
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-changelog-skill-trigger
+      - ref-codebuddy-dir-priority
+      - ref-codebuddy-dir-project
+      - ref-codebuddy-dir-user
+      - ref-codebuddy-env-debug
+      - ref-codebuddy-pluginsref-components
+      - ref-codebuddy-skills-artifacts
+      - ref-codebuddy-skills-debug
+      - ref-codebuddy-skills-fork
+      - ref-codebuddy-skills-format
+      - ref-codebuddy-skills-frontmatter
+      - ref-codebuddy-skills-hooks
+      - ref-codebuddy-skills-overrides
+      - ref-codebuddy-skills-permissions
+      - ref-codebuddy-skills-placeholders
+      - ref-codebuddy-skills-roots
+      - ref-codebuddy-skills-selection
+      - ref-codebuddy-skills-shell
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    reason: "source-codebuddy-docs: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-recording-scope
+      - transcripts-storage-layout
+      - transcripts-record-shape
+      - transcripts-session-lifecycle
+      - transcripts-retention-and-purge
+      - transcripts-inspection
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-lt-daemon-log-types
+      - ref-codebuddy-lt-dir-runtime-data
+      - ref-codebuddy-lt-env-config-dir
+      - ref-codebuddy-lt-install-config-dir
+      - ref-codebuddy-lt-btw-not-persisted
+      - ref-codebuddy-lt-cli-no-session-persistence
+      - ref-codebuddy-lt-subagent-storage-tree
+      - ref-codebuddy-lt-changelog-mcp-spill-path
+      - ref-codebuddy-lt-hooks-input-common
+      - ref-codebuddy-lt-hooks-pretooluse-example
+      - ref-codebuddy-lt-acp-conversation-request-id
+      - ref-codebuddy-lt-changelog-transcript-id
+      - ref-codebuddy-lt-env-session-max-items
+      - ref-codebuddy-lt-checkpoint-tracking
+      - ref-codebuddy-lt-settings-cleanup-days
+      - ref-codebuddy-lt-sdk-session-options
+      - ref-codebuddy-lt-sdk-resume-option
+      - ref-codebuddy-lt-slash-resume-fork
+      - ref-codebuddy-lt-slash-export
+      - ref-codebuddy-lt-webui-export
+      - ref-codebuddy-lt-cli-purge-command
+      - ref-codebuddy-lt-cli-purge-options
+      - ref-codebuddy-lt-cli-purge-scope
+      - ref-codebuddy-lt-cli-purge-all
+      - ref-codebuddy-lt-settings-cleanup-command
+      - ref-codebuddy-lt-keybindings-transcript-view
+      - ref-codebuddy-lt-changelog-replay-after-write
+      - ref-codebuddy-lt-daemon-pid-registry
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - agents.entry
+      - hooks.input
+      - hooks.events
+    reason: "source-codebuddy-docs: local_transcripts first pass; docs-only
+      source, so implementation-level transcript details stay unconfirmed"
+pending_question_ids:
+  - config.sources
+  - config.overrides
+  - config.runtime
+  - config.trust
+  - config.defaults
+  - config.migration
+  - config.diagnostics
+  - agents.entry
+  - agents.format
+  - agents.roles
+  - agents.invocation
+  - agents.overrides
+  - agents.limits
+  - agents.diagnostics
+  - providers.entry
+  - providers.auth
+  - providers.protocol
+  - providers.models
+  - providers.metadata
+  - providers.forwarding
+  - providers.responses
+  - providers.diagnostics
+  - hooks.events
+  - hooks.entry
+  - hooks.input
+  - hooks.output
+  - hooks.order
+  - hooks.conditions
+  - hooks.diagnostics
+  - mcp.entry
+  - mcp.definition
+  - mcp.transport
+  - mcp.auth
+  - mcp.lifecycle
+  - mcp.capabilities
+  - mcp.exposure
+  - mcp.diagnostics
+  - plugins.model
+  - plugins.package
+  - plugins.install
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+  - skills.roots
+  - skills.discovery
+  - skills.collision
+  - skills.format
+  - skills.extensions
+  - skills.loading
+  - skills.invocation
+  - skills.conditions
+  - skills.diagnostics
+investigation_notes:
+- 'First pass for the local_transcripts topic. Pinned source is source-codebuddy-docs
+  (https://cnb.cool/codebuddy/codebuddy-code) at commit 8c7caf7ad5edd6ec9367a51fbeec2f4f167aa109,
+  read from the coordinator-opened workspace ws-8c7caf7ad5ed-009d3cf0-2a29-460d-9fc2-959198df0f49;
+  baseline was 694ae23f44308ca901d620d2e48c2c3d35c75fc9. 17 distinct files were pinned
+  as one artifact and one snapshot each, producing 27 references, all used in the
+  chapter body. Main blocking limit: this git source is the documentation repository,
+  not the product implementation, so it can only prove what the official docs state.
+  Implementation-level transcript details stay unconfirmed and are recorded as per-question
+  gaps: JSONL record type enumeration and required fields (transcripts.schema), encoding,
+  sharding, compression and torn-line handling (transcripts.format), the <project-hash>
+  derivation that would be needed to reproduce a project directory on another machine
+  (transcripts.naming), whether a database is used alongside the JSONL files (transcripts.database),
+  export file format and whether an export can be re-imported (transcripts.archive),
+  consequences of manually deleting transcript files (transcripts.cleanup), and flush
+  timing, file locking and any integrity check or repair tooling (transcripts.lifecycle,
+  transcripts.diagnostics). No transcripts.* question is left in pending_question_ids;
+  the remaining pending entries belong to the other topics and were left untouched.'

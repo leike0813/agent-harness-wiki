@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-tool-call-state-type
+harness_id: continue
+snapshot_id: snapshot-continue-lt-core-index-d-ts
+locator:
+  kind: file_lines
+  file: core/index.d.ts
+  start: 515
+  end: 545
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/core/index.d.ts
+excerpt: "// Will exist only on \"assistant\" messages with tool calls\ninterface ToolCallState {\n  toolCallId: string;\n  toolCall: ToolCall;\n  status: ToolStatus;\n  parsedArgs: any;\n  processedArgs?: Record<string, any>; // Added in preprocesing step\n  output?: ContextItem[];\n  tool?: Tool;\n  mcpUiState?: McpUiState;\n}\n\ninterface Reasoning {\n  active: boolean;\n  text: string;\n  startAt: number;\n  endAt?: number;\n}\n\nexport interface ChatHistoryItem {\n  message: ChatMessage;\n  contextItems: ContextItemWithId[];\n  editorState?: any;\n  modifiers?: InputModifiers;\n  promptLogs?: PromptLog[];\n  toolCallStates?: ToolCallState[];\n  isGatheringContext?: boolean;\n  reasoning?: Reasoning;\n  appliedRules?: RuleMetadata[];\n  conversationSummary?: string;\n}"

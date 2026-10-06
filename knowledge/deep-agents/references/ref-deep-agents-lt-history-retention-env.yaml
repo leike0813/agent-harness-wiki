@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-lt-history-retention-env
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-code-deepagents-code-env-vars-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/_env_vars.py
+  start: 331
+  end: 341
+official_url: https://github.com/langchain-ai/deepagents/blob/4b9410272a4e4885ec70fb1ec8549e307a15e585/libs/code/deepagents_code/_env_vars.py
+excerpt: 'HISTORY_RETENTION_DAYS = "DEEPAGENTS_CODE_HISTORY_RETENTION_DAYS"
+
+  """Days an offloaded conversation-history archive is kept before the startup
+
+  sweep deletes it.
+
+
+  Archives live under `~/.deepagents/conversation_history/` and are removed by a
+
+  best-effort background sweep at startup once their age exceeds the window.
+
+  Non-negative integers only: `0` disables the sweep entirely, and an
+
+  unparseable or negative value falls through to the next config source. Also
+
+  settable via `[history].retention_days` in config.toml (managed config takes
+
+  precedence).
+
+  """'

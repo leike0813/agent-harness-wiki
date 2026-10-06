@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-lt-ui-init-by-id
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-lt-crates-forge-main-src-ui-rs
+locator:
+  kind: file_lines
+  file: crates/forge_main/src/ui.rs
+  start: 3841
+  end: 3853
+official_url: https://github.com/tailcallhq/forgecode/blob/1469f75aa0fa3a2a768bde24f7dc528723b67259/crates/forge_main/src/ui.rs
+excerpt: "        let mut is_new = false;\n        let id = if let Some(id) = self.state.conversation_id {\n            id\n        } else if let Some(id) = self.cli.conversation_id {\n            // Use the provided conversation ID\n\n            // Check if conversation exists, if not create it\n            if self.api.conversation(&id).await?.is_none() {\n                let conversation = Conversation::new(id);\n                self.api.upsert_conversation(conversation).await?;\n                is_new = true;\n            }\n            id"

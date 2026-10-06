@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-lt-ui-init-from-file
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-lt-crates-forge-main-src-ui-rs
+locator:
+  kind: file_lines
+  file: crates/forge_main/src/ui.rs
+  start: 3854
+  end: 3870
+official_url: https://github.com/tailcallhq/forgecode/blob/1469f75aa0fa3a2a768bde24f7dc528723b67259/crates/forge_main/src/ui.rs
+excerpt: "        } else if let Some(ref path) = self.cli.conversation {\n            let content = ForgeFS::read_utf8(path).await?;\n\n            // Try to parse as a dump file first (with \"conversation\" wrapper)\n            let conversation: Conversation = if let Ok(dump) =\n                serde_json::from_str::<ConversationDump>(&content)\n            {\n                dump.conversation\n            } else {\n                // Fall back to parsing as direct Conversation object\n                serde_json::from_str(&content)\n                    .context(\"Failed to parse conversation file. Expected either a ConversationDump or Conversation format\")?\n            };\n\n            let id = conversation.id;\n            self.api.upsert_conversation(conversation).await?;\n            id"

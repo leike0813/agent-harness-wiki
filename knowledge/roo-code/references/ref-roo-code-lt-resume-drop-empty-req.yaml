@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-resume-drop-empty-req
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-task-task-ts
+locator:
+  kind: file_lines
+  file: src/core/task/Task.ts
+  start: 1980
+  end: 1996
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/task/Task.ts
+excerpt: "\t\t\t// Since we don't use `api_req_finished` anymore, we need to check if the\n\t\t\t// last `api_req_started` has a cost value, if it doesn't and no\n\t\t\t// cancellation reason to present, then we remove it since it indicates\n\t\t\t// an api request without any partial content streamed.\n\t\t\tconst lastApiReqStartedIndex = findLastIndex(\n\t\t\t\tmodifiedClineMessages,\n\t\t\t\t(m) => m.type === \"say\" && m.say === \"api_req_started\",\n\t\t\t)\n\n\t\t\tif (lastApiReqStartedIndex !== -1) {\n\t\t\t\tconst lastApiReqStarted = modifiedClineMessages[lastApiReqStartedIndex]\n\t\t\t\tconst { cost, cancelReason }: ClineApiReqInfo = JSON.parse(lastApiReqStarted.text || \"{}\")\n\n\t\t\t\tif (cost === undefined && cancelReason === undefined) {\n\t\t\t\t\tmodifiedClineMessages.splice(lastApiReqStartedIndex, 1)\n\t\t\t\t}\n\t\t\t}"

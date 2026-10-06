@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt-database-history-table-ddl-code
+harness_id: omp
+snapshot_id: snapshot-omp-lt-repo-fc6c-packages-coding-agent-src-session-history-storage-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/history-storage.ts
+  start: 76
+  end: 86
+official_url: https://github.com/can1357/oh-my-pi/blob/fc6c0c90dab012a0b7edea731af92f5bbd09cff0/packages/coding-agent/src/session/history-storage.ts#L76-L86
+excerpt: "/** Canonical `history` schema; `#rebuildHistory` recreates the table from this exact DDL. */\nconst HISTORY_TABLE_DDL = `\nCREATE TABLE IF NOT EXISTS history (\n\tid INTEGER PRIMARY KEY AUTOINCREMENT,\n\tprompt TEXT NOT NULL UNIQUE,\n\tcreated_at INTEGER NOT NULL DEFAULT (${SQLITE_NOW_EPOCH}),\n\tcwd TEXT,\n\tsession_id TEXT,\n\tuse_count INTEGER NOT NULL DEFAULT 1\n);\nCREATE INDEX IF NOT EXISTS idx_history_created_at ON history(created_at DESC);"

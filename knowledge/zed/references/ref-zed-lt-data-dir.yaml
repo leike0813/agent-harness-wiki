@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-data-dir
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-paths-src-paths-rs
+locator:
+  kind: file_lines
+  file: crates/paths/src/paths.rs
+  start: 144
+  end: 158
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/paths/src/paths.rs
+excerpt: "pub fn data_dir() -> &'static PathBuf {\n    CURRENT_DATA_DIR.get_or_init(|| {\n        if let Some(custom_dir) = CUSTOM_DATA_DIR.get() {\n            custom_dir.clone()\n        } else if cfg!(target_os = \"macos\") {\n            home_dir()\n                .join(\"Library/Application Support\")\n                .join(APP_NAME)\n        } else if cfg!(any(target_os = \"linux\", target_os = \"freebsd\")) {\n            if let Ok(flatpak_xdg_data) = std::env::var(\"FLATPAK_XDG_DATA_HOME\") {\n                flatpak_xdg_data.into()\n            } else {\n                dirs::data_local_dir().expect(\"failed to determine XDG_DATA_HOME directory\")\n            }\n            .join(APP_NAME_LOWERCASE)"

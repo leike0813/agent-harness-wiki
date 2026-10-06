@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-lt-chat-append-diff
+harness_id: bolt
+snapshot_id: snapshot-bolt-lt-app-components-chat-chat-client-tsx
+locator:
+  kind: file_lines
+  file: app/components/chat/Chat.client.tsx
+  start: 174
+  end: 190
+official_url: https://github.com/stackblitz/bolt.new/blob/eda10b121221b30825a4c16eec5da1fd3eb1eb99/app/components/chat/Chat.client.tsx
+excerpt: "      /**\n       * If we have file modifications we append a new user message manually since we have to prefix\n       * the user input with the file modifications and we don't want the new user input to appear\n       * in the prompt. Using `append` is almost the same as `handleSubmit` except that we have to\n       * manually reset the input and we'd have to manually pass in file attachments. However, those\n       * aren't relevant here.\n       */\n      append({ role: 'user', content: `${diff}\\n\\n${_input}` });\n\n      /**\n       * After sending a new message we reset all modifications since the model\n       * should now be aware of all the changes.\n       */\n      workbenchStore.resetAllFileModifications();\n    } else {\n      append({ role: 'user', content: _input });\n    }"

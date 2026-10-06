@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-lt-thread-metadata-stamp
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-code-deepagents-code-sessions-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/sessions.py
+  start: 1819
+  end: 1828
+official_url: https://github.com/langchain-ai/deepagents/blob/4b9410272a4e4885ec70fb1ec8549e307a15e585/libs/code/deepagents_code/sessions.py
+excerpt: "    async with _connect() as conn:\n        async with conn.execute(\n            \"UPDATE checkpoints SET metadata = json_set(metadata, \"\n            \"'$.agent_name', ?, '$.cwd', ?, '$.updated_at', ?) WHERE thread_id = ?\",\n            (agent_name, cwd, datetime.now(UTC).isoformat(), thread_id),\n        ) as cursor:\n            if not cursor.rowcount:\n                msg = f\"Thread {thread_id} has no saved checkpoint\"\n                raise RuntimeError(msg)\n        await conn.commit()"

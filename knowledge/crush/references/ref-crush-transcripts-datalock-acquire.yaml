@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-datalock-acquire
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-db-datadirlock-go
+locator:
+  kind: file_lines
+  file: internal/db/datadirlock.go
+  start: 46
+  end: 54
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  //
+  // Acquisition is skipped (returning a no-op lock) when
+  // CRUSH_SKIP_DATADIR_LOCK is set to a truthy value. This is intended
+  // as an escape hatch for hostile filesystems that do not implement
+  // advisory locking; it should not be used in normal operation.
+  func acquireDataDirLock(dataDir string) (*dataDirLock, error) {
+  	if skipDataDirLock() {
+  		return &dataDirLock{release: func() {}}, nil
+  	}

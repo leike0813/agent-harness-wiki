@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-store-migration-gate
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-webview-clineprovider-ts
+locator:
+  kind: file_lines
+  file: src/core/webview/ClineProvider.ts
+  start: 295
+  end: 313
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/webview/ClineProvider.ts
+excerpt: "\tprivate async initializeTaskHistoryStore(): Promise<void> {\n\t\ttry {\n\t\t\tawait this.taskHistoryStore.initialize()\n\n\t\t\t// Migration: backfill per-task files from globalState on first run\n\t\t\tconst migrationKey = \"taskHistoryMigratedToFiles\"\n\t\t\tconst alreadyMigrated = this.context.globalState.get<boolean>(migrationKey)\n\n\t\t\tif (!alreadyMigrated) {\n\t\t\t\tconst legacyHistory = this.context.globalState.get<HistoryItem[]>(\"taskHistory\") ?? []\n\n\t\t\t\tif (legacyHistory.length > 0) {\n\t\t\t\t\tthis.log(`[initializeTaskHistoryStore] Migrating ${legacyHistory.length} entries from globalState`)\n\t\t\t\t\tawait this.taskHistoryStore.migrateFromGlobalState(legacyHistory)\n\t\t\t\t}\n\n\t\t\t\tawait this.context.globalState.update(migrationKey, true)\n\t\t\t\tthis.log(\"[initializeTaskHistoryStore] Migration complete\")\n\t\t\t}"

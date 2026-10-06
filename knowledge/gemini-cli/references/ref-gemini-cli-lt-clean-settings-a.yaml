@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-clean-settings-a
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-cli-settings-schema
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settingsSchema.ts
+  start: 389
+  end: 412
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+        sessionRetention: {
+          type: 'object',
+          label: 'Session Retention',
+          category: 'General',
+          requiresRestart: false,
+          default: undefined as SessionRetentionSettings | undefined,
+          showInDialog: false,
+          properties: {
+            enabled: {
+              type: 'boolean',
+              label: 'Enable Session Cleanup',
+              category: 'General',
+              requiresRestart: false,
+              default: true as boolean,
+              description: 'Enable automatic session cleanup',
+              showInDialog: true,
+            },
+            maxAge: {
+              type: 'string',
+              label: 'Keep chat history',
+              category: 'General',
+              requiresRestart: false,
+              default: '30d' as string,
+              description:

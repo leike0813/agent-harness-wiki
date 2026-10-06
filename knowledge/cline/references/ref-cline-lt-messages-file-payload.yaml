@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-messages-file-payload
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-services-session-data-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/session-data.ts
+  start: 331
+  end: 359
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/services/session-data.ts
+excerpt: "\t};\n}\n\nexport function buildMessagesFilePayload(input: {\n\tupdatedAt: string;\n\tcontext: MessagesFileContext;\n\tmessages: LlmsProviders.MessageWithMetadata[];\n\tsystemPrompt?: string;\n}): {\n\tversion: 1;\n\tupdated_at: string;\n\tagent: \"lead\" | \"subagent\" | \"teammate\";\n\tsessionId: string;\n\ttaskType?: string;\n\torigin: MessagesFileContext[\"origin\"];\n\tmessages: StoredMessageWithMetadata[];\n\tsystem_prompt?: string;\n} {\n\treturn {\n\t\tversion: 1,\n\t\tupdated_at: input.updatedAt,\n\t\tagent: input.context.agent,\n\t\tsessionId: input.context.sessionId,\n\t\t...(input.context.taskType ? { taskType: input.context.taskType } : {}),\n\t\torigin: input.context.origin,\n\t\tmessages: normalizeStoredMessagesForPersistence(input.messages),\n\t\t...(input.systemPrompt ? { system_prompt: input.systemPrompt } : {}),\n\t};\n}"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-worktree-cleanup
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-ui-src-thread-worktree-archive-rs
+locator:
+  kind: file_lines
+  file: crates/agent_ui/src/thread_worktree_archive.rs
+  start: 858
+  end: 870
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent_ui/src/thread_worktree_archive.rs
+excerpt: "pub async fn cleanup_thread_archived_worktrees(thread_id: ThreadId, cx: &mut AsyncApp) {\n    let store = cx.update(|cx| ThreadMetadataStore::global(cx));\n    let remote_connection = store.read_with(cx, |store, _cx| {\n        store\n            .entry(thread_id)\n            .and_then(|t| t.remote_connection.clone())\n    });\n\n    let archived_worktrees = store\n        .read_with(cx, |store, cx| {\n            store.get_archived_worktrees_for_thread(thread_id, cx)\n        })\n        .await;"

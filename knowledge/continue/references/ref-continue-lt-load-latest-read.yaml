@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-load-latest-read
+harness_id: continue
+snapshot_id: snapshot-continue-lt-extensions-cli-src-session-ts
+locator:
+  kind: file_lines
+  file: extensions/cli/src/session.ts
+  start: 319
+  end: 332
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/session.ts
+excerpt: "    if (files.length === 0) {\n      return null;\n    }\n\n    // Load the most recent session\n    const session: Session = JSON.parse(fs.readFileSync(files[0].path, \"utf8\"));\n    // Set this as the current session for future saves\n    SessionManager.getInstance().setSession(session);\n    return session;\n  } catch (error) {\n    logger.error(\"Error loading session:\", error);\n    return null;\n  }\n}"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-workspace-domain-spec
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-packages-workspace-workspace-src-spec-ts
+locator:
+  kind: file_lines
+  file: packages/workspace/workspace/src/spec.ts
+  start: 69
+  end: 83
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/workspace/workspace/src/spec.ts
+excerpt: "/**\n * The workspace domain spec: one `workspaces` table keyed by\n * {@link WorkspaceId} plus the bootstrap/order singleton. The registry opens\n * this through `ctx.storage.domain`; the spec object is the single source of\n * the domain's identity, version, and schemas.\n */\nexport const workspaceDomainSpec = defineDomain({\n  name: 'workspace',\n  version: 2,\n  global: {\n    schema: workspaceDomainState,\n    initial: { initialized: false, workspaceIds: [], archivedSessionIds: [], pinnedSessionIds: [] },\n  },\n  tables: { workspaces: domainTable<WorkspaceId, WorkspaceRecord>(workspaceRecord) },"

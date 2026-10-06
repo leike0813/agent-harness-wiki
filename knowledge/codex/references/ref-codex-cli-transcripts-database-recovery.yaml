@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-database-recovery
+harness_id: codex
+snapshot_id: snapshot-codex-repo-822e58cc-state-sqlite
+locator:
+  kind: file_lines
+  file: codex-rs/state/src/sqlite.rs
+  start: 428
+  end: 440
+official_url: https://github.com/openai/codex/blob/822e58cc3d666166c7446c5b1ea2e52f5d09594c/codex-rs/state/src/sqlite.rs
+excerpt: "        if result == validation::QuickCheckOutcome::CorruptedNeedsFixed {\n            tracing::error!(database = %path.display(), \"SQLite quick check detected corruption\");\n            telemetry::record_corruption(telemetry_override, recover_spec.map(|spec| spec.kind));\n            if recovery == RecoveryMode::BackupAndRebuild {\n                pool.close().await;\n                let backups = crate::backup_runtime_db_for_fresh_start(path).await?;\n                for backup in backups {\n                    tracing::warn!(\n                        database = %backup.original_path.display(),\n                        backup = %backup.backup_path.display(),\n                        \"Preserved corrupt SQLite database before rebuilding\"\n                    );\n                }"

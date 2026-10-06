@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-diag-tool-outputs-a
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-file-utils
+locator:
+  kind: file_lines
+  file: packages/core/src/utils/fileUtils.ts
+  start: 798
+  end: 815
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+   */
+  export const TOOL_OUTPUTS_DIR = 'tool-outputs';
+
+  export async function saveTruncatedToolOutput(
+    content: string,
+    toolName: string,
+    id: string | number, // Accept string (callId) or number (truncationId)
+    projectTempDir: string,
+    sessionId?: string,
+  ): Promise<{ outputFile: string }> {
+    const safeToolName = sanitizeFilenamePart(toolName).toLowerCase();
+    const safeId = sanitizeFilenamePart(id.toString()).toLowerCase();
+    const fileName = safeId.startsWith(safeToolName)
+      ? `${safeId}.txt`
+      : `${safeToolName}_${safeId}.txt`;
+
+    let toolOutputDir = path.join(projectTempDir, TOOL_OUTPUTS_DIR);
+    if (sessionId) {

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-history-location-manifest-index
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-service-session-system-messages-history-session-history-location-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/session-system/messages/history/session-history-location.ts
+  start: 172
+  end: 187
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/service/session-system/messages/history/session-history-location.ts
+excerpt: "async function buildManifestIndex(\n  dataDir: string,\n): Promise<ReadonlyMap<string, readonly ManifestCandidate[]>> {\n  const root = join(dataDir, 'v2', 'sessions');\n  const manifests = await listManifestPaths(root);\n  const candidates = (\n    await mapWithConcurrency(manifests, MANIFEST_SCAN_CONCURRENCY, (path) =>\n      readManifestCandidate(dataDir, path),\n    )\n  ).filter((candidate): candidate is ManifestCandidate => candidate !== undefined);\n  return candidates.reduce<Map<string, ManifestCandidate[]>>((index, candidate) => {\n    const key = manifestKey(candidate);\n    index.set(key, [...(index.get(key) ?? []), candidate]);\n    return index;\n  }, new Map());\n}"

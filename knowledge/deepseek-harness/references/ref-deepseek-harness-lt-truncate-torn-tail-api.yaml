@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-truncate-torn-tail-api
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-packages-session-session-persistence-jsonl-src-index-ts
+locator:
+  kind: file_lines
+  file: packages/session/session-persistence-jsonl/src/index.ts
+  start: 884
+  end: 893
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/index.ts
+excerpt: "  /**\n   * Truncate a torn physical tail durably before this session's first new append.\n   * @param header - the session's stored header.\n   * @param truncateTo - the byte offset the artifact is truncated to.\n   */\n  async truncateTornTail(header: SessionHeader, truncateTo: number): Promise<void> {\n    this.coldLogMemo.delete(header.id)\n    await this.repair(header, truncateTo)\n    this.ctx.logger.warn(`${this.name}: session \"${header.id}\" recovered from a torn tail; incomplete tail bytes were discarded`)\n  }"

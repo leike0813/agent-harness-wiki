@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-session-archive-list
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-opencode-src-session-session-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/opencode/src/session/session.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/session/session.ts
+  start: 555
+  end: 566
+excerpt: "    const listGlobal = Effect.fn(\"Session.listGlobal\")(function* (input?: GlobalListInput) {\n      const conditions: SQL[] = []\n      if (input?.directory) conditions.push(eq(SessionTable.directory, input.directory))\n      if (input?.roots) conditions.push(isNull(SessionTable.parent_id))\n      if (input?.start) conditions.push(gte(SessionTable.time_updated, input.start))\n      if (input?.cursor) conditions.push(lt(SessionTable.time_updated, input.cursor))\n      if (input?.search) conditions.push(like(SessionTable.title, `%${input.search}%`))\n      if (!input?.archived) conditions.push(isNull(SessionTable.time_archived))\n\n      const query =\n        conditions.length > 0\n          ? db"

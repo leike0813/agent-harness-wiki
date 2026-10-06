@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-interrupted-turn-closers
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-packages-core-session-src-repair-ts
+locator:
+  kind: file_lines
+  file: packages/core/session/src/repair.ts
+  start: 199
+  end: 211
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/session/src/repair.ts
+excerpt: "/**\n * Crash-recovery entry point: synthetic closers that balance a persisted log\n * whose tail turn was interrupted. Used by crash-recovery callers; fork\n * seeds receive their `forked`-cause closers through `buildForkSeed` in\n * `./fork.ts`.\n *\n * @param events - the persisted log to scan, possibly ending inside an open turn.\n * @returns the synthetic `interrupted` closer events to append after `events`; empty when the log is already balanced.\n */\nexport function interruptedTurnClosers(events: readonly SessionEvent[]): SessionEvent[] {\n  return openTurnClosers(events, { kind: 'interrupted' })\n}"

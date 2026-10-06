@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-db-switch
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-lt-packages-agent-core-v2-src-persistence-configsection-ts
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/persistence/configSection.ts
+  start: 12
+  end: 30
+official_url: https://github.com/MoonshotAI/kimi-code/blob/21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3/packages/agent-core-v2/src/persistence/configSection.ts
+excerpt: "export const DATABASE_SECTION = 'database';\n\nexport const PERSISTENCE_MINIDB_READMODEL_ENV = 'KIMI_CODE_PERSISTENCE_MINIDB_READMODEL';\nexport const SEARCH_WORKER_ENV = 'KIMI_CODE_SEARCH_WORKER';\nexport const SEARCH_SYNC_SESSION_CAP_ENV = 'KIMI_CODE_SEARCH_SYNC_SESSION_CAP';\nexport const SEARCH_SYNC_DEBOUNCE_MS_ENV = 'KIMI_CODE_SEARCH_SYNC_DEBOUNCE_MS';\n\nexport const DatabaseConfigSchema = z.object({\n  base: z.boolean().optional(),\n  search: z.boolean().optional(),\n  searchSyncSessionCap: z.number().int().min(1).optional(),\n  searchSyncDebounceMs: z.number().int().min(0).optional(),\n});\n\nexport type DatabaseConfig = z.infer<typeof DatabaseConfigSchema>;\n\nexport const databaseEnvBindings: EnvBindings<DatabaseConfig> = envBindings(\n  DatabaseConfigSchema,\n  {"

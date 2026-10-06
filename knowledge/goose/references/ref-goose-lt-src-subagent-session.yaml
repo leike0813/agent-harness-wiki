@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-subagent-session
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-orchestrator
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/platform_extensions/orchestrator.rs
+  start: 787
+  end: 800
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+      async fn create_subagent_session(
+          session_manager: &SessionManager,
+          working_dir: &std::path::Path,
+          parent_session_id: &str,
+      ) -> crate::session::Session {
+          let session = create_session(session_manager, working_dir, SessionType::SubAgent).await;
+          session_manager
+              .update(&session.id)
+              .parent_session_id(Some(parent_session_id.to_string()))
+              .apply()
+              .await
+              .unwrap();
+          session_manager
+              .get_session(&session.id, false)

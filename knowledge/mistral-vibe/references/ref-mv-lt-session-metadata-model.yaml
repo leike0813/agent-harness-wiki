@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-session-metadata-model
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-session-metadata-model
+locator:
+  kind: file_lines
+  file: vibe/core/types.py
+  start: 185
+  end: 199
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/types.py
+excerpt: "class SessionMetadata(BaseModel):\n    session_id: str\n    parent_session_id: str | None = None\n    start_time: str\n    end_time: str | None\n    git_commit: str | None\n    git_branch: str | None\n    environment: dict[str, str | None]\n    # Where the session began. ``environment.working_directory`` follows it as\n    # it moves, so between them the record names both the directory the user\n    # started in and the one the session is working in. Neither on its own can\n    # do that, which is the whole reason this field exists.\n    origin_directory: str | None = None\n    username: str\n    child_sessions: list[ChildSessionLink] = Field(default_factory=list)"

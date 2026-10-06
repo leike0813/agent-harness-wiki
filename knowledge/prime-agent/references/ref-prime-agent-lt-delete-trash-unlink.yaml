@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-delete-trash-unlink
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-crates-pa-daemon-src-saved-session-commands-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/saved_session_commands.rs
+  start: 142
+  end: 160
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/7a52276cb17310f331f1075f28fa5cf9c4ae0a0a/crates/pa-daemon/src/saved_session_commands.rs
+excerpt: "    let trash = StdCommand::new(\"trash\").arg(\"--\").arg(path).output();\n    let removed_by_trash = match trash {\n        Ok(output) => output.status.success() || !path.exists(),\n        Err(_) => false,\n    };\n    if removed_by_trash {\n        after_file_removed(path);\n        remove_session_artifacts(path);\n        return json!({ \"ok\": true, \"method\": \"trash\" });\n    }\n    match std::fs::remove_file(path) {\n        Ok(()) => {\n            after_file_removed(path);\n            remove_session_artifacts(path);\n            json!({ \"ok\": true, \"method\": \"unlink\" })\n        }\n        Err(error) => json!({ \"ok\": false, \"error\": error.to_string() }),\n    }\n}"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-lt-db-open-permissions
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-lt-crates-chat-cli-src-database-mod-rs
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/database/mod.rs
+  start: 197
+  end: 215
+official_url: https://github.com/aws/amazon-q-developer-cli/blob/15cc8f3cd18c4272925ce1c7053268eedff1ea0a/crates/chat-cli/src/database/mod.rs
+excerpt: "                .migrate();\n            },\n            false => GlobalPaths::database_path_static()?,\n        };\n\n        // make the parent dir if it doesnt exist\n        if let Some(parent) = path.parent() {\n            if !parent.exists() {\n                std::fs::create_dir_all(parent)?;\n            }\n        }\n\n        let conn = SqliteConnectionManager::file(&path);\n        let pool = Pool::builder().build(conn)?;\n\n        // Check the unix permissions of the database file, set them to 0600 if they are not\n        #[cfg(unix)]\n        {\n            use std::os::unix::fs::PermissionsExt;"

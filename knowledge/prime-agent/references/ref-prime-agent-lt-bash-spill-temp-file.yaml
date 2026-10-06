@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-bash-spill-temp-file
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-crates-pa-core-src-tools-output-accumulator-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/tools/output_accumulator.rs
+  start: 33
+  end: 40
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/7a52276cb17310f331f1075f28fa5cf9c4ae0a0a/crates/pa-core/src/tools/output_accumulator.rs
+excerpt: "fn default_temp_file_path(prefix: &str) -> PathBuf {\n    let nanos = std::time::SystemTime::now()\n        .duration_since(std::time::UNIX_EPOCH)\n        .map_or(0, |d| d.as_nanos());\n    let id = nanos ^ (u128::from(std::process::id()) << 64);\n    std::env::temp_dir().join(format!(\"{prefix}-{id:032x}.log\"))\n}"

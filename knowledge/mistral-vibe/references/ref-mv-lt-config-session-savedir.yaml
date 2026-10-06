@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-config-session-savedir
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-config-session-savedir
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 81
+  end: 91
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/config/models.py
+excerpt: "    @field_validator(\"save_dir\", mode=\"before\")\n    @classmethod\n    def set_default_save_dir(cls, v: str) -> str:\n        if not v:\n            return str(SESSION_LOG_DIR.path)\n        return v\n\n    @field_validator(\"save_dir\", mode=\"after\")\n    @classmethod\n    def expand_save_dir(cls, v: str) -> str:\n        return str(Path(v).expanduser().resolve())"

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-shutdown-flush
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-app-app-go
+locator:
+  kind: file_lines
+  file: internal/app/app.go
+  start: 900
+  end: 913
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  	}
+  
+  	// Shared shutdown context for all timeout-bounded cleanup.
+  	shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+  	defer cancel()
+  
+  	// Drain any debounced message updates before the DB-close cleanup
+  	// runs in the parallel block below. message.Service buffers
+  	// streaming deltas (see internal/message/message.go) and we must
+  	// land them while the connection is still open.
+  	if app.Messages != nil {
+  		if err := app.Messages.FlushAll(shutdownCtx); err != nil {
+  			slog.Error("Failed to flush pending message updates on shutdown", "error", err)
+  		}

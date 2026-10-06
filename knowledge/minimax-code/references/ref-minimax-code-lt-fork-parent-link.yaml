@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-fork-parent-link
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-application-session-conversation-fork-service-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/application/session/conversation-fork-service.ts
+  start: 489
+  end: 507
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/application/session/conversation-fork-service.ts
+excerpt: "  async forkSideSession(input: {\n    readonly operationId: string;\n    readonly parentSessionId: string;\n    readonly purpose: string;\n    readonly title?: string;\n  }): Promise<SessionRecord> {\n    const result = await this.fork({\n      operationId: input.operationId,\n      sourceSessionId: input.parentSessionId,\n      title: input.title ?? 'BTW',\n      useSuggestedTitle: false,\n      isolatedWorktree: false,\n      sidePresentation: {\n        parentSessionId: input.parentSessionId,\n        purpose: input.purpose,\n      },\n    });\n    return result.child;\n  }"

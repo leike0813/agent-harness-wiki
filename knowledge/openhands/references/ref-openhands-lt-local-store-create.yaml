@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-lt-local-store-create
+harness_id: openhands
+snapshot_id: snapshot-openhands-lt-openhands-cli-conversations-store-local-py
+locator:
+  kind: file_lines
+  file: openhands_cli/conversations/store/local.py
+  start: 114
+  end: 132
+official_url: https://github.com/OpenHands/OpenHands-CLI/blob/954f2ba646e8d749261a8f2b2b7e3031fa39be9f/openhands_cli/conversations/store/local.py
+excerpt: "    def create(self, conversation_id: str | None = None) -> str:\n        \"\"\"Create a new conversation.\n\n        Args:\n            conversation_id: Optional ID for the new conversation.\n                           If not provided, one will be generated.\n\n        Returns:\n            The conversation ID.\n        \"\"\"\n        if not conversation_id:\n            conversation_id = uuid.uuid4().hex\n\n        conversation_dir = self.base_dir / conversation_id\n        conversation_dir.mkdir(parents=True, exist_ok=True)\n        # Create events directory to be ready for writes\n        (conversation_dir / \"events\").mkdir(exist_ok=True)\n\n        return conversation_id"

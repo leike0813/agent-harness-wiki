@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-lt-agent-store-base-state
+harness_id: openhands
+snapshot_id: snapshot-openhands-lt-openhands-cli-stores-agent-store-py
+locator:
+  kind: file_lines
+  file: openhands_cli/stores/agent_store.py
+  start: 62
+  end: 73
+official_url: https://github.com/OpenHands/OpenHands-CLI/blob/954f2ba646e8d749261a8f2b2b7e3031fa39be9f/openhands_cli/stores/agent_store.py
+excerpt: "    # Normalize: directory names use hex (no dashes), but callers may pass\n    # str(UUID) which includes dashes.\n    normalized_id = conversation_id.replace(\"-\", \"\")\n    conversation_dir = os.path.join(get_conversations_dir(), normalized_id)\n    base_state_path = os.path.join(conversation_dir, BASE_STATE)\n\n    if not os.path.exists(base_state_path):\n        return None\n\n    try:\n        with open(base_state_path) as f:\n            state_data = json.load(f)"

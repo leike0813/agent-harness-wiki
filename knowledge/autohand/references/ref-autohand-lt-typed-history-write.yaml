@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-typed-history-write
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-session-typedmessagehistory-ts
+locator:
+  kind: file_lines
+  file: src/session/TypedMessageHistory.ts
+  start: 51
+  end: 61
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/session/TypedMessageHistory.ts
+excerpt: "    const entry = { id: randomUUID(), text, cwd, createdAt: new Date().toISOString(), ...(metadata?.peerReferences.length ? structuredClone(metadata) : {}) };\n    this.recent = mergeEntries([entry], this.recent);\n    return this.enqueue(async () => {\n      if (!this.filePath) return;\n      await mkdir(path.dirname(this.filePath), { recursive: true });\n      await withFileLock(`${this.filePath}.lock`, async () => {\n        const entries = mergeEntries([entry], await this.readEntries());\n        await atomicWriteJson(this.filePath!, entries);\n        this.recent = mergeEntries(this.recent, entries);\n      }, { waitTimeoutMs: 5_000 });\n    });"

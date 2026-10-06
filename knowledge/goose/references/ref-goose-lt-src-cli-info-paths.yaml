@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-cli-info-paths
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-cli-info
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/commands/info.rs
+  start: 106
+  end: 117
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+      let logs_dir = Paths::in_state_dir("logs");
+      let sessions_dir = Paths::in_data_dir(SESSIONS_FOLDER);
+      let sessions_db = sessions_dir.join(DB_NAME);
+      let config = Config::global();
+      let config_dir = Paths::config_dir();
+      let config_yaml_file = config_dir.join(CONFIG_YAML_NAME);
+
+      let paths = [
+          ("Config dir:", &config_dir),
+          ("Config yaml:", &config_yaml_file),
+          ("Sessions DB (sqlite):", &sessions_db),
+          ("Logs dir:", &logs_dir),

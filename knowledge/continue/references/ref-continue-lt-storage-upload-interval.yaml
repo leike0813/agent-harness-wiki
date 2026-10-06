@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-storage-upload-interval
+harness_id: continue
+snapshot_id: snapshot-continue-lt-extensions-cli-src-services-storagesyncservice-ts
+locator:
+  kind: file_lines
+  file: extensions/cli/src/services/StorageSyncService.ts
+  start: 128
+  end: 148
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/services/StorageSyncService.ts
+excerpt: "    });\n\n    const intervalMs = options.intervalMs ?? DEFAULT_UPLOAD_INTERVAL_MS;\n    logger.info(\n      chalk.dim(\n        `Storage sync enabled (uploading every ${Math.round(intervalMs / 1000)}s)`,\n      ),\n    );\n\n    // Schedule proactive URL refresh at 50-minute mark\n    this.scheduleProactiveRefresh();\n\n    await this.performUpload();\n\n    this.intervalHandle = setInterval(() => {\n      this.performUpload().catch((error) => {\n        logger.warn(\n          `Storage sync upload failed in interval: ${formatError(error)}`,\n        );\n      });\n    }, intervalMs);"

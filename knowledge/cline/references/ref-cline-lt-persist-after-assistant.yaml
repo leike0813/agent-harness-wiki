@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-persist-after-assistant
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-runtime-host-local-runtime-host-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/runtime/host/local-runtime-host.ts
+  start: 838
+  end: 850
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/runtime/host/local-runtime-host.ts
+excerpt: "\t\t\t\tawait bootstrap.hooks?.onEvent?.(event);\n\t\t\t\tif (event.type !== \"assistant-message\") return;\n\t\t\t\tconst liveSession = this.sessions.get(sessionId);\n\t\t\t\tif (!liveSession) return;\n\t\t\t\tconst messages = liveSession.agent.getMessages();\n\t\t\t\ttry {\n\t\t\t\t\tawait this.invoke<void>(\n\t\t\t\t\t\t\"persistSessionMessages\",\n\t\t\t\t\t\tsessionId,\n\t\t\t\t\t\tmessages,\n\t\t\t\t\t\tconfigWithProvider.systemPrompt,\n\t\t\t\t\t);\n\t\t\t\t} catch (error) {"

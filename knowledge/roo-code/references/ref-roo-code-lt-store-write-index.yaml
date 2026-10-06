@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-store-write-index
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-task-persistence-taskhistorystore-ts
+locator:
+  kind: file_lines
+  file: src/core/task-persistence/TaskHistoryStore.ts
+  start: 387
+  end: 399
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/task-persistence/TaskHistoryStore.ts
+excerpt: "\t/**\n\t * Write the full index to disk.\n\t */\n\tprivate async writeIndex(): Promise<void> {\n\t\tconst indexPath = await this.getIndexPath()\n\t\tconst index: HistoryIndex = {\n\t\t\tversion: 1,\n\t\t\tupdatedAt: Date.now(),\n\t\t\tentries: this.getAll(),\n\t\t}\n\n\t\tawait safeWriteJson(indexPath, index)\n\t}"

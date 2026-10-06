@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-checkpoint-save
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-cli-src-utils-run-state-storage-ts
+locator:
+  kind: file_lines
+  file: cli/src/utils/run-state-storage.ts
+  start: 435
+  end: 453
+official_url: https://github.com/CodebuffAI/codebuff/blob/bd198ff2df3ea9b333e8bf2e5b843735afd4ad9c/cli/src/utils/run-state-storage.ts
+excerpt: "/**\n * Schedule an asynchronous, coalescing checkpoint save. Safe to call at a high\n * rate: only one write runs at a time and intermediate states are dropped in\n * favor of the latest (per chat). Use this for periodic in-flight checkpoints;\n * use the synchronous saveChatState for one-shot authoritative saves (turn\n * completion, exit flush).\n */\nexport function scheduleCheckpointSave(\n  runState: RunState,\n  messages: ChatMessage[],\n  chatDir: string = resolveCurrentChatDir(),\n): void {\n  pendingCheckpoints.set(chatDir, { runState, messages })\n  if (!checkpointDrain) {\n    checkpointDrain = drainCheckpoints().finally(() => {\n      checkpointDrain = null\n    })\n  }\n}"

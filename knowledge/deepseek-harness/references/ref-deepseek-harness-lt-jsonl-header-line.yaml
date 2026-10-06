@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-jsonl-header-line
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-packages-session-session-persistence-jsonl-src-format-ts
+locator:
+  kind: file_lines
+  file: packages/session/session-persistence-jsonl/src/format.ts
+  start: 79
+  end: 98
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/format.ts
+excerpt: "/**\n * The current physical header stored as the first JSONL record. The exact\n * inherited cut lives on the last tagged `session/end-seed` event.\n */\ninterface HeaderLine {\n  type: 'session'\n  version: number\n  id: SessionId\n  createdAt: number\n  cwd?: string\n  parentSession?: SessionId\n  isSeeded: boolean\n  origin?: 'subagent'\n  delegationDepth: number\n  agentPreset?: string\n}\n\nconst HEADER_REQUIRED_KEYS = ['type', 'version', 'id', 'createdAt', 'isSeeded', 'delegationDepth'] as const\nconst HEADER_OPTIONAL_KEYS = ['cwd', 'parentSession', 'origin', 'agentPreset'] as const\nconst HEADER_KEYS = new Set<string>([...HEADER_REQUIRED_KEYS, ...HEADER_OPTIONAL_KEYS])"

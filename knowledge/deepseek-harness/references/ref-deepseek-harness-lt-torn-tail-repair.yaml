@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-torn-tail-repair
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-packages-session-session-persistence-jsonl-src-storage-ts
+locator:
+  kind: file_lines
+  file: packages/session/session-persistence-jsonl/src/storage.ts
+  start: 322
+  end: 330
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/storage.ts
+excerpt: "    await this.ensureLease()\n    assertContiguous(this.id, batch, this.state.cursor)\n    // Commit any pending torn-tail repair first, clearing each step's state\n    // only once it lands so a failed step retries on the next mutation:\n    // truncate the torn bytes, then durably rewrite the complete events\n    // recovered from them (already counted in the primed cursor).\n    if (this.state.tornTruncateTo !== undefined) {\n      await this.storage.truncateTornTail(this.header, this.state.tornTruncateTo)\n      this.state.tornTruncateTo = undefined"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-event-envelope-type
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-docs-persistence-catalog-md
+locator:
+  kind: file_lines
+  file: docs/persistence-catalog.md
+  start: 116
+  end: 133
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/docs/persistence-catalog.md
+excerpt: "  | 'append'\n  | { op: 'replace'; startSeq: SessionSeq; endSeq: SessionSeq }\n\n/**\n * One immutable entry in the session log.\n *\n * A proper discriminated union over `type` (not independent `type`/`data`\n * unions), so `switch (event.type)` narrows `event.data` without casts.\n *\n * The {@link sourceEventSeqs} and {@link surfaceOp} fields are conditional:\n * they only exist on {@link SurfaceEventType} variants (`system/message`, `user/message`,\n * `assistant/message`, `tool/result`).\n * Non-surface events (boundary markers, attempts, errors) never carry\n * surface metadata — the compiler enforces this at `Session.append()`\n * call sites.\n */\nexport type SessionEvent<T extends SessionEventType = SessionEventType> = {\n  [K in SessionEventType]: {"

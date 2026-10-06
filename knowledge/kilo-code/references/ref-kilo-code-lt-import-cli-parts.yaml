@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-import-cli-parts
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-cli-cmd-import-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/cli/cmd/import.ts
+  start: 240
+  end: 250
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/cli/cmd/import.ts
+excerpt: "    for (const part of msg.parts) {\n      const partInfo = decodePart(part) as SessionV1.Part\n      const { id: partId, sessionID: _s, messageID, ...partData } = partInfo\n      yield* db\n        .insert(PartTable)\n        .values({\n          id: partId,\n          message_id: messageID,\n          session_id: row.id,\n          data: partData,\n        })"

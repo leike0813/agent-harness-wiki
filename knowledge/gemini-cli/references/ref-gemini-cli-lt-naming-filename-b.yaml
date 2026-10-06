@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-naming-filename-b
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-recording-service
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingService.ts
+  start: 791
+  end: 802
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+          } else {
+            const shortId = safeSessionId.slice(0, 8);
+            filename = `${SESSION_FILE_PREFIX}${timestamp}-${shortId}.jsonl`;
+            let collisionIndex = 1;
+            while (fs.existsSync(path.join(chatsDir, filename))) {
+              filename = `${SESSION_FILE_PREFIX}${timestamp}-${collisionIndex++}-${shortId}.jsonl`;
+            }
+          }
+          this.conversationFile = path.join(chatsDir, filename);
+
+          const directories =
+            this.kind === 'subagent'

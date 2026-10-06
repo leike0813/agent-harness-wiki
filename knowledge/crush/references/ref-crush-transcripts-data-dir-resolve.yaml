@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-data-dir-resolve
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-config-load-go
+locator:
+  kind: file_lines
+  file: internal/config/load.go
+  start: 586
+  end: 596
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  
+  	if dataDir != "" {
+  		c.Options.DataDirectory = dataDir
+  	} else if c.Options.DataDirectory == "" {
+  		if path, ok := fsext.LookupClosestBounded(workingDir, projectBoundary(workingDir), defaultDataDirectory); ok {
+  			c.Options.DataDirectory = path
+  		} else {
+  			c.Options.DataDirectory = filepath.Join(workingDir, defaultDataDirectory)
+  		}
+  	}
+  	c.Options.DataDirectory = filepath.Clean(filepathext.SmartJoin(workingDir, c.Options.DataDirectory))

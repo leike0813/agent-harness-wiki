@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-backup-retention-guard
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-infra-db-backup-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/infra/db/backup.ts
+  start: 118
+  end: 126
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/infra/db/backup.ts
+excerpt: " * backup created by this run. Never call on ordinary startup; retain all unknown files and files\n * with equal or newer timestamps.\n */\nexport async function pruneSupersededDatabaseBackups(options: {\n  readonly dataDir: string;\n  readonly retainedBackup: CreatedDatabaseBackup;\n}): Promise<DatabaseBackupRetentionResult> {\n  if (!validCreatedBackupIdentity(options.retainedBackup)) return { deleted: 0 };\n  const resolvedDataDir = await resolveBackupDataDir(options.dataDir);"

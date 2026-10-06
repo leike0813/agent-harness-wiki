@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-lt-headless-stream-json
+harness_id: kiro
+snapshot_id: snapshot-kiro-lt-headless
+locator:
+  kind: file_lines
+  file: cli/headless.md
+  start: 104
+  end: 112
+official_url: "https://kiro.dev/docs/cli/headless.md"
+excerpt: |-
+  ## Structured output
+
+  Pass `--output-format stream-json` to receive run events as [JSON Lines](https://jsonlines.org/) on stdout. Each line is a self-contained JSON object, making the output easier to process in scripts, logging pipelines, and CI jobs than formatted text.
+
+  ```bash
+  kiro-cli chat --no-interactive --trust-all-tools --output-format stream-json "Summarize open TODOs in src/"
+  ```
+
+  `--output-format stream-json` requires V2 or V3 (`--agent-engine v2` or `--agent-engine v3`).

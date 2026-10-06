@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-session-commands
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-cmd-session-go
+locator:
+  kind: file_lines
+  file: internal/cmd/session.go
+  start: 33
+  end: 55
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  var sessionCmd = &cobra.Command{
+  	Use:     "session",
+  	Aliases: []string{"sessions", "s"},
+  	Short:   "Manage sessions",
+  	Long:    "Manage Crush sessions. Agents can use --json for machine-readable output.",
+  }
+  
+  var (
+  	sessionListJSON   bool
+  	sessionShowJSON   bool
+  	sessionLastJSON   bool
+  	sessionDeleteJSON bool
+  	sessionRenameJSON bool
+  )
+  
+  var sessionListCmd = &cobra.Command{
+  	Use:     "list",
+  	Aliases: []string{"ls"},
+  	Short:   "List all sessions",
+  	Long:    "List all sessions. Use --json for machine-readable output.",
+  	RunE:    runSessionList,
+  }

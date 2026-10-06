@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-unreadable-chat
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-cli-src-utils-chat-history-ts
+locator:
+  kind: file_lines
+  file: cli/src/utils/chat-history.ts
+  start: 114
+  end: 131
+official_url: https://github.com/CodebuffAI/codebuff/blob/bd198ff2df3ea9b333e8bf2e5b843735afd4ad9c/cli/src/utils/chat-history.ts
+excerpt: "      } catch (error) {\n        logger.debug(\n          {\n            chatId: info.chatId,\n            error: error instanceof Error ? error.message : String(error),\n          },\n          'Failed to read chat messages',\n        )\n        // Don't silently hide the chat: list it as unreadable so the user\n        // knows it exists (and can delete it) instead of thinking it was lost\n        chats.push({\n          chatId: info.chatId,\n          lastPrompt: '(unreadable chat)',\n          timestamp: info.mtime,\n          messageCount: 0,\n          unreadable: true,\n        })\n      }"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-db-path-override
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-core-src-database-database-ts
+locator:
+  kind: file_lines
+  file: packages/core/src/database/database.ts
+  start: 50
+  end: 60
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/core/src/database/database.ts
+excerpt: "export function path() {\n  if (Flag.KILO_DB) {\n    if (Flag.KILO_DB === \":memory:\" || isAbsolute(Flag.KILO_DB)) return Flag.KILO_DB\n    return join(Global.Path.data, Flag.KILO_DB)\n  }\n  if (\n    [\"latest\", \"beta\", \"prod\"].includes(InstallationChannel) ||\n    process.env.KILO_DISABLE_CHANNEL_DB === \"1\" ||\n    process.env.KILO_DISABLE_CHANNEL_DB === \"true\"\n  )\n    return join(Global.Path.data, \"kilo.db\")"

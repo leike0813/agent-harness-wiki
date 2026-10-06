@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-lt-schema-migration-code
+harness_id: pi
+snapshot_id: snapshot-pi-lt-packages-coding-agent-src-core-session-manager-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/session-manager.ts
+  start: 337
+  end: 347
+official_url: https://github.com/earendil-works/pi/blob/28dcce2ba45ce4a9efeb0f5b686f0be830fd89b9/packages/coding-agent/src/core/session-manager.ts
+excerpt: "function migrateToCurrentVersion(entries: FileEntry[]): boolean {\n\tconst header = entries.find((e) => e.type === \"session\") as SessionHeader | undefined;\n\tconst version = header?.version ?? 1;\n\n\tif (version >= CURRENT_SESSION_VERSION) return false;\n\n\tif (version < 2) migrateV1ToV2(entries);\n\tif (version < 3) migrateV2ToV3(entries);\n\n\treturn true;\n}"

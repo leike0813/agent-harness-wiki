@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-prompt-ledger-path
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-session-service
+locator:
+  kind: file_lines
+  file: packages/core/src/services/sessionService.ts
+  start: 1032
+  end: 1047
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/packages/core/src/services/sessionService.ts"
+excerpt: |2-
+
+    /**
+     * Returns the absolute path to the per-session prompt terminal ledger
+     * (append-only sidecar JSONL next to the transcript), in the given
+     * archive state's chats directory. The file may not exist yet —
+     * consumers must treat ENOENT as "no ledger evidence".
+     */
+    private getPromptLedgerPathForState(
+      sessionId: string,
+      state: SessionArchiveState,
+    ): string {
+      return path.join(
+        this.getChatsDirForState(state),
+        `${sessionId}.ledger.jsonl`,
+      );
+    }

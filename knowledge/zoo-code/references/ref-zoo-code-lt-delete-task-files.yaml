@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-lt-delete-task-files
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-lt-src-core-webview-clineprovider-ts
+locator:
+  kind: file_lines
+  file: src/core/webview/ClineProvider.ts
+  start: 2374
+  end: 2390
+official_url: https://github.com/Zoo-Code-Org/Zoo-Code/blob/d7963fc2db8ff07189e9f22079b15d67ad3a8bfd/src/core/webview/ClineProvider.ts
+excerpt: "\t\t\t// Delete associated shadow repositories or branches and task directories\n\t\t\tconst globalStorageDir = this.contextProxy.globalStorageUri.fsPath\n\t\t\tconst workspaceDir = this.cwd\n\t\t\tconst { getTaskDirectoryPath } = await import(\"../../utils/storage\")\n\t\t\tconst globalStoragePath = this.contextProxy.globalStorageUri.fsPath\n\n\t\t\tfor (const taskId of allIdsToDelete) {\n\t\t\t\ttry {\n\t\t\t\t\tawait ShadowCheckpointService.deleteTask({ taskId, globalStorageDir, workspaceDir })\n\t\t\t\t} catch (error) {\n\t\t\t\t\tconsole.error(\n\t\t\t\t\t\t`[deleteTaskWithId${taskId}] failed to delete associated shadow repository or branch: ${error instanceof Error ? error.message : String(error)}`,\n\t\t\t\t\t)\n\t\t\t\t}\n\n\t\t\t\t// Delete the task directory\n\t\t\t\ttry {"

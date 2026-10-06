@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-tool-call-state-update
+harness_id: continue
+snapshot_id: snapshot-continue-lt-extensions-cli-src-services-chathistoryservice-ts
+locator:
+  kind: file_lines
+  file: extensions/cli/src/services/ChatHistoryService.ts
+  start: 297
+  end: 318
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/services/ChatHistoryService.ts
+excerpt: "  addToolResult(\n    toolCallId: string,\n    result: string,\n    status: ToolStatus = \"done\",\n  ): void {\n    // Find the last assistant message with this tool call\n    let targetIndex = -1;\n    for (let i = this.currentState.history.length - 1; i >= 0; i--) {\n      const item = this.currentState.history[i];\n      if (item.message.role === \"assistant\" && item.toolCallStates) {\n        const hasToolCall = item.toolCallStates.some(\n          (ts) => ts.toolCallId === toolCallId,\n        );\n        if (hasToolCall) {\n          targetIndex = i;\n          break;\n        }\n      }\n    }\n\n    if (targetIndex >= 0) {\n      this.updateToolCallState(targetIndex, toolCallId, {"

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-lt-doc-sessions-persistence-format
+harness_id: grok
+snapshot_id: snapshot-grok-lt-crates-codegen-xai-grok-pager-docs-user-guide-17-sessions-md
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-pager/docs/user-guide/17-sessions.md
+  start: 378
+  end: 390
+official_url: https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-pager/docs/user-guide/17-sessions.md
+excerpt: '## Session Storage Details
+
+
+  ### Persistence Format
+
+
+  Grok stores the conversation as newline-delimited JSON (JSONL). Each line in `updates.jsonl` is a self-contained ACP session update event. This format supports:
+
+
+  - Incremental writes (append-only during a session)
+
+  - Efficient streaming reads (for session restore)
+
+  - Easy debugging (each line is valid JSON)
+
+
+  The smaller state files -- `summary.json`, `plan.json`, and `signals.json` -- are plain JSON rather than JSONL. JSONL is the source of truth for session content; `grok sessions search` additionally maintains a local SQLite FTS5 index over session titles and prompts for fast keyword search.
+
+
+  ### Session Metadata'

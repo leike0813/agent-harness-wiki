@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-runtime-status-path
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-storage-core
+locator:
+  kind: file_lines
+  file: packages/core/src/config/storage.ts
+  start: 728
+  end: 739
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/packages/core/src/config/storage.ts"
+excerpt: |2-
+     *
+     * Co-located with the per-session chat log under
+     * `<projectDir>/chats/<sessionId>.runtime.json` so external observers
+     * (terminal multiplexers, IDE integrations, status daemons) can scan
+     * the same directory used for chat history to find live sessions.
+     */
+    getRuntimeStatusPath(sessionId: string): string {
+      return path.join(
+        this.getProjectDir(),
+        'chats',
+        `${sessionId}.runtime.json`,
+      );

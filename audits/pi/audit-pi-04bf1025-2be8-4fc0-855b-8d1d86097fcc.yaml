@@ -558,6 +558,76 @@ impacts:
       - plugins.lifecycle
       - plugins.diagnostics
     reason: "source-pi-repo: shared or unknown impact; investigate all themes"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-recording-scope
+      - transcripts-storage-layout
+      - transcripts-record-schema
+      - transcripts-lifecycle
+      - transcripts-database-and-index
+      - transcripts-archive-and-cleanup
+      - transcripts-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-lt-format-jsonl-tree
+      - ref-pi-lt-location-file-path
+      - ref-pi-lt-location-cwd-encoding
+      - ref-pi-lt-location-sessions-dir
+      - ref-pi-lt-location-agent-dir
+      - ref-pi-lt-location-env-vars
+      - ref-pi-lt-location-cli-flags
+      - ref-pi-lt-location-env-precedence
+      - ref-pi-lt-location-session-storage
+      - ref-pi-lt-naming-file-name
+      - ref-pi-lt-naming-tree-structure
+      - ref-pi-lt-schema-session-header
+      - ref-pi-lt-schema-entry-base
+      - ref-pi-lt-schema-message-entry
+      - ref-pi-lt-schema-image-inline
+      - ref-pi-lt-schema-compaction-boundary
+      - ref-pi-lt-schema-migration-code
+      - ref-pi-lt-format-session-version
+      - ref-pi-lt-format-rewrite-file
+      - ref-pi-lt-format-append
+      - ref-pi-lt-lifecycle-first-write
+      - ref-pi-lt-lifecycle-continue-resume
+      - ref-pi-lt-lifecycle-branch-actions
+      - ref-pi-lt-lifecycle-compaction-steps
+      - ref-pi-lt-lifecycle-auto-compaction
+      - ref-pi-lt-lifecycle-context-building
+      - ref-pi-lt-lifecycle-fork-copy
+      - ref-pi-lt-lifecycle-nested-calls
+      - ref-pi-lt-lifecycle-nested-limits
+      - ref-pi-lt-branch-commands
+      - ref-pi-lt-boundary-published-files
+      - ref-pi-lt-database-catalog-layout
+      - ref-pi-lt-database-durable-lock
+      - ref-pi-lt-archive-export-share
+      - ref-pi-lt-archive-export-jsonl
+      - ref-pi-lt-cleanup-deleting
+      - ref-pi-lt-cleanup-delete-trash
+      - ref-pi-lt-cleanup-delete-fallback
+      - ref-pi-lt-diagnostics-commands
+      - ref-pi-lt-diagnostics-list
+      - ref-pi-lt-diagnostics-missing-cwd
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - hooks.entry
+      - plugins.api
+    reason: "local_transcripts 首采：按固定提交逐题调查会话记录机制，answered 七题、partial 三题"
 pending_question_ids:
   - config.migration
   - config.diagnostics
@@ -576,6 +646,9 @@ pending_question_ids:
   - providers.responses
   - providers.diagnostics
   - plugins.diagnostics
+  - transcripts.lifecycle
+  - transcripts.archive
+  - transcripts.cleanup
 investigation_notes:
   - source-pi-repo 的 changed_paths 是全树：受管工作区对 baseline 781152fc 与 observed 83692682 都是 shallow 边界（.git/shallow 同时记录两个
     commit），本地没有可用的共同祖先，git diff 只能给出两棵树的整体差异 1885 个文件。因此本轮按固定问题涉及的证据文件逐个复查，不把 changed_paths 当
@@ -604,3 +677,21 @@ investigation_notes:
     依据本轮交付把 pi 七主题全部选为 v3。这与契约第 5 节不冲突：独立复核已完成且结论可支撑，故允许提升 v3 为当前版。
   - 校验：本轮 62 条新引用（58 条 file_lines + 4 条 symbol）已用脚本逐条比对上游工作区文件，摘录逐字命中、长度均不超过 800 字符；复核修正涉及的
     8 条摘录重新逐条比对通过；pnpm knowledge:validate 通过。pending_question_ids 的 17 项与七章 v3 的实际非 answered 状态逐项一致。
+  - local_transcripts 首采（本轮新增）：使用固定提交 28dcce2ba45ce4a9efeb0f5b686f0be830fd89b9（source-pi-repo，coordinator 已打开的只读
+    pinned workspace，抓取时间 2026-10-06T05:20:00Z），只调查 catalog 中 pi 的 cli 界面；sdk 界面本轮未调查，由查询派生 not_investigated。共
+    15 个文件级 artifact 与 snapshot（一文件一 snapshot，commit 与 content_sha256 均按 pinned workspace 实际字节计算）、41 条 reference，全部
+    走 var/lt-refs.py 生成，locator.file 与 snapshot 绑定的 artifact.file 一致、摘录逐字命中且落在 file_lines 区间内，无孤儿 artifact，未新建
+    archived_document 记录（archive/pi/ 下没有本轮引用的文档原件，全部证据取自固定提交内的 docs 与 src 文件）。
+  - local_transcripts 结论要点：会话是一个 JSONL 文件（--<编码 cwd>--/<时间戳>_<会话 id>.jsonl），条目用 id/parentId 组成树，父子会话另由
+    header 的 parentSession（源文件绝对路径）表达；正文、元数据、分支、label、名称全在这一个文件里，派生索引是内存 Map 且可由文件重建；图片
+    以 base64 内联在消息内容块中，没有附件目录；删除入口是直接删 .jsonl 或 /resume 里 Ctrl+D，交互式删除先试 trash CLI、失败退回 unlink
+    永久删除。
+  - local_transcripts 三题记为 partial 并进入 pending_question_ids：transcripts.lifecycle 缺“交给子代理”一段（在 src/core 与 src/extensions 下
+    检索 subagent/sub-agent 无命中，仅 experimental/durable 与 experimental/vacation 存在，实验路径不在默认 CLI 记录链上）；transcripts.archive
+    缺 /import 的恢复行为（命令表声明了 import，但本提交 src/ 下未检索到对应分发处理分支）；transcripts.cleanup 缺级联删除、孤儿记录与并发写入
+    行为（源码只在 header 以路径字符串记录 parentSession，默认路径无会话级文件锁，实验 durable 路径才有 proper-lockfile）。以上均按“未取证”
+    处理，未写成“不支持”或“可以安全删除”。
+  - local_transcripts 边界：transcripts.database 记为 answered，依据是该提交 packages/coding-agent/package.json 的 files 字段显式排除
+    dist/experimental 与 dist/cli/experimental，以及 src/experimental 下 session-catalog.ts（meta.json + session.sqlite）与 durable/sessions.ts
+    （experimental/durable-sessions/<cwd-sha256 前 24 位>/…）的形态。该结论只描述源码树与发布文件清单，不构成对任何已发布 npm 包版本行为的断言，
+    因此本轮未写 mappings/。

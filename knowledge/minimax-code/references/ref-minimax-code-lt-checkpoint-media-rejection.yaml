@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-checkpoint-media-rejection
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-service-turn-system-compaction-execution-checkpoint-provider-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/turn-system/compaction/execution/checkpoint-provider.ts
+  start: 84
+  end: 96
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/service/turn-system/compaction/execution/checkpoint-provider.ts
+excerpt: "      if (isContextOverflow(final, options.model.contextWindow)) {\n        throw new CheckpointCandidateTooLargeError(final);\n      }\n      if (final.stopReason === 'error' && isLLMImageLimitMessage(final.errorMessage)) {\n        throw new CheckpointCandidateMediaRejectedError(final);\n      }\n      const generation = toGeneration(final);\n      options.onGenerated?.(generation);\n      if (isOutputExhaustedWithoutText(generation)) {\n        throw new CheckpointCandidateTooLargeError(final, 'output_exhausted');\n      }\n      return generation;\n    },"

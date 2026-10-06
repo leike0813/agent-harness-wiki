@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt-lifecycle-tree-leaf
+harness_id: omp
+snapshot_id: snapshot-omp-lt-repo-fc6c-docs-session-md
+locator:
+  kind: file_lines
+  file: docs/session.md
+  start: 477
+  end: 484
+official_url: https://github.com/can1357/oh-my-pi/blob/fc6c0c90dab012a0b7edea731af92f5bbd09cff0/docs/session.md#L477-L484
+excerpt: '## Tree and Leaf Semantics
+
+
+  The underlying model is append-only tree + mutable leaf pointer:
+
+
+  - Ordinary append methods create one new entry whose `parentId` is current `leafId`, then advance the leaf.
+
+  - `appendMessageToBranch()` appends to an explicit parent without moving the active leaf. `appendModelUsage()` likewise retains a successor branch''s leaf when the initiating parent is no longer active.
+
+  - `branch(entryId)` moves only `leafId`; existing entries remain unchanged.
+
+  - `resetLeaf()` sets `leafId = null`; next append creates a new root entry (`parentId: null`).'

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-list-threads
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-db-rs
+locator:
+  kind: file_lines
+  file: crates/agent/src/db.rs
+  start: 579
+  end: 582
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent/src/db.rs
+excerpt: "            let mut select = connection\n                .select_bound::<(), (Arc<str>, Option<Arc<str>>, Option<String>, Option<String>, String, String, Option<String>)>(indoc! {\"\n                SELECT id, parent_id, folder_paths, folder_paths_order, summary, updated_at, created_at FROM threads ORDER BY updated_at DESC, created_at DESC\n            \"})?;"

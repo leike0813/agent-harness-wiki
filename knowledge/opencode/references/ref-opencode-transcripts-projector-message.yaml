@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-projector-message
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-projector-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/core/src/session/projector.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/projector.ts
+  start: 257
+  end: 272
+excerpt: "    yield* events.project(SessionV1.Event.Deleted, (event) =>\n      db.delete(SessionTable).where(eq(SessionTable.id, event.data.sessionID)).run().pipe(Effect.orDie),\n    )\n    yield* events.project(SessionV1.Event.MessageUpdated, (event) =>\n      Effect.gen(function* () {\n        const time_created = event.data.info.time.created\n        const id = event.data.info.id\n        const sessionID = event.data.info.sessionID\n        const data = messageData(event.data.info)\n        yield* db\n          .insert(MessageTable)\n          .values({ id, session_id: sessionID, time_created, data })\n          .onConflictDoUpdate({ target: MessageTable.id, set: { data } })\n          .run()\n          .pipe(Effect.orDie)\n      }),"

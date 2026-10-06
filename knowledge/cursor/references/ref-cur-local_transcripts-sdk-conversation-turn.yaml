@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-local_transcripts-sdk-conversation-turn
+harness_id: cursor
+snapshot_id: snapshot-cur-sdk-typescript-doc
+locator:
+  kind: file_lines
+  file: sdk/typescript.md
+  start: 1050
+  end: 1063
+official_url: https://cursor.com/docs/sdk/typescript.md
+excerpt: |-
+  ```typescript
+  type ConversationTurn =
+    | { type: "agentConversationTurn"; turn: AgentConversationTurn }
+    | { type: "shellConversationTurn"; turn: ShellConversationTurn };
+
+  interface AgentConversationTurn {
+    userMessage?: UserMessage;
+    steps: ConversationStep[];
+  }
+
+  interface ShellConversationTurn {
+    shellCommand?: ShellCommand;
+    shellOutput?: ShellOutput;
+  }

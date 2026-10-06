@@ -1,0 +1,34 @@
+schema_version: 1
+record_kind: production
+coverage_id: coverage-codex-repo-822e58cc-local-transcripts
+target:
+  harness_id: codex
+  surface: cli
+  distribution: source-tree
+  os: linux
+  arch: x64
+  execution_mode: native
+  version_identity:
+    { kind: commit, value: 822e58cc3d666166c7446c5b1ea2e52f5d09594c }
+topic: local_transcripts
+status: partial
+snapshot_refs:
+  - snapshot-codex-repo-822e58cc
+  - snapshot-codex-cli-configuration-doc-learn
+investigation_notes: >-
+  First pass for local_transcripts at openai/codex commit
+  822e58cc3d666166c7446c5b1ea2e52f5d09594c on linux/x64, CLI surface only.
+  Location, naming, JSONL format, persistence policy, the persisted RolloutItem
+  variant list, SessionMeta fields, state_5.sqlite threads metadata, the
+  backfill-from-rollout path, corruption recovery, the archive rename, the
+  hard-delete order and locks, and the codex doctor state and parity checks are
+  all source-inspected. Still open: field-level schema for each persisted
+  ResponseItem and EventMsg variant, the exact final-flush trigger on process
+  exit, whether thread_history_1.sqlite is required for resume, portability
+  loss when archived files are copied off-machine, orphan-row behaviour after
+  manual file deletion, and doctor flag semantics. The configuration
+  reference snapshot has version_applicability unknown and is used only for
+  the history.persistence, history.max_bytes and sqlite_home key descriptions,
+  so no npm release mapping is claimed from it. Not investigated for this
+  pass: the vscode, desktop and cloud surfaces, which the query layer derives
+  as not_investigated.

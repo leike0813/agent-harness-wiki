@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-lt-slash-stats
+harness_id: kiro
+snapshot_id: snapshot-kiro-lt-slash-commands
+locator:
+  kind: file_lines
+  file: reference/slash-commands.md
+  start: 721
+  end: 726
+official_url: "https://kiro.dev/docs/reference/slash-commands.md"
+excerpt: |-
+  Displays an in-memory log of recent API requests with their request IDs, total duration, time-to-first-chunk (TTFC), input and output token counts, and error status. The footer shows aggregate metrics (`avg`, `p90`, `max`, and `errors` count).
+
+  `/stats save` writes the records to a JSON file you can attach when filing a bug or sharing with support.
+
+  **Notes:**
+  - Stats are kept in an in-memory ring buffer of the last 100 requests and reset when the session ends.

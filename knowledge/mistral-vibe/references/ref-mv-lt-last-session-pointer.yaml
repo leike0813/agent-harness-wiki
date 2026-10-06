@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-last-session-pointer
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-last-session-pointer
+locator:
+  kind: file_lines
+  file: vibe/core/session/last_session_pointer.py
+  start: 68
+  end: 83
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/last_session_pointer.py
+excerpt: "\n\ndef record(config: SessionLoggingConfig, session_id: str | None) -> None:\n    if not session_id or not config.enabled:\n        return\n    tty_key = current_tty_key()\n    if tty_key is None:\n        return\n    path = _pointer_path(config, tty_key)\n    try:\n        # Pointer files hold session IDs, so the directory and file are created\n        # owner-only; existing paths keep their current mode.\n        path.parent.mkdir(parents=True, mode=0o700, exist_ok=True)\n        path.touch(mode=0o600, exist_ok=True)\n        path.write_text(f\"{session_id}\\n\", encoding=\"utf-8\")\n    except OSError as e:"

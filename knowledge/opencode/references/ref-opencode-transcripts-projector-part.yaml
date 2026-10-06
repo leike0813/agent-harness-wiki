@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-projector-part
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-projector-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/core/src/session/projector.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/projector.ts
+  start: 310
+  end: 323
+excerpt: "    yield* events.project(SessionV1.Event.PartUpdated, (event) =>\n      Effect.gen(function* () {\n        const id = event.data.part.id\n        const messageID = event.data.part.messageID\n        const sessionID = event.data.part.sessionID\n        const data = partData(event.data.part)\n        const row = yield* db.select().from(PartTable).where(eq(PartTable.id, id)).get().pipe(Effect.orDie)\n        yield* db\n          .insert(PartTable)\n          .values({ id, message_id: messageID, session_id: sessionID, time_created: event.data.time, data })\n          .onConflictDoUpdate({ target: PartTable.id, set: { data } })\n          .run()\n          .pipe(Effect.orDie)\n        const previous = row && usage(row.data)"

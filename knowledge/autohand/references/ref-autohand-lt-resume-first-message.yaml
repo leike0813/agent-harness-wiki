@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-resume-first-message
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-commands-resume-ts
+locator:
+  kind: file_lines
+  file: src/commands/resume.ts
+  start: 60
+  end: 72
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/commands/resume.ts
+excerpt: "async function readFirstUserMessage(sessionMeta: SessionMetadata): Promise<string | undefined> {\n    try {\n        const conversationPath = path.join(AUTOHAND_PATHS.sessions, sessionMeta.sessionId, 'conversation.jsonl');\n        if (!await fs.pathExists(conversationPath)) {\n            return undefined;\n        }\n        const content = await fs.readFile(conversationPath, 'utf-8');\n        const lines = content.trim().split('\\n').filter(line => line);\n\n        for (const line of lines) {\n            try {\n                const msg = JSON.parse(line) as SessionMessage;\n                if (msg.role === 'user' && msg.content) {"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-cli-log-path
+harness_id: continue
+snapshot_id: snapshot-continue-lt-extensions-cli-src-util-logger-ts
+locator:
+  kind: file_lines
+  file: extensions/cli/src/util/logger.ts
+  start: 11
+  end: 31
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/util/logger.ts
+excerpt: "// Generate a unique session ID for this process\nconst SESSION_ID = crypto.randomBytes(4).toString(\"hex\");\n\n// Get log directory\nfunction getLogDir(): string {\n  const logDir = path.join(env.continueHome, \"logs\");\n\n  // Create directory if it doesn't exist\n  if (!fs.existsSync(logDir)) {\n    fs.mkdirSync(logDir, { recursive: true });\n  }\n\n  return logDir;\n}\n\n// Get current log file path\nfunction getLogFilePath(): string {\n  const logDir = getLogDir();\n  return path.join(logDir, \"cn.log\");\n}"

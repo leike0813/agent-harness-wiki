@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-scope-base-record
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-recording-types
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingTypes.ts
+  start: 42
+  end: 68
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+   * Base fields common to all messages.
+   */
+  export interface BaseMessageRecord {
+    id: string;
+    timestamp: string;
+    content: PartListUnion;
+    displayContent?: PartListUnion;
+  }
+
+  /**
+   * Record of a tool call execution within a conversation.
+   */
+  export interface ToolCallRecord {
+    id: string;
+    name: string;
+    args: Record<string, unknown>;
+    result?: PartListUnion | null;
+    status: Status;
+    timestamp: string;
+    agentId?: string;
+    // UI-specific fields for display purposes
+    displayName?: string;
+    description?: string;
+    resultDisplay?: ToolResultDisplay;
+    renderOutputAsMarkdown?: boolean;
+  }

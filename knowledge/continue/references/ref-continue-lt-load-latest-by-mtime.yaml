@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-load-latest-by-mtime
+harness_id: continue
+snapshot_id: snapshot-continue-lt-extensions-cli-src-session-ts
+locator:
+  kind: file_lines
+  file: extensions/cli/src/session.ts
+  start: 298
+  end: 318
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/session.ts
+excerpt: "/**\n * Load session from current terminal's session file\n */\nexport function loadSession(): Session | null {\n  try {\n    // For resume, we need to find the most recent session\n    const sessionDir = getSessionDir();\n    if (!fs.existsSync(sessionDir)) {\n      return null;\n    }\n\n    const files = fs\n      .readdirSync(sessionDir)\n      .filter((f) => f.endsWith(\".json\") && f !== \"sessions.json\")\n      .map((f) => ({\n        name: f,\n        path: path.join(sessionDir, f),\n        mtime: fs.statSync(path.join(sessionDir, f)).mtime,\n      }))\n      .sort((a, b) => b.mtime.getTime() - a.mtime.getTime());"

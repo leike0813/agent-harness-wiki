@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-index-read-lock-timeout
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-session-sessionmanager-ts
+locator:
+  kind: file_lines
+  file: src/session/SessionManager.ts
+  start: 474
+  end: 487
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/session/SessionManager.ts
+excerpt: "        try {\n            await withFileLock(this.indexLockPath, async () => {\n                this.index = await this.readIndexFromDisk();\n            }, SESSION_INDEX_LOCK_OPTIONS);\n        } catch (error) {\n            if (!(error instanceof FileLockTimeoutError)) throw error;\n            // Another Autohand process is holding the index. Reads must not fail\n            // for that: use the last committed index (writes are atomic) and say so once.\n            if (!this.indexLockWarned) {\n                this.indexLockWarned = true;\n                console.warn(`Session index is locked by another Autohand process (${path.basename(this.indexLockPath)}); continuing with the last saved index.`);\n            }\n            this.index = await this.readIndexFromDisk();\n        }"

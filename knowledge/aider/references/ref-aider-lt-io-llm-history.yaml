@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-lt-io-llm-history
+harness_id: aider
+snapshot_id: snapshot-aider-lt-aider-io-py
+locator:
+  kind: file_lines
+  file: aider/io.py
+  start: 750
+  end: 766
+official_url: https://github.com/Aider-AI/aider/blob/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/io.py
+excerpt: "        fh = FileHistory(self.input_history_file)\n        return fh.load_history_strings()\n\n    def log_llm_history(self, role, content):\n        if not self.llm_history_file:\n            return\n        timestamp = datetime.now().isoformat(timespec=\"seconds\")\n        try:\n            Path(self.llm_history_file).parent.mkdir(parents=True, exist_ok=True)\n            with open(self.llm_history_file, \"a\", encoding=\"utf-8\") as log_file:\n                log_file.write(f\"{role.upper()} {timestamp}\\n\")\n                log_file.write(content + \"\\n\")\n        except (PermissionError, OSError) as err:\n            self.tool_warning(f\"Unable to write to llm history file {self.llm_history_file}: {err}\")\n            self.llm_history_file = None"

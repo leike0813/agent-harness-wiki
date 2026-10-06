@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-lt-daemon-pid-registry
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-lt-docs-daemon-md
+locator:
+  kind: file_lines
+  file: docs/daemon.md
+  start: 136
+  end: 163
+official_url: https://cnb.cool/codebuddy/codebuddy-code
+excerpt: "## PID 文件注册表\n\n每个 CLI 进程启动时在 `~/.codebuddy/sessions/` 注册 PID 文件：\n\n```\n\
+  ~/.codebuddy/sessions/\n├── 12345.json          # 本地进程（PID 作为文件名）\n├── 67890.json\
+  \          # 另一个本地进程\n└── manual-abc123.json  # 手动添加的远程 Worker\n```\n\nPID 文件内容：\n\
+  \n```json\n{\n  \"pid\": 12345,\n  \"sessionId\": \"interactive-12345\",\n  \"cwd\"\
+  : \"/home/user/project\",\n  \"startedAt\": 1775498920401,\n  \"kind\": \"interactive\"\
+  ,\n  \"url\": \"http://127.0.0.1:8080\",\n  \"mode\": \"local\",\n  \"version\"\
+  : \"2.78.1\",\n  \"hostname\": \"my-machine\"\n}\n```\n\n进程存活通过 `kill -0` 检测，手动远程\
+  \ Worker 通过心跳超时检测（2 分钟）。"

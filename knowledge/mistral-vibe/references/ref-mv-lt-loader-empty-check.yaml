@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-loader-empty-check
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-loader-empty-check
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_loader.py
+  start: 251
+  end: 262
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/session_loader.py
+excerpt: "        # An empty log is valid only when metadata records an empty session.\n        if not content and metadata.get(\"total_messages\") != 0:\n            raise ValueError(\n                f\"Session messages file is empty (may have been corrupted by interruption): \"\n                f\"{filepath}\"\n            )\n\n        try:\n            data = [json.loads(line) for line in content]\n        except json.JSONDecodeError as e:\n            raise ValueError(\n                f\"Session messages contain invalid JSON (may have been corrupted): \""

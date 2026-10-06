@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-stats-crawl
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-cmd-stats-go
+locator:
+  kind: file_lines
+  file: internal/cmd/stats.go
+  start: 248
+  end: 262
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func crawlForStats(ctx context.Context, rootDir string) ([]ProjectStats, error) {
+  	var dbPaths []struct {
+  		dbPath     string
+  		projectDir string
+  	}
+  
+  	err := filepath.WalkDir(rootDir, func(path string, d os.DirEntry, err error) error {
+  		if err != nil {
+  			return nil // Skip errors (permission denied, etc.)
+  		}
+  
+  		// Skip common ignored directories early
+  		if d.IsDir() && shouldSkipDir(d.Name()) {
+  			return filepath.SkipDir
+  		}

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-lt-cmd-save-add
+harness_id: aider
+snapshot_id: snapshot-aider-lt-aider-commands-py
+locator:
+  kind: file_lines
+  file: aider/commands.py
+  start: 1497
+  end: 1510
+official_url: https://github.com/Aider-AI/aider/blob/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/commands.py
+excerpt: "    def cmd_save(self, args):\n        \"Save commands to a file that can reconstruct the current chat session's files\"\n        if not args.strip():\n            self.io.tool_error(\"Please provide a filename to save the commands to.\")\n            return\n\n        try:\n            with open(args.strip(), \"w\", encoding=self.io.encoding) as f:\n                f.write(\"/drop\\n\")\n                # Write commands to add editable files\n                for fname in sorted(self.coder.abs_fnames):\n                    rel_fname = self.coder.get_rel_fname(fname)\n                    f.write(f\"/add       {rel_fname}\\n\")"

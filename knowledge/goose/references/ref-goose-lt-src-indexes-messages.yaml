@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-indexes-messages
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/session_manager.rs
+  start: 1103
+  end: 1116
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+          sqlx::query("CREATE INDEX IF NOT EXISTS idx_messages_session ON messages(session_id)")
+              .execute(&mut *tx)
+              .await?;
+          sqlx::query("CREATE INDEX IF NOT EXISTS idx_messages_timestamp ON messages(timestamp)")
+              .execute(&mut *tx)
+              .await?;
+          sqlx::query("CREATE INDEX IF NOT EXISTS idx_messages_message_id ON messages(message_id)")
+              .execute(&mut *tx)
+              .await?;
+          sqlx::query(
+              "CREATE INDEX IF NOT EXISTS idx_messages_session_created ON messages(session_id, created_timestamp, id)",
+          )
+          .execute(&mut *tx)
+          .await?;

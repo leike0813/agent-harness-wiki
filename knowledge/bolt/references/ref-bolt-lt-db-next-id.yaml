@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-lt-db-next-id
+harness_id: bolt
+snapshot_id: snapshot-bolt-lt-app-lib-persistence-db-ts
+locator:
+  kind: file_lines
+  file: app/lib/persistence/db.ts
+  start: 106
+  end: 119
+official_url: https://github.com/stackblitz/bolt.new/blob/eda10b121221b30825a4c16eec5da1fd3eb1eb99/app/lib/persistence/db.ts
+excerpt: "export async function getNextId(db: IDBDatabase): Promise<string> {\n  return new Promise((resolve, reject) => {\n    const transaction = db.transaction('chats', 'readonly');\n    const store = transaction.objectStore('chats');\n    const request = store.getAllKeys();\n\n    request.onsuccess = () => {\n      const highestId = request.result.reduce((cur, acc) => Math.max(+cur, +acc), 0);\n      resolve(String(+highestId + 1));\n    };\n\n    request.onerror = () => reject(request.error);\n  });\n}"

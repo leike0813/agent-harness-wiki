@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-store-migrate
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-task-persistence-taskhistorystore-ts
+locator:
+  kind: file_lines
+  file: src/core/task-persistence/TaskHistoryStore.ts
+  start: 317
+  end: 330
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/task-persistence/TaskHistoryStore.ts
+excerpt: "\t// ────────────────────────────── Migration ──────────────────────────────\n\n\t/**\n\t * Migrate from globalState taskHistory array to per-task files.\n\t *\n\t * For each entry in the globalState array, writes a `history_item.json`\n\t * file if one doesn't already exist. This is idempotent and safe to re-run.\n\t */\n\tasync migrateFromGlobalState(taskHistoryEntries: HistoryItem[]): Promise<void> {\n\t\tif (!taskHistoryEntries || taskHistoryEntries.length === 0) {\n\t\t\treturn\n\t\t}\n\n\t\tfor (const item of taskHistoryEntries) {"

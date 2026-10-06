@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-migration-loop
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/session_manager.rs
+  start: 1265
+  end: 1279
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+          if current_version < CURRENT_SCHEMA_VERSION {
+              info!(
+                  "Running database migrations from v{} to v{}...",
+                  current_version, CURRENT_SCHEMA_VERSION
+              );
+
+              for version in (current_version + 1)..=CURRENT_SCHEMA_VERSION {
+                  info!("  Applying migration v{}...", version);
+                  Self::apply_migration(&mut tx, version).await?;
+                  Self::update_schema_version(&mut tx, version).await?;
+                  info!("  ✓ Migration v{} complete", version);
+              }
+
+              info!("All migrations complete");
+          }

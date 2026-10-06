@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-wire-repair-rewrite
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-lt-packages-agent-core-v2-src-wire-repair-ts
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/wire/repair.ts
+  start: 33
+  end: 42
+official_url: https://github.com/MoonshotAI/kimi-code/blob/21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3/packages/agent-core-v2/src/wire/repair.ts
+excerpt: "    const original = await storage.read(scope, key);\n    if (original !== undefined) {\n      droppedCount = Math.max(0, countJournalLines(original) - records.length);\n      const backupKey = wireJournalBackupKey(key);\n      if ((await storage.size(scope, backupKey)) === undefined) {\n        await storage.write(scope, backupKey, original, { atomic: true });\n        backupCreated = true;\n      }\n    }\n    await appendLog.rewrite(scope, key, records);"

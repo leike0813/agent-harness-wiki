@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-identifier-encoding
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-schema-src-identifier-ts
+locator:
+  kind: file_lines
+  file: packages/schema/src/identifier.ts
+  start: 14
+  end: 30
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/schema/src/identifier.ts
+excerpt: "export function create(descending: boolean, timestamp = Date.now()) {\n  if (timestamp !== lastTimestamp) {\n    lastTimestamp = timestamp\n    counter = 0\n  }\n  counter++\n\n  const current = BigInt(timestamp) * 0x1000n + BigInt(counter)\n  const value = descending ? ~current : current\n  const time = Array.from({ length: 6 }, (_, index) =>\n    Number((value >> BigInt(40 - 8 * index)) & 0xffn)\n      .toString(16)\n      .padStart(2, \"0\"),\n  ).join(\"\")\n  const bytes = crypto.getRandomValues(new Uint8Array(length - 12))\n  return time + Array.from(bytes, (byte) => chars[byte % 62]).join(\"\")\n}"

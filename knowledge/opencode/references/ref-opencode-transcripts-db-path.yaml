@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-db-path
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-database-database-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/core/src/database/database.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/database/database.ts
+  start: 43
+  end: 55
+excerpt: "export function path() {\n  if (Flag.OPENCODE_DB) {\n    if (Flag.OPENCODE_DB === \":memory:\" || isAbsolute(Flag.OPENCODE_DB)) return Flag.OPENCODE_DB\n    return join(Global.Path.data, Flag.OPENCODE_DB)\n  }\n  if (\n    [\"latest\", \"beta\", \"prod\"].includes(InstallationChannel) ||\n    process.env.OPENCODE_DISABLE_CHANNEL_DB === \"1\" ||\n    process.env.OPENCODE_DISABLE_CHANNEL_DB === \"true\"\n  )\n    return join(Global.Path.data, \"opencode.db\")\n  return join(Global.Path.data, `opencode-${InstallationChannel.replace(/[^a-zA-Z0-9._-]/g, \"-\")}.db`)\n}"

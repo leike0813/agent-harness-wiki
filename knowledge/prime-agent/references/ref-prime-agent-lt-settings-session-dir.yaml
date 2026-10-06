@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-settings-session-dir
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-crates-pa-core-src-settings-manager-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/manager.rs
+  start: 969
+  end: 980
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/7a52276cb17310f331f1075f28fa5cf9c4ae0a0a/crates/pa-core/src/settings/manager.rs
+excerpt: "    #[must_use]\n    pub fn get_session_dir(&self) -> Option<std::path::PathBuf> {\n        let session_dir = self.merged.session_dir.as_ref()?;\n        let home = pa_types::platform::home_dir()?;\n        Some(if session_dir == \"~\" {\n            home\n        } else if let Some(rest) = session_dir.strip_prefix(\"~/\") {\n            home.join(rest)\n        } else {\n            session_dir.into()\n        })\n    }"

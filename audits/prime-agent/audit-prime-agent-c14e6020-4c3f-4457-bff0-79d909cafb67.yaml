@@ -1,0 +1,876 @@
+schema_version: 2
+audit_id: audit-prime-agent-c14e6020-4c3f-4457-bff0-79d909cafb67
+harness_id: prime-agent
+checked_at: 2026-10-06T04:34:46.598Z
+previous_audit_id: audit-prime-agent-20261004t061205z
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-prime-agent-a6e29492-9bcd-4168-8ac2-e8cc29e14d35
+  - audit-prime-agent-20261004t061205z
+checks:
+  - source_id: source-prime-agent-repo
+    kind: git_repository
+    checked_at: 2026-10-06T04:34:43.806Z
+    status: changed
+    baseline: c24ac227f11f552ed1d3fa8ebc7d916937d7f6bc
+    observed: 7a52276cb17310f331f1075f28fa5cf9c4ae0a0a
+    remote_ref: refs/heads/main
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-overrides
+      - config-runtime
+      - config-trust-defaults-migration
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-args-flags
+      - ref-prime-agent-code-agentdir
+      - ref-prime-agent-code-configdir
+      - ref-prime-agent-code-migrations-hooks
+      - ref-prime-agent-code-migrations-run
+      - ref-prime-agent-code-pkgdir
+      - ref-prime-agent-code-sessiondir
+      - ref-prime-agent-diag-interactive
+      - ref-prime-agent-diag-main
+      - ref-prime-agent-diag-reload
+      - ref-prime-agent-factory-cli-command-rust
+      - ref-prime-agent-factory-gate-py
+      - ref-prime-agent-factory-refinement-host-rust
+      - ref-prime-agent-factory-scope-rust
+      - ref-prime-agent-factory-scope-setter-rust
+      - ref-prime-agent-factory-tui-command-rust
+      - ref-prime-agent-factory-tui-restart-rust
+      - ref-prime-agent-factory-types-rust
+      - ref-prime-agent-mcp-generic
+      - ref-prime-agent-pkg-enable
+      - ref-prime-agent-pkg-filtering
+      - ref-prime-agent-pkg-install
+      - ref-prime-agent-pm-apply
+      - ref-prime-agent-providers-authfile
+      - ref-prime-agent-providers-order
+      - ref-prime-agent-retry-defaults
+      - ref-prime-agent-sdk-dirs
+      - ref-prime-agent-settings-autonomous
+      - ref-prime-agent-settings-compaction
+      - ref-prime-agent-settings-ctor
+      - ref-prime-agent-settings-errors
+      - ref-prime-agent-settings-globalonly
+      - ref-prime-agent-settings-locations
+      - ref-prime-agent-settings-merge
+      - ref-prime-agent-settings-migrate
+      - ref-prime-agent-settings-model
+      - ref-prime-agent-settings-overrides
+      - ref-prime-agent-settings-paths
+      - ref-prime-agent-settings-persist
+      - ref-prime-agent-settings-resources-getter
+      - ref-prime-agent-settings-sessions
+      - ref-prime-agent-settings-telemetry-getter
+      - ref-prime-agent-settings-telemetry
+      - ref-prime-agent-usage-context
+      - ref-prime-agent-usage-env
+      - ref-prime-agent-usage-modelopts
+      - ref-prime-agent-usage-resourceopts
+      - ref-prime-agent-usage-shell
+      - ref-prime-agent-usage-sysprompt
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-prime-agent-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-entry
+      - agents-roles
+      - agents-invocation
+      - agents-overrides-limits
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-agent-depth
+      - ref-prime-agent-agent-gate
+      - ref-prime-agent-arch-glance
+      - ref-prime-agent-ex-subagent-caps
+      - ref-prime-agent-ex-subagent-readme
+      - ref-prime-agent-ex-subagent-tool
+      - ref-prime-agent-lra-autonomous
+      - ref-prime-agent-lra-daemon
+      - ref-prime-agent-lra-messaging
+      - ref-prime-agent-refinement-kinds
+      - ref-prime-agent-rlm-subagents
+      - ref-prime-agent-rlrt-child
+      - ref-prime-agent-rlrt-components
+      - ref-prime-agent-rlrt-continual
+      - ref-prime-agent-rlrt-failures
+      - ref-prime-agent-rlrt-pyapi
+      - ref-prime-agent-rlrt-registry
+      - ref-prime-agent-settings-model
+      - ref-prime-agent-subagent-discovery
+      - ref-prime-agent-subagent-frontmatter
+      - ref-prime-agent-subagent-parse
+      - ref-prime-agent-subagent-planner
+      - ref-prime-agent-usage-agents
+      - ref-prime-agent-usage-shell
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-prime-agent-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-entry
+      - providers-auth
+      - providers-protocol-models
+      - providers-forwarding-responses
+      - providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-ai-api-registry
+      - ref-prime-agent-ai-api-types
+      - ref-prime-agent-ai-stream-dispatch
+      - ref-prime-agent-cprovider-apis
+      - ref-prime-agent-cprovider-authheader
+      - ref-prime-agent-cprovider-configref
+      - ref-prime-agent-cprovider-modelref
+      - ref-prime-agent-cprovider-oauth
+      - ref-prime-agent-cprovider-oauthcallbacks
+      - ref-prime-agent-cprovider-override
+      - ref-prime-agent-cprovider-register
+      - ref-prime-agent-cprovider-stream
+      - ref-prime-agent-cprovider-testing
+      - ref-prime-agent-ext-agent-events
+      - ref-prime-agent-models-anthropic
+      - ref-prime-agent-models-apis
+      - ref-prime-agent-models-headers
+      - ref-prime-agent-models-minimal
+      - ref-prime-agent-models-model
+      - ref-prime-agent-models-openai
+      - ref-prime-agent-models-override
+      - ref-prime-agent-models-permodel
+      - ref-prime-agent-models-thinking
+      - ref-prime-agent-models-value
+      - ref-prime-agent-mr-defaults
+      - ref-prime-agent-mr-load
+      - ref-prime-agent-mr-model-schema
+      - ref-prime-agent-mr-override
+      - ref-prime-agent-mr-provider-schema
+      - ref-prime-agent-mr-register
+      - ref-prime-agent-mr-validate
+      - ref-prime-agent-mr-validateprovider
+      - ref-prime-agent-providers-authfile
+      - ref-prime-agent-providers-env
+      - ref-prime-agent-providers-keyres
+      - ref-prime-agent-providers-order
+      - ref-prime-agent-providers-prime
+      - ref-prime-agent-rcv-cmd
+      - ref-prime-agent-rcv-resolve
+      - ref-prime-agent-retry-defaults
+      - ref-prime-agent-retry-policy
+      - ref-prime-agent-sdk-model
+      - ref-prime-agent-settings-retry
+      - ref-prime-agent-settings-waits
+      - ref-prime-agent-usage-modelopts
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-prime-agent-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-entry
+      - hooks-events
+      - hooks-input
+      - hooks-output-order
+      - hooks-conditions
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-args-flags
+      - ref-prime-agent-code-migrations-hooks
+      - ref-prime-agent-diag-interactive
+      - ref-prime-agent-diag-main
+      - ref-prime-agent-diag-reload
+      - ref-prime-agent-diag-snapshot
+      - ref-prime-agent-ex-permission-gate
+      - ref-prime-agent-ex-readme
+      - ref-prime-agent-ext-agent-events
+      - ref-prime-agent-ext-bash-events
+      - ref-prime-agent-ext-code-discovery
+      - ref-prime-agent-ext-code-errors
+      - ref-prime-agent-ext-code-manifest
+      - ref-prime-agent-ext-code-on
+      - ref-prime-agent-ext-code-reload
+      - ref-prime-agent-ext-code-resolve
+      - ref-prime-agent-ext-commandctx
+      - ref-prime-agent-ext-ctx
+      - ref-prime-agent-ext-error
+      - ref-prime-agent-ext-events
+      - ref-prime-agent-ext-input-events
+      - ref-prime-agent-ext-lifecycle
+      - ref-prime-agent-ext-locations
+      - ref-prime-agent-ext-modes
+      - ref-prime-agent-ext-on
+      - ref-prime-agent-ext-quickstart
+      - ref-prime-agent-ext-runner-emit
+      - ref-prime-agent-ext-runner-toolcall
+      - ref-prime-agent-ext-session-events
+      - ref-prime-agent-ext-tool-events
+      - ref-prime-agent-ext-types-ctx
+      - ref-prime-agent-ext-types-events
+      - ref-prime-agent-pm-auto
+      - ref-prime-agent-pm-overrides
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-prime-agent-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-entry
+      - mcp-definition
+      - mcp-lifecycle
+      - mcp-capabilities-exposure
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-acp-admission-validation-rust
+      - ref-prime-agent-acp-mcp-wire-rust
+      - ref-prime-agent-acp-request-timeout-rust
+      - ref-prime-agent-acp-request-wiring-rust
+      - ref-prime-agent-acp-session-new-rust
+      - ref-prime-agent-acp-wire-constraints-rust
+      - ref-prime-agent-acp-wire-request-call-rust
+      - ref-prime-agent-mcp-call
+      - ref-prime-agent-mcp-caveats
+      - ref-prime-agent-mcp-connecting
+      - ref-prime-agent-mcp-generic
+      - ref-prime-agent-mcp-inventory
+      - ref-prime-agent-mcp-migration
+      - ref-prime-agent-mcp-states
+      - ref-prime-agent-providers-authfile
+      - ref-prime-agent-settings-globalonly
+      - ref-prime-agent-usage-principles
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-prime-agent-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model
+      - plugins-package
+      - plugins-install
+      - plugins-discovery-lifecycle
+      - plugins-api
+      - plugins-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-diag-interactive
+      - ref-prime-agent-diag-main
+      - ref-prime-agent-diag-reload
+      - ref-prime-agent-diag-snapshot
+      - ref-prime-agent-ex-withdeps-pkg
+      - ref-prime-agent-ext-code-discovery
+      - ref-prime-agent-ext-code-errors
+      - ref-prime-agent-ext-code-manifest
+      - ref-prime-agent-ext-code-reload
+      - ref-prime-agent-ext-code-resolve
+      - ref-prime-agent-ext-ctx
+      - ref-prime-agent-ext-error
+      - ref-prime-agent-ext-imports
+      - ref-prime-agent-ext-modes
+      - ref-prime-agent-ext-on
+      - ref-prime-agent-ext-overview
+      - ref-prime-agent-ext-registercommand
+      - ref-prime-agent-ext-registerprovider
+      - ref-prime-agent-ext-registertool
+      - ref-prime-agent-ext-runner-conflict
+      - ref-prime-agent-ext-state
+      - ref-prime-agent-ext-styles
+      - ref-prime-agent-ext-types-provider
+      - ref-prime-agent-ext-writing
+      - ref-prime-agent-pkg-creating
+      - ref-prime-agent-pkg-deps
+      - ref-prime-agent-pkg-enable
+      - ref-prime-agent-pkg-gallery
+      - ref-prime-agent-pkg-install
+      - ref-prime-agent-pkg-scope
+      - ref-prime-agent-pkg-sources
+      - ref-prime-agent-pkg-structure
+      - ref-prime-agent-pkgcli-list
+      - ref-prime-agent-pm-identity
+      - ref-prime-agent-pm-installpaths
+      - ref-prime-agent-pm-overrides
+      - ref-prime-agent-pm-precedence
+      - ref-prime-agent-rl-reload
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-prime-agent-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-roots
+      - skills-discovery
+      - skills-format
+      - skills-extensions
+      - skills-loading-invocation
+      - skills-conditions-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-args-flags
+      - ref-prime-agent-code-agentdir
+      - ref-prime-agent-code-configdir
+      - ref-prime-agent-diag-interactive
+      - ref-prime-agent-diag-reload
+      - ref-prime-agent-docs-index
+      - ref-prime-agent-pkg-filtering
+      - ref-prime-agent-pm-ancestor
+      - ref-prime-agent-pm-auto
+      - ref-prime-agent-pm-overrides
+      - ref-prime-agent-pm-precedence
+      - ref-prime-agent-pm-scan
+      - ref-prime-agent-readme-install
+      - ref-prime-agent-rl-skillmerge
+      - ref-prime-agent-rlm-skills
+      - ref-prime-agent-rlm-trust
+      - ref-prime-agent-rlrt-continual
+      - ref-prime-agent-rlrt-kernel
+      - ref-prime-agent-settings-resources
+      - ref-prime-agent-skill-creator
+      - ref-prime-agent-skill-edit
+      - ref-prime-agent-skill-websearch-pyproject
+      - ref-prime-agent-skills-builtin
+      - ref-prime-agent-skills-code-dedup
+      - ref-prime-agent-skills-code-frontmatter
+      - ref-prime-agent-skills-code-load
+      - ref-prime-agent-skills-code-python
+      - ref-prime-agent-skills-code-scan
+      - ref-prime-agent-skills-code-validate
+      - ref-prime-agent-skills-commands
+      - ref-prime-agent-skills-frontmatter
+      - ref-prime-agent-skills-how
+      - ref-prime-agent-skills-locations
+      - ref-prime-agent-skills-python
+      - ref-prime-agent-skills-structure
+      - ref-prime-agent-skills-validation
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    reason: "source-prime-agent-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-scope
+      - transcripts-storage-layout
+      - transcripts-format-and-writes
+      - transcripts-record-schema
+      - transcripts-index-and-archive
+      - transcripts-cleanup-and-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-lt-paths-sessions-dir
+      - ref-prime-agent-lt-cli-session-dir-env
+      - ref-prime-agent-lt-settings-session-dir
+      - ref-prime-agent-lt-store-file-name
+      - ref-prime-agent-lt-session-file-entry-variants
+      - ref-prime-agent-lt-session-entry-base
+      - ref-prime-agent-lt-persist-append-arm
+      - ref-prime-agent-lt-persist-atomic-write
+      - ref-prime-agent-lt-repair-load
+      - ref-prime-agent-lt-sidecar-purpose
+      - ref-prime-agent-lt-archive-sweep
+      - ref-prime-agent-lt-archive-restore
+      - ref-prime-agent-lt-delete-trash-unlink
+      - ref-prime-agent-lt-store-header-bounded
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+    reason: >-
+      local_transcripts first pass: the single upstream commit since the previous
+      baseline is an install.ps1 packaging change, so no existing transcript
+      record moved; the topic had no chapter at all and was written from scratch
+      against the pinned Rust source tree at 7a52276c. transcripts.schema,
+      transcripts.database and transcripts.cleanup stay partial on the gaps each
+      section lists.
+pending_question_ids:
+  - config.sources
+  - config.overrides
+  - config.runtime
+  - config.trust
+  - config.defaults
+  - config.migration
+  - config.diagnostics
+  - agents.entry
+  - agents.format
+  - agents.roles
+  - agents.invocation
+  - agents.overrides
+  - agents.limits
+  - agents.diagnostics
+  - providers.entry
+  - providers.auth
+  - providers.protocol
+  - providers.models
+  - providers.metadata
+  - providers.forwarding
+  - providers.responses
+  - providers.diagnostics
+  - hooks.events
+  - hooks.entry
+  - hooks.input
+  - hooks.output
+  - hooks.order
+  - hooks.conditions
+  - hooks.diagnostics
+  - mcp.entry
+  - mcp.definition
+  - mcp.transport
+  - mcp.auth
+  - mcp.lifecycle
+  - mcp.capabilities
+  - mcp.exposure
+  - mcp.diagnostics
+  - plugins.model
+  - plugins.package
+  - plugins.install
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+  - skills.roots
+  - skills.discovery
+  - skills.collision
+  - skills.format
+  - skills.extensions
+  - skills.loading
+  - skills.invocation
+  - skills.conditions
+  - skills.diagnostics
+  - transcripts.schema
+  - transcripts.database
+  - transcripts.cleanup
+investigation_notes:
+  - >-
+    local_transcripts first pass, delivery=pr, agent: harness-maintenance worker.
+    Fixed source: source-prime-agent-repo at commit
+    7a52276cb17310f331f1075f28fa5cf9c4ae0a0a, opened by the coordinator in the
+    pinned read-only workspace
+    /tmp/ahw-source-workspaces/ws-7a52276cb173-08af7d2c-1d51-4a37-8c47-b81cea7c451d;
+    no new workspace was opened and no temporary path is written into any
+    record. Baseline for this audit is c24ac227f11f552ed1d3fa8ebc7d916937d7f6bc;
+    the only commit in between is an install.ps1 packaging change, so no existing
+    transcript record changed - the topic simply had no chapter, and this pass
+    wrote prime-agent-local_transcripts-v1 from scratch (19 git_source_file
+    artifacts, one snapshot per file, 48 references). No archived_document was
+    created: archive/prime-agent/ does not exist in this project, so every
+    citation is source-level. No mappings were written, because a source commit
+    does not prove any published package's behavior.
+  - >-
+    Source-tree note worth a maintainer decision: the pinned commit is already
+    the Rust workspace (crates/), while the seven pre-existing chapters cite
+    TypeScript files under packages/coding-agent/src/ that are absent from this
+    tree. This chapter therefore records only what commit 7a52276c shows, and
+    the two trees' consistency is not asserted anywhere.
+  - >-
+    Gaps left open on purpose, each also listed in the chapter body:
+    transcripts.schema (no first-party schema doc or exported JSON Schema; the
+    ai/ content-block structs and the v1->v2 / v2->v3 rewrite bodies were not
+    itemized; customType value set not enumerated), transcripts.database (the
+    "no database" statement is a negative search over sqlite/rusqlite/libsql/
+    diesel in the pinned tree, not a positive source statement; RLM ledger
+    rebuild rules untaken), transcripts.cleanup (sidecar and RLM ledger
+    handling on delete, cascade semantics for parent/child sessions and any
+    rebuild entry point were not taken as evidence).
+  - >-
+    Status discipline: transcript.cleanup and transcript.schema are answered
+    only where the fixed source states the mechanism directly; partial is used
+    wherever the mechanism is evidenced but a real gap remains, and no
+    "no evidence" was turned into "unsupported" or "safe to delete manually".
+    No blocker stopped the pass; review_status stays pending because other
+    topics in this audit still carry pending questions.

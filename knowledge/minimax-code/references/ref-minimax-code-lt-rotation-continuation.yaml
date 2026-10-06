@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-rotation-continuation
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-tui-src-tui-controller-session-flow-ts
+locator:
+  kind: file_lines
+  file: packages/tui/src/tui/controller/session-flow.ts
+  start: 560
+  end: 575
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/tui/src/tui/controller/session-flow.ts
+excerpt: "  }\n\n  async reconcileRuntimeEvent(event: TuiSessionCatalogEvent | TuiRotationEvent): Promise<void> {\n    if (this.stopped) return;\n    const currentSessionId = this.options.controller.snapshot().session?.sessionId;\n    if (event.type === 'rotation.completed') {\n      if (currentSessionId !== event.oldSessionId) {\n        await this.options.controller.refreshSessionList();\n        return;\n      }\n      await this.options.controller.whenIdle();\n      if (this.stopped) return;\n      await this.activateSessionById(event.newSessionId, { allowDuringLiveRun: true });\n      return;\n    }\n    if (event.type === 'session.deleted' && currentSessionId === event.sessionId) {"

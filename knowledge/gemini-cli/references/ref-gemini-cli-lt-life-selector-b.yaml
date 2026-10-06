@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-life-selector-b
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-cli-session-utils
+locator:
+  kind: file_lines
+  file: packages/cli/src/utils/sessionUtils.ts
+  start: 433
+  end: 455
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+        (f) =>
+          f.startsWith(SESSION_FILE_PREFIX) &&
+          (f.endsWith(`-${shortId}.json`) || f.endsWith(`-${shortId}.jsonl`)),
+      );
+
+      for (const fileName of candidateFiles) {
+        try {
+          const sessionPath = path.join(chatsDir, fileName);
+          const sessionData = await loadConversationRecord(sessionPath);
+          if (sessionData && sessionData.sessionId === id) {
+            return true;
+          }
+        } catch {
+          // Ignore unparseable files
+        }
+      }
+
+      return false;
+    }
+
+    /**
+     * Lists all available sessions for the current project.
+     */

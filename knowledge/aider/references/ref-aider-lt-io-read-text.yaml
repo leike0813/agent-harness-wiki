@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-lt-io-read-text
+harness_id: aider
+snapshot_id: snapshot-aider-lt-aider-io-py
+locator:
+  kind: file_lines
+  file: aider/io.py
+  start: 453
+  end: 467
+official_url: https://github.com/Aider-AI/aider/blob/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/io.py
+excerpt: "    def read_text(self, filename, silent=False):\n        if is_image_file(filename):\n            return self.read_image(filename)\n\n        try:\n            with open(str(filename), \"r\", encoding=self.encoding) as f:\n                return f.read()\n        except FileNotFoundError:\n            if not silent:\n                self.tool_error(f\"{filename}: file not found error\")\n            return\n        except IsADirectoryError:\n            if not silent:\n                self.tool_error(f\"{filename}: is a directory\")\n            return"

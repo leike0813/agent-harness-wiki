@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-lease-lifetime
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-packages-session-session-persistence-jsonl-src-lease-ts
+locator:
+  kind: file_lines
+  file: packages/session/session-persistence-jsonl/src/lease.ts
+  start: 20
+  end: 27
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/lease.ts
+excerpt: " * The lock is acquired at write-open of an existing artifact and, for a\n * created session, only right before its first materializing write — an\n * unmaterialized session has no filesystem footprint. Release never removes\n * the POSIX lock file: every acquired lock belongs to a materialized or\n * materializing session, and the surviving file keeps the stable inode later\n * lockers verify against. The browser worker stubs the native flock entry to\n * immediate success: it is single-process, so the in-process write claim\n * already excludes every writer."

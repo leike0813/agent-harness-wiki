@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-lt-btw-cost-table
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-code-deepagents-code-btw-cost-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/btw_cost.py
+  start: 68
+  end: 76
+official_url: https://github.com/langchain-ai/deepagents/blob/4b9410272a4e4885ec70fb1ec8549e307a15e585/libs/code/deepagents_code/btw_cost.py
+excerpt: "    await conn.execute(\n        \"CREATE TABLE IF NOT EXISTS dcode_btw_costs \"\n        \"(thread_id TEXT PRIMARY KEY NOT NULL, breakdown TEXT NOT NULL)\"\n    )\n    await conn.execute(\n        \"INSERT INTO dcode_btw_costs VALUES (?, 'null') \"\n        \"ON CONFLICT(thread_id) DO UPDATE SET breakdown = 'null'\",\n        (thread_id,),\n    )"

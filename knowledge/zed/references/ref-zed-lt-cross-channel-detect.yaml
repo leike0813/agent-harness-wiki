@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-cross-channel-detect
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-ui-src-thread-import-rs
+locator:
+  kind: file_lines
+  file: crates/agent_ui/src/thread_import.rs
+  start: 66
+  end: 83
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent_ui/src/thread_import.rs
+excerpt: "pub fn channels_with_threads(cx: &App) -> Task<Vec<SharedString>> {\n    let Some(current_channel) = ReleaseChannel::try_global(cx) else {\n        return Task::ready(Vec::new());\n    };\n    let database_dir = paths::database_dir();\n\n    let channel_has_threads = |database_dir: &std::path::Path, channel: ReleaseChannel| {\n        let db_path = db::db_path(database_dir, channel);\n        if !db_path.exists() {\n            return false;\n        }\n        let connection = sqlez::connection::Connection::open_file(&db_path.to_string_lossy());\n        connection\n            .select_row::<bool>(\"SELECT 1 FROM sidebar_threads LIMIT 1\")\n            .ok()\n            .and_then(|mut query| query().ok().flatten())\n            .unwrap_or(false)\n    };"

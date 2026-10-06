@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-db-thread-fields-a
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-db-rs
+locator:
+  kind: file_lines
+  file: crates/agent/src/db.rs
+  start: 54
+  end: 68
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent/src/db.rs
+excerpt: "#[derive(Debug, Serialize, Deserialize)]\npub struct DbThread {\n    pub title: SharedString,\n    pub messages: Vec<Arc<DbMessage>>,\n    pub updated_at: DateTime<Utc>,\n    #[serde(default)]\n    pub detailed_summary: Option<SharedString>,\n    #[serde(default)]\n    pub initial_project_snapshot: Option<Arc<crate::ProjectSnapshot>>,\n    #[serde(default)]\n    pub cumulative_token_usage: language_model::TokenUsage,\n    #[serde(default)]\n    pub request_token_usage: HashMap<acp_thread::ClientUserMessageId, language_model::TokenUsage>,\n    #[serde(default)]\n    pub model: Option<DbLanguageModel>,"

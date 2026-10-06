@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-lt-tangent-checkpoint-struct
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-lt-crates-chat-cli-src-cli-chat-conversation-rs
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/chat/conversation.rs
+  start: 152
+  end: 168
+official_url: https://github.com/aws/amazon-q-developer-cli/blob/15cc8f3cd18c4272925ce1c7053268eedff1ea0a/crates/chat-cli/src/cli/chat/conversation.rs
+excerpt: "}\n\n#[derive(Debug, Clone, Serialize, Deserialize)]\nstruct ConversationCheckpoint {\n    /// Main conversation history stored while in tangent mode\n    main_history: VecDeque<HistoryEntry>,\n    /// Main conversation next message\n    main_next_message: Option<UserMessage>,\n    /// Main conversation transcript\n    main_transcript: VecDeque<String>,\n    /// Main conversation summary\n    main_latest_summary: Option<(String, RequestMetadata)>,\n    /// Timestamp when tangent mode was entered (milliseconds since epoch)\n    #[serde(default = \"time::OffsetDateTime::now_utc\")]\n    tangent_start_time: time::OffsetDateTime,\n}"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-log-retention-scope
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-infra-storage-retention-index-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/infra/storage-retention/index.ts
+  start: 15
+  end: 27
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/infra/storage-retention/index.ts
+excerpt: " * Post-ready retention for fixed diagnostic log roots and retired context debug.\n * Business temporary directories and workspaces are never discovered or traversed.\n */\nexport async function pruneTransientStorage(options: {\n  readonly dataDir: string;\n  readonly nowMs?: () => number;\n  readonly maxEntries?: number;\n}): Promise<TransientStorageRetentionResult> {\n  if (!(await isPlainDirectory(options.dataDir))) {\n    return { logFilesDeleted: 0, retiredContextDebugDeleted: false };\n  }\n  const nowMs = (options.nowMs ?? Date.now)();\n  if (!Number.isSafeInteger(nowMs) || nowMs < 0) {"

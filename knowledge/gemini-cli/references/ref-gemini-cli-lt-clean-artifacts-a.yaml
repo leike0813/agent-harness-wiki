@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-clean-artifacts-a
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-session-operations
+locator:
+  kind: file_lines
+  file: packages/core/src/utils/sessionOperations.ts
+  start: 56
+  end: 72
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+  /**
+   * Asynchronously deletes activity logs and tool outputs for a specific session ID.
+   */
+  export async function deleteSessionArtifactsAsync(
+    sessionId: string,
+    tempDir: string,
+  ): Promise<void> {
+    try {
+      const safeSessionId = validateAndSanitizeSessionId(sessionId);
+      const logsDir = path.join(tempDir, LOGS_DIR);
+      const logPath = path.join(logsDir, `session-${safeSessionId}.jsonl`);
+
+      // Use fs.promises.unlink directly since we don't need to check exists first
+      // (catching ENOENT is idiomatic for async file system ops)
+      await fs.unlink(logPath).catch((err: NodeJS.ErrnoException) => {
+        if (err.code !== 'ENOENT') throw err;
+      });

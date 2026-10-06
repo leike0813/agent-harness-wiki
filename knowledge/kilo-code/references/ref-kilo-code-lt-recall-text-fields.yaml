@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-recall-text-fields
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-kilocode-session-recall-search-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/session/recall-search.ts
+  start: 30
+  end: 40
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/kilocode/session/recall-search.ts
+excerpt: "  const TEXT_SQL = `CASE\n      WHEN json_extract(p.data, '$.type') = 'text' THEN coalesce(json_extract(p.data, '$.text'), '')\n      WHEN json_extract(p.data, '$.type') = 'file' THEN trim(\n        coalesce(json_extract(p.data, '$.filename'), '') || ' ' ||\n        CASE WHEN coalesce(json_extract(p.data, '$.url'), '') NOT LIKE 'data:%'\n          THEN coalesce(json_extract(p.data, '$.url'), '') ELSE '' END || ' ' ||\n        coalesce(json_extract(p.data, '$.source.path'), '') || ' ' ||\n        coalesce(json_extract(p.data, '$.source.name'), '') || ' ' ||\n        CASE WHEN coalesce(json_extract(p.data, '$.source.uri'), '') NOT LIKE 'data:%'\n          THEN coalesce(json_extract(p.data, '$.source.uri'), '') ELSE '' END || ' ' ||\n        coalesce(json_extract(p.data, '$.source.clientName'), '')"

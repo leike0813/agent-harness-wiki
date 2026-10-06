@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-lt-get-conversation-by-path
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-lt-crates-chat-cli-src-database-mod-rs
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/database/mod.rs
+  start: 384
+  end: 397
+official_url: https://github.com/aws/amazon-q-developer-cli/blob/15cc8f3cd18c4272925ce1c7053268eedff1ea0a/crates/chat-cli/src/database/mod.rs
+excerpt: "    /// Get a chat conversation given a path to the conversation.\n    pub fn get_conversation_by_path(\n        &mut self,\n        path: impl AsRef<Path>,\n    ) -> Result<Option<ConversationState>, DatabaseError> {\n        // We would need to encode this to support non utf8 paths.\n        let path = match path.as_ref().to_str() {\n            Some(path) => path,\n            None => return Ok(None),\n        };\n\n        self.get_json_entry(Table::Conversations, path)\n    }"

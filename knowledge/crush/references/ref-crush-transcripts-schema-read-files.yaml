@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-schema-read-files
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-db-migrations-20260127000000-add-read-files-table-sql
+locator:
+  kind: file_lines
+  file: internal/db/migrations/20260127000000_add_read_files_table.sql
+  start: 1
+  end: 9
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  -- +goose Up
+  -- +goose StatementBegin
+  CREATE TABLE IF NOT EXISTS read_files (
+      session_id TEXT NOT NULL CHECK (session_id != ''),
+      path TEXT NOT NULL CHECK (path != ''),
+      read_at INTEGER NOT NULL,  -- Unix timestamp in seconds when file was last read
+      FOREIGN KEY (session_id) REFERENCES sessions (id) ON DELETE CASCADE,
+      PRIMARY KEY (path, session_id)
+  );

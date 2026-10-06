@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-lt-chat-continuation
+harness_id: bolt
+snapshot_id: snapshot-bolt-lt-app-routes-api-chat-ts
+locator:
+  kind: file_lines
+  file: app/routes/api.chat.ts
+  start: 16
+  end: 34
+official_url: https://github.com/stackblitz/bolt.new/blob/eda10b121221b30825a4c16eec5da1fd3eb1eb99/app/routes/api.chat.ts
+excerpt: "  try {\n    const options: StreamingOptions = {\n      toolChoice: 'none',\n      onFinish: async ({ text: content, finishReason }) => {\n        if (finishReason !== 'length') {\n          return stream.close();\n        }\n\n        if (stream.switches >= MAX_RESPONSE_SEGMENTS) {\n          throw Error('Cannot continue message: Maximum segments reached');\n        }\n\n        const switchesLeft = MAX_RESPONSE_SEGMENTS - stream.switches;\n\n        console.log(`Reached max token limit (${MAX_TOKENS}): Continuing message (${switchesLeft} switches left)`);\n\n        messages.push({ role: 'assistant', content });\n        messages.push({ role: 'user', content: CONTINUE_PROMPT });"

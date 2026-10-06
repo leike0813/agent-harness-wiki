@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-resume-trim-messages
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-task-task-ts
+locator:
+  kind: file_lines
+  file: src/core/task/Task.ts
+  start: 1960
+  end: 1978
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/task/Task.ts
+excerpt: "\t\t\t// Remove any resume messages that may have been added before.\n\t\t\tconst lastRelevantMessageIndex = findLastIndex(\n\t\t\t\tmodifiedClineMessages,\n\t\t\t\t(m) => !(m.ask === \"resume_task\" || m.ask === \"resume_completed_task\"),\n\t\t\t)\n\n\t\t\tif (lastRelevantMessageIndex !== -1) {\n\t\t\t\tmodifiedClineMessages.splice(lastRelevantMessageIndex + 1)\n\t\t\t}\n\n\t\t\t// Remove any trailing reasoning-only UI messages that were not part of the persisted API conversation\n\t\t\twhile (modifiedClineMessages.length > 0) {\n\t\t\t\tconst last = modifiedClineMessages[modifiedClineMessages.length - 1]\n\t\t\t\tif (last.type === \"say\" && last.say === \"reasoning\") {\n\t\t\t\t\tmodifiedClineMessages.pop()\n\t\t\t\t} else {\n\t\t\t\t\tbreak\n\t\t\t\t}\n\t\t\t}"

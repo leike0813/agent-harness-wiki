@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-writer-reclaim-rules
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-doc-conversations-recovery
+locator:
+  kind: file_lines
+  file: docs/users/conversations-recovery.md
+  start: 41
+  end: 50
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/docs/users/conversations-recovery.md"
+excerpt: |2-
+  - Normal close releases the lease. A certified sealed handoff is accepted only
+    when its transcript proof is still valid.
+  - A dead active writer is reclaimable only when the existing identity checks
+    establish that its process belongs to the same verified liveness domain.
+  - Live or stalled writers remain fenced. Killing a daemon is insufficient if
+    its ACP writer child survives.
+  - Foreign or missing boot/process-namespace identity is not proof of death.
+    An absent PID in your namespace does not prove a foreign writer exited.
+  - Malformed records, uncertain transcript identity, and residual transition
+    claims fail closed. Elapsed time alone never authorizes takeover.

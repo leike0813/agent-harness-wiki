@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-format-line-write
+harness_id: codex
+snapshot_id: snapshot-codex-repo-822e58cc-rollout-recorder
+locator:
+  kind: file_lines
+  file: codex-rs/rollout/src/recorder.rs
+  start: 2086
+  end: 2104
+official_url: https://github.com/openai/codex/blob/822e58cc3d666166c7446c5b1ea2e52f5d09594c/codex-rs/rollout/src/recorder.rs
+excerpt: "    async fn write_rollout_item(\n        &mut self,\n        rollout_item: &RolloutItem,\n        ordinal: Option<u64>,\n    ) -> std::io::Result<()> {\n        let timestamp_format: &[FormatItem] = format_description!(\n            \"[year]-[month]-[day]T[hour]:[minute]:[second].[subsecond digits:3]Z\"\n        );\n        let timestamp = OffsetDateTime::now_utc()\n            .format(timestamp_format)\n            .map_err(|e| IoError::other(format!(\"failed to format timestamp: {e}\")))?;\n\n        let line = RolloutLineRef {\n            timestamp,\n            ordinal,\n            item: rollout_item,\n        };\n        self.write_line(&line).await\n    }"

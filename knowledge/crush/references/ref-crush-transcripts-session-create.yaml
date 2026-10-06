@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-session-create
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-session-session-go
+locator:
+  kind: file_lines
+  file: internal/session/session.go
+  start: 101
+  end: 110
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (s *service) Create(ctx context.Context, title string) (Session, error) {
+  	dbSession, err := s.q.CreateSession(ctx, db.CreateSessionParams{
+  		ID:    uuid.New().String(),
+  		Title: title,
+  	})
+  	if err != nil {
+  		return Session{}, err
+  	}
+  	session := s.fromDBItem(dbSession)
+  	s.Publish(pubsub.CreatedEvent, session)

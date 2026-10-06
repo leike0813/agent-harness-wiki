@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-messages-file-context
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-services-session-data-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/session-data.ts
+  start: 296
+  end: 318
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/services/session-data.ts
+excerpt: "export function resolveMessagesFileContext(\n\trow: SessionRow,\n): MessagesFileContext {\n\tconst historyOrigin = readSessionHistoryOriginMetadata(row.metadata);\n\tconst origin = {\n\t\tsource: row.source,\n\t\tmode: historyOrigin?.mode ?? \"user\",\n\t\tsessionId: row.sessionId,\n\t\t...(row.parentSessionId ? { parentThreadId: row.parentSessionId } : {}),\n\t\t...(row.agentId ? { subagent: row.agentId } : {}),\n\t\t...(historyOrigin?.version ? { version: historyOrigin.version } : {}),\n\t\t...(historyOrigin?.trigger ? { trigger: historyOrigin.trigger } : {}),\n\t};\n\tconst teamTaskMatch = parseTeamTaskSubSessionId(row.sessionId);\n\tif (teamTaskMatch) {\n\t\treturn {\n\t\t\tagent: \"teammate\",\n\t\t\tsessionId: row.sessionId,\n\t\t\ttaskType: \"team\",\n\t\t\torigin,\n\t\t};\n\t}\n\tconst subSessionMatch = parseSubSessionId(row.sessionId);"

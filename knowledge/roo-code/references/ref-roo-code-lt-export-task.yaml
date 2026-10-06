@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-export-task
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-webview-clineprovider-ts
+locator:
+  kind: file_lines
+  file: src/core/webview/ClineProvider.ts
+  start: 1705
+  end: 1717
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/webview/ClineProvider.ts
+excerpt: "\tasync exportTaskWithId(id: string) {\n\t\tconst { historyItem, apiConversationHistory } = await this.getTaskWithId(id)\n\t\tconst fileName = getTaskFileName(historyItem.ts)\n\t\tconst defaultUri = await resolveDefaultSaveUri(this.contextProxy, \"lastTaskExportPath\", fileName, {\n\t\t\tuseWorkspace: false,\n\t\t\tfallbackDir: path.join(os.homedir(), \"Downloads\"),\n\t\t})\n\t\tconst saveUri = await downloadTask(historyItem.ts, apiConversationHistory, defaultUri)\n\n\t\tif (saveUri) {\n\t\t\tawait saveLastExportPath(this.contextProxy, \"lastTaskExportPath\", saveUri)\n\t\t}\n\t}"

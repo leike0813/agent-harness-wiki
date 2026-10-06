@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-store-paths
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-task-persistence-taskhistorystore-ts
+locator:
+  kind: file_lines
+  file: src/core/task-persistence/TaskHistoryStore.ts
+  start: 552
+  end: 571
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/task-persistence/TaskHistoryStore.ts
+excerpt: "\tprivate async getTasksDir(): Promise<string> {\n\t\tconst basePath = await getStorageBasePath(this.globalStoragePath)\n\t\treturn path.join(basePath, \"tasks\")\n\t}\n\n\t/**\n\t * Get the path to a task's `history_item.json` file.\n\t */\n\tprivate async getTaskFilePath(taskId: string): Promise<string> {\n\t\tconst tasksDir = await this.getTasksDir()\n\t\treturn path.join(tasksDir, taskId, GlobalFileNames.historyItem)\n\t}\n\n\t/**\n\t * Get the path to the `_index.json` file.\n\t */\n\tprivate async getIndexPath(): Promise<string> {\n\t\tconst tasksDir = await this.getTasksDir()\n\t\treturn path.join(tasksDir, GlobalFileNames.historyIndex)\n\t}"

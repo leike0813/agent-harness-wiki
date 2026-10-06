@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-effects-compact
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-state-machine-session
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/state_machine/session.rs
+  start: 65
+  end: 78
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+                  GooseEffect::CompactConversation {
+                      conversation,
+                      usage: replacement_usage,
+                  } => {
+                      if let Some(provider_usage) = replacement_usage {
+                          usage::record(self, session, provider_usage, true).await?;
+                      }
+                      self.save_compacted_conversation(&session.id, conversation)
+                          .await?;
+                      self.update(&session.id)
+                          .usage(usage::estimate_context(conversation).await?)
+                          .apply()
+                          .await?;
+                  }

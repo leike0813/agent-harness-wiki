@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-compacted-history
+harness_id: continue
+snapshot_id: snapshot-continue-lt-extensions-cli-src-compaction-ts
+locator:
+  kind: file_lines
+  file: extensions/cli/src/compaction.ts
+  start: 142
+  end: 163
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/compaction.ts
+excerpt: "      (item) => item.message.role === \"system\",\n    );\n    const compactionMessage: ChatHistoryItem = {\n      message: {\n        role: \"assistant\",\n        content: compactionContent,\n      },\n      contextItems: [],\n      conversationSummary: compactionContent,\n    };\n\n    const compactedHistory: ChatHistoryItem[] = systemMessage\n      ? [systemMessage, compactionMessage]\n      : [compactionMessage];\n\n    return {\n      compactedHistory,\n      compactionContent,\n      compactionIndex: systemMessage ? 1 : 0,\n    };\n  } catch (error) {\n    logger.error(\"Compaction failed\", error);"

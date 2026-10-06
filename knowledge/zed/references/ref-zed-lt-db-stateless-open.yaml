@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-db-stateless-open
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-db-src-db-rs
+locator:
+  kind: file_lines
+  file: crates/db/src/db.rs
+  start: 174
+  end: 180
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/db/src/db.rs
+excerpt: "pub async fn open_db<M: Migrator + 'static>(\n    db_dir: &Path,\n    scope: impl DbScope,\n) -> ThreadSafeConnection {\n    if *ZED_STATELESS {\n        return open_fallback_db::<M>().await;\n    }"

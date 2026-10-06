@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-threads-ddl
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/session_manager.rs
+  start: 1461
+  end: 1474
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+                  sqlx::query(
+                      "CREATE TABLE IF NOT EXISTS threads (
+                          id TEXT PRIMARY KEY,
+                          name TEXT NOT NULL DEFAULT 'New Chat',
+                          user_set_name BOOLEAN DEFAULT FALSE,
+                          working_dir TEXT,
+                          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                          archived_at TIMESTAMP,
+                          metadata_json TEXT DEFAULT '{}'
+                      )",
+                  )
+                  .execute(&mut **tx)
+                  .await?;

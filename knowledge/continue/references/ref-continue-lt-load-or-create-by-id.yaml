@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-load-or-create-by-id
+harness_id: continue
+snapshot_id: snapshot-continue-lt-extensions-cli-src-session-ts
+locator:
+  kind: file_lines
+  file: extensions/cli/src/session.ts
+  start: 515
+  end: 531
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/session.ts
+excerpt: "/**\n * Load an existing session by ID or create a new one with that ID.\n * Useful for long-lived processes (e.g., cn serve) that need to\n * preserve chat history across restarts for the same storage/agent id.\n */\nexport function loadOrCreateSessionById(\n  sessionId: string,\n  history: ChatHistoryItem[] = [],\n): Session {\n  const existing = loadSessionById(sessionId);\n  if (existing) {\n    SessionManager.getInstance().setSession(existing);\n    return existing;\n  }\n\n  return createSession(history, sessionId);\n}"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-import-cli-messages
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-cli-cmd-import-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/cli/cmd/import.ts
+  start: 225
+  end: 239
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/cli/cmd/import.ts
+excerpt: "  for (const msg of exportData.messages) {\n    const msgInfo = decodeMessageInfo(msg.info) as SessionV1.Info\n    const { id, sessionID: _, ...msgData } = msgInfo\n    yield* db\n      .insert(MessageTable)\n      .values({\n        id,\n        session_id: row.id,\n        time_created: msgInfo.time?.created ?? Date.now(),\n        data: msgData as never,\n      })\n      .onConflictDoNothing()\n      .run()\n      .pipe(Effect.orDie)"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-part-table
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-core-src-session-sql-ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/sql.ts
+  start: 92
+  end: 113
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/core/src/session/sql.ts
+excerpt: "export const PartTable = sqliteTable(\n  \"part\",\n  {\n    id: text().$type<PartID>().primaryKey(),\n    message_id: text()\n      .$type<MessageID>()\n      .notNull()\n      .references(() => MessageTable.id, { onDelete: \"cascade\" }),\n    session_id: text().$type<SessionSchema.ID>().notNull(),\n    ...Timestamps,\n    data: text({ mode: \"json\" }).notNull().$type<V1PartData>(),\n  },\n  (table) => [\n    index(\"part_message_id_id_idx\").on(table.message_id, table.id),\n    index(\"part_session_idx\").on(table.session_id),\n    // kilocode_change start\n    index(\"part_session_step_finish_idx\")\n      .on(table.session_id)\n      .where(sql`json_valid(${table.data}) AND json_extract(${table.data}, '$.type') = 'step-finish'`),\n    // kilocode_change end\n    RecallPartIndex.make(table), // kilocode_change\n  ],"

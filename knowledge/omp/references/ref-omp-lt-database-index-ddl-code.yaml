@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt-database-index-ddl-code
+harness_id: omp
+snapshot_id: snapshot-omp-lt-repo-fc6c-packages-coding-agent-src-session-session-index-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-index.ts
+  start: 28
+  end: 42
+official_url: https://github.com/can1357/oh-my-pi/blob/fc6c0c90dab012a0b7edea731af92f5bbd09cff0/packages/coding-agent/src/session/session-index.ts#L28-L42
+excerpt: "const SESSION_INDEX_DDL = `\nCREATE TABLE IF NOT EXISTS session_titles (\n\tsession_id TEXT PRIMARY KEY,\n\ttitle TEXT NOT NULL,\n\tupdated_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s','now') AS INTEGER))\n);\nCREATE TABLE IF NOT EXISTS session_recaps (\n\tid INTEGER PRIMARY KEY AUTOINCREMENT,\n\tsession_id TEXT NOT NULL,\n\tcwd TEXT NOT NULL,\n\trecap TEXT NOT NULL,\n\tcreated_at INTEGER NOT NULL DEFAULT (CAST(strftime('%s','now') AS INTEGER))\n);\nCREATE INDEX IF NOT EXISTS idx_session_recaps_session ON session_recaps(session_id, created_at);\n`;"

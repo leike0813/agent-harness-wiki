@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-shell-spill-prune
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-shell-truncate-go
+locator:
+  kind: file_lines
+  file: internal/shell/truncate.go
+  start: 175
+  end: 182
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func pruneSpills(dir string) {
+  	if _, swept := prunedDirs.LoadOrStore(dir, true); swept {
+  		return
+  	}
+  
+  	entries, err := os.ReadDir(dir)
+  	if err != nil {
+  		slog.Debug("Could not read spill directory", "dir", dir, "error", err)

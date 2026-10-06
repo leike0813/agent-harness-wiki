@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-resume-crash-repair
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-packages-core-agent-loop-src-index-ts
+locator:
+  kind: file_lines
+  file: packages/core/agent-loop/src/index.ts
+  start: 849
+  end: 860
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/core/agent-loop/src/index.ts
+excerpt: "          // back the physically valid log; an interrupted final turn receives\n          // synthetic closers (missing tool errors, step/end, turn/end) that\n          // are appended through the same handle as an ordinary batch.\n          const coldRead = await handle.read(0, undefined, { signal: fused })\n          fused.throwIfAborted()\n          const persisted = coldRead.events\n          const closers = interruptedTurnClosers(persisted)\n          if (closers.length > 0) await handle.append(closers)\n          preparation = SessionPreparation.create(this.runtime.ctx.sessions.prepare(id, {\n            seed: [...persisted, ...closers],\n            meta: structuredClone(handle.header),\n            inheritedEventCount: handle.inheritedEventCount,"

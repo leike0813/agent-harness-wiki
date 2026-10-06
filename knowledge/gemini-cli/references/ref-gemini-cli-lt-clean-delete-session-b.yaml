@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-clean-delete-session-b
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-session-operations
+locator:
+  kind: file_lines
+  file: packages/core/src/utils/sessionOperations.ts
+  start: 311
+  end: 325
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+
+      const chatsDirStat = await fs.stat(chatsDir).catch(() => null);
+      if (!chatsDirStat || !chatsDirStat.isDirectory()) {
+        return;
+      }
+
+      const matchingFiles = await getMatchingSessionFiles(chatsDir, shortId);
+      for (const file of matchingFiles) {
+        await deleteSessionFileAndArtifacts(chatsDir, file, tempDir);
+      }
+    } catch (error) {
+      debugLogger.error('Error deleting session file.', error);
+      throw error;
+    }
+  }

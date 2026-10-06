@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-history-screen-unreadable
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-cli-src-components-chat-history-screen-tsx
+locator:
+  kind: file_lines
+  file: cli/src/components/chat-history-screen.tsx
+  start: 155
+  end: 175
+official_url: https://github.com/CodebuffAI/codebuff/blob/bd198ff2df3ea9b333e8bf2e5b843735afd4ad9c/cli/src/components/chat-history-screen.tsx
+excerpt: "  // No need to calculate listHeight - let flexbox handle it naturally\n\n  // Unreadable chats (corrupt chat-messages.json) can be deleted but not resumed\n  const unreadableChatIds = useMemo(\n    () => new Set(chats.filter((chat) => chat.unreadable).map((c) => c.chatId)),\n    [chats],\n  )\n\n  // Handle chat selection\n  const selectChat = useCallback(\n    (chatId: string) => {\n      if (unreadableChatIds.has(chatId)) {\n        setStatusMessage(\"Chat file is corrupted and can't be opened\")\n        return\n      }\n      onSelectChat(chatId)\n    },\n    [onSelectChat, unreadableChatIds],\n  )\n\n  const handleChatSelect = useCallback("

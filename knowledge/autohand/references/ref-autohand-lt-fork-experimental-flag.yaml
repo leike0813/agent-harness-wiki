@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-fork-experimental-flag
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-commands-sessionbranching-ts
+locator:
+  kind: file_lines
+  file: src/commands/sessionBranching.ts
+  start: 31
+  end: 45
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/commands/sessionBranching.ts
+excerpt: "export async function forkSession(ctx: SlashCommandContext, args: string[] = []): Promise<string> {\n  if (!isEnabled(ctx, FORK_FLAG)) {\n    return `The /fork command is behind ${FORK_FLAG}. Run /experiments enable ${FORK_FLAG}, then /fork again. No restart required.`;\n  }\n\n  await ctx.trackFeatureActivation?.(FORK_FLAG, { surface: 'slash_command' });\n  const target = parseForkArgs(args);\n  const sourceSessionId = target.sourceReference\n    ? await ctx.sessionManager.resolveSessionReference(target.sourceReference)\n    : requireCurrentSessionId(ctx, '/fork');\n  const forked = await ctx.sessionManager.branchSession(sourceSessionId, {\n    type: 'fork',\n    userMessageOrdinal: target.userMessageOrdinal,\n  });\n  await ctx.restoreSession?.(forked.metadata.sessionId);"

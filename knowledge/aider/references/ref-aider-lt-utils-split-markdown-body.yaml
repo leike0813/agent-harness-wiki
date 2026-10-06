@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-lt-utils-split-markdown-body
+harness_id: aider
+snapshot_id: snapshot-aider-lt-aider-utils-py
+locator:
+  kind: file_lines
+  file: aider/utils.py
+  start: 167
+  end: 196
+official_url: https://github.com/Aider-AI/aider/blob/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/utils.py
+excerpt: "            user = []\n            tool.append(line[2:])\n            continue\n        # if line.startswith(\"#### /\"):\n        #    continue\n\n        if line.startswith(\"#### \"):\n            append_msg(\"assistant\", assistant)\n            assistant = []\n            append_msg(\"tool\", tool)\n            tool = []\n\n            content = line[5:]\n            user.append(content)\n            continue\n\n        append_msg(\"user\", user)\n        user = []\n        append_msg(\"tool\", tool)\n        tool = []\n\n        assistant.append(line)\n\n    append_msg(\"assistant\", assistant)\n    append_msg(\"user\", user)\n\n    if not include_tool:\n        messages = [m for m in messages if m[\"role\"] != \"tool\"]\n\n    return messages"
