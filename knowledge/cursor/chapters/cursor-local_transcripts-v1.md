@@ -459,7 +459,7 @@ Cursor 没有为本地 transcript 文件发布独立 schema。文档里能被逐
 
 SDK 侧给出的结构化轮次类型是 `ConversationTurn`，分为 `agentConversationTurn`（可选 `userMessage` 加 `steps`）与 `shellConversationTurn`（`shellCommand` 加 `shellOutput`） [@ref-cur-local_transcripts-sdk-conversation-turn]；其本地 store 的四个子存储是 `agents`、`checkpoints`、`runs`、`runEvents` [@ref-cur-local_transcripts-sdk-store-interface]。
 
-### 命名与文件标识 {#record-naming}
+### 命名与文件标识
 
 固定来源能确定的命名事实集中在“标识符”和“示例文件名”两类：
 

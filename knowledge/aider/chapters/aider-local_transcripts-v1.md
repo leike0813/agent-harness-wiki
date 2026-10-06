@@ -207,7 +207,7 @@ questions:
 
 Aider CLI 没有结构化会话数据库。它的"会话记录"是**一个给人读的 Markdown 文件**：`.aider.chat.history.md`。会话消息在内存里是 `dict(role=..., content=...)` 列表，落盘时按行前缀编码成 Markdown，再由同一套前缀规则解析回消息列表。因此理解这套记录的关键不是数据库结构，而是行前缀约定。
 
-### 记录了什么 {#transcripts-recording-scope}
+### 记录了什么
 
 写入记录的三类内容，都通过同一个 `append_chat_history()` 入口追加：
 
@@ -228,7 +228,7 @@ Aider CLI 没有结构化会话数据库。它的"会话记录"是**一个给人
 
 ## 存储位置、命名与格式 {#transcripts-storage-layout}
 
-### 路径与开关 {#transcripts-storage-layout}
+### 路径与开关
 
 三个记录文件的默认值按 git 根目录解析；不在 git 仓库里时退化为当前工作目录下的相对文件名。[@ref-aider-lt-args-history-file-defaults]
 
@@ -243,7 +243,7 @@ Aider CLI 没有结构化会话数据库。它的"会话记录"是**一个给人
 
 值从参数层传到 `InputOutput`，`chat_history_file` 为 `None` 时记录功能整体停用。[@ref-aider-lt-main-io-construction][@ref-aider-lt-io-chat-history-init] 路径用 `os.path.join` 拼接，具体分隔符随操作系统变化；本条结论的取证在 Linux 上完成，Windows 与 macOS 的绝对路径形态未在本章验证。
 
-### 命名与"会话"的表达方式 {#transcripts-storage-layout}
+### 命名与"会话"的表达方式
 
 文件名固定，**没有会话 id、没有时间戳、没有项目路径编码**；同一仓库共用同一个文件，多次会话累积在同一个文件里。[@ref-aider-lt-args-history-file-defaults] 一次启动对应文件里的一行标题：
 
@@ -255,7 +255,7 @@ Aider CLI 没有结构化会话数据库。它的"会话记录"是**一个给人
 
 因此本产品**没有可引用的会话标识、分支标识或父子会话关联**：模式切换（`/ask`、`/code`、`/architect` 等）只把内存里的消息列表搬到新 coder 对象上，不落盘任何链接信息。[@ref-aider-lt-base-coder-switch] 后果是恢复时无法只恢复"最后一次会话"——`--restore-chat-history` 读的是整个文件，历史上更早的会话会一并回到上下文。已查入口：`aider/args.py`、`aider/io.py`、`aider/coders/base_coder.py`、`aider/commands.py`。剩余缺口：固定来源里没有任何按会话切分、索引或查询记录文件的机制。
 
-### 文件形态 {#transcripts-storage-layout}
+### 文件形态
 
 纯文本 Markdown，`encoding` 取自 `--encoding`，以追加模式 `"a"` 打开，写入时 `errors="ignore"`；父目录按需创建；不压缩、不分片、不轮转。[@ref-aider-lt-io-append-chat-history] LLM 对话日志同属追加写，但固定为 UTF-8，格式是 `角色 大写 + 空格 + 秒级 ISO 时间戳`，随后是内容行。[@ref-aider-lt-io-llm-history]
 
@@ -304,7 +304,7 @@ Aider CLI 没有结构化会话数据库。它的"会话记录"是**一个给人
 
 ## 归档、分享与清理 {#transcripts-archive-and-cleanup}
 
-### 没有原生归档 {#transcripts-archive-and-cleanup}
+### 没有原生归档
 
 固定来源里**没有归档开关、没有保留期、没有导出命令、没有自动清理**。官方 FAQ 对"分享会话记录"给的方案是人工操作：把 `.aider.chat.history.md` 里想公开的 Markdown 手工复制出去（例如做成 gist）。[@ref-aider-lt-faq-share-transcript]
 
@@ -315,7 +315,7 @@ Aider CLI 没有结构化会话数据库。它的"会话记录"是**一个给人
 
 把记录当作备份时，它依赖的唯一文件就是那一个 Markdown 文件；但恢复时会丢掉全部 `tool` 行（见 schema 小节），跨机器使用时还得用 `--chat-history-file` 指向备份文件，否则默认路径会按新的 git 根目录解析。信息完整性上的损失集中在工具输出与 LLM 原始消息，后者只有开启 `--llm-history-file` 时才有另一份可查。
 
-### 删除与保留 {#transcripts-archive-and-cleanup}
+### 删除与保留
 
 `/clear` 与 `/reset` 看起来是清理命令，实际作用范围只在内存：`_clear_chat_history()` 把 `done_messages` 与 `cur_messages` 置空，`/reset` 额外把文件从聊天上下文里 drop 掉，两者都不触碰磁盘上的记录文件。[@ref-aider-lt-cmd-clear][@ref-aider-lt-cmd-clear-reset] 这就是本主题最容易误判的一点：`/clear` 之后记录文件仍在增长，因为下一次启动仍会追加新的标题行。
 
@@ -332,11 +332,11 @@ Aider CLI 没有结构化会话数据库。它的"会话记录"是**一个给人
 
 ## 存储依赖、排错与状态检查 {#transcripts-state-and-diagnostics}
 
-### 会话记录不依赖数据库 {#transcripts-state-and-diagnostics}
+### 会话记录不依赖数据库
 
 会话记录没有数据库、索引或辅助状态表：恢复所必需的只有那一个 Markdown 文件。仓库图（repo map）另有缓存，形态是仓库根下的 `.aider.tags.cache.v<版本>` 目录，`sqlite3` 在该模块只用于错误类型判断，属于缓存而非会话存储，本章不逐项审计。[@ref-aider-lt-repomap-tags-cache] 也不能从 git 反推对话：`/undo` 操作的是 aider 自己做的 git 提交，与记录文件无关。[@ref-aider-lt-cmd-undo] 换句话说，记录文件是**唯一事实源，不可重建**——删掉就只能重跑对话，且重跑得到的是新记录，不会补回旧原文。
 
-### 定位与排错 {#transcripts-state-and-diagnostics}
+### 定位与排错
 
 | 想确认什么 | 怎么看 | 依据 |
 | :-- | :-- | :-- |
