@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-archive-policy-resolve
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-crates-pa-core-src-settings-manager-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/manager.rs
+  start: 891
+  end: 903
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/7a52276cb17310f331f1075f28fa5cf9c4ae0a0a/crates/pa-core/src/settings/manager.rs
+excerpt: "    /// Resolved session-archiving policy: which sessions the daemon's archive\n    /// sweep moves out of the sessions directory. Both rules are independent —\n    /// a session is archived when EITHER fires. `None` on a field disables\n    /// that rule.\n    #[must_use]\n    pub fn get_session_archive_policy(&self) -> SessionArchivePolicy {\n        let max_age_days = match &self.global.session_archive_max_age_days {\n            Some(serde_json::Value::String(text)) if text == \"off\" || text == \"none\" => None,\n            Some(serde_json::Value::Number(number)) => Some(\n                number\n                    .as_u64()\n                    .filter(|days| *days > 0)\n                    .unwrap_or(DEFAULT_SESSION_ARCHIVE_MAX_AGE_DAYS),"

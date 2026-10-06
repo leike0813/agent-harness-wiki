@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-title-session-id
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-session-session-go
+locator:
+  kind: file_lines
+  file: internal/session/session.go
+  start: 129
+  end: 135
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (s *service) CreateTitleSession(ctx context.Context, parentSessionID string) (Session, error) {
+  	dbSession, err := s.q.CreateSession(ctx, db.CreateSessionParams{
+  		ID:              "title-" + parentSessionID,
+  		ParentSessionID: sql.NullString{String: parentSessionID, Valid: true},
+  		Title:           "Generate a title",
+  	})
+  	if err != nil {

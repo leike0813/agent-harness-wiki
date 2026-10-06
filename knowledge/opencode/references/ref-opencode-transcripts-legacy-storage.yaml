@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-legacy-storage
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-opencode-src-storage-storage-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/opencode/src/storage/storage.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/storage/storage.ts
+  start: 220
+  end: 231
+excerpt: "      idleTimeToLive: 0,\n    })\n    const state = yield* Effect.cached(\n      Effect.gen(function* () {\n        const dir = path.join(Global.Path.data, \"storage\")\n        const marker = path.join(dir, \"migration\")\n        const migration = yield* fs.readFileString(marker).pipe(\n          Effect.map(parseMigration),\n          Effect.catchIf(missing, () => Effect.succeed(0)),\n          Effect.orElseSucceed(() => 0),\n        )\n        for (let i = migration; i < MIGRATIONS.length; i++) {"

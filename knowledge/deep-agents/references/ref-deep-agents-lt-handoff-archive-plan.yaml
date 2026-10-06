@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-lt-handoff-archive-plan
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-code-deepagents-code-offload-middleware-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/offload_middleware.py
+  start: 1500
+  end: 1514
+official_url: https://github.com/langchain-ai/deepagents/blob/4b9410272a4e4885ec70fb1ec8549e307a15e585/libs/code/deepagents_code/offload_middleware.py
+excerpt: "        # Handoffs snapshot every checkpointed message without advancing the\n        # source cutoff. Appending to its compaction archive would repeat history.\n        # The server adds source-thread ownership before committing the snapshot.\n        session_id = uuid4().hex if handoff else summarization._get_session_id(state)\n        archive = _PendingArchive(\n            summarization,\n            self._summarization._backend,\n            # A handoff promises a complete recovery transcript even when an\n            # earlier compaction archive failed or was swept. The effective\n            # messages contain only its summary and the recent tail.\n            messages if handoff else to_summarize,\n            session_id,\n            summary,\n            state_cutoff,\n        )"

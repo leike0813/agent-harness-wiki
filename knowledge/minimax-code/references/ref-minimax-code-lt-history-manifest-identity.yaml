@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-history-manifest-identity
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-service-session-system-messages-history-session-history-paths-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/session-system/messages/history/session-history-paths.ts
+  start: 166
+  end: 181
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/service/session-system/messages/history/session-history-paths.ts
+excerpt: "function assertManifestIdentity(path: string, session: SessionRecord): void {\n  let value: unknown;\n  try {\n    value = JSON.parse(readFileSync(path, 'utf8')) as unknown;\n  } catch (error) {\n    throw new Error(`Invalid Session history manifest: ${path}`, { cause: error });\n  }\n  if (\n    value === null ||\n    typeof value !== 'object' ||\n    Reflect.get(value, 'sessionId') !== session.sessionId ||\n    Reflect.get(value, 'createdAtMs') !== session.createdAtMs\n  ) {\n    throw new Error(`Session history manifest identity mismatch: ${path}`);\n  }\n}"

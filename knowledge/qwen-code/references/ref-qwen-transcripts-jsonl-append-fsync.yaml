@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-jsonl-append-fsync
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-jsonl-utils
+locator:
+  kind: file_lines
+  file: packages/core/src/utils/jsonl-utils.ts
+  start: 349
+  end: 362
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/packages/core/src/utils/jsonl-utils.ts"
+excerpt: |2-
+      if (!ensuredDirs.has(dir)) {
+        await fs.promises.mkdir(dir, { recursive: true });
+        ensuredDirs.add(dir);
+      }
+      // flush:true fsyncs after each line so a process killed mid-write
+      // doesn't leave a glued `}{` record on disk (closes #3681). On
+      // Node v22/v24 strace shows string + utf8 + flush:true does fsync
+      // correctly; passing a Buffer is forward-compat insurance against
+      // any future C++ fast path that might bypass JS-side flush logic
+      // for the string case, with no behavior delta on tested versions.
+      await fs.promises.appendFile(filePath, Buffer.from(line, 'utf8'), {
+        flush: true,
+      });
+    });

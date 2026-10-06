@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-session-migrate
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-crates-pa-core-src-session-mod-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session/mod.rs
+  start: 255
+  end: 273
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/7a52276cb17310f331f1075f28fa5cf9c4ae0a0a/crates/pa-core/src/session/mod.rs
+excerpt: "/// Migrate entries to the current version; true when a rewrite happened.\npub fn migrate_to_current_version(entries: &mut [FileEntry]) -> bool {\n    let version = entries\n        .iter()\n        .find_map(|entry| match entry {\n            FileEntry::Header { header } => Some(header.version.unwrap_or(1)),\n            _ => None,\n        })\n        .unwrap_or(1);\n    if version >= CURRENT_SESSION_VERSION {\n        return false;\n    }\n    if version < 2 {\n        migrate_v1_to_v2(entries);\n    }\n    if version < 3 {\n        migrate_v2_to_v3(entries);\n    }"

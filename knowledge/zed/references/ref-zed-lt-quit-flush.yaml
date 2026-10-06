@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-quit-flush
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-agent-rs
+locator:
+  kind: file_lines
+  file: crates/agent/src/agent.rs
+  start: 1900
+  end: 1912
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent/src/agent.rs
+excerpt: "    /// Commits every non-empty thread's content on shutdown so the async\n    /// `save_thread` losing the race can't leave metadata without content.\n    fn flush_threads_on_quit(\n        &mut self,\n        cx: &mut Context<Self>,\n    ) -> impl Future<Output = ()> + use<> {\n        let database_future = ThreadsDatabase::connect(cx);\n\n        let mut saves = Vec::new();\n        for session in self.sessions.values() {\n            let draft_prompt = session.draft_prompt(cx);\n            saves.extend(self.thread_save_payload(session, draft_prompt, cx));\n        }"

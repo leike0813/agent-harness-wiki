@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-sessions-list-filter
+harness_id: continue
+snapshot_id: snapshot-continue-lt-core-util-history-ts
+locator:
+  kind: file_lines
+  file: core/util/history.ts
+  start: 41
+  end: 58
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/core/util/history.ts
+excerpt: "    // Filter by workspace directory if provided\n    if (options.workspaceDirectory) {\n      const target = options.workspaceDirectory.toLowerCase();\n      sessions = sessions.filter(\n        (session) =>\n          typeof session.workspaceDirectory === \"string\" &&\n          session.workspaceDirectory.toLowerCase() === target,\n      );\n    }\n\n    // Apply limit and offset\n    if (options.limit) {\n      const offset = options.offset || 0;\n      sessions = sessions.slice(offset, offset + options.limit);\n    }\n\n    return sessions;\n  }"

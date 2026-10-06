@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-archive-export
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-cli-export-session
+locator:
+  kind: file_lines
+  file: packages/cli/src/ui/commands/exportSessionCommand.ts
+  start: 66
+  end: 77
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+        const storage = context.services.agentContext!.config.storage;
+        const sessionSelector = new SessionSelector(storage);
+        const { sessionData } = await sessionSelector.resolveSession(sessionId);
+
+        const targetPath = path.resolve(process.cwd(), args);
+
+        await fs.writeFile(
+          targetPath,
+          JSON.stringify(sessionData, null, 2),
+          'utf-8',
+        );

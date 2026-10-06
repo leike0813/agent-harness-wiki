@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-child-session-record
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-child-session-record
+locator:
+  kind: file_lines
+  file: vibe/app_server/_sessions.py
+  start: 330
+  end: 341
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/app_server/_sessions.py
+excerpt: "        self._children[child.session_id] = runtime\n        self._child_links[child.session_id] = (parent, ctx.tool_call_id)\n        link_recorded = False\n        projection_started = False\n        try:\n            await child.persist_empty_session()\n            await parent.agent_loop.record_child_session(child, ctx.tool_call_id)\n            link_recorded = True\n            projection_started = True\n            await parent.turns.link_subagent(ctx.tool_call_id, child.session_id)\n        except BaseException:\n            self._children.pop(child.session_id, None)"

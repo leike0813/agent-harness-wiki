@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-core-history-protocol
+harness_id: continue
+snapshot_id: snapshot-continue-lt-core-core-ts
+locator:
+  kind: file_lines
+  file: core/core.ts
+  start: 304
+  end: 321
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/core/core.ts
+excerpt: "    // History\n    on(\"history/list\", async (msg) => {\n      const sessions = historyManager.list(msg.data);\n      const limit = msg.data?.limit ?? 100;\n      return sessions.slice(0, limit);\n    });\n\n    on(\"history/delete\", (msg) => {\n      historyManager.delete(msg.data.id);\n    });\n\n    on(\"history/load\", (msg) => {\n      return historyManager.load(msg.data.id);\n    });\n\n    on(\"history/save\", (msg) => {\n      historyManager.save(msg.data);\n    });"

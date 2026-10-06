@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-tool-output-schedule
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-tool-output-store-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/core/src/tool-output-store.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/tool-output-store.ts
+  start: 199
+  end: 205
+excerpt: "/** Runs retention scanning once globally rather than once per active Location. */\nexport const cleanupLayer = Layer.effectDiscard(\n  Effect.gen(function* () {\n    const store = yield* Service\n    yield* store.cleanup().pipe(Effect.repeat(Schedule.spaced(Duration.hours(1))), Effect.forkScoped)\n  }),\n)"

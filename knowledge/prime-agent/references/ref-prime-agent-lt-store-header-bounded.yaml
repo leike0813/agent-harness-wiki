@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-store-header-bounded
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-crates-pa-daemon-src-session-store-read-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_store/read.rs
+  start: 36
+  end: 50
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/7a52276cb17310f331f1075f28fa5cf9c4ae0a0a/crates/pa-daemon/src/session_store/read.rs
+excerpt: "/// The bounded first-line read cap for header-only judgments (TS\n/// `SESSION_LIST_HEADER_PREFIX_MAX_CHARS`): a session header line is a\n/// serialized `SessionHeader` and lands well inside 512 bytes.\npub const SESSION_LIST_HEADER_READ_MAX_BYTES: usize = 512;\n\n/// Parse one session file line as the `session` header (the TS\n/// `readSessionHeader` body): a JSON object tagged `session` that\n/// deserializes into the typed header.\npub(crate) fn parse_session_header_line(line: &str) -> Option<SessionHeader> {\n    let value: Value = serde_json::from_str(line.trim()).ok()?;\n    if value.get(\"type\").and_then(Value::as_str) != Some(\"session\") {\n        return None;\n    }\n    serde_json::from_value(value).ok()\n}"

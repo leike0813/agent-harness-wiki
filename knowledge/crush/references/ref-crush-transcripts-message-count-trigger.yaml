@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-message-count-trigger
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-db-migrations-20250424200609-initial-sql
+locator:
+  kind: file_lines
+  file: internal/db/migrations/20250424200609_initial.sql
+  start: 68
+  end: 74
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  CREATE TRIGGER IF NOT EXISTS update_session_message_count_on_insert
+  AFTER INSERT ON messages
+  BEGIN
+  UPDATE sessions SET
+      message_count = message_count + 1
+  WHERE id = new.session_id;
+  END;

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-version-migration
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-db-rs
+locator:
+  kind: file_lines
+  file: crates/agent/src/db.rs
+  start: 195
+  end: 208
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent/src/db.rs
+excerpt: "    pub fn from_json(json: &[u8]) -> Result<Self> {\n        let saved_thread_json = serde_json::from_slice::<serde_json::Value>(json)?;\n        match saved_thread_json.get(\"version\") {\n            Some(serde_json::Value::String(version)) => match version.as_str() {\n                Self::VERSION => Ok(serde_json::from_value(saved_thread_json)?),\n                _ => Self::upgrade_from_agent_1(crate::legacy_thread::SerializedThread::from_json(\n                    json,\n                )?),\n            },\n            _ => {\n                Self::upgrade_from_agent_1(crate::legacy_thread::SerializedThread::from_json(json)?)\n            }\n        }"

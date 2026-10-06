@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-compaction-keep
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/session_manager.rs
+  start: 2036
+  end: 2048
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+              if let Some(stored_metadata_json) = stored_metadata_json {
+                  let mut metadata = stored_metadata_json
+                      .and_then(|json| serde_json::from_str::<MessageMetadata>(&json).ok())
+                      .unwrap_or_default();
+                  metadata.agent_visible = message.metadata.agent_visible;
+                  sqlx::query(
+                      "UPDATE messages SET metadata_json = ? WHERE session_id = ? AND message_id = ?",
+                  )
+                  .bind(serde_json::to_string(&metadata)?)
+                  .bind(session_id)
+                  .bind(message_id)
+                  .execute(&mut *tx)
+                  .await?;

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-lt-thread-delete-cascade
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-code-deepagents-code-sessions-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/sessions.py
+  start: 1687
+  end: 1702
+official_url: https://github.com/langchain-ai/deepagents/blob/4b9410272a4e4885ec70fb1ec8549e307a15e585/libs/code/deepagents_code/sessions.py
+excerpt: "    async def remove() -> bool:\n        deleted = False\n        async with _connect() as conn:\n            await delete_cost(conn, thread_id)\n            if await _table_exists(conn, \"checkpoints\"):\n                cursor = await conn.execute(\n                    \"DELETE FROM checkpoints WHERE thread_id = ?\", (thread_id,)\n                )\n                deleted = cursor.rowcount > 0\n                if await _table_exists(conn, \"writes\"):\n                    await conn.execute(\n                        \"DELETE FROM writes WHERE thread_id = ?\", (thread_id,)\n                    )\n                if deleted:\n                    _message_count_cache.pop(thread_id, None)\n                    for key, rows in list(_recent_threads_cache.items()):"

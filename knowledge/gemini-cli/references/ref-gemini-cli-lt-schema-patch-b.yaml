@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-schema-patch-b
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-recording-types
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingTypes.ts
+  start: 141
+  end: 165
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+      content?: PartListUnion;
+      toolCalls?: ToolCallPatch[];
+      updates?: MessagePatch[];
+      removeIds?: string[];
+      orderIds?: string[];
+    };
+  }
+
+  export interface MetadataUpdateRecord {
+    $set: Partial<Omit<ConversationRecord, 'messages'>> & {
+      /** @deprecated Legacy full-history checkpoint; use append-only MessageRecord and MessagePatchRecord instead. */
+      messages?: MessageRecord[];
+    };
+  }
+
+  export interface PartialMetadataRecord {
+    sessionId: string;
+    projectHash: string;
+    startTime?: string;
+    lastUpdated?: string;
+    summary?: string;
+    memoryScratchpad?: MemoryScratchpad;
+    directories?: string[];
+    kind?: 'main' | 'subagent';
+  }

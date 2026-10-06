@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-transient-tool-chunk
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-core-agent-agenttooloutputruntime-ts
+locator:
+  kind: file_lines
+  file: src/core/agent/AgentToolOutputRuntime.ts
+  start: 41
+  end: 54
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/core/agent/AgentToolOutputRuntime.ts
+excerpt: "  if (!session) return;\n\n  const message: SessionMessage = {\n    role: 'tool',\n    content,\n    name,\n    timestamp: new Date().toISOString(),\n    tool_call_id: toolCallId,\n    _meta: stream ? { stream } : undefined,\n  };\n\n  host.toolOutputQueue = host.toolOutputQueue\n    .catch(() => undefined)\n    .then(() => session.appendTransient(message));"

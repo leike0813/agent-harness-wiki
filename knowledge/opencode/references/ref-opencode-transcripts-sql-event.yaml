@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-sql-event
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-event-sql-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/core/src/event/sql.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/event/sql.ts
+  start: 9
+  end: 25
+excerpt: "\nexport const EventTable = sqliteTable(\n  \"event\",\n  {\n    id: text().$type<EventV2.ID>().primaryKey(),\n    aggregate_id: text()\n      .notNull()\n      .references(() => EventSequenceTable.aggregate_id, { onDelete: \"cascade\" }),\n    seq: integer().notNull(),\n    type: text().notNull(),\n    data: text({ mode: \"json\" }).$type<Record<string, unknown>>().notNull(),\n  },\n  (table) => [\n    uniqueIndex(\"event_aggregate_seq_idx\").on(table.aggregate_id, table.seq),\n    index(\"event_aggregate_type_seq_idx\").on(table.aggregate_id, table.type, table.seq),\n  ],\n)"

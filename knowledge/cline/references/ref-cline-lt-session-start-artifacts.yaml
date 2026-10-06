@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-session-start-artifacts
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-runtime-host-local-runtime-host-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/runtime/host/local-runtime-host.ts
+  start: 460
+  end: 476
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/runtime/host/local-runtime-host.ts
+excerpt: "\t\tif (!sessionsDir) {\n\t\t\tthrow new Error(\n\t\t\t\t\"session service method not available: ensureSessionsDir\",\n\t\t\t);\n\t\t}\n\n\t\tconst sessionDir = join(sessionsDir, sessionId);\n\t\tconst messagesPath = join(sessionDir, `${sessionId}.messages.json`);\n\t\tconst manifestPath = join(sessionDir, `${sessionId}.json`);\n\t\tconst workspacePath = resolveWorkspacePath(input.config);\n\n\t\t// An interactive session started without a prompt has no turn in\n\t\t// flight (turns arrive through separate send calls), so it must not\n\t\t// report \"running\" — a created-but-never-prompted session otherwise\n\t\t// stayed \"running\" forever, wedging clients that gate workspace\n\t\t// operations (e.g. checkpoint restore) on active turns. One-shot\n\t\t// starts still run their prompt inside start() and begin \"running\"."

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-atomic-write
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-lt-packages-agent-core-v2-src-persistence-backends-node-fs-filestorageservice-ts
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/persistence/backends/node-fs/fileStorageService.ts
+  start: 75
+  end: 99
+official_url: https://github.com/MoonshotAI/kimi-code/blob/21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3/packages/agent-core-v2/src/persistence/backends/node-fs/fileStorageService.ts
+excerpt: "  async write(\n    scope: string,\n    key: string,\n    data: Uint8Array,\n    options: StorageWriteOptions = {},\n  ): Promise<void> {\n    const filePath = this.pathFor(scope, key);\n    try {\n      await mkdir(dirname(filePath), { recursive: true, mode: this.dirMode });\n      await atomicWrite(filePath, data, undefined, this.fileMode, options.signal);\n      await this.syncDirOnce(dirname(filePath));\n    } catch (error) {\n      options.signal?.throwIfAborted();\n      throw toStorageIoError(error, { path: filePath, op: 'write' });\n    }\n  }\n\n  async writeStream(\n    scope: string,\n    key: string,\n    source: AsyncIterable<Uint8Array>,\n    options: StorageWriteOptions = {},\n  ): Promise<void> {\n    const filePath = this.pathFor(scope, key);\n    try {"

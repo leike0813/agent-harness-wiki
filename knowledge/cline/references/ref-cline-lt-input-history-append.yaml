@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-input-history-append
+harness_id: cline
+snapshot_id: snapshot-cline-lt-apps-cli-src-utils-input-history-ts
+locator:
+  kind: file_lines
+  file: apps/cli/src/utils/input-history.ts
+  start: 54
+  end: 72
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/apps/cli/src/utils/input-history.ts
+excerpt: "export function appendInputHistory(prompt: string): void {\n\tconst trimmed = prompt.trim();\n\tif (!trimmed) return;\n\tconst path = resolveHistoryPath();\n\ttry {\n\t\tmkdirSync(dirname(path), { recursive: true });\n\t\tconst next = prependInputHistoryEntry(\n\t\t\treadEntries(path).reverse(),\n\t\t\ttrimmed,\n\t\t).reverse();\n\t\twriteFileSync(\n\t\t\tpath,\n\t\t\t`${next.map((p) => JSON.stringify({ prompt: p, ts: Date.now() })).join(\"\\n\")}\\n`,\n\t\t\t\"utf8\",\n\t\t);\n\t} catch {\n\t\t// Non-fatal, best effort.\n\t}\n}"

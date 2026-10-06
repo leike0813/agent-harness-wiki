@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-worktree-persist-state
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-ui-src-thread-worktree-archive-rs
+locator:
+  kind: file_lines
+  file: crates/agent_ui/src/thread_worktree_archive.rs
+  start: 499
+  end: 514
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent_ui/src/thread_worktree_archive.rs
+excerpt: "pub async fn persist_worktree_state(root: &RootPlan, cx: &mut AsyncApp) -> Result<i64> {\n    let worktree_repo = root.worktree_repo.clone();\n\n    let original_commit_hash = worktree_repo\n        .update(cx, |repo, _cx| repo.head_sha())\n        .await\n        .map_err(|_| anyhow!(\"head_sha canceled\"))?\n        .context(\"failed to read original HEAD SHA\")?\n        .context(\"HEAD SHA is None\")?;\n\n    // Create two detached WIP commits without moving the branch.\n    let checkpoint_rx = worktree_repo.update(cx, |repo, _cx| repo.create_archive_checkpoint());\n    let (staged_commit_hash, unstaged_commit_hash) = checkpoint_rx\n        .await\n        .map_err(|_| anyhow!(\"create_archive_checkpoint canceled\"))?\n        .context(\"failed to create archive checkpoint\")?;"

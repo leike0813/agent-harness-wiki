@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-db-channel-names
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-core-src-database-database-ts
+locator:
+  kind: file_lines
+  file: packages/core/src/database/database.ts
+  start: 61
+  end: 68
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/core/src/database/database.ts
+excerpt: "  // kilocode_change start - kilo-branded dev-channel db name, falling back to a pre-existing opencode-named db\n  const safe = InstallationChannel.replace(/[^a-zA-Z0-9._-]/g, \"-\")\n  const next = join(Global.Path.data, `kilo-${safe}.db`)\n  const prev = join(Global.Path.data, `opencode-${safe}.db`)\n  if (!existsSync(next) && existsSync(prev)) return prev\n  return next\n  // kilocode_change end\n}"

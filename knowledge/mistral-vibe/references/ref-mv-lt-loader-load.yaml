@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-loader-load
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-loader-load
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_loader.py
+  start: 227
+  end: 238
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/session_loader.py
+excerpt: "    @staticmethod\n    def load_session(filepath: Path) -> tuple[list[LLMMessage], dict[str, Any]]:\n        metadata_filepath = filepath / METADATA_FILENAME\n        if metadata_filepath.exists():\n            try:\n                metadata = json.loads(read_safe(metadata_filepath).text)\n            except json.JSONDecodeError as e:\n                raise ValueError(\n                    f\"Session metadata contains invalid JSON (may have been corrupted): \"\n                    f\"{filepath}\\nDetails: {e}\"\n                ) from e\n        else:"

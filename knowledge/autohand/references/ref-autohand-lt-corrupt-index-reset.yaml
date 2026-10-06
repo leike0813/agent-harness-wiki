@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-corrupt-index-reset
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-session-sessionmanager-ts
+locator:
+  kind: file_lines
+  file: src/session/SessionManager.ts
+  start: 458
+  end: 466
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/session/SessionManager.ts
+excerpt: "        } catch (error) {\n            const backupPath = `${this.indexPath}.corrupt-${Date.now()}-${crypto.randomUUID()}`;\n            await fs.copy(this.indexPath, backupPath, { overwrite: false });\n            const emptyIndex = this.createEmptyIndex();\n            await atomicWriteJson(this.indexPath, emptyIndex);\n            const reason = error instanceof Error ? error.message : String(error);\n            console.warn(`Session index was corrupt and has been reset: ${reason}. Backup saved to ${backupPath}`);\n            return emptyIndex;\n        }"

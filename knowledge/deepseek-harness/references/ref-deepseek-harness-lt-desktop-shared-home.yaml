@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-desktop-shared-home
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-apps-desktop-src-paths-ts
+locator:
+  kind: file_lines
+  file: apps/desktop/src/paths.ts
+  start: 6
+  end: 22
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/apps/desktop/src/paths.ts
+excerpt: "/** Stable desktop installation paths under the shared Harness home. */\nexport interface DesktopPaths {\n  readonly profile: string\n  readonly lock: string\n}\n\n/**\n * Resolve every Electron-owned path without changing the shared data roots.\n * @param dshHome - Harness home shared with npm-installed dsh.\n * @returns immutable desktop path set.\n */\nexport function resolveDesktopPaths(dshHome: string = resolveDshHome()): DesktopPaths {\n  return {\n    profile: join(dshHome, 'profiles', 'desktop'),\n    lock: join(dshHome, 'profiles', 'desktop', 'lock'),\n  }\n}"

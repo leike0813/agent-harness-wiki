@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-naming-lineage
+harness_id: codex
+snapshot_id: snapshot-codex-repo-822e58cc-thread-store-lineage
+locator:
+  kind: file_lines
+  file: codex-rs/thread-store/src/local/rollout_lineage.rs
+  start: 14
+  end: 30
+official_url: https://github.com/openai/codex/blob/822e58cc3d666166c7446c5b1ea2e52f5d09594c/codex-rs/thread-store/src/local/rollout_lineage.rs
+excerpt: "/// One immutable rollout range contributing to a paginated thread's history.\n#[derive(Clone, Debug, PartialEq, Eq)]\npub(super) struct RolloutLineageSegment {\n    pub(super) rollout_id: ThreadId,\n    pub(super) rollout_path: PathBuf,\n    pub(super) start_ordinal: u64,\n    pub(super) end: Option<HistoryPosition>,\n}\n\n/// Ordered rollout ranges contributing to one forked history.\n///\n/// This is the only local abstraction that follows SessionMeta.history_base pointers. Readers\n/// consume its bounded rollout segments without resolving or mutating fork pointers themselves.\n#[derive(Clone, Debug, PartialEq, Eq)]\npub(super) struct RolloutLineage {\n    pub(super) segments: Vec<RolloutLineageSegment>,\n}"

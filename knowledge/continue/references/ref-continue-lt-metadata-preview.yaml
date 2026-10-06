@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-metadata-preview
+harness_id: continue
+snapshot_id: snapshot-continue-lt-extensions-cli-src-session-ts
+locator:
+  kind: file_lines
+  file: extensions/cli/src/session.ts
+  start: 402
+  end: 418
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/session.ts
+excerpt: "  try {\n    const sessionData: Session = JSON.parse(fs.readFileSync(filePath, \"utf8\"));\n    const stats = fs.statSync(filePath);\n\n    // Find the first user message for preview\n    let firstUserMessage: string | undefined;\n    for (const item of sessionData.history || []) {\n      if (item.message.role === \"user\") {\n        const content = item.message.content;\n        // Handle both string and array content types\n        if (typeof content === \"string\") {\n          firstUserMessage = content;\n        } else if (Array.isArray(content)) {\n          // For array content, find the first text part\n          const textPart = content.find((part) => part.type === \"text\");\n          firstUserMessage =\n            textPart && \"text\" in textPart"

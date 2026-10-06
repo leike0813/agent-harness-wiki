@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-close-session
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-session-sessionmanager-ts
+locator:
+  kind: file_lines
+  file: src/session/SessionManager.ts
+  start: 380
+  end: 391
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/session/SessionManager.ts
+excerpt: "    async closeSession(summary?: string): Promise<void> {\n        if (!this.currentSession) return;\n\n        this.currentSession.metadata.closedAt = new Date().toISOString();\n        this.currentSession.metadata.lastActiveAt = new Date().toISOString();\n        this.currentSession.metadata.status = 'completed';\n        if (summary) {\n            this.currentSession.metadata.summary = summary;\n        }\n\n        await this.currentSession.save();\n        await this.updateIndex(this.currentSession.metadata);"

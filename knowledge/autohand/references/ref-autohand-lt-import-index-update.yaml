@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-import-index-update
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-session-transfer-transfer-session-store-ts
+locator:
+  kind: file_lines
+  file: src/session/transfer/transfer-session-store.ts
+  start: 76
+  end: 81
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/session/transfer/transfer-session-store.ts
+excerpt: "    const project: unknown = index.byProject[root];\n    if (project !== undefined && (!Array.isArray(project) || project.some((entry: unknown) => typeof entry !== 'string'))) { throw new Error('The local project session index is unavailable.'); }\n    index.byProject[root] = [...new Set([...(Array.isArray(project) ? project as string[] : []), id])];\n    const indexTemporary = path.join(directory, `index.${randomUUID()}.tmp`);\n    try { await fs.writeFile(indexTemporary, JSON.stringify(index, null, 2), { mode: 0o600, flag: 'wx' }); await fs.rename(indexTemporary, path.join(directory, 'index.json')); }\n    finally { await fs.rm(indexTemporary, { force: true }); }"

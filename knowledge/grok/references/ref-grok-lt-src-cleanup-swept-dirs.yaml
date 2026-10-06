@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-lt-src-cleanup-swept-dirs
+harness_id: grok
+snapshot_id: snapshot-grok-lt-crates-codegen-xai-grok-shell-src-session-persistence-rs
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-shell/src/session/persistence.rs
+  start: 3374
+  end: 3385
+official_url: https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-shell/src/session/persistence.rs
+excerpt: "static CLEANUP_SESSIONS_ONCE: std::sync::Once = std::sync::Once::new();\n\n/// The only files swept inside a live session: everything else there is a write-once artifact\n/// `updates.jsonl` still references, so its own age says nothing about whether it is needed.\nconst SWEPT_BLOB_DIRS: [&str; 4] = [\"images\", \"videos\", \"downloads\", archive_logs::TERMINAL_DIR];\n\n/// Mid-attach `live_session_dir` is never deleted whole; callers `mark_session_live` first so\n/// other processes do not treat it as idle.\n#[tracing::instrument(skip_all)]\npub(crate) fn cleanup_stale_sessions(live_session_dir: &Path) {\n    CLEANUP_SESSIONS_ONCE.call_once(|| {\n        let Some(ttl_days) = resolve_cleanup_ttl_days() else {"

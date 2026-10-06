@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-lt-src-sessions-cwd-dir
+harness_id: grok
+snapshot_id: snapshot-grok-lt-crates-codegen-xai-grok-config-src-paths-rs
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-config/src/paths.rs
+  start: 132
+  end: 141
+official_url: https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-config/src/paths.rs
+excerpt: "/// Build the CWD-level session directory path: `grok_home()/sessions/{encode_cwd_dirname(cwd)}`.\n/// Does **not** create the directory on disk; use [`ensure_sessions_cwd_dir`] when the directory must exist.\npub fn sessions_cwd_dir(cwd: &str) -> PathBuf {\n    sessions_cwd_dir_in(&grok_home(), cwd)\n}\n\n/// [`sessions_cwd_dir`] with an injectable grok home, the single source of truth for the `sessions/<encoded-cwd>` path shape.\npub fn sessions_cwd_dir_in(grok_home: &std::path::Path, cwd: &str) -> PathBuf {\n    grok_home.join(\"sessions\").join(encode_cwd_dirname(cwd))\n}"

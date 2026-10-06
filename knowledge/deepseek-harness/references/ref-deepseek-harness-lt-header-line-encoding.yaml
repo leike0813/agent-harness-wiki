@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-header-line-encoding
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-packages-session-session-persistence-jsonl-src-format-ts
+locator:
+  kind: file_lines
+  file: packages/session/session-persistence-jsonl/src/format.ts
+  start: 119
+  end: 134
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/format.ts
+excerpt: "export function toHeaderLine(\n  header: SessionHeader,\n  inheritedEventCount?: SessionLogOffsetType,\n): HeaderLine {\n  if (header.isSeeded && inheritedEventCount === undefined) {\n    throw new Error('seeded session header requires an inherited event count')\n  }\n  const cut = SessionLogOffset(inheritedEventCount ?? 0)\n  if (!header.isSeeded && cut !== 0) {\n    throw new Error('unseeded session header inherited event count must be 0')\n  }\n  return sessionFormatCatalog.encodeCurrentHeader({\n    ...header,\n    delegationDepth: header.delegationDepth ?? 0,\n  }, cut) as unknown as HeaderLine\n}"

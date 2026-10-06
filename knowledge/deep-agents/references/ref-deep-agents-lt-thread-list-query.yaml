@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-lt-thread-list-query
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-code-deepagents-code-sessions-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/sessions.py
+  start: 510
+  end: 522
+official_url: https://github.com/langchain-ai/deepagents/blob/4b9410272a4e4885ec70fb1ec8549e307a15e585/libs/code/deepagents_code/sessions.py
+excerpt: "            SELECT thread_id,\n                   json_extract(metadata, '$.agent_name') as agent_name,\n                   MAX(json_extract(metadata, '$.updated_at')) as updated_at,\n                   MAX(checkpoint_id) as latest_checkpoint_id,\n                   MIN(COALESCE(json_extract(metadata, '$.created_at'),\n                                json_extract(metadata, '$.updated_at'))) as created_at,\n                   MAX(json_extract(metadata, '$.git_branch')) as git_branch,\n                   MAX(json_extract(metadata, '$.cwd')) as cwd\n            FROM checkpoints\n            {where_sql}\n            GROUP BY thread_id\n            ORDER BY {order_col} DESC\n            LIMIT ?"

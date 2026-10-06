@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-session-resume-bind
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-session-resume-bind
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_logger.py
+  start: 750
+  end: 770
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/session_logger.py
+excerpt: "    def resume_existing_session(self, session_id: str, session_dir: Path) -> None:\n        if not self.enabled:\n            return\n        self.apply_resumed_session(\n            session_id, session_dir, SessionLoader.load_metadata(session_dir)\n        )\n\n    def apply_resumed_session(\n        self, session_id: str, session_dir: Path, metadata: SessionMetadata\n    ) -> None:\n        \"\"\"Bind to an already-loaded session. Infallible: no disk reads.\n\n        Used by the in-place resume commit, where the metadata was loaded during\n        the (fallible) prepare step so the commit itself cannot raise.\n        \"\"\"\n        if not self.enabled:\n            return\n\n        self.session_id = session_id\n        self.session_dir = session_dir\n        self.session_metadata = metadata"

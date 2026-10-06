@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-db-readonly
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-db-connect-go
+locator:
+  kind: file_lines
+  file: internal/db/connect.go
+  start: 219
+  end: 231
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // ConnectReadOnly opens a read-only SQLite database connection without running
+  // migrations. Used for aggregating stats across multiple project databases.
+  func ConnectReadOnly(ctx context.Context, dbPath string) (*sql.DB, error) {
+  	if dbPath == "" {
+  		return nil, fmt.Errorf("database path is empty")
+  	}
+  
+  	db, err := openDBReadOnly(dbPath)
+  	if err != nil {
+  		return nil, err
+  	}
+  
+  	db.SetMaxOpenConns(1)

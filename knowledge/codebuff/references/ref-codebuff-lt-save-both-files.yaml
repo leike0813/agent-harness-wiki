@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-save-both-files
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-cli-src-utils-run-state-storage-ts
+locator:
+  kind: file_lines
+  file: cli/src/utils/run-state-storage.ts
+  start: 342
+  end: 358
+official_url: https://github.com/CodebuffAI/codebuff/blob/bd198ff2df3ea9b333e8bf2e5b843735afd4ad9c/cli/src/utils/run-state-storage.ts
+excerpt: "    fs.mkdirSync(chatDir, { recursive: true })\n    if (serialized.runStateJson) {\n      writeFileAtomic(\n        path.join(chatDir, RUN_STATE_FILENAME),\n        serialized.runStateJson,\n      )\n    }\n    if (serialized.messagesJson) {\n      writeFileAtomic(\n        path.join(chatDir, CHAT_MESSAGES_FILENAME),\n        serialized.messagesJson,\n      )\n      // Sidecar summary so /history can list this chat without parsing the\n      // (unbounded) chat-messages.json. Must be written after the messages\n      // file: it records the file's size/mtime to detect staleness.\n      writeChatMeta(chatDir, messages)\n    }"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-message-metrics
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-services-session-data-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/session-data.ts
+  start: 168
+  end: 189
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/services/session-data.ts
+excerpt: "\tfor (const targetIndex of assistantIndexes) {\n\t\tconst target = next[targetIndex];\n\t\t// Use per-turn metrics already stamped on the message if available.\n\t\t// Only fall back to result.usage (total run usage) for the terminal\n\t\t// assistant message when this run has no per-turn metrics, to avoid\n\t\t// attaching session totals to terminal bookkeeping messages.\n\t\tlet metrics = target.metrics;\n\t\tif (\n\t\t\t!metrics &&\n\t\t\ttargetIndex === lastAssistantIndex &&\n\t\t\t!hasAssistantTurnMetrics\n\t\t) {\n\t\t\tconst usage = result.usage;\n\t\t\tmetrics = {\n\t\t\t\tinputTokens: usage.inputTokens,\n\t\t\t\toutputTokens: usage.outputTokens,\n\t\t\t\tcacheReadTokens: usage.cacheReadTokens ?? 0,\n\t\t\t\tcacheWriteTokens: usage.cacheWriteTokens ?? 0,\n\t\t\t\tcost: usage.totalCost,\n\t\t\t};\n\t\t}\n\t\tnext[targetIndex] = {"

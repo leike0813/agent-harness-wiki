@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-retention-config-schema
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-core-src-v1-config-config-ts
+locator:
+  kind: file_lines
+  file: packages/core/src/v1/config/config.ts
+  start: 84
+  end: 98
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/core/src/v1/config/config.ts
+excerpt: "  // kilocode_change start - machine-wide session retention policy, owned by the backend\n  retention: Schema.optional(\n    Schema.Struct({\n      enabled: Schema.optional(Schema.Boolean).annotate({\n        description:\n          \"Enable automatic deletion of old sessions across all projects and every Kilo client on this machine. Defaults to false; deletion is permanent.\",\n      }),\n      maxAgeDays: Schema.optional(Schema.Number).annotate({\n        description: \"Days a session is kept before retention deletes it. Defaults to 30, minimum 1.\",\n      }),\n    }),\n  ).annotate({\n    description: \"Machine-wide session retention. Evaluated by the backend; clients only trigger runs.\",\n  }),\n  // kilocode_change end"

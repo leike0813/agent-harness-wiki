@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-history-export
+harness_id: cline
+snapshot_id: snapshot-cline-lt-apps-cli-src-commands-history-ts
+locator:
+  kind: file_lines
+  file: apps/cli/src/commands/history.ts
+  start: 104
+  end: 137
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/apps/cli/src/commands/history.ts
+excerpt: "async function runHistoryExport(\n\tsessionId: string | undefined,\n\toutputPath: string | undefined,\n\toutputMode: CliOutputMode,\n\tio: HistoryIo,\n): Promise<number> {\n\tif (!sessionId) {\n\t\tio.writeErr(\"history export requires <session-id>\");\n\t\treturn 1;\n\t}\n\n\ttry {\n\t\tconst targetPath = await exportHistorySession({\n\t\t\tsessionId,\n\t\t\tformat: \"html\",\n\t\t\toutputPath,\n\t\t});\n\n\t\tif (outputMode === \"json\") {\n\t\t\tprocess.stdout.write(\n\t\t\t\tJSON.stringify({\n\t\t\t\t\tsessionId,\n\t\t\t\t\toutputPath: targetPath,\n\t\t\t\t}),\n\t\t\t);\n\t\t\treturn 0;\n\t\t}\n\n\t\tio.writeln(`Exported to ${targetPath}`);\n\t\treturn 0;\n\t} catch (error) {\n\t\tio.writeErr(error instanceof Error ? error.message : String(error));\n\t\treturn 1;\n\t}"

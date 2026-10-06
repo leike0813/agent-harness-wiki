@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-index-mutation-lock
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-session-sessionmanager-ts
+locator:
+  kind: file_lines
+  file: src/session/SessionManager.ts
+  start: 490
+  end: 504
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/session/SessionManager.ts
+excerpt: "    private async mutateIndex(mutation: (index: SessionIndex) => void): Promise<void> {\n        if (!this.persist) {\n            // An ephemeral run keeps its own in-memory index so listing and\n            // renaming behave, but the shared index on disk never learns of it.\n            const index = this.index ?? this.createEmptyIndex();\n            mutation(index);\n            this.index = index;\n            return;\n        }\n        await withFileLock(this.indexLockPath, async () => {\n            const latestIndex = await this.readIndexFromDisk();\n            mutation(latestIndex);\n            await atomicWriteJson(this.indexPath, latestIndex);\n            this.index = latestIndex;\n        }, SESSION_INDEX_LOCK_OPTIONS);"

@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-search-keywords
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-chat-history-search
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/chat_history_search.rs
+  start: 126
+  end: 131
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+      fn parse_keywords(&self) -> Vec<String> {
+          self.query
+              .split_whitespace()
+              .map(|word| format!("%{}%", word.to_lowercase()))
+              .collect()
+      }

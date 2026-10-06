@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-diagnostics-state-check
+harness_id: codex
+snapshot_id: snapshot-codex-repo-822e58cc-cli-doctor
+locator:
+  kind: file_lines
+  file: codex-rs/cli/src/doctor.rs
+  start: 2130
+  end: 2141
+official_url: https://github.com/openai/codex/blob/822e58cc3d666166c7446c5b1ea2e52f5d09594c/codex-rs/cli/src/doctor.rs
+excerpt: "    rollout_stats_details(&mut details, &config.codex_home);\n    standalone_release_cache_details(&mut details);\n\n    let summary = match status {\n        CheckStatus::Ok => \"state paths and databases are inspectable\".to_string(),\n        CheckStatus::Warning => {\n            \"some database integrity checks exceeded their time limit\".to_string()\n        }\n        CheckStatus::Fail => \"state database integrity check failed\".to_string(),\n    };\n    let mut check = DoctorCheck::new(\"state.paths\", \"state\", status, summary).details(details);\n    if status == CheckStatus::Fail {"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-lt-src-jsonl-append-heal
+harness_id: grok
+snapshot_id: snapshot-grok-lt-crates-codegen-xai-grok-shell-src-session-storage-jsonl-mod-rs
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-shell/src/session/storage/jsonl/mod.rs
+  start: 404
+  end: 414
+official_url: https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-shell/src/session/storage/jsonl/mod.rs
+excerpt: "    /// Append one JSONL record, healing a torn tail before writing.\n    /// Appends are not crash-atomic: a process kill / `ENOSPC` mid-`write_all` leaves the file ending in a *partial* record with no trailing newline.\n    /// Before writing, check the last byte: if it isn't `\\n`, prepend one so the torn record is terminated as its own (single) corrupt line.\n    fn append_jsonl_line_sync(\n        path: &Path,\n        line: Vec<u8>,\n        durability: AppendDurability,\n    ) -> io::Result<()> {\n        Self::append_jsonl_line_sync_with(path, line, durability, Self::sync_file_durable, || {\n            Self::sync_parent_directory(path)\n        })"

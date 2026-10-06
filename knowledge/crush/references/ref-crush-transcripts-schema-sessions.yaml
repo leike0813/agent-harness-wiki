@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-schema-sessions
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-db-migrations-20250424200609-initial-sql
+locator:
+  kind: file_lines
+  file: internal/db/migrations/20250424200609_initial.sql
+  start: 3
+  end: 14
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  -- Sessions
+  CREATE TABLE IF NOT EXISTS sessions (
+      id TEXT PRIMARY KEY,
+      parent_session_id TEXT,
+      title TEXT NOT NULL,
+      message_count INTEGER NOT NULL DEFAULT 0 CHECK (message_count >= 0),
+      prompt_tokens  INTEGER NOT NULL DEFAULT 0 CHECK (prompt_tokens >= 0),
+      completion_tokens  INTEGER NOT NULL DEFAULT 0 CHECK (completion_tokens>= 0),
+      cost REAL NOT NULL DEFAULT 0.0 CHECK (cost >= 0.0),
+      updated_at INTEGER NOT NULL,  -- Unix timestamp in seconds
+      created_at INTEGER NOT NULL   -- Unix timestamp in seconds
+  );

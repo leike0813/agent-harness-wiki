@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-input-history-cap
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-cli-src-utils-message-history-ts
+locator:
+  kind: file_lines
+  file: cli/src/utils/message-history.ts
+  start: 93
+  end: 113
+official_url: https://github.com/CodebuffAI/codebuff/blob/bd198ff2df3ea9b333e8bf2e5b843735afd4ad9c/cli/src/utils/message-history.ts
+excerpt: "/**\n * Save message history to file system\n */\nexport const saveMessageHistory = (history: string[]): void => {\n  const configDir = getConfigDir()\n  const historyPath = getMessageHistoryPath()\n\n  try {\n    // Ensure config directory exists\n    if (!fs.existsSync(configDir)) {\n      fs.mkdirSync(configDir, { recursive: true })\n    }\n\n    // Limit history size to prevent file from growing too large\n    const limitedHistory =\n      history.length > MAX_HISTORY_SIZE\n        ? history.slice(history.length - MAX_HISTORY_SIZE)\n        : history\n\n    // Save history\n    fs.writeFileSync(historyPath, JSON.stringify(limitedHistory, null, 2))"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-sessions-db
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-services-storage-sqlite-session-store-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/storage/sqlite-session-store.ts
+  start: 29
+  end: 57
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/services/storage/sqlite-session-store.ts
+excerpt: "\tconstructor(options: SqliteSessionStoreOptions = {}) {\n\t\tthis.sessionsDirPath = options.sessionsDir ?? resolveDbDataDir();\n\t}\n\n\tinit(): void {\n\t\tthis.getRawDb();\n\t}\n\n\tensureSessionsDir(): string {\n\t\tif (!existsSync(this.sessionsDirPath)) {\n\t\t\tmkdirSync(this.sessionsDirPath, { recursive: true });\n\t\t}\n\t\treturn this.sessionsDirPath;\n\t}\n\n\tsessionDbPath(): string {\n\t\treturn join(this.ensureSessionsDir(), \"sessions.db\");\n\t}\n\n\tgetRawDb(): SqliteDb {\n\t\tif (this.db) {\n\t\t\treturn this.db;\n\t\t}\n\t\tconst db = loadSqliteDb(this.sessionDbPath());\n\t\tensureSessionSchema(db, { includeLegacyMigrations: true });\n\n\t\tthis.db = db;\n\t\treturn db;\n\t}"

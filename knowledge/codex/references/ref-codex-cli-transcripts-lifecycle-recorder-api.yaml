@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-lifecycle-recorder-api
+harness_id: codex
+snapshot_id: snapshot-codex-repo-822e58cc-rollout-recorder
+locator:
+  kind: file_lines
+  file: codex-rs/rollout/src/recorder.rs
+  start: 1063
+  end: 1078
+official_url: https://github.com/openai/codex/blob/822e58cc3d666166c7446c5b1ea2e52f5d09594c/codex-rs/rollout/src/recorder.rs
+excerpt: "    /// Materialize the rollout file and persist all buffered items.\n    ///\n    /// This is idempotent. If materialization fails, the recorder keeps all pending items in memory\n    /// and a later `persist()` or `flush()` can retry opening and writing the rollout file.\n    pub async fn persist(&self) -> std::io::Result<()> {\n        let (tx, rx) = oneshot::channel();\n        self.tx\n            .send(RolloutCmd::Persist { ack: tx })\n            .await\n            .map_err(|e| {\n                self.writer_task.terminal_failure().unwrap_or_else(|| {\n                    IoError::other(format!(\"failed to queue rollout persist: {e}\"))\n                })\n            })?;\n        rx.await.map_err(|e| {\n            self.writer_task.terminal_failure().unwrap_or_else(|| {"

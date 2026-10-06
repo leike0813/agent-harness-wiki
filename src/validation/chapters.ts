@@ -23,6 +23,14 @@ export type ChapterValidationResult =
   | { ok: true; dataset: ChapterDataset; diagnostics: Diagnostic[] }
   | { ok: false; diagnostics: Diagnostic[] };
 
+// Per-record and whole-dataset read budgets. The dataset budget covers every
+// chapter, source reference, mapping, the current-selection file and the
+// catalog, so it has to grow as topics and products are added: eight topics
+// across all registered products already reach ~18 MiB, which the previous
+// 16 MiB budget rejected as INPUT_TOO_LARGE.
+const MAX_RECORD_BYTES = 1024 * 1024;
+const MAX_INPUT_BYTES = 32 * 1024 * 1024;
+
 export async function loadAndValidateChapters(input: {
   root: string;
   profile: "fixture" | "production";
@@ -130,15 +138,15 @@ export async function loadAndValidateChapters(input: {
       return;
     }
     if (
-      stat.size > 1024 * 1024 ||
-      (totalBytes += stat.size) > 16 * 1024 * 1024
+      stat.size > MAX_RECORD_BYTES ||
+      (totalBytes += stat.size) > MAX_INPUT_BYTES
     ) {
       fail(
         "INPUT_TOO_LARGE",
         "schema",
         file,
         "",
-        "Record exceeds 1 MiB.",
+        `Record exceeds ${MAX_RECORD_BYTES / 1024 / 1024} MiB, or the chapter dataset exceeds its input budget.`,
         "Split the record.",
       );
       return;

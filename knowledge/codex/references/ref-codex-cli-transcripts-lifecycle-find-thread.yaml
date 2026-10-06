@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-lifecycle-find-thread
+harness_id: codex
+snapshot_id: snapshot-codex-repo-822e58cc-rollout-list
+locator:
+  kind: file_lines
+  file: codex-rs/rollout/src/list.rs
+  start: 1492
+  end: 1507
+official_url: https://github.com/openai/codex/blob/822e58cc3d666166c7446c5b1ea2e52f5d09594c/codex-rs/rollout/src/list.rs
+excerpt: "/// Locate the newest rollout file owned by a thread ID.\n///\n/// A thread normally has one rollout file. `thread/revert` keeps the thread ID stable while\n/// creating a new rollout file and switching the thread to it, so filesystem fallback matches the\n/// stable thread ID encoded before any `_rollout-id` suffix and chooses the newest matching\n/// filename.\n///\n/// SQLite can return its selected path directly. Returns `Ok(Some(path))` if found, `Ok(None)`\n/// if not present or the ID is invalid.\npub async fn find_thread_path_by_id_str(\n    codex_home: &Path,\n    id_str: &str,\n    state_db_ctx: Option<&codex_state::StateRuntime>,\n) -> io::Result<Option<PathBuf>> {\n    find_thread_path_by_id_str_in_subdir(codex_home, SESSIONS_SUBDIR, id_str, state_db_ctx).await\n}"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-tmp-cleanup
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-tmp-cleanup
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_logger.py
+  start: 777
+  end: 796
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/session_logger.py
+excerpt: "    def cleanup_tmp_files(self) -> None:\n        \"\"\"Delete temporary files created more than 5 minutes ago\"\"\"\n        if not self.enabled or not self.save_dir:\n            return\n\n        now = utc_now()\n        ago = now - timedelta(minutes=5)\n\n        tmp_files = self.save_dir.glob(\"**/*.json.tmp\")  # Recursive search\n\n        for file_path in tmp_files:\n            if file_path.is_file():\n                try:\n                    file_mtime = datetime.fromtimestamp(\n                        file_path.stat().st_mtime, tz=UTC\n                    )\n                    if file_mtime < ago:\n                        file_path.unlink()\n                except Exception:\n                    continue"

@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-export-session
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/session_manager.rs
+  start: 2528
+  end: 2531
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+      async fn export_session(&self, id: &str) -> Result<String> {
+          let session = self.get_session(id, true).await?;
+          serde_json::to_string_pretty(&session).map_err(Into::into)
+      }

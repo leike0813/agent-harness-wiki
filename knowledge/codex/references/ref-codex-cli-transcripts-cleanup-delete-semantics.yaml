@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-cleanup-delete-semantics
+harness_id: codex
+snapshot_id: snapshot-codex-repo-822e58cc-thread-store-delete
+locator:
+  kind: file_lines
+  file: codex-rs/thread-store/src/local/delete_thread.rs
+  start: 1
+  end: 7
+official_url: https://github.com/openai/codex/blob/822e58cc3d666166c7446c5b1ea2e52f5d09594c/codex-rs/thread-store/src/local/delete_thread.rs
+excerpt: "//! Local hard-delete support for persisted threads.\n//!\n//! Existing rollout files are deleted before this operation reports success. A rollout file that\n//! vanishes after discovery counts as already deleted. Main state DB rows are deleted after every\n//! associated rollout is removed, under the same lifecycle lock, so queued artifact mutations cannot\n//! use deleted thread metadata. Host-owned data is cleaned after reference and writer checks,\n//! before removing rollouts, so cleanup failures remain retryable even without a state DB."

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-clean-artifacts-b
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-session-operations
+locator:
+  kind: file_lines
+  file: packages/core/src/utils/sessionOperations.ts
+  start: 73
+  end: 90
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+
+      const toolOutputsBase = path.join(tempDir, TOOL_OUTPUTS_DIR);
+      const toolOutputDir = path.join(
+        toolOutputsBase,
+        `session-${safeSessionId}`,
+      );
+
+      await fs
+        .rm(toolOutputDir, { recursive: true, force: true })
+        .catch((err: NodeJS.ErrnoException) => {
+          if (err.code !== 'ENOENT') throw err;
+        });
+
+      // Top-level session directory (e.g., tempDir/safeSessionId). Reserved
+      // directory names (chats, logs, tool-outputs) are skipped here to prevent
+      // a crafted session file from causing one of the project's top-level
+      // temp directories to be deleted. Case-insensitive because macOS and
+      // Windows resolve `Chats` and `chats` to the same path.

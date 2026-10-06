@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-retention-state-file
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-kilocode-session-retention-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/session/retention.ts
+  start: 326
+  end: 341
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/kilocode/session/retention.ts
+excerpt: "  const statePath = path.join(Global.Path.data, \"retention\", \"state.json\")\n\n  export const readState = Effect.fn(\"KiloSessionRetention.readState\")(function* () {\n    const file = Bun.file(statePath)\n    if (!(yield* Effect.promise(() => file.exists()))) return null\n    return yield* Effect.promise(() => file.json()).pipe(\n      Effect.map((raw) => raw as State),\n      Effect.catch(() => Effect.succeed(null)),\n    )\n  })\n\n  const writeState = Effect.fn(\"KiloSessionRetention.writeState\")(function* (state: State) {\n    yield* Effect.promise(async () => {\n      await Bun.write(statePath, JSON.stringify(state, null, 2))\n    })\n  })"

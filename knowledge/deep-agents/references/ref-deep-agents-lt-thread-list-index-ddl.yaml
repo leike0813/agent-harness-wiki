@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-lt-thread-list-index-ddl
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-code-deepagents-code-sessions-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/sessions.py
+  start: 422
+  end: 433
+official_url: https://github.com/langchain-ai/deepagents/blob/4b9410272a4e4885ec70fb1ec8549e307a15e585/libs/code/deepagents_code/sessions.py
+excerpt: "        await conn.execute(\n            f\"CREATE INDEX IF NOT EXISTS {_THREADS_LIST_INDEX} ON checkpoints(\"\n            \"thread_id, \"\n            \"json_extract(metadata, '$.updated_at'), \"\n            \"COALESCE(json_extract(metadata, '$.created_at'), \"\n            \"json_extract(metadata, '$.updated_at')), \"\n            \"checkpoint_id, \"\n            \"json_extract(metadata, '$.agent_name'), \"\n            \"json_extract(metadata, '$.git_branch'), \"\n            \"json_extract(metadata, '$.cwd'))\"\n        )\n        # Replace the older index, which did not cover the creation timestamp."

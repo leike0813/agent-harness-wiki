@@ -1,0 +1,31 @@
+---
+schema_version: 2
+record_kind: production
+reference_id: ref-qoder-lt-session-end
+harness_id: qoder
+snapshot_id: snapshot-qoder-docs-ide-hooks
+locator:
+  kind: document_section
+  heading: "SessionEnd"
+official_url: "https://docs.qoder.com/extensions/hooks.md"
+excerpt: |-
+  ### SessionEnd
+
+  Fires when a session ends. Not blockable — use it for cleanup or session archiving side effects.
+
+  **Matcher:** None.
+
+  **Extra input fields:**
+
+  ```json
+  {
+    "session_id": "abc-123",
+    "cwd": "/path/to/project",
+    "hook_event_name": "SessionEnd",
+    "reason": "exit"
+  }
+  ```
+
+  <Note>
+    Read the end reason from the `reason` input field. (Historical matcher metadata used the name `exit_reason`; scripts should rely on the actual `reason` field in stdin.)
+  </Note>

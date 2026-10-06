@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-legacy-jsonl
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-legacy
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/legacy.rs
+  start: 13
+  end: 29
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+  pub fn list_sessions(session_dir: &PathBuf) -> Result<Vec<(String, PathBuf)>> {
+      let entries = fs::read_dir(session_dir)?
+          .filter_map(|entry| {
+              let entry = entry.ok()?;
+              let path = entry.path();
+
+              if path.extension().is_some_and(|ext| ext == "jsonl") {
+                  let name = path.file_stem()?.to_string_lossy().to_string();
+                  Some((name, path))
+              } else {
+                  None
+              }
+          })
+          .collect::<Vec<_>>();
+
+      Ok(entries)
+  }

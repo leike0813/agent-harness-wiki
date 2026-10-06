@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-truncate-hint
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-opencode-src-tool-truncate-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/opencode/src/tool/truncate.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/tool/truncate.ts
+  start: 129
+  end: 139
+excerpt: "      const hint = hasTaskTool(agent)\n        ? `The tool call succeeded but the output was truncated. Full output saved to: ${file}\\nUse the Task tool to have explore agent process this file with Grep and Read (with offset/limit). Do NOT read the full file yourself - delegate to save context.`\n        : `The tool call succeeded but the output was truncated. Full output saved to: ${file}\\nUse Grep to search the full content or Read with offset/limit to view specific sections.`\n\n      return {\n        content:\n          direction === \"head\"\n            ? `${preview}\\n\\n...${removed} ${unit} truncated...\\n\\n${hint}`\n            : `...${removed} ${unit} truncated...\\n\\n${hint}\\n\\n${preview}`,\n        truncated: true,\n        outputPath: file,"

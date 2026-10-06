@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-ledger-path
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-crates-pa-daemon-src-rlm-ledger-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/rlm_ledger.rs
+  start: 147
+  end: 155
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/7a52276cb17310f331f1075f28fa5cf9c4ae0a0a/crates/pa-daemon/src/rlm_ledger.rs
+excerpt: "/// Ledger path for one sessions dir (TS `rlmLedgerPath`): a 16-hex sha256 of\n/// the canonical sessions dir under `<agent-dir>/rlm-ledger/`.\n#[must_use]\npub fn rlm_ledger_path(agent_dir: &Path, sessions_dir: &Path) -> PathBuf {\n    let canonical = canonicalize_dir(sessions_dir);\n    let hash = crate::paths::hash_key(&canonical.to_string_lossy(), 16);\n    agent_dir.join(RLM_LEDGER_DIR).join(format!(\"{hash}.jsonl\"))\n}"

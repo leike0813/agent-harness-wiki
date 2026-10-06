@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-lt-task-save-cline-messages
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-lt-src-core-task-task-ts
+locator:
+  kind: file_lines
+  file: src/core/task/Task.ts
+  start: 1680
+  end: 1700
+official_url: https://github.com/Zoo-Code-Org/Zoo-Code/blob/d7963fc2db8ff07189e9f22079b15d67ad3a8bfd/src/core/task/Task.ts
+excerpt: "\t/** Persists Cline messages and updates task metadata in the history store. Returns false on failure. */\n\tprivate async saveClineMessages(merge = true): Promise<boolean> {\n\t\ttry {\n\t\t\tawait saveTaskMessages({\n\t\t\t\tmessages: structuredClone(this.clineMessages),\n\t\t\t\ttaskId: this.taskId,\n\t\t\t\tglobalStoragePath: this.globalStoragePath,\n\t\t\t\tmerge,\n\t\t\t})\n\n\t\t\tif (this._taskApiConfigName === undefined) {\n\t\t\t\tawait this.taskApiConfigReady\n\t\t\t}\n\n\t\t\tconst { historyItem, tokenUsage } = await taskMetadata({\n\t\t\t\ttaskId: this.taskId,\n\t\t\t\trootTaskId: this.rootTaskId,\n\t\t\t\tparentTaskId: this.parentTaskId,\n\t\t\t\ttaskNumber: this.taskNumber,\n\t\t\t\tmessages: this.clineMessages,\n\t\t\t\tglobalStoragePath: this.globalStoragePath,"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-save-payload-skip-empty
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-agent-rs
+locator:
+  kind: file_lines
+  file: crates/agent/src/agent.rs
+  start: 1871
+  end: 1883
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent/src/agent.rs
+excerpt: "    /// Builds everything needed to persist a session's thread content,\n    /// capturing the current draft prompt from the ACP thread. Returns `None`\n    /// if the thread is empty or its project state is gone.\n    fn thread_save_payload(\n        &self,\n        session: &Session,\n        draft_prompt: Option<Vec<acp_v2::ContentBlock>>,\n        cx: &mut App,\n    ) -> Option<(acp_v1::SessionId, PathList, Task<DbThread>)> {\n        if session.thread.read(cx).is_empty() {\n            return None;\n        }\n        let state = self.projects.get(&session.project_id)?;"

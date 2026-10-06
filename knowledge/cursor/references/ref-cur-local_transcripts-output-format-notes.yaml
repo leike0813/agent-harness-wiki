@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-local_transcripts-output-format-notes
+harness_id: cursor
+snapshot_id: snapshot-cur-cli-output-format-doc
+locator:
+  kind: file_lines
+  file: cli/reference/output-format.md
+  start: 231
+  end: 238
+official_url: https://cursor.com/docs/cli/reference/output-format.md
+excerpt: |-
+  - Each event is emitted as a single line terminated by `\n`
+  - `thinking` events are suppressed in print mode and will not appear in any output format
+  - Field additions may occur over time in a backward-compatible way (consumers should ignore unknown fields)
+  - The `json` format waits for completion before outputting results
+  - The `stream-json` format outputs complete agent messages
+  - The `--stream-partial-output` flag provides real-time text deltas for character-level streaming (only works with `stream-json` format)
+  - Tool call IDs can be used to correlate start/completion events
+  - Session IDs remain consistent throughout a single agent execution

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-session-lease-layout
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-session-lease-layout
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_lease.py
+  start: 25
+  end: 35
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/session_lease.py
+excerpt: "\n    def __init__(self, root: Path, session_id: str) -> None:\n        if _SESSION_ID_PATTERN.fullmatch(session_id) is None:\n            raise ValueError(f\"invalid session ID: {session_id!r}\")\n        self._path = root / \"active\" / f\"{session_id}.lock\"\n        self._diagnostic_path = root / \"active\" / f\"{session_id}.lock.json\"\n        self._session_id = session_id\n        self._file: Any | None = None\n\n    @property\n    def path(self) -> Path:"

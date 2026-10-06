@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-history-list
+harness_id: cline
+snapshot_id: snapshot-cline-lt-apps-cli-src-commands-history-ts
+locator:
+  kind: file_lines
+  file: apps/cli/src/commands/history.ts
+  start: 140
+  end: 160
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/apps/cli/src/commands/history.ts
+excerpt: "export async function runHistoryList(input: {\n\tlimit: number;\n\toutputMode: CliOutputMode;\n\tworkspaceRoot?: string;\n\tio?: HistoryIo;\n}): Promise<number> {\n\tconst io = input.io ?? {\n\t\twriteln,\n\t\twriteErr: (text: string) => process.stderr.write(`${text}\\n`),\n\t};\n\tconst limit = Number.isFinite(input.limit) ? input.limit : 50;\n\n\tconst rows = await listSessions(limit, {\n\t\tworkspaceRoot: input.workspaceRoot,\n\t\thydrate: input.outputMode !== \"json\",\n\t});\n\tif (rows.length === 0) {\n\t\tif (input.outputMode === \"json\") {\n\t\t\tprocess.stdout.write(JSON.stringify([]));\n\t\t} else {\n\t\t\tio.writeln(\"No history found.\");"

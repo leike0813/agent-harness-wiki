@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-headless-resume-adoption
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-packages-bundle-headless-src-index-ts
+locator:
+  kind: file_lines
+  file: packages/bundle/headless/src/index.ts
+  start: 276
+  end: 284
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/bundle/headless/src/index.ts
+excerpt: "  try {\n    using observation = await query.observeSession(sessionId)\n    assertAdoptable(observation.header, observation.events, sessionId, cwd)\n    const { agent } = await agents.resume({ resumeSessionId: sessionId, agentOptions, setup })\n    // The observation is a snapshot: another writer may have appended a preset\n    // selection before this process took the write lease. Re-check the log\n    // resume actually attached, now that no other process can append.\n    assertAdoptable(agent.session.header, liveEvents(agent.session), sessionId, cwd)\n    return agent"

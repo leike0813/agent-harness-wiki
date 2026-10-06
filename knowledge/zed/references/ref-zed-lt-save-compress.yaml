@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-save-compress
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-db-rs
+locator:
+  kind: file_lines
+  file: crates/agent/src/db.rs
+  start: 529
+  end: 543
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent/src/db.rs
+excerpt: "        let json_data = serde_json::to_string(&SerializedThread {\n            thread,\n            version: DbThread::VERSION,\n        })?;\n\n        let connection = connection.lock();\n\n        let compressed = zstd::encode_all(json_data.as_bytes(), COMPRESSION_LEVEL)?;\n        let data_type = DataType::Zstd;\n        let data = compressed;\n\n        // Use the thread's updated_at as created_at for new threads.\n        // This ensures the creation time reflects when the thread was conceptually\n        // created, not when it was saved to the database.\n        let created_at = updated_at.clone();"

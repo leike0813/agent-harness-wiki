@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-delete-task-files
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-webview-clineprovider-ts
+locator:
+  kind: file_lines
+  file: src/core/webview/ClineProvider.ts
+  start: 1786
+  end: 1803
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/webview/ClineProvider.ts
+excerpt: "\t\t\t\t\tawait ShadowCheckpointService.deleteTask({ taskId, globalStorageDir, workspaceDir })\n\t\t\t\t} catch (error) {\n\t\t\t\t\tconsole.error(\n\t\t\t\t\t\t`[deleteTaskWithId${taskId}] failed to delete associated shadow repository or branch: ${error instanceof Error ? error.message : String(error)}`,\n\t\t\t\t\t)\n\t\t\t\t}\n\n\t\t\t\t// Delete the task directory\n\t\t\t\ttry {\n\t\t\t\t\tconst dirPath = await getTaskDirectoryPath(globalStoragePath, taskId)\n\t\t\t\t\tawait fs.rm(dirPath, { recursive: true, force: true })\n\t\t\t\t\tconsole.log(`[deleteTaskWithId${taskId}] removed task directory`)\n\t\t\t\t} catch (error) {\n\t\t\t\t\tconsole.error(\n\t\t\t\t\t\t`[deleteTaskWithId${taskId}] failed to remove task directory: ${error instanceof Error ? error.message : String(error)}`,\n\t\t\t\t\t)\n\t\t\t\t}\n\t\t\t}"

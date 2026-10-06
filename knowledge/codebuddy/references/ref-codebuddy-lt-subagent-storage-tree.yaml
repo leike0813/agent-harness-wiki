@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-lt-subagent-storage-tree
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-lt-docs-sub-agents-md
+locator:
+  kind: file_lines
+  file: docs/sub-agents.md
+  start: 670
+  end: 686
+official_url: https://cnb.cool/codebuddy/codebuddy-code
+excerpt: "* 子代理的对话历史和工具结果存储在父 session 的 `subagents/` 子目录中\n* 在恢复期间禁用记录以避免重复消息\n* 同步代理和[后台代理](#后台代理）都可以被恢复\n* `resume` 参数接受来自之前执行的代理 ID\n\n**运行时数据存储目录：**\n\n```\n~/.codebuddy/projects/{projectDir}/\n  └── {parentSessionId}/\n      ├── tool-results/                          ← 主 session 的工具输出文件\n      └── subagents/                             ← 子代理数据\n          ├── agent-{agentId}.jsonl              ← 子代理对话历史\n          └── agent-{agentId}/\n              └── tool-results/                  ← 子代理的工具输出文件\n                  └── {callId}.txt\n```"

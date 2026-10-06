@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-compression-payload
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-chat-recording
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingService.ts
+  start: 615
+  end: 627
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/packages/core/src/services/chatRecordingService.ts"
+excerpt: |2-
+  export interface ChatCompressionRecordPayload {
+    /** Compression metrics/status returned by the compression service */
+    info: ChatCompressionInfo;
+    /**
+     * Snapshot of the new history contents that the model should see after
+     * compression (summary turns + retained tail). Stored as Content[] for
+     * resume reconstruction.
+     */
+    compressedHistory: Content[];
+    /** Prompt identities parallel to compressedHistory. */
+    promptIds?: Array<string | null>;
+    completedToolCallIds?: string[];
+  }

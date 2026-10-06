@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-message-repo-delete-rows
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-service-session-system-messages-repo-drizzle-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/session-system/messages/repo/drizzle.ts
+  start: 546
+  end: 556
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/service/session-system/messages/repo/drizzle.ts
+excerpt: "  async deleteSessionData(sessionId: string): Promise<void> {\n    this.options.db.transaction((tx) => {\n      tx.delete(sessionAssets).where(eq(sessionAssets.sessionId, sessionId)).run();\n      tx.delete(sessionAssetIndexState)\n        .where(eq(sessionAssetIndexState.sessionId, sessionId))\n        .run();\n      tx.delete(messageRows).where(eq(messageRows.sessionId, sessionId)).run();\n      tx.delete(messageRowMigrations).where(eq(messageRowMigrations.sessionId, sessionId)).run();\n      const legacy = tx\n        .select({ piHistoryJson: legacyMessages.piHistoryJson })\n        .from(legacyMessages)"

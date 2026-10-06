@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-append-vs-rewrite
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-append-vs-rewrite
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_logger.py
+  start: 529
+  end: 546
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/session_logger.py
+excerpt: "        boundary_unchanged = old_total_messages == 0 or (\n            old_last_fingerprint is not None\n            and old_total_messages <= len(non_system_messages)\n            and self._message_fingerprint(non_system_messages[old_total_messages - 1])\n            == old_last_fingerprint\n        )\n        if (\n            len(non_system_messages) == old_total_messages\n            and boundary_unchanged\n            and metadata_path.exists()\n        ):\n            return\n\n        try:\n            if len(non_system_messages) > old_total_messages and boundary_unchanged:\n                messages_data = [\n                    m.model_dump(exclude_none=True, mode=\"json\")\n                    for m in non_system_messages[old_total_messages:]"

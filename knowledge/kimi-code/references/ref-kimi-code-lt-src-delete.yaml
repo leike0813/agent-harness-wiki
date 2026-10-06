@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-delete
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-lt-packages-agent-core-v2-src-workspace-sessionlifecycle-sessionlifecycleservice-ts
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/workspace/sessionLifecycle/sessionLifecycleService.ts
+  start: 466
+  end: 479
+official_url: https://github.com/MoonshotAI/kimi-code/blob/21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3/packages/agent-core-v2/src/workspace/sessionLifecycle/sessionLifecycleService.ts
+excerpt: "    const handle = this.sessions.get(sessionId);\n    const summary = await this.index.get(sessionId);\n    const persistedHere = summary !== undefined && summary.workspaceId === this.workspaceId;\n    if (handle === undefined && !persistedHere) {\n      throw new Error2(ErrorCodes.SESSION_NOT_FOUND, `session ${sessionId} does not exist`);\n    }\n    if (handle !== undefined) {\n      await this.close(sessionId);\n    }\n    await this.hostFs.remove(sessionDirOf(this.bootstrap.homeDir, this.handlerScope, sessionId));\n    await this.index.remove(sessionId);\n    await dropFileHistorySession({ docs: this.docs, workspaceId: this.workspaceId, sessionId });\n    this.appendLogStore.append('', 'session_index.jsonl', { sessionId, deleted: true });\n    await this.appendLogStore.flush();"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-delete-session-files
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-session-services-persistence-service-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/session/services/persistence-service.ts
+  start: 607
+  end: 630
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/session/services/persistence-service.ts
+excerpt: "\t\t\t\t\tunlinkIfExists(\n\t\t\t\t\t\tthis.manifestStore.artifacts.sessionManifestPath(\n\t\t\t\t\t\t\tchild.sessionId,\n\t\t\t\t\t\t\tfalse,\n\t\t\t\t\t\t),\n\t\t\t\t\t);\n\t\t\t\t\tthis.manifestStore.artifacts.removeSessionDirIfEmpty(child.sessionId);\n\t\t\t\t}),\n\t\t\t);\n\t\t}\n\n\t\tif (!indexedRow) {\n\t\t\t// Restored manifests can contain workspace and artifact paths from another\n\t\t\t// machine. Delete only the canonical directory under the current data root.\n\t\t\tthis.manifestStore.artifacts.removeSessionDir(id);\n\t\t\treturn { deleted: true };\n\t\t}\n\n\t\tawait deleteCheckpointRefs(row.cwd, id);\n\t\tunlinkIfExists(row.messagesPath);\n\t\tawait this.deleteSessionCompactionStateIfExists(id);\n\t\tunlinkIfExists(this.manifestStore.artifacts.sessionManifestPath(id, false));\n\t\tif (row.isSubagent) {\n\t\t\tthis.manifestStore.artifacts.removeSessionDirIfEmpty(id);"

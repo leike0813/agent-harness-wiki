@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-lt-db-open-store
+harness_id: bolt
+snapshot_id: snapshot-bolt-lt-app-lib-persistence-db-ts
+locator:
+  kind: file_lines
+  file: app/lib/persistence/db.ts
+  start: 8
+  end: 20
+official_url: https://github.com/stackblitz/bolt.new/blob/eda10b121221b30825a4c16eec5da1fd3eb1eb99/app/lib/persistence/db.ts
+excerpt: "export async function openDatabase(): Promise<IDBDatabase | undefined> {\n  return new Promise((resolve) => {\n    const request = indexedDB.open('boltHistory', 1);\n\n    request.onupgradeneeded = (event: IDBVersionChangeEvent) => {\n      const db = (event.target as IDBOpenDBRequest).result;\n\n      if (!db.objectStoreNames.contains('chats')) {\n        const store = db.createObjectStore('chats', { keyPath: 'id' });\n        store.createIndex('id', 'id', { unique: true });\n        store.createIndex('urlId', 'urlId', { unique: true });\n      }\n    };"

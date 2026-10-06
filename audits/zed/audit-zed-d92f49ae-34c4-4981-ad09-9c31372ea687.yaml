@@ -1,0 +1,767 @@
+schema_version: 2
+audit_id: audit-zed-d92f49ae-34c4-4981-ad09-9c31372ea687
+harness_id: zed
+checked_at: 2026-10-06T04:35:38.956Z
+previous_audit_id: audit-zed-20261004t061205z
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-zed-d0a7dce9-cf57-4fbf-a94c-f5d0c84464ab
+  - audit-zed-20261004t061205z
+checks:
+  - source_id: source-zed-repo
+    kind: git_repository
+    checked_at: 2026-10-06T04:35:37.164Z
+    status: changed
+    baseline: a84689073d296dfd39987bc7dd478e43ef76d83a
+    observed: a1b71072e5b43faef437b471e988fbb5f972c99c
+    remote_ref: refs/heads/main
+  - source_id: source-zed-docs-skills
+    kind: official_documentation
+    checked_at: 2026-10-06T04:35:37.171Z
+    status: unchanged
+    baseline: 764f294ea53ecfe9220c5033ac805a53dc02607b25a85b63001c57343e2b9038
+    observed: 764f294ea53ecfe9220c5033ac805a53dc02607b25a85b63001c57343e2b9038
+    resolved_url: https://zed.dev/docs/ai/skills.md
+  - source_id: source-zed-docs-mcp
+    kind: official_documentation
+    checked_at: 2026-10-06T04:35:37.172Z
+    status: unchanged
+    baseline: 4b63e4863aff99eac69af64220581c36f8becd856cb3d11fb811f038881615bf
+    observed: 4b63e4863aff99eac69af64220581c36f8becd856cb3d11fb811f038881615bf
+    resolved_url: https://zed.dev/docs/ai/mcp.md
+  - source_id: source-zed-docs-agents
+    kind: official_documentation
+    checked_at: 2026-10-06T04:35:37.173Z
+    status: unchanged
+    baseline: 08b1b98333f1b97d44a5da73d3ccb1f19fa3d62ff3ba80f8303b571a2a21b732
+    observed: 08b1b98333f1b97d44a5da73d3ccb1f19fa3d62ff3ba80f8303b571a2a21b732
+    resolved_url: https://zed.dev/docs/ai/external-agents.md
+  - source_id: source-zed-docs-providers
+    kind: official_documentation
+    checked_at: 2026-10-06T04:35:37.831Z
+    status: unchanged
+    baseline: b164ec181d366233ab55bfef5968c6d0f4c068695e5ccd05b1680829108484b0
+    observed: b164ec181d366233ab55bfef5968c6d0f4c068695e5ccd05b1680829108484b0
+    resolved_url: https://zed.dev/docs/ai/use-api-access.md
+  - source_id: source-zed-docs-hooks
+    kind: official_documentation
+    checked_at: 2026-10-06T04:35:37.833Z
+    status: unchanged
+    baseline: d7b3f034a1df1c84bd557109a8a1cb15db3108d779a859b1e55eb1a4f6097e15
+    observed: d7b3f034a1df1c84bd557109a8a1cb15db3108d779a859b1e55eb1a4f6097e15
+    resolved_url: https://zed.dev/docs/tasks.md
+  - source_id: source-zed-docs-plugins
+    kind: official_documentation
+    checked_at: 2026-10-06T04:35:37.929Z
+    status: unchanged
+    baseline: 146fa9b61c79669517d3b0bc48f78f710cd8918c0e04ed66f664aaf3632298d8
+    observed: 146fa9b61c79669517d3b0bc48f78f710cd8918c0e04ed66f664aaf3632298d8
+    resolved_url: https://zed.dev/docs/extensions/developing-extensions.md
+  - source_id: source-zed-docs-config
+    kind: official_documentation
+    checked_at: 2026-10-06T04:35:37.939Z
+    status: unchanged
+    baseline: cd8932ca4ce458edb3b5387c3e1e5f99bd13e45550a9e82eb31b06dddfbb10f1
+    observed: cd8932ca4ce458edb3b5387c3e1e5f99bd13e45550a9e82eb31b06dddfbb10f1
+    resolved_url: https://zed.dev/docs/reference/all-settings.md
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-overrides
+      - config-runtime-trust
+      - config-defaults-migration
+      - config-diagnostics
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-config-channel-overrides
+      - ref-zed-config-config-dir
+      - ref-zed-config-copilot-enterprise-migration
+      - ref-zed-config-default-agent
+      - ref-zed-config-default-disable-ai
+      - ref-zed-config-default-session
+      - ref-zed-config-file-precedence
+      - ref-zed-config-local-settings
+      - ref-zed-config-merge-rules
+      - ref-zed-config-merge-vec
+      - ref-zed-config-repo-doc-admin
+      - ref-zed-config-repo-doc-channels
+      - ref-zed-config-repo-doc-files
+      - ref-zed-config-repo-doc-merge
+      - ref-zed-config-repo-doc-trust
+      - ref-zed-config-session-trust
+      - ref-zed-config-settings-file-enum
+      - ref-zed-config-settings-file
+      - ref-zed-config-user-content
+      - ref-zed-config-watch
+      - ref-zed-providers-copilot-settings-default
+      - ref-zed-skills-migration
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-zed-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-entry
+      - agents-format
+      - agents-roles
+      - agents-invocation-overrides
+      - agents-limits
+      - agents-diagnostics
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-agents-context-preset
+      - ref-zed-agents-custom-read
+      - ref-zed-agents-custom-server
+      - ref-zed-agents-custom-settings
+      - ref-zed-agents-model-keys
+      - ref-zed-agents-profile-content
+      - ref-zed-agents-profile-runtime
+      - ref-zed-agents-profiles-key
+      - ref-zed-agents-repo-doc-boundaries
+      - ref-zed-agents-repo-doc-common
+      - ref-zed-agents-repo-doc-extension
+      - ref-zed-agents-repo-doc-import
+      - ref-zed-agents-repo-doc-profiles
+      - ref-zed-agents-repo-doc-sandbox-perms
+      - ref-zed-agents-repo-doc-sandbox
+      - ref-zed-agents-server-trait
+      - ref-zed-agents-spawn-input
+      - ref-zed-agents-spawn-name
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-zed-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-entry
+      - providers-auth
+      - providers-protocol
+      - providers-models-metadata
+      - providers-forwarding
+      - providers-responses-diagnostics
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-providers-anthropic-capabilities
+      - ref-zed-providers-anthropic-compatible
+      - ref-zed-providers-anthropic-model
+      - ref-zed-providers-api-key
+      - ref-zed-providers-bedrock-available-model
+      - ref-zed-providers-copilot-lm-block
+      - ref-zed-providers-copilot-settings-default
+      - ref-zed-providers-copilot-settings-type
+      - ref-zed-providers-openai-capabilities
+      - ref-zed-providers-openai-compatible
+      - ref-zed-providers-openai-model
+      - ref-zed-providers-repo-doc-bedrock-models
+      - ref-zed-providers-repo-doc-local
+      - ref-zed-providers-settings-map
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-zed-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-scope-events
+      - hooks-entry
+      - hooks-input
+      - hooks-output-order
+      - hooks-conditions-diagnostics
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-hooks-enum
+      - ref-zed-hooks-field
+      - ref-zed-hooks-local-tasks
+      - ref-zed-hooks-tasks-file
+      - ref-zed-plugins-manifest
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-zed-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-entry
+      - mcp-definition-transport
+      - mcp-auth
+      - mcp-lifecycle
+      - mcp-capabilities-exposure
+      - mcp-diagnostics
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-agents-profile-content
+      - ref-zed-config-session-trust
+      - ref-zed-mcp-capabilities
+      - ref-zed-mcp-command
+      - ref-zed-mcp-ext-manifest
+      - ref-zed-mcp-max-timeout
+      - ref-zed-mcp-oauth-flow
+      - ref-zed-mcp-oauth-session
+      - ref-zed-mcp-reload
+      - ref-zed-mcp-repo-doc-agent-path
+      - ref-zed-mcp-repo-doc-extension
+      - ref-zed-mcp-repo-doc-permissions
+      - ref-zed-mcp-settings-enum
+      - ref-zed-mcp-settings-struct
+      - ref-zed-mcp-status
+      - ref-zed-mcp-timeout-default
+      - ref-zed-mcp-timeout-global
+      - ref-zed-mcp-timeout-use
+      - ref-zed-mcp-tool-id
+      - ref-zed-mcp-tool-permissions
+      - ref-zed-plugins-context-entry
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-zed-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model
+      - plugins-package
+      - plugins-install-discovery
+      - plugins-api
+      - plugins-lifecycle-diagnostics
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-mcp-repo-doc-extension
+      - ref-zed-plugins-api-context-server
+      - ref-zed-plugins-api-trait
+      - ref-zed-plugins-api-version
+      - ref-zed-plugins-capability-enum
+      - ref-zed-plugins-context-entry
+      - ref-zed-plugins-extensions-dir
+      - ref-zed-plugins-granted-caps
+      - ref-zed-plugins-manifest-opt-in-accessors
+      - ref-zed-plugins-manifest-opt-in-languages
+      - ref-zed-plugins-manifest
+      - ref-zed-plugins-repo-doc-caps
+      - ref-zed-plugins-repo-doc-categories
+      - ref-zed-plugins-repo-doc-install
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-zed-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-roots
+      - skills-discovery
+      - skills-collision
+      - skills-extensions
+      - skills-loading-invocation
+      - skills-conditions-diagnostics
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-instructions-names
+      - ref-zed-instructions-repo-doc
+      - ref-zed-instructions-select
+      - ref-zed-instructions-user-md
+      - ref-zed-instructions-worktree-context
+      - ref-zed-skills-body-read
+      - ref-zed-skills-builtin
+      - ref-zed-skills-catalog-budget
+      - ref-zed-skills-discovery
+      - ref-zed-skills-envelope
+      - ref-zed-skills-file-limits
+      - ref-zed-skills-frontmatter
+      - ref-zed-skills-global-root
+      - ref-zed-skills-migration
+      - ref-zed-skills-name-rules
+      - ref-zed-skills-overrides
+      - ref-zed-skills-precedence
+      - ref-zed-skills-project-root
+      - ref-zed-skills-scope
+      - ref-zed-skills-share-link
+      - ref-zed-skills-tool-auth
+      - ref-zed-skills-tool-name
+      - ref-zed-skills-trust
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    reason: "source-zed-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-scope-and-switch
+      - transcripts-storage-naming-format
+      - transcripts-record-schema
+      - transcripts-lifecycle
+      - transcripts-database-layout
+      - transcripts-archive-restore-cleanup
+      - transcripts-diagnostics
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-lt-db-open-path
+      - ref-zed-lt-threads-table-ddl
+      - ref-zed-lt-threads-table-alters
+      - ref-zed-lt-data-types
+      - ref-zed-lt-save-compress
+      - ref-zed-lt-save-upsert
+      - ref-zed-lt-deserialize-thread
+      - ref-zed-lt-list-threads
+      - ref-zed-lt-load-thread
+      - ref-zed-lt-delete-cascade
+      - ref-zed-lt-delete-entry
+      - ref-zed-lt-metadata-delete
+      - ref-zed-lt-archive-view-delete
+      - ref-zed-lt-archive-fn
+      - ref-zed-lt-update-archived
+      - ref-zed-lt-metadata-table-ddl
+      - ref-zed-lt-metadata-v2-table
+      - ref-zed-lt-worktree-cleanup
+      - ref-zed-lt-db-path-dir
+      - ref-zed-lt-cross-channel-detect
+      - ref-zed-lt-version-migration
+      - ref-zed-lt-observe-save
+      - ref-zed-lt-quit-flush
+      - ref-zed-lt-message-enum
+      - ref-zed-lt-show-thread-metadata
+      - ref-zed-lt-doc-thread-history-delete
+    cross_topic_links:
+      - config.sources
+      - config.diagnostics
+      - agents.entry
+      - agents.limits
+    reason: "local_transcripts 首采：会话正文落在 threads/threads.db，侧边栏元数据与归档状态落在按发布通道隔离的应用数据库；核对了 agent 线程库、侧边栏元数据库、worktree 归档与线程导入入口"
+pending_question_ids:
+  - config.sources
+  - config.overrides
+  - config.runtime
+  - config.trust
+  - config.defaults
+  - config.migration
+  - config.diagnostics
+  - agents.entry
+  - agents.format
+  - agents.roles
+  - agents.invocation
+  - agents.overrides
+  - agents.limits
+  - agents.diagnostics
+  - providers.entry
+  - providers.auth
+  - providers.protocol
+  - providers.models
+  - providers.metadata
+  - providers.forwarding
+  - providers.responses
+  - providers.diagnostics
+  - hooks.events
+  - hooks.entry
+  - hooks.input
+  - hooks.output
+  - hooks.order
+  - hooks.conditions
+  - hooks.diagnostics
+  - mcp.entry
+  - mcp.definition
+  - mcp.transport
+  - mcp.auth
+  - mcp.lifecycle
+  - mcp.capabilities
+  - mcp.exposure
+  - mcp.diagnostics
+  - plugins.model
+  - plugins.package
+  - plugins.install
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+  - skills.roots
+  - skills.discovery
+  - skills.collision
+  - skills.format
+  - skills.extensions
+  - skills.loading
+  - skills.invocation
+  - skills.conditions
+  - skills.diagnostics
+investigation_notes:
+  - "local_transcripts 首采：只调查 catalog 登记的 zed 界面（Zed IDE 的 Agent Panel 与 Threads Sidebar）。固定来源为 source-zed-repo 的 commit a1b71072e5b43faef437b471e988fbb5f972c99c（coordinator 打开的 pinned 只读工作区），外加同一 commit 内的第一方文档 docs/src/ai/。"
+  - "本轮候选中没有 archive/zed/ 目录，因此未新建任何 archived_document 记录；官方文档站点来源本轮未被引用，结论全部落在固定源码树。"
+  - "缺口：transcripts.schema 记为 partial（沙箱授权结构、初始项目快照、旧格式逐版字段未逐字段取证，JSON 键名按 serde 默认命名推导且未对真实行采样）；transcripts.archive 记为 partial（原生归档只是元数据标记，Markdown 与剪贴板是调试通道，固定来源没有备份格式与可移植性说明）；transcripts.cleanup 记为 partial（手动删除文件或数据库的后果只有代码路径推断，无第一方说明）。"
+  - "未覆盖：Zed 编辑器状态、collab 状态、项目历史、外部 agent 自己的记录目录与终端线程；这些不属于会话记录范围。"
+  - "本轮不写发行包映射：源码 commit 只代表源码树，不证明已发布发行包行为。"
+  - "其它主题仍有遗留 pending 题，review_status 保持 pending，未写 reviewed_by。"

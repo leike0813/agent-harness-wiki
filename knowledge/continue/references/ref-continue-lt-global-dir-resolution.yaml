@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-global-dir-resolution
+harness_id: continue
+snapshot_id: snapshot-continue-lt-core-util-paths-ts
+locator:
+  kind: file_lines
+  file: core/util/paths.ts
+  start: 27
+  end: 36
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/core/util/paths.ts
+excerpt: "const CONTINUE_GLOBAL_DIR = (() => {\n  const configPath = process.env.CONTINUE_GLOBAL_DIR;\n  if (configPath) {\n    // Convert relative path to absolute paths based on current working directory\n    return path.isAbsolute(configPath)\n      ? configPath\n      : path.resolve(process.cwd(), configPath);\n  }\n  return path.join(os.homedir(), \".continue\");\n})();"

@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-unified-store-format
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-unified-store-format
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_storage.py
+  start: 87
+  end: 100
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_storage.py
+excerpt: 'STORE_FORMAT = "mistral.vibe.unified-session-store/v1"
+
+  # Readers accept lower minor versions and reject higher ones.
+
+  # 2: projection deltas; 3: checkpoint-derived interop exports;
+
+  # 4: chunked transcripts; 5: checkpoint capability baselines;
+
+  # 6: self-describing reservations and abandoned receipts;
+
+  # 7: checkpoint configuration baselines and recorded transition shapes.
+
+  # Downgrading after a newer build writes the store is unsupported.
+
+  STORE_FORMAT_MINOR = 7
+
+  # Sealing a chunk once its contents pass this size makes a chunk''s identity a
+
+  # function of the list prefix alone, so appending leaves every sealed chunk
+
+  # byte-identical and only the open tail is rewritten.
+
+  _CHUNK_TARGET_BYTES = 64 * 1024
+
+  _CHUNKS_DIRNAME = "chunks"
+
+  _QUARANTINE_DIRNAME = "quarantine"'

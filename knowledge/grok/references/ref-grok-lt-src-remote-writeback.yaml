@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-lt-src-remote-writeback
+harness_id: grok
+snapshot_id: snapshot-grok-lt-crates-codegen-xai-grok-shell-src-remote-sync-rs
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-shell/src/remote/sync.rs
+  start: 1
+  end: 14
+official_url: https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-shell/src/remote/sync.rs
+excerpt: '//! Writeback push: async queue that flushes session updates to the backend.
+
+  //!
+
+  //! `RemoteSync` runs a background task that buffers ACP notifications and flushes them to the backend via [`BackendClient::save_session_data()`].
+
+  //!
+
+  //! ## Backpressure
+
+  //!
+
+  //! When the buffer exceeds [`MAX_PENDING`], the task attempts an emergency flush.
+
+  //! If that also fails (network down), the oldest messages are dropped to prevent unbounded memory growth.
+
+  //!
+
+  //! ## Drop behavior
+
+  //!
+
+  //! When `RemoteSync` is dropped, the sender half of the channel closes and the background task exits.
+
+  //! **Pending buffered messages are lost.**
+
+  //! This is acceptable because the local JSONL files are the source of truth: writeback is best-effort.'

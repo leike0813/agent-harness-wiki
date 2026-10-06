@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-handle-ownership-model
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-docs-subsystems-persistence-md
+locator:
+  kind: file_lines
+  file: docs/subsystems/persistence.md
+  start: 27
+  end: 40
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/docs/subsystems/persistence.md
+excerpt: "/**\n * One open channel onto a stored session. A handle is single-owner state, not\n * a shared service: `read` never backtracks below what this handle already\n * observed, a `write` handle reads its own successful appends, and `close()`\n * is the one teardown (idempotent, uncancellable; `Symbol.asyncDispose`\n * delegates to it). Every operation on a closed handle rejects with\n * `SessionHandleClosedError`.\n *\n * Freshness across handles: once an `append` or `flush` resolves on a write\n * handle, every read STARTED afterwards on the same backend instance — on any\n * handle, or through `stat`/`list` — observes at least that prefix.\n * Reads concurrent with a mutation carry no ordering promise beyond the valid\n * contiguous prefix.\n */"

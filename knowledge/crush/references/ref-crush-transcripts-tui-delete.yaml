@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-tui-delete
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-ui-dialog-sessions-go
+locator:
+  kind: file_lines
+  file: internal/ui/dialog/sessions.go
+  start: 391
+  end: 399
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (s *Session) confirmDeleteSession() Action {
+  	sessionItem := s.selectedSessionItem()
+  	s.sessionsMode = sessionsModeNormal
+  	if sessionItem == nil {
+  		return nil
+  	}
+  
+  	s.removeSession(sessionItem.ID())
+  	return ActionCmd{s.deleteSessionCmd(sessionItem.ID())}

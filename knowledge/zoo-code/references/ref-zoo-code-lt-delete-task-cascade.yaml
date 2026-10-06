@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-lt-delete-task-cascade
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-lt-src-core-webview-clineprovider-ts
+locator:
+  kind: file_lines
+  file: src/core/webview/ClineProvider.ts
+  start: 2331
+  end: 2345
+official_url: https://github.com/Zoo-Code-Org/Zoo-Code/blob/d7963fc2db8ff07189e9f22079b15d67ad3a8bfd/src/core/webview/ClineProvider.ts
+excerpt: "\t// this function deletes a task from task history, and deletes its checkpoints and delete the task folder\n\t// If the task has subtasks (childIds), they will also be deleted recursively\n\tasync deleteTaskWithId(id: string, cascadeSubtasks: boolean = true) {\n\t\ttry {\n\t\t\t// get the task directory full path and history item\n\t\t\tconst { taskDirPath, historyItem } = await this.getTaskWithId(id)\n\n\t\t\t// Collect all task IDs to delete (parent + all subtasks)\n\t\t\tconst allIdsToDelete: string[] = [id]\n\n\t\t\tif (cascadeSubtasks) {\n\t\t\t\t// Recursively collect all child IDs\n\t\t\t\tconst collectChildIds = async (taskId: string): Promise<void> => {\n\t\t\t\t\ttry {\n\t\t\t\t\t\tconst { historyItem: item } = await this.getTaskWithId(taskId)"

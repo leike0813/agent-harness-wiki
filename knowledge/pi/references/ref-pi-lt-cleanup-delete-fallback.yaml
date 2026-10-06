@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-lt-cleanup-delete-fallback
+harness_id: pi
+snapshot_id: snapshot-pi-lt-packages-coding-agent-src-modes-interactive-components-session-selector-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/modes/interactive/components/session-selector.ts
+  start: 673
+  end: 687
+official_url: https://github.com/earendil-works/pi/blob/28dcce2ba45ce4a9efeb0f5b686f0be830fd89b9/packages/coding-agent/src/modes/interactive/components/session-selector.ts
+excerpt: "\t// If trash reports success, or the file is gone afterwards, treat it as successful\n\tif (trashResult.status === 0 || !existsSync(sessionPath)) {\n\t\treturn { ok: true, method: \"trash\" };\n\t}\n\n\t// Fallback to permanent deletion\n\ttry {\n\t\tawait unlink(sessionPath);\n\t\treturn { ok: true, method: \"unlink\" };\n\t} catch (err) {\n\t\tconst unlinkError = err instanceof Error ? err.message : String(err);\n\t\tconst trashErrorHint = getTrashErrorHint();\n\t\tconst error = trashErrorHint ? `${unlinkError} (${trashErrorHint})` : unlinkError;\n\t\treturn { ok: false, method: \"unlink\", error };"

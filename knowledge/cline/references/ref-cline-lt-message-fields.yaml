@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-message-fields
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-services-session-data-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/session-data.ts
+  start: 66
+  end: 94
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/services/session-data.ts
+excerpt: "\tmessage: StoredMessageWithMetadata,\n\tfallback?: {\n\t\tid?: string;\n\t\tprovider?: string;\n\t\tfamily?: string;\n\t},\n): StoredMessageWithMetadata {\n\tconst next = {\n\t\t...(message as StoredMessageWithMetadata & {\n\t\t\tproviderId?: string;\n\t\t\tmodelId?: string;\n\t\t}),\n\t};\n\tnext.id = trimNonEmptyString(next.id) ?? nanoid();\n\tconst modelInfo =\n\t\tnext.modelInfo && typeof next.modelInfo === \"object\"\n\t\t\t? { ...next.modelInfo }\n\t\t\t: undefined;\n\tconst resolvedModelInfo = {\n\t\tid:\n\t\t\ttrimNonEmptyString(modelInfo?.id) ??\n\t\t\ttrimNonEmptyString(next.modelId) ??\n\t\t\ttrimNonEmptyString(fallback?.id),\n\t\tprovider:\n\t\t\ttrimNonEmptyString(modelInfo?.provider) ??\n\t\t\ttrimNonEmptyString(next.providerId) ??\n\t\t\ttrimNonEmptyString(fallback?.provider),\n\t\tfamily:\n\t\t\ttrimNonEmptyString(modelInfo?.family) ??"

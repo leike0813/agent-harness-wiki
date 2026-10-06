@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-session-row-delete
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-services-storage-sqlite-session-store-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/services/storage/sqlite-session-store.ts
+  start: 283
+  end: 291
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/services/storage/sqlite-session-store.ts
+excerpt: "\tdelete(sessionId: string, cascade = false): boolean {\n\t\tconst changed =\n\t\t\tthis.run(`DELETE FROM sessions WHERE session_id = ?`, [sessionId])\n\t\t\t\t.changes ?? 0;\n\t\tif (cascade) {\n\t\t\tthis.run(`DELETE FROM sessions WHERE parent_session_id = ?`, [sessionId]);\n\t\t}\n\t\treturn changed > 0;\n\t}"

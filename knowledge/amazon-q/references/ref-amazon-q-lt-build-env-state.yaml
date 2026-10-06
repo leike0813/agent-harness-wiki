@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-lt-build-env-state
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-lt-crates-chat-cli-src-cli-chat-message-rs
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/chat/message.rs
+  start: 542
+  end: 559
+official_url: https://github.com/aws/amazon-q-developer-cli/blob/15cc8f3cd18c4272925ce1c7053268eedff1ea0a/crates/chat-cli/src/cli/chat/message.rs
+excerpt: "pub fn build_env_state() -> EnvState {\n    let mut env_state = EnvState {\n        operating_system: Some(env::consts::OS.into()),\n        ..Default::default()\n    };\n\n    match env::current_dir() {\n        Ok(current_dir) => {\n            env_state.current_working_directory =\n                Some(truncate_safe(&current_dir.to_string_lossy(), MAX_CURRENT_WORKING_DIRECTORY_LEN).into());\n        },\n        Err(err) => {\n            error!(?err, \"Attempted to fetch the CWD but it did not exist.\");\n        },\n    }\n\n    env_state\n}"

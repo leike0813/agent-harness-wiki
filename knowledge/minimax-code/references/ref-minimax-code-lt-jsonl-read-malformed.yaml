@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-jsonl-read-malformed
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-infra-file-jsonl-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/infra/file/jsonl.ts
+  start: 48
+  end: 65
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/infra/file/jsonl.ts
+excerpt: "  // Tolerant readers must still report every malformed line on every read.\n  if (readCache && !onMalformedLine) return readCachedJsonl(filePath, decode, readCache, onReadBytes);\n  const contents = await readFile(filePath, 'utf-8');\n  const records: T[] = [];\n  const lines = contents.split('\\n');\n  if (lines.at(-1) === '') lines.pop();\n  for (const [index, line] of lines.entries()) {\n    try {\n      if (line.trim().length === 0) throw new Error('blank line');\n      records.push(decode(parseJsonLine(line)));\n    } catch (error) {\n      const malformed = { path: filePath, lineNo: index + 1, reason: errorReason(error) };\n      if (!onMalformedLine) throw malformedLineError(malformed);\n      onMalformedLine(malformed);\n    }\n  }\n  return records;\n}"

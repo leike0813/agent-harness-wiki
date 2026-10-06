@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt-cleanup-delete-session-code
+harness_id: omp
+snapshot_id: snapshot-omp-lt-repo-fc6c-packages-coding-agent-src-session-session-storage-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-storage.ts
+  start: 1150
+  end: 1166
+official_url: https://github.com/can1357/oh-my-pi/blob/fc6c0c90dab012a0b7edea731af92f5bbd09cff0/packages/coding-agent/src/session/session-storage.ts#L1150-L1166
+excerpt: "\tasync deleteSessionWithArtifacts(sessionPath: string): Promise<void> {\n\t\t// Delete the session file itself\n\t\tawait this.unlink(sessionPath);\n\n\t\t// Compute artifacts directory: /path/to/session.jsonl -> /path/to/session\n\t\tconst artifactsDir = sessionPath.slice(0, -6);\n\n\t\t// Delete artifacts directory if it exists. Missing directories are fine, but\n\t\t// surface real cleanup failures because the session file is already gone.\n\t\ttry {\n\t\t\tawait fsp.rm(artifactsDir, { recursive: true, force: true });\n\t\t} catch (err) {\n\t\t\tconst error = toError(err);\n\t\t\tthrow new Error(\n\t\t\t\t`Session file deleted but failed to remove artifacts directory ${artifactsDir}: ${error.message}`,\n\t\t\t\t{\n\t\t\t\t\tcause: error,"

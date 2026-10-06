@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-share-auto-create
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-share-session-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/share/session.ts
+  start: 38
+  end: 45
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/share/session.ts
+excerpt: "    const create = Effect.fn(\"SessionShare.create\")(function* (input?: Session.CreateInput) {\n      const result = yield* session.create(input)\n      if (result.parentID) return result\n      const conf = yield* cfg.get()\n      if (!(flags.autoShare || conf.share === \"auto\")) return result\n      yield* share(result.id).pipe(Effect.ignore, Effect.forkIn(scope))\n      return result\n    })"

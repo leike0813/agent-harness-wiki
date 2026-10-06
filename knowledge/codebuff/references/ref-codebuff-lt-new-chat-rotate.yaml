@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-new-chat-rotate
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-cli-src-app-tsx
+locator:
+  kind: file_lines
+  file: cli/src/app.tsx
+  start: 187
+  end: 201
+official_url: https://github.com/CodebuffAI/codebuff/blob/bd198ff2df3ea9b333e8bf2e5b843735afd4ad9c/cli/src/app.tsx
+excerpt: "  const handleNewChat = useCallback(() => {\n    stopActiveRun('new-chat')\n    closeChatHistory()\n    resetChatStore()\n    // Rotate the chat id so the new conversation saves to its own directory\n    // instead of overwriting the current (possibly resumed) chat's history\n    startNewChat()\n    setResumeChatId(null)\n    setContinueRequested(false)\n  }, [closeChatHistory, resetChatStore])\n\n  // Determine effective continueChat values\n  const effectiveContinueChat = continueRequested\n  const effectiveContinueChatId = resumeChatId ?? continueChatId"

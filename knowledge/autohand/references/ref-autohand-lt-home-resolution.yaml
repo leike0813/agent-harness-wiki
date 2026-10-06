@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-home-resolution
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-constants-ts
+locator:
+  kind: file_lines
+  file: src/constants.ts
+  start: 37
+  end: 49
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/constants.ts
+excerpt: "  const environment = options.environment ?? process.env;\n  const platform = options.platform ?? process.platform;\n  const homeDirectory = options.homeDirectory ?? os.homedir();\n  const pathForPlatform = platform === 'win32' ? path.win32 : path;\n  const configured = environment.AUTOHAND_HOME?.trim();\n\n  if (configured && (platform !== 'win32' || !isWindowsSystemLocation(configured))) {\n    return configured;\n  }\n\n  if (platform !== 'win32') {\n    return pathForPlatform.join(homeDirectory, '.autohand');\n  }"

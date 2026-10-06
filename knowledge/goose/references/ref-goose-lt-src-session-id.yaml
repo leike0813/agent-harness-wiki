@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-session-id
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/session_manager.rs
+  start: 1630
+  end: 1649
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+          let today = chrono::Utc::now().format("%Y%m%d").to_string();
+          let session = sqlx::query_as(
+              r#"
+                  INSERT INTO sessions (id, name, user_set_name, session_type, working_dir, extension_data, goose_mode)
+                  VALUES (
+                      ? || '_' || CAST(COALESCE((
+                          SELECT MAX(CAST(SUBSTR(id, 10) AS INTEGER))
+                          FROM sessions
+                          WHERE id LIKE ? || '_%'
+                      ), 0) + 1 AS TEXT),
+                      ?,
+                      FALSE,
+                      ?,
+                      ?,
+                      '{}',
+                      ?
+                  )
+                  RETURNING *
+                  "#,
+          )

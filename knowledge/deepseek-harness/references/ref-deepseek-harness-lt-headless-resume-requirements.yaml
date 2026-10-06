@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-headless-resume-requirements
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-packages-bundle-headless-src-index-ts
+locator:
+  kind: file_lines
+  file: packages/bundle/headless/src/index.ts
+  start: 253
+  end: 264
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/bundle/headless/src/index.ts
+excerpt: "  // Resuming promises the caller a log a later process can continue. Without a\n  // durable log the run would succeed, print the id, and still lose the whole\n  // history at exit, so a miscomposed profile fails loud before the resume.\n  if (ctx.get('sessionPersistence') === undefined) {\n    throw new Error('headless --session-id requires the sessionPersistence service; the Session would not survive this process')\n  }\n  // A later process holds no live Agent and has to find the id through the\n  // query service, so every --session-id run requires it.\n  const query = ctx.get('sessionQuery')\n  if (query === undefined) {\n    throw new Error('headless --session-id requires the sessionQuery service; dsh-base provides it')\n  }"

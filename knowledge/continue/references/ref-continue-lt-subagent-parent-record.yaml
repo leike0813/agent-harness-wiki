@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-subagent-parent-record
+harness_id: continue
+snapshot_id: snapshot-continue-lt-extensions-cli-src-tools-subagent-ts
+locator:
+  kind: file_lines
+  file: extensions/cli/src/tools/subagent.ts
+  start: 72
+  end: 95
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/tools/subagent.ts
+excerpt: "      }\n\n      const chatHistoryService = services.chatHistory;\n      const parentSessionId = chatHistoryService.getSessionId();\n      if (!parentSessionId) {\n        throw new Error(\"No active session found\");\n      }\n\n      // Execute subagent with output streaming\n      const result = await executeSubAgent({\n        agent,\n        prompt,\n        parentSessionId,\n        abortController: new AbortController(),\n        onOutputUpdate: context?.toolCallId\n          ? (output: string) => {\n              try {\n                chatHistoryService.addToolResult(\n                  context.toolCallId,\n                  output,\n                  \"calling\",\n                );\n              } catch {\n                // Ignore errors during streaming updates"

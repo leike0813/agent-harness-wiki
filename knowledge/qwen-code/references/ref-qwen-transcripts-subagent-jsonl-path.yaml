@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-subagent-jsonl-path
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-agent-transcript
+locator:
+  kind: file_lines
+  file: packages/core/src/agents/agent-transcript.ts
+  start: 88
+  end: 99
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/packages/core/src/agents/agent-transcript.ts"
+excerpt: |2-
+  }
+
+  /** Returns the canonical JSONL transcript path. */
+  export function getAgentJsonlPath(
+    projectDir: string,
+    sessionId: string,
+    agentId: string,
+  ): string {
+    return path.join(
+      getSubagentSessionDir(projectDir, sessionId),
+      `agent-${sanitizeFilenameComponent(agentId)}.jsonl`,
+    );

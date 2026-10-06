@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-read-ui-messages
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-task-persistence-taskmessages-ts
+locator:
+  kind: file_lines
+  file: src/core/task-persistence/taskMessages.ts
+  start: 17
+  end: 30
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/task-persistence/taskMessages.ts
+excerpt: "export async function readTaskMessages({\n\ttaskId,\n\tglobalStoragePath,\n}: ReadTaskMessagesOptions): Promise<ClineMessage[]> {\n\tconst taskDir = await getTaskDirectoryPath(globalStoragePath, taskId)\n\tconst filePath = path.join(taskDir, GlobalFileNames.uiMessages)\n\tconst fileExists = await fileExistsAtPath(filePath)\n\n\tif (fileExists) {\n\t\ttry {\n\t\t\tconst parsedData = JSON.parse(await fs.readFile(filePath, \"utf8\"))\n\t\t\tif (!Array.isArray(parsedData)) {\n\t\t\t\tconsole.warn(\n\t\t\t\t\t`[readTaskMessages] Parsed data is not an array (got ${typeof parsedData}), returning empty. TaskId: ${taskId}, Path: ${filePath}`,"

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-conversation-file-create
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-chat-recording
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingService.ts
+  start: 1321
+  end: 1336
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/packages/core/src/services/chatRecordingService.ts"
+excerpt: |2-
+    private ensureConversationFile(): string {
+      if (this.cachedConversationFile) return this.cachedConversationFile;
+      const conversationFile = path.join(
+        this.ensureChatsDir(),
+        `${this.getSessionId()}.jsonl`,
+      );
+      try {
+        fs.writeFileSync(conversationFile, '', { flag: 'wx', encoding: 'utf8' });
+      } catch (error) {
+        if ((error as NodeJS.ErrnoException).code !== 'EEXIST') {
+          const message = error instanceof Error ? error.message : String(error);
+          throw new Error(
+            `Failed to create conversation file at ${conversationFile}: ${message}`,
+          );
+        }
+      }

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-compaction-record
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-kilocode-session-compaction-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/session/compaction.ts
+  start: 22
+  end: 40
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/kilocode/session/compaction.ts
+excerpt: "    return Effect.gen(function* () {\n      const msg = yield* input.session.updateMessage({\n        id: MessageID.ascending(),\n        role: \"user\",\n        model: input.model,\n        sessionID: input.sessionID,\n        agent: input.agent,\n        time: { created: Date.now() },\n      })\n      yield* input.session.updatePart({\n        id: PartID.ascending(),\n        messageID: msg.id,\n        sessionID: msg.sessionID,\n        type: \"compaction\",\n        auto: input.auto,\n        overflow: input.overflow,\n      })\n      KiloSessionPromptQueue.retarget(input.sessionID, msg.id)\n      return msg"

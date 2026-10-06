@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-message-service
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-message-message-go
+locator:
+  kind: file_lines
+  file: internal/message/message.go
+  start: 33
+  end: 42
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // [Service.Update] is eventually consistent: it accepts new state into
+  // an in-memory buffer and writes it to SQLite plus publishes a
+  // [pubsub.UpdatedEvent] on the next debounce tick (default
+  // [defaultUpdateDebounce]) or on the next terminal-state update,
+  // whichever comes first. Terminal-state updates — those that finish
+  // the message, add or finish a tool call, or end a reasoning section —
+  // flush synchronously before [Service.Update] returns.
+  //
+  // Callers that need stronger ordering (e.g. tests, shutdown,
+  // session-switch reads) must use [Service.Flush] or [Service.FlushAll]

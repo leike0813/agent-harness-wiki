@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-prompt-history
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-ui-model-history-go
+locator:
+  kind: file_lines
+  file: internal/ui/model/history.go
+  start: 18
+  end: 25
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // loadPromptHistory loads user messages for history navigation. Both queries
+  // stop at the 200 most recent entries; recall only steps back one at a time.
+  func (m *UI) loadPromptHistory() tea.Cmd {
+  	return func() tea.Msg {
+  		ctx := context.Background()
+  		var messages []message.Message
+  		var err error

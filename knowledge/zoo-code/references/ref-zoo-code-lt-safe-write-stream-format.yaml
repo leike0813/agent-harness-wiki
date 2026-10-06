@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-lt-safe-write-stream-format
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-lt-src-utils-safewritejson-ts
+locator:
+  kind: file_lines
+  file: src/utils/safeWriteJson.ts
+  start: 210
+  end: 222
+official_url: https://github.com/Zoo-Code-Org/Zoo-Code/blob/d7963fc2db8ff07189e9f22079b15d67ad3a8bfd/src/utils/safeWriteJson.ts
+excerpt: " * @returns Promise<void>\n */\nasync function _streamDataToFile(targetPath: string, data: any, prettyPrint = false): Promise<void> {\n\t// Stream data to avoid high memory usage for large JSON objects.\n\tconst fileWriteStream = fsSync.createWriteStream(targetPath, { encoding: \"utf8\" })\n\n\t// JsonStreamStringify traverses the object and streams tokens directly\n\t// The 'spaces' parameter adds indentation during streaming, not via a separate pass\n\t// Convert undefined to null for valid JSON serialization (undefined is not valid JSON)\n\tconst stringifyStream = new JsonStreamStringify(\n\t\tdata === undefined ? null : data,\n\t\tundefined, // replacer\n\t\tprettyPrint ? \"\\t\" : undefined, // spaces for indentation"

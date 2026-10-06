@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-export-filename
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-integrations-misc-export-markdown-ts
+locator:
+  kind: file_lines
+  file: src/integrations/misc/export-markdown.ts
+  start: 18
+  end: 30
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/integrations/misc/export-markdown.ts
+excerpt: "export function getTaskFileName(dateTs: number): string {\n\tconst date = new Date(dateTs)\n\tconst month = date.toLocaleString(\"en-US\", { month: \"short\" }).toLowerCase()\n\tconst day = date.getDate()\n\tconst year = date.getFullYear()\n\tlet hours = date.getHours()\n\tconst minutes = date.getMinutes().toString().padStart(2, \"0\")\n\tconst seconds = date.getSeconds().toString().padStart(2, \"0\")\n\tconst ampm = hours >= 12 ? \"pm\" : \"am\"\n\thours = hours % 12\n\thours = hours ? hours : 12 // the hour '0' should be '12'\n\treturn `roo_task_${month}-${day}-${year}_${hours}-${minutes}-${seconds}-${ampm}.md`\n}"

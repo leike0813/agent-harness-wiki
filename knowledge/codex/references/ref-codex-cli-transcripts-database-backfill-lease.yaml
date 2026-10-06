@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-database-backfill-lease
+harness_id: codex
+snapshot_id: snapshot-codex-repo-822e58cc-rollout-metadata
+locator:
+  kind: file_lines
+  file: codex-rs/rollout/src/metadata.rs
+  start: 209
+  end: 231
+official_url: https://github.com/openai/codex/blob/822e58cc3d666166c7446c5b1ea2e52f5d09594c/codex-rs/rollout/src/metadata.rs
+excerpt: "    let backfill_state = match runtime.get_backfill_state().await {\n        Ok(state) => state,\n        Err(err) => {\n            warn!(\n                \"failed to read backfill state at {}: {err}\",\n                codex_home.display()\n            );\n            BackfillState::default()\n        }\n    };\n    if backfill_state.status == BackfillStatus::Complete {\n        return;\n    }\n    let claimed = match runtime.try_claim_backfill(backfill_lease_seconds).await {\n        Ok(claimed) => claimed,\n        Err(err) => {\n            warn!(\n                \"failed to claim backfill worker at {}: {err}\",\n                codex_home.display()\n            );\n            return;\n        }\n    };"

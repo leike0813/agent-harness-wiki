@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-retention-policy
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-kilocode-session-retention-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/session/retention.ts
+  start: 153
+  end: 168
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/kilocode/session/retention.ts
+excerpt: "  export function clampDays(value: unknown, fallback: number): number {\n    return typeof value === \"number\" && Number.isInteger(value) && value >= 1 ? value : fallback\n  }\n\n  export function worthVacuuming(pageCount: number, freePages: number, pageSize: number): boolean {\n    if (!pageCount || !pageSize || freePages <= 0) return false\n    const free = freePages * pageSize\n    return free >= VACUUM_MIN_FREE_BYTES && free / (pageCount * pageSize) >= VACUUM_MIN_FREE_RATIO\n  }\n\n  export function policy(info: { retention?: { enabled?: boolean; maxAgeDays?: number } } | undefined): Policy {\n    return {\n      enabled: info?.retention?.enabled === true,\n      maxAgeDays: clampDays(info?.retention?.maxAgeDays, DEFAULT_MAX_AGE_DAYS),\n    }\n  }"

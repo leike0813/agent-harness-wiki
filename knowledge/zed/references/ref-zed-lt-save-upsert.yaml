@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-save-upsert
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-db-rs
+locator:
+  kind: file_lines
+  file: crates/agent/src/db.rs
+  start: 545
+  end: 556
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent/src/db.rs
+excerpt: "        let mut insert = connection.exec_bound::<(Arc<str>, Option<Arc<str>>, Option<String>, Option<String>, String, String, DataType, Vec<u8>, String)>(indoc! {\"\n            INSERT INTO threads (id, parent_id, folder_paths, folder_paths_order, summary, updated_at, data_type, data, created_at)\n            VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)\n            ON CONFLICT(id) DO UPDATE SET\n                parent_id = excluded.parent_id,\n                folder_paths = excluded.folder_paths,\n                folder_paths_order = excluded.folder_paths_order,\n                summary = excluded.summary,\n                updated_at = excluded.updated_at,\n                data_type = excluded.data_type,\n                data = excluded.data\n        \"})?;"

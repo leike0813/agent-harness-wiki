@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-lt-legacy-system-prompt-probe
+harness_id: openhands
+snapshot_id: snapshot-openhands-lt-openhands-cli-deprecated-utils-py
+locator:
+  kind: file_lines
+  file: openhands_cli/deprecated_utils.py
+  start: 30
+  end: 45
+official_url: https://github.com/OpenHands/OpenHands-CLI/blob/954f2ba646e8d749261a8f2b2b7e3031fa39be9f/openhands_cli/deprecated_utils.py
+excerpt: "    conversations_dir = get_conversations_dir()\n    # Normalize: directory names use hex (no dashes), but callers may pass\n    # str(UUID) which includes dashes.\n    normalized_id = conversation_id.replace(\"-\", \"\")\n    events_dir = Path(conversations_dir) / normalized_id / \"events\"\n\n    if not events_dir.exists():\n        return False\n\n    system_prompt_files = sorted(events_dir.glob(\"event-00000-*.json\"))\n    if not system_prompt_files:\n        return False\n\n    with suppress(OSError, json.JSONDecodeError):\n        with open(system_prompt_files[0], encoding=\"utf-8\") as f:\n            event_data = json.load(f)"

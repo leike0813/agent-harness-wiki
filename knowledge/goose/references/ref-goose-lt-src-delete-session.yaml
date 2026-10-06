@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-delete-session
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/session_manager.rs
+  start: 2299
+  end: 2317
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+              return Err(anyhow::anyhow!("Session not found"));
+          }
+
+          sqlx::query("DELETE FROM messages WHERE session_id = ?")
+              .bind(session_id)
+              .execute(&mut *tx)
+              .await?;
+
+          sqlx::query("DELETE FROM usage_ledger WHERE session_id = ?")
+              .bind(session_id)
+              .execute(&mut *tx)
+              .await?;
+
+          sqlx::query("DELETE FROM sessions WHERE id = ?")
+              .bind(session_id)
+              .execute(&mut *tx)
+              .await?;
+
+          tx.commit().await?;

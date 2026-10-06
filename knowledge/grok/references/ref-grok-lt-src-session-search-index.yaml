@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-lt-src-session-search-index
+harness_id: grok
+snapshot_id: snapshot-grok-lt-crates-codegen-xai-grok-session-search-src-lib-rs
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-session-search/src/lib.rs
+  start: 1
+  end: 11
+official_url: https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-session-search/src/lib.rs
+excerpt: '//! Full-text search over local grok sessions, backed by a rebuildable SQLite FTS5 cache under `<grok home>/sessions/session_search.sqlite`.
+
+  //!
+
+  //! Layering, bottom up:
+
+  //!
+
+  //! - [`fts`] owns the schema, the BM25 query, and the fenced `meta` writes.
+
+  //! - `recovery` classifies an unusable database file, quarantines it, and recreates an empty one; `db` adds the open-and-retry helpers on top.
+
+  //! - `doc` turns a session plus its extracted text into an index document.
+
+  //! - `bootstrap` runs the full reindex, held to one process at a time by a lease.
+
+  //! - `manager` debounces per-session upserts and answers queries.
+
+  //!
+
+  //! The crate never reads the session store directly: a caller supplies a [`SessionSource`] and a [`ContentExtractor`].'

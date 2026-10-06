@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-shell-persist
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-shell-persist-message-go
+locator:
+  kind: file_lines
+  file: internal/shell/persist_message.go
+  start: 15
+  end: 35
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // If the target session no longer exists (deleted before or during the
+  // command), persistence is skipped without surfacing an error.
+  func PersistOutput(
+  	ctx context.Context,
+  	messages message.Service,
+  	sessionID, command, output string,
+  	exitCode int,
+  	spillDir string,
+  ) error {
+  	if sessionID == "" {
+  		return nil
+  	}
+  
+  	_, err := messages.Create(ctx, sessionID, message.CreateMessageParams{
+  		Role: message.User,
+  		Parts: []message.ContentPart{message.ShellCommand{
+  			Command:  command,
+  			Output:   TruncateForPersist(output, spillDir),
+  			ExitCode: exitCode,
+  		}},
+  	})

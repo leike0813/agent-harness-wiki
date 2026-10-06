@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-file-backend-paths
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-session-services-file-session-service-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/session/services/file-session-service.ts
+  start: 58
+  end: 84
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/session/services/file-session-service.ts
+excerpt: "\t\t}\n\t\treturn this.sessionsDirPath;\n\t}\n\n\tprivate indexPath(): string {\n\t\treturn join(this.ensureSessionsDir(), \"sessions.index.json\");\n\t}\n\n\tprivate spawnQueuePath(): string {\n\t\treturn join(this.ensureSessionsDir(), \"subagent-spawn-queue.json\");\n\t}\n\n\tprivate readIndex(): FileSessionIndex {\n\t\tconst path = this.indexPath();\n\t\tif (!existsSync(path)) {\n\t\t\treturn { version: 1, sessions: {} };\n\t\t}\n\t\ttry {\n\t\t\tconst parsed = JSON.parse(readFileSync(path, \"utf8\")) as FileSessionIndex;\n\t\t\tif (parsed?.version === 1 && parsed.sessions) {\n\t\t\t\treturn parsed;\n\t\t\t}\n\t\t} catch {\n\t\t\t// Ignore invalid persistence and fall back to an empty index.\n\t\t}\n\t\treturn { version: 1, sessions: {} };\n\t}"

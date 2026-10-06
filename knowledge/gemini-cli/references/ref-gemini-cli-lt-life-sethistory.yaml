@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-life-sethistory
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-gemini-chat
+locator:
+  kind: file_lines
+  file: packages/core/src/core/geminiChat.ts
+  start: 1220
+  end: 1240
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+    setHistory(history: ReadonlyArray<Content | HistoryTurn>): void {
+      const wrappedHistory: HistoryTurn[] = history.map((item) => {
+        if ('id' in item && 'content' in item) {
+          return item;
+        }
+        const id = this.chatRecordingService.recordSyntheticMessage(
+          item.role === 'user' ? 'user' : 'gemini',
+          item.parts || [],
+        );
+        return { id, content: item };
+      });
+      ensureStableToolIds(wrappedHistory);
+      this.agentHistory.set(wrappedHistory);
+      this.lastPromptTokenCount = estimateTokenCountSync(
+        this.agentHistory.flatMap((c) => c.content.parts || []),
+      );
+      this.chatRecordingService.updateMessagesFromHistory(
+        this.agentHistory.get(),
+      );
+    }

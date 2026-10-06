@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-project-key
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-packages-session-session-persistence-jsonl-src-format-ts
+locator:
+  kind: file_lines
+  file: packages/session/session-persistence-jsonl/src/format.ts
+  start: 227
+  end: 245
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/format.ts
+excerpt: "  let readable = ''\n  let separatorRun = false\n  for (let i = 0; i < cwd.length; i++) {\n    const code = cwd.charCodeAt(i)\n    const ch = String.fromCharCode(code)\n    if (ch === '/' || ch === '\\\\' || ch === ':') {\n      if (!separatorRun) readable += '-'\n      separatorRun = true\n    } else if (ch !== '~' && /^[A-Za-z0-9._-]$/.test(ch)) {\n      readable += ch\n      separatorRun = false\n    } else {\n      readable += '~' + code.toString(16).toUpperCase().padStart(4, '0')\n      separatorRun = false\n    }\n  }\n  const slug = readable.replace(/^-+/, '') || 'root'\n  return `--${slug.slice(0, 251)}--`\n}"

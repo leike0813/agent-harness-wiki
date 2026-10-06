@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-lt-append-transcript
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-lt-crates-chat-cli-src-cli-chat-conversation-rs
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/chat/conversation.rs
+  start: 889
+  end: 908
+official_url: https://github.com/aws/amazon-q-developer-cli/blob/15cc8f3cd18c4272925ce1c7053268eedff1ea0a/crates/chat-cli/src/cli/chat/conversation.rs
+excerpt: "        })\n    }\n\n    pub fn append_user_transcript(&mut self, message: &str) {\n        self.append_transcript(format!(\"> {}\", message.replace(\"\\n\", \"> \\n\")));\n    }\n\n    pub fn append_assistant_transcript(&mut self, message: &AssistantMessage) {\n        let tool_uses = message.tool_uses().map_or(\"none\".to_string(), |tools| {\n            tools.iter().map(|tool| tool.name.clone()).collect::<Vec<_>>().join(\",\")\n        });\n        self.append_transcript(format!(\"{}\\n[Tool uses: {tool_uses}]\", message.content()));\n    }\n\n    pub fn append_transcript(&mut self, message: String) {\n        if self.transcript.len() >= MAX_CONVERSATION_STATE_HISTORY_LEN {\n            self.transcript.pop_front();\n        }\n        self.transcript.push_back(message);\n    }"

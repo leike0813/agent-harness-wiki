@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-lt-import-staging-atomic
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-lt-src-core-task-persistence-importrootaskhistory-ts
+locator:
+  kind: file_lines
+  file: src/core/task-persistence/importRooTaskHistory.ts
+  start: 286
+  end: 300
+official_url: https://github.com/Zoo-Code-Org/Zoo-Code/blob/d7963fc2db8ff07189e9f22079b15d67ad3a8bfd/src/core/task-persistence/importRooTaskHistory.ts
+excerpt: "\t\tif (await pathExists(destinationTaskDirectory)) {\n\t\t\ttotalFileCount -= taskPlan.fileNames.length\n\t\t\tcontinue\n\t\t}\n\n\t\t// Stage into a unique temp directory, then atomically rename to avoid\n\t\t// leaving partial task directories that a retry would skip as already-present.\n\t\t// Using mkdtemp ensures concurrent imports for the same task ID don't collide.\n\t\tconst stagingDirectory = await fs.mkdtemp(path.join(destinationTasksRoot, `_staging_${taskPlan.taskId}_`))\n\t\tstagingFileCount = 0\n\n\t\ttry {\n\t\t\tconst historyItemCopied = await copyTaskFileIfPresent(\n\t\t\t\ttaskPlan.sourceTaskDirectory,\n\t\t\t\tstagingDirectory,"

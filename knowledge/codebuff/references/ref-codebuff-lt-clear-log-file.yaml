@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-clear-log-file
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-cli-src-utils-logger-ts
+locator:
+  kind: file_lines
+  file: cli/src/utils/logger.ts
+  start: 103
+  end: 121
+official_url: https://github.com/CodebuffAI/codebuff/blob/bd198ff2df3ea9b333e8bf2e5b843735afd4ad9c/cli/src/utils/logger.ts
+excerpt: "export function clearLogFile(): void {\n  const projectRoot = getProjectRoot()\n  const debugDir = path.join(projectRoot, 'debug')\n  const targets = new Set<string>()\n\n  if (logPath) {\n    targets.add(logPath)\n  }\n  targets.add(path.join(debugDir, 'cli.jsonl'))\n  targets.add(path.join(debugDir, 'trace.jsonl'))\n\n  for (const target of targets) {\n    try {\n      if (existsSync(target)) {\n        unlinkSync(target)\n      }\n    } catch {\n      // Ignore errors when clearing logs\n    }"

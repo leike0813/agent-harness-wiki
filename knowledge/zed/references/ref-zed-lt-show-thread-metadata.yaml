@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-show-thread-metadata
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-ui-src-agent-panel-rs
+locator:
+  kind: file_lines
+  file: crates/agent_ui/src/agent_panel.rs
+  start: 3946
+  end: 3955
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent_ui/src/agent_panel.rs
+excerpt: "        let Some(metadata) = store.read(cx).entry(thread_id).cloned() else {\n            Self::show_deferred_toast(&self.workspace, \"No metadata found for active thread\", cx);\n            return;\n        };\n\n        let json = thread_metadata_to_debug_json(&metadata);\n        let text = serde_json::to_string_pretty(&json).unwrap_or_default();\n        let title = format!(\"Thread Metadata: {}\", metadata.display_title());\n\n        self.open_json_buffer(title, text, window, cx);"

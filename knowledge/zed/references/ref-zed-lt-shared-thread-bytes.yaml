@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-shared-thread-bytes
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-db-rs
+locator:
+  kind: file_lines
+  file: crates/agent/src/db.rs
+  start: 176
+  end: 186
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent/src/db.rs
+excerpt: "    pub fn to_bytes(&self) -> Result<Vec<u8>> {\n        const COMPRESSION_LEVEL: i32 = 3;\n        let json = serde_json::to_vec(self)?;\n        let compressed = zstd::encode_all(json.as_slice(), COMPRESSION_LEVEL)?;\n        Ok(compressed)\n    }\n\n    pub fn from_bytes(data: &[u8]) -> Result<Self> {\n        let decompressed = zstd::decode_all(data)?;\n        Ok(serde_json::from_slice(&decompressed)?)\n    }"

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-jsonl-overwrite-atomic
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-jsonl-utils
+locator:
+  kind: file_lines
+  file: packages/core/src/utils/jsonl-utils.ts
+  start: 393
+  end: 411
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/packages/core/src/utils/jsonl-utils.ts"
+excerpt: |2-
+  /**
+   * Overwrites a JSONL file with an array of objects.
+   * Each object will be written as a separate line.
+   */
+  export function write(filePath: string, data: unknown[]): void {
+    // Terminate each record rather than joining with separators: joining an
+    // empty array yields '' and the trailing newline then writes a 1-byte file
+    // that read() reports as empty but exists() reports as non-empty.
+    const lines = data.map((item) => `${JSON.stringify(item)}\n`).join('');
+    // Ensure directory exists before writing
+    const dir = path.dirname(filePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    atomicWriteFileSync(filePath, lines, { encoding: 'utf8' });
+  }
+
+  /**
+   * Counts the number of non-empty lines in a JSONL file.

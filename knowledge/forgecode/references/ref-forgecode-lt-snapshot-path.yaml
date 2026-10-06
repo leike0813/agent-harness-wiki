@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-lt-snapshot-path
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-lt-crates-forge-domain-src-snapshot-rs
+locator:
+  kind: file_lines
+  file: crates/forge_domain/src/snapshot.rs
+  start: 95
+  end: 111
+official_url: https://github.com/tailcallhq/forgecode/blob/1469f75aa0fa3a2a768bde24f7dc528723b67259/crates/forge_domain/src/snapshot.rs
+excerpt: "    pub fn snapshot_path(&self, cwd: Option<PathBuf>) -> PathBuf {\n        // Convert Duration to SystemTime then to a formatted string\n        let datetime = UNIX_EPOCH + self.timestamp;\n        // Format: YYYY-MM-DD_HH-MM-SS-nnnnnnnnn (including nanoseconds)\n        let formatted_time = chrono::DateTime::<chrono::Utc>::from(datetime)\n            .format(\"%Y-%m-%d_%H-%M-%S-%9f\")\n            .to_string();\n\n        let filename = format!(\"{formatted_time}.snap\");\n        let path = PathBuf::from(self.path_hash()).join(PathBuf::from(filename));\n        if let Some(cwd) = cwd {\n            cwd.join(path)\n        } else {\n            path\n        }\n    }\n}"

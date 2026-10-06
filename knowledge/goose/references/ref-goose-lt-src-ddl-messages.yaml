@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-ddl-messages
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/session_manager.rs
+  start: 1064
+  end: 1080
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+          sqlx::query(
+              r#"
+              CREATE TABLE IF NOT EXISTS messages (
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  message_id TEXT,
+                  session_id TEXT NOT NULL REFERENCES sessions(id),
+                  role TEXT NOT NULL,
+                  content_json TEXT NOT NULL,
+                  created_timestamp INTEGER NOT NULL,
+                  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                  tokens INTEGER,
+                  metadata_json TEXT
+              )
+          "#,
+          )
+          .execute(&mut *tx)
+          .await?;

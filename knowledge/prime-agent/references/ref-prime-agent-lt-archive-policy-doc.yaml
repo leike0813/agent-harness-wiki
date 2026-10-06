@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-archive-policy-doc
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-crates-pa-daemon-src-session-archive-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_archive.rs
+  start: 9
+  end: 18
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/7a52276cb17310f331f1075f28fa5cf9c4ae0a0a/crates/pa-daemon/src/session_archive.rs
+excerpt: '//! - age: a session untouched for `maxAgeDays` days (file mtime) archives;
+
+  //! - count: beyond `maxSessions` files, the oldest by mtime archive.
+
+  //!
+
+  //! Protected sessions (resident workers, sessions with active scheduled
+
+  //! jobs) are never archived; the count rule counts them toward the cap but
+
+  //! spares them. Restore is the resume path: an archived session resolves
+
+  //! through the saved-session catalog and moves back into the sessions
+
+  //! directory before its worker spawns, so it is addressable again by every
+
+  //! existing selector (TS parity: an archived session stays reachable via
+
+  //! `--resume <selector>`).'

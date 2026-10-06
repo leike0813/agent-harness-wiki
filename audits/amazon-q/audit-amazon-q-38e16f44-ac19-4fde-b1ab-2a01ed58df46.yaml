@@ -1,0 +1,86 @@
+schema_version: 2
+audit_id: audit-amazon-q-38e16f44-ac19-4fde-b1ab-2a01ed58df46
+harness_id: amazon-q
+checked_at: 2026-10-06T04:32:41.889Z
+status: no_change
+review_status: not_required
+pending_audit_refs: []
+checks:
+  - source_id: source-amazon-q-repo
+    kind: git_repository
+    checked_at: 2026-10-06T04:32:39.550Z
+    status: unchanged
+    baseline: 15cc8f3cd18c4272925ce1c7053268eedff1ea0a
+    observed: 15cc8f3cd18c4272925ce1c7053268eedff1ea0a
+    remote_ref: refs/heads/main
+  - source_id: source-amazon-q-docs-cli
+    kind: official_documentation
+    checked_at: 2026-10-06T04:32:39.554Z
+    status: unchanged
+    baseline: 09a8e082422df4b20e93e749f7731bdec647fce3bac6cce89c175292df8e6f14
+    observed: 09a8e082422df4b20e93e749f7731bdec647fce3bac6cce89c175292df8e6f14
+    resolved_url: https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line.md
+  - source_id: source-amazon-q-docs-mcp
+    kind: official_documentation
+    checked_at: 2026-10-06T04:32:39.613Z
+    status: unchanged
+    baseline: df7d3378b5f2b9c7b1cba1d5e5b1bf1a6d175e51bc9f819163d2c5d8b2b7940c
+    observed: df7d3378b5f2b9c7b1cba1d5e5b1bf1a6d175e51bc9f819163d2c5d8b2b7940c
+    resolved_url: https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/qdev-mcp.md
+  - source_id: source-amazon-q-docs-mcp-cli
+    kind: official_documentation
+    checked_at: 2026-10-06T04:32:39.615Z
+    status: unchanged
+    baseline: 7a321d06c5eed7e4766fa4d80aa0d573323c5ed75ea1da7dc735f42947a705c4
+    observed: 7a321d06c5eed7e4766fa4d80aa0d573323c5ed75ea1da7dc735f42947a705c4
+    resolved_url: https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-mcp-config-CLI.md
+  - source_id: source-amazon-q-docs-mcp-security
+    kind: official_documentation
+    checked_at: 2026-10-06T04:32:40.825Z
+    status: unchanged
+    baseline: 06e5cfdad6e1a09adbb5774dc2e58de8ed44184789bd1391de49d79957e0561e
+    observed: 06e5cfdad6e1a09adbb5774dc2e58de8ed44184789bd1391de49d79957e0561e
+    resolved_url: https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-mcp-security.md
+impacts:
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - lt-source-scope
+      - lt-storage-layout
+      - lt-database
+      - lt-record-schema
+      - lt-lifecycle
+      - lt-archive-cleanup
+      - lt-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-amazon-q-lt-set-conversation-by-path
+      - ref-amazon-q-lt-push-assistant-persist
+      - ref-amazon-q-lt-db-path-static
+      - ref-amazon-q-lt-conversations-ddl
+      - ref-amazon-q-lt-persist-save
+      - ref-amazon-q-lt-clear-execute
+      - ref-amazon-q-lt-resume-by-cwd
+      - ref-amazon-q-lt-diagnostics-fields
+    cross_topic_links:
+      - config.sources
+      - config.diagnostics
+    reason: "local_transcripts first pass for amazon-q cli surface from pinned commit 15cc8f3cd18c4272925ce1c7053268eedff1ea0a"
+pending_question_ids: []
+investigation_notes:
+  - "local_transcripts 首采：仅覆盖 cli 界面，固定来源 source-amazon-q-repo，commit 15cc8f3cd18c4272925ce1c7053268eedff1ea0a（本轮 scan unchanged，基线同 commit），全部证据为该提交源码树的 git_source_file；本产品 archive/amazon-q/ 下无官方文档原件，因此未创建任何 archived_document，全部十题不含文档来源引用。"
+  - "定位到实现位于 crates/chat-cli（workspace default-members 唯一成员）；同 workspace 的 crates/agent 尚无有效二进制（main.rs 为占位实现），其 util/directories.rs 不被 CLI 的 Database 路径使用，故未采信为会话路径证据。"
+  - "十题均已给出可用答案：naming/format/lifecycle/archive 为 answered；scope/location/schema/database/cleanup/diagnostics 为 partial，缺口分别是记录开关无正面证据、dirs crate 的各平台取值来自外部、缺官方 JSON Schema 与值级版本迁移、删库后无法重建 value、缺官方保留与删除机制、缺会话记录诊断命令。"
+  - "发现与 configuration 章节的文档漂移：该章依据 crates/agent/src/agent/util/directories.rs 称 Q_CLI_DATA_DIR 覆盖数据目录，但 CLI 的 Database::new() 走 GlobalPaths::database_path_static() 且无环境变量分支。已在 lt-storage-layout 一节写明，本轮未改动该既有章节，留待配置主题维护时复核。"
+  - "未写入 mappings（无发行包版本证据）；未执行 sources:scan、publish、managed package 更新或真实 harness。"

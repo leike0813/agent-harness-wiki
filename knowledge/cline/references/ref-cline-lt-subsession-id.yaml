@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-subsession-id
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-session-models-session-graph-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/session/models/session-graph.ts
+  start: 5
+  end: 28
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/session/models/session-graph.ts
+excerpt: "export function sanitizeSessionToken(value: string): string {\n\treturn value.replace(/[^a-zA-Z0-9._-]+/g, \"_\");\n}\n\nexport function makeSubSessionId(\n\trootSessionId: string,\n\tagentId: string,\n): string {\n\tconst root = sanitizeSessionToken(rootSessionId);\n\tconst agent = sanitizeSessionToken(agentId);\n\tconst joined = `${root}__${agent}`;\n\treturn joined.length > 180 ? joined.slice(0, 180) : joined;\n}\n\nexport function makeTeamTaskSubSessionId(\n\trootSessionId: string,\n\tagentId: string,\n): string {\n\tconst root = sanitizeSessionToken(rootSessionId);\n\tconst agent = sanitizeSessionToken(agentId);\n\treturn `${root}__teamtask__${agent}__${nanoid(6)}`;\n}\n\nexport function parseTeamTaskSubSessionId("

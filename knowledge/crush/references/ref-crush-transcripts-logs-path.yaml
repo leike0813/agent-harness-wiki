@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-logs-path
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-cmd-logs-go
+locator:
+  kind: file_lines
+  file: internal/cmd/logs.go
+  start: 58
+  end: 66
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  		logsFile := filepath.Join(cfg.Config().Options.DataDirectory, "logs", "crush.log")
+  		_, err = os.Stat(logsFile)
+  		if os.IsNotExist(err) {
+  			log.Warn("Looks like you are not in a crush project. No logs found.")
+  			return nil
+  		}
+  
+  		if follow {
+  			return followLogs(cmd.Context(), logsFile, tailLines)

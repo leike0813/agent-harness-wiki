@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-daemon-delete
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-doc-daemon-lifecycle
+locator:
+  kind: file_lines
+  file: docs/developers/daemon/08-session-lifecycle.md
+  start: 227
+  end: 235
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/docs/developers/daemon/08-session-lifecycle.md"
+excerpt: |2-
+  ### Batch Session Delete
+
+  `POST /sessions/delete` accepts `{ sessionIds: string[] }` (up to 100 ids),
+  closes bridge sessions, and deletes active or archived transcript files. If both
+  active and archived JSONL files exist for the same id, hard delete removes both
+  so operators can clear the conflict. It cleans active and archived worktree
+  sidecars, but leaves file-history snapshots, subagent transcripts, and runtime
+  sidecars intact. It uses `Promise.allSettled` for resilience and returns
+  `{ removed, notFound, errors }`.

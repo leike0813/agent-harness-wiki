@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-loc-project-temp
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-storage
+locator:
+  kind: file_lines
+  file: packages/core/src/config/storage.ts
+  start: 230
+  end: 234
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+    getProjectTempDir(): string {
+      const identifier = this.getProjectIdentifier();
+      const tempDir = Storage.getGlobalTempDir();
+      return path.join(tempDir, identifier);
+    }

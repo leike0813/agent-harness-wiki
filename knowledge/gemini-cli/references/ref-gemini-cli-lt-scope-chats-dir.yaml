@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-scope-chats-dir
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-recording-service
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingService.ts
+  start: 755
+  end: 774
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+          // Create new session
+          this.sessionId = this.context.promptId;
+          let chatsDir = path.join(
+            this.context.config.storage.getProjectTempDir(),
+            'chats',
+          );
+
+          // subagents are nested under the complete parent session id
+          if (this.kind === 'subagent' && this.context.parentSessionId) {
+            const safeParentId = sanitizeFilenamePart(
+              this.context.parentSessionId,
+            );
+            if (!safeParentId) {
+              throw new Error(
+                `Invalid parentSessionId after sanitization: ${this.context.parentSessionId}`,
+              );
+            }
+            chatsDir = path.join(chatsDir, safeParentId);
+          }

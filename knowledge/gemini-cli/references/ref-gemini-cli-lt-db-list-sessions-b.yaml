@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-db-list-sessions-b
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-cli-session-utils
+locator:
+  kind: file_lines
+  file: packages/cli/src/utils/sessionUtils.ts
+  start: 391
+  end: 410
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+    const uniqueSessionsMap = new Map<string, SessionInfo>();
+    for (const session of validSessions) {
+      // If duplicate exists, keep the one with the later lastUpdated timestamp
+      if (
+        !uniqueSessionsMap.has(session.id) ||
+        new Date(session.lastUpdated).getTime() >
+          new Date(uniqueSessionsMap.get(session.id)!.lastUpdated).getTime()
+      ) {
+        uniqueSessionsMap.set(session.id, session);
+      }
+    }
+    const uniqueSessions = Array.from(uniqueSessionsMap.values());
+
+    // Sort by startTime (oldest first) for stable session numbering
+    uniqueSessions.sort(
+      (a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
+    );
+
+    // Set the correct 1-based indexes after sorting
+    uniqueSessions.forEach((session, index) => {

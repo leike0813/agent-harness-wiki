@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-lt-owner-lock-paths
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-code-deepagents-code-thread-ownership-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/thread_ownership.py
+  start: 38
+  end: 46
+official_url: https://github.com/langchain-ai/deepagents/blob/4b9410272a4e4885ec70fb1ec8549e307a15e585/libs/code/deepagents_code/thread_ownership.py
+excerpt: "def _paths(thread_id: str, db_path: Path) -> Path:\n    directory = db_path.resolve().with_name(f\"{db_path.name}.owners\")\n    directory.mkdir(mode=0o700, parents=True, exist_ok=True)\n    name = hashlib.sha256(thread_id.encode()).hexdigest()\n    return directory / name\n\n\ndef _lock(path: Path, suffix: str) -> FileLock:\n    return FileLock(f\"{path}.{suffix}\", timeout=0, thread_local=False, mode=0o600)"

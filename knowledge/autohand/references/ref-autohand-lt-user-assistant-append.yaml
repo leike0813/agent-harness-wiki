@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-user-assistant-append
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-core-agent-agentsessionaccounting-ts
+locator:
+  kind: file_lines
+  file: src/core/agent/AgentSessionAccounting.ts
+  start: 418
+  end: 431
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/core/agent/AgentSessionAccounting.ts
+excerpt: "export async function saveAgentUserMessage(\n  host: AgentSessionAccountingHost,\n  content: string\n): Promise<void> {\n  const session = host.sessionManager.getCurrentSession();\n  if (!session) return;\n\n  const message: SessionMessage = {\n    role: 'user',\n    content,\n    timestamp: new Date().toISOString(),\n  };\n  await session.append(message);"

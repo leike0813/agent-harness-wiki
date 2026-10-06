@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-retention-reclaim
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-kilocode-session-retention-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/session/retention.ts
+  start: 313
+  end: 322
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/kilocode/session/retention.ts
+excerpt: "    if (!page?.file) return { vacuumed: false as const, reclaimedBytes: 0 }\n    if (!worthVacuuming(page.page_count, page.freelist_count, page.page_size))\n      return { vacuumed: false as const, reclaimedBytes: 0 }\n    yield* db.run(\"VACUUM\").pipe(Effect.orDie)\n    // The rebuild lands in the WAL first; truncate it so both files shrink.\n    yield* db.run(\"PRAGMA wal_checkpoint(TRUNCATE)\").pipe(Effect.orDie)\n    const after = yield* db.get<{ page_count: number }>(\"PRAGMA page_count\").pipe(Effect.orDie)\n    const reclaimedBytes = Math.max(0, page.page_count - (after?.page_count ?? page.page_count)) * page.page_size\n    if (reclaimedBytes > 0)\n      log.info(\"retention vacuum reclaimed database space\", { reclaimedBytes, freePagesBefore: page.freelist_count })"

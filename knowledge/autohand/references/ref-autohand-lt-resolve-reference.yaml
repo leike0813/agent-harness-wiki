@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-resolve-reference
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-session-sessionmanager-ts
+locator:
+  kind: file_lines
+  file: src/session/SessionManager.ts
+  start: 197
+  end: 211
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/session/SessionManager.ts
+excerpt: "        const directDir = path.join(this.sessionsDir, trimmed);\n        if (await fs.pathExists(path.join(directDir, 'metadata.json'))) {\n            return trimmed;\n        }\n\n        await this.loadIndex();\n        const sessions = this.index?.sessions ?? [];\n\n        // A saved name wins over an id prefix: names are chosen, prefixes are typed.\n        const wantedTitle = normalizeSessionTitle(trimmed).toLowerCase();\n        const named = wantedTitle\n            ? sessions.filter((session) => session.title?.toLowerCase() === wantedTitle)\n            : [];\n        if (named.length === 1) {\n            return named[0].id;"

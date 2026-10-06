@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-lt-src-active-sessions
+harness_id: grok
+snapshot_id: snapshot-grok-lt-crates-codegen-xai-grok-active-sessions-src-lib-rs
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-active-sessions/src/lib.rs
+  start: 1
+  end: 22
+official_url: https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-active-sessions/src/lib.rs
+excerpt: "//! Tracks open TUI sessions in `~/.grok/active_sessions.json`. A clean exit removes the entry,\n//! a crash leaves it behind, and the next [`register`] prunes entries whose PID is dead.\n\n#![deny(clippy::indexing_slicing)]\n\nuse std::fs::{self, File, OpenOptions, TryLockError};\nuse std::io;\nuse std::path::Path;\nuse std::time::{Duration, Instant};\n\nuse agent_client_protocol as acp;\nuse chrono::{DateTime, Utc};\nuse serde::{Deserialize, Serialize};\n\n#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]\npub struct ActiveSession {\n    pub session_id: acp::SessionId,\n    pub pid: u32,\n    pub cwd: String,\n    pub opened_at: DateTime<Utc>,\n}"

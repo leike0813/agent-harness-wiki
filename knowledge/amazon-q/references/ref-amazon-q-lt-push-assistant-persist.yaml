@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-lt-push-assistant-persist
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-lt-crates-chat-cli-src-cli-chat-conversation-rs
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/chat/conversation.rs
+  start: 404
+  end: 423
+official_url: https://github.com/aws/amazon-q-developer-cli/blob/15cc8f3cd18c4272925ce1c7053268eedff1ea0a/crates/chat-cli/src/cli/chat/conversation.rs
+excerpt: "    pub fn push_assistant_message(\n        &mut self,\n        os: &mut Os,\n        message: AssistantMessage,\n        request_metadata: Option<RequestMetadata>,\n    ) {\n        debug_assert!(self.next_message.is_some(), \"next_message should exist\");\n        let next_user_message = self.next_message.take().expect(\"next user message should exist\");\n\n        self.append_assistant_transcript(&message);\n        self.history.push_back(HistoryEntry {\n            user: next_user_message,\n            assistant: message,\n            request_metadata,\n        });\n\n        if let Ok(cwd) = std::env::current_dir() {\n            os.database.set_conversation_by_path(cwd, self).ok();\n        }\n    }"

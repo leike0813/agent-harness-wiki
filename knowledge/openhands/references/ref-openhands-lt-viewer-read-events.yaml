@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-lt-viewer-read-events
+harness_id: openhands
+snapshot_id: snapshot-openhands-lt-openhands-cli-conversations-viewer-py
+locator:
+  kind: file_lines
+  file: openhands_cli/conversations/viewer.py
+  start: 32
+  end: 46
+official_url: https://github.com/OpenHands/OpenHands-CLI/blob/954f2ba646e8d749261a8f2b2b7e3031fa39be9f/openhands_cli/conversations/viewer.py
+excerpt: "        if not self.store.exists(conversation_id):\n            console.print(\n                f\"Conversation not found: {conversation_id}\",\n                style=OPENHANDS_THEME.error,\n            )\n            return False\n\n        # Get total count first\n        total_events = self.store.get_event_count(conversation_id)\n        events_to_show = min(limit, total_events)\n\n        events_iterator = self.store.load_events(conversation_id, limit=limit)\n\n        # Create visualizer\n        visualizer = DefaultConversationVisualizer()"

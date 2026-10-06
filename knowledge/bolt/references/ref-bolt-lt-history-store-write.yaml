@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-lt-history-store-write
+harness_id: bolt
+snapshot_id: snapshot-bolt-lt-app-lib-persistence-usechathistory-ts
+locator:
+  kind: file_lines
+  file: app/lib/persistence/useChatHistory.ts
+  start: 66
+  end: 96
+official_url: https://github.com/stackblitz/bolt.new/blob/eda10b121221b30825a4c16eec5da1fd3eb1eb99/app/lib/persistence/useChatHistory.ts
+excerpt: "    storeMessageHistory: async (messages: Message[]) => {\n      if (!db || messages.length === 0) {\n        return;\n      }\n\n      const { firstArtifact } = workbenchStore;\n\n      if (!urlId && firstArtifact?.id) {\n        const urlId = await getUrlId(db, firstArtifact.id);\n\n        navigateChat(urlId);\n        setUrlId(urlId);\n      }\n\n      if (!description.get() && firstArtifact?.title) {\n        description.set(firstArtifact?.title);\n      }\n\n      if (initialMessages.length === 0 && !chatId.get()) {\n        const nextId = await getNextId(db);\n\n        chatId.set(nextId);\n\n        if (!urlId) {\n          navigateChat(nextId);\n        }\n      }\n\n      await setMessages(db, chatId.get() as string, messages, urlId, description.get());\n    },\n  };"

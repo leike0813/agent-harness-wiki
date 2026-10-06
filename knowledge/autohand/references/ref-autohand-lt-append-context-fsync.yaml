@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-append-context-fsync
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-session-sessionmanager-ts
+locator:
+  kind: file_lines
+  file: src/session/SessionManager.ts
+  start: 613
+  end: 624
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/session/SessionManager.ts
+excerpt: "    appendContext(message: SessionMessage, recordId: string): Promise<void> {\n        const pending = this.contextAppend.catch(() => {}).then(async () => {\n            if (this.messages.some(entry => entry._meta?.recordId === recordId)) return;\n            await this.ensureSessionDir();\n            const entry = { ...message, _meta: { ...message._meta, recordId } };\n            const handle = await open(path.join(this.sessionDir, 'conversation.jsonl'), 'a', 0o600);\n            try {\n                await handle.writeFile(JSON.stringify(entry) + '\\n');\n                await handle.sync();\n            } finally {\n                await handle.close();\n            }"

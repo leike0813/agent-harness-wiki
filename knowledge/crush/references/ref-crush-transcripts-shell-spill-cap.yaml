@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-shell-spill-cap
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-shell-truncate-go
+locator:
+  kind: file_lines
+  file: internal/shell/truncate.go
+  start: 40
+  end: 43
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // spillDirLimit caps the spill directory. Age alone does not bound disk:
+  // a busy afternoon of large tool output can fill it well inside the
+  // retention window, so the oldest files go early to stay under this.
+  const spillDirLimit = 256 << 20

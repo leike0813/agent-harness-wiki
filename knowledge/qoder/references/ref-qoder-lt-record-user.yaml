@@ -1,0 +1,45 @@
+---
+schema_version: 2
+record_kind: production
+reference_id: ref-qoder-lt-record-user
+harness_id: qoder
+snapshot_id: snapshot-qoder-docs-ide-hooks
+locator:
+  kind: document_section
+  heading: "Record Types"
+official_url: "https://docs.qoder.com/extensions/hooks.md"
+excerpt: |-
+  **User question** (`message.content` is a string):
+
+  ```json
+  {
+    "type": "user",
+    "message": {
+      "role": "user",
+      "content": "Delete comments from test.py"
+    }
+  }
+  ```
+
+  **Tool result** (`message.content` is an array containing `tool_result`):
+
+  ```json
+  {
+    "type": "user",
+    "message": {
+      "role": "user",
+      "content": [
+        {
+          "type": "tool_result",
+          "tool_use_id": "call_d498c5988a...",
+          "content": "Contents of /path/to/file.py, from line 1-23 ...",
+          "is_error": false
+        }
+      ]
+    },
+    "toolUseResult": "Contents of /path/to/file.py ..."
+  }
+  ```
+
+  - `is_error`: Whether the tool execution failed
+  - `toolUseResult`: Shortcut field for the tool result (same as `content[0].content`)

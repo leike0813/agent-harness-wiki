@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-checkpoint-save
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-checkpoints-index-ts
+locator:
+  kind: file_lines
+  file: src/core/checkpoints/index.ts
+  start: 211
+  end: 225
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/checkpoints/index.ts
+excerpt: "export async function checkpointSave(task: Task, force = false, suppressMessage = false) {\n\tconst service = await getCheckpointService(task)\n\n\tif (!service) {\n\t\treturn\n\t}\n\n\t// Start the checkpoint process in the background.\n\treturn service\n\t\t.saveCheckpoint(`Task: ${task.taskId}, Time: ${Date.now()}`, { allowEmpty: force, suppressMessage })\n\t\t.catch((err) => {\n\t\t\tconsole.error(\"[Task#checkpointSave] caught unexpected error, disabling checkpoints\", err)\n\t\t\ttask.enableCheckpoints = false\n\t\t})\n}"

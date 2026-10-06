@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-session-migration
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-session-migration
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_migration.py
+  start: 19
+  end: 38
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/session_migration.py
+excerpt: "    if not save_dir or not session_config.enabled:\n        return 0\n\n    successful_migrations = 0\n    session_files = list(Path(save_dir).glob(f\"{session_config.session_prefix}_*.json\"))\n    for session_file in session_files:\n        try:\n            session_data = read_safe(session_file).text\n            session_json = json.loads(session_data)\n            metadata = session_json[\"metadata\"]\n            messages = session_json[\"messages\"]\n\n            session_dir = Path(save_dir) / session_file.stem\n            session_dir.mkdir(mode=0o700)\n\n            await SessionLogger.persist_metadata(metadata, session_dir)\n            await SessionLogger.persist_messages(messages, session_dir)\n            session_file.unlink()\n            successful_migrations += 1\n        except Exception:"

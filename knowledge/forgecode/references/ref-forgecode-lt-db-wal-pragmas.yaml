@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-lt-db-wal-pragmas
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-lt-crates-forge-repo-src-database-pool-rs
+locator:
+  kind: file_lines
+  file: crates/forge_repo/src/database/pool.rs
+  start: 113
+  end: 127
+official_url: https://github.com/tailcallhq/forgecode/blob/1469f75aa0fa3a2a768bde24f7dc528723b67259/crates/forge_repo/src/database/pool.rs
+excerpt: "    fn on_acquire(&self, conn: &mut SqliteConnection) -> Result<(), diesel::r2d2::Error> {\n        diesel::sql_query(\"PRAGMA busy_timeout = 30000;\")\n            .execute(conn)\n            .map_err(diesel::r2d2::Error::QueryError)?;\n        diesel::sql_query(\"PRAGMA journal_mode = WAL;\")\n            .execute(conn)\n            .map_err(diesel::r2d2::Error::QueryError)?;\n        diesel::sql_query(\"PRAGMA synchronous = NORMAL;\")\n            .execute(conn)\n            .map_err(diesel::r2d2::Error::QueryError)?;\n        diesel::sql_query(\"PRAGMA wal_autocheckpoint = 1000;\")\n            .execute(conn)\n            .map_err(diesel::r2d2::Error::QueryError)?;\n        Ok(())\n    }"

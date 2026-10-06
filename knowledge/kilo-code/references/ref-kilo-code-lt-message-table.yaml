@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-message-table
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-core-src-session-sql-ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/sql.ts
+  start: 73
+  end: 90
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/core/src/session/sql.ts
+excerpt: "export const MessageTable = sqliteTable(\n  \"message\",\n  {\n    id: text().$type<MessageID>().primaryKey(),\n    session_id: text()\n      .$type<SessionSchema.ID>()\n      .notNull()\n      .references(() => SessionTable.id, { onDelete: \"cascade\" }),\n    ...Timestamps,\n    data: text({ mode: \"json\" }).notNull().$type<V1MessageData>(),\n  },\n  // kilocode_change start\n  (table) => [\n    index(\"message_session_time_created_id_idx\").on(table.session_id, table.time_created, table.id),\n    RecallMessageIndex.make(table),\n  ],\n  // kilocode_change end\n)"

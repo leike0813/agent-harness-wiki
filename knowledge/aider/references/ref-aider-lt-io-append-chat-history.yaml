@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-lt-io-append-chat-history
+harness_id: aider
+snapshot_id: snapshot-aider-lt-aider-io-py
+locator:
+  kind: file_lines
+  file: aider/io.py
+  start: 1122
+  end: 1137
+official_url: https://github.com/Aider-AI/aider/blob/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/io.py
+excerpt: "        if linebreak:\n            if strip:\n                text = text.rstrip()\n            text = text + \"  \\n\"\n        if not text.endswith(\"\\n\"):\n            text += \"\\n\"\n        if self.chat_history_file is not None:\n            try:\n                self.chat_history_file.parent.mkdir(parents=True, exist_ok=True)\n                with self.chat_history_file.open(\"a\", encoding=self.encoding, errors=\"ignore\") as f:\n                    f.write(text)\n            except (PermissionError, OSError) as err:\n                print(f\"Warning: Unable to write to chat history file {self.chat_history_file}.\")\n                print(err)\n                self.chat_history_file = None  # Disable further attempts to write"

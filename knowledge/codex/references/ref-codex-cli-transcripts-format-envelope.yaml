@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-format-envelope
+harness_id: codex
+snapshot_id: snapshot-codex-repo-822e58cc-history-lib
+locator:
+  kind: file_lines
+  file: codex-rs/history/src/lib.rs
+  start: 356
+  end: 367
+official_url: https://github.com/openai/codex/blob/822e58cc3d666166c7446c5b1ea2e52f5d09594c/codex-rs/history/src/lib.rs
+excerpt: "/// One persisted rollout JSONL record.\n///\n/// This intentionally does not implement Deserialize: JSONL readers must use\n/// codex_rollout's canonical parser so nested decimal values survive the flattened envelope.\n#[derive(Serialize, Clone, JsonSchema)]\npub struct RolloutLine {\n    pub timestamp: String,\n    #[serde(default, skip_serializing_if = \"Option::is_none\")]\n    pub ordinal: Option<u64>,\n    #[serde(flatten)]\n    pub item: RolloutItem,\n}"

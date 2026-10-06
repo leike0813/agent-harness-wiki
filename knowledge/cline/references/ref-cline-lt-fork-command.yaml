@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-fork-command
+harness_id: cline
+snapshot_id: snapshot-cline-lt-apps-cli-src-utils-chat-commands-ts
+locator:
+  kind: file_lines
+  file: apps/cli/src/utils/chat-commands.ts
+  start: 442
+  end: 467
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/apps/cli/src/utils/chat-commands.ts
+excerpt: "\t\t})\n\t\t.register(\"command\", {\n\t\t\tnames: [\"/fork\"],\n\t\t\tisAvailable: (context) => typeof context.fork === \"function\",\n\t\t\trun: async (_parsed, context) => {\n\t\t\t\tlet result: ForkSessionResult | undefined;\n\t\t\t\ttry {\n\t\t\t\t\tresult = await context.fork?.();\n\t\t\t\t} catch (error) {\n\t\t\t\t\tawait context.reply(\n\t\t\t\t\t\terror instanceof Error\n\t\t\t\t\t\t\t? error.message\n\t\t\t\t\t\t\t: \"Fork failed: could not read messages from the current session.\",\n\t\t\t\t\t);\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\tif (!result) {\n\t\t\t\t\tawait context.reply(\n\t\t\t\t\t\t\"Fork failed: could not read messages from the current session.\",\n\t\t\t\t\t);\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\tawait context.reply(\n\t\t\t\t\t`Forked session ${result.forkedFromSessionId} into new session ${result.newSessionId}. This is now the active session. Use /history to switch sessions.`,\n\t\t\t\t);\n\t\t\t},"

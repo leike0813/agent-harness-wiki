@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-append-fsync
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-lt-packages-agent-core-v2-src-persistence-backends-node-fs-filestorageservice-ts
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/persistence/backends/node-fs/fileStorageService.ts
+  start: 109
+  end: 135
+official_url: https://github.com/MoonshotAI/kimi-code/blob/21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3/packages/agent-core-v2/src/persistence/backends/node-fs/fileStorageService.ts
+excerpt: "  async append(\n    scope: string,\n    key: string,\n    data: Uint8Array,\n    options: StorageAppendOptions = {},\n  ): Promise<void> {\n    const filePath = this.pathFor(scope, key);\n    const dir = dirname(filePath);\n    try {\n      await mkdir(dir, { recursive: true, mode: this.dirMode });\n\n      const fh = await open(filePath, 'a', this.fileMode);\n      try {\n        if (data.byteLength > 0) {\n          await fh.writeFile(data);\n        }\n        if (options.durable !== false) {\n          await fh.sync();\n        }\n      } finally {\n        await fh.close();\n      }\n      await this.syncDirOnce(dir);\n    } catch (error) {\n      throw toStorageIoError(error, { path: filePath, op: 'append' });\n    }\n  }"

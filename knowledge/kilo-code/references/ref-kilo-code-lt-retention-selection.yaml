@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-retention-selection
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-kilocode-session-retention-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/session/retention.ts
+  start: 222
+  end: 232
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/kilocode/session/retention.ts
+excerpt: "    const expired = new Set<string>()\n    const skipped: string[] = []\n    for (const row of rows) {\n      const state = touch(top(row))\n      if (input.now - state.updated < input.maxAgeDays * DAY_MS) continue\n      if (state.busy) {\n        skipped.push(row.id)\n        continue\n      }\n      expired.add(row.id)\n    }"

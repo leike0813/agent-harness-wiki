@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-lt-prompt-history-store
+harness_id: openhands
+snapshot_id: snapshot-openhands-lt-openhands-cli-stores-prompt-history-py
+locator:
+  kind: file_lines
+  file: openhands_cli/stores/prompt_history.py
+  start: 11
+  end: 26
+official_url: https://github.com/OpenHands/OpenHands-CLI/blob/954f2ba646e8d749261a8f2b2b7e3031fa39be9f/openhands_cli/stores/prompt_history.py
+excerpt: "class PromptHistoryEntry(TypedDict):\n    \"\"\"A single entry in the prompt history.\"\"\"\n\n    text: str\n    timestamp: str\n\n\nclass PromptHistoryStore:\n    \"\"\"Manages persistence of user prompt history for a project.\n\n    Stored as a JSON list of entries in the project's directory.\n    \"\"\"\n\n    def __init__(self, max_entries: int = 100) -> None:\n        self.path = Path(get_prompt_history_path())\n        self.max_entries = max_entries"

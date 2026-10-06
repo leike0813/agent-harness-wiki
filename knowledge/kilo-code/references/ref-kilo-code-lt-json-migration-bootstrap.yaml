@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-json-migration-bootstrap
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-kilocode-storage-json-migration-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/storage/json-migration.ts
+  start: 72
+  end: 80
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/kilocode/storage/json-migration.ts
+excerpt: "export async function bootstrap() {\n  const marker = Database.path()\n  if (marker === \":memory:\") return\n  const pending = marker + \".json-migration\"\n  const [database, retry] = await Promise.all([Filesystem.exists(marker), Filesystem.exists(pending)])\n  if (database && !retry) return\n  const storage = path.join(Global.Path.data, \"storage\")\n  if (!database && !retry && !(await Filesystem.exists(storage))) return\n  await Filesystem.write(pending, \"1\")"

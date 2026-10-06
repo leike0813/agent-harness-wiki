@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-history-append-path
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-infra-file-canonical-history-jsonl-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/infra/file/canonical-history-jsonl.ts
+  start: 484
+  end: 497
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/infra/file/canonical-history-jsonl.ts
+excerpt: "  async append(\n    records: readonly CanonicalHistoryEnvelope[],\n    verifiedActive?: readonly CanonicalHistoryEnvelope[],\n  ): Promise<void> {\n    const appended = decodeRecords(records);\n    if (appended.length === 0) return;\n    // The Session owner may pass its strict read from this same write lane.\n    // Other callers keep the existing disk read; no history survives between operations.\n    const active = verifiedActive ?? (await this.readActive());\n    assertCanonicalHistoryAppend(active, appended);\n    await appendJsonl(this.options.activePath, appended);\n  }\n\n  async replace(records: readonly CanonicalHistoryEnvelope[]): Promise<void> {"

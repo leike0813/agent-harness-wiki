@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-scope-history-settings
+harness_id: codex
+snapshot_id: snapshot-codex-repo-822e58cc-config-types
+locator:
+  kind: file_lines
+  file: codex-rs/config/src/types.rs
+  start: 218
+  end: 237
+official_url: https://github.com/openai/codex/blob/822e58cc3d666166c7446c5b1ea2e52f5d09594c/codex-rs/config/src/types.rs
+excerpt: "/// Settings that govern if and what will be written to `~/.codex/history.jsonl`.\n#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Default, JsonSchema)]\n#[serde(default)]\n#[schemars(deny_unknown_fields)]\npub struct History {\n    /// If true, history entries will not be written to disk.\n    pub persistence: HistoryPersistence,\n\n    /// If set, the maximum size of the history file in bytes. The oldest entries\n    /// are dropped once the file exceeds this limit.\n    pub max_bytes: Option<usize>,\n}\n\n#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq, Default, JsonSchema)]\n#[serde(rename_all = \"kebab-case\")]\npub enum HistoryPersistence {\n    /// Save all history entries to disk.\n    #[default]\n    SaveAll,\n    /// Do not write history to disk."

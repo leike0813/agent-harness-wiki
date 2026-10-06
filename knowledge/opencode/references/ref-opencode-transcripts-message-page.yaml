@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-message-page
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-opencode-src-session-message-v2-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/opencode/src/session/message-v2.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/session/message-v2.ts
+  start: 429
+  end: 446
+excerpt: "export const page = Effect.fn(\"MessageV2.page\")(function* (input: {\n  sessionID: SessionID\n  limit: number\n  before?: string\n}) {\n  const { db } = yield* Database.Service\n  const before = input.before ? cursor.decode(input.before) : undefined\n  const where = before\n    ? and(eq(MessageTable.session_id, input.sessionID), older(before))\n    : eq(MessageTable.session_id, input.sessionID)\n  const rows = yield* db\n    .select()\n    .from(MessageTable)\n    .where(where)\n    .orderBy(desc(MessageTable.time_created), desc(MessageTable.id))\n    .limit(input.limit + 1)\n    .all()\n    .pipe(Effect.orDie)"

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-schema-conversation
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-recording-types
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingTypes.ts
+  start: 86
+  end: 105
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+   */
+  export type MessageRecord = BaseMessageRecord & ConversationRecordExtra;
+
+  /**
+   * Complete conversation record stored in session files.
+   */
+  export interface ConversationRecord {
+    sessionId: string;
+    projectHash: string;
+    startTime: string;
+    lastUpdated: string;
+    messages: MessageRecord[];
+    summary?: string;
+    memoryScratchpad?: MemoryScratchpad;
+    /** Workspace directories added during the session via /dir add */
+    directories?: string[];
+    /** The kind of conversation (main agent or subagent) */
+    kind?: 'main' | 'subagent';
+  }

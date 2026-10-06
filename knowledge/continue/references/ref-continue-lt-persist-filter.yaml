@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-persist-filter
+harness_id: continue
+snapshot_id: snapshot-continue-lt-extensions-cli-src-session-ts
+locator:
+  kind: file_lines
+  file: extensions/cli/src/session.ts
+  start: 211
+  end: 231
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/session.ts
+excerpt: "function modifySessionBeforeSave(session: Session): Session {\n  const filteredHistory = session.history.filter((item) => {\n    return item.message.role !== \"system\";\n  });\n\n  const modifiedHistory = filteredHistory.map((item) => {\n    if (item.message.role === \"user\") {\n      return {\n        ...item,\n        editorState: item.message.content,\n      };\n    }\n\n    return item;\n  });\n\n  return {\n    ...session,\n    history: modifiedHistory,\n  };\n}"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-input-history-cap
+harness_id: continue
+snapshot_id: snapshot-continue-lt-extensions-cli-src-util-inputhistory-ts
+locator:
+  kind: file_lines
+  file: extensions/cli/src/util/inputHistory.ts
+  start: 53
+  end: 72
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/util/inputHistory.ts
+excerpt: "  addEntry(text: string): void {\n    if (!text.trim()) return;\n\n    // Remove duplicate if it exists\n    this.history = this.history.filter((entry) => entry.text !== text);\n\n    // Add new entry at the beginning\n    this.history.unshift({\n      text,\n      timestamp: Date.now(),\n    });\n\n    // Limit history size\n    if (this.history.length > MAX_HISTORY_SIZE) {\n      this.history = this.history.slice(0, MAX_HISTORY_SIZE);\n    }\n\n    this.saveHistory();\n    this.resetNavigation();\n  }"

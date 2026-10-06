@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-ddl-usage
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/session_manager.rs
+  start: 1082
+  end: 1101
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+          sqlx::query(
+              r#"
+              CREATE TABLE IF NOT EXISTS usage_ledger (
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  session_id TEXT NOT NULL REFERENCES sessions(id) ON DELETE CASCADE,
+                  created_timestamp INTEGER NOT NULL,
+                  model TEXT,
+                  input_tokens INTEGER,
+                  output_tokens INTEGER,
+                  total_tokens INTEGER,
+                  cache_read_tokens INTEGER,
+                  cache_write_tokens INTEGER,
+                  cost REAL,
+                  cost_source TEXT,
+                  is_compaction INTEGER DEFAULT 0
+              )
+          "#,
+          )
+          .execute(&mut *tx)
+          .await?;

@@ -1,0 +1,109 @@
+schema_version: 2
+audit_id: audit-kimi-code-982ba42b-eeff-4c18-83c8-d95f656d6f78
+harness_id: kimi-code
+checked_at: 2026-10-06T04:34:13.916Z
+previous_audit_id: audit-kimi-code-2958d46d-5fba-4d1c-aad4-574ba3e6f217
+status: no_change
+review_status: not_required
+pending_audit_refs: []
+checks:
+  - source_id: source-kimi-code-repo
+    kind: git_repository
+    checked_at: 2026-10-06T04:34:12.300Z
+    status: unchanged
+    baseline: 21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3
+    observed: 21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-legacy-repo
+    kind: git_repository
+    checked_at: 2026-10-06T04:34:12.307Z
+    status: unchanged
+    baseline: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    observed: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-npm
+    kind: npm_registry
+    checked_at: 2026-10-06T04:34:12.312Z
+    status: unchanged
+    baseline: 2.1.1@sha512-xClqcnTQUKgKDbeOGPU78qcwxGzL8wA2rqWuOX3CLpyQ1/NhSX7jAh6hZo/JFwThSX8obkgef3uw/li5JaJNyw==
+    observed: 2.1.1@sha512-xClqcnTQUKgKDbeOGPU78qcwxGzL8wA2rqWuOX3CLpyQ1/NhSX7jAh6hZo/JFwThSX8obkgef3uw/li5JaJNyw==
+impacts:
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-recording-scope
+      - transcripts-layout-naming
+      - transcripts-format-schema
+      - transcripts-lifecycle
+      - transcripts-database-index
+      - transcripts-archive-cleanup
+      - transcripts-diagnostics
+    surface_ids: [cli]
+    source_refs:
+      - ref-kimi-code-lt-doc-session-data
+      - ref-kimi-code-lt-doc-session-storage
+      - ref-kimi-code-lt-doc-data-root
+      - ref-kimi-code-lt-src-addressing
+      - ref-kimi-code-lt-src-workdir-slug
+      - ref-kimi-code-lt-src-wire-record
+      - ref-kimi-code-lt-src-append-fsync
+      - ref-kimi-code-lt-src-index-scan
+      - ref-kimi-code-lt-src-delete
+      - ref-kimi-code-lt-doc-clearing-data
+    cross_topic_links:
+      - config.sources
+      - config.defaults
+    reason: >-
+      local_transcripts 首采，此前 kimi-code 无该主题章节。source-kimi-code-repo 本轮未移动
+      （scan 与基线同为 21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3），因此本 impact 不由上游变化驱动，
+      而是补齐该产品缺失的主题。
+pending_question_ids: []
+investigation_notes:
+  - >-
+    本轮是 local_transcripts 主题首采，交付 kimi-code-local_transcripts-v1（7 个 section，10 题各有答案）。
+    固定来源为 source-kimi-code-repo 的 commit 21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3，
+    调查在 coordinator 已打开的 pinned 工作区内只读进行，本 worker 未自行打开工作区，也未把临时路径写入任何记录。
+  - >-
+    证据全部为 git_source_file：39 条 reference 分布在 17 个具体文件上，一文件一 artifact 一 snapshot，
+    由 var/lt-refs.py 生成；excerpt 逐字取自 pinned 源码并通过「落回 start–end 区间 + 真实字节 sha256 复核」自检。
+    另有一次逐条核对：每条 reference 的 excerpt 必须真的含有所支撑结论的关键词，
+    首轮发现 7 条引用（tasks/cron、导出敏感性、撕裂读、原子写 rename、迁移缺失报错、索引元数据键、blobref 格式）
+    的摘录并未覆盖对应结论，已各自补出更窄的 reference 重新绑定，未靠行号对得上就放行。
+  - >-
+    项目 archive/kimi-code/ 下本轮没有归档原件目录，因此 docs/en/configuration/data-locations.md 与
+    docs/en/guides/sessions.md 按「同一提交内仓库自带的文档」处理，用 git_source_file 引用，
+    未新建 archived_document 记录。两份文档的版本边界在章节首段写明。
+  - >-
+    来源不可达事实：source-kimi-code-legacy-repo（本轮记录 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82）
+    在 coordinator 打开 pinned 工作区时报 not our ref，上游该路径当前不可达。本轮未从该来源取任何证据，
+    全部结论只依赖 source-kimi-code-repo。这是可复现的来源故障，不是内容结论。
+  - >-
+    三题标为 partial 并在正文写明缺口：transcripts.schema 缺 context.append_loop_event 事件联合类型的完整必填字段集
+    与 llm.request/turn.* 的展开字段；transcripts.archive 缺「导出 ZIP 能否就地回填为可恢复数据根」的官方说明；
+    transcripts.diagnostics 缺独立的 wire.jsonl 完整性校验命令与索引对账步骤。
+  - >-
+    三处关键澄清写入正文，避免读者误判：原生 archive 只翻 state.json 的 archived 标志，不搬动也不释放磁盘；
+    正文 wire.jsonl 是唯一不可再生的真源，cache/query-store 与 session_index.jsonl 均可重建；
+    官方删除有完整级联（关句柄→删目录→删索引→清文件历史→写 deleted 墓碑），
+    手工删文件绕开该握手，官方文档明确警告不要手工编辑 sessions/。
+  - >-
+    状态与 checks 一致：三个来源本轮均为 unchanged，无 blocked check，故 status 保持 scan 写入的 no_change。
+    checks 逐字保留 scan 值，未改写任何来源身份。
+  - >-
+    review_status 保持 scan 写入的 not_required：本产品其它主题无遗留 pending 题，pending_question_ids 为空，
+    且 source-kimi-code-repo 本轮 commit 未移动（scan 与基线同为 21406fb），无实质变化需独立复核。
+    来源故障（legacy repo 不可达）已在 investigation_notes 记录，不改变 checks 观察值。
+  - >-
+    交付边界：delivery=pr，未执行 sources:scan、publish、managed package 更新，未执行真实 harness，
+    未读取维护者真实会话。源码 commit 不证明发行包行为，本轮未写 mappings/，按来源级知识记录。
+

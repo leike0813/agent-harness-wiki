@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-import-tables
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-opencode-src-cli-cmd-import-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/opencode/src/cli/cmd/import.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/cli/cmd/import.ts
+  start: 178
+  end: 194
+excerpt: "\n  const info = Schema.decodeUnknownSync(Session.Info)({\n    ...exportData.info,\n    projectID: ctx.project.id,\n    directory: ctx.directory,\n    path: path.relative(path.resolve(ctx.worktree), ctx.directory).replaceAll(\"\\\\\", \"/\"),\n  }) as Session.Info\n  const row = Session.toRow(info)\n  yield* db\n    .insert(SessionTable)\n    .values(row)\n    .onConflictDoUpdate({\n      target: SessionTable.id,\n      set: { project_id: row.project_id, directory: row.directory, path: row.path },\n    })\n    .run()\n    .pipe(Effect.orDie)"

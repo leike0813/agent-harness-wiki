@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-lt-src-delete-local-evict
+harness_id: grok
+snapshot_id: snapshot-grok-lt-crates-codegen-xai-grok-shell-src-session-persistence-rs
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-shell/src/session/persistence.rs
+  start: 3312
+  end: 3330
+official_url: https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-shell/src/session/persistence.rs
+excerpt: "    let local_removed = removed.is_some();\n\n    // Also evict when no workspace was named: that row outlives the directory and nothing else prunes it\n    if local_removed || cwd.is_none() {\n        crate::session::storage::search::evict_session(\n            &crate::util::grok_home::grok_home(),\n            session_id,\n        )\n        .await;\n    }\n    // The eviction above is a point in time\n    // Queue the indexer too so an upsert already under way, which would otherwise write the row back, is followed by a re-read that finds nothing\n    if let Some(info) = removed {\n        crate::session::storage::search::notify_session_updated(\n            search_index,\n            &info.id.to_string(),\n            &info.cwd,\n        );\n    }"

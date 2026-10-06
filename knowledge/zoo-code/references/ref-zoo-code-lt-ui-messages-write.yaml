@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-lt-ui-messages-write
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-lt-src-core-task-persistence-taskmessages-ts
+locator:
+  kind: file_lines
+  file: src/core/task-persistence/taskMessages.ts
+  start: 74
+  end: 90
+official_url: https://github.com/Zoo-Code-Org/Zoo-Code/blob/d7963fc2db8ff07189e9f22079b15d67ad3a8bfd/src/core/task-persistence/taskMessages.ts
+excerpt: "\tensureMessageIdentifiers(messages)\n\tconst taskDir = await getTaskDirectoryPath(globalStoragePath, taskId)\n\tconst filePath = path.join(taskDir, GlobalFileNames.uiMessages)\n\tlet savedMessages = messages\n\tawait safeWriteJson(\n\t\tfilePath,\n\t\tmessages,\n\t\tmerge\n\t\t\t? {\n\t\t\t\t\tmerge: (existing, incoming) => {\n\t\t\t\t\t\tsavedMessages = mergeClineMessageSnapshots(existing, incoming) as ClineMessage[]\n\t\t\t\t\t\treturn savedMessages\n\t\t\t\t\t},\n\t\t\t\t}\n\t\t\t: undefined,\n\t)\n\treturn savedMessages"

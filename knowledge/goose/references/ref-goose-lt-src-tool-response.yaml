@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-tool-response
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-message-types
+locator:
+  kind: file_lines
+  file: crates/goose-provider-types/src/conversation/message.rs
+  start: 175
+  end: 183
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+  #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+  #[serde(rename_all = "camelCase")]
+  pub struct ToolResponse {
+      pub id: String,
+      #[serde(with = "tool_result_serde::call_tool_result")]
+      pub tool_result: ToolResult<CallToolResult>,
+      #[serde(skip_serializing_if = "Option::is_none")]
+      pub metadata: Option<ProviderMetadata>,
+  }

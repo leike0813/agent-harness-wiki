@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-export-scope
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-cli-src-commands-export-conversation-ts
+locator:
+  kind: file_lines
+  file: cli/src/commands/export-conversation.ts
+  start: 66
+  end: 79
+official_url: https://github.com/CodebuffAI/codebuff/blob/bd198ff2df3ea9b333e8bf2e5b843735afd4ad9c/cli/src/commands/export-conversation.ts
+excerpt: "    const projectRoot = deps.getProjectRoot()\n    const fileName =\n      rawArg.trim() ||\n      `${IS_FREEBUFF ? 'freebuff' : 'codebuff'}-chat-${deps.getCurrentChatId()}.md`\n    const filePath = path.resolve(projectRoot, fileName)\n\n    // path.resolve honors absolute paths and `..`, so without this check\n    // `/export ../../.zshrc` writes outside the project entirely.\n    if (path.relative(projectRoot, filePath).startsWith('..')) {\n      return {\n        ok: false,\n        error: `refusing to write outside the project root (${filePath})`,\n      }\n    }"

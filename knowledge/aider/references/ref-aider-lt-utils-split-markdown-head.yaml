@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-aider-lt-utils-split-markdown-head
+harness_id: aider
+snapshot_id: snapshot-aider-lt-aider-utils-py
+locator:
+  kind: file_lines
+  file: aider/utils.py
+  start: 148
+  end: 166
+official_url: https://github.com/Aider-AI/aider/blob/5dc9490bb35f9729ef2c95d00a19ccd30c26339c/aider/utils.py
+excerpt: "def split_chat_history_markdown(text, include_tool=False):\n    messages = []\n    user = []\n    assistant = []\n    tool = []\n    lines = text.splitlines(keepends=True)\n\n    def append_msg(role, lines):\n        lines = \"\".join(lines)\n        if lines.strip():\n            messages.append(dict(role=role, content=lines))\n\n    for line in lines:\n        if line.startswith(\"# \"):\n            continue\n        if line.startswith(\"> \"):\n            append_msg(\"assistant\", assistant)\n            assistant = []\n            append_msg(\"user\", user)"

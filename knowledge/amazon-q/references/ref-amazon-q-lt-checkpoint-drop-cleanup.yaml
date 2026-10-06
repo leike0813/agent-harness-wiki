@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-lt-checkpoint-drop-cleanup
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-lt-crates-chat-cli-src-cli-chat-checkpoint-rs
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/chat/checkpoint.rs
+  start: 349
+  end: 362
+official_url: https://github.com/aws/amazon-q-developer-cli/blob/15cc8f3cd18c4272925ce1c7053268eedff1ea0a/crates/chat-cli/src/cli/chat/checkpoint.rs
+excerpt: "impl Drop for CheckpointManager {\n    fn drop(&mut self) {\n        let path = self.shadow_repo_path.clone();\n        // Try to spawn cleanup task\n        if let Ok(handle) = tokio::runtime::Handle::try_current() {\n            handle.spawn(async move {\n                let _ = tokio::fs::remove_dir_all(path).await;\n            });\n        } else {\n            // Fallback to thread\n            std::thread::spawn(move || {\n                let _ = std::fs::remove_dir_all(path);\n            });\n        }"

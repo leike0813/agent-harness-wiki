@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-archive-fn
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-ui-src-thread-metadata-store-rs
+locator:
+  kind: file_lines
+  file: crates/agent_ui/src/thread_metadata_store.rs
+  start: 858
+  end: 871
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent_ui/src/thread_metadata_store.rs
+excerpt: "    pub fn archive(\n        &mut self,\n        thread_id: ThreadId,\n        archive_job: Option<(Task<()>, async_channel::Sender<()>)>,\n        cx: &mut Context<Self>,\n    ) {\n        self.update_archived(thread_id, true, cx);\n\n        if let Some(job) = archive_job {\n            self.in_flight_archives.insert(thread_id, job);\n        }\n\n        cx.emit(ThreadMetadataStoreEvent::ThreadArchived(thread_id));\n    }"

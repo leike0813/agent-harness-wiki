@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-content-block
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-message-types
+locator:
+  kind: file_lines
+  file: crates/goose-provider-types/src/conversation/message.rs
+  start: 315
+  end: 330
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+  #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+  /// Content passed inside a message, which can be both simple content and tool content
+  #[serde(tag = "type", rename_all = "camelCase")]
+  pub enum MessageContentBlock {
+      Text(TextContent),
+      Image(ImageContent),
+      Document(DocumentContent),
+      ToolRequest(ToolRequest),
+      ToolResponse(ToolResponse),
+      ToolConfirmationRequest(ToolConfirmationRequest),
+      ActionRequired(ActionRequired),
+      Thinking(ThinkingContentBlock),
+      RedactedThinking(RedactedThinkingContentBlock),
+      SystemNotification(SystemNotificationContent),
+      Error(ErrorContent),
+  }

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-messages-append
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-messages-append
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_logger.py
+  start: 386
+  end: 398
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/session_logger.py
+excerpt: "    def _persist_messages_sync(messages: list[dict], session_dir: Path) -> None:\n        messages_filepath = session_dir / \"messages.jsonl\"\n        try:\n            # Session logs hold raw tool results, so the file is created\n            # owner-only. 0o600 requests no group/other bits and umask can\n            # only clear bits, so no follow-up chmod is needed. An existing\n            # file (a resumed session) keeps its current mode.\n            descriptor = os.open(\n                messages_filepath, os.O_APPEND | os.O_CREAT | os.O_WRONLY, 0o600\n            )\n            with os.fdopen(descriptor, \"a\", encoding=\"utf-8\") as f:\n                for message in messages:\n                    f.write(json.dumps(message, ensure_ascii=False) + \"\\n\")"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-cli-session-list
+harness_id: cline
+snapshot_id: snapshot-cline-lt-apps-cli-src-session-session-ts
+locator:
+  kind: file_lines
+  file: apps/cli/src/session/session.ts
+  start: 103
+  end: 127
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/apps/cli/src/session/session.ts
+excerpt: "export async function listSessions(\n\tlimit = 50,\n\toptions?: { workspaceRoot?: string; hydrate?: boolean },\n): Promise<SessionHistoryRecord[]> {\n\tconst backend = await resolveSessionBackend({\n\t\ttelemetry: getCliTelemetryService(),\n\t});\n\treturn await listSessionHistoryFromBackend(backend, {\n\t\tlimit,\n\t\tincludeManifestFallback: true,\n\t\thydrate: options?.hydrate ?? false,\n\t\tincludeSubagents: false,\n\t});\n}\n\nexport async function deleteSession(\n\tsessionId: string,\n): Promise<{ deleted: boolean }> {\n\treturn await withCliCore(\n\t\tasync (core) => ({\n\t\t\tdeleted: await core.delete(sessionId),\n\t\t}),\n\t\t{ forceLocalBackend: true },\n\t);\n}"

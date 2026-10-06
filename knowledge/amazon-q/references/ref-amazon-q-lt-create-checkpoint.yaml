@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-lt-create-checkpoint
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-lt-crates-chat-cli-src-cli-chat-checkpoint-rs
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/chat/checkpoint.rs
+  start: 148
+  end: 168
+official_url: https://github.com/aws/amazon-q-developer-cli/blob/15cc8f3cd18c4272925ce1c7053268eedff1ea0a/crates/chat-cli/src/cli/chat/checkpoint.rs
+excerpt: "    /// Create a new checkpoint point\n    pub fn create_checkpoint(\n        &mut self,\n        tag: &str,\n        description: &str,\n        history: &VecDeque<HistoryEntry>,\n        is_turn: bool,\n        tool_name: Option<String>,\n    ) -> Result<()> {\n        // Stage, commit and tag\n        stage_commit_tag(\n            &self.shadow_repo_path.to_string_lossy(),\n            &self.work_tree_path,\n            description,\n            tag,\n        )?;\n\n        // Record checkpoint metadata\n        let checkpoint = Checkpoint {\n            tag: tag.to_string(),\n            timestamp: Local::now(),"

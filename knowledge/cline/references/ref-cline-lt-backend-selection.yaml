@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-backend-selection
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-runtime-host-host-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/runtime/host/host.ts
+  start: 64
+  end: 80
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/runtime/host/host.ts
+excerpt: "function createLocalBackend(options: ClineCoreOptions): SessionBackend {\n\ttry {\n\t\tconst store = new SqliteSessionStore();\n\t\tstore.init();\n\t\treturn new CoreSessionService(store, {\n\t\t\tmessagesArtifactUploader: options.messagesArtifactUploader,\n\t\t\tlogger: options.logger,\n\t\t});\n\t} catch (error) {\n\t\t// Fallback to file-based session service if SQLite is unavailable.\n\t\toptions.telemetry?.capture({\n\t\t\tevent: \"session_backend_fallback\",\n\t\t\tproperties: {\n\t\t\t\trequestedBackend: \"sqlite\",\n\t\t\t\tfallbackBackend: \"file\",\n\t\t\t},\n\t\t});"

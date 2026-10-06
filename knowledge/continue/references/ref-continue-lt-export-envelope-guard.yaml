@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-export-envelope-guard
+harness_id: continue
+snapshot_id: snapshot-continue-lt-extensions-cli-src-slashcommands-ts
+locator:
+  kind: file_lines
+  file: extensions/cli/src/slashCommands.ts
+  start: 159
+  end: 181
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/slashCommands.ts
+excerpt: "const EXPORTED_SESSION_VERSION = 1;\n\ninterface ExportedSession {\n  version: number;\n  exportedAt: string;\n  session: Session;\n}\n\nfunction isValidExportedSession(data: unknown): data is ExportedSession {\n  if (typeof data !== \"object\" || data === null) {\n    return false;\n  }\n  const obj = data as Record<string, unknown>;\n  return (\n    obj.version === EXPORTED_SESSION_VERSION &&\n    typeof obj.exportedAt === \"string\" &&\n    typeof obj.session === \"object\" &&\n    obj.session !== null &&\n    typeof (obj.session as Record<string, unknown>).sessionId === \"string\" &&\n    typeof (obj.session as Record<string, unknown>).title === \"string\" &&\n    Array.isArray((obj.session as Record<string, unknown>).history)\n  );\n}"

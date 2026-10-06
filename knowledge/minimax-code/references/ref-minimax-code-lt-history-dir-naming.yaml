@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-history-dir-naming
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-service-session-system-messages-history-session-history-paths-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/session-system/messages/history/session-history-paths.ts
+  start: 104
+  end: 118
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/service/session-system/messages/history/session-history-paths.ts
+excerpt: "  const parts = [\n    String(utc ? date.getUTCFullYear() : date.getFullYear()).padStart(4, '0'),\n    String((utc ? date.getUTCMonth() : date.getMonth()) + 1).padStart(2, '0'),\n    String(utc ? date.getUTCDate() : date.getDate()).padStart(2, '0'),\n  ] as const;\n  const time = [\n    utc ? date.getUTCHours() : date.getHours(),\n    utc ? date.getUTCMinutes() : date.getMinutes(),\n    utc ? date.getUTCSeconds() : date.getSeconds(),\n    utc ? date.getUTCMilliseconds() : date.getMilliseconds(),\n  ]\n    .map((part, index) => String(part).padStart(index === 3 ? 3 : 2, '0'))\n    .join('-');\n  return [...parts, `${time}-${encodedSessionId(sessionId)}`].join('/');\n}"

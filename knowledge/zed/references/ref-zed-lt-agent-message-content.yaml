@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-agent-message-content
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-thread-rs
+locator:
+  kind: file_lines
+  file: crates/agent/src/thread.rs
+  start: 744
+  end: 760
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent/src/thread.rs
+excerpt: "#[derive(Default, Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]\npub struct AgentMessage {\n    pub(crate) content: Vec<AgentMessageContent>,\n    pub(crate) tool_results: IndexMap<LanguageModelToolUseId, LanguageModelToolResult>,\n    pub(crate) reasoning_details: Option<Arc<serde_json::Value>>,\n}\n\n#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]\npub enum AgentMessageContent {\n    Text(String),\n    Thinking {\n        text: String,\n        signature: Option<String>,\n    },\n    RedactedThinking(String),\n    ToolUse(LanguageModelToolUse),\n}"

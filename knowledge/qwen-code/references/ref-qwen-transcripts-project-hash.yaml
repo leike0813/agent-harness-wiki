@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-project-hash
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-paths-core
+locator:
+  kind: file_lines
+  file: packages/core/src/utils/paths.ts
+  start: 368
+  end: 373
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/packages/core/src/utils/paths.ts"
+excerpt: |2-
+  export function getProjectHash(projectRoot: string): string {
+    // On Windows, normalize path to lowercase for case-insensitive matching
+    const normalizedPath =
+      os.platform() === 'win32' ? projectRoot.toLowerCase() : projectRoot;
+    return crypto.createHash('sha256').update(normalizedPath).digest('hex');
+  }

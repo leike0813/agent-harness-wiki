@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-lt-locations-project-scope
+harness_id: openhands
+snapshot_id: snapshot-openhands-lt-openhands-cli-locations-py
+locator:
+  kind: file_lines
+  file: openhands_cli/locations.py
+  start: 34
+  end: 47
+official_url: https://github.com/OpenHands/OpenHands-CLI/blob/954f2ba646e8d749261a8f2b2b7e3031fa39be9f/openhands_cli/locations.py
+excerpt: "def get_project_id() -> str:\n    \"\"\"Get a unique, stable ID for the current project based on its path.\"\"\"\n    work_dir = os.path.abspath(os.path.realpath(get_work_dir()))\n    return hashlib.sha256(work_dir.encode(\"utf-8\")).hexdigest()\n\n\ndef get_project_dir() -> str:\n    \"\"\"Get the persistence directory for the current project.\"\"\"\n    return os.path.join(get_persistence_dir(), \"projects\", get_project_id())\n\n\ndef get_prompt_history_path() -> str:\n    \"\"\"Get the path to the prompt history file for the current project.\"\"\"\n    return os.path.join(get_project_dir(), \"prompt_history.json\")"

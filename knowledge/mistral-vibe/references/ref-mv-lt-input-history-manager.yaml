@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-input-history-manager
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-input-history-manager
+locator:
+  kind: file_lines
+  file: vibe/cli/history_manager.py
+  start: 13
+  end: 23
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/cli/history_manager.py
+excerpt: "class HistoryManager:\n    def __init__(self, history_file: Path, max_entries: int = 100) -> None:\n        self.history_file = history_file\n        self.max_entries = max_entries\n        self._current_index: int = -1\n        self._temp_input: str = \"\"\n        self._io_lock = Lock()\n        self._entries_lock = Lock()\n        self._pending_entries: list[str] = []\n        self._entries: list[str] = self._read_entries() or []\n"

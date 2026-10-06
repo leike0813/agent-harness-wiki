@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-file-context-read
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-context-tracking-filecontexttracker-ts
+locator:
+  kind: file_lines
+  file: src/core/context-tracking/FileContextTracker.ts
+  start: 113
+  end: 126
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/context-tracking/FileContextTracker.ts
+excerpt: "\t// Gets task metadata from storage\n\tasync getTaskMetadata(taskId: string): Promise<TaskMetadata> {\n\t\tconst globalStoragePath = this.getContextProxy()?.globalStorageUri.fsPath ?? \"\"\n\t\tconst taskDir = await getTaskDirectoryPath(globalStoragePath, taskId)\n\t\tconst filePath = path.join(taskDir, GlobalFileNames.taskMetadata)\n\t\ttry {\n\t\t\tif (await fileExistsAtPath(filePath)) {\n\t\t\t\treturn JSON.parse(await fs.readFile(filePath, \"utf8\"))\n\t\t\t}\n\t\t} catch (error) {\n\t\t\tconsole.error(\"Failed to read task metadata:\", error)\n\t\t}\n\t\treturn { files_in_context: [] }\n\t}"

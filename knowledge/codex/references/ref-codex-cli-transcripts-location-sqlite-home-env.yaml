@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-location-sqlite-home-env
+harness_id: codex
+snapshot_id: snapshot-codex-repo-822e58cc-core-config
+locator:
+  kind: file_lines
+  file: codex-rs/core/src/config/mod.rs
+  start: 272
+  end: 282
+official_url: https://github.com/openai/codex/blob/822e58cc3d666166c7446c5b1ea2e52f5d09594c/codex-rs/core/src/config/mod.rs
+excerpt: "fn resolve_sqlite_home_env(resolved_cwd: &Path) -> Option<AbsolutePathBuf> {\n    let raw = std::env::var(codex_state::SQLITE_HOME_ENV).ok()?;\n    let trimmed = raw.trim();\n    if trimmed.is_empty() {\n        return None;\n    }\n    Some(AbsolutePathBuf::resolve_path_against_base(\n        trimmed,\n        resolved_cwd,\n    ))\n}"

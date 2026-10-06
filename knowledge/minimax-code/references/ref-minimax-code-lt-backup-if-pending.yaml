@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-backup-if-pending
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-infra-db-backup-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/infra/db/backup.ts
+  start: 63
+  end: 74
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/infra/db/backup.ts
+excerpt: "/**\n * Create a validated SQLite online backup when migration is pending. Return the backup identity and\n * file metadata from validation, without exposing user directories or database contents.\n */\nexport async function createDatabaseBackupIfPending(\n  options: CreateDatabaseBackupOptions,\n): Promise<DatabaseBackupResult> {\n  if (!options.pending) return { created: false };\n\n  const createdAtMs = Date.now();\n  const backupId = randomUUID();\n  const fileName = `${BACKUP_FILE_PREFIX}-${createdAtMs}-${backupId}.sqlite`;"

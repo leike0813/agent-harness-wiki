@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt-diagnostics-history-storage-scope
+harness_id: omp
+snapshot_id: snapshot-omp-lt-repo-fc6c-docs-session-md
+locator:
+  kind: file_lines
+  file: docs/session.md
+  start: 605
+  end: 612
+official_url: https://github.com/can1357/oh-my-pi/blob/fc6c0c90dab012a0b7edea731af92f5bbd09cff0/docs/session.md#L605-L612
+excerpt: '## Related but Distinct: Prompt History Storage
+
+
+  `HistoryStorage` (`history-storage.ts`) is a separate SQLite subsystem for prompt recall/search, not session replay.
+
+
+  - DB: `~/.omp/agent/history.db`
+
+  - Table: `history(id, prompt, created_at, cwd, session_id, use_count)`, with unique `prompt`
+
+  - FTS5 index: `history_fts`; new prompts are indexed by an insert trigger
+
+  - Normalizes line endings and surrounding/trailing whitespace, then deduplicates prompts across the database'

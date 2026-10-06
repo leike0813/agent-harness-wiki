@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-store-upsert
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-task-persistence-taskhistorystore-ts
+locator:
+  kind: file_lines
+  file: src/core/task-persistence/TaskHistoryStore.ts
+  start: 160
+  end: 178
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/task-persistence/TaskHistoryStore.ts
+excerpt: "\tasync upsert(item: HistoryItem): Promise<HistoryItem[]> {\n\t\treturn this.withLock(async () => {\n\t\t\tconst existing = this.cache.get(item.id)\n\n\t\t\t// Merge: preserve existing metadata unless explicitly overwritten\n\t\t\tconst merged = existing ? { ...existing, ...item } : item\n\n\t\t\t// Write per-task file (source of truth)\n\t\t\tawait this.writeTaskFile(merged)\n\n\t\t\t// Update in-memory cache\n\t\t\tthis.cache.set(merged.id, merged)\n\n\t\t\t// Schedule debounced index write\n\t\t\tthis.scheduleIndexWrite()\n\n\t\t\tconst all = this.getAll()\n\n\t\t\t// Call onWrite callback inside the lock for serialized write-through"

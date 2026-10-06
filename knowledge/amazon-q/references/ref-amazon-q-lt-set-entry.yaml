@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-lt-set-entry
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-lt-crates-chat-cli-src-database-mod-rs
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/database/mod.rs
+  start: 470
+  end: 475
+official_url: https://github.com/aws/amazon-q-developer-cli/blob/15cc8f3cd18c4272925ce1c7053268eedff1ea0a/crates/chat-cli/src/database/mod.rs
+excerpt: "    fn set_entry(&self, table: Table, key: impl AsRef<str>, value: impl ToSql) -> Result<usize, DatabaseError> {\n        Ok(self.pool.get()?.execute(\n            &format!(\"INSERT OR REPLACE INTO {table} (key, value) VALUES (?1, ?2)\"),\n            params![key.as_ref(), value],\n        )?)\n    }"

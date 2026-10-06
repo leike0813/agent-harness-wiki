@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-permission-sweep
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-permission-sweep
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_permissions.py
+  start: 69
+  end: 86
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/session_permissions.py
+excerpt: "    if is_windows():\n        return 0\n    root = Path(session_config.save_dir)\n    if not root.is_dir():\n        # The sweep remediates existing logs; it never creates the log root.\n        return 0\n    tightened = _strip_group_other(root)\n    unified_root = root / \"unified\"\n    for dirpath, dirnames, filenames in os.walk(root, followlinks=False):\n        # Symlinked directories are pruned so the walk never reaches through\n        # a link out of the log root.\n        dirnames[:] = [\n            name for name in dirnames if not Path(dirpath, name).is_symlink()\n        ]\n        current = Path(dirpath)\n        if current != unified_root and unified_root in current.parents:\n            # Owner-only session directories gate these interiors.\n            dirnames[:] = []"

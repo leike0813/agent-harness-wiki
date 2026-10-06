@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-lt-history-item-fields
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-lt-src-core-task-persistence-taskmetadata-ts
+locator:
+  kind: file_lines
+  file: src/core/task-persistence/taskMetadata.ts
+  start: 96
+  end: 117
+official_url: https://github.com/Zoo-Code-Org/Zoo-Code/blob/d7963fc2db8ff07189e9f22079b15d67ad3a8bfd/src/core/task-persistence/taskMetadata.ts
+excerpt: "\tconst historyItem: HistoryItem = {\n\t\tid,\n\t\trootTaskId,\n\t\tparentTaskId,\n\t\tnumber: taskNumber,\n\t\tts: timestamp,\n\t\ttask: hasMessages\n\t\t\t? taskMessage!.text?.trim() || t(\"common:tasks.incomplete\", { taskNumber })\n\t\t\t: t(\"common:tasks.no_messages\", { taskNumber }),\n\t\ttokensIn: tokenUsage.totalTokensIn,\n\t\ttokensOut: tokenUsage.totalTokensOut,\n\t\tcacheWrites: tokenUsage.totalCacheWrites,\n\t\tcacheReads: tokenUsage.totalCacheReads,\n\t\ttotalCost: tokenUsage.totalCost,\n\t\tsize: taskDirSize,\n\t\tworkspace,\n\t\tmode,\n\t\t...(typeof apiConfigName === \"string\" && apiConfigName.length > 0 ? { apiConfigName } : {}),\n\t\t...(initialStatus && { status: initialStatus }),\n\t}\n\n\treturn { historyItem, tokenUsage }"

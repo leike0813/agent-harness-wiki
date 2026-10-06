@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-lt-src-cleanup-prune-blobs
+harness_id: grok
+snapshot_id: snapshot-grok-lt-crates-codegen-xai-grok-shell-src-session-persistence-rs
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-grok-shell/src/session/persistence.rs
+  start: 3631
+  end: 3646
+official_url: https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-grok-shell/src/session/persistence.rs
+excerpt: "/// Deletes regular files older than `ttl_days` from the session's `SWEPT_BLOB_DIRS`.\n/// Never rmdir: `SessionFileWriter::save` may sit between its `create_dir_all` and `persist`.\nfn prune_blob_dirs(session_dir: &Path, ttl_days: u32, stats: &mut CleanupStats) {\n    for dir_name in SWEPT_BLOB_DIRS {\n        let Ok(entries) = std::fs::read_dir(session_dir.join(dir_name)) else {\n            continue;\n        };\n        for entry_result in entries {\n            let Ok(entry) = entry_result else {\n                stats.errors += 1;\n                continue;\n            };\n            let path = entry.path();\n            let Ok(metadata) = std::fs::symlink_metadata(&path) else {\n                stats.errors += 1;\n                continue;"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-load-session-read
+harness_id: continue
+snapshot_id: snapshot-continue-lt-core-util-history-ts
+locator:
+  kind: file_lines
+  file: core/util/history.ts
+  start: 91
+  end: 100
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/core/util/history.ts
+excerpt: "  load(sessionId: string): Session {\n    try {\n      const sessionFile = getSessionFilePath(sessionId);\n      if (!fs.existsSync(sessionFile)) {\n        throw new Error(`Session file ${sessionFile} does not exist`);\n      }\n      const session: Session = JSON.parse(fs.readFileSync(sessionFile, \"utf8\"));\n      session.sessionId = sessionId;\n      return session;\n    } catch (e) {"

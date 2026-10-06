@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-archive-checkpoint-save
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-logger
+locator:
+  kind: file_lines
+  file: packages/core/src/core/logger.ts
+  start: 329
+  end: 344
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+    async saveCheckpoint(checkpoint: Checkpoint, tag: string): Promise<void> {
+      if (!this.initialized) {
+        debugLogger.error(
+          'Logger not initialized or checkpoint file path not set. Cannot save a checkpoint.',
+        );
+        return;
+      }
+      // Always save with the new encoded path.
+      const path = this._checkpointPath(tag);
+      try {
+        await fs.writeFile(path, JSON.stringify(checkpoint, null, 2), 'utf-8');
+      } catch (error) {
+        debugLogger.error('Error writing to checkpoint file:', error);
+      }
+    }

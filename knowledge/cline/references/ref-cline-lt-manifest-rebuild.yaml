@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-manifest-rebuild
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-session-stores-session-manifest-store-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/session/stores/session-manifest-store.ts
+  start: 200
+  end: 218
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/session/stores/session-manifest-store.ts
+excerpt: "\t/**\n\t * Resolve the session row backing a message write, re-adopting it from the\n\t * on-disk manifest when the index was rebuilt or the artifacts were restored.\n\t */\n\tprivate async resolveSessionRow(sessionId: string): Promise<SessionRow> {\n\t\tconst indexed = await this.adapter.getSession(sessionId);\n\t\tif (indexed) {\n\t\t\treturn indexed;\n\t\t}\n\t\tconst adopted = this.readSessionRowFromManifest(sessionId);\n\t\tif (!adopted) {\n\t\t\tthrow new Error(\n\t\t\t\t`Cannot persist messages for unknown session: ${sessionId}`,\n\t\t\t);\n\t\t}\n\t\tawait this.adapter.upsertSession(adopted);\n\t\tthis.logger?.debug(\"Re-adopted session row from manifest\", { sessionId });\n\t\treturn adopted;\n\t}"

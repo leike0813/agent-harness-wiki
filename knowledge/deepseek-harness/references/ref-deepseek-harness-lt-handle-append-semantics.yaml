@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-handle-append-semantics
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-docs-subsystems-persistence-md
+locator:
+  kind: file_lines
+  file: docs/subsystems/persistence.md
+  start: 66
+  end: 79
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/docs/subsystems/persistence.md
+excerpt: "  /**\n   * Append a contiguous batch continuing the current logical end. The first\n   * event's `seq` MUST equal the stored next-seq; committed events are never\n   * rewritten. Persistence is best-effort: on resolution the batch is\n   * accepted, ordered, and visible to reads on this backend instance, but\n   * only a resolved {@link flush} promises it survives a crash — a backend\n   * may buffer or batch physical writes behind append. Rejects with\n   * `SessionReadOnlyError` on a read handle and `SessionOwnershipLostError`\n   * when write ownership is gone.\n   * @param events - the contiguous batch, in seq order.\n   * @param options - optional cancellation observed before the write starts.\n   */\n  append(events: readonly SessionEvent[], options?: SessionHandleAppendOptions): Promise<void>"

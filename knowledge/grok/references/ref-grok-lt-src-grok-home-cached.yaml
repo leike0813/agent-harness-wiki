@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-grok-lt-src-grok-home-cached
+harness_id: grok
+snapshot_id: snapshot-grok-lt-crates-codegen-xai-dirs-src-lib-rs
+locator:
+  kind: file_lines
+  file: crates/codegen/xai-dirs/src/lib.rs
+  start: 79
+  end: 92
+official_url: https://github.com/xai-org/grok-build/blob/2bdd1d6a6369de0e8c68132ea4539e9abd9e14a8/crates/codegen/xai-dirs/src/lib.rs
+excerpt: "/// The grok home, created if missing and cached for the process; falls back to\n/// [`default_grok_home`] when neither `$GROK_HOME` nor a home resolves.\npub fn grok_home() -> PathBuf {\n    static GROK_HOME: OnceLock<PathBuf> = OnceLock::new();\n    GROK_HOME\n        .get_or_init(|| {\n            let home = resolve_grok_home().unwrap_or_else(default_grok_home);\n            if let Err(err) = std::fs::create_dir_all(&home) {\n                tracing::warn!(path = %home.display(), %err, \"failed to create grok home\");\n            }\n            home\n        })\n        .clone()\n}"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-share-markdown-export
+harness_id: continue
+snapshot_id: snapshot-continue-lt-core-util-historyutils-ts
+locator:
+  kind: file_lines
+  file: core/util/historyUtils.ts
+  start: 41
+  end: 63
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/core/util/historyUtils.ts
+excerpt: "export function toMarkDown(history: ChatMessage[], time?: Date): string {\n  if (!time) {\n    time = new Date();\n  }\n  let content = `### [Continue](https://continue.dev) session transcript\\n Exported: ${time.toLocaleString()}`;\n\n  for (const msg of history) {\n    let msgText = renderChatMessage(msg);\n    if (!msgText) {\n      continue; // Skip messages without content\n    }\n\n    if (msg.role === \"user\" && msgText.search(\"```\") > -1) {\n      msgText = reformatCodeBlocks(msgText);\n    }\n\n    // format messages as blockquotes\n    msgText = msgText.replace(/^/gm, \"> \");\n\n    content += `\\n\\n#### ${\n      msg.role === \"user\" ? \"_User_\" : \"_Assistant_\"\n    }\\n\\n${msgText}`;\n  }"

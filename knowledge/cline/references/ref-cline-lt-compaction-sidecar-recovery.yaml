@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-compaction-sidecar-recovery
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-session-stores-session-manifest-store-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/session/stores/session-manifest-store.ts
+  start: 282
+  end: 303
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/session/stores/session-manifest-store.ts
+excerpt: "\tasync readSessionCompactionState(\n\t\tsessionId: string,\n\t): Promise<SessionCompactionState | undefined> {\n\t\tconst path = this.resolveCompactionPath(sessionId);\n\t\ttry {\n\t\t\treturn parseSessionCompactionState(\n\t\t\t\tJSON.parse(await readFile(path, \"utf8\")) as unknown,\n\t\t\t);\n\t\t} catch (error) {\n\t\t\tif (isNotFoundError(error)) {\n\t\t\t\treturn undefined;\n\t\t\t}\n\t\t\tthis.logger?.debug(\"Ignoring invalid session compaction state\", {\n\t\t\t\tsessionId,\n\t\t\t\tpath,\n\t\t\t\terror,\n\t\t\t\trecovery:\n\t\t\t\t\t\"Canonical history is unchanged; deleting the sidecar is safe.\",\n\t\t\t});\n\t\t\treturn undefined;\n\t\t}\n\t}"

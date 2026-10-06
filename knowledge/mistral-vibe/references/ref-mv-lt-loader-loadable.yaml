@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-loader-loadable
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-loader-loadable
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_loader.py
+  start: 105
+  end: 112
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/session_loader.py
+excerpt: "    @staticmethod\n    def _log_is_loadable(\n        messages: list[dict[str, Any]] | None, metadata: dict[str, Any]\n    ) -> bool:\n        if messages is None:\n            return False\n        # An empty log is valid only when metadata records an empty session.\n        return bool(messages) or metadata.get(\"total_messages\") == 0"

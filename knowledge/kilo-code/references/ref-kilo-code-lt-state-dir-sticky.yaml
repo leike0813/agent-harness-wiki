@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-state-dir-sticky
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-core-src-kilocode-global-ts
+locator:
+  kind: file_lines
+  file: packages/core/src/kilocode/global.ts
+  start: 38
+  end: 51
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/core/src/kilocode/global.ts
+excerpt: "export async function resolveState(p: string, fallback?: string) {\n  const sticky =\n    fallback === undefined\n      ? false\n      : await fs.stat(fallback).then(\n          (stat) =>\n            stat.isDirectory() &&\n            writable(fallback).then(\n              () => true,\n              () => false,\n            ),\n          () => false,\n        )\n  if (sticky && fallback !== undefined) return fallback"

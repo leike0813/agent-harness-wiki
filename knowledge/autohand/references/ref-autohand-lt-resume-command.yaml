@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-resume-command
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-startup-resumecommand-ts
+locator:
+  kind: file_lines
+  file: src/startup/resumeCommand.ts
+  start: 27
+  end: 40
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/startup/resumeCommand.ts
+excerpt: "    .action(async (reference: string | undefined, _options: ResumeCommandOptions, command: Command) => {\n      const { last, all, ...options } = command.optsWithGlobals<ResumeCommandOptions>();\n      if (reference !== undefined && (last || all)) {\n        command.error('A session reference cannot be combined with --last or --all.');\n      }\n\n      const workspaceRoot = path.resolve(options.path ?? process.cwd());\n      const sessionManager = dependencies.sessionManager ?? new SessionManager();\n      const projectFilter = all ? undefined : workspaceRoot;\n      try {\n        let sessionId: string | null;\n        if (reference !== undefined) {\n          sessionId = await sessionManager.resolveSessionReference(reference);\n        } else if (last) {"

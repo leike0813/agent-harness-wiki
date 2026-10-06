@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-archive-move
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-session-service
+locator:
+  kind: file_lines
+  file: packages/core/src/services/sessionService.ts
+  start: 3636
+  end: 3649
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/packages/core/src/services/sessionService.ts"
+excerpt: |2-
+          const sourcePath = this.getSessionFilePath(sessionId, 'active');
+          const targetPath = this.getSessionFilePath(sessionId, 'archived');
+          fs.mkdirSync(this.getArchiveChatsDir(), { recursive: true });
+          await options.assertStorageUnchanged?.();
+          options.assertCanMutate?.();
+          this.assertMaintainableSessionUnchanged(sessionId, snapshot);
+          try {
+            fs.renameSync(sourcePath, targetPath);
+          } catch (error) {
+            throw this.sessionFileMoveError('archive', error);
+          }
+          await this.moveArchiveSidecars(
+            sessionId,
+            'archive',

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-lt-app-compaction-persist
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-lt-crates-forge-app-src-app-rs
+locator:
+  kind: file_lines
+  file: crates/forge_app/src/app.rs
+  start: 262
+  end: 273
+official_url: https://github.com/tailcallhq/forgecode/blob/1469f75aa0fa3a2a768bde24f7dc528723b67259/crates/forge_app/src/app.rs
+excerpt: "        // Apply compaction using the Compactor\n        let environment = self.services.get_environment();\n        let compacted_context = Compactor::new(compact, environment).compact(context, true)?;\n\n        let compacted_messages = compacted_context.messages.len();\n        let compacted_tokens = *compacted_context.token_count();\n\n        // Update the conversation with the compacted context\n        conversation.context = Some(compacted_context);\n\n        // Save the updated conversation\n        self.services.upsert_conversation(conversation).await?;"

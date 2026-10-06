@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-sql-todo
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-sql-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/core/src/session/sql.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/sql.ts
+  start: 94
+  end: 108
+excerpt: "  (table) => [\n    index(\"part_message_id_id_idx\").on(table.message_id, table.id),\n    index(\"part_session_idx\").on(table.session_id),\n  ],\n)\n\nexport const TodoTable = sqliteTable(\n  \"todo\",\n  {\n    session_id: text()\n      .$type<SessionSchema.ID>()\n      .notNull()\n      .references(() => SessionTable.id, { onDelete: \"cascade\" }),\n    content: text().notNull(),\n    status: text().notNull(),"

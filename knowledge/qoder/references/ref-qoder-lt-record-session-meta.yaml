@@ -1,0 +1,31 @@
+---
+schema_version: 2
+record_kind: production
+reference_id: ref-qoder-lt-record-session-meta
+harness_id: qoder
+snapshot_id: snapshot-qoder-docs-ide-hooks
+locator:
+  kind: document_section
+  heading: "Record Types"
+official_url: "https://docs.qoder.com/extensions/hooks.md"
+excerpt: |-
+  **1. `session_meta` — Session metadata (first line)**
+
+  The first line of every Transcript file records the session's basic information:
+
+  ```json
+  {
+    "type": "session_meta",
+    "sessionId": "86379a0e-...",
+    "data": {
+      "meta_type": "session_info",
+      "content": {
+        "mode": "agent",
+        "session_type": "assistant"
+      }
+    }
+  }
+  ```
+
+  - `data.content.mode`: Session mode (`agent` / `plan` / `ask` / `debug`)
+  - `data.content.session_type`: Session type (`assistant` / `inline_chat`, etc.)

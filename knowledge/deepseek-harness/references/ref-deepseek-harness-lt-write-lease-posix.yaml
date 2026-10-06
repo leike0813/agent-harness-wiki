@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-write-lease-posix
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-packages-session-session-persistence-jsonl-src-lease-ts
+locator:
+  kind: file_lines
+  file: packages/session/session-persistence-jsonl/src/lease.ts
+  start: 1
+  end: 10
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/lease.ts
+excerpt: "/**\n * Cross-process write-ownership lock for one session's artifact directory,\n * held for the whole life of a write handle. The arbiter is the kernel:\n * POSIX takes a non-blocking `flock(2)` via native system support on `session.lock`\n * beside the log, and Windows holds a named kernel semaphore derived from\n * that path — never a file lock or handle, so readers, searches, and\n * directory removal proceed freely while the lock is held. Contention maps\n * to `SessionAlreadyOwnedError`; the kernel releases the lock when the\n * holder's descriptor or last object handle closes, including on any process\n * death, so a crashed holder never blocks a successor. A live but wedged"

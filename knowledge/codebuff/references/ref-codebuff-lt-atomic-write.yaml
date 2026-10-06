@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-atomic-write
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-cli-src-utils-write-file-atomic-ts
+locator:
+  kind: file_lines
+  file: cli/src/utils/write-file-atomic.ts
+  start: 12
+  end: 31
+official_url: https://github.com/CodebuffAI/codebuff/blob/bd198ff2df3ea9b333e8bf2e5b843735afd4ad9c/cli/src/utils/write-file-atomic.ts
+excerpt: "/**\n * Write a file atomically: write to a temp file in the same directory, then\n * rename over the target. Chat files grow to multiple MB and are rewritten on\n * every agent step, so a plain writeFileSync interrupted by a crash/kill\n * leaves truncated JSON that hides the chat from /history.\n */\nexport function writeFileAtomic(filePath: string, data: string): void {\n  const tmpPath = tempPathFor(filePath)\n  try {\n    fs.writeFileSync(tmpPath, data)\n    fs.renameSync(tmpPath, filePath)\n  } catch (error) {\n    try {\n      fs.unlinkSync(tmpPath)\n    } catch {\n      // Ignore cleanup errors; the original error is what matters\n    }\n    throw error\n  }\n}"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-session-table-fields
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-core-src-session-sql-ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/sql.ts
+  start: 27
+  end: 44
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/core/src/session/sql.ts
+excerpt: "    id: text().$type<SessionSchema.ID>().primaryKey(),\n    project_id: text()\n      .$type<ProjectV2.ID>()\n      .notNull()\n      .references(() => ProjectTable.id, { onDelete: \"cascade\" }),\n    workspace_id: text().$type<WorkspaceV2.ID>(),\n    parent_id: text().$type<SessionSchema.ID>(),\n    slug: text().notNull(),\n    directory: DatabasePath.directoryColumn().notNull(),\n    path: DatabasePath.pathColumn(),\n    title: text().notNull(),\n    version: text().notNull(),\n    share_url: text(),\n    summary_additions: integer(),\n    summary_deletions: integer(),\n    summary_files: integer(),\n    summary_diffs: text({ mode: \"json\" }).$type<Snapshot.LegacyFileDiff[]>(),\n    metadata: text({ mode: \"json\" }).$type<Record<string, unknown>>(),"

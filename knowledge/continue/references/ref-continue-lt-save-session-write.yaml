@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-save-session-write
+harness_id: continue
+snapshot_id: snapshot-continue-lt-extensions-cli-src-session-ts
+locator:
+  kind: file_lines
+  file: extensions/cli/src/session.ts
+  start: 276
+  end: 296
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/session.ts
+excerpt: "/**\n * Save the current session to file\n */\nexport function saveSession(): void {\n  try {\n    const manager = SessionManager.getInstance();\n    if (!manager.hasSession()) {\n      return;\n    }\n\n    const session = manager.getCurrentSession();\n    if (!hasSessionContent(session)) {\n      return;\n    }\n\n    const sessionToSave = getSessionPersistenceSnapshot(session);\n    historyManager.save(sessionToSave);\n  } catch (error) {\n    logger.error(\"Error saving session:\", error);\n  }\n}"

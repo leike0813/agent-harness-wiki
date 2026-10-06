@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-encode-segment
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-lt-packages-session-session-persistence-jsonl-src-format-ts
+locator:
+  kind: file_lines
+  file: packages/session/session-persistence-jsonl/src/format.ts
+  start: 199
+  end: 213
+official_url: https://github.com/deepseek-ai/deepseek-harness/blob/5badb15009ae1756c3afe0ae0cef1faafc290ccc/packages/session/session-persistence-jsonl/src/format.ts
+excerpt: "export function encodeSegment(raw: string): string {\n  if (raw.length === 0) throw new Error('cannot encode an empty path segment')\n  if (raw === '.') return '~002E'\n  if (raw === '..') return '~002E~002E'\n  let out = ''\n  for (let i = 0; i < raw.length; i++) {\n    const code = raw.charCodeAt(i)\n    const ch = String.fromCharCode(code)\n    if (ch !== '~' && /^[A-Za-z0-9._-]$/.test(ch)) {\n      out += ch\n    } else {\n      out += '~' + code.toString(16).toUpperCase().padStart(4, '0')\n    }\n  }\n  return out"

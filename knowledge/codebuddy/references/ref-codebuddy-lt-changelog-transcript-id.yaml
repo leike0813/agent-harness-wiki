@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-lt-changelog-transcript-id
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-lt-changelog-md
+locator:
+  kind: file_lines
+  file: CHANGELOG.md
+  start: 720
+  end: 721
+official_url: https://cnb.cool/codebuddy/codebuddy-code
+excerpt: '- **客户端轮次标识**：raw stream-json 与 ACP 输入支持通过 `_meta[''codebuddy.ai/conversationRequestId'']` 提供 UUIDv7 轮次 ID，并将接纳后的 ID 传播到 transcript、模型请求头和语义消息输出；不扫描 JSONL 历史做碰撞检测。语义消息使用稳定 UUID，模型 generation 继续通过 `providerData.messageId` 分组，并在用户 turn 写入前固定 `conversationRequestId`。
+
+  - **UUIDv7 统一**：消息链路中新生成的 session、turn / 内部 run、模型 / hook generation、history entry、stream-json frame 和 ACP transport UUID 统一使用 UUIDv7，保留原有连字符格式，不重写旧历史或外部 ID；仅接受 UUIDv4 的消费方需要放宽校验。'

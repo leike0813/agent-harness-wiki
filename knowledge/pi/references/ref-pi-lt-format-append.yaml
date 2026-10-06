@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-lt-format-append
+harness_id: pi
+snapshot_id: snapshot-pi-lt-packages-coding-agent-src-core-session-manager-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/session-manager.ts
+  start: 1171
+  end: 1187
+official_url: https://github.com/earendil-works/pi/blob/28dcce2ba45ce4a9efeb0f5b686f0be830fd89b9/packages/coding-agent/src/core/session-manager.ts
+excerpt: "\t_persist(entry: SessionEntry): void {\n\t\tif (!this.persist || !this.sessionFile) return;\n\n\t\tif (!this.flushed) {\n\t\t\tif (!this._hasConversation()) return;\n\t\t\tconst fd = openSync(this.sessionFile, \"wx\");\n\t\t\ttry {\n\t\t\t\tfor (const e of this.fileEntries) {\n\t\t\t\t\twriteFileSync(fd, `${JSON.stringify(e)}\\n`);\n\t\t\t\t}\n\t\t\t} finally {\n\t\t\t\tcloseSync(fd);\n\t\t\t}\n\t\t\tthis.flushed = true;\n\t\t} else {\n\t\t\tappendFileSync(this.sessionFile, `${JSON.stringify(entry)}\\n`);"

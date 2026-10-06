@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-openhands-lt-prompt-history-append
+harness_id: openhands
+snapshot_id: snapshot-openhands-lt-openhands-cli-stores-prompt-history-py
+locator:
+  kind: file_lines
+  file: openhands_cli/stores/prompt_history.py
+  start: 75
+  end: 95
+official_url: https://github.com/OpenHands/OpenHands-CLI/blob/954f2ba646e8d749261a8f2b2b7e3031fa39be9f/openhands_cli/stores/prompt_history.py
+excerpt: "        # Don't add if it's identical to the last entry\n        if entries and entries[-1].get(\"text\") == text:\n            return\n\n        new_entry: PromptHistoryEntry = {\n            \"text\": text,\n            \"timestamp\": datetime.now().isoformat(),\n        }\n        entries.append(new_entry)\n\n        # Truncate if too many entries\n        if len(entries) > self.max_entries:\n            entries = entries[-self.max_entries :]\n\n        # Ensure parent directory exists and write to file\n        try:\n            self.path.parent.mkdir(parents=True, exist_ok=True)\n            with open(self.path, \"w\", encoding=\"utf-8\") as f:\n                json.dump(entries, f, indent=2)\n        except OSError:\n            pass"

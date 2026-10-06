@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-session-id-lookup
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-cmd-session-go
+locator:
+  kind: file_lines
+  file: internal/cmd/session.go
+  start: 222
+  end: 240
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func resolveSessionID(ctx context.Context, svc session.Service, id string) (session.Session, error) {
+  	// Try direct UUID lookup first
+  	if s, err := svc.Get(ctx, id); err == nil {
+  		return s, nil
+  	}
+  
+  	// List all sessions and check for hash matches
+  	sessions, err := svc.List(ctx)
+  	if err != nil {
+  		return session.Session{}, err
+  	}
+  
+  	var matches []session.Session
+  	for _, s := range sessions {
+  		hash := session.HashID(s.ID)
+  		if hash == id || strings.HasPrefix(hash, id) {
+  			matches = append(matches, s)
+  		}
+  	}

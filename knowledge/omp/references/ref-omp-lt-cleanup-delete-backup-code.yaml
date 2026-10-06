@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt-cleanup-delete-backup-code
+harness_id: omp
+snapshot_id: snapshot-omp-lt-repo-fc6c-packages-coding-agent-src-session-session-storage-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-storage.ts
+  start: 1170
+  end: 1185
+official_url: https://github.com/can1357/oh-my-pi/blob/fc6c0c90dab012a0b7edea731af92f5bbd09cff0/packages/coding-agent/src/session/session-storage.ts#L1170-L1185
+excerpt: "\t\t// Remove EPERM-rewrite leftovers (`<name>.jsonl.<snowflake>.bak`): the\n\t\t// picker scan would otherwise resurrect the deleted session from the\n\t\t// newest stale backup (#11499). Best-effort — a locked file warns\n\t\t// instead of failing the delete the user asked for.\n\t\tconst base = path.basename(sessionPath);\n\t\tfor (const bak of this.listFilesSync(path.dirname(sessionPath), \"*.bak\")) {\n\t\t\tif (!path.basename(bak).startsWith(`${base}.`)) continue;\n\t\t\ttry {\n\t\t\t\tawait fsp.unlink(bak);\n\t\t\t} catch (err) {\n\t\t\t\tlogger.warn(\"Failed to remove stale session backup during delete\", {\n\t\t\t\t\tpath: bak,\n\t\t\t\t\terror: toError(err).message,\n\t\t\t\t});\n\t\t\t}"

@@ -1,0 +1,83 @@
+schema_version: 2
+audit_id: audit-roo-code-a45e57c9-adac-4deb-9b76-7aa6466f21b9
+harness_id: roo-code
+checked_at: 2026-10-06T04:35:04.014Z
+status: no_change
+review_status: not_required
+pending_audit_refs: []
+checks:
+  - source_id: source-roo-code-repo
+    kind: git_repository
+    checked_at: 2026-10-06T04:35:02.163Z
+    status: unchanged
+    baseline: b867ec9145750d0ae1ff7f02d35406e9bf2a0b16
+    observed: b867ec9145750d0ae1ff7f02d35406e9bf2a0b16
+    remote_ref: refs/heads/main
+impacts:
+  - topic: local_transcripts
+    question_ids:
+      [
+        transcripts.scope,
+        transcripts.location,
+        transcripts.naming,
+        transcripts.format,
+        transcripts.schema,
+        transcripts.lifecycle,
+        transcripts.database,
+        transcripts.archive,
+        transcripts.cleanup,
+        transcripts.diagnostics,
+      ]
+    section_ids:
+      [
+        transcripts-storage-layout,
+        transcripts-record-content,
+        transcripts-lifecycle,
+        transcripts-list-and-index,
+        transcripts-checkpoints,
+        transcripts-export-and-cleanup,
+        transcripts-diagnostics,
+      ]
+    surface_ids: [vscode]
+    source_refs:
+      [
+        ref-roo-code-lt-global-file-names,
+        ref-roo-code-lt-storage-base-path,
+        ref-roo-code-lt-storage-task-dir,
+        ref-roo-code-lt-write-ui-messages,
+        ref-roo-code-lt-cline-message-schema,
+        ref-roo-code-lt-save-cline-messages,
+        ref-roo-code-lt-store-layout,
+        ref-roo-code-lt-store-paths,
+        ref-roo-code-lt-checkpoint-shadow-dir,
+        ref-roo-code-lt-export-task,
+        ref-roo-code-lt-delete-task-head,
+        ref-roo-code-lt-safe-write-doc,
+      ]
+    cross_topic_links: [config.sources, config.defaults]
+    reason: >-
+      local_transcripts 首采：来源仓库与基线同为 b867ec9145750d0ae1ff7f02d35406e9bf2a0b16，
+      scan 观察到 unchanged，本轮按固定来源首次采写该主题十题并写入新章节。
+      记录位置由 roo-cline.customStoragePath 决定，其加载与覆盖规则归配置机制主题。
+pending_question_ids: []
+investigation_notes:
+  - >-
+    local_transcripts 首次采写，delivery=pr。固定来源为 source-roo-code-repo（官方仓库
+    https://github.com/RooCodeInc/Roo-Code.git）在 commit
+    b867ec9145750d0ae1ff7f02d35406e9bf2a0b16 的只读检出，artifacts 与 snapshots
+    于 2026-10-06T05:40:00Z 由项目 var/lt-refs.py 生成，20 个被引用文件各建一个
+    artifact 与一个 snapshot。
+  - >-
+    只调查 catalog 登记的 vscode 界面；仓库内的其它形态未登记，查询会派生为
+    not_investigated。结论只覆盖源码树，未取任何发行包版本证据，因此不写 mappings。
+  - >-
+    本轮无官方文档原件可用：archive/roo-code/ 在项目根不存在，所有引用均为
+    git_source_file；官方设置参考与检查点文档改引固定提交内的文档源码文件。
+  - >-
+    缺口：transcripts.scope 的“不落盘内容”、transcripts.archive 的原生归档或跨机
+    搬运规则、transcripts.cleanup 的自动保留期或定时清理，均未在固定来源中取到
+    正面证据，对应小节已写明已查入口，状态记为 partial 而非否定结论。
+  - >-
+    检查点仓库使用未经 getStorageBasePath 的原始 globalStorageUri，因此不跟随
+    roo-cline.customStoragePath；该差异来自 getCheckpointService 与 RepoPerTaskCheckpointService.create 的
+    参数传递，章节已按固定来源陈述，未推断运行期行为。

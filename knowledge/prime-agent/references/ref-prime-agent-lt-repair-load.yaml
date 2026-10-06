@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-repair-load
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-crates-pa-core-src-session-manager-repair-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session/manager/repair.rs
+  start: 134
+  end: 147
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/7a52276cb17310f331f1075f28fa5cf9c4ae0a0a/crates/pa-core/src/session/manager/repair.rs
+excerpt: "/// Load entries from a session file (repairing damage first when persisting).\n#[must_use]\npub fn load_entries_from_file(file_path: &Path, repair: bool) -> Vec<FileEntry> {\n    if !file_path.exists() {\n        return Vec::new();\n    }\n    if repair {\n        repair_jsonl_damage(file_path);\n    }\n    let Ok(content) = std::fs::read_to_string(file_path) else {\n        return Vec::new();\n    };\n    finalize_loaded_entries(parse_session_entries(&content))\n}"

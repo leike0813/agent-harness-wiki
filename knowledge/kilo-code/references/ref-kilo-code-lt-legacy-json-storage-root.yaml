@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-legacy-json-storage-root
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-storage-storage-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/storage/storage.ts
+  start: 228
+  end: 240
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/storage/storage.ts
+excerpt: "      })\n      // kilocode_change - run the one-time init in the layer scope. Effect.cached keeps the first\n      // exit, so a first caller that was interrupted during init made every later call fail.\n      const scope = yield* Scope.Scope // kilocode_change\n      const boot = yield* Effect.cached(\n        Effect.gen(function* () {\n          const dir = root ?? path.join(Global.Path.data, \"storage\")\n          const marker = path.join(dir, \"migration\")\n          const migration = yield* fs.readFileString(marker).pipe(\n            Effect.map(parseMigration),\n            Effect.catchIf(missing, () => Effect.succeed(0)),\n            Effect.orElseSucceed(() => 0),\n          )"

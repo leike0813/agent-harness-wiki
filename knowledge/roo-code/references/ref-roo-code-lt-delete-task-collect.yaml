@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-delete-task-collect
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-webview-clineprovider-ts
+locator:
+  kind: file_lines
+  file: src/core/webview/ClineProvider.ts
+  start: 1745
+  end: 1763
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/webview/ClineProvider.ts
+excerpt: "\t\t\tif (cascadeSubtasks) {\n\t\t\t\t// Recursively collect all child IDs\n\t\t\t\tconst collectChildIds = async (taskId: string): Promise<void> => {\n\t\t\t\t\ttry {\n\t\t\t\t\t\tconst { historyItem: item } = await this.getTaskWithId(taskId)\n\t\t\t\t\t\tif (item.childIds && item.childIds.length > 0) {\n\t\t\t\t\t\t\tfor (const childId of item.childIds) {\n\t\t\t\t\t\t\t\tallIdsToDelete.push(childId)\n\t\t\t\t\t\t\t\tawait collectChildIds(childId)\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t} catch (error) {\n\t\t\t\t\t\t// Child task may already be deleted or not found, continue\n\t\t\t\t\t\tconsole.log(`[deleteTaskWithId] child task ${taskId} not found, skipping`)\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tawait collectChildIds(id)\n\t\t\t}"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-paths-agent-dir
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-crates-pa-daemon-src-paths-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/paths.rs
+  start: 44
+  end: 57
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/7a52276cb17310f331f1075f28fa5cf9c4ae0a0a/crates/pa-daemon/src/paths.rs
+excerpt: "/// The agent state root: the `PRIME_AGENT_CODING_AGENT_DIR` override\n/// when set (tilde expanded), else `.prime/agent` under the home\n/// directory.\n///\n/// # Errors\n///\n/// Returns an error when the override cannot be tilde-expanded, or when the\n/// fallback needs the home directory and [`home_dir`] cannot resolve it.\npub fn agent_dir() -> Result<PathBuf> {\n    match std::env::var_os(AGENT_DIR_ENV) {\n        Some(dir) if !dir.is_empty() => expand_tilde(&dir.to_string_lossy()),\n        _ => Ok(home_dir()?.join(CONFIG_DIR_NAME)),\n    }\n}"

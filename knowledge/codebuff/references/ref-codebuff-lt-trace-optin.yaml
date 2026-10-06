@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-trace-optin
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-cli-src-utils-trace-writer-ts
+locator:
+  kind: file_lines
+  file: cli/src/utils/trace-writer.ts
+  start: 22
+  end: 40
+official_url: https://github.com/CodebuffAI/codebuff/blob/bd198ff2df3ea9b333e8bf2e5b843735afd4ad9c/cli/src/utils/trace-writer.ts
+excerpt: " * Returns whether trace writing is enabled: always in dev, opt-in via\n * CODEBUFF_TRACE=1 in production builds (so users don't pay disk for a second\n * copy of their conversation by default).\n */\nexport function isTraceEnabled(): boolean {\n  if (IS_DEV) return true\n  // Same accepted values as CODEBUFF_FULL_TELEMETRY (see analytics-sampling)\n  const flag = getCliEnv().CODEBUFF_TRACE\n  return flag === '1' || flag === 'true' || flag === 'yes'\n}\n\nfunction getTraceFilePath(): string | null {\n  try {\n    return IS_DEV\n      ? path.join(getProjectRoot(), 'debug', TRACE_FILENAME)\n      : path.join(getCurrentChatDir(), TRACE_FILENAME)\n  } catch {\n    return null // No project root set yet\n  }"

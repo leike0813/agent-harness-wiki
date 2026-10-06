@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-loc-runtime-ensure
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-storage
+locator:
+  kind: file_lines
+  file: packages/core/src/config/storage.ts
+  start: 114
+  end: 126
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+      const runtimeDir = Storage.getGlobalRuntimeDir();
+      try {
+        await fs.promises.mkdir(runtimeDir, { recursive: true });
+      } catch {
+        // Silently ignore directory creation failures (e.g., read-only filesystems or permission denials)
+      }
+      return runtimeDir;
+    }
+
+    static getInstallationIdPath(): string {
+      return path.join(Storage.getGlobalRuntimeDir(), 'installation_id');
+    }

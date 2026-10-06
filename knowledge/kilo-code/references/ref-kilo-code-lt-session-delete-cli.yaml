@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-session-delete-cli
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-cli-cmd-session-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/cli/cmd/session.ts
+  start: 55
+  end: 72
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/cli/cmd/session.ts
+excerpt: "  command: \"delete <sessionID>\",\n  describe: \"delete a session\",\n  builder: (yargs) =>\n    yargs.positional(\"sessionID\", {\n      describe: \"session ID to delete\",\n      type: \"string\",\n      demandOption: true,\n    }),\n  handler: Effect.fn(\"Cli.session.delete\")(function* (args) {\n    const svc = yield* Session.Service\n    const sessionID = SessionID.make(args.sessionID)\n    yield* svc\n      .remove(sessionID)\n      .pipe(Effect.catchIf(NotFoundError.isInstance, () => fail(`Session not found: ${args.sessionID}`)))\n    UI.println(UI.Style.TEXT_SUCCESS_BOLD + `Session ${args.sessionID} deleted` + UI.Style.TEXT_NORMAL)\n  }),\n})"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-lt-retention-roots
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-kilocode-session-retention-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/session/retention.ts
+  start: 234
+  end: 250
+official_url: https://github.com/Kilo-Org/kilocode/blob/62f674d4a91969ac077e4a7b6ceeb8a99de80e47/packages/opencode/src/kilocode/session/retention.ts
+excerpt: "    const roots: string[] = []\n    for (const row of rows) {\n      if (!expired.has(row.id)) continue\n      const seen = new Set<string>()\n      let cur: Row | undefined = row\n      let cascaded = false\n      while (cur?.parentID && !seen.has(cur.id)) {\n        seen.add(cur.id)\n        if (expired.has(cur.parentID)) {\n          cascaded = true\n          break\n        }\n        cur = byId.get(cur.parentID)\n      }\n      if (!cascaded) roots.push(row.id)\n    }\n    return { expired, roots, skipped }"

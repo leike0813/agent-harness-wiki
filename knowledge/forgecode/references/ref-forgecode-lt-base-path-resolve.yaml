@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-lt-base-path-resolve
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-lt-crates-forge-config-src-reader-rs
+locator:
+  kind: file_lines
+  file: crates/forge_config/src/reader.rs
+  start: 67
+  end: 84
+official_url: https://github.com/tailcallhq/forgecode/blob/1469f75aa0fa3a2a768bde24f7dc528723b67259/crates/forge_config/src/reader.rs
+excerpt: "    fn resolve_base_path() -> PathBuf {\n        if let Ok(path) = std::env::var(\"FORGE_CONFIG\") {\n            return PathBuf::from(path);\n        }\n\n        let base = dirs::home_dir().unwrap_or(PathBuf::from(\".\"));\n        let path = base.join(\"forge\");\n\n        // Prefer ~/forge (legacy) when it exists so existing users are not\n        // disrupted; fall back to ~/.forge as the default.\n        if path.exists() {\n            tracing::info!(\"Using legacy path\");\n            return path;\n        }\n\n        tracing::info!(\"Using new path\");\n        base.join(\".forge\")\n    }"

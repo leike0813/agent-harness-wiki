@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-forgecode-lt-domain-conversation-id
+harness_id: forgecode
+snapshot_id: snapshot-forgecode-lt-crates-forge-domain-src-conversation-rs
+locator:
+  kind: file_lines
+  file: crates/forge_domain/src/conversation.rs
+  start: 10
+  end: 31
+official_url: https://github.com/tailcallhq/forgecode/blob/1469f75aa0fa3a2a768bde24f7dc528723b67259/crates/forge_domain/src/conversation.rs
+excerpt: "#[derive(Debug, Default, Display, Serialize, Deserialize, Clone, PartialEq, Eq, Hash)]\n#[serde(transparent)]\npub struct ConversationId(Uuid);\n\nimpl Copy for ConversationId {}\n\nimpl ConversationId {\n    pub fn generate() -> Self {\n        Self(Uuid::new_v4())\n    }\n\n    pub fn into_string(&self) -> String {\n        self.0.to_string()\n    }\n\n    pub fn parse(value: impl ToString) -> Result<Self> {\n        Ok(Self(\n            Uuid::parse_str(&value.to_string()).map_err(Error::ConversationId)?,\n        ))\n    }\n}"

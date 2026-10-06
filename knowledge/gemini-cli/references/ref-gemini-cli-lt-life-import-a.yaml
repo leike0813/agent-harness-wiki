@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-life-import-a
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-cli-entry
+locator:
+  kind: file_lines
+  file: packages/cli/src/gemini.tsx
+  start: 336
+  end: 356
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+    if (sessionFileArg) {
+      try {
+        const sessionData = await loadConversationRecord(sessionFileArg);
+        if (!sessionData) {
+          throw new Error(`File not found or invalid format: ${sessionFileArg}`);
+        }
+
+        const now = Date.now();
+        const isoNow = new Date(now).toISOString();
+
+        // Filter out old system/info messages that are specific to the previous run
+        // and only keep actual conversation messages (user/gemini).
+        // Best effort parse: ensure message is an object and has required fields.
+        sessionData.messages = (sessionData.messages || []).filter(
+          (m) =>
+            typeof m === 'object' &&
+            m !== null &&
+            (m.type === 'user' || m.type === 'gemini') &&
+            m.content !== undefined,
+        );

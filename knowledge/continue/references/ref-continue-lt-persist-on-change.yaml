@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-persist-on-change
+harness_id: continue
+snapshot_id: snapshot-continue-lt-extensions-cli-src-services-chathistoryservice-ts
+locator:
+  kind: file_lines
+  file: extensions/cli/src/services/ChatHistoryService.ts
+  start: 44
+  end: 68
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/services/ChatHistoryService.ts
+excerpt: "  private setHistoryInternal(\n    history: ChatHistoryItem[],\n    options: {\n      recordUndo?: boolean;\n      compactionIndex?: number | null;\n      persist?: boolean; // set to false to skip persistence (rare)\n    } = {},\n  ): void {\n    const { recordUndo = true, compactionIndex, persist } = options;\n    const prev = this.currentState.history;\n    if (recordUndo) {\n      this.past.push([...prev]);\n      this.future = [];\n    }\n    this.setState({\n      history: [...history],\n      compactionIndex:\n        compactionIndex === undefined\n          ? this.findCompactionIndex(history)\n          : compactionIndex,\n    });\n\n    if (this.currentState.isRemoteMode) {\n      // Skip persistence in remote mode\n    } else if (persist !== false) {"

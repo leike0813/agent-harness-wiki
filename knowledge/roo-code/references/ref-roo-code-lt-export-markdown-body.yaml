@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-export-markdown-body
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-integrations-misc-export-markdown-ts
+locator:
+  kind: file_lines
+  file: src/integrations/misc/export-markdown.ts
+  start: 32
+  end: 49
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/integrations/misc/export-markdown.ts
+excerpt: "export async function downloadTask(\n\tdateTs: number,\n\tconversationHistory: Anthropic.MessageParam[],\n\tdefaultUri: vscode.Uri,\n): Promise<vscode.Uri | undefined> {\n\t// File name\n\tconst fileName = getTaskFileName(dateTs)\n\n\t// Generate markdown\n\tconst markdownContent = conversationHistory\n\t\t.map((message) => {\n\t\t\tconst role = message.role === \"user\" ? \"**User:**\" : \"**Assistant:**\"\n\t\t\tconst content = Array.isArray(message.content)\n\t\t\t\t? message.content.map((block) => formatContentBlockToMarkdown(block as ExtendedContentBlock)).join(\"\\n\")\n\t\t\t\t: message.content\n\t\t\treturn `${role}\\n\\n${content}\\n\\n`\n\t\t})\n\t\t.join(\"---\\n\\n\")"

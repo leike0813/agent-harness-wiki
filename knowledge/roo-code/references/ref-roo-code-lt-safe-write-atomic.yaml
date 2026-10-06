@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-safe-write-atomic
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-utils-safewritejson-ts
+locator:
+  kind: file_lines
+  file: src/utils/safeWriteJson.ts
+  start: 87
+  end: 103
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/utils/safeWriteJson.ts
+excerpt: "\t\tactualTempNewFilePath = path.join(\n\t\t\tpath.dirname(absoluteFilePath),\n\t\t\t`.${path.basename(absoluteFilePath)}.new_${Date.now()}_${Math.random().toString(36).substring(2)}.tmp`,\n\t\t)\n\n\t\tawait _streamDataToFile(actualTempNewFilePath, data, options?.prettyPrint)\n\n\t\t// Step 2: Check if the target file exists. If so, rename it to a backup path.\n\t\ttry {\n\t\t\t// Check for target file existence\n\t\t\tawait fs.access(absoluteFilePath)\n\t\t\t// Target exists, create a backup path and rename.\n\t\t\tactualTempBackupFilePath = path.join(\n\t\t\t\tpath.dirname(absoluteFilePath),\n\t\t\t\t`.${path.basename(absoluteFilePath)}.bak_${Date.now()}_${Math.random().toString(36).substring(2)}.tmp`,\n\t\t\t)\n\t\t\tawait fs.rename(absoluteFilePath, actualTempBackupFilePath)"

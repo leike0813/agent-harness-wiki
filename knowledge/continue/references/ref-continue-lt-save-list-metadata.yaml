@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-continue-lt-save-list-metadata
+harness_id: continue
+snapshot_id: snapshot-continue-lt-core-util-history-ts
+locator:
+  kind: file_lines
+  file: core/util/history.ts
+  start: 129
+  end: 152
+official_url: https://github.com/continuedev/continue/blob/5522c6f44ca0ac3528b37244818fbfa39b5af470/core/util/history.ts
+excerpt: "    }\n\n    fs.writeFileSync(\n      getSessionFilePath(session.sessionId),\n      JSON.stringify(orderedSession, undefined, 2),\n    );\n\n    // Read and update the sessions list\n    const sessionsListFilePath = getSessionsListPath();\n    try {\n      const rawSessionsList = fs.readFileSync(sessionsListFilePath, \"utf-8\");\n\n      let sessionsList: BaseSessionMetadata[];\n      try {\n        sessionsList = JSON.parse(rawSessionsList);\n      } catch (e) {\n        if (rawSessionsList.trim() === \"\") {\n          fs.writeFileSync(sessionsListFilePath, JSON.stringify([]));\n          sessionsList = [];\n        } else {\n          throw e;\n        }\n      }"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-session-delete-api
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-agent-rs
+locator:
+  kind: file_lines
+  file: crates/agent/src/agent.rs
+  start: 3148
+  end: 3160
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent/src/agent.rs
+excerpt: "    fn supports_delete(&self) -> bool {\n        true\n    }\n\n    fn delete_session(&self, session_id: &acp_v1::SessionId, cx: &mut App) -> Task<Result<()>> {\n        self.thread_store\n            .update(cx, |store, cx| store.delete_thread(session_id.clone(), cx))\n    }\n\n    fn delete_sessions(&self, cx: &mut App) -> Task<Result<()>> {\n        self.thread_store\n            .update(cx, |store, cx| store.delete_threads(cx))\n    }"

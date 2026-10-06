@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-wire-record
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-lt-packages-agent-core-v2-src-wire-record-ts
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/wire/record.ts
+  start: 1
+  end: 31
+official_url: https://github.com/MoonshotAI/kimi-code/blob/21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3/packages/agent-core-v2/src/wire/record.ts
+excerpt: "import { WIRE_PROTOCOL_VERSION } from './migration/migration';\n\nexport const AGENT_WIRE_RECORD_KEY = 'wire.jsonl';\n\nexport type PartsTransformer = (parts: readonly unknown[]) => Promise<readonly unknown[]>;\n\nexport type RecordDehydrator = (\n  record: WireRecord,\n  transform: PartsTransformer,\n) => WireRecord | Promise<WireRecord>;\n\nexport interface WireLineRange {\n  readonly start: number;\n  readonly end: number;\n}\n\nexport interface WireRecord {\n  readonly type: string;\n  readonly time?: number;\n  readonly [key: string]: unknown;\n}\n\nexport interface WireMetadataRecord extends WireRecord {\n  readonly type: 'metadata';\n  readonly protocol_version: string;\n  readonly created_at: number;\n}\n\nexport function isWireRecord(record: unknown): record is WireRecord {\n  return (\n    record !== null &&"

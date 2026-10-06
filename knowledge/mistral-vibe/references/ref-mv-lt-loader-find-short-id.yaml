@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-loader-find-short-id
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-loader-find-short-id
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_loader.py
+  start: 190
+  end: 198
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/session_loader.py
+excerpt: "    def _find_session_dirs_by_short_id(\n        session_id: str, config: SessionLoggingConfig\n    ) -> list[Path]:\n        save_dir = Path(config.save_dir)\n        if not save_dir.exists():\n            return []\n\n        short_id = shorten_session_id(session_id)\n        return list(save_dir.glob(f\"{config.session_prefix}_*_{short_id}\"))"

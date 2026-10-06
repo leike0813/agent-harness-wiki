@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-lt-load-session-files
+harness_id: autohand
+snapshot_id: snapshot-autohand-lt-src-session-sessionmanager-ts
+locator:
+  kind: file_lines
+  file: src/session/SessionManager.ts
+  start: 688
+  end: 705
+official_url: https://github.com/autohandai/code-cli/blob/a248656e78244f8387c0d0e436786fe801ad6599/src/session/SessionManager.ts
+excerpt: "    async load(): Promise<void> {\n        // Load conversation\n        const conversationPath = path.join(this.sessionDir, 'conversation.jsonl');\n        if (await fs.pathExists(conversationPath)) {\n            const content = await fs.readFile(conversationPath, 'utf-8');\n            this.messages = content\n                .trim()\n                .split('\\n')\n                .filter(line => line)\n                .map(line => JSON.parse(line) as SessionMessage);\n        }\n\n        // Load state\n        const statePath = path.join(this.sessionDir, 'state.json');\n        if (await fs.pathExists(statePath)) {\n            this.state = await fs.readJson(statePath) as WorkspaceState;\n        }\n    }"

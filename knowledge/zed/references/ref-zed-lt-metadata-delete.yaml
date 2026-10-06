@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-metadata-delete
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-ui-src-thread-metadata-store-rs
+locator:
+  kind: file_lines
+  file: crates/agent_ui/src/thread_metadata_store.rs
+  start: 1572
+  end: 1581
+official_url: https://github.com/zed-industries/zed/blob/a1b71072e5b43faef437b471e988fbb5f972c99c/crates/agent_ui/src/thread_metadata_store.rs
+excerpt: "    /// Delete metadata for a single thread.\n    pub async fn delete(&self, thread_id: ThreadId) -> anyhow::Result<()> {\n        self.write(move |conn| {\n            let mut stmt =\n                Statement::prepare(conn, \"DELETE FROM sidebar_threads WHERE thread_id = ?\")?;\n            stmt.bind(&thread_id, 1)?;\n            stmt.exec()\n        })\n        .await\n    }"

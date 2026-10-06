@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-lt-lifecycle-fork-copy
+harness_id: pi
+snapshot_id: snapshot-pi-lt-packages-coding-agent-src-core-session-manager-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/session-manager.ts
+  start: 1846
+  end: 1862
+official_url: https://github.com/earendil-works/pi/blob/28dcce2ba45ce4a9efeb0f5b686f0be830fd89b9/packages/coding-agent/src/core/session-manager.ts
+excerpt: "\t\t// Write new header pointing to source as parent, with updated cwd\n\t\tconst newHeader: SessionHeader = {\n\t\t\ttype: \"session\",\n\t\t\tversion: CURRENT_SESSION_VERSION,\n\t\t\tid: newSessionId,\n\t\t\ttimestamp,\n\t\t\tcwd: resolvedTargetCwd,\n\t\t\tparentSession: resolvedSourcePath,\n\t\t};\n\t\twriteFileSync(newSessionFile, `${JSON.stringify(newHeader)}\\n`, { flag: \"wx\" });\n\n\t\t// Copy all non-header entries from source\n\t\tfor (const entry of sourceEntries) {\n\t\t\tif (entry.type !== \"session\") {\n\t\t\t\tappendFileSync(newSessionFile, `${JSON.stringify(entry)}\\n`);\n\t\t\t}"

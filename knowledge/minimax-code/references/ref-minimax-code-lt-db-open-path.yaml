@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-lt-db-open-path
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-local-runtime-v2-src-infra-db-client-ts
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/infra/db/client.ts
+  start: 108
+  end: 122
+official_url: https://github.com/MiniMax-AI/MiniMax-Code/blob/185277170817c50e9dd5339c2893e850d610fa1e/packages/local-runtime-v2/src/infra/db/client.ts
+excerpt: "    }\n  }\n\n  private open(): BetterSqlite3Instance {\n    mkdirSync(dirname(this.dbPath), { recursive: true });\n    const Database = loadSqlite3Constructor(this.options.sqlite3ModulePath);\n    const sqlite = new Database(this.dbPath);\n    try {\n      // v1 and v2 temporarily access the same database through separate connections; keep PRAGMAs aligned.\n      sqlite.exec(`\n        PRAGMA journal_mode = WAL;\n        PRAGMA busy_timeout = 5000;\n        PRAGMA foreign_keys = ON;\n      `);\n      const drizzleDb = drizzle({ client: sqlite as never });"

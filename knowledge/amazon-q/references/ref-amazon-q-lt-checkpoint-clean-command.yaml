@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-amazon-q-lt-checkpoint-clean-command
+harness_id: amazon-q
+snapshot_id: snapshot-amazon-q-lt-crates-chat-cli-src-cli-chat-cli-checkpoint-rs
+locator:
+  kind: file_lines
+  file: crates/chat-cli/src/cli/chat/cli/checkpoint.rs
+  start: 260
+  end: 278
+official_url: https://github.com/aws/amazon-q-developer-cli/blob/15cc8f3cd18c4272925ce1c7053268eedff1ea0a/crates/chat-cli/src/cli/chat/cli/checkpoint.rs
+excerpt: "    async fn handle_clean(&self, os: &Os, session: &mut ChatSession) -> Result<ChatState, ChatError> {\n        let Some(manager) = session.conversation.checkpoint_manager.take() else {\n            execute!(\n                session.stderr,\n                StyledText::warning_fg(),\n                style::Print(\"⚠️ ️Checkpoints not enabled.\\n\"),\n                StyledText::reset(),\n            )?;\n            return Ok(ChatState::PromptUser {\n                skip_printing_tools: true,\n            });\n        };\n\n        // Print the path that will be deleted\n        execute!(\n            session.stderr,\n            style::Print(format!(\"Deleting: {}\\n\", manager.shadow_repo_path.display()))\n        )?;"

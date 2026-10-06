@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-export-output
+harness_id: cline
+snapshot_id: snapshot-cline-lt-apps-cli-src-session-history-export-ts
+locator:
+  kind: file_lines
+  file: apps/cli/src/session/history-export.ts
+  start: 8
+  end: 32
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/apps/cli/src/session/history-export.ts
+excerpt: "export async function exportHistorySession(input: {\n\tsessionId: string;\n\tformat: HistoryExportFormat;\n\toutputPath?: string;\n\toutputDirectory?: string;\n}): Promise<string> {\n\tconst { sessionId, format, outputPath, outputDirectory } = input;\n\tconst data = await readSessionMessagesArtifact(sessionId);\n\tif (!data) {\n\t\tthrow new Error(`Session ${sessionId} not found or has no messages.json`);\n\t}\n\n\tconst targetPath = outputPath?.trim()\n\t\t? resolve(outputPath)\n\t\t: resolve(\n\t\t\t\toutputDirectory?.trim() || process.cwd(),\n\t\t\t\t`${sessionId}.${format}`,\n\t\t\t);\n\tconst contents =\n\t\tformat === \"html\"\n\t\t\t? generateConversationHTML(data, sessionId)\n\t\t\t: `${JSON.stringify(data, null, 2)}\\n`;\n\n\tawait mkdir(dirname(targetPath), { recursive: true });\n\tawait writeFile(targetPath, contents, \"utf8\");"

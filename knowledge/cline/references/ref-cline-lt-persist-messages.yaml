@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-lt-persist-messages
+harness_id: cline
+snapshot_id: snapshot-cline-lt-sdk-packages-core-src-session-stores-session-manifest-store-ts
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/session/stores/session-manifest-store.ts
+  start: 220
+  end: 242
+official_url: https://github.com/cline/cline/blob/dec80dadfa4fcb5ec6978aa7055406709dddd43d/sdk/packages/core/src/session/stores/session-manifest-store.ts
+excerpt: "\tasync persistSessionMessages(\n\t\tsessionId: string,\n\t\tmessages: LlmsProviders.MessageWithMetadata[],\n\t\tsystemPrompt?: string,\n\t): Promise<void> {\n\t\tconst row = await this.resolveSessionRow(sessionId);\n\t\tconst path =\n\t\t\ttypeof row.messagesPath === \"string\" && row.messagesPath.trim().length > 0\n\t\t\t\t? row.messagesPath\n\t\t\t\t: this.artifacts.sessionMessagesPath(sessionId);\n\t\tconst payload = buildMessagesFilePayload({\n\t\t\tupdatedAt: nowIso(),\n\t\t\tcontext: resolveMessagesFileContext(row),\n\t\t\tmessages: messages as StoredMessageWithMetadata[],\n\t\t\tsystemPrompt,\n\t\t});\n\t\tconst contents = `${JSON.stringify(payload, null, 2)}\\n`;\n\t\tmkdirSync(dirname(path), { recursive: true });\n\t\twriteFileSync(path, contents, \"utf8\");\n\t\tif (!this.messagesArtifactUploader) {\n\t\t\treturn;\n\t\t}\n\t\ttry {"

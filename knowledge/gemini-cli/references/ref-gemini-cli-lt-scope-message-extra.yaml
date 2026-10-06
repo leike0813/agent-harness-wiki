@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-lt-scope-message-extra
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-lt-recording-types
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingTypes.ts
+  start: 69
+  end: 90
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+  /**
+   * Message type and message type-specific fields.
+   */
+  export type ConversationRecordExtra =
+    | {
+        type: 'user' | 'info' | 'error' | 'warning';
+      }
+    | {
+        type: 'gemini';
+        toolCalls?: ToolCallRecord[];
+        thoughts?: Array<ThoughtSummary & { timestamp: string }>;
+        tokens?: TokensSummary | null;
+        model?: string;
+      };
+
+  /**
+   * A single message record in a conversation.
+   */
+  export type MessageRecord = BaseMessageRecord & ConversationRecordExtra;
+
+  /**
+   * Complete conversation record stored in session files.

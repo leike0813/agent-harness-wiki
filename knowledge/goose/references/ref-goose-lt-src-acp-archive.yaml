@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-acp-archive
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-acp-manage-sessions
+locator:
+  kind: file_lines
+  file: crates/goose/src/acp/server/manage_sessions.rs
+  start: 221
+  end: 237
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+      pub(super) async fn on_archive_session(
+          &self,
+          req: ArchiveSessionRequest,
+      ) -> Result<EmptyResponse, agent_client_protocol::Error> {
+          self.session_manager
+              .update(&req.session_id)
+              .archived_at(Some(chrono::Utc::now()))
+              .apply()
+              .await
+              .internal_err()?;
+          self.sessions.lock().await.remove(&req.session_id);
+          self.agent_manager
+              .remove_session_if_loaded(&req.session_id)
+              .await
+              .internal_err_ctx("Failed to remove in-memory agent")?;
+          Ok(EmptyResponse {})
+      }

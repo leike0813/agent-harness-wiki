@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-lt-condense-summary-markers
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-lt-src-core-condense-index-ts
+locator:
+  kind: file_lines
+  file: src/core/condense/index.ts
+  start: 450
+  end: 468
+official_url: https://github.com/Zoo-Code-Org/Zoo-Code/blob/d7963fc2db8ff07189e9f22079b15d67ad3a8bfd/src/core/condense/index.ts
+excerpt: "\t// Generate a unique condenseId for this summary\n\tconst condenseId = crypto.randomUUID()\n\n\t// Use the last message's timestamp + 1 to ensure unique timestamp for summary.\n\t// The summary goes at the end of all messages.\n\tconst lastMsgTs = messages[messages.length - 1]?.ts ?? Date.now()\n\n\tconst summaryMessage: ApiMessage = {\n\t\trole: \"user\", // Fresh start model: summary is a user message\n\t\tcontent: summaryContent,\n\t\tts: lastMsgTs + 1, // Unique timestamp after last message\n\t\tisSummary: true,\n\t\tcondenseId, // Unique ID for this summary, used to track which messages it replaces\n\t}\n\n\t// NON-DESTRUCTIVE CONDENSE:\n\t// Tag ALL existing messages with condenseParent so they are filtered out when\n\t// the effective history is computed. The summary message is the only message"

@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-lt-src-paths-app-strategy
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261006-paths
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/paths.rs
+  start: 19
+  end: 27
+official_url: "https://github.com/block/goose"
+excerpt: |2-
+              // NOTE: "Block" is kept here for backwards compatibility with existing
+              // user config/data directories (e.g. ~/Library/Application Support/Block/goose/).
+              // Changing this would orphan existing installations.
+              let strategy = choose_app_strategy(AppStrategyArgs {
+                  top_level_domain: "Block".to_string(),
+                  author: "Block".to_string(),
+                  app_name: "goose".to_string(),
+              })
+              .expect("goose requires a home dir");

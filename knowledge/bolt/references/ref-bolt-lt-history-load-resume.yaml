@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-lt-history-load-resume
+harness_id: bolt
+snapshot_id: snapshot-bolt-lt-app-lib-persistence-usechathistory-ts
+locator:
+  kind: file_lines
+  file: app/lib/persistence/useChatHistory.ts
+  start: 32
+  end: 61
+official_url: https://github.com/stackblitz/bolt.new/blob/eda10b121221b30825a4c16eec5da1fd3eb1eb99/app/lib/persistence/useChatHistory.ts
+excerpt: "  useEffect(() => {\n    if (!db) {\n      setReady(true);\n\n      if (persistenceEnabled) {\n        toast.error(`Chat persistence is unavailable`);\n      }\n\n      return;\n    }\n\n    if (mixedId) {\n      getMessages(db, mixedId)\n        .then((storedMessages) => {\n          if (storedMessages && storedMessages.messages.length > 0) {\n            setInitialMessages(storedMessages.messages);\n            setUrlId(storedMessages.urlId);\n            description.set(storedMessages.description);\n            chatId.set(storedMessages.id);\n          } else {\n            navigate(`/`, { replace: true });\n          }\n\n          setReady(true);\n        })\n        .catch((error) => {\n          toast.error(error.message);\n        });\n    }\n  }, []);"

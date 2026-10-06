@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bolt-lt-db-set-messages
+harness_id: bolt
+snapshot_id: snapshot-bolt-lt-app-lib-persistence-db-ts
+locator:
+  kind: file_lines
+  file: app/lib/persistence/db.ts
+  start: 44
+  end: 66
+official_url: https://github.com/stackblitz/bolt.new/blob/eda10b121221b30825a4c16eec5da1fd3eb1eb99/app/lib/persistence/db.ts
+excerpt: "export async function setMessages(\n  db: IDBDatabase,\n  id: string,\n  messages: Message[],\n  urlId?: string,\n  description?: string,\n): Promise<void> {\n  return new Promise((resolve, reject) => {\n    const transaction = db.transaction('chats', 'readwrite');\n    const store = transaction.objectStore('chats');\n\n    const request = store.put({\n      id,\n      messages,\n      urlId,\n      description,\n      timestamp: new Date().toISOString(),\n    });\n\n    request.onsuccess = () => resolve();\n    request.onerror = () => reject(request.error);\n  });\n}"

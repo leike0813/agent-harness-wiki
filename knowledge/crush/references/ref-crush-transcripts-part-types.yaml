@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-part-types
+harness_id: crush
+snapshot_id: snapshot-crush-transcripts-internal-message-content-go
+locator:
+  kind: file_lines
+  file: internal/message/content.go
+  start: 109
+  end: 126
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  type ToolCall struct {
+  	ID               string `json:"id"`
+  	Name             string `json:"name"`
+  	Input            string `json:"input"`
+  	ProviderExecuted bool   `json:"provider_executed"`
+  	Finished         bool   `json:"finished"`
+  }
+  
+  func (ToolCall) isPart() {}
+  
+  type ToolResult struct {
+  	ToolCallID string `json:"tool_call_id"`
+  	Name       string `json:"name"`
+  	Content    string `json:"content"`
+  	Data       string `json:"data"`
+  	MIMEType   string `json:"mime_type"`
+  	Metadata   string `json:"metadata"`
+  	IsError    bool   `json:"is_error"`

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-fork-branch-copy
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-crates-pa-core-src-session-manager-lifecycle-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session/manager/lifecycle.rs
+  start: 14
+  end: 28
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/7a52276cb17310f331f1075f28fa5cf9c4ae0a0a/crates/pa-core/src/session/manager/lifecycle.rs
+excerpt: "/// The fork's branch copy (TS `forkFrom`'s entry loop): drop the source\n/// header and its `git_state` rows, re-linking any child whose parent was a\n/// dropped row to the nearest kept ancestor. Re-parented entries round-trip\n/// through their own JSON (TS `{ ...entry, parentId }`) so every other field\n/// stays verbatim.\nfn forked_branch_entries(entries: Vec<FileEntry>) -> Vec<FileEntry> {\n    // git_state rows describe the source repo; the fork reports its own.\n    let mut dropped_parent: HashMap<String, Option<String>> = HashMap::new();\n    for entry in &entries {\n        if matches!(entry, FileEntry::GitState { .. }) {\n            if let Some(id) = entry.id() {\n                dropped_parent.insert(id.to_string(), entry.parent_id().map(str::to_string));\n            }\n        }\n    }"

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-append-write-path
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-lt-chat-recording
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingService.ts
+  start: 1631
+  end: 1646
+official_url: "https://github.com/QwenLM/qwen-code/blob/18dc7775e5a2d5d49edda57096ca7265803259cf/packages/core/src/services/chatRecordingService.ts"
+excerpt: |2-
+            // The authority appends through the same lease; writing the record
+            // here as well would leave a raw line in the Managed Session log.
+            await managedSink.write(record);
+          } else if (lease) {
+            await lease.appendJsonLine(record);
+          } else if (!this.writerLeaseRequired && legacyConversationFile) {
+            await jsonl.writeLine(legacyConversationFile, record);
+          } else {
+            throw new SessionWriterUnavailableError();
+          }
+          if (updateActiveTail) {
+            this.lastPersistedRecordUuid = record.uuid;
+          }
+        } catch (error) {
+          throw this.enterWriteFailure(error, record.sessionId);
+        }

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-torn-read-loop
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-lt-packages-agent-core-v2-src-persistence-backends-node-fs-filestorageservice-ts
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/persistence/backends/node-fs/fileStorageService.ts
+  start: 33
+  end: 52
+official_url: https://github.com/MoonshotAI/kimi-code/blob/21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3/packages/agent-core-v2/src/persistence/backends/node-fs/fileStorageService.ts
+excerpt: "  async read(scope: string, key: string): Promise<Uint8Array | undefined> {\n    const filePath = this.pathFor(scope, key);\n    for (let attempt = 0; ; attempt += 1) {\n      let bytes: Uint8Array;\n      try {\n        bytes = await readFile(filePath);\n      } catch (error) {\n        if (isEnoent(error)) return undefined;\n        throw toStorageIoError(error, { path: filePath, op: 'read' });\n      }\n      if (attempt >= TORN_READ_RETRIES) return bytes;\n      let size: number | undefined;\n      try {\n        size = (await stat(filePath)).size;\n      } catch {\n        size = undefined;\n      }\n      if (size === undefined || size === bytes.length) return bytes;\n      await new Promise((resolve) => setTimeout(resolve, TORN_READ_RETRY_DELAY_MS));\n    }"

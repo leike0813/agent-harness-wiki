@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-tool-output-cleanup
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-tool-output-store-20261006
+official_url: https://github.com/anomalyco/opencode/blob/652c090dc119b5f3dc1e5e0bf1c4b40d9721f0ef/packages/core/src/tool-output-store.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/tool-output-store.ts
+  start: 172
+  end: 188
+excerpt: "        outputPaths: [outputPath],\n      }\n    })\n\n    const cleanup = Effect.fn(\"ToolOutputStore.cleanup\")(function* () {\n      const entries = yield* fs.readDirectory(directory).pipe(Effect.catch(() => Effect.succeed([])))\n      const cutoff = Date.now() - Duration.toMillis(RETENTION)\n      for (const entry of entries) {\n        if (!entry.startsWith(\"tool_\")) continue\n        const file = path.join(directory, entry)\n        const info = yield* fs.stat(file).pipe(Effect.catch(() => Effect.void))\n        const modified = info?.mtime.pipe(\n          Option.map((date) => date.getTime()),\n          Option.getOrElse(() => 0),\n        )\n        if (modified !== undefined && modified < cutoff) yield* fs.remove(file).pipe(Effect.catch(() => Effect.void))\n      }"

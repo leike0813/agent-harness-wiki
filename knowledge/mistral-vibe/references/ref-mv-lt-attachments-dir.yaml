@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-attachments-dir
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-lt-attachments-dir
+locator:
+  kind: file_lines
+  file: vibe/core/session/image_snapshot.py
+  start: 40
+  end: 48
+official_url: https://github.com/mistralai/mistral-vibe/blob/7c19608af06f6c61d63f8f7a5c3430da73fba2ab/vibe/core/session/image_snapshot.py
+excerpt: "def _persist(data: bytes, *, ext: str, session_dir: Path) -> Path:\n    attachments_dir = session_dir / \"attachments\"\n    attachments_dir.mkdir(parents=True, exist_ok=True)\n\n    digest = hashlib.sha1(data, usedforsecurity=False).hexdigest()\n    dest = attachments_dir / f\"{digest}{ext}\"\n    if not dest.exists():\n        dest.write_bytes(data)\n    return dest.resolve()"

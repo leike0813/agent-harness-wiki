@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-roo-code-lt-store-reconcile
+harness_id: roo-code
+snapshot_id: snapshot-roo-code-lt-src-core-task-persistence-taskhistorystore-ts
+locator:
+  kind: file_lines
+  file: src/core/task-persistence/TaskHistoryStore.ts
+  start: 238
+  end: 258
+official_url: https://github.com/RooCodeInc/Roo-Code/blob/b867ec9145750d0ae1ff7f02d35406e9bf2a0b16/src/core/task-persistence/TaskHistoryStore.ts
+excerpt: "\t/**\n\t * Scan task directories vs index and fix any drift.\n\t *\n\t * - Tasks on disk but missing from cache: read and add\n\t * - Tasks in cache but missing from disk: remove\n\t */\n\tasync reconcile(): Promise<void> {\n\t\t// Run through the write lock to prevent interleaving with upsert/delete\n\t\treturn this.withLock(async () => {\n\t\t\tconst tasksDir = await this.getTasksDir()\n\n\t\t\tlet dirEntries: string[]\n\t\t\ttry {\n\t\t\t\tdirEntries = await fs.readdir(tasksDir)\n\t\t\t} catch {\n\t\t\t\treturn // tasks dir doesn't exist yet\n\t\t\t}\n\n\t\t\t// Filter out the index file and hidden files\n\t\t\tconst taskDirNames = dirEntries.filter((name) => !name.startsWith(\"_\") && !name.startsWith(\".\"))"
