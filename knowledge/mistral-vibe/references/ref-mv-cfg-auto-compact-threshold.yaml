@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-cfg-auto-compact-threshold
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-schema
+locator:
+  kind: file_lines
+  file: vibe/core/config/vibe_schema.py
+  start: 956
+  end: 969
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |4-
+            global_cap = self.auto_compact_threshold
+            global_set = global_cap != UNSET_AUTO_COMPACT_THRESHOLD
+            global_value = global_cap if global_set else DEFAULT_AUTO_COMPACT_THRESHOLD
+            models = {}
+            for alias, model in self.models.items():
+                window = model.max_context_length
+                cap = model.auto_compact_threshold
+                if cap != UNSET_AUTO_COMPACT_THRESHOLD and (window is None or cap < window):
+                    models[alias] = model
+                    continue
+                if global_set and (window is None or global_value < window):
+                    threshold = global_value
+                elif window:
+                    threshold = int(window * AUTO_COMPACT_WINDOW_RATIO)

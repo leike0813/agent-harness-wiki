@@ -1,0 +1,143 @@
+schema_version: 2
+audit_id: audit-pi-20261006t134000z
+harness_id: pi
+checked_at: 2026-10-06T13:44:19.289Z
+previous_audit_id: audit-pi-52367b72-118b-46ea-aad9-61bbba8d807e
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-pi-04bf1025-2be8-4fc0-855b-8d1d86097fcc
+  - audit-pi-20261004t061205z
+  - audit-pi-52367b72-118b-46ea-aad9-61bbba8d807e
+checks:
+  - source_id: source-pi-npm-legacy
+    kind: npm_registry
+    checked_at: 2026-10-06T13:44:16.799Z
+    status: unchanged
+    baseline: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+    observed: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+  - source_id: source-pi-repo
+    kind: git_repository
+    checked_at: 2026-10-06T13:44:16.800Z
+    status: changed
+    baseline: 28dcce2ba45ce4a9efeb0f5b686f0be830fd89b9
+    observed: 56b25ff4ebbd8a119ef9185447c7b2416059dbcb
+    remote_ref: refs/heads/main
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-files
+      - config-defaults
+      - config-overrides
+      - config-migration
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-cli-tools-modifiers
+      - ref-pi-config-cli-tools-reload
+      - ref-pi-config-cli-tools-validation
+      - ref-pi-config-env-dotenv-files
+      - ref-pi-config-binary-dotenv-autoload-off
+      - ref-pi-config-update-release-retention
+      - ref-pi-config-update-release-prune
+    cross_topic_links:
+      - mcp.exposure
+      - transcripts.location
+    reason: >-
+      --tools 新增 +name/-name 形态，改的是已解析出的默认选择而非整体替换，
+      v3 的“--tools 覆盖 defaultTools”只对纯名称一支成立；docs/settings.md
+      同时把 /reload 与 --tools 的关系改写为“纯名称覆盖、增减条目作用于重载后的
+      设置”。同一提交还带来独立二进制从启动目录加载 .env/.env.local/.env.development
+      （config.sources），以及 pi update 受管安装只保留新版本与被升级的那一版
+      （config.migration）。config.runtime、config.trust 本轮未在变更集内命中，沿用原固定
+      来源范围；config.diagnostics 已随本轮复核，仍缺打印某键最终生效值与来源的命令，
+      按 partial 保留在待办。
+  - topic: mcp
+    question_ids:
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-capabilities
+      - mcp-config
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-mcp-cli-tools-keep-mcp
+      - ref-pi-mcp-cli-tools-mcp-pattern-example
+      - ref-pi-mcp-config-rules
+      - ref-pi-mcp-diagnostics-list
+      - ref-pi-mcp-diagnostics-log
+      - ref-pi-mcp-diagnostics-inspect
+    cross_topic_links:
+      - config.overrides
+      - config.defaults
+    reason: >-
+      命令行 --tools 是独立于 server 级 exposure 的一层过滤：帮助文本写明纯名称
+      allowlist 默认保留 MCP 工具，除非条目以 mcp__ 开头。v3 未记载这一层关系。
+      mcp__ 保留规则在上一固定提交 28dcce2 已存在，
+      本轮新增的是 +name/-name 形态，因此该形态不带 mcp__ 条目、也无从触发保留
+      规则这一层交叉关系需要成文。mcp__ 与 exposure、toolExposure 的叠加顺序
+      本固定来源未说明，按缺口记录。mcp.diagnostics 已随本轮复核，缺少按 exposure
+      逐个确认工具可见、确认单次调用是否成功的检查步骤，仍为 partial。
+      其余 mcp 问题本轮不在变更集内。
+pending_question_ids:
+  - config.sources
+  - config.migration
+  - config.diagnostics
+  - mcp.diagnostics
+investigation_notes:
+  - 本轮 triage 分类：maintain（来源身份修正 + configuration / mcp 定向维护）
+  - 来源身份问题优先于内容，已在本轮候选内修正：registry/sources/source-pi-repo.yaml 的
+    repository_url 改为 https://github.com/earendil-works/pi.git，source-pi-npm.yaml 的
+    package_name 改为 @earendil-works/pi-coding-agent。依据是固定提交 56b25ff4 下 13 个
+    package.json 的 repository 字段全部为 git+https://github.com/earendil-works/pi.git、
+    根 README 的 npm 徽章与安装命令指向 @earendil-works/pi-coding-agent、nix flake 指向
+    github:earendil-works/pi/stable、CHANGELOG 的 issue 链接全部指向 earendil-works/pi。
+    检出仍成功是因为 GitHub 对旧地址 301 重定向，属同仓改名而非新仓。
+  - 按仓库既有惯例（kimi-code 的 source-kimi-code-legacy-repo、forgecode 的
+    source-forgecode-npm-forge）保留旧身份：新增 source-pi-legacy-repo 与
+    source-pi-npm-legacy，并登记进 registry/harnesses/pi.yaml 的 source_refs。
+    校验规则要求 managed_package artifact 与 npm_release snapshot 的 package_name 与
+    其 source 一致，因此 snapshot-pi-npm、snapshot-pi-readme-npm、artifact-pi-npm、
+    artifact-pi-readme-npm 四条历史记录的 source_id 改指 source-pi-npm-legacy；
+    记录的版本、integrity、路径与内容 hash 一律未动。
+  - 本轮 checks 里的 npm 观察值原本记在 source-pi-npm 名下。身份修正后该 id 指向新包，
+    保留原样会变成错误归属，故改记为 source-pi-npm-legacy；观察值本身（0.73.1 与同一
+    integrity）未变。
+  - source-pi-npm（新身份 @earendil-works/pi-coding-agent）与 source-pi-legacy-repo 本轮
+    没有各自的独立观察记录：观察发生在身份修正之前，且固定源码工作区由旧地址检出。
+    新 npm 来源没有基线，下一轮监控会首次观察并建立基线；在此之前该来源的
+    version/integrity 未取证，本轮不据此写任何版本结论。
+  - 知识内部不一致已消除：52 条仍带 badlogic/pi-mono 的 official_url 统一改为
+    earendil-works/pi。改动只替换 URL 的 owner/rego 段，固定 commit、文件路径、
+    行区间与摘录一律未动，因此已发布章节的证据内容不受影响。
+  - packages/coding-agent/src/cli/args.ts 与 CHANGELOG [Unreleased]：--tools 新增
+    +name/-name 条目，语义为改默认选择而非整体替换，并写明除非条目以 mcp__ 开头否则
+    保留 MCP 工具；pi update 只保留新版本与被升级的那一版；独立二进制从启动目录加载
+    .env/.env.local/.env.development。
+  - 六类已登记来源文件全部在变更集内（docs/settings.md、docs/message-types.md、
+    cli/args.ts、package.json、core/settings-manager.ts、README.md）。本轮能逐条复核的
+    只有固定在工作区里的 28dcce2 一档：4 条引用按其自身固定提交复核通过，其中
+    ref-pi-lt-schema-image-inline 的行区间多含一行空行，已由 27-38 修正为 27-37。
+    另有 15 条引用固定在 83692682 与 781152fc 两档，这两档在浅克隆工作区里不可达，
+    本轮无法复核行区间；由于引用按 commit 固定，其原定位仍是对该提交的准确引用，
+    不构成错误，本轮按未复核记录。
+  - 排除的路径及理由：README.md 新增的“Using local packages outside the monorepo”是
+    贡献者构建流程（pack:packages、use-local-packages.mjs），面向本地开发而非终端用户
+    的配置入口，与已登记的 packages 命令知识不是同一机制；packages/ai 的 OAuth 与
+    provider 改动、test/、scripts/ 其余发布脚本、lockfile 与版本号均未触及本轮限定的
+    固定问题；docs/message-types.md 的改动是文档与实现对齐，未移动 ImageContent 小节，
+    只影响 transcripts.schema 的措辞精度，本轮按父进程范围只复核引用定位、不重开该主题。
+  - 本轮未新增任何软件版本映射。CHANGELOG 已有 1.0.0-1.0.4 的结构化版本，但新结论
+    来自 [Unreleased] 段（发布前状态），且 source-pi-npm 尚无新包的 registry 观察，
+    逐小节证据不足，按 source_only 记录。
+  - review_status 保持 pending：本轮改写了已发布章节 pi-configuration-v3 的
+    “--tools 覆盖 defaultTools”结论，且 --tools 是 configuration 与 mcp 共用的
+    工具选择机制，属需要独立复核的情形；reviewed_by / reviewed_at 留空待父进程处置。

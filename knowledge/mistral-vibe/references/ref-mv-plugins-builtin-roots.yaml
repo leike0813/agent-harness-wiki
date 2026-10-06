@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-plugins-builtin-roots
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-plugin-roots
+locator:
+  kind: file_lines
+  file: vibe/app_server/_plugins.py
+  start: 100
+  end: 106
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  def packaged_builtin_plugin_roots() -> list[Path]:
+      """Discover built-in plugin directories shipped inside the package."""
+      try:
+          import vibe.plugins.builtins as _pkg
+      except ImportError:
+          return []
+      return [Path(_pkg.__file__).parent]

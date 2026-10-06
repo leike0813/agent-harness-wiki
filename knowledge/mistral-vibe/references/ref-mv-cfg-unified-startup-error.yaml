@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-cfg-unified-startup-error
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-harness-select
+locator:
+  kind: file_lines
+  file: vibe/_experimental_harness.py
+  start: 13
+  end: 20
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+  class ExperimentalHarnessUnavailableError(RuntimeError):
+      """The Unified Harness Runtime cannot load.
+
+      Raised at startup instead of falling back to the legacy harness: with the
+      Unified Harness as the required default runtime, a missing, incompatible,
+      or failed Runtime is a packaging or platform error, and silently running
+      a second engine would reintroduce the fallback this hard default removes.
+      """

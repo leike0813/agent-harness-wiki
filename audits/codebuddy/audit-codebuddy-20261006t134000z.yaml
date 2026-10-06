@@ -1,0 +1,115 @@
+schema_version: 2
+audit_id: audit-codebuddy-20261006t134000z
+harness_id: codebuddy
+checked_at: 2026-10-06T13:41:45.616Z
+previous_audit_id: audit-codebuddy-15aad900-8357-4b25-afcf-ad92cde5f78b
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-codebuddy-15aad900-8357-4b25-afcf-ad92cde5f78b
+checks:
+  - source_id: source-codebuddy-docs
+    kind: git_repository
+    checked_at: 2026-10-06T13:41:41.943Z
+    status: changed
+    baseline: 8c7caf7ad5edd6ec9367a51fbeec2f4f167aa109
+    observed: a70dea0bfddb9c0c22f7d300e3f3fa61f718e6f6
+    remote_ref: refs/heads/main
+    changed_paths:
+      - docs/acp.md
+      - docs/slash-commands.md
+      - docs/web-ui.md
+  - source_id: source-codebuddy-site
+    kind: official_documentation
+    checked_at: 2026-10-06T13:41:41.950Z
+    status: unchanged
+    baseline: 6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b
+    observed: 6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b
+    resolved_url: https://www.codebuddy.cn/llms.txt
+  - source_id: source-codebuddy-npm
+    kind: npm_registry
+    checked_at: 2026-10-06T13:41:41.953Z
+    status: unchanged
+    baseline: 2.161.4@sha512-JBoVzj8rdcpWsgbTlfmsy0TYE61RGHbBlXPoEeWHFbuNCtj0DCAXA9tQ435zJGGUAQmqOI+35Ag35FWNPf4mXg==
+    observed: 2.161.4@sha512-JBoVzj8rdcpWsgbTlfmsy0TYE61RGHbBlXPoEeWHFbuNCtj0DCAXA9tQ435zJGGUAQmqOI+35Ag35FWNPf4mXg==
+impacts:
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.archive
+      - transcripts.cleanup
+    section_ids:
+      - transcripts-recording-scope
+      - transcripts-retention-and-purge
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-lt-slash-export-surfaces
+      - ref-codebuddy-lt-webui-export-zip
+      - ref-codebuddy-lt-env-config-dir
+      - ref-codebuddy-lt-settings-cleanup-days
+      - ref-codebuddy-lt-cli-purge-scope
+    cross_topic_links:
+      - skills.invocation
+    reason: "/export 的官方描述按前端拆分：终端侧仍只写导出到文件或剪贴板，
+      Web UI 侧新增下载当前会话的 ZIP 归档（含对话记录与可用会话日志，共享工作区日志只收录
+      含当前会话 ID 的行）。这把原先单一的导出事实变成两条界面相关且不等价的结论，并新增
+      归档内容范围与敏感性提示，直接影响 transcripts.archive 的导出通道与 transcripts.cleanup
+      的保留边界；transcripts.scope 一并记录以说明归档内容含提示词与本地路径，但记录范围本身
+      未变。"
+  - topic: skills
+    question_ids:
+      - skills.discovery
+      - skills.invocation
+    section_ids:
+      - skills-roots
+      - skills-invocation
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-skills-acp-command-list
+      - ref-codebuddy-skills-overrides
+      - ref-codebuddy-skills-roots
+    cross_topic_links:
+      - transcripts.scope
+      - transcripts.archive
+    reason: "ACP 模式推送的命令列表不再按“本地命令”过滤，改按“客户端专属 / 终端面板专属”
+      过滤，因此 /clear、/compact 等会话控制命令会下发。这改变了可调用 Skill 与命令在 ACP
+      客户端的可见性口径，落在 skills.invocation；同时核对确认 Skill 发现位置与扫描规则
+      （skills.discovery、skills.roots）未受本轮变更影响，ACP 推送列表仍只包含当前可调用的
+      项目级、用户级和插件 Skill，并按可见性配置变化刷新。"
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：local_transcripts 与 skills 为 maintain；mcp、custom_agents、
+    custom_providers、hooks、native_plugins、configuration 六个主题为 reviewed_no_impact。
+  - 变更范围核实：固定工作区 ws-a70dea0bfddb-8abf2a45-e326-4648-a737-425d12f436af 在
+    8c7caf7a → a70dea0b 之间只有 1 个提交，git diff --name-only 确认改动文件恰为
+    docs/acp.md、docs/slash-commands.md、docs/web-ui.md 三个，各 1 处；CHANGELOG.md 与其余
+    docs 文件逐字未变。本轮新增快照只固定这三个文件，不重新读取未变更文件。
+  - docs/acp.md：ACP 模式下的命令列表过滤规则改变——不再过滤本地命令（/clear、/exit），
+    改为过滤客户端专属命令（/theme、/config）与终端面板专属命令（/stats、/rewind）；
+    /clear、/compact 等会话控制命令会下发给客户端触发后由服务端执行。落在 skills.invocation
+    的可见性口径。
+  - docs/slash-commands.md：/export 一行改为“终端中导出当前对话到文件或剪贴板；Web UI 中
+    下载当前会话的对话记录与可用调试日志 ZIP。归档可能包含敏感信息，分享前请检查”。
+  - docs/web-ui.md：“复制与导出”条目新增 /export ZIP 归档说明：含对话记录及可用的会话日志，
+    共享工作区日志只收录含当前会话 ID 的行，归档可能包含提示词、本地路径和敏感信息。
+  - 界面边界处理：/export 的两种行为分属终端 TUI 与 Web UI 两个前端，catalog 中 codebuddy
+    只声明 cli 一个界面，两者都在同一 CLI 进程内但结论不等价；章节正文按前端分列并写明
+    “斜杠命令表把两种行为合并成一行不构成终端也能下 ZIP 的证据”，未把任一界面结论外推到另一界面。
+  - 三条既有 local_transcripts 引用锚点复核（在新修订下逐行核对）：acp.md:73、
+    slash-commands.md:45 与 :47-48 文本与行号均未变，变化发生在这些锚点之后；因此继续沿用
+    旧修订快照，不改写已发布引用。ref-codebuddy-lt-webui-export 指向的 web-ui.md 内容已变，
+    改为新增 ref-codebuddy-lt-webui-export-zip 固定新修订，旧引用保留供已发布的
+    local_transcripts-v1 继续引用。
+  - 六个主题的排除依据：本轮三个变更文件的内容分别属于 ACP 命令列表推送与 /export 导出，
+    不涉及 MCP server/transport/认证、subagent 定义与内置 agent、provider 端点与鉴权、
+    hook 事件与匹配规则、插件清单与安装解析、配置文件键与合并优先级。对应章节 source_refs
+    所引用的文件在本修订下均未变化，因此不改写这些章节，也不新增断言。
+  - 未新增版本映射：官方文档未对上述行为声明适用版本，文档仓库提交不等于 npm 发行版行为，
+    故本轮不写任何 software mapping。
+  - review_status 保持 pending：本审计的 pending_audit_refs 仍指向 review_status 为 pending
+    的 audit-codebuddy-15aad900-8357-4b25-afcf-ad92cde5f78b，其 pending_question_ids 覆盖其余
+    主题且本轮未解决（按任务范围不得改写这些主题）。按“新审计引用未解决的旧审计时保持
+    pending”的约定，本审计不写 reviewed_by/reviewed_at，避免间接关闭被引用审计的未完成项。
+    pending_question_ids 为空表示本轮观察没有遗留未答问题，不等同于被引用审计已结案。

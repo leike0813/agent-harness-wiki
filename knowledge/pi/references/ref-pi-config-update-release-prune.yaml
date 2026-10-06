@@ -1,0 +1,11 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-config-update-release-prune
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261006-src-package-manager-cli-ts
+locator:
+  kind: symbol
+  file: packages/coding-agent/src/package-manager-cli.ts
+  symbol: pruneManagedReleases
+official_url: https://github.com/earendil-works/pi/blob/56b25ff4ebbd8a119ef9185447c7b2416059dbcb/packages/coding-agent/src/package-manager-cli.ts
+excerpt: "function pruneManagedReleases(managedRoot: string, activeVersion: string): void {\n	const releasesRoot = join(managedRoot, \"releases\");\n	let entries: string[];\n	try {\n		entries = readdirSync(releasesRoot);\n	} catch {\n		return;\n	}\n	for (const entry of entries) {\n		if (entry === activeVersion || entry === VERSION || !MANAGED_RELEASE_VERSION_RE.test(entry)) continue;"

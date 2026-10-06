@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-cfg-utility-models-config
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-models
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 64
+  end: 81
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+    class UtilityFeature(StrEnum):
+        """A background feature with its own model; values are ``[utility_models]`` keys."""
+
+        TITLE = "title"
+        SMART_APPROVE = "smart_approve"
+
+
+    # The ``[utility_models]`` value that selects the session's active model.
+    ACTIVE_MODEL_SELECTOR = "active"
+
+
+    class UtilityModelsConfig(BaseSettings):
+        """Per-feature model aliases; empty means automatic selection."""
+
+        model_config = SettingsConfigDict(extra="ignore")
+
+        title: str = ""
+        smart_approve: str = ""

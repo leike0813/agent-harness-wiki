@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-lt-store-format-minor-8
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-lt-store
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_storage.py
+  start: 87
+  end: 98
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |-
+    STORE_FORMAT = "mistral.vibe.unified-session-store/v1"
+    # Readers accept lower minor versions and reject higher ones.
+    # 2: projection deltas; 3: checkpoint-derived interop exports;
+    # 4: chunked transcripts; 5: checkpoint capability baselines;
+    # 6: self-describing reservations and abandoned receipts;
+    # 7: checkpoint configuration baselines and recorded transition shapes;
+    # 8: pruned request and result bodies on any settled Action but a process, and
+    #    pooled capability catalogs.
+    # An additive field needs no bump: an older reader keeps what it cannot
+    # interpret and writes it back. Bump only for a change an older reader must not
+    # attempt, which is the one thing this number is allowed to mean.
+    # Downgrading after a newer build writes the store is unsupported.

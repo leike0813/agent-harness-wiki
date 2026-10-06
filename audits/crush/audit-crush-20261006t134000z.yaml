@@ -1,0 +1,93 @@
+schema_version: 2
+audit_id: audit-crush-20261006t134000z
+harness_id: crush
+checked_at: 2026-10-06T13:42:37.263Z
+previous_audit_id: audit-crush-f2c1632d-d1da-4abf-a4be-8e2bafbae95a
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-crush-f2c1632d-d1da-4abf-a4be-8e2bafbae95a
+checks:
+  - source_id: source-crush-repo
+    kind: git_repository
+    checked_at: 2026-10-06T13:42:34.220Z
+    status: changed
+    baseline: 8da349060b7df148d209979be0a5e9c9281d1f15
+    observed: 65865e01950368379ad1f9746b620a77fb7a5da8
+    remote_ref: refs/heads/main
+  - source_id: source-crush-npm
+    kind: npm_registry
+    checked_at: 2026-10-06T13:42:34.227Z
+    status: unchanged
+    baseline: 0.97.1@sha512-HloGB3U3SSVpQ9BMe6p88EMBPRx47YidQZ9LdNu6Gn3SF8xAIeUNJd3rfByGfoJugh2uLoX1Q0M0Dz2HHTFvqw==
+    observed: 0.97.1@sha512-HloGB3U3SSVpQ9BMe6p88EMBPRx47YidQZ9LdNu6Gn3SF8xAIeUNJd3rfByGfoJugh2uLoX1Q0M0Dz2HHTFvqw==
+impacts:
+  - topic: mcp
+    question_ids:
+      - mcp.transport
+      - mcp.lifecycle
+      - mcp.diagnostics
+      - mcp.capabilities
+    section_ids:
+      - mcp-scope
+      - mcp-transport
+      - mcp-lifecycle
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-crush-code-mcp-ping
+      - ref-crush-code-mcp-client
+      - ref-crush-code-mcp-states
+      - ref-crush-code-mcp-resources
+      - ref-crush-code-mcp-initialize
+      - ref-crush-code-mcp-budget
+      - ref-crush-code-mcp-auth
+      - ref-crush-code-mcp-oauth
+      - ref-crush-code-mcp-sse-oauth
+      - ref-crush-code-mcp-timeout
+      - ref-crush-code-mcp-transport
+    cross_topic_links:
+      - config.diagnostics
+      - hooks.diagnostics
+    reason: "source-crush-repo: internal/agent/tools/mcp/init.go 的 pingSession 改动健康判定语义；该文件的 10 条已登记 reference 行区间同时失效，需要按新 commit 重新定位"
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：maintain
+  - internal/agent/tools/mcp/init.go 的 pingSession 现在把 JSON-RPC MethodNotFound
+    视为成功：服务端应答了但不实现 ping 时不再判为失败，其余错误照旧返回。
+  - 该文件被 10 条已登记 reference
+    引用（auth/budget/client/initialize/oauth/ping/sse-oauth/states/timeout/transport），本次插入
+    7 行，引用行区间需要整体复核。
+  - channel
+    机制（channel_enabled、--channels、SubscribeChannelEvents）此前已在章节登记，本轮不是首次引入。
+  - 两个测试文件无产品语义，排除。
+  - worker triage：本轮 3 个变更文件中只有 init.go 是生产代码；pingSession 之外该文件无语义改动，
+    getOrRenewClient、AuthenticateMCP、createTransport、mcpTimeout、State 与事件定义所在行段内容逐条比对未变。
+  - 已完成 mcp.transport、mcp.lifecycle、mcp.diagnostics、mcp.capabilities 四题：正文新建
+    crush-cli-mcp-v3（保留 v1/v2），健康判定按“能不能用”而非“ping 有没有报错”表述；mcp.capabilities
+    逐题核对后无变化，ListTools/Resources/Prompts 三条路径本轮未被触及，正文未改。
+  - 调用方核对：pingSession 的生产调用方只有 getOrRenewClient（快路径与锁内复查各一次），其余重连、
+    超时与代次作废行为本轮无变化，因此只写 ping 语义，未扩到重连策略。
+  - 10 条 init.go 引用已按新 commit 65865e0 重新定位：import 之后 +1、pingSession 函数体之后 +6，
+    start 小于 890 的引用整体 +1（states/initialize/auth/budget/client），start 大于 891 的整体 +7
+    （transport/oauth/sse-oauth/timeout），pingSession 自身由 888-905 改为 889-899 且摘录重取。
+  - '引用身份改挂新快照 snapshot-crush-repo-20261006（kind 为 git_source_file，commit 65865e0，file
+    为 internal/agent/tools/mcp/init.go，content_sha256 ead11feb…），不记录临时检出路径。'
+  - 附带发现（未在本轮扩大范围）：上述 10 条引用此前声明的 snapshot 是 snapshot-crush-repo（commit
+    69c65c3d），但其记录的行区间与 commit 8da34906 的文件布局逐条吻合，而 69c65c3d 的检出本机不可得、无法核对。
+    本轮只把 init.go 的 10 条改挂到可核对的新 commit，其余 191 条 snapshot-crush-repo 引用未动。
+  - 跨章节影响：ref-crush-code-mcp-initialize 与 ref-crush-code-mcp-states 同时被已选章节
+    crush-cli-native_plugins-v1 引用；被引代码本轮无实质变化（仅行号平移），故只更新引用定位、不改该章节。
+  - 排除：internal/agent/prompt/git_test.go 与 internal/agent/tools/mcp/ping_test.go 是测试文件，
+    无产品语义；ping_test.go 只佐证 MethodNotFound 容错与已关闭会话仍失败，不作为知识证据引用。
+  - 排除：configuration 的隐藏旗标 --channels 位于 crush-cli-configuration-v1 第 140 行，其证据是
+    ref-crush-code-cli-flags（internal/cmd 下的旗标注册），本轮未变更，不受影响。
+  - 版本边界：本轮不新增软件版本映射。commit 65865e0 只代表源码树，npm 来源 unchanged（0.97.1 同一
+    integrity），不据此为任何已发布版本建立映射。
+  - 'pending_question_ids 为空的依据：上一轮 audit-crush-f2c1632d 列出的 49 道 pending 问题是扫描器
+    的整树清单，未被它自己收窄；核对当前八个章节，config/agents/providers/hooks/plugins/skills/mcp/transcripts
+    各题都已有 answered、partial 或 not_applicable 的正式答案，没有真正未完成的问题，故本轮不继承该清单。'
+  - '复核状态：本轮四题属普通更新并已由作者按候选完整 diff 自检，但 pending_audit_refs 指向的
+    audit-crush-f2c1632d 自身仍是 review_status 为 pending，按契约不得借本审计标 reviewed 间接关闭它，
+    因此本审计保持 pending，是否结案该前置审计留给协调者。'

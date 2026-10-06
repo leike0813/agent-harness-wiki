@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-cfg-compaction-provider-share
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-schema
+locator:
+  kind: file_lines
+  file: vibe/core/config/vibe_schema.py
+  start: 735
+  end: 742
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |4-
+        def _shares_active_provider(self, model: ModelConfig) -> bool:
+            # Compaction rides the active model's connection, so a model on another
+            # provider would be sent to the wrong endpoint.
+            try:
+                active_provider = self.get_provider_for_model(self.get_active_model())
+            except ValueError:
+                return True
+            return model.provider == active_provider.name

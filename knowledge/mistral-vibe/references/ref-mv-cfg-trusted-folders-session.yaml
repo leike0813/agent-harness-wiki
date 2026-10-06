@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-cfg-trusted-folders-session
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-trust
+locator:
+  kind: file_lines
+  file: vibe/core/trusted_folders.py
+  start: 229
+  end: 233
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |4-
+        def for_session(self) -> TrustedFoldersManager:
+            """Share persisted decisions without inheriting temporary grants."""
+            manager = copy(self)
+            manager._session_trusted = []
+            return manager

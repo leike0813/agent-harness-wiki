@@ -1,0 +1,899 @@
+schema_version: 2
+audit_id: audit-mistral-vibe-20261006t134000z
+harness_id: mistral-vibe
+checked_at: 2026-10-06T13:43:58.416Z
+previous_audit_id: audit-mistral-vibe-1e1c8953-50a0-4928-b41e-a3618556faa6
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-mistral-vibe-repo
+    kind: git_repository
+    checked_at: 2026-10-06T13:43:56.056Z
+    status: changed
+    baseline: 7c19608af06f6c61d63f8f7a5c3430da73fba2ab
+    observed: 7cb91894c40bb25173abcfa36e5ea2b4b81eb28c
+    remote_ref: refs/heads/main
+  - source_id: source-mistral-vibe-docs-agents
+    kind: official_documentation
+    checked_at: 2026-10-06T13:43:56.063Z
+    status: unchanged
+    baseline: 6bbd6f7af40946c8bd637addcc7f2e720d168d3783793102a91a873cb5cee6fc
+    observed: 6bbd6f7af40946c8bd637addcc7f2e720d168d3783793102a91a873cb5cee6fc
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/agents.md
+  - source_id: source-mistral-vibe-docs-api-keys
+    kind: official_documentation
+    checked_at: 2026-10-06T13:43:56.065Z
+    status: unchanged
+    baseline: d3b4a3612570c773f67e9b6c7e9cd4b9ae00493ae4d6d0c484e30570025c7f33
+    observed: d3b4a3612570c773f67e9b6c7e9cd4b9ae00493ae4d6d0c484e30570025c7f33
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/api-keys-profiles.md
+  - source_id: source-mistral-vibe-docs-configuration
+    kind: official_documentation
+    checked_at: 2026-10-06T13:43:56.066Z
+    status: unchanged
+    baseline: 6dcf543b738dfa70c597f881d54f677df53bbd30683b563f1c11adf983d689c3
+    observed: 6dcf543b738dfa70c597f881d54f677df53bbd30683b563f1c11adf983d689c3
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/configuration.md
+  - source_id: source-mistral-vibe-docs-configuration-reference
+    kind: official_documentation
+    checked_at: 2026-10-06T13:43:56.775Z
+    status: unchanged
+    baseline: 32d47da097f7621e9e9f8fe7d973802813fc877a4fd38f773ce45326715d1e1d
+    observed: 32d47da097f7621e9e9f8fe7d973802813fc877a4fd38f773ce45326715d1e1d
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/configuration-reference.md
+  - source_id: source-mistral-vibe-docs-hooks
+    kind: official_documentation
+    checked_at: 2026-10-06T13:43:56.848Z
+    status: unchanged
+    baseline: 1693ed84151385fae02169f87833353acbe906bd7f30f08ace0688fcded256ed
+    observed: 1693ed84151385fae02169f87833353acbe906bd7f30f08ace0688fcded256ed
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/hooks.md
+  - source_id: source-mistral-vibe-docs-mcp-servers
+    kind: official_documentation
+    checked_at: 2026-10-06T13:43:57.200Z
+    status: unchanged
+    baseline: 6cbb4e5628bb61eaec363575c4fb51308bcf6204e06e3c60cb93422f5accc9cf
+    observed: 6cbb4e5628bb61eaec363575c4fb51308bcf6204e06e3c60cb93422f5accc9cf
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/mcp-servers.md
+  - source_id: source-mistral-vibe-docs-safety
+    kind: official_documentation
+    checked_at: 2026-10-06T13:43:57.499Z
+    status: unchanged
+    baseline: 07b5f30e47989715914d001310055e30085fdc53265a1456663c95dd4361ac14
+    observed: 07b5f30e47989715914d001310055e30085fdc53265a1456663c95dd4361ac14
+    resolved_url: https://docs.mistral.ai/vibe/code/safety-approvals-permissions.md
+  - source_id: source-mistral-vibe-docs-skills
+    kind: official_documentation
+    checked_at: 2026-10-06T13:43:57.694Z
+    status: unchanged
+    baseline: 37d8056495cb1de0a57b10e147f1c6c0ea79d9a60d75ece565feebffd292c27e
+    observed: 37d8056495cb1de0a57b10e147f1c6c0ea79d9a60d75ece565feebffd292c27e
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/skills.md
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-merge
+      - config-runtime
+      - config-trust
+      - config-defaults-migration
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-mv-admin-config
+      - ref-mv-agent-profile-layer
+      - ref-mv-changelog-version
+      - ref-mv-config-defaults
+      - ref-mv-config-file-paths
+      - ref-mv-config-fingerprint
+      - ref-mv-config-introspect
+      - ref-mv-config-layer-list
+      - ref-mv-config-layer-stack
+      - ref-mv-config-migration
+      - ref-mv-config-origin-labels
+      - ref-mv-default-models
+      - ref-mv-default-providers
+      - ref-mv-env-layer
+      - ref-mv-merge-markers
+      - ref-mv-readme-workdir
+      - ref-mv-recorded-defaults
+      - ref-mv-tools-field
+      - ref-mv-trusted-store
+      - ref-mv-vibe-home-paths
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-mistral-vibe-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-entry
+      - agents-format
+      - agents-roles
+      - agents-invocation
+      - agents-overrides-limits
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-mv-agent-enums
+      - ref-mv-agent-profile-layer
+      - ref-mv-agents-available
+      - ref-mv-agents-builtin-map
+      - ref-mv-agents-diagnostics
+      - ref-mv-agents-discovery
+      - ref-mv-agents-from-toml
+      - ref-mv-agents-search-paths
+      - ref-mv-agents-select
+      - ref-mv-agents-subagents
+      - ref-mv-readme-agents
+      - ref-mv-readme-builtin-agents
+      - ref-mv-readme-subagents
+      - ref-mv-task-args
+      - ref-mv-task-permission
+      - ref-mv-task-tool
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-mistral-vibe-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-entry
+      - providers-auth
+      - providers-protocol
+      - providers-models
+      - providers-metadata
+      - providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-mv-adapter-selection
+      - ref-mv-api-adapters
+      - ref-mv-api-key-resolution
+      - ref-mv-backend-enum
+      - ref-mv-config-defaults
+      - ref-mv-default-models
+      - ref-mv-default-providers
+      - ref-mv-model-config
+      - ref-mv-model-normalize
+      - ref-mv-provider-config
+      - ref-mv-providers-field
+      - ref-mv-readme-apikeys
+      - ref-mv-readme-custom-domains
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-mistral-vibe-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-events
+      - hooks-entry
+      - hooks-io
+      - hooks-order
+      - hooks-conditions
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-mv-hook-files
+      - ref-mv-hooks-config-model
+      - ref-mv-hooks-executor
+      - ref-mv-hooks-failure-reason
+      - ref-mv-hooks-failure
+      - ref-mv-hooks-handlers
+      - ref-mv-hooks-harness-lifecycle
+      - ref-mv-hooks-invocations
+      - ref-mv-hooks-load
+      - ref-mv-hooks-manager
+      - ref-mv-hooks-post-agent
+      - ref-mv-hooks-post-tool
+      - ref-mv-hooks-pre-tool
+      - ref-mv-hooks-response
+      - ref-mv-hooks-tolerance
+      - ref-mv-hooks-types
+      - ref-mv-hooks-validation
+      - ref-mv-name-matching
+      - ref-mv-readme-hooks
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-mistral-vibe-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-entry
+      - mcp-definition
+      - mcp-auth
+      - mcp-lifecycle
+      - mcp-exposure
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-mv-mcp-base
+      - ref-mv-mcp-cache-ttl
+      - ref-mv-mcp-capabilities
+      - ref-mv-mcp-cli-add
+      - ref-mv-mcp-http-fields
+      - ref-mv-mcp-integrate
+      - ref-mv-mcp-oauth-headless
+      - ref-mv-mcp-oauth-token
+      - ref-mv-mcp-oauth
+      - ref-mv-mcp-pool
+      - ref-mv-mcp-registry
+      - ref-mv-mcp-servers-field
+      - ref-mv-mcp-static-auth-headers
+      - ref-mv-mcp-static-auth
+      - ref-mv-mcp-stdio
+      - ref-mv-mcp-tool-publish
+      - ref-mv-readme-mcp
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-mistral-vibe-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model
+      - plugins-package
+      - plugins-install
+      - plugins-discovery
+      - plugins-api
+      - plugins-lifecycle
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-mv-builtin-plugin-manifest
+      - ref-mv-cli-plugin-commands
+      - ref-mv-plugin-bind
+      - ref-mv-plugin-catalog-entry
+      - ref-mv-plugin-collisions
+      - ref-mv-plugin-doc-compat
+      - ref-mv-plugin-doc-diagnostics
+      - ref-mv-plugin-doc-extension
+      - ref-mv-plugin-doc-locations
+      - ref-mv-plugin-doc-manifest
+      - ref-mv-plugin-doc-structure
+      - ref-mv-plugin-doc-workflow
+      - ref-mv-plugin-format-detect
+      - ref-mv-plugin-format-markers
+      - ref-mv-plugin-host-only
+      - ref-mv-plugin-limits
+      - ref-mv-plugin-manifest
+      - ref-mv-plugin-materialize-env
+      - ref-mv-plugin-no-entrypoint
+      - ref-mv-plugin-reserved-namespaces
+      - ref-mv-plugin-resolve
+      - ref-mv-plugin-resolved-set
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-mistral-vibe-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-roots
+      - skills-format
+      - skills-invocation
+      - skills-loading
+      - skills-conditions
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-mv-name-matching
+      - ref-mv-plugin-resolved-set
+      - ref-mv-readme-skills-discovery
+      - ref-mv-readme-skills-managing
+      - ref-mv-readme-skills
+      - ref-mv-skill-files
+      - ref-mv-skill-tool
+      - ref-mv-skills-allowed-tools
+      - ref-mv-skills-dedup
+      - ref-mv-skills-fields
+      - ref-mv-skills-filters
+      - ref-mv-skills-frontmatter
+      - ref-mv-skills-info
+      - ref-mv-skills-issues
+      - ref-mv-skills-metadata
+      - ref-mv-skills-openai-path
+      - ref-mv-skills-openai-policy
+      - ref-mv-skills-parse
+      - ref-mv-skills-registry
+      - ref-mv-skills-search-paths
+      - ref-mv-skills-system-prompt
+      - ref-mv-user-dirs
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-mistral-vibe-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-recording-switches
+      - transcripts-storage-layout
+      - transcripts-record-schema
+      - transcripts-lifecycle
+      - transcripts-index-and-required-files
+      - transcripts-archive-and-cleanup
+      - transcripts-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-mv-lt-adr-compaction
+      - ref-mv-lt-adr-rewind
+      - ref-mv-lt-append-vs-rewrite
+      - ref-mv-lt-attachments-dir
+      - ref-mv-lt-child-session-link
+      - ref-mv-lt-child-session-record
+      - ref-mv-lt-cli-branch-command
+      - ref-mv-lt-cli-resume-command
+      - ref-mv-lt-cli-resume-flags
+      - ref-mv-lt-cli-session-delete
+      - ref-mv-lt-config-session-fields
+      - ref-mv-lt-config-session-savedir
+      - ref-mv-lt-index-is-cache
+      - ref-mv-lt-index-read-entry
+      - ref-mv-lt-input-history-manager
+      - ref-mv-lt-last-session-pointer
+      - ref-mv-lt-loader-empty-check
+      - ref-mv-lt-loader-find-short-id
+      - ref-mv-lt-loader-load
+      - ref-mv-lt-loader-loadable
+      - ref-mv-lt-loader-required-files
+      - ref-mv-lt-message-model
+      - ref-mv-lt-messages-append
+      - ref-mv-lt-messages-overwrite
+      - ref-mv-lt-metadata-dump
+      - ref-mv-lt-migration-startup-thread
+      - ref-mv-lt-permission-sweep
+      - ref-mv-lt-saved-session-delete
+      - ref-mv-lt-scope-disabled
+      - ref-mv-lt-session-dir-init
+      - ref-mv-lt-session-folder-naming
+      - ref-mv-lt-session-lease-layout
+      - ref-mv-lt-session-metadata-model
+      - ref-mv-lt-session-migration
+      - ref-mv-lt-session-reset
+      - ref-mv-lt-session-resume-bind
+      - ref-mv-lt-store-filenames
+      - ref-mv-lt-tmp-cleanup
+      - ref-mv-lt-unified-catalog
+      - ref-mv-lt-unified-session-dir
+      - ref-mv-lt-unified-storage-root
+      - ref-mv-lt-unified-store-format
+      - ref-mv-lt-unified-store-paths
+      - ref-mv-lt-vibe-home-env
+      - ref-mv-lt-vibe-home-paths
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-mistral-vibe-repo: shared or unknown impact; assess relevant
+      entrypoints"
+pending_question_ids:
+  - config.runtime
+investigation_notes:
+  - 本轮 triage 分类：maintain
+  - CHANGELOG 顶部新增 2.26.0（2026-10-05），其中与八主题直接相关的条目：app-server 可从宿主应用自带 root
+    发现内置插件；~/.vibe/.env 的 API key 回退改为 0600 owner-only；模型接受 thinking_levels
+    字段；/mcp <name> 接受浏览器展示名；每模型 max_context_length 可在 /config 编辑；插件可用 ./ 命令在自己的
+    mcp.json 里启动自带 MCP server；[utility_models] 的 active 把功能钉到会话所用模型；permission =
+    never 对敏感路径直接拒绝；Vibe 默认恒跑 Unified Harness，运行时缺失即报错而不再静默回退 legacy 引擎。
+  - 23 个已登记来源文件在变更集内，含
+    vibe/core/config/{_defaults.py,vibe_schema.py,models.py}、vibe/core/tools/mcp/registry.py、vibe/core/auth/mcp_oauth.py、vibe/core/plugins/_native.py、vibe/core/trusted_folders.py、vibe/utils/paths.py、vibe/core/session/session_lease.py、vibe/app_server/_plugins.py
+    与 unified harness 适配器等。
+  - Unified Harness 默认化直接影响以 Python vibe/core/**
+    为机制真源的运行时与条件边界结论，需按实际文件内容重新核对，不能只凭 CHANGELOG。
+  - tests/**、client-e2e goldens、build_backend、构建脚本、CI 与锁文件按已核对排除。
+  - worker 20261006-mistral-vibe 结论（pinned workspace ws-7cb91894c40b-a9d3b8bc-084e-4f90-8d43-a7bd14a53c08，baseline 7c19608 → 7cb9189，仅 1 个 commit，1568 个变更文件）。
+  - 变更集按目录聚合：vibe/cli-rust 401、vibe/app_server 50、vibe/core 36、vibe/cli 23、harness/ 59、vibe/utils 5、vibe/{plugins,setup,acp} 8、client-e2e 831、tests 122、其余零散。briefing 提到的 crates/ 与 packages/ 在本变更集中不存在，已按实际目录统计替代。
+  - 已完成并写入候选：configuration（config.sources/.runtime/.trust/.defaults/.diagnostics）、custom_providers（providers.metadata/.models）、mcp（mcp.entry）、native_plugins（plugins.discovery）、local_transcripts（transcripts.scope/.format）。每条断言均带 ref-mv-cfg-* / ref-mv-plugins-* / ref-mv-mcp-display-name / ref-mv-lt-store-format-minor-8 引用，指向 commit 7cb9189 的 git_source_file（content_sha256 实算）。
+  - 第 9 条（Unified Harness 默认化）已核实为真，但机制位置与 briefing 假设不同：不在 vibe/core/unified_harness/（该目录不存在），而在 vibe/_experimental_harness.py、vibe/app_server/_runtime.py、vibe/acp/entrypoint.py 与 vibe/core/experiments/active.py。resolve_harness_selection 不再读 GrowthBook 分流，UNIFIED_HARNESS_ROLLOUT 消费面被清成 frozenset()，默认路径构造 Unified Runtime 且失败即 raise runtime_startup_error，只有 --legacy-harness 能选旧引擎。
+  - pending 保留 config.runtime：这是跨主题的关键加载机制反转，直接决定以 vibe/core/** 为真源的运行时与条件边界结论，按 SKILL 第 5 节须独立复核后才能进入已发布 edition。其余五章为普通更新，已作者自检（pnpm maintenance:candidates check 通过，exit 0）。
+  - 需要 reviewer 额外注意（未列为 pending，属普通更新但有条件边界）：permission = "never" 遇敏感路径由提问改为直接拒绝，仅 Unified 后端成立（vibe/app_server/_unified_permissions.py _context_for，注释原文 "legacy prompts there, this is deliberately stricter"）。
+  - CHANGELOG 线索逐条核对结果：第 1、2、3、5、7、8、9 条已回源核实；第 4 条（/mcp 展示名）仅存在于 Rust 前端 vibe/cli-rust/src/server/proto_mcp.rs resolve_source，Python TUI 无对应实现。
+  - 第 5 条"每模型 max_context_length 可在 /config 编辑"的前端归属未定，两个前端都有 /config：Python TUI 在共享注册表 vibe/cli/commands.py 注册 config（别名 /config，描述 "Edit config settings"），实现在 vibe/cli/textual_ui/app.py _show_config，经 ConfigScreen（vibe/cli/textual_ui/screens/config/config_screen.py）与 write_callback=self._patch_config 落盘；Rust 前端 vibe/cli-rust/src/commands/commands.rs 自述 mirror Python's vibe/cli/commands.py，_show_config 与同名条目对应。但 max_context_length 在 vibe/cli/** 与 vibe/cli-rust/** 上 grep 均为 0，两端都未直接枚举该字段，是否真能在 /config 里编辑未定，配置字段本身两前端共用。
+  - CHANGELOG 第 6 条（插件用 ./ 命令在自己的 mcp.json 启动 MCP server）在本变更集内无实现变化：_native.py 的 _load_mcp_servers 读 plugin.root/"mcp.json"、_resolve_plugin_command 处理 ./ 前缀，二者在 baseline 7c19608 即已存在且逐字相同，故未改写章节，仅在此记录已核对。
+  - v1 章节中两处已过期断言已修正：local_transcripts 的 generate_titles 默认值（关闭 → 开启）与 unified store 的 STORE_FORMAT_MINOR（7 → 8）；custom_providers 中"固定来源没有上下文窗口独立字段"已被新的 max_context_length 推翻。
+  - 范围外但已发现相关证据，留给 coordinator 决定是否另派：CHANGELOG 2.26.0 另有多条 hooks 相关变更（hooks.toml 在 unified harness 上重新收到 session_id/transcript_path/parent_session_id、system_message 呈现、失败原因），涉及 harness/runtimes/.../vibe/_foreign_hooks.py；本任务 briefing 未包含 hooks 主题，worker 未扩范围。
+  - 另需 coordinator 判断的身份问题：VIBE_CLI 选择器（vibe/cli/_rust.py，unset 走 Rust TUI、VIBE_CLI=python 走旧 Python TUI，并有新的 vibe_cli_rust_tui_rollout 实验面）意味着同一产品下存在两个前端实现。catalog/harnesses.yaml 目前只登记 surface_id=cli，bindings[cli].status=unknown。是否新增界面 id 属 catalog 身份决策，worker 未擅自改动共享 catalog。

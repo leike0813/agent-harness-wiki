@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-config-cli-tools-validation
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261006-src-core-settings-manager-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/settings-manager.ts
+  start: 227
+  end: 231
+official_url: https://github.com/earendil-works/pi/blob/56b25ff4ebbd8a119ef9185447c7b2416059dbcb/packages/coding-agent/src/core/settings-manager.ts
+excerpt: |-
+  export function getToolListError(entries: readonly string[]): string | undefined {
+  	const modifiers = entries.filter(isToolModifier);
+  	if (modifiers.length === 0) return undefined;
+  	if (modifiers.length < entries.length) return "tool names cannot be mixed with +name or -name entries";
+  	const pattern = modifiers.find((entry) => entry.includes("*"));

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-cfg-unified-app-server
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-runtime
+locator:
+  kind: file_lines
+  file: vibe/app_server/_runtime.py
+  start: 1184
+  end: 1193
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |4-
+            # Resolve which harness to use. The Unified Harness is the
+            # unconditional default runtime: the GrowthBook rollout assignment is
+            # no longer consulted, and only the --legacy-harness escape hatch can
+            # select the legacy backend.
+            from vibe._experimental_harness import resolve_harness_selection
+
+            selection = resolve_harness_selection(
+                experimental_harness=experimental_harness, legacy_harness=legacy_harness
+            )
+            self.harness_selection_source = selection.source

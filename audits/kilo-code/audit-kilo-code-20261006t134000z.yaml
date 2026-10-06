@@ -1,0 +1,459 @@
+schema_version: 2
+audit_id: audit-kilo-code-20261006t134000z
+harness_id: kilo-code
+checked_at: 2026-10-06T13:43:35.534Z
+previous_audit_id: audit-kilo-code-6e7a9918-3280-4925-9598-126c3cdca611
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-kilo-code-6e7a9918-3280-4925-9598-126c3cdca611
+checks:
+  - source_id: source-kilo-code-repo
+    kind: git_repository
+    checked_at: 2026-10-06T13:43:33.653Z
+    status: changed
+    baseline: 62f674d4a91969ac077e4a7b6ceeb8a99de80e47
+    observed: 9d0f7a1dd8e843457f1166f64fb87b2275d00b35
+    remote_ref: refs/heads/main
+  - source_id: source-kilo-code-npm
+    kind: npm_registry
+    checked_at: 2026-10-06T13:43:33.659Z
+    status: unchanged
+    baseline: 7.8.3@sha512-3OBkmFrAi01YNrV7yZli7H3J3SR4X9e3dKey5sd9CVwVKXq85ZenbV/btp2xeDObWbRsdux4OYyfLuRR0ZA5xw==
+    observed: 7.8.3@sha512-3OBkmFrAi01YNrV7yZli7H3J3SR4X9e3dKey5sd9CVwVKXq85ZenbV/btp2xeDObWbRsdux4OYyfLuRR0ZA5xw==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-precedence
+      - config-runtime
+      - config-trust
+      - config-defaults-migration
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-config-memory-model
+      - ref-kilo-code-config-memory-model-format
+      - ref-kilo-code-config-memory-model-fallback
+      - ref-kilo-code-config-memory-model-resolve
+      - ref-kilo-code-config-memory-model-wiring
+      - ref-kilo-code-config-schema-origin
+      - ref-kilo-code-config-schema-alias
+      - ref-kilo-code-config-schema-parse
+      - ref-kilo-code-config-schema-generator
+      - ref-kilo-code-config-schema-model-ref
+      - ref-kilo-code-config-schema-truth
+      - ref-kilo-code-config-schema-paths
+      - ref-kilo-code-config-schema-overlay
+      - ref-kilo-code-cli-key-options
+      - ref-kilo-code-cli-configuration
+      - ref-kilo-code-cli-permissions
+      - ref-kilo-code-cli-permission-actions
+      - ref-kilo-code-cli-granular
+      - ref-kilo-code-cli-config-cmd
+      - ref-kilo-code-cli-debug-config
+      - ref-kilo-code-cli-slash
+      - ref-kilo-code-cli-global-options
+      - ref-kilo-code-cli-configref
+      - ref-kilo-code-cli-config-location
+      - ref-kilo-code-cli-package
+      - ref-kilo-code-cli-env-overrides
+      - ref-kilo-code-cli-env-v2
+      - ref-kilo-code-cli-help-cmd
+      - ref-kilo-code-config-src-cli-cmd
+      - ref-kilo-code-config-src-detect
+      - ref-kilo-code-config-src-files
+      - ref-kilo-code-config-src-flags
+      - ref-kilo-code-config-src-formatter
+      - ref-kilo-code-config-src-global
+      - ref-kilo-code-config-src-globalpaths
+      - ref-kilo-code-config-src-guard
+      - ref-kilo-code-config-src-managed
+      - ref-kilo-code-config-src-merge
+      - ref-kilo-code-config-src-mergeproject
+      - ref-kilo-code-config-src-paths
+      - ref-kilo-code-config-src-project
+      - ref-kilo-code-config-src-variable
+      - ref-kilo-code-config-src-content
+      - ref-kilo-code-runtime-auth
+      - ref-kilo-code-runtime-entries
+      - ref-kilo-code-runtime-persistence
+      - ref-kilo-code-runtime-precedence
+    cross_topic_links:
+      - providers.models
+      - providers.diagnostics
+      - agents.diagnostics
+    reason: >-
+      source-kilo-code-repo 62f674d4a91969ac077e4a7b6ceeb8a99de80e47 ->
+      9d0f7a1dd8e843457f1166f64fb87b2275d00b35 新增顶层配置键 memory_model
+      （packages/core/src/v1/config/config.ts），并由 memory 模块实现三条回落分支与
+      provider/model 解析。同时复核发现本章原表述把 Effect Schema 规范来源写在
+      packages/opencode/src/config/config.ts，源码实为从 packages/core/src/v1/config/config.ts
+      的 ConfigV1.Info 再导出，属定位漂移，两项一并修订于新 edition v3。
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - custom-agents-entry
+      - custom-agents-format
+      - custom-agents-roles
+      - custom-agents-invocation
+      - custom-agents-overrides
+      - custom-agents-limits
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-agents-json
+      - ref-kilo-code-agents-markdown
+      - ref-kilo-code-agents-cli
+      - ref-kilo-code-cli-agent-cmd
+      - ref-kilo-code-config-src-paths
+      - ref-kilo-code-config-src-files
+      - ref-kilo-code-agents-src-md
+      - ref-kilo-code-agents-builtin
+      - ref-kilo-code-agents-what
+      - ref-kilo-code-agents-options
+      - ref-kilo-code-agents-src-info
+      - ref-kilo-code-agents-modes
+      - ref-kilo-code-agents-invoke
+      - ref-kilo-code-cli-slash
+      - ref-kilo-code-agents-precedence
+      - ref-kilo-code-agents-override
+      - ref-kilo-code-agents-src-merge
+      - ref-kilo-code-agents-permissions
+      - ref-kilo-code-agents-src-task
+    cross_topic_links:
+      - config.sources
+      - config.defaults
+    reason: >-
+      本轮相关变更全部落在 packages/kilo-vscode/**（webview-ui、agent-manager 子系统、settings 组件与
+      28 个测试文件）与文档站，属 VS Code 扩展与桌面/文档站界面，不是本章登记的 cli 界面。已逐条核对
+      .changeset/fix-agent-manager-project-sessions.md、settings-search.md、swift-settings-startup.md 及
+      kilo-vscode 源码改动，均不触及 agent 定义、发现、调用与覆盖等固定问题。本轮不改写本章。
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - custom-providers-entry
+      - custom-providers-auth
+      - custom-providers-protocol
+      - custom-providers-models
+      - custom-providers-forwarding
+      - custom-providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-providers-general
+      - ref-kilo-code-providers-define
+      - ref-kilo-code-cli-key-options
+      - ref-kilo-code-providers-src-models
+      - ref-kilo-code-cli-env
+      - ref-kilo-code-providers-options
+      - ref-kilo-code-cli-env-overrides
+      - ref-kilo-code-runtime-provider-auth
+      - ref-kilo-code-providers-src-auth
+      - ref-kilo-code-runtime-auth
+      - ref-kilo-code-providers-url
+      - ref-kilo-code-providers-http-troubleshoot
+      - ref-kilo-code-providers-fields
+      - ref-kilo-code-providers-limits
+      - ref-kilo-code-providers-modalities
+      - ref-kilo-code-providers-filter
+      - ref-kilo-code-providers-priority
+      - ref-kilo-code-providers-detect
+      - ref-kilo-code-providers-output-base
+      - ref-kilo-code-providers-output-claude
+      - ref-kilo-code-providers-output-rationale
+      - ref-kilo-code-providers-output-routes
+      - ref-kilo-code-providers-troubleshoot
+      - ref-kilo-code-providers-output-request
+      - ref-kilo-code-providers-output-final
+      - ref-kilo-code-providers-output-cerebras
+      - ref-kilo-code-providers-output-changelog
+    cross_topic_links:
+      - config.sources
+      - config.defaults
+    reason: >-
+      memory_model 的 provider/model 解析只按第一个斜杠切分两段，不含 provider 侧语义；解析结果交给既有的
+      provider.getModel(ProviderV2.ID, ModelV2.ID) 注册表查找，属本章已覆盖的 providers.models 与
+      providers.diagnostics。本轮已核对并排除，不新建 edition。
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-events
+      - hooks-entry
+      - hooks-contract
+      - hooks-order
+      - hooks-conditions
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-hooks-events
+      - ref-kilo-code-hooks-reference
+      - ref-kilo-code-hooks-tools
+      - ref-kilo-code-hooks-chat
+      - ref-kilo-code-hooks-providers
+      - ref-kilo-code-hooks-experimental
+      - ref-kilo-code-hooks-src-interface
+      - ref-kilo-code-plugins-what
+      - ref-kilo-code-plugins-config-file
+      - ref-kilo-code-plugins-dir
+      - ref-kilo-code-plugins-order
+      - ref-kilo-code-plugins-types
+      - ref-kilo-code-plugins-tools
+      - ref-kilo-code-plugins-src-hooks
+      - ref-kilo-code-plugins-src-load
+      - ref-kilo-code-hooks-src-plugin
+      - ref-kilo-code-plugins-troubleshoot
+      - ref-kilo-code-plugins-engine
+    cross_topic_links:
+      - config.sources
+      - config.defaults
+    reason: >-
+      本轮无 hooks 事件、入口、契约、顺序或条件相关的源码变更；相关改动集中于 VS Code 扩展与文档站界面，
+      已逐条核对后排除。
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-configuration
+      - mcp-transport
+      - mcp-auth
+      - mcp-lifecycle
+      - mcp-capabilities
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-mcp-entry
+      - ref-kilo-code-mcp-format
+      - ref-kilo-code-mcp-env
+      - ref-kilo-code-config-src-global
+      - ref-kilo-code-config-src-project
+      - ref-kilo-code-config-src-variable
+      - ref-kilo-code-mcp-src-sanitize
+      - ref-kilo-code-mcp-local
+      - ref-kilo-code-mcp-remote
+      - ref-kilo-code-mcp-transports
+      - ref-kilo-code-mcp-src-local
+      - ref-kilo-code-mcp-src-remote
+      - ref-kilo-code-runtime-mcp-oauth
+      - ref-kilo-code-runtime-auth
+      - ref-kilo-code-mcp-src-auth
+      - ref-kilo-code-cli-mcp-auth-cmd
+      - ref-kilo-code-mcp-src-api
+      - ref-kilo-code-runtime-entries
+      - ref-kilo-code-mcp-src-timeout
+      - ref-kilo-code-mcp-src-connect-timeout
+      - ref-kilo-code-mcp-src-status
+      - ref-kilo-code-cli-mcp-cmd
+      - ref-kilo-code-mcp-permissions
+      - ref-kilo-code-mcp-manage
+      - ref-kilo-code-cli-slash
+    cross_topic_links:
+      - config.sources
+      - config.defaults
+    reason: >-
+      本轮无 MCP server 定义、transport、鉴权、生命周期或暴露相关的源码变更；
+      packages/core/src/v1/config/config.ts 的新增键与 MCP 无关，已核对后排除。
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - native_plugins-model
+      - native_plugins-sources
+      - native_plugins-package
+      - native_plugins-loading
+      - native_plugins-api
+      - native_plugins-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-plugins-what
+      - ref-kilo-code-plugins-create
+      - ref-kilo-code-plugins-use
+      - ref-kilo-code-plugins-config-file
+      - ref-kilo-code-plugins-dir
+      - ref-kilo-code-plugins-cmd
+      - ref-kilo-code-cli-plugin-cmd
+      - ref-kilo-code-config-src-paths
+      - ref-kilo-code-config-src-files
+      - ref-kilo-code-plugins-structure
+      - ref-kilo-code-plugins-module
+      - ref-kilo-code-plugins-manifest
+      - ref-kilo-code-plugins-engine
+      - ref-kilo-code-plugins-types
+      - ref-kilo-code-plugins-deps
+      - ref-kilo-code-plugins-install
+      - ref-kilo-code-plugins-order
+      - ref-kilo-code-plugins-pure
+      - ref-kilo-code-plugins-src-scandir
+      - ref-kilo-code-plugins-src-loader
+      - ref-kilo-code-plugins-src-resolve
+      - ref-kilo-code-plugins-src-load
+      - ref-kilo-code-plugins-src-install
+      - ref-kilo-code-plugins-tools
+      - ref-kilo-code-plugins-src-hooks
+      - ref-kilo-code-plugins-troubleshoot
+    cross_topic_links:
+      - config.sources
+      - config.defaults
+    reason: >-
+      本轮无原生插件模型、打包、安装、发现或加载相关的源码变更；相关改动集中于 VS Code 扩展与文档站界面，
+      已逐条核对后排除。
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-roots
+      - skills-format
+      - skills-precedence
+      - skills-loading
+      - skills-security
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-cli-package
+      - ref-kilo-code-skills-global
+      - ref-kilo-code-skills-project
+      - ref-kilo-code-skills-compat
+      - ref-kilo-code-skills-paths
+      - ref-kilo-code-skills-src-external
+      - ref-kilo-code-skills-src-configdirs
+      - ref-kilo-code-skills-src-paths
+      - ref-kilo-code-skills-format
+      - ref-kilo-code-skills-frontmatter
+      - ref-kilo-code-skills-troubleshoot
+      - ref-kilo-code-skills-priority
+      - ref-kilo-code-skills-src-collision
+      - ref-kilo-code-skills-src-builtin
+      - ref-kilo-code-skills-workflow
+      - ref-kilo-code-skills-decision
+      - ref-kilo-code-skills-loading
+      - ref-kilo-code-skills-modes
+      - ref-kilo-code-skills-src-tool
+      - ref-kilo-code-skills-src-tool-files
+      - ref-kilo-code-skills-shell
+      - ref-kilo-code-skills-src-inject
+      - ref-kilo-code-skills-src-display
+      - ref-kilo-code-skills-src-flags
+      - ref-kilo-code-cli-slash
+      - ref-kilo-code-cli-debug-skill
+    cross_topic_links:
+      - config.sources
+      - config.defaults
+    reason: >-
+      本轮无 skill 根目录、发现、格式、加载或条件相关的源码变更；文档站
+      pages/code-with-ai/agents/model-selection.md 的改动属文档站界面，不是已登记的 cli 界面，已核对后排除。
+pending_question_ids:
+  - config.trust
+  - agents.entry
+  - agents.format
+  - agents.roles
+  - agents.invocation
+  - agents.overrides
+  - agents.limits
+  - agents.diagnostics
+  - providers.entry
+  - providers.auth
+  - providers.protocol
+  - providers.models
+  - providers.metadata
+  - providers.forwarding
+  - providers.responses
+  - providers.diagnostics
+  - hooks.events
+  - hooks.entry
+  - hooks.input
+  - hooks.output
+  - hooks.order
+  - hooks.conditions
+  - hooks.diagnostics
+  - mcp.entry
+  - mcp.definition
+  - mcp.transport
+  - mcp.auth
+  - mcp.lifecycle
+  - mcp.capabilities
+  - mcp.exposure
+  - mcp.diagnostics
+  - plugins.model
+  - plugins.package
+  - plugins.install
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+  - skills.roots
+  - skills.discovery
+  - skills.collision
+  - skills.format
+  - skills.extensions
+  - skills.loading
+  - skills.invocation
+  - skills.conditions
+  - skills.diagnostics
+investigation_notes:
+  - "固定来源：source-kilo-code-repo（https://github.com/Kilo-Org/kilocode.git），baseline 62f674d4a91969ac077e4a7b6ceeb8a99de80e47，observed 9d0f7a1dd8e843457f1166f64fb87b2275d00b35，取用时间 2026-10-06T13:43:33.653Z，在 coordinator 已 pin 的临时检出上做只读 git diff，未重新 open 或 scan，临时检出路径按契约不写入记录。"
+  - "本轮结论：configuration 主题需要维护，其余七主题无证据支持的变更，按契约不改写正文。共 250 个变更文件，其中非 VS Code 扩展、非文档站的仅 42 个。"
+  - "新增事实（config.defaults / config-defaults-migration 小节）：memory_model 是运行时配置 schema 的顶层键，取值可选字符串或 null，格式 provider/model，未设置或不可用时 memory 改用会话模型。机制证据不取自 changeset，而取自四处源码：packages/core/src/v1/config/config.ts:206-209 的键定义；packages/kilo-memory/src/effect/config.ts:4-12 的 providerID/modelID 解析；packages/opencode/src/kilocode/memory/ports.ts:305-319 的三条回落分支（未配置不告警直接用会话模型、invalid model、model unavailable 且后两者记 memory model config ignored 警告）；packages/opencode/src/kilocode/memory/turn.ts:45-53 在 MemoryTurn.close 中以 cfg.memory_model ?? undefined 读入。changeset .changeset/memory-model-setting.md 只作意图说明，并已核对声明的 minor 版本影响落在 @kilocode/cli 与 kilo-code。"
+  - "schema 规范来源漂移复核（父进程提示第 4 条，已确认为漂移并改正）：packages/opencode/src/config/config.ts:30 从 @opencode-ai/core/v1/config/config 引入 ConfigV1，第 173-174 行是 export const Info = ConfigV1.Info 且注释自述为 value re-export，第 303 行配置解析亦直接用 ConfigV1.Info。因此 Effect Schema 的实际定义处在 packages/core/src/v1/config/config.ts，opencode 侧只是再导出，两者是同一份 schema 而非两条独立路径。官方文档 packages/kilo-docs/pages/contributing/architecture/config-schema.md「Source of truth」小节仍写 opencode 路径，本章保留该文档引用并同时给出源码结论，属上游文档表述不精确，未按冲突处理。packages/opencode/src/config/config.ts 本轮不在变更集内，该漂移在 baseline 即已存在，本轮只是首次有顶层键落在 core 侧而使表述需要更正。"
+  - "编辑器校验面同步核对：packages/opencode/script/schema.ts:77 以 ConfigV1.Info 生成本地 JSON Schema，第 58-64 行把 model、small_model 以及新增的 subagent_model、memory_model 一并标注为 MODEL_REF（https://models.dev/model-schema.json#/$defs/Model）。据此把「本地生成 schema 与运行时读同一份 core schema，但与云端上传路径仍是两条独立路径」写进正文，替换 v2 的笼统说法。生成面同步变化的 packages/sdk/js/src/v2/gen/types.gen.ts:2615 与 packages/sdk/openapi.json 属派生产物，未单独建引用。"
+  - "custom_providers 已核对并排除：memory_model 的 provider/model 解析只是 packages/kilo-memory/src/effect/config.ts 里按第一个斜杠切分两段，不含任何 provider 侧语义；解析结果随后交给既有的 provider 注册表查找 provider.getModel(ProviderV2.ID, ModelV2.ID)。该查找与回退路径属 custom_providers 已有的 providers.models / providers.diagnostics 覆盖范围，本轮无新语义，故不新建 custom_providers edition，该主题八题仍留在 pending_question_ids。"
+  - "skills、mcp、custom_agents、hooks、native_plugins、local_transcripts 已核对并排除：本轮 250 个变更文件中，与这六个主题相关的全部落在 packages/kilo-vscode/**（webview-ui、i18n 语言包、28 个测试文件、agent-manager 与 browser 子系统）与文档站 packages/kilo-docs/**，属 VS Code 扩展与桌面/文档站界面，不是已登记的 cli 界面；唯一非界面改动 packages/opencode/src/session/processor.ts:1013 只在重试前清理失败尝试的 reasoning 状态，不涉及这六主题的固定问题。sections 引用的文档页 packages/kilo-docs/pages/contributing/architecture/cli-runtime.md 与 config-schema.md 均不在本轮变更集内。"
+  - "已排除的其余变更：.changeset/fix-grep-target-path.md 与 packages/kilo-ui/tests/grep-target.spec.ts 是检索工具目标路径的展示与相对化，属工具 UI 而非配置；.changeset/fix-agent-manager-project-sessions.md 是 VS Code Agent Manager 会话隔离；.changeset/settings-search.md、swift-settings-startup.md、browser-editor-tab.md、browser-pointer-latency.md、mention-path-tooltip.md、retry-thinking-indicator.md、session-dock-todos.md 均为 VS Code 或 kilo-ui 界面改动；.changeset/spreadsheet-date-times.md 与 packages/opencode/src/kilocode/tool/xlsx.ts 是表格日期读取；packages/opencode/src/kilocode/bootstrap.ts 只是把 Config.Service 注入 memory 生命周期以传递 memory_model，已作为机制链路的一部分核对；.changeset/simple-git-4.md、dompurify-3-4-16.md、bun.lock、nix/hashes.json 与各 package.json 属依赖升级；根 AGENTS.md 只新增一行 VS Code 自测说明；packages/opencode/src/kilo-sessions/** 为会话 PR 链接，均与本轮范围无关。"
+  - "版本边界：npm 来源观察到 7.8.3，与 baseline 相同且 integrity 未变，仅为发布身份不变。本轮 changeset 未发布，不能证明发行版行为，故未新增任何 software mapping，也未改动既有映射。"
+  - "本轮未修改的既有状态：config.trust 仍记为 conflict（文档称 {env:} 引用被忽略，源码为整份项目配置加载失败被跳过）。本轮变更集中不含 packages/opencode/src/config/variable.ts 与项目配置 catchDefect 路径，冲突双方均未获得新证据，按契约不重开也不结案。"
+  - "复核状态：保留 review_status: pending。本轮只完成 configuration 一章，其余六主题的 46 题与 config.trust 的既有冲突均未处理；本审计通过 pending_audit_refs 引用 audit-kilo-code-6e7a9918-3280-4925-9598-126c3cdca611（该审计当时留有 53 题 pending），不通过标 reviewed 间接关闭其中任何一项。"

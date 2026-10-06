@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-cfg-utility-models-schema
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-schema
+locator:
+  kind: file_lines
+  file: vibe/core/config/vibe_schema.py
+  start: 375
+  end: 384
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |4-
+        # Shallow: a layer setting one feature must not reset the other.
+        utility_models: Annotated[UtilityModelsConfig, WithShallowMerge()] = Field(
+            default_factory=UtilityModelsConfig,
+            description=(
+                "Per-feature model for secondary completions (session titles, the"
+                " smart-approve classifier). Each value is a model alias from 'models'"
+                f" or '{ACTIVE_MODEL_SELECTOR}' to use the session's active model."
+                " Unset leaves the feature on automatic selection."
+            ),
+        )

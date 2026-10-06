@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-cfg-unified-permission-never
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-permissions
+locator:
+  kind: file_lines
+  file: vibe/app_server/_unified_permissions.py
+  start: 517
+  end: 527
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |4-
+            if (
+                configured.permission is ToolPermission.NEVER
+                and resolved.permission is not ToolPermission.ALWAYS
+            ):
+                # A `never` tool reaches the resolver at all only because an allowlist
+                # might excuse this call (``ALLOWLIST_EXEMPTED_BUILTINS``), and a match
+                # is the one thing that can. Letting a sensitive-path or outside-workdir
+                # `ask` through would turn a configured refusal into a prompt nobody
+                # authorised -- legacy prompts there, this is deliberately stricter.
+                return configured
+            return resolved

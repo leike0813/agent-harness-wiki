@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-cfg-model-capability-fields
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-models
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 483
+  end: 491
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |4-
+        # The levels this model offers, in display order. Defaults to the CLI's
+        # five; a narrowed set resets a stored level that falls outside it.
+        thinking_levels: list[ThinkingLevel] = Field(
+            default_factory=lambda: list(THINKING_LEVELS)
+        )
+        supports_images: bool = False
+        # None when the window is unknown; 0 or a negative would silently disable
+        # compaction by deriving an unreachable threshold, so it must be rejected.
+        max_context_length: int | None = Field(default=None, ge=1)

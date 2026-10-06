@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-cfg-unified-acp
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-26-acp
+locator:
+  kind: file_lines
+  file: vibe/acp/entrypoint.py
+  start: 111
+  end: 125
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |4-
+        # The Unified Harness is the required default runtime. Fail before the
+        # ACP server starts serving: a missing or incompatible Runtime must abort
+        # startup with an actionable error, not surface as a per-session failure
+        # on the live protocol.
+        try:
+            if not args.legacy_harness:
+                require_experimental_harness()
+            run_acp_server(
+                environ_before_dotenv_load=environ_before_dotenv_load,
+                experimental_harness=args.experimental_harness,
+                legacy_harness=args.legacy_harness,
+            )
+        except ExperimentalHarnessUnavailableError as e:
+            print(f"Error: {e}", file=sys.stderr)
+            sys.exit(1)

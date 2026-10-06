@@ -1,0 +1,33 @@
+schema_version: 2
+audit_id: audit-prime-agent-20261006t134000z
+harness_id: prime-agent
+checked_at: 2026-10-06T13:44:22.518Z
+previous_audit_id: audit-prime-agent-c14e6020-4c3f-4457-bff0-79d909cafb67
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor/20261006 (minimax/MiniMax-M3.1-Flash-Preview)
+reviewed_at: 2026-10-06T13:40:00.000Z
+pending_audit_refs:
+  - audit-prime-agent-a6e29492-9bcd-4168-8ac2-e8cc29e14d35
+  - audit-prime-agent-20261004t061205z
+  - audit-prime-agent-c14e6020-4c3f-4457-bff0-79d909cafb67
+checks:
+  - source_id: source-prime-agent-repo
+    kind: git_repository
+    checked_at: 2026-10-06T13:44:19.386Z
+    status: changed
+    baseline: 7a52276cb17310f331f1075f28fa5cf9c4ae0a0a
+    observed: 672085e883c25a8a5f10c77ad8e5d3fb38dd6584
+    remote_ref: refs/heads/main
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：no_impact
+  - 本轮 8 个变更文件为内核进程与 RLM
+    健壮性修复：crates/pa-core/src/kernel/**、prime-agent-runtime/src/rlm/{bash,repl}.py
+    与对应测试，不触及 skills/MCP/agent/provider/hooks/plugin/transcript
+    的对外机制；已登记引用中没有任何一条指向这些文件。
+  - 上轮遗留两项本轮均未解决：引用仍固定在仓库中已不存在的 TypeScript 树（packages/**/*.ts 当前匹配数为 0），以及
+    custom_agents 章节完全未覆盖 rlm/factory.py 的 agent factory 能力面。
+  - factory 能力面有明确可调查入口（factory.py、内嵌
+    FACTORY_HELP、rlm/machines/*.MACHINE.md），但成因是历史未采写而非本轮差异；按不重复派发同一阻塞的规则，本轮只记录，不派发。
