@@ -314,7 +314,10 @@ export async function startMonitorRun(input: {
       openMonitorPulls(),
       isMergedIntoMain(root, git),
       hasUnpushedCommits(root, git),
-      branchExists(root, nextBranch, git),
+      // decideMonitorBranch reads this as "the name is free", while
+      // branchExists answers "the name is taken"; the polarity is inverted here
+      // so a fresh round is not blocked for a branch nobody created yet.
+      branchExists(root, nextBranch, git).then((taken) => !taken),
       git(["-C", root, "rev-list", "--count", "origin/main..HEAD"]).then(
         (out) => Number(out.trim()),
       ),
