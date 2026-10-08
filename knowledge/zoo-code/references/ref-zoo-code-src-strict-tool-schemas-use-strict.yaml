@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-strict-tool-schemas-use-strict
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-2baac5e-base-provider
+locator:
+  kind: file_lines
+  file: src/api/providers/base-provider.ts
+  start: 52
+  end: 71
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/2baac5e5b76018af2f1569450a70514b077a3748/src/api/providers/base-provider.ts"
+excerpt: |-
+  			// Strict mode also rewrites the schema (all properties become
+  			// required). When disabled, the declared schema is preserved as-is,
+  			// retaining every original required constraint (e.g. nanogpt).
+  			const useStrict = !isMcp && strict
+  
+  			return {
+  				...tool,
+  				function: {
+  					...tool.function,
+  					// Sanitize lone UTF-16 surrogates: providers validating the JSON body
+  					// (e.g. DeepSeek) reject the whole request otherwise. See #461.
+  					name: sanitizeSurrogates(tool.function.name),
+  					description: sanitizeSurrogates(tool.function.description),
+  					strict: useStrict,
+  					parameters: sanitizeSurrogatesDeep(
+  						useStrict
+  							? this.convertToolSchemaForOpenAI(tool.function.parameters)
+  							: tool.function.parameters,
+  					),
+  				},

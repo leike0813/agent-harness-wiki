@@ -1,0 +1,123 @@
+schema_version: 2
+audit_id: audit-zed-df9eea77-3ccc-416d-b90e-8b2e5d137597
+harness_id: zed
+checked_at: '2026-10-08T18:04:24.870Z'
+previous_audit_id: audit-zed-20261006t134000z
+status: changed
+review_status: pending
+pending_audit_refs:
+- audit-zed-d0a7dce9-cf57-4fbf-a94c-f5d0c84464ab
+- audit-zed-20261004t061205z
+- audit-zed-d92f49ae-34c4-4981-ad09-9c31372ea687
+- audit-zed-20261006t134000z
+checks:
+- source_id: source-zed-repo
+  kind: git_repository
+  checked_at: '2026-10-08T18:04:22.811Z'
+  status: changed
+  baseline: 0418cb5b60e89278e95af1a7b73382343e122ba8
+  observed: b47a4ca595d3a3fba116b9e78ef01a46e2e43f3e
+  remote_ref: refs/heads/main
+- source_id: source-zed-docs-skills
+  kind: official_documentation
+  checked_at: '2026-10-08T18:04:22.820Z'
+  status: unchanged
+  baseline: 764f294ea53ecfe9220c5033ac805a53dc02607b25a85b63001c57343e2b9038
+  observed: 764f294ea53ecfe9220c5033ac805a53dc02607b25a85b63001c57343e2b9038
+  resolved_url: https://zed.dev/docs/ai/skills.md
+- source_id: source-zed-docs-mcp
+  kind: official_documentation
+  checked_at: '2026-10-08T18:04:22.822Z'
+  status: unchanged
+  baseline: 4b63e4863aff99eac69af64220581c36f8becd856cb3d11fb811f038881615bf
+  observed: 4b63e4863aff99eac69af64220581c36f8becd856cb3d11fb811f038881615bf
+  resolved_url: https://zed.dev/docs/ai/mcp.md
+- source_id: source-zed-docs-agents
+  kind: official_documentation
+  checked_at: '2026-10-08T18:04:22.822Z'
+  status: unchanged
+  baseline: 08b1b98333f1b97d44a5da73d3ccb1f19fa3d62ff3ba80f8303b571a2a21b732
+  observed: 08b1b98333f1b97d44a5da73d3ccb1f19fa3d62ff3ba80f8303b571a2a21b732
+  resolved_url: https://zed.dev/docs/ai/external-agents.md
+- source_id: source-zed-docs-providers
+  kind: official_documentation
+  checked_at: '2026-10-08T18:04:23.613Z'
+  status: unchanged
+  baseline: b164ec181d366233ab55bfef5968c6d0f4c068695e5ccd05b1680829108484b0
+  observed: b164ec181d366233ab55bfef5968c6d0f4c068695e5ccd05b1680829108484b0
+  resolved_url: https://zed.dev/docs/ai/use-api-access.md
+- source_id: source-zed-docs-hooks
+  kind: official_documentation
+  checked_at: '2026-10-08T18:04:23.629Z'
+  status: unchanged
+  baseline: d7b3f034a1df1c84bd557109a8a1cb15db3108d779a859b1e55eb1a4f6097e15
+  observed: d7b3f034a1df1c84bd557109a8a1cb15db3108d779a859b1e55eb1a4f6097e15
+  resolved_url: https://zed.dev/docs/tasks.md
+- source_id: source-zed-docs-plugins
+  kind: official_documentation
+  checked_at: '2026-10-08T18:04:23.745Z'
+  status: unchanged
+  baseline: 146fa9b61c79669517d3b0bc48f78f710cd8918c0e04ed66f664aaf3632298d8
+  observed: 146fa9b61c79669517d3b0bc48f78f710cd8918c0e04ed66f664aaf3632298d8
+  resolved_url: https://zed.dev/docs/extensions/developing-extensions.md
+- source_id: source-zed-docs-config
+  kind: official_documentation
+  checked_at: '2026-10-08T18:04:23.765Z'
+  status: unchanged
+  baseline: cd8932ca4ce458edb3b5387c3e1e5f99bd13e45550a9e82eb31b06dddfbb10f1
+  observed: cd8932ca4ce458edb3b5387c3e1e5f99bd13e45550a9e82eb31b06dddfbb10f1
+  resolved_url: https://zed.dev/docs/reference/all-settings.md
+impacts:
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.archive
+    section_ids:
+      - transcripts-record-schema
+      - transcripts-lifecycle
+      - transcripts-archive-restore-cleanup
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-lt-streaming-save-skip
+      - ref-zed-lt-streaming-save-key
+      - ref-zed-lt-streaming-predicate
+      - ref-zed-lt-save-enqueue-key
+      - ref-zed-lt-flush-pending-notify
+      - ref-zed-lt-draft-prompt-revision
+      - ref-zed-lt-to-db-streaming-contract
+      - ref-zed-lt-db-save-count-test-only
+      - ref-zed-lt-worktree-short-name-style
+    cross_topic_links:
+      - agents.entry
+      - agents.limits
+    reason: "source-zed-repo: crates/agent/src/agent.rs 新增 can_skip_save_while_streaming 与 StreamingSaveKey 基准记录，流式期间的观察回调保存被条件跳过，改变 transcripts.lifecycle 的落盘时机；crates/agent/src/thread.rs 新增 StreamingSaveKey、is_streaming_message、streaming_save_key 与 flush_pending_message 的空内容 notify；crates/agent/src/db.rs 仅新增 #[cfg(test)] 保存计数器，不改 schema；crates/agent_ui/src/thread_metadata_store.rs 把 worktree 短名推导固定为 PathStyle::local()，仅影响显示；crates/agent_ui/src/threads_archive_view.rs 只增加面板底色。命中 local_transcripts 已登记小节。"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.limits
+    section_ids:
+      - agents-entry
+      - agents-limits
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-agents-doc-boundaries
+      - ref-zed-agents-doc-custom
+      - ref-zed-agents-spawn-input
+      - ref-zed-agents-profiles-key
+    cross_topic_links:
+      - transcripts.lifecycle
+    reason: "source-zed-repo: 重点文件 crates/agent/src/{agent.rs,db.rs,thread.rs} 的语义变化是会话保存时机与 ACP v1→v2 类型迁移；自定义 agent 的定义入口 crates/settings_content/src/agent.rs、crates/agent_servers/src/{custom.rs,agent_servers.rs} 与 subagent 工具 crates/agent/src/tools/spawn_agent_tool.rs 在本轮 162 个变更文件中全部未改动，并发/嵌套/时长上限常量无变化，因此本轮 custom_agents 无语义影响，记录为已排查无变化，章节与答案保持现状。"
+pending_question_ids: []
+investigation_notes:
+- 本轮 triage 分类：narrow_investigation
+- 本轮不写 reviewed_by/reviewed_at：仍引用 review_status=pending 的旧审计，且维护工作尚未完成。
+- 'source-zed-repo 由 0418cb5 变为 b47a4ca（git_ui: Clarify remote-tracking branch delete in branch picker），162
+  个文件。'
+- 命中已登记引用：crates/agent/src/{agent.rs,db.rs,thread.rs}、crates/agent_ui/src/{agent_panel.rs,thread_metadata_store.rs,threads_archive_view.rs}、crates/project/src/context_server_store.rs。
+- agent 线程存储与归档视图改动落在 custom_agents 与 local_transcripts 已登记小节内。
+- 定向调查结论：transcripts.lifecycle 有实质变化（流式期间的保存抑制机制），transcripts.schema 明确排除（db.rs 仅 #[cfg(test)] 计数器，DbThread 字段与 version 0.3.0 未变），transcripts.archive 仅为显示层 PathStyle 固定，transcripts.location 未变（paths.rs 改动属 PathWithPosition 解析，与数据目录无关）。
+- agents.entry 与 agents.limits 本轮无变化：自定义 agent 定义入口与 subagent 工具文件未出现在 162 个变更文件中。
+- 本轮不写 reviewed_by/reviewed_at：仍引用 review_status=pending 的旧审计。

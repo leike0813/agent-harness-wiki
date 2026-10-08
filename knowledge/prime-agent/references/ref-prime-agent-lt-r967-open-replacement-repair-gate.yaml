@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-r967-open-replacement-repair-gate
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-r967-crates-pa-daemon-src-session-navigation-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_navigation.rs
+  start: 239
+  end: 250
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/967eb13fd488507af5f590e9c6ea8b2672f1fc05/crates/pa-daemon/src/session_navigation.rs
+excerpt: |
+          let lease = match lease {
+              Some(lease) => Some(lease),
+              None => self
+                  .target_lease(std::path::Path::new(path))
+                  .map_err(|error| response_failure(None, command, &error.to_string(), None))?,
+          };
+          if lease.is_some() {
+              pa_core::session::manager::repair_jsonl_damage(std::path::Path::new(path));
+          }
+          let mut file = SessionFile::open(std::path::Path::new(path))
+              .map_err(|error| response_failure(None, command, &error.to_string(), None))?;
+          file.lease = lease;

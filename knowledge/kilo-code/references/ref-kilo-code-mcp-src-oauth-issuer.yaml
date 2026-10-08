@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-oauth-issuer
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-kilocode-mcp-oauth-issuer-ts-20261009
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/mcp/oauth-issuer.ts
+  start: 1
+  end: 26
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  // different server. Pre-registered credentials (a configured client ID) are never
+  // written to disk: only their binding (client ID and issuer) is stored.
+
+  /** Client information for a configured client ID, given what is stored for it. */
+  export function configured(
+    info: McpAuth.ClientInfo | undefined,
+    id: string,
+    secret: string | undefined,
+  ): OAuthClientInformation | undefined {
+    if (info?.clientId === id) return { client_id: id, client_secret: secret, issuer: info.issuer }
+    // Nothing bound yet: the SDK binds the configured client on first use.
+    if (info?.issuer == null) return { client_id: id, client_secret: secret }

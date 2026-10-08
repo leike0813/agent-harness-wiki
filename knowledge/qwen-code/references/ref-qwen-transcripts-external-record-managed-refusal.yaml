@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-external-record-managed-refusal
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-29aef7d-core-chat-recording
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingService.ts
+  start: 2510
+  end: 2516
+official_url: "https://github.com/QwenLM/qwen-code/blob/29aef7de40b752bb0464919ab4af8f08a988dd31/packages/core/src/services/chatRecordingService.ts"
+excerpt: |2-
+     * Managed sessions: `ManagedSessionRecordSink.canCarry` has no mapping for
+     * these subtypes, so `appendRecordStrict` throws
+     * `ManagedSessionRecordRefusedError` before queueing. That refusal is left
+     * in place on purpose and propagates to the caller, which reports the
+     * feature as not supported in managed sessions.
+     * TODO(multi-agent): add a managed mapping if managed sessions need agents.
+     */

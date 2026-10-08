@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-agent-record-payloads
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-29aef7d-core-session-agent-contract
+locator:
+  kind: file_lines
+  file: packages/core/src/agents/session-agents/contract.ts
+  start: 128
+  end: 160
+official_url: "https://github.com/QwenLM/qwen-code/blob/29aef7de40b752bb0464919ab4af8f08a988dd31/packages/core/src/agents/session-agents/contract.ts"
+excerpt: |2-
+   */
+  export const MAX_AGENT_MESSAGE_STEPS = 64;
+
+  /** `systemPayload` of an `agent_message` record. */
+  export interface AgentMessageRecordPayload {
+    /** Markdown shown in the UI. */
+    displayText: string;
+    author: SessionAgentAuthor;
+    runId: string;
+    status: SessionAgentTerminalStatus;
+    error?: string;
+    steps?: SessionAgentStep[];
+    /** Native session the reply came from (resume pointer), for diagnostics. */
+    nativeSessionId?: string;
+    /** Tokens the run spent, when the program reports it. */
+    totalTokens?: number;
+    /** The record uuid that triggered this run (the mention or agent message). */
+    triggerRecordId?: string;
+    /** Set on a squad leader's empty reply. */
+    squadOutcome?: SessionSquadOutcome;
+  }
+
+  /** `systemPayload` of an `agent_mention` record. */

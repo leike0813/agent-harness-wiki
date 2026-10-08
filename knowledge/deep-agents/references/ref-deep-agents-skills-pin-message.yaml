@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-skills-pin-message
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-deepagents-deepagents-middleware-skills-py
+locator:
+  kind: file_lines
+  file: libs/deepagents/deepagents/middleware/skills.py
+  start: 849
+  end: 858
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def _pinned_skill_message(skill: SkillMetadata, body: str) -> HumanMessage:
+      """Return the message that pins `skill`, carrying its `SKILL.md` `body`."""
+      name = html.escape(skill["name"], quote=True)
+      path = html.escape(skill["path"], quote=True)
+      marker = {"name": skill["name"], "path": skill["path"], "description": skill["description"]}
+      return HumanMessage(
+          content=f'<skill name="{name}" path="{path}">\n{body}\n</skill>',
+          additional_kwargs={"lc_source": "pinned_skill", "skill": marker},
+      )
+

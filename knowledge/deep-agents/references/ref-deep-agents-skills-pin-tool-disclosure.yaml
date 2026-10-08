@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-skills-pin-tool-disclosure
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-deepagents-deepagents-middleware-_skill_tools-py
+locator:
+  kind: file_lines
+  file: libs/deepagents/deepagents/middleware/_skill_tools.py
+  start: 303
+  end: 317
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+      }
+      reads: list[_SkillRead] = []
+      for index, message in enumerate(messages):
+          # A tool result's path is on the `read_file` call it answers; a pinned skill message carries its own.
+          if isinstance(message, ToolMessage) and message.status != "error":
+              path = read_paths.get(message.tool_call_id)
+          elif isinstance(message, HumanMessage) and message.additional_kwargs.get("lc_source") == "pinned_skill":
+              marker = message.additional_kwargs.get("skill")
+              path = marker.get("path") if isinstance(marker, dict) else None
+          else:
+              continue
+          skill = skills_by_path.get(_normalized_path(path) or "")
+          if skill is not None:
+              reads.append((index, skill))
+      return reads

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-stdin-failure-timer
+harness_id: cline
+snapshot_id: snapshot-cline-mcp-client-ts-20261009
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/mcp/client.ts
+  start: 474
+  end: 487
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  			this.stdinFailureTimer = setTimeout(() => {
+  				this.stdinFailureTimer = undefined;
+  				if (this.process !== child) {
+  					return;
+  				}
+  				this.failAllPending(
+  					new Error(
+  						`MCP server "${this.registration.name}" stopped reading its input before the request was fully delivered (${this.stdinFailure}) and did not exit.`,
+  					),
+  				);
+  				void this.disconnect().catch(() => {});
+  			}, STDIO_MCP_GRACEFUL_SHUTDOWN_TIMEOUT_MS);
+  			this.stdinFailureTimer.unref();
+  		});

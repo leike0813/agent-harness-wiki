@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-agents-join-command
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-29aef7d-cli-agents-join
+locator:
+  kind: file_lines
+  file: packages/cli/src/commands/agents/join.ts
+  start: 224
+  end: 234
+official_url: "https://github.com/QwenLM/qwen-code/blob/29aef7de40b752bb0464919ab4af8f08a988dd31/packages/cli/src/commands/agents/join.ts"
+excerpt: |-
+  export const joinCommand: CommandModule<unknown, JoinArgs> = {
+    command: 'join <link>',
+    describe:
+      'Join a coordinator as an Agent Host from the running local qwen serve (no restart)',
+    builder: (yargs) =>
+      yargs
+        .positional('link', {
+          type: 'string',
+          demandOption: true,
+          description: 'The join link shown by the coordinator',
+        })

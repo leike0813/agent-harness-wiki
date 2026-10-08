@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-strict-tool-schemas-required-all
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-2baac5e-base-provider
+locator:
+  kind: file_lines
+  file: src/api/providers/base-provider.ts
+  start: 92
+  end: 101
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/2baac5e5b76018af2f1569450a70514b077a3748/src/api/providers/base-provider.ts"
+excerpt: |-
+  		// OpenAI Responses API requires additionalProperties: false on all object schemas
+  		// Only add if not already set to false (to avoid unnecessary mutations)
+  		if (result.additionalProperties !== false) {
+  			result.additionalProperties = false
+  		}
+  
+  		if (result.properties) {
+  			const allKeys = Object.keys(result.properties)
+  			// OpenAI strict mode requires ALL properties to be in required array
+  			result.required = allKeys

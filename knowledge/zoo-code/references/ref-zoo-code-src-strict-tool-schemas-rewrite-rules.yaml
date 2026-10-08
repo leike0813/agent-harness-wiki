@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-strict-tool-schemas-rewrite-rules
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-2baac5e-base-provider
+locator:
+  kind: file_lines
+  file: src/api/providers/base-provider.ts
+  start: 77
+  end: 83
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/2baac5e5b76018af2f1569450a70514b077a3748/src/api/providers/base-provider.ts"
+excerpt: |-
+  	 * Converts tool schemas to be compatible with OpenAI's strict mode by:
+  	 * - Ensuring all properties are in the required array (strict mode requirement)
+  	 * - Converting nullable types (["type", "null"]) to non-nullable ("type")
+  	 * - Adding additionalProperties: false to all object schemas (required by OpenAI Responses API)
+  	 * - Recursively processing nested objects and arrays
+  	 *
+  	 * This matches the behavior of ensureAllRequired in openai-native.ts

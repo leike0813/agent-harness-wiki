@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-oauth-iss-discovery
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-cfg-core-mcp-oauth-utils
+locator:
+  kind: file_lines
+  file: packages/core/src/mcp/oauth-utils.ts
+  start: 316
+  end: 331
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+      ): MCPOAuthConfig {
+        return {
+          authorizationUrl: metadata.authorization_endpoint,
+          issuer: metadata.issuer,
+          tokenUrl: metadata.token_endpoint,
+          scopes: metadata.scopes_supported || [],
+          registrationUrl: metadata.registration_endpoint,
+          // RFC 9207 Section 3: the flag defaults to false when omitted. Discovered
+          // configurations therefore always carry an explicit boolean, which lets
+          // the callback policy distinguish them from an explicitly configured issuer.
+          // Only a literal boolean `true` enables the flag, so loosely typed values
+          // returned by some servers (e.g. "false" or "0") are not coerced to true.
+          authorizationResponseIssParameterSupported:
+            metadata.authorization_response_iss_parameter_supported === true,
+        };
+      }

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-skills-pin-reducer
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-deepagents-deepagents-middleware-skills-py
+locator:
+  kind: file_lines
+  file: libs/deepagents/deepagents/middleware/skills.py
+  start: 348
+  end: 357
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def _append_skill_names(left: list[str] | None, right: list[str] | None) -> list[str]:
+      """Combine two writes of `pinned_skills`, treating a missing value as empty."""
+      return [*(left or []), *(right or [])]
+
+
+  class SkillsState(AgentState):
+      """State for the skills middleware."""
+
+      # The reducer must be the last `Annotated` entry, where LangGraph looks for it.
+      pinned_skills: NotRequired[Annotated[list[str], OmitFromOutput, _append_skill_names]]

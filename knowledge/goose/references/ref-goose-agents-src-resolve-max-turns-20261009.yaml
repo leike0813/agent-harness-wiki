@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-resolve-max-turns-20261009
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261009-summon
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/platform_extensions/summon.rs
+  start: 1489
+  end: 1506
+official_url: "https://github.com/block/goose/blob/a4189ec8c7c09a66ce300c8aca528385bdc13ff0/crates/goose/src/agents/platform_extensions/summon.rs"
+excerpt: |-
+  fn resolve_max_turns(&self, session: &crate::session::Session) -> usize {
+      session
+          .recipe
+          .as_ref()
+          .and_then(|r| r.settings.as_ref())
+          .and_then(|s| s.max_turns)
+          .or_else(|| {
+              std::env::var("GOOSE_SUBAGENT_MAX_TURNS")
+                  .ok()
+                  .and_then(|v| v.parse().ok())
+          })
+          .or_else(|| {
+              Config::global()
+                  .get_param::<usize>("GOOSE_SUBAGENT_MAX_TURNS")
+                  .ok()
+          })
+          .unwrap_or(DEFAULT_SUBAGENT_MAX_TURNS)
+  }

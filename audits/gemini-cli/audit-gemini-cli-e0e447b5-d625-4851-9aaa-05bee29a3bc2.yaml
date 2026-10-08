@@ -1,0 +1,88 @@
+schema_version: 2
+audit_id: audit-gemini-cli-e0e447b5-d625-4851-9aaa-05bee29a3bc2
+harness_id: gemini-cli
+checked_at: '2026-10-08T18:02:19.452Z'
+previous_audit_id: audit-gemini-cli-ae677413-ca8b-4fed-b8ec-81a284e54854
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+- source_id: source-gemini-cli-repo
+  kind: git_repository
+  checked_at: '2026-10-08T18:02:17.349Z'
+  status: changed
+  baseline: fb972b2f87fe7d5b06d37eac711490162d98de2c
+  observed: 44d764ee579610bf73c43107f5e0422cd92588b9
+  remote_ref: refs/heads/main
+- source_id: source-gemini-cli-docs
+  kind: official_documentation
+  checked_at: '2026-10-08T18:02:17.358Z'
+  status: unchanged
+  baseline: 8e1b4cbe2cd31effa3375aa5d480269ab28bf82c02a42d9b52cbb61e5b248590
+  observed: 8e1b4cbe2cd31effa3375aa5d480269ab28bf82c02a42d9b52cbb61e5b248590
+  resolved_url: https://geminicli.com/docs/cli/skills.md
+- source_id: source-gemini-cli-npm
+  kind: npm_registry
+  checked_at: '2026-10-08T18:02:17.360Z'
+  status: changed
+  baseline: 0.62.0@sha512-A1rw0Tf2sHLpGncfYdaq5WaJIufKAP8il4BmHD5Yw4ewmB/Wo0vRQb2bEvx7OqyaPFPZCh0hVhcMKsICZyIBww==
+  observed: 0.63.0@sha512-mmhqMmAdsoplCzrLQQC4yJBqr4uSKXghnrLspgUU6N9drmsaq7pi7oF09skRYzEq2dYK6eMT4UpFQP6rG2o/ew==
+impacts:
+- topic: configuration
+  surface_ids:
+  - cli
+  question_ids:
+  - config.sources
+  - config.overrides
+  - config.defaults
+  - config.diagnostics
+  section_ids:
+  - config-per-key-precedence
+  - config-sources-overrides
+  - config-runtime-defaults
+  - config-migration-diagnostics
+  source_refs:
+  - ref-gemini-cli-config-otlpheaders-schema
+  - ref-gemini-cli-config-otlpheaders-schema-json
+  - ref-gemini-cli-config-otlpheaders-doc-setting
+  - ref-gemini-cli-config-otlpheaders-doc-env
+  - ref-gemini-cli-config-otlpheaders-doc-table
+  - ref-gemini-cli-config-telemetry-env-allowlist
+  - ref-gemini-cli-config-otlpheaders-parse
+  - ref-gemini-cli-config-otlpheaders-merge-order
+  - ref-gemini-cli-config-otlpheaders-env-parse
+  - ref-gemini-cli-config-otlpheaders-sdk
+  - ref-gemini-cli-config-oauth-iss-schema
+  - ref-gemini-cli-config-oauth-iss-schema-json
+  - ref-gemini-cli-config-oauth-iss-provider
+  - ref-gemini-cli-config-oauth-iss-discovery
+  - ref-gemini-cli-config-oauth-iss-callback
+  - ref-gemini-cli-config-oauth-iss-doc
+  - ref-gemini-cli-config-workspace-write-guard
+  cross_topic_links:
+  - mcp.auth
+  reason: "commit 44d764ee 相对基线 fb972b2f 新增 telemetry.otlpHeaders 及其 GEMINI_TELEMETRY_OTLP_HEADERS/OTEL_EXPORTER_OTLP_HEADERS/argv 四路合并，以及 mcpServers.*.oauth.authorizationResponseIssParameterSupported（RFC 9207 iss 校验开关，覆盖服务端元数据发现的同名字段）；同时 packages/cli/src/config/settings.ts 为不可写的 workspace 设置文件补上明确错误消息。这三处都改动了'同一个键上多来源如何取舍'的既有机制，属于配置加载/覆盖入口的变化，因此按 config.overrides、config.defaults、config.diagnostics 维护；config.sources 只在新增键的落盘位置上受影响。"
+pending_question_ids: []
+investigation_notes:
+- 本轮 triage 分类：maintain
+- 'source-gemini-cli-repo 由 fb972b2 变为 44d764e（fix(auth): prevent infinite verification and OAuth retry
+  loops），79 个文件。'
+- 命中已登记引用：packages/cli/src/config/settingsSchema.ts 与 schemas/settings.schema.json、docs/reference/configuration.md
+  新增 telemetry.otlpHeaders（对象）与 GEMINI_TELEMETRY_OTLP_HEADERS（JSON 对象串或 k=v 列表，并回落 OTEL_EXPORTER_OTLP_HEADERS）；两处
+  oauth 设置块新增 authorizationResponseIssParameterSupported（RFC 9207 iss 校验开关）。
+- 新建 edition gemini-cli-cli-configuration-v2，v1 原样保留；当前选择改指 v2。
+- 新增小节 config-per-key-precedence，把两处"多来源合并"写成逐键规则，并给出最小 JSON 示例（凭据用占位值）。
+- 证据全部取自 pinned workspace ws-44d764ee5796-833c623d-b94d-449c-8fc3-974e8345d270 的 commit
+  44d764ee579610bf73c43107f5e0422cd92588b9，每条 reference 记录一个 git_source_file artifact（commit、
+  仓库相对 file、真实 content_sha256），未写入临时路径。
+- 官方文档来源 source-gemini-cli-docs 与 source-gemini-cli-npm 在本工作树内没有可比较的旧原件
+  （archive/ 下没有 gemini-cli 目录），因此不能判定其"无影响"；只把仓库内 docs/ 树的同提交原文作为
+  source-gemini-cli-repo 的 git_source_file 证据，官方站点与已发布 npm 包的行为仍未验证。
+- npm 观察为 0.62.0 → 0.63.0，本轮不据此建立任何版本映射，也不修改已有章节的版本声明。
+- 排除项核对：core/src/core/{client,geminiChat}.ts 与 services/chatRecordingService.ts 的改动是会话
+  重放/工具调用清理与初始化幂等，未触及 settings 加载、环境变量或 schema 解析入口，因此不纳入配置章节；
+  未据此扩大范围到 local_transcripts 或其他主题。
+- A2A 的 auth-provider/oauth2-provider.ts 改动（并发认证合并、401 重试计数）属 mcp/custom_providers
+  的认证机制，本轮固定问题只覆盖 configuration，不写入；如需覆盖由协调者另开范围。
+- config.overrides 仍为 partial：新增的两处合并顺序已确定，但通用的"数组、空值、删除标记"语义在固定来源内依旧没有可读策略表。
+- 本轮未执行 sources:scan、sources:workspace open、publish、chapters:update 或任何网络抓取。

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-r967-repair-streaming-rewrite
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-r967-crates-pa-core-src-session-manager-repair-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session/manager/repair.rs
+  start: 99
+  end: 147
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/967eb13fd488507af5f590e9c6ea8b2672f1fc05/crates/pa-core/src/session/manager/repair.rs
+excerpt: |
+      let temp =
+          std::path::PathBuf::from(format!("{}.tmp{}", file_path.display(), std::process::id()));
+      let _ = (|| -> std::io::Result<()> {
+          let mut reader = std::io::BufReader::new(source);
+          let mut options = std::fs::OpenOptions::new();
+          options.create(true).write(true).truncate(true);
+          crate::platform::perms::set_private_mode(&mut options);
+          let mut output = options.open(&temp)?;
+          while reader.read_until(b'\n', &mut line)? != 0 {
+              ...
+          }
+          if !dirty {
+              return Ok(());
+          }
+          output.sync_all()?;
+          crate::platform::rename_onto(&temp, file_path)
+      })();
+      let _ = std::fs::remove_file(&temp);

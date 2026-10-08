@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-agy-native-plugins-changelog-install-mcp-stop
+harness_id: antigravity
+snapshot_id: snapshot-agy-repo-20261009
+locator:
+  kind: file_lines
+  file: CHANGELOG.md
+  start: 12
+  end: 12
+official_url: https://github.com/google-antigravity/antigravity-cli
+excerpt: |2-
+  Fixed installing, reinstalling, and uninstalling plugins with `/plugin` on Windows failing while one of the plugin's MCP servers was running: the CLI now stops the plugin's MCP servers before replacing or deleting its folder and restarts them afterwards, and if another Antigravity process such as another `agy` session, the Antigravity Hub, or the `remote-control` daemon still holds the plugin open, it tells you to close it and retry.

@@ -1,0 +1,126 @@
+schema_version: 2
+audit_id: audit-minimax-code-9962c56d-0e7a-41a8-b5ce-fc9f545df142
+harness_id: minimax-code
+checked_at: '2026-10-08T18:03:00.871Z'
+previous_audit_id: audit-minimax-code-20261006t134000z
+status: changed
+review_status: pending
+pending_audit_refs:
+- audit-minimax-code-b671265c-b76b-4d99-a9b7-ac11dd5a27a2
+- audit-minimax-code-20261006t134000z
+checks:
+- source_id: source-minimax-code-repo
+  kind: git_repository
+  checked_at: '2026-10-08T18:02:58.223Z'
+  status: changed
+  baseline: 4401b0edb0e6ad753d3952b75a31ec87807b6aab
+  observed: 834831165d58c8739ccdda82beee9af1cc7bea8c
+  remote_ref: refs/heads/main
+- source_id: source-minimax-code-npm
+  kind: npm_registry
+  checked_at: '2026-10-08T18:02:58.230Z'
+  status: changed
+  baseline: 0.6.3@sha512-W12AekIexhOGYc+ZnLkHhK6uoskWAxsK9rxfVz20M8TtYWE6JFbUwDadISDORjBg5FzriC+Rx7Bz1h40no5LHw==
+  observed: 0.6.5@sha512-YPf+acIzukNeARVOGZnwswGscvptIbz9SXTwyFITKoRiCjJ2z/GWB+6DziOcyGA0TA33alvtz0rkUnfASNaDZw==
+- source_id: source-minimax-code-docs-features
+  kind: official_documentation
+  checked_at: '2026-10-08T18:02:58.232Z'
+  status: unchanged
+  baseline: a1230063ef181d330f3427f2879fbee8df2e09db7c76aa664175055de551e217
+  observed: a1230063ef181d330f3427f2879fbee8df2e09db7c76aa664175055de551e217
+  resolved_url: https://agent.minimax.io/docs/cli/features.md
+- source_id: source-minimax-code-docs-configuration
+  kind: official_documentation
+  checked_at: '2026-10-08T18:02:58.233Z'
+  status: unchanged
+  baseline: 9429573af63b4667c425a723f684857c4f50940d9f748590ce91864d2984a485
+  observed: 9429573af63b4667c425a723f684857c4f50940d9f748590ce91864d2984a485
+  resolved_url: https://agent.minimax.io/docs/cli/configuration.md
+- source_id: source-minimax-code-docs-reference
+  kind: official_documentation
+  checked_at: '2026-10-08T18:02:59.002Z'
+  status: unchanged
+  baseline: e35d9d1ad7fb5a84925e67117255fb83f18273115abdb52445b0543051d05b6b
+  observed: e35d9d1ad7fb5a84925e67117255fb83f18273115abdb52445b0543051d05b6b
+  resolved_url: https://agent.minimax.io/docs/cli/reference.md
+- source_id: source-minimax-code-docs-security
+  kind: official_documentation
+  checked_at: '2026-10-08T18:02:59.512Z'
+  status: unchanged
+  baseline: a651d45252f8be0a4473e3daa95fbe5627d77db7de9072202b0017bd4163193a
+  observed: a651d45252f8be0a4473e3daa95fbe5627d77db7de9072202b0017bd4163193a
+  resolved_url: https://agent.minimax.io/docs/cli/security.md
+- source_id: source-minimax-code-docs-faq
+  kind: official_documentation
+  checked_at: '2026-10-08T18:02:59.937Z'
+  status: unchanged
+  baseline: 39fd1c25a0cc1d87abbf908f2edbb379a280192e91541183d77fca5653c37db3
+  observed: 39fd1c25a0cc1d87abbf908f2edbb379a280192e91541183d77fca5653c37db3
+  resolved_url: https://agent.minimax.io/docs/cli/faq.md
+impacts:
+- topic: configuration
+  question_ids:
+  - config.runtime
+  - config.diagnostics
+  section_ids:
+  - config-runtime
+  - config-prompt-overrides
+  - config-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-minimax-code-config-prompt-flags
+  - ref-minimax-code-config-prompt-inherit
+  - ref-minimax-code-config-prompt-reject
+  - ref-minimax-code-config-prompt-resolve
+  - ref-minimax-code-config-prompt-surfaces
+  - ref-minimax-code-config-prompt-assembly
+  - ref-minimax-code-config-prompt-composition
+  - ref-minimax-code-config-prompt-doc
+  cross_topic_links: []
+  reason: "本轮沿 local-agent-config-builder 装配入口限定核对后，以下 configuration 问题在 8348311
+    无新增证据，沿用 v2 结论并保持 pending，未做无证据改写。"
+- topic: configuration
+  question_ids:
+  - config.sources
+  - config.overrides
+  - config.trust
+  - config.defaults
+  - config.migration
+  section_ids:
+  - config-sources
+  - config-overrides
+  - config-trust-defaults
+  - config-migration
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-minimax-code-config-path
+  - ref-minimax-code-config-merge
+  - ref-minimax-code-config-defaults
+  - ref-minimax-code-config-migrate
+  cross_topic_links: []
+  reason: "source-minimax-code-repo: local-agent-config-builder.ts 新增 SystemPromptOverrides
+    装配入口，packages/tui/src/cli 新增 system-prompt-options.ts 并在 contract.ts/program.ts
+    接入 --system-prompt/--append-system-prompt 系列命令行参数，docs/tui-capabilities.md
+    同步说明。这是作用在提示词装配层的进程内配置入口，直接命中 configuration 的运行时参数与诊断问题。"
+pending_question_ids:
+- config.sources
+- config.overrides
+- config.trust
+- config.defaults
+- config.migration
+investigation_notes:
+- 本轮 triage 分类：narrow_investigation
+- 本轮不写 reviewed_by/reviewed_at：仍引用 review_status=pending 的旧审计。
+- source-minimax-code-repo 由 4401b0e 变为 8348311，51 个文件。
+- 实际语义变化不是提交标题所指的 TUI 输出速率修正（该部分属交互表现，已按 exclude 不改写），
+  而是同一提交内新增的启动期主 Agent 提示词覆盖：packages/tui/src/cli/system-prompt-options.ts（新增）、
+  packages/tui/src/cli/{contract.ts,program.ts,main.ts,environment.ts}、packages/tui/src/tui/launcher.ts，
+  以及 packages/local-runtime-v2 的 local-agent-config-builder.ts 与 host-contract/runtime/services 装配链，
+  docs/tui-capabilities.md 新增「Launch-scoped system prompt overrides」小节。
+- 结论：configuration 章节新增小节 config-prompt-overrides，升版为 v3，chapter-current 选择切到
+  v3；v2 保留不动。
+- config.sources/config.overrides/config.trust/config.defaults/config.migration 本轮无新增证据，保持
+  pending，未做无证据改写。
+- 官方文档来源本轮全部 unchanged，因此提示词覆盖只作来源级知识，未建软件版本映射。

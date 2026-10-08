@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-providers-tool-result-media-support
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-opencode-src-session-message-v2-20261009
+official_url: https://github.com/anomalyco/opencode/blob/388406238bd5ca15564a762840a2362c3a45bd9c/packages/opencode/src/session/message-v2.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/session/message-v2.ts
+  start: 145
+  end: 156
+excerpt: |
+  // Only apply this workaround if the model actually supports that media input -
+  // otherwise unsupportedParts() will turn it into a user-visible error.
+  const supportsMediaInToolResult = (attachment: { mime: string }) => {
+    if (model.api.npm === "@ai-sdk/anthropic") return true
+    if (model.api.npm === "@ai-sdk/openai") return true
+    if (model.api.npm === "@ai-sdk/amazon-bedrock/mantle") return true
+    if (model.api.npm === "@ai-sdk/amazon-bedrock") {
+      if (!attachment.mime.startsWith("image/")) return false
+      const id = model.api.id.toLowerCase()
+      return id.includes("anthropic.") || id.includes("nova") || id.includes("llama4") || id.includes("llama-4")
+    }
+    if (model.api.npm === "@ai-sdk/xai") return attachment.mime.startsWith("image/")

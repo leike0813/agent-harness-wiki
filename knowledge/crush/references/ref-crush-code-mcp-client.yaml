@@ -2,23 +2,25 @@ schema_version: 2
 record_kind: production
 reference_id: ref-crush-code-mcp-client
 harness_id: crush
-snapshot_id: snapshot-crush-repo-20261006
+snapshot_id: snapshot-crush-repo-20261009
 locator:
   kind: file_lines
   file: internal/agent/tools/mcp/init.go
-  start: 773
-  end: 801
+  start: 791
+  end: 809
 official_url: "https://github.com/charmbracelet/crush"
 excerpt: |-
   func getOrRenewClient(ctx context.Context, cfg *config.ConfigStore, name string) (*ClientSession, error) {
   	m := cfg.Config().MCP[name]
   	timeout := mcpTimeout(m)
+
   	// Fast path: reuse a healthy session without taking the renewal lock.
   	if sess, ok := sessions.Get(name); ok {
   		if err := pingSession(ctx, sess, timeout); err == nil {
   			return sess, nil
   		}
   	}
+
   	// Serialize renewals per server. Two concurrent tool calls can both
   	// observe a dead session and race to rebuild it: one may close the
   	// session the other just registered, or overwrite and leak a live

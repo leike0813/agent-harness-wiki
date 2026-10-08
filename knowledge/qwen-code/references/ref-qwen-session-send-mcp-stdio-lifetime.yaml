@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-session-send-mcp-stdio-lifetime
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-29aef7d-cli-session-send-mcp-server
+locator:
+  kind: file_lines
+  file: packages/cli/src/commands/agents/session-send-mcp-server.ts
+  start: 64
+  end: 78
+official_url: "https://github.com/QwenLM/qwen-code/blob/29aef7de40b752bb0464919ab4af8f08a988dd31/packages/cli/src/commands/agents/session-send-mcp-server.ts"
+excerpt: |-
+  export async function runSessionSendMcp(
+    url: string,
+    env: NodeJS.ProcessEnv = process.env,
+  ): Promise<void> {
+    const server = createSessionSendMcpServer(url, env);
+    const transport = new StdioServerTransport();
+    // Resolve only when the client goes away: the CLI exits as soon as a
+    // subcommand handler returns.
+    const closed = new Promise<void>((resolve) => {
+      server.server.onclose = () => resolve();
+      process.stdin.once('end', () => resolve());
+      process.stdin.once('close', () => resolve());
+    });
+    await server.connect(transport);
+    await closed;

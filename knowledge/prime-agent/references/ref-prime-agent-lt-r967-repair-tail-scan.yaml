@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-r967-repair-tail-scan
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-r967-crates-pa-core-src-session-manager-repair-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session/manager/repair.rs
+  start: 29
+  end: 52
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/967eb13fd488507af5f590e9c6ea8b2672f1fc05/crates/pa-core/src/session/manager/repair.rs
+excerpt: |
+    let mut window = vec![0u8; size.min(REPAIR_SUSPICION_WINDOW_BYTES as u64) as usize];
+    let mut end = size;
+    while end > 0 {
+        let start = end.saturating_sub(REPAIR_SUSPICION_WINDOW_BYTES as u64);
+        let chunk = (end - start) as usize;
+        ...
+        if window[..chunk].contains(&0) {
+            return true;
+        }
+        if end == size && window[chunk - 1] != b'\n' {
+            return true;
+        }
+        let search_end = if end == size { chunk - 1 } else { chunk };
+        if let Some(position) = window[..search_end].iter().rposition(|byte| *byte == b'\n') {
+            let last_line_start = start + position as u64 + 1;
+            return !last_line_is_json(&mut file, last_line_start, size - 1);
+        }
+        end = start;
+    }
+    !last_line_is_json(&mut file, 0, size - 1)

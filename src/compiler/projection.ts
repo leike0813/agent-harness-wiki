@@ -4,8 +4,15 @@ export { canonical } from "../domain/json.js";
 
 export type { PublishedKnowledge };
 
+// Compare by UTF-16 code unit so the JSON order matches SQLite's `ORDER BY id`
+// (BINARY collation). `localeCompare` ignores punctuation weight, so ids mixing
+// `-` and `_` sorted differently in the two artifacts and failed release verify.
 const by = <T>(items: T[], key: (item: T) => string): T[] =>
-  items.sort((a, b) => key(a).localeCompare(key(b), "en"));
+  items.sort((a, b) => {
+    const left = key(a);
+    const right = key(b);
+    return left < right ? -1 : left > right ? 1 : 0;
+  });
 
 export function publishedRecords(dataset: Dataset): Dataset {
   const assessments = dataset.assessments.filter((item) =>

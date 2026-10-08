@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-external-record-write
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-29aef7d-core-chat-recording
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingService.ts
+  start: 2494
+  end: 2508
+official_url: "https://github.com/QwenLM/qwen-code/blob/29aef7de40b752bb0464919ab4af8f08a988dd31/packages/core/src/services/chatRecordingService.ts"
+excerpt: |2-
+    /**
+     * Durably records a session multi-agent record (`agent_mention` or
+     * `agent_message`) the daemon asked the ACP child to write, and returns
+     * its uuid (the agents' read-cursor anchor) and its own timestamp, so a live
+     * update can carry exactly what replay will.
+     *
+     * Written as `type: 'user'` so the main model reads it as input on its next
+     * turn (resume rebuilds it through `appendApiHistoryRecord`). It never
+     * starts a turn, never feeds the auto title (only subtype-less user records
+     * do), and is never trimmed as a cold notification.
+     *
+     * Idempotent per `recordKey`, durably: the key is persisted on the record
+     * (`externalRecordKey`) and a repeat returns the existing record with
+     * `created: false`, also after a restart (see

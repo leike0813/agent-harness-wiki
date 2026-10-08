@@ -2,25 +2,11 @@ schema_version: 2
 record_kind: production
 reference_id: ref-crush-code-mcp-auth
 harness_id: crush
-snapshot_id: snapshot-crush-repo-20261006
+snapshot_id: snapshot-crush-repo-20261009
 locator:
   kind: file_lines
   file: internal/agent/tools/mcp/init.go
-  start: 458
-  end: 501
+  start: 466
+  end: 488
 official_url: "https://github.com/charmbracelet/crush"
-excerpt: |-
-  func AuthenticateMCP(ctx context.Context, cfg *config.ConfigStore, name string) error {
-  	m, exists := cfg.Config().MCP[name]
-  	if !exists {
-  		return fmt.Errorf("mcp '%s' not found in configuration", name)
-  	}
-  	if !m.OAuth || m.Type != config.MCPHttp {
-  		return fmt.Errorf("mcp '%s' does not use OAuth authentication", name)
-  	}
-  	updateState(name, StateStarting, nil, nil, Counts{}, withPending(m))
-  	// This is the user-initiated flow, so permit the interactive browser
-  	// authorization the handler otherwise withholds during startup.
-  	ctx = mcpoauth.WithInteractive(ctx)
-  	// The OAuth handler persists the token automatically as it is
-  	// exchanged, so a successful connection has already saved it.
+excerpt: "\tm, exists := cfg.Config().MCP[name]\n\tif !exists {\n\t\treturn fmt.Errorf(\"mcp '%s' not found in configuration\", name)\n\t}\n\n\tif !m.OAuth || m.Type != config.MCPHttp {\n\t\treturn fmt.Errorf(\"mcp '%s' does not use OAuth authentication\", name)\n\t}\n\n\tupdateState(name, StateStarting, nil, nil, Counts{}, withPending(m))\n\n\t// This is the user-initiated flow, so permit the interactive browser\n\t// authorization the handler otherwise withholds during startup.\n\tctx = mcpoauth.WithInteractive(ctx)\n\n\t// The OAuth handler persists the token automatically as it is\n\t// exchanged, so a successful connection has already saved it.\n\t_, err := connectAndRegister(ctx, cfg, name, m, currentGen(name), cfg.Resolver(), ChannelOptIn(m, cfg.Overrides().EnabledChannels, name))\n\tif err != nil {\n\t\treturn err\n\t}\n\treturn nil\n}"

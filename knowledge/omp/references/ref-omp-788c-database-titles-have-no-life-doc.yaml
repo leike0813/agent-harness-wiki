@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt2-database-titles-have-no-life-doc
+harness_id: omp
+snapshot_id: snapshot-omp-788c-packages-coding-agent-src-session-session-index
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-index.ts
+  start: 4
+  end: 14
+official_url: https://github.com/can1357/oh-my-pi/blob/788cf9ef10c82634b2a685fb2d1455362acf81b9/packages/coding-agent/src/session/session-index.ts#L4-L14
+excerpt: " * - `session_titles`: session id → display title, written whenever a title is\n *   created or renamed ({@link SessionManager.setSessionName}) and backfilled by\n *   the recent-session fallback scan. Lets the welcome \"Recent sessions\" list\n *   resolve names from a stat + lookup instead of content-scanning every session\n *   file in the project directory (multi-hundred-ms on dirs with thousands of\n *   sessions). A title has no life beyond its session; `omp gc` drops rows of\n *   archived sessions.\n * - `session_recaps`: append-only journal of idle recaps\n *   ({@link SessionManager.recordRecap}). Recaps are side-channel output that\n *   never enters the session JSONL or LLM context; this table is their only\n *   durable record. `omp gc` drops rows of archived sessions."

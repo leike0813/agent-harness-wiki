@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-config-src-command-reserved
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-lt-packages-opencode-src-kilocode-command-reserved-ts-20261009
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/command/reserved.ts
+  start: 47
+  end: 73
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  export function notice(name: string, key?: string) {
+    return [
+      `Ignoring the "${name}" command registered by your config or a plugin:`,
+      `/${name} is reserved for Kilo's own command.`,
+      key ? `Run yours as /${key} instead.` : "",
+      "Rename it, or turn it off in the plugin that registers it, to stop this warning.",
+    ]
+      .filter(Boolean)
+      .join(" ")
+  }
+  ...
+  export function warnings(commands: Record<string, Entry> | undefined) {
+    return Object.keys(commands ?? {})
+      .filter(reserved)
+      .map((name) => ({ path: `command.${name}`, message: notice(name, rename(commands, name)) }))
+  }

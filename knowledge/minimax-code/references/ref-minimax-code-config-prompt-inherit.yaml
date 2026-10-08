@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-prompt-inherit
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-tui-src-cli-system-prompt-options-ts-8348311
+locator:
+  kind: file_lines
+  file: packages/tui/src/cli/system-prompt-options.ts
+  start: 61
+  end: 83
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  /**
+   * Fills each prompt slot from the nearest parent command that received it on the
+   * command line, so `mcode --system-prompt-file a.md acp` still applies. A slot set
+   * closer to the subcommand wins as a whole: `exec --system-prompt` replaces a
+   * `--system-prompt-file` given before `exec` instead of conflicting with it.
+   */
+  export function inheritSystemPromptOptions<T extends RawSystemPromptOptions>(
+    command: Command,
+    options: T,
+  ): T {

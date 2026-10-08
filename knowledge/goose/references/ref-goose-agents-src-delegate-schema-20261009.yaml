@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-delegate-schema-20261009
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261009-summon
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/platform_extensions/summon.rs
+  start: 512
+  end: 543
+official_url: "https://github.com/block/goose/blob/a4189ec8c7c09a66ce300c8aca528385bdc13ff0/crates/goose/src/agents/platform_extensions/summon.rs"
+excerpt: |-
+  "extensions": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Extensions to enable. Omit to inherit all, empty array for none."
+  },
+  "provider": { "type": "string", "description": "Override LLM provider." },
+  "model": { "type": "string", "description": "Override model." },
+  "max_turns": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum turns for this delegate. Overrides recipe settings.max_turns and GOOSE_SUBAGENT_MAX_TURNS."
+  },
+  "working_dir": {
+      "type": "string",
+      "description": "Working directory for the delegate. Must be within the parent session's working directory. Defaults to the parent's working directory."
+  }

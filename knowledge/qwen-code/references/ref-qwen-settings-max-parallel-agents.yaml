@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-settings-max-parallel-agents
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-29aef7d-cli-settings-schema
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settingsSchema.ts
+  start: 3817
+  end: 3826
+official_url: "https://github.com/QwenLM/qwen-code/blob/29aef7de40b752bb0464919ab4af8f08a988dd31/packages/cli/src/config/settingsSchema.ts"
+excerpt: |2-
+        maxParallelAgents: {
+          type: 'number',
+          label: 'Max Parallel Agents',
+          category: 'Advanced',
+          requiresRestart: true,
+          default: undefined as number | undefined,
+          minimum: 1,
+          description:
+            'Global maximum number of background sub-agents that can run concurrently. Additional background agents wait in a queue until a slot is available. Foreground per-model launches are bounded by maxParallelAgentsByModel and do not consume this global background budget. Use maxParallelAgentsByModel to cap a specific model below this global limit.',
+          showInDialog: false,

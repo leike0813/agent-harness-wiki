@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-workspace-write-guard
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-cfg-cli-settings
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settings.ts
+  start: 465
+  end: 475
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+    setValue(scope: LoadableSettingScope, key: string, value: unknown): void {
+      const settingsFile = this.forScope(scope);
+
+      if (scope === SettingScope.Workspace && !this.isPersistable(settingsFile)) {
+        if (settingsFile.path === '' || settingsFile.path === this.user.path) {
+          throw new Error(
+            'Cannot modify workspace settings in the home directory. Please use user scope instead.',
+          );
+        }
+        throw new Error(UNTRUSTED_WORKSPACE_SETTINGS_ERROR);
+      }

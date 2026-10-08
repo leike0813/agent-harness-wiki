@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-session-send-mcp-command
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-29aef7d-cli-session-send-mcp
+locator:
+  kind: file_lines
+  file: packages/cli/src/commands/agents/session-send-mcp.ts
+  start: 78
+  end: 92
+official_url: "https://github.com/QwenLM/qwen-code/blob/29aef7de40b752bb0464919ab4af8f08a988dd31/packages/cli/src/commands/agents/session-send-mcp.ts"
+excerpt: |2-
+    {
+      command: 'session-send-mcp',
+      describe: false,
+      builder: (yargs: Argv) =>
+        yargs.option('url', {
+          type: 'string',
+          demandOption: true,
+          describe: 'Per-run session_send endpoint on the local daemon.',
+        }) as unknown as Argv<SessionSendMcpArgs>,
+      handler: async (argv) => {
+        const { runSessionSendMcp } = await import(
+          './session-send-mcp-server.js'
+        );
+        await runSessionSendMcp(argv.url);
+      },

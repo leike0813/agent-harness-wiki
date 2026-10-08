@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-turn-boundary-exclusion
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-29aef7d-core-chat-recording
+locator:
+  kind: file_lines
+  file: packages/core/src/services/chatRecordingService.ts
+  start: 3209
+  end: 3226
+official_url: "https://github.com/QwenLM/qwen-code/blob/29aef7de40b752bb0464919ab4af8f08a988dd31/packages/core/src/services/chatRecordingService.ts"
+excerpt: |2-
+      this.activeBranchBaseUuid = messages[0]?.parentUuid ?? null;
+      this.pendingBranchToolCalls = collectPendingBranchToolCalls(messages);
+
+      for (let i = 0; i < messages.length; i++) {
+        const record = messages[i];
+        if (
+          record.type === 'user' &&
+          record.subtype !== 'goal_runtime' &&
+          record.subtype !== 'notification' &&
+          record.subtype !== 'cron' &&
+          record.subtype !== 'mid_turn_user_message' &&
+          record.subtype !== 'realtime_message' &&
+          record.subtype !== 'agent_mention' &&
+          record.subtype !== 'agent_message'
+        ) {
+          // Reconstructed histories can start mid-chain; the persisted edge is
+          // the source of truth, not the previous item in this sliced list.

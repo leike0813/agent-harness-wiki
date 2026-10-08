@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-toggle-status
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261009-internal-ui-dialog-mcp_toggles
+locator:
+  kind: file_lines
+  file: internal/ui/dialog/mcp_toggles.go
+  start: 313
+  end: 329
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (m *MCPToggles) itemStatus(item MCPToggleItem) string {
+  	if m.scope == MCPToggleScopeGlobal {
+  		if item.ConfigDisabled {
+  			return "disabled"
+  		}
+  		// The live connection reflects the local override, which takes
+  		// precedence; the global setting itself is still enabled.
+  		if item.localDisabled() {
+  			return "enabled"
+  		}
+  		return item.Status
+  	}
+  	if item.localDisabled() {
+  		return "disabled"
+  	}
+  	return item.Status
+  }

@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-toggle-item-state
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261009-internal-ui-dialog-mcp_toggles
+locator:
+  kind: file_lines
+  file: internal/ui/dialog/mcp_toggles.go
+  start: 36
+  end: 41
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // localDisabled returns the effective local state: a config-disabled
+  // server stays disabled locally unless the repository enabled override
+  // turned it on.
+  func (i MCPToggleItem) localDisabled() bool {
+  	return i.Disabled || (i.ConfigDisabled && !i.EnabledOverride)
+  }

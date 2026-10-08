@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-generation-20261009
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261009-config-base
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/base.rs
+  start: 1194
+  end: 1203
+official_url: "https://github.com/block/goose/blob/a4189ec8c7c09a66ce300c8aca528385bdc13ff0/crates/goose/src/config/base.rs"
+excerpt: |-
+  pub fn invalidate_secrets_cache(&self) {
+      let mut cache = self.secrets_cache.lock().unwrap();
+      *cache = None;
+      self.generation.fetch_add(1, Ordering::Relaxed);
+  }
+
+  /// Changes whenever this process writes config or secrets.
+  pub fn generation(&self) -> u64 {
+      self.generation.load(Ordering::Relaxed)
+  }

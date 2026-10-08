@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-otlpheaders-sdk
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-cfg-core-telemetry-sdk
+locator:
+  kind: file_lines
+  file: packages/core/src/telemetry/sdk.ts
+  start: 283
+  end: 300
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+      const otlpHeaders = config.getTelemetryOtlpHeaders?.() ?? {};
+      const hasHeaders = Object.keys(otlpHeaders).length > 0;
+
+      if (otlpProtocol === 'http') {
+        const buildUrl = (path: string) => {
+          const url = new URL(parsedEndpoint);
+          // Join the existing pathname with the new path, handling trailing slashes.
+          url.pathname = [url.pathname.replace(/\/$/, ''), path].join('/');
+          return url.href;
+        };
+        spanExporter = new OTLPTraceExporterHttp({
+          url: buildUrl('v1/traces'),
+          headers: hasHeaders ? otlpHeaders : undefined,
+        });
+        logExporter = new OTLPLogExporterHttp({
+          url: buildUrl('v1/logs'),
+          headers: hasHeaders ? otlpHeaders : undefined,
+        });

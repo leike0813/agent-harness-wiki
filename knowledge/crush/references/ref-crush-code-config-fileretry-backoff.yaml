@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-config-fileretry-backoff
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261009-internal-config-fileretry
+locator:
+  kind: file_lines
+  file: internal/config/fileretry.go
+  start: 23
+  end: 37
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // retryTransient runs op with backoff until it succeeds, fails with a
+  // non-transient error, or transientRetryBudget is spent.
+  func retryTransient(op func() error) error {
+  	var slept time.Duration
+  	delay := time.Millisecond
+  	for {
+  		err := op()
+  		if err == nil || !isTransientFileError(err) || slept >= transientRetryBudget {
+  			return err
+  		}
+  		time.Sleep(delay)
+  		slept += delay
+  		delay = min(delay*2, 50*time.Millisecond)
+  	}
+  }

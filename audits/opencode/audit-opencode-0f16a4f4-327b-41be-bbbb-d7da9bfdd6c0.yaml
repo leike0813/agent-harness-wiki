@@ -1,0 +1,55 @@
+schema_version: 2
+audit_id: audit-opencode-0f16a4f4-327b-41be-bbbb-d7da9bfdd6c0
+harness_id: opencode
+checked_at: '2026-10-08T18:03:06.863Z'
+previous_audit_id: audit-opencode-20261006t134000z
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+- source_id: source-opencode-npm
+  kind: npm_registry
+  checked_at: '2026-10-08T18:03:05.026Z'
+  status: changed
+  baseline: 1.18.34@sha512-9WUS2T0t4HHDVzXvuwTHF0nvhXvZ9mQ0r+ozCvKdJu0LVoQpOzqAW4qWTC3ygNc5Oedcc7j+Oct24JYlQYnySA==
+  observed: 1.18.35@sha512-tDQKThIZ3amp8NSn3XDP2Dj5BlhRbZC0VkIxgYuf6gvRSXkseqD31j/U4KfpPwha593i8M59hdsDfz32yJx4Og==
+- source_id: source-opencode-repo
+  kind: git_repository
+  checked_at: '2026-10-08T18:03:05.027Z'
+  status: changed
+  baseline: 3f393d78bfc3f0826b2c7080e57964c235704695
+  observed: 388406238bd5ca15564a762840a2362c3a45bd9c
+  remote_ref: refs/heads/dev
+impacts:
+- topic: custom_providers
+  question_ids:
+  - providers.protocol
+  - providers.responses
+  section_ids:
+  - providers-definition
+  - providers-models
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-opencode-providers-xai-image-mime
+  - ref-opencode-providers-xai-attachment-filter
+  - ref-opencode-providers-tool-result-media
+  - ref-opencode-providers-tool-result-media-support
+  cross_topic_links: []
+  reason: message-v2.ts 新增 rejectedByProvider，@ai-sdk/xai 下丢弃 png/jpeg/webp 以外的图片附件；该行为由 provider 的 npm 包分派，改变自定义 provider 选包后请求内容的加工方式（providers.protocol），并影响工具结果附件的处理链与后端约定（providers.responses）。
+pending_question_ids: []
+investigation_notes:
+- 本轮 triage 分类：narrow_investigation
+- 'source-opencode-repo 由 3f393d7 变为 3884062（docs(web): remove Fledge Alpha Free from Zen docs），105 个文件。'
+- 命中已登记引用 packages/opencode/src/session/message-v2.ts：新增 rejectedByProvider，@ai-sdk/xai 下过滤 png/jpeg/webp
+  以外的图片附件。
+- 其余变更为 packages/web 多语言文档与 patches/ 目录改名，属文档站与依赖补丁，不在 custom_providers 范围。
+- providers.forwarding 已复核：新增过滤不是 provider.options 的可配置参数，未改变转发参数到请求的映射，
+  该问题答案与引用保持不变。
+- npm 观察到 1.18.35，仅身份记录；未据此制造章节版本映射。
+- 新增来源记录：artifact-opencode-20261009-packages-opencode-src-session-message-v2、
+  snapshot-opencode-packages-opencode-src-session-message-v2-20261009（commit 3884062，content_sha256
+  b55648c3…），以及 4 条引用。
+- 新建 edition opencode-custom_providers-v5 并在候选内选为当前版本，v4 保留未改。
+- review_status 仍为 pending：本轮只由作者自检，未做独立复核；来源无冲突，未推翻已发布配置步骤，
+  也无跨主题关键加载机制变化，三项高影响触发条件均不成立，但按流程待协调者确认。

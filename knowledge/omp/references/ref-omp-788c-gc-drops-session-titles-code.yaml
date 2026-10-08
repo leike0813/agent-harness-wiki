@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt2-gc-drops-session-titles-code
+harness_id: omp
+snapshot_id: snapshot-omp-788c-packages-coding-agent-src-cli-gc-cli
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/cli/gc-cli.ts
+  start: 1020
+  end: 1031
+official_url: https://github.com/can1357/oh-my-pi/blob/788cf9ef10c82634b2a685fb2d1455362acf81b9/packages/coding-agent/src/cli/gc-cli.ts#L1020-L1031
+excerpt: "\t\tconst hasTitles = tableExists(db, \"session_titles\");\n\t\tif (!hasHistory && !hasRecaps && !hasTitles) return { deleted: 0, ftsRebuilt: false };\n\t\tconst hasFts = hasHistory && tableExists(db, \"history_fts\");\n\t\tusing deleteStmt = hasHistory ? db.prepare(\"DELETE FROM history WHERE session_id = ?\") : undefined;\n\t\t// Recaps and titles are session-scoped side output with no life beyond their session.\n\t\tusing deleteRecapsStmt = hasRecaps ? db.prepare(\"DELETE FROM session_recaps WHERE session_id = ?\") : undefined;\n\t\tusing deleteTitlesStmt = hasTitles ? db.prepare(\"DELETE FROM session_titles WHERE session_id = ?\") : undefined;\n\t\tlet deleted = 0;\n\t\tconst tx = db.transaction((ids: string[]) => {\n\t\t\tfor (const id of ids) {\n\t\t\t\tdeleteRecapsStmt?.run(id);\n\t\t\t\tdeleteTitlesStmt?.run(id);"

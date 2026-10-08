@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-r967-repair-entry-gate
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-r967-crates-pa-core-src-session-manager-repair-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session/manager/repair.rs
+  start: 68
+  end: 98
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/967eb13fd488507af5f590e9c6ea8b2672f1fc05/crates/pa-core/src/session/manager/repair.rs
+excerpt: |
+    /// Repair crash damage (torn tail, zero-filled append) once at open.
+    pub fn repair_jsonl_damage(file_path: &Path) {
+        use std::io::{BufRead, Write};
+        let Ok(target_path) = std::fs::canonicalize(file_path) else {
+            return;
+        };
+        let file_path = target_path.as_path();
+        if !tail_looks_damaged(file_path) {
+            return;
+        }
+        if !first_line_is_session_header(file_path) {
+            return;
+        }

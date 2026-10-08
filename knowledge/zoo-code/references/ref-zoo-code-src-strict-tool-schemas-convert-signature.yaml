@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-strict-tool-schemas-convert-signature
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-2baac5e-base-provider
+locator:
+  kind: file_lines
+  file: src/api/providers/base-provider.ts
+  start: 26
+  end: 39
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/2baac5e5b76018af2f1569450a70514b077a3748/src/api/providers/base-provider.ts"
+excerpt: |-
+  	/**
+  	 * Converts an array of tools to be compatible with OpenAI's strict mode.
+  	 * Filters for function tools, applies schema conversion to their parameters,
+  	 * and ensures all tools have consistent strict values.
+  	 *
+  	 * Pass strict=false to serve endpoints that reject strict: true (e.g.
+  	 * strict-unaware OpenAI-compatible proxies): non-MCP tools are then sent
+  	 * with strict: false and their declared schemas are preserved as-is.
+  	 */
+  	protected convertToolsForOpenAI(
+  		tools: any[] | undefined,
+  		strict: boolean = DEFAULT_OPEN_AI_STRICT_TOOL_SCHEMAS,
+  	): any[] | undefined {
+  		if (!tools) {

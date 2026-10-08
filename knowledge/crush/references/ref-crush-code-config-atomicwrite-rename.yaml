@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-config-atomicwrite-rename
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261009-internal-config-atomicwrite
+locator:
+  kind: file_lines
+  file: internal/config/atomicwrite.go
+  start: 40
+  end: 46
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // renameFile renames tmp over path. On Windows the rename fails with
+  // ERROR_ACCESS_DENIED or ERROR_SHARING_VIOLATION while another process
+  // (antivirus, search indexer) or a concurrent reader briefly holds a
+  // handle on the destination, so transient failures are retried.
+  func renameFile(tmp, path string) error {
+  	return retryTransient(func() error { return os.Rename(tmp, path) })
+  }

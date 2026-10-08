@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-agents-join-token-resolution
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-29aef7d-cli-agents-join
+locator:
+  kind: file_lines
+  file: packages/cli/src/commands/agents/join.ts
+  start: 149
+  end: 159
+official_url: "https://github.com/QwenLM/qwen-code/blob/29aef7de40b752bb0464919ab4af8f08a988dd31/packages/cli/src/commands/agents/join.ts"
+excerpt: |2-
+    const enrollmentToken =
+      deps.env[ENROLLMENT_TOKEN_ENV]?.trim() || (await deps.promptToken());
+    if (!enrollmentToken) {
+      deps.err(
+        `Set ${ENROLLMENT_TOKEN_ENV} to the enrollment token shown with the link.`,
+      );
+      return 1;
+    }
+    const baseUrl = (
+      argv['daemon-url'] ||
+      deps.env[QWEN_DAEMON_URL_ENV] ||
