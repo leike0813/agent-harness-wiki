@@ -1,0 +1,99 @@
+schema_version: 2
+audit_id: audit-codex-46a260f2-4b07-4a05-ade0-2cfbd83770f9
+harness_id: codex
+checked_at: '2026-10-08T18:01:41.445Z'
+previous_audit_id: audit-codex-54b83937-1b9c-4543-a99d-b639cd784d8f
+status: changed
+review_status: pending
+pending_audit_refs:
+- audit-codex-d41084bf-85cb-4e47-8c81-c18349ef1135
+- audit-codex-20261004t061205z
+- audit-codex-1d2b16ca-6d47-4dbe-873f-533a8c9297ab
+- audit-codex-20261006t134000z
+- audit-codex-54b83937-1b9c-4543-a99d-b639cd784d8f
+checks:
+- source_id: source-codex-repo
+  kind: git_repository
+  checked_at: '2026-10-08T18:01:39.293Z'
+  status: changed
+  baseline: c0c230e6730b3b3c9101b8aff4b9aea4027cea5b
+  observed: ad54b75574dca8b24f09ab3c0ca4106529afed04
+  remote_ref: refs/heads/main
+- source_id: source-codex-cli-doc-learn
+  kind: official_documentation
+  checked_at: '2026-10-08T18:01:39.300Z'
+  status: unchanged
+  baseline: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+  observed: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+  resolved_url: https://learn.chatgpt.com/docs/codex/cli.md
+- source_id: source-codex-cli-npm
+  kind: npm_registry
+  checked_at: '2026-10-08T18:01:39.302Z'
+  status: changed
+  baseline: 0.160.1@sha512-f1yrJhwgimKQI1kYQlxdPJcFwkNZxZrbz7Hf89EAcnLqkQ7TiESzr2FgSZn13Ga5RuHjlVUfurzwq10wk9zw2g==
+  observed: 0.161.0@sha512-+ZnJFGBbQBwYnjUTs+PoacgYVxmNyxMLiadIz6eSJ0AzQW0mRVxuuOQizSbz2qeNAJia9Syxag6j2uGf7guD2Q==
+- source_id: source-codex-cli-skills-doc-learn
+  kind: official_documentation
+  checked_at: '2026-10-08T18:01:39.303Z'
+  status: unchanged
+  baseline: d15791562748e64a53dfec534b8558aa522e732cec0fdedcf7257fa4ef486a20
+  observed: d15791562748e64a53dfec534b8558aa522e732cec0fdedcf7257fa4ef486a20
+  resolved_url: https://learn.chatgpt.com/docs/build-skills.md
+- source_id: source-codex-cli-mcp-doc-learn
+  kind: official_documentation
+  checked_at: '2026-10-08T18:01:40.059Z'
+  status: unchanged
+  baseline: adb28990c0c7be47b9ff6c177e3cdeae5803978935cd792f781af2c8b5643e92
+  observed: adb28990c0c7be47b9ff6c177e3cdeae5803978935cd792f781af2c8b5643e92
+  resolved_url: https://learn.chatgpt.com/docs/extend/mcp.md?surface=cli
+- source_id: source-codex-cli-configuration-doc-learn
+  kind: official_documentation
+  checked_at: '2026-10-08T18:01:40.103Z'
+  status: changed
+  baseline: 73242945d7891bc09bf95a39d83117025abd8eca61ae5707db38fda40db16d62
+  observed: d347f6bf16af6dcdfbdbce7236d8b27429eca748614e33ed1f0709c4e576cacd
+  resolved_url: https://learn.chatgpt.com/docs/config-file/config-reference.md
+impacts:
+- topic: configuration
+  question_ids:
+  - config.defaults
+  - config.sources
+  - config.overrides
+  - config.trust
+  - config.runtime
+  section_ids:
+  - config-defaults-migration
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-codex-cli-config-application-network-doc
+  - ref-codex-cli-config-application-network-source
+  - ref-codex-cli-config-application-network-domains-source
+  - ref-codex-cli-config-windows-allow-mxc-source
+  - ref-codex-cli-config-windows-allow-mxc-rejected-source
+  - ref-codex-cli-config-windows-require-mxc-source
+  - ref-codex-cli-config-include-env-time-source
+  - ref-codex-cli-config-defaults-source
+  cross_topic_links: []
+  reason: source-codex-cli-configuration-doc-learn 新增 requirements.toml 的 [application] 表
+    与 application.network* 键（commit ad54b755 未改动 application_requirements.rs，该机制在基线
+    c0c230e 已存在但此前无归档文档证据）；source-codex-repo 在 config/src/{types,config_requirements}.rs
+    新增 windows.allow_mxc / windows.require_mxc，在 config_toml.rs 新增 include_environment_context_time
+    并把 thread_unload_delay_secs 默认值从 60 改为 1800。config.defaults 因此新增可引用的键与默认值证据，
+    其余四题（sources/overrides/trust/runtime）的已发布结论未被推翻，改写集中在 config-defaults-migration。
+pending_question_ids: []
+investigation_notes:
+- 本轮 triage 分类：maintain；维护已在候选中完成，写成新 edition codex-cli-configuration-v4，v3 原样保留。
+- 仍不写 reviewed_by/reviewed_at：本审计 pending_audit_refs 指向的 5 份旧审计仍是 review_status=pending。
+- source-codex-cli-configuration-doc-learn 逐字比对新增 29 行 config-reference 条目：application 表新增 application.network、application.network.enabled
+  等键，描述桌面应用网络请求的目的地限制，并与命令网络和浏览器来源规则相区分。
+- source-codex-repo 由 c0c230e 变为 ad54b755（Track source attribution for individual context parts），1045
+  个文件。已登记引用逐个复核：codex-rs/config/src/types.rs 新增 windows.allow_mxc 与 notice.hide_gov_cloud_guidance；
+  core/src/config/mod.rs 新增 allow_mxc=false 时对 windows.sandbox="mxc" 的 InvalidInput 拒绝、include_environment_context_time
+  默认 true、thread_unload_delay_secs 默认 1800，并新增 ConfigBuilder::without_project_context（app-server 侧改为不传 cwd 而非
+  loader_overrides.ignore_project_config）；core/src/hook_runtime.rs 的 additional_contexts 由 Vec<String> 改为 Vec<HookContext>；
+  core-plugins/src/loader.rs 的 disabled_skill_paths 由 AbsolutePathBuf 改为 PathUri；rollout/{compression,policy}.rs 仅重导出与新增
+  ElicitationAbandoned 持久化分支；history/src/lib.rs 新增 TurnAttribution 重导出。以上均不改变 config 层优先级、合并、信任门槛或
+  迁移规则，故 hooks/native_plugins/local_transcripts 三题不在本轮改动范围。
+- config_requirements.rs 的 diff 仅为新增 windows.require_mxc 与 is_empty 条件，未改既有键的解析。
+- npm 来源观察到 0.161.0（基线 0.160.1），仅说明发布身份变化；未据此建立任何版本映射。

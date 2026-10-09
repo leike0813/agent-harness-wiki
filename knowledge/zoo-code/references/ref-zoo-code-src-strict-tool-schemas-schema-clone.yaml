@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-strict-tool-schemas-schema-clone
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-2baac5e-base-provider
+locator:
+  kind: file_lines
+  file: src/api/providers/base-provider.ts
+  start: 106
+  end: 118
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/2baac5e5b76018af2f1569450a70514b077a3748/src/api/providers/base-provider.ts"
+excerpt: |-
+  				const prop = newProps[key]
+  
+  				// Clone each property before normalizing so strict conversion never
+  				// mutates caller-owned tool metadata: a later request with strict
+  				// disabled must still send the declared (nullable) schema.
+  				if (prop && typeof prop === "object" && !Array.isArray(prop)) {
+  					const normalizedProp = { ...prop }
+  
+  					// Handle nullable types by removing null
+  					if (Array.isArray(normalizedProp.type) && normalizedProp.type.includes("null")) {
+  						const nonNullTypes = normalizedProp.type.filter((t: string) => t !== "null")
+  						normalizedProp.type = nonNullTypes.length === 1 ? nonNullTypes[0] : nonNullTypes
+  					}

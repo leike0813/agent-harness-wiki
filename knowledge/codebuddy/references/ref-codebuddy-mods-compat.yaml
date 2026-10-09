@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-mods-compat
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs-mods-20261009
+locator:
+  kind: file_lines
+  file: docs/mods.md
+  start: 682
+  end: 692
+official_url: https://cnb.cool/codebuddy/codebuddy-code
+excerpt: |-
+  ## 与传统 Hooks 的兼容性
+
+  Mods **不替换**传统 hooks。两者协作：
+
+  | 传统资产 | 现在的位置 | Mods 侧 |
+  |---|---|---|
+  | `settings.json` 里的 `hooks` | shell 命令 + matcher | 不变。老配置继续按老语义跑 |
+  | `HookEvent.PreToolUse` / `.PostToolUse` / … | 老枚举 | 每一个老事件对应一个 `classic.<HookEvent>` 中间件事件 |
+  | `HookOutput` JSON 协议（`decision:'block'` / `continue:false` / exit 2） | 老脚本继续解析 | Legacy adapter 保留完整 JSON 序列化路径；`decision:'block'` / exit 2 会被翻译成 `{ deny }` |
+  | `--plugin-dir` 的老 shell hook 目录 | `hooks/hooks.json` 里没有 `modules` | 走老通道 |
+  | `--plugin-dir` 的 Mod | `hooks/hooks.json.modules` 存在 | 走 Mods 通道 |

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-stdin-failure-message
+harness_id: cline
+snapshot_id: snapshot-cline-mcp-client-ts-20261009
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/mcp/client.ts
+  start: 629
+  end: 648
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  	private createTimeoutError(method: string, timeoutMs: number): Error {
+  		return new Error(
+  			formatMcpTimeoutErrorMessage(this.registration.name, timeoutMs, method) +
+  				this.describeStdinFailure(),
+  		);
+  	}
+
+  	private clearStdinFailureTimer(): void {
+  		if (this.stdinFailureTimer !== undefined) {
+  			clearTimeout(this.stdinFailureTimer);
+  			this.stdinFailureTimer = undefined;
+  		}
+  	}
+
+  	private describeStdinFailure(): string {
+  		return this.stdinFailure === undefined
+  			? ""
+  			: ` The server stopped reading its input before the request was fully delivered (${this.stdinFailure}).`;
+  	}

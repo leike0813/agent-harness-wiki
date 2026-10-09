@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-skills-dirs-20261009
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-load-skills-20261009
+locator:
+  kind: file_lines
+  file: sdk/src/skills/load-skills.ts
+  start: 113
+  end: 140
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  export function resolveSkillsDirs(options: {
+    cwd: string
+    skillsPath?: string
+    homeDir?: string
+  }): string[] {
+    const { cwd, skillsPath, homeDir } = options
+    if (skillsPath) return [skillsPath]
+    return [
+      // Global directories (Claude-compatible first, then Codebuff). Present
+      // only when a home directory was explicitly supplied.
+      ...(homeDir
+        ? [
+            path.join(homeDir, '.claude', SKILLS_DIR_NAME),
+            path.join(homeDir, '.agents', SKILLS_DIR_NAME),
+          ]
+        : []),
+      // Project directories (Claude-compatible first, then Codebuff)
+      path.join(cwd, '.claude', SKILLS_DIR_NAME),
+      path.join(cwd, '.agents', SKILLS_DIR_NAME),
+    ]
+  }

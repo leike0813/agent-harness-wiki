@@ -1,0 +1,119 @@
+schema_version: 2
+audit_id: audit-cline-8f0db039-54a7-4602-a663-91268f4d8518
+harness_id: cline
+checked_at: '2026-10-08T18:01:36.184Z'
+previous_audit_id: audit-cline-20261006t134000z
+status: changed
+review_status: pending
+pending_audit_refs:
+- audit-cline-9b63d164-3625-433b-9dc7-363151d97b66
+- audit-cline-20261004t061205z
+- audit-cline-aa3cc0d5-108c-41d3-a6a7-5cc6bcfc33de
+- audit-cline-20261006t134000z
+checks:
+- source_id: source-cline-repo
+  kind: git_repository
+  checked_at: '2026-10-08T18:01:33.510Z'
+  status: changed
+  baseline: cd80a20e96481f5f5d413789f6847accf846487b
+  observed: 95e54e4a023567d5ec47a997b6ef1eac273e3e06
+  remote_ref: refs/heads/main
+- source_id: source-cline-npm
+  kind: npm_registry
+  checked_at: '2026-10-08T18:01:33.518Z'
+  status: changed
+  baseline: 3.0.68@sha512-DC5DsWqufWXYqCvGbC39KsqKQPqqybsZ6kqtFwca8kSqDSqVQ0GDDEXjp2S92qAQHio1lEyAmaGNopSxmPc6tg==
+  observed: 3.0.70@sha512-ekeGJ7YdVKL9p//KF0F5nxFXMvgSuhwPxvCUkS+SaBDJJoOUt+HMeJS+J+hkF3ezPekbSvpK1wCPGraZbAEO8A==
+- source_id: source-cline-docs-skills
+  kind: official_documentation
+  checked_at: '2026-10-08T18:01:33.518Z'
+  status: changed
+  baseline: aaee85c3e6ea70283edabf5ea08016f9696e31b78a831ce521e91ddcc2ca6c63
+  observed: 4bb4766eaef7ed6e33ccaacbe4e367faf48ccf9c204204d14eb29a00d416129f
+  resolved_url: https://docs.cline.bot/customization/skills.md
+- source_id: source-cline-docs-mcp
+  kind: official_documentation
+  checked_at: '2026-10-08T18:01:33.520Z'
+  status: changed
+  baseline: d47383fc4419cb67e5b61abbd66fab303174003eae49e99be446f040cd4e313c
+  observed: 47f5e46c4c92bffae832be15706d2586db4a7c5e3285a56cade5d2e6707d8eb2
+  resolved_url: https://docs.cline.bot/mcp/mcp-overview.md
+- source_id: source-cline-docs-plugins
+  kind: official_documentation
+  checked_at: '2026-10-08T18:01:33.746Z'
+  status: unchanged
+  baseline: 634dfe11cff0e3aad9844f04b5af028cf76d5b729dcee7b6f15bb20a25e2c42e
+  observed: 634dfe11cff0e3aad9844f04b5af028cf76d5b729dcee7b6f15bb20a25e2c42e
+  resolved_url: https://docs.cline.bot/sdk/plugins.md
+- source_id: source-cline-docs-config
+  kind: official_documentation
+  checked_at: '2026-10-08T18:01:35.114Z'
+  status: changed
+  baseline: b1babf605692c9f9cd0ffd1058aefaa414c4d09478d9a697d83ad6e7cc2df4db
+  observed: 76f4d40ede89e8340c4b2ea10c17bc85b1d16fc302bd628c62778161ea05944e
+  resolved_url: https://docs.cline.bot/getting-started/config.md
+- source_id: source-cline-docs-cli
+  kind: official_documentation
+  checked_at: '2026-10-08T18:01:35.129Z'
+  status: changed
+  baseline: dbb4abba8b3362695fa57dc4f17fe976aecd80132954d00675fb3f7cfabd4914
+  observed: 2d46cc4ef4c8b5a45dff7b4233e2b355b8395a5d21f5401b77353e4d2f702f7d
+  resolved_url: https://docs.cline.bot/cli/cli-reference.md
+- source_id: source-cline-docs-install-plugins
+  kind: official_documentation
+  checked_at: '2026-10-08T18:01:35.371Z'
+  status: unchanged
+  baseline: 19e4c8278924d25fce33fd3ec1b16dd29314eb599059f79433c3f41acea46d72
+  observed: 19e4c8278924d25fce33fd3ec1b16dd29314eb599059f79433c3f41acea46d72
+  resolved_url: https://docs.cline.bot/customization/plugins.md
+impacts:
+- topic: mcp
+  question_ids:
+  - mcp.transport
+  - mcp.lifecycle
+  - mcp.diagnostics
+  section_ids:
+  - mcp-transport
+  - mcp-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-cline-mcp-connect-budget-10s
+  - ref-cline-mcp-stdin-failure
+  - ref-cline-mcp-stdin-failure-timer
+  - ref-cline-mcp-stdin-failure-message
+  cross_topic_links: []
+  reason: 已发布 cline-cli-mcp-v2 的 {#mcp-transport} 写「stdio 的 initialize 预算默认 3000
+    毫秒」，被 95e54e4a 的 DEFAULT_MCP_CONNECT_TIMEOUT_MS = 10_000 直接推翻；同一提交新增 child.stdin
+    的 error 监听、stdinFailure 标记与 250 毫秒失败定时器，改变 stdio 的失败路径与错误文本。新建
+    cline-cli-mcp-v3 承载这两条事实，v1 与 v2 原样保留。
+pending_question_ids: []
+investigation_notes:
+- 本轮 triage 分类：maintain
+- 本轮不写 reviewed_by/reviewed_at：仍引用 review_status=pending 的旧审计，且维护工作尚未完成。
+- 'source-cline-repo 由 cd80a20 变为 95e54e4（fix(cli): treat a provider API key from the environment as configured），195
+  个文件。'
+- 命中已登记引用并发生实质语义变化：sdk/packages/core/src/extensions/mcp/client.ts 的 DEFAULT_MCP_CONNECT_TIMEOUT_MS 由 3_000ms
+  提升到 10_000ms（Windows 上经 cmd.exe 启动的 npx/uvx 在热缓存下需 3-6 秒才到 initialize，3 秒预算会静默丢弃会话），并新增 stdin 写失败标记与失败定时器；sdk/packages/shared/src/provider-auth.ts
+  新增 ProviderAuthInfo.apiKeyOptional 与 resolveProviderApiKeyOptional；core/src/services/providers/local-provider-registry.ts、local-provider-service.ts、storage/provider-settings-legacy-migration.ts、llms/src/providers/builtins.ts、apps/cli/src/runtime/defaults.ts
+  同步变化。
+- npm 来源观察到 3.0.70（基线 3.0.68），仅说明发布身份变化。
+- 定位核对：候选内全部 file_lines 引用逐条在 cd80a20 与 95e54e4a 两个提交上重跑摘录比对。本轮文件移动只让
+  4 条引用的摘录在观察提交上失配：ref-cline-mcp-connect-budgets（3_000 常量已被替换，语义失效，由
+  ref-cline-mcp-connect-budget-10s 取代，并从 mcp-transport 小节的 source_refs 中移除；文件本身保留，
+  以免 cline-cli-mcp-v1 失去引用）、ref-cline-mcp-install（buildHeaders 已改名 parseMcpHeaders，
+  但该引用支撑的「cline mcp install 归一 --transport」结论不变，locator 仍落在同一函数的相邻行）、
+  ref-cline-cli-ref-files-v2（docs/cli/cli-reference.mdx 目录树重排，属 configuration/custom_agents
+  范围）、ref-cline-cli-root-options（program.ts 选项列表重排，同上）。mcp 与 custom_providers 两个
+  已选章节中，只有 mcp 的那一条因此改写正文。
+- 另有 2 条引用（ref-cline-provider-add、ref-cline-provider-refresh）在 cd80a20 基线上就已与
+  local-provider-service.ts 失配，属更早轮次的定位漂移，不是本轮文件移动造成，本轮不处理。
+- custom_providers 核对后不改写：{#providers-auth} 已发布的「apiKeyEnv 白名单回退」与「没有凭据预检、
+  后端 401 才是权威信号」两条结论在 95e54e4a 仍成立。apiKeyOptional 与 resolveProviderApiKeyOptional
+  是新增的只读标志（Ollama、LM Studio、LiteLLM、openai-compatible 本地端点、Vertex ADC、
+  Bedrock 声明 apiKeyOptional；自定义 OpenAI 兼容端点经 local-provider-registry 统一带上该标志），
+  只改变宿主判断「已配置」的方式，不改变凭据落点与请求路径，因此不新建版本。
+- apps/cli/src/tui/utils/provider-configured.ts 让「环境变量里的 API key 视为已配置」进入 CLI TUI
+  的就绪判断（仅限恰好声明一个环境变量的 provider，provider-configured.ts 注释说明多环境变量的
+  provider 混有 region/project 等配置，仍需 -k 或已保存设置），同样属于新增的界面判断，不推翻已发布答案。
+- 排除：其余 180 余个文件（测试、UI 组件、SDK 快照）不在本轮范围。

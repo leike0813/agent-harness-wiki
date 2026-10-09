@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-r967-create-repair-before-open
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-lt-r967-crates-pa-daemon-src-worker-create-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/worker/create.rs
+  start: 205
+  end: 211
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/967eb13fd488507af5f590e9c6ea8b2672f1fc05/crates/pa-daemon/src/worker/create.rs
+excerpt: |
+                      tokio::task::spawn_blocking(move || {
+                          let lease = crate::lease::acquire_runtime_session_lease(&path, &agent_dir)?;
+                          pa_core::session::manager::repair_jsonl_damage(&path);
+                          let mut store = SessionFile::open_windowed(&path)?;
+                          store.lease = Some(Arc::new(lease));
+                          Ok(store)
+                      })

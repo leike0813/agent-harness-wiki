@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-local-disabled-init
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261009
+locator:
+  kind: file_lines
+  file: internal/agent/tools/mcp/init.go
+  start: 338
+  end: 350
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func Initialize(ctx context.Context, permissions permission.Service, cfg *config.ConfigStore, forceStart, localDisabled []string) {
+  	ArmInit()
+  	slog.Info("Initializing MCP clients")
+  	start := time.Now()
+
+  	var wg sync.WaitGroup
+  	// Initialize states for all configured MCPs
+  	for name, m := range cfg.Config().MCP {
+  		if slices.Contains(localDisabled, name) {
+  			updateState(name, StateDisabled, nil, nil, Counts{})
+  			slog.Debug("Skipping MCP disabled for this repository", "name", name)
+  			continue
+  		}

@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-agents-join-enroll-request
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-29aef7d-cli-agents-join
+locator:
+  kind: file_lines
+  file: packages/cli/src/commands/agents/join.ts
+  start: 160
+  end: 182
+official_url: "https://github.com/QwenLM/qwen-code/blob/29aef7de40b752bb0464919ab4af8f08a988dd31/packages/cli/src/commands/agents/join.ts"
+excerpt: |2-
+      DEFAULT_DAEMON_URL
+    ).replace(/\/+$/, '');
+    const daemonToken =
+      argv.token ??
+      deps.env[QWEN_SERVER_TOKEN_ENV] ??
+      deps.env[QWEN_DAEMON_TOKEN_ENV];
+    const workspace = argv.workspace || deps.cwd;
+    const url = `${baseUrl}/workspaces/${encodeURIComponent(workspace)}/agent/hosts/connect`;
+    let response: Response;
+    try {
+      response = await deps.fetch(url, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          ...(daemonToken ? { authorization: `Bearer ${daemonToken}` } : {}),
+        },
+        body: JSON.stringify({
+          serverUrl: target.serverUrl,
+          workspaceId: target.workspaceId,
+          enrollmentToken,
+          allowHttp: argv['allow-http'] === true,
+        }),
+        redirect: 'error',

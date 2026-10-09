@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-agents-command-module
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-29aef7d-cli-agents-command
+locator:
+  kind: file_lines
+  file: packages/cli/src/commands/agents.ts
+  start: 11
+  end: 25
+official_url: "https://github.com/QwenLM/qwen-code/blob/29aef7de40b752bb0464919ab4af8f08a988dd31/packages/cli/src/commands/agents.ts"
+excerpt: |-
+  export const agentsCommand: CommandModule = {
+    command: 'agents',
+    describe: 'Session agents: join a coordinator as a runtime',
+    builder: (yargs: Argv) =>
+      yargs
+        .command(joinCommand)
+        // Internal: the stdio MCP server a Claude / Codex turn uses to post
+        // into the chat session (spawned by the daemon, not typed by people).
+        .command(sessionSendMcpCommand)
+        .demandCommand(1, 'You need at least one command before continuing.')
+        .version(false),
+    // demandCommand(1) ensures a subcommand is always required;
+    // yargs automatically shows help when none is provided.
+    handler: () => {},
+  };

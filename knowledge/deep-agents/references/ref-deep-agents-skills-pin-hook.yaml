@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-skills-pin-hook
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-deepagents-deepagents-middleware-skills-py
+locator:
+  kind: file_lines
+  file: libs/deepagents/deepagents/middleware/skills.py
+  start: 1274
+  end: 1281
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+          """
+          names = state.get("pinned_skills")
+          if not names:
+              return None
+          skills = _skills_to_pin(names, state.get("skills_metadata") or [])
+          responses = self._backend.download_files([skill["path"] for skill in skills]) if skills else []
+          return _pin_update(skills, responses)
+

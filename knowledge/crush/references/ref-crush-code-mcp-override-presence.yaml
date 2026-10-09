@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-override-presence
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261009-internal-session-session
+locator:
+  kind: file_lines
+  file: internal/session/session.go
+  start: 403
+  end: 415
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // HasMCPOverride reports whether the named MCP server has a
+  // repository-scoped override, which takes precedence over the config.
+  func HasMCPOverride(ctx context.Context, s Service, name string) (bool, error) {
+  	disabled, err := s.MCPDisabledServers(ctx)
+  	if err != nil {
+  		return false, err
+  	}
+  	enabled, err := s.MCPServersEnabled(ctx)
+  	if err != nil {
+  		return false, err
+  	}
+  	return slices.Contains(disabled, name) || slices.Contains(enabled, name), nil
+  }

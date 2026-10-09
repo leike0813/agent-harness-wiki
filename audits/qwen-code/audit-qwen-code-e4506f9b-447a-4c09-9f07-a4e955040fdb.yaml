@@ -1,0 +1,153 @@
+schema_version: 2
+audit_id: audit-qwen-code-e4506f9b-447a-4c09-9f07-a4e955040fdb
+harness_id: qwen-code
+checked_at: '2026-10-08T18:03:27.814Z'
+previous_audit_id: audit-qwen-code-20261006t134000z
+status: changed
+review_status: pending
+pending_audit_refs:
+- audit-qwen-code-20261004t061205z
+- audit-qwen-code-0cd93675-58bd-4a50-a4da-f9619039fe0c
+- audit-qwen-code-20261006t134000z
+checks:
+- source_id: source-qwen-code-repo
+  kind: git_repository
+  checked_at: '2026-10-08T18:03:26.185Z'
+  status: changed
+  baseline: 4bffa678bced8b14c25c85e3ba4226b7b752414d
+  observed: 29aef7de40b752bb0464919ab4af8f08a988dd31
+  remote_ref: refs/heads/main
+- source_id: source-qwen-code-npm
+  kind: npm_registry
+  checked_at: '2026-10-08T18:03:26.193Z'
+  status: unchanged
+  baseline: 0.25.0@sha512-XlqtxN7UKEkXLpuKioorDTBoIR/rWMdNHMtO/aPuQb7HDsTswMPqkEMYsVY56wuF3xSaI9PKgh9Q2NU/CSTkAQ==
+  observed: 0.25.0@sha512-XlqtxN7UKEkXLpuKioorDTBoIR/rWMdNHMtO/aPuQb7HDsTswMPqkEMYsVY56wuF3xSaI9PKgh9Q2NU/CSTkAQ==
+impacts:
+- topic: custom_agents
+  question_ids:
+  - agents.entry
+  - agents.invocation
+  - agents.limits
+  section_ids:
+  - agents-scope
+  - agents-entry
+  - agents-invocation
+  - agents-limits
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-qwen-agents-command-registered
+  - ref-qwen-agents-command-module
+  - ref-qwen-agents-command-exits-interactive-flow
+  - ref-qwen-agents-join-command
+  - ref-qwen-agents-join-options
+  - ref-qwen-agents-join-defaults
+  - ref-qwen-agents-join-token-resolution
+  - ref-qwen-agents-join-enroll-request
+  - ref-qwen-session-send-tool-contract
+  - ref-qwen-session-send-mcp-server-registration
+  - ref-qwen-session-send-post
+  - ref-qwen-session-send-server-command
+  - ref-qwen-session-send-server-spec
+  - ref-qwen-session-send-server-argv
+  - ref-qwen-settings-agent-collaboration-flag
+  - ref-qwen-settings-agent-chain-limit
+  - ref-qwen-settings-agent-token-budget
+  - ref-qwen-settings-max-parallel-agents
+  - ref-qwen-settings-max-parallel-agents-per-model
+  cross_topic_links:
+  - mcp.entry
+  - mcp.transport
+  - config.sources
+  - config.overrides
+  - transcripts.schema
+  reason: 'packages/cli/src/config/config.ts 新注册 `qwen agents` 子命令（join
+    coordinator；隐藏的 session_send MCP server），且 settingsSchema.ts 新增 experimental.agentChainLimit/agentTokenBudget
+    并改写 agentCollaboration、maxParallelAgents、maxParallelAgentsByModel 的语义描述；agents-entry 原文“文档未记载任何 `qwen agents` 子命令”的缺口按源码修订。'
+- topic: mcp
+  question_ids:
+  - mcp.entry
+  - mcp.transport
+  section_ids:
+  - mcp-scope
+  - mcp-entry
+  - mcp-transport
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-qwen-session-send-mcp-command
+  - ref-qwen-session-send-mcp-server-registration
+  - ref-qwen-session-send-mcp-stdio-lifetime
+  - ref-qwen-session-send-tool-contract
+  - ref-qwen-session-send-post
+  - ref-qwen-session-send-server-spec
+  - ref-qwen-session-send-server-argv
+  - ref-qwen-session-send-claude-mcp-config
+  - ref-qwen-session-send-claude-mcp-flag
+  - ref-qwen-session-send-codex-mcp-overrides
+  cross_topic_links:
+  - agents.entry
+  - agents.invocation
+  - transcripts.schema
+  reason: '宿主现在自己作为 MCP server 提供 session_send：`qwen agents session-send-mcp --url`
+    以 StdioServerTransport 提供单一工具，并由 daemon 现场装配进 Claude（--mcp-config）与 Codex（-c mcp_servers.*）适配器；
+    这条 server 不经 settings.json 的 mcpServers，属于 mcp.entry/mcp.transport 的新入口与 stdio 服务端形态。'
+- topic: configuration
+  question_ids:
+  - config.overrides
+  section_ids:
+  - config-scope
+  - config-overrides
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-qwen-settings-workspace-restricted-list
+  - ref-qwen-settings-memory-agent-timeout-scope
+  - ref-qwen-settings-memory-agent-max-turns-scope
+  - ref-qwen-settings-memory-agent-timeout-scope-doc
+  - ref-qwen-settings-memory-agent-max-turns-scope-doc
+  cross_topic_links:
+  - agents.entry
+  - agents.invocation
+  reason: 'settingsSchema.ts 与 docs/users/configuration/settings.md 现在明确 memory.agentTimeoutMinutes 与 memory.agentMaxTurns
+    只在 User/System/SystemDefaults 作用域生效、工作区值被忽略并告警；两者本来就登记在 settingsUtils.ts 的 WORKSPACE_RESTRICTED_SETTINGS
+    中，本版把该事实写进 config-overrides 的例外二，并给出源码单一事实源定位。'
+- topic: local_transcripts
+  question_ids:
+  - transcripts.format
+  - transcripts.schema
+  section_ids:
+  - transcripts-recording-scope
+  - transcripts-naming-and-format
+  - transcripts-record-schema-and-lifecycle
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-qwen-transcripts-agent-record-subtypes
+  - ref-qwen-transcripts-agent-record-provenance
+  - ref-qwen-transcripts-agent-record-payload-union
+  - ref-qwen-transcripts-agent-record-payloads
+  - ref-qwen-transcripts-external-record-key-field
+  - ref-qwen-transcripts-external-record-write
+  - ref-qwen-transcripts-external-record-write-body
+  - ref-qwen-transcripts-external-record-managed-refusal
+  - ref-qwen-transcripts-external-record-index
+  - ref-qwen-transcripts-external-record-index-reset
+  - ref-qwen-transcripts-turn-boundary-exclusion
+  - ref-qwen-transcripts-jsonl-read-budget
+  cross_topic_links:
+  - agents.invocation
+  - mcp.entry
+  reason: 'chatRecordingService.ts 新增 agent_mention/agent_message 两类记录、provenance=external_agent、
+    持久化的 externalRecordKey 幂等键与按活动链建立的外部记录索引；jsonl-utils.ts 的读取预算改为达额即停。格式（JSONL 追加 + flush）本身未变。'
+pending_question_ids: []
+investigation_notes:
+- 本轮 triage 分类：maintain；四个主题的固定问题（agents.entry/agents.invocation/mcp.entry/mcp.transport/config.sources/config.overrides/transcripts.format/transcripts.schema）均已在固定源码上取得证据并写入新 edition。
+- source-qwen-code-repo 由 4bffa67 变为 29aef7d（665 个文件）；本轮只调查上面四组入口，其余改动（release/java workflow 脚本、web-shell、托管会话运行时等）按任务排除范围未纳入判断。
+- 变更路径与答案的对应关系：config.ts 注册 `qwen agents`（agents.entry）→ commands/agents/join.ts 与 session-send-mcp*.ts（agents.entry / mcp.entry / mcp.transport）→ serve/session-agents 适配器（mcp.entry）→ settingsSchema.ts 的作用域与额度描述（config.overrides / agents.limits）→ chatRecordingService.ts 与 jsonl-utils.ts（transcripts.schema / transcripts.format）。
+- 四个新 edition 固定到源码提交 29aef7d：qwen-code-cli-custom_agents-v3、qwen-code-cli-mcp-v3、qwen-code-cli-configuration-v3、qwen-code-local_transcripts-v2；未改小节沿用各自 edition 原有的固定引用。
+- 所有新增引用都绑定 git_source_file 快照（snapshot-qwen-code-29aef7d-*），只记 commit、仓库相对路径与内容哈希，不含工作区临时路径。
+- agents.limits 与 mcp 之外的未覆盖问题（agents.format/roles/overrides/diagnostics、mcp.definition/auth/lifecycle/capabilities/exposure/diagnostics、config.sources/runtime/trust/defaults/migration/diagnostics、transcripts 其余问题）本轮未重开调查，沿用上一版答案；旧审计中这些主题的 pending 状态由 pending_audit_refs 继续承载。
+- npm 来源 0.25.0 未变，且本轮证据只能证明源码树行为，因此不写任何软件版本映射。
+- 本轮不写 reviewed_by/reviewed_at：仍引用 review_status=pending 的旧审计（audit-qwen-code-20261004t061205z、audit-qwen-code-0cd93675-58bd-4a50-a4da-f9619039fe0c、audit-qwen-code-20261006t134000z），不通过标 reviewed 间接关闭其阻塞。

@@ -1,0 +1,74 @@
+schema_version: 2
+audit_id: audit-zoo-code-2e6d0085-937d-4755-9d6e-a1fdc680fd83
+harness_id: zoo-code
+checked_at: 2026-10-08T18:04:26.520Z
+previous_audit_id: audit-zoo-code-440f520d-3ade-4318-b258-c53e67eb53ea
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-zoo-code-440f520d-3ade-4318-b258-c53e67eb53ea
+checks:
+  - source_id: source-zoo-code-repo
+    kind: git_repository
+    checked_at: 2026-10-08T18:04:24.984Z
+    status: changed
+    baseline: d7963fc2db8ff07189e9f22079b15d67ad3a8bfd
+    observed: 2baac5e5b76018af2f1569450a70514b077a3748
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs
+    kind: git_repository
+    checked_at: 2026-10-08T18:04:24.992Z
+    status: unchanged
+    baseline: dfd2628c31073ec6b111bfedbcd071d197d37ad2
+    observed: dfd2628c31073ec6b111bfedbcd071d197d37ad2
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs-site
+    kind: official_documentation
+    checked_at: 2026-10-08T18:04:24.998Z
+    status: unchanged
+    baseline: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    observed: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    resolved_url: https://docs.zoocode.dev/
+impacts:
+  - topic: custom_providers
+    question_ids:
+      - providers.protocol
+      - providers.forwarding
+      - providers.responses
+    section_ids:
+      - providers-protocol
+      - providers-responses
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-src-strict-tool-schemas-default
+      - ref-zoo-code-src-strict-tool-schemas-field
+      - ref-zoo-code-src-strict-tool-schemas-convert-signature
+      - ref-zoo-code-src-strict-tool-schemas-use-strict
+      - ref-zoo-code-src-strict-tool-schemas-schema-clone
+      - ref-zoo-code-src-strict-tool-schemas-option-read
+      - ref-zoo-code-src-strict-tool-schemas-stream-body
+      - ref-zoo-code-src-strict-tool-schemas-completion-body
+      - ref-zoo-code-src-strict-tool-schemas-ui-checkbox
+      - ref-zoo-code-src-strict-tool-schemas-extra-body-reserved
+      - ref-zoo-code-src-strict-tool-schemas-other-providers
+      - ref-zoo-code-src-strict-tool-schemas-zoo-gateway
+      - ref-zoo-code-src-strict-tool-schemas-mcp-prefix
+      - ref-zoo-code-src-strict-tool-schemas-rewrite-rules
+      - ref-zoo-code-src-strict-tool-schemas-required-all
+    cross_topic_links:
+      - config.defaults
+    reason: source-zoo-code-repo d7963fc2→2baac5e5 新增 openAiStrictToolSchemas 档案字段（packages/types/src/provider-settings/openai.ts），由 OpenAiHandler 读取并透传到 BaseProvider.convertToolsForOpenAI 的 strict 形参，直接改变发往 OpenAI 兼容网关请求体的 tools[].function.strict 与 parameters 形状，并覆盖流式、非流式与单次补全四处拼装点；命中 providers.protocol / providers.forwarding / providers.responses 三道固定问题。
+pending_question_ids:
+  - providers.protocol
+  - providers.forwarding
+  - providers.responses
+investigation_notes:
+  - 本轮 triage 分类：narrow_investigation。
+  - "source-zoo-code-repo 由 d7963fc2 变为 2baac5e5（fix(api): add openAiStrictToolSchemas setting for OpenAI-compatible gateways），82 个文件。"
+  - 语义 triage：82 个文件中 webview-ui/src/i18n/locales/* 的 18 个语言包只有新增 UI 文案（providers.openAiStrictToolSchemas / openAiStrictToolSchemasDescription），属任务明确排除的 i18n churn；src/core/webview/WebviewFocusTracker.ts、src/activate/resolveChatProvider.ts、src/core/webview/ClineProviderFactory.ts、src/core/task/run-state/runState.ts 与 src/activate/registerCodeActions.ts 等构成另一组 webview 焦点跟踪与运行态子模型变更，不触及 provider 配置或请求构造，本轮不作为 custom_providers 的章节影响。
+  - 实际维护：custom_providers 选出新 edition zoo-code-vscode-custom_providers-v3（基于已选 v2），在 {#providers-protocol} 新增 openAiStrictToolSchemas 的字段定义、缺省常量、strict 形参语义、四处请求拼装点、UI 开关与 Extra Body 保留键边界，并新增一段最小 JSON 示例；在 {#providers-responses} 补充工具 schema 最终形态与严格/非严格两次请求共享元数据时的克隆改写。v2 保留不改。
+  - 证据：12 条新引用全部为 git_source_file，固定 commit 2baac5e5b76018af2f1569450a70514b077a3748 与该文件真实字节 sha256；其中 DeepSeek 与 Zoo Gateway 两条引用证明同一基类上其他 provider 仍走单参数调用、不受该设置影响。
+  - 本轮未写 mappings/：source-zoo-code-repo 是 Git 提交身份，没有对应 npm 发行包快照，源码 commit 不证明发行包行为。
+  - 本轮不写 reviewed_by/reviewed_at：pending_audit_refs 仍指向 review_status=pending 的 audit-zoo-code-440f520d，该审计的其它主题 pending 题未在本轮范围（topics 固定为 custom_providers）内解决。
+  - blocked：providers.protocol / providers.forwarding / providers.responses 三题的事实结论已由固定源码证据给出，但按交付契约它们在父进程复核本候选之前仍记为未完成，故同时列入 pending_question_ids 与 selection，不写入已发布 edition。

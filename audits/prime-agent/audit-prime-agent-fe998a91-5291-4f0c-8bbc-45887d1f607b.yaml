@@ -1,0 +1,55 @@
+schema_version: 2
+audit_id: audit-prime-agent-fe998a91-5291-4f0c-8bbc-45887d1f607b
+harness_id: prime-agent
+checked_at: '2026-10-08T18:03:20.028Z'
+previous_audit_id: audit-prime-agent-20261006t134000z
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-prime-agent-repo
+    kind: git_repository
+    checked_at: '2026-10-08T18:03:18.540Z'
+    status: changed
+    baseline: 672085e883c25a8a5f10c77ad8e5d3fb38dd6584
+    observed: 967eb13fd488507af5f590e9c6ea8b2672f1fc05
+    remote_ref: refs/heads/main
+impacts:
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.format
+      - transcripts.lifecycle
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-format-and-writes
+      - transcripts-cleanup-and-diagnostics
+    surface_ids: [cli]
+    source_refs:
+      - ref-prime-agent-lt-r967-repair-tail-scan
+      - ref-prime-agent-lt-r967-repair-entry-gate
+      - ref-prime-agent-lt-r967-repair-streaming-rewrite
+      - ref-prime-agent-lt-r967-repair-public-export
+      - ref-prime-agent-lt-r967-create-repair-before-open
+      - ref-prime-agent-lt-r967-open-replacement-repair-gate
+    cross_topic_links: []
+    reason: 会话尾部修复机制在 967eb13 被重写并暴露为公开入口：尾部扫描改为从文件尾按 1 MiB 窗口向前回退定位最后一行；新增首行必须为 session header 才允许重写的闸；重写改为逐行流式写 {path}.tmp{pid} 后 rename；repair_jsonl_damage 提升为 pub 并由 pa_core::session::manager 再导出，使 daemon 在 worker 续接既有会话（有运行时会话租约）与替换会话的共用入口（仅持有租约时）于打开文件前先修复。
+  - topic: configuration
+    question_ids: [config.defaults]
+    section_ids: [config-trust-defaults-migration]
+    surface_ids: [cli]
+    source_refs:
+      - ref-prime-agent-cfg-r967-package-dir-symlink
+      - ref-prime-agent-cfg-r967-exe-dir-of-symlink
+    cross_topic_links: []
+    reason: pa-cli 的 package_dir() 由 current_exe().parent() 改为经 pa_core::packages::exe_dir_of 解析启动器符号链接后再取父目录（Homebrew bin 链接场景），PI_PACKAGE_DIR 优先级不变；该事实落在平台差异段落，属 config.defaults，不改变设置项默认值或作用域。
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：narrow_investigation；调查范围限定为 local_transcripts 与 configuration 两个主题的固定问题。
+  - source-prime-agent-repo 由 672085e 变为 967eb13（提交标题 repair a torn session tail before the first append），1124 个文件。
+  - 排版/注释压缩类改动已逐文件核对并结案：crates/pa-core/src/session/manager/{append,header,persist,git,tests}.rs、crates/pa-core/src/session/mod.rs、crates/pa-core/src/settings/manager.rs（227 行差异全部为 doc comment 压缩，代码零变更）、crates/pa-core/src/settings/interactive_settings.rs、crates/pa-cli/src/command_registry.rs、crates/pa-cli/src/{args,global_flags,config_command,client_settings}.rs、crates/pa-daemon/src/paths.rs、crates/pa-types/src/{session,ai/mod}.rs 的非注释行为差异为空，因此 config.sources、transcripts.schema、transcripts.location 的既有答案在本轮不需改写。
+  - 会话 id 生成路径已核对：crates/pa-core/src/session/manager/ids.rs 仍为 Uuid::now_v7()，非注释差异仅为模块 doc comment；lifecycle.rs 的 new_session 仅把 if options.id.is_some() 改写为 if let Some(id) = &options.id，语义等价，故 transcripts.naming 不受影响。
+  - 上一版 local_transcripts 章节已经记录了尾部修复机制（ref-prime-agent-lt-repair-load / -damage-signals / -header-required），本轮不是新增机制，而是同一机制的实现与调用面变化；因此按新证据改写而非新增投机结论。
+  - chapters/pa-daemon/src/session_engine/compact_session.rs 新增 compaction_prefix_intact 前缀校验（commit_attempt 在 Ok(false) 时让调用方重新 prepare）：影响上下文压缩的提交时机，不改变 JSONL 的记录类型、字段或版本阶梯，故未改写 transcripts.schema（仍为 partial），仅在审计中记录。
+  - config.sources 与 transcripts.location 的来源定位未变：crates/pa-daemon/src/paths.rs 的非注释差异为空，会话目录与 agent 目录的解析链保持原样。
+  - review_status 保持 pending：本轮引用了上一版章节的结论并新增来源级引用，但尚未做独立复核，且历史审计 audit-prime-agent-20261006t134000z 之外仍有未解决的旧结论（TypeScript 源码树引用、custom_agents 的 factory 能力面），不在本轮范围。
+  - 来源仍无发行版本标注，本轮只写来源级知识，未新增任何 software mapping。

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-session-send-server-spec
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-29aef7d-cli-session-agent-orchestrator
+locator:
+  kind: file_lines
+  file: packages/cli/src/serve/session-agents/orchestrator.ts
+  start: 615
+  end: 626
+official_url: "https://github.com/QwenLM/qwen-code/blob/29aef7de40b752bb0464919ab4af8f08a988dd31/packages/cli/src/serve/session-agents/orchestrator.ts"
+excerpt: |-
+  export function buildSessionSendServer(
+    url: string,
+    token: string,
+  ): NonNullable<AgentAdapterTurnInput['sessionSendServer']> | undefined {
+    // Same entry precedent as `currentCliWorkerLaunch`.
+    const cliEntry = process.env['QWEN_CLI_ENTRY'] || process.argv[1];
+    if (!cliEntry) return undefined;
+    // Inspector flags would make every MCP child open a debugger.
+    const execArgv = process.execArgv.filter(
+      (arg) => !/^--(inspect|debug)/.test(arg),
+    );
+    // TODO(multi-agent): a dev build started through a loader env var (see

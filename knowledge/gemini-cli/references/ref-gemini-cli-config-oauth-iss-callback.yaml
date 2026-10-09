@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-oauth-iss-callback
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-cfg-core-oauth-flow
+locator:
+  kind: file_lines
+  file: packages/core/src/utils/oauth-flow.ts
+  start: 280
+  end: 288
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |-
+            // RFC 9207 Authorization Server Issuer Identification check
+            if (expectedIssuer) {
+              // "iss" is required unless the caller explicitly indicates the
+              // authorization server does not provide it in the response.
+              const requireIss = requireIssInResponse ?? true;
+              if (requireIss && !iss) {
+                debugLogger.error(
+                  'OAuth callback rejected: Missing required "iss" parameter for the expected authorization server (RFC 9207).',
+                );

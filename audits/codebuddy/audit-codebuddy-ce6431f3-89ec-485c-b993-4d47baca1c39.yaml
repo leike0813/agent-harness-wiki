@@ -1,0 +1,125 @@
+schema_version: 2
+audit_id: audit-codebuddy-ce6431f3-89ec-485c-b993-4d47baca1c39
+harness_id: codebuddy
+checked_at: '2026-10-08T18:01:36.840Z'
+previous_audit_id: audit-codebuddy-20261006t134000z
+status: changed
+review_status: pending
+pending_audit_refs:
+- audit-codebuddy-15aad900-8357-4b25-afcf-ad92cde5f78b
+- audit-codebuddy-20261006t134000z
+checks:
+- source_id: source-codebuddy-docs
+  kind: git_repository
+  checked_at: '2026-10-08T18:01:36.269Z'
+  status: changed
+  baseline: a70dea0bfddb9c0c22f7d300e3f3fa61f718e6f6
+  observed: ba5e2ccf3ab3de4e637da1b8fc2b1998e7989db7
+  remote_ref: refs/heads/main
+  changed_paths:
+  - CHANGELOG.md
+  - docs/codebuddy_code_docs_map.md
+  - docs/env-vars.md
+  - docs/models.md
+  - docs/function-hooks.md -> docs/mods.md
+  - docs/monitoring.md
+  - docs/release-notes/README.md
+  - docs/release-notes/v2.162.0.md
+- source_id: source-codebuddy-site
+  kind: official_documentation
+  checked_at: '2026-10-08T18:01:36.279Z'
+  status: unchanged
+  baseline: 6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b
+  observed: 6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b
+  resolved_url: https://www.codebuddy.cn/llms.txt
+- source_id: source-codebuddy-npm
+  kind: npm_registry
+  checked_at: '2026-10-08T18:01:36.282Z'
+  status: changed
+  baseline: 2.161.4@sha512-JBoVzj8rdcpWsgbTlfmsy0TYE61RGHbBlXPoEeWHFbuNCtj0DCAXA9tQ435zJGGUAQmqOI+35Ag35FWNPf4mXg==
+  observed: 2.162.0@sha512-kIygqpaG1V3So0tkS4P8CiFV3bEMVhbs0M5fV/PkpbE/ZbOMX+bVrT5o+yLjecwqWcPiRxhvnvf0+89cGaAy8A==
+impacts:
+- topic: configuration
+  question_ids:
+  - config.sources
+  - config.overrides
+  - config.defaults
+  - config.trust
+  section_ids:
+  - config-overrides
+  - config-trust
+  - config-defaults
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-codebuddy-env-task-reminders
+  - ref-codebuddy-env-responses-store
+  - ref-codebuddy-env-sensitive-protection
+  - ref-codebuddy-env-otel-raw-bodies
+  cross_topic_links:
+  - config.runtime
+  - config.migration
+  - config.diagnostics
+  - hooks.conditions
+  reason: 'docs/env-vars.md 在 ba5e2cc 新增 4 个环境变量：CODEBUDDY_DISABLE_TASK_REMINDERS（默认开启的
+    任务提醒，可设 1 关闭）、CODEBUDDY_RESPONSES_STORE_ENABLED（把 api:"openai-responses" 的 store
+    由 false 改为 true）、CODEBUDDY_DISABLE_SENSITIVE_PROTECTION（效果同 settings.json 的 sensitiveProtection.enabled=false
+    但不改共享设置文件，企业托管策略优先）、OTEL_LOG_RAW_API_BODIES（file:<dir> 写完整请求/响应体）。前三者
+    落在 config-defaults；后者明确给出组织层优先级，改写 config-overrides 与 config-trust 的优先级叙述。'
+- topic: hooks
+  question_ids:
+  - hooks.events
+  - hooks.entry
+  - hooks.conditions
+  section_ids:
+  - hooks-events
+  - hooks-config
+  - hooks-conditions
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-codebuddy-mods-status
+  - ref-codebuddy-mods-quickstart
+  - ref-codebuddy-mods-loading
+  - ref-codebuddy-mods-compat
+  - ref-codebuddy-mods-host-bindings
+  cross_topic_links:
+  - plugins.model
+  - plugins.package
+  - plugins.lifecycle
+  - config.defaults
+  - config.trust
+  reason: '上游把 docs/function-hooks.md 重命名并扩写为 docs/mods.md（625 行 -> 741 行），这一层从
+    「Function Hooks」改称「Mods」，并撤销了启用闸门：旧文档的 CBC_ENABLE_FUNCTION_HOOKS / CLAUDE_CODE_ENABLE_FUNCTION_HOOKS
+    环境变量小节整段删除，头部状态行与「快速开始」两处写明默认开启、无需任何环境变量（对 docs/ 全库检索两个变量名无命中）。
+    这推翻了已发布 hooks v1/v2 中「需显式 opt-in」的读者步骤，属高影响变更。同时新增 CBC_MODS_ALLOW_HTTP=0 /
+    CBC_MODS_ALLOW_PROCESS=0 逐项关闭 $.http.fetch / $.process.run（CLI 宿主默认开启，core 层 HostBindings 默认关闭），
+    classic.<HookEvent> 桥接与 --plugin-dir 装载规则进入 hooks.events 与 hooks.entry。'
+pending_question_ids:
+- hooks.conditions
+investigation_notes:
+- 本轮 triage 分类：maintain
+- 本轮不写 reviewed_by/reviewed_at：仍引用 review_status=pending 的旧审计，且 hooks 的启用闸门撤销属高影响变更、待独立复核。
+- 'source-codebuddy-docs 由 a70dea0 变为 ba5e2cc（docs: 自动同步 CodeBuddy Code 文档和变更日志），8 个文件。'
+- docs/env-vars.md 新增 4 个环境变量：CODEBUDDY_DISABLE_TASK_REMINDERS、CODEBUDDY_RESPONSES_STORE_ENABLED（把 api:"openai-responses"
+  请求的 store 由 false 改为 true）、CODEBUDDY_DISABLE_SENSITIVE_PROTECTION（等价 sensitiveProtection.enabled=false
+  但不改共享设置文件，企业托管策略优先）、OTEL_LOG_RAW_API_BODIES（file:<dir> 写完整请求/响应体）。
+- docs/function-hooks.md 被重命名为 docs/mods.md（406 行改动）。已登记的 ref-codebuddy-funchooks-quickstart / -mod / -tier
+  三条引用只被已发布的 hooks v1/v2 与 native_plugins v1 使用，按 edition 边界原样保留、继续指向旧路径的快照与章节标题；
+  本轮新增引用一律固定 ba5e2cc 的 docs/mods.md。
+- 已发布 edition 一律不改写：hooks 升到 codebuddy-cli-hooks-v3、configuration 升到 codebuddy-cli-configuration-v3，
+  v1/v2 文件逐字未动。
+- configuration v3 的四个新环境变量按机制归入 config-defaults；CODEBUDDY_DISABLE_SENSITIVE_PROTECTION 的「不改共享设置文件、
+  企业托管策略优先」同时补进 config-overrides 与 config-trust，因为它是文件配置与环境变量之外第三层优先级的直接证据。
+- hooks v3 的 hooks.events 补入 classic.<HookEvent> 桥接（每一个老 HookEvent 枚举值对应一个 classic.* 中间件事件）与
+  通道分流规则（hooks/hooks.json 里有 modules 才走 Mods 通道，否则走老通道）；hooks.entry 补入 --plugin-dir 装载与
+  .codebuddy-plugin/.claude-plugin 清单优先级的原文表述。
+- hooks.conditions 的答案状态仍是 answered，但该问题推翻了已发布章节的读者步骤（opt-in 环境变量不再存在），按维护契约
+  第 5 节属必须独立复核的高影响情形；候选保留 codebuddy-cli-hooks-v3 但 chapter-current 仍指向 hooks v2，
+  复核通过后再切换指针，pending_question_ids 只保留 hooks.conditions。
+- docs/models.md 新增 37 行（api 字段取 openai-responses 与 OpenAI Responses API 配置示例）属 custom_providers 主题，
+  不在本轮任务范围（configuration、hooks）内，记入 audit 不改写 providers 章节。
+- docs/monitoring.md 把 OTEL_LOG_RAW_API_BODIES 从「预留，暂未实现」改为已实现（span events 60KB 截断 / file:<dir> 写盘），
+  monitoring 文档不是本轮任何登记章节的来源，仅作 OTEL_LOG_RAW_API_BODIES 的旁证记录，不单独成条引用。
+- docs/codebuddy_code_docs_map.md 新增 Mods 条目、docs/release-notes/ 与 CHANGELOG.md 按任务排除项只作版本线索，不写版本映射。
+- npm 来源观察到 2.162.0（基线 2.161.4），仅为身份记录，未取包字节，未新增任何软件版本映射。

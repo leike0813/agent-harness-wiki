@@ -1,0 +1,98 @@
+schema_version: 2
+audit_id: audit-goose-40bb5973-737a-42f0-8954-cd8860cd85f6
+harness_id: goose
+checked_at: '2026-10-08T18:02:27.014Z'
+previous_audit_id: audit-goose-20261006t134000z
+status: changed
+review_status: pending
+pending_audit_refs:
+- audit-goose-194cd7cd-01e5-4ed1-af45-564742b3a56a
+- audit-goose-20261006t134000z
+checks:
+- source_id: source-goose-repo
+  kind: git_repository
+  checked_at: '2026-10-08T18:02:25.153Z'
+  status: changed
+  baseline: 540df77c30e3c1f3b51915cb18ae081931c96851
+  observed: a4189ec8c7c09a66ce300c8aca528385bdc13ff0
+  remote_ref: refs/heads/main
+- source_id: source-goose-npm
+  kind: npm_registry
+  checked_at: '2026-10-08T18:02:25.163Z'
+  status: unchanged
+  baseline: 1.53.0@sha512-igxh03QsbDpmoRvz1iLr65Abf2uAglZDN4kr5TVzt29Q4/qbP7HR4X7CXxtKhOM8erzsb5aIDTcq3uhGqoIMdA==
+  observed: 1.53.0@sha512-igxh03QsbDpmoRvz1iLr65Abf2uAglZDN4kr5TVzt29Q4/qbP7HR4X7CXxtKhOM8erzsb5aIDTcq3uhGqoIMdA==
+impacts:
+- topic: custom_agents
+  question_ids:
+  - agents.entry
+  - agents.limits
+  - agents.invocation
+  - agents.overrides
+  - agents.diagnostics
+  - agents.roles
+  section_ids:
+  - agents-entry
+  - agents-roles
+  - agents-invocation
+  - agents-overrides
+  - agents-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-goose-agents-src-task-config-20261009
+  - ref-goose-agents-src-resolve-max-turns-20261009
+  - ref-goose-agents-src-subagent-config-20261009
+  - ref-goose-agents-src-build-task-config-20261009
+  - ref-goose-agents-src-delegate-schema-20261009
+  - ref-goose-agents-src-agent-dirs-20261009
+  - ref-goose-agents-src-platform-ext-list-20261009
+  - ref-goose-agents-doc-env-subagent-max-turns-20261009
+  - ref-goose-agents-doc-summon-sync-delegate-20261009
+  - ref-goose-agents-src-max-turns
+  cross_topic_links:
+  - config.sources
+  - config.overrides
+  - config.defaults
+  reason: 'subagent_task_config.rs deleted TaskConfig::new/with_max_turns, so the
+    published "TaskConfig::new reads GOOSE_SUBAGENT_MAX_TURNS" claim in the selected
+    custom_agents edition no longer holds at this commit; the same diff also removed
+    the background/async delegate path and GOOSE_MAX_BACKGROUND_TASKS, and summon.rs
+    now carries the whole max-turns resolution chain. Chapter goose-cli-custom_agents-v2
+    written; agents.entry upgraded to answered with the source discovery chain.'
+- topic: configuration
+  question_ids:
+  - config.sources
+  - config.overrides
+  - config.defaults
+  section_ids:
+  - config-sources
+  - config-overrides
+  - config-defaults
+  surface_ids:
+  - cli
+  source_refs: []
+  cross_topic_links:
+  - agents.entry
+  - agents.limits
+  reason: 'config/base.rs added a process-local `generation: AtomicU64` with a public
+    `generation()` accessor, incremented on atomic config write and on invalidate_secrets_cache.
+    It adds no new config path, key, merge rule or default, so the selected configuration
+    edition needs no revision for the scoped questions; recorded here so the observation
+    is not silently dropped. The counter is consumed by agents/provider_manager.rs to
+    invalidate cached shared providers, which belongs to config.runtime/config.diagnostics
+    and is outside this round''s scoped question list.'
+pending_question_ids: []
+investigation_notes:
+- 本轮 triage 分类：narrow_investigation
+- 本轮不写 reviewed_by/reviewed_at：仍引用 review_status=pending 的旧审计，且本轮只完成 scoped 问题，其余主题的 pending 未关闭。
+- 'source-goose-repo 由 540df77 变为 a4189ec（fix: adaptive thinking for Claude Sonnet and Haiku 5.5），193 个文件。'
+- 工作区首次成功打开（ws-a4189ec8c7c0-a6ef57bc-24e5-433a-a683-2340df953883），上一轮的 pending_source 阻塞解除。
+- '命中已登记引用：agents/subagent_task_config.rs 删除 TaskConfig::new 与 with_max_turns，GOOSE_SUBAGENT_MAX_TURNS 的读取位置随之改变；config/base.rs 新增 generation 原子计数；skills/client.rs、providers/init.rs、session/session_manager.rs 同步变化。'
+- 'subagent_task_config.rs：删除 TaskConfig::new 与 with_max_turns 后，该文件只剩 DEFAULT_SUBAGENT_MAX_TURNS=25、结构体与 Debug 实现，不再 import crate::config::Config。GOOSE_SUBAGENT_MAX_TURNS 的唯一读取点变为 summon.rs 的 resolve_max_turns（recipe settings → 环境变量 → Config::global().get_param → 常量 25），TaskConfig 由 build_task_config 直接字面量构造。优先级与默认值不变，v1 的行为结论仍成立，但引用与构造描述必须更新。'
+- '顺带核实：max_turns 现在会被校验为 1..=u32::MAX，越界直接报错；delegate 的 extensions/provider/model/temperature/context/working_dir 等参数仍在，async 参数与后台任务查询（load(source: <task_id>)）已从工具 schema 与官方 summon-mcp.md 移除；GOOSE_MAX_BACKGROUND_TASKS 一行从 environment-variables.md 删除。并发度因此在固定来源中不再有第一方配置项。'
+- 'orchestrator 平台扩展整文件删除（platform_extensions/mod.rs 的模块清单已无该项），summon 仍在。它承载的是 agent session 管理，不在 scoped 问题内，仅记录。'
+- config/base.rs 的 generation 计数不影响 scoped 的 config.sources/overrides/defaults：配置文件顺序、合并规则、键默认值均无变化，故 configuration 主题不改章节。
+- '排除：skills/client.rs 改为按工具调用上下文取 working_dir、providers/init.rs 删除 create_with_working_dir/create_with_named_model、session/session_manager.rs schema 16→17 与新增 system_prompt/container 字段，分别属 skills、custom_providers、local_transcripts 主题，不在本轮 scope。'
+- 新增 6 个 git_source_file artifact 与 6 个对应 source_revision snapshot（提交 a4189ec），以及 11 条引用。
+- 未新增软件版本映射：源码提交只能证明源码树，不能证明 npm 1.53.0 的行为。

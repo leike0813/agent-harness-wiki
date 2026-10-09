@@ -2,33 +2,11 @@ schema_version: 2
 record_kind: production
 reference_id: ref-crush-code-mcp-initialize
 harness_id: crush
-snapshot_id: snapshot-crush-repo-20261006
+snapshot_id: snapshot-crush-repo-20261009
 locator:
   kind: file_lines
   file: internal/agent/tools/mcp/init.go
-  start: 336
-  end: 401
+  start: 334
+  end: 350
 official_url: "https://github.com/charmbracelet/crush"
-excerpt: |-
-  func Initialize(ctx context.Context, permissions permission.Service, cfg *config.ConfigStore, forceStart ...string) {
-  	ArmInit()
-  	slog.Info("Initializing MCP clients")
-  	start := time.Now()
-  	var wg sync.WaitGroup
-  	// Initialize states for all configured MCPs
-  	for name, m := range cfg.Config().MCP {
-  		if m.Disabled {
-  			if !slices.Contains(forceStart, name) {
-  				updateState(name, StateDisabled, nil, nil, Counts{})
-  				slog.Debug("Skipping disabled MCP", "name", name)
-  				continue
-  			}
-  			slog.Info("Starting config-disabled MCP with repository enabled override", "name", name)
-  		}
-  		// Set initial starting state
-  		wg.Add(1)
-  		goInitClient(ctx, cfg, name, m, &wg)
-  	}
-  	wg.Wait()
-  	initOnce.Do(func() { close(initDone) })
-  	// Non-interactive runs wait for this to finish before sending a prompt, so
+excerpt: "// forceStart lists config-disabled servers with a repository-scoped enabled\n// override; they are started even though their config entry is disabled.\n// localDisabled lists servers with a repository-scoped disabled override;\n// they are not started.\nfunc Initialize(ctx context.Context, permissions permission.Service, cfg *config.ConfigStore, forceStart, localDisabled []string) {\n\tArmInit()\n\tslog.Info(\"Initializing MCP clients\")\n\tstart := time.Now()\n\n\tvar wg sync.WaitGroup\n\t// Initialize states for all configured MCPs\n\tfor name, m := range cfg.Config().MCP {\n\t\tif slices.Contains(localDisabled, name) {\n\t\t\tupdateState(name, StateDisabled, nil, nil, Counts{})\n\t\t\tslog.Debug(\"Skipping MCP disabled for this repository\", \"name\", name)\n\t\t\tcontinue\n\t\t}"

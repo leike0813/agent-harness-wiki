@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-subagent-config-20261009
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261009-summon
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/platform_extensions/summon.rs
+  start: 1332
+  end: 1344
+official_url: "https://github.com/block/goose/blob/a4189ec8c7c09a66ce300c8aca528385bdc13ff0/crates/goose/src/agents/platform_extensions/summon.rs"
+excerpt: |-
+  let max_turns = params
+      .max_turns
+      .or_else(|| recipe.settings.as_ref().and_then(|s| s.max_turns))
+      .unwrap_or_else(|| self.resolve_max_turns(session));
+
+  if max_turns == 0 || max_turns > u32::MAX as usize {
+      anyhow::bail!(
+          "max_turns must be between 1 and {} (got {})",
+          u32::MAX,
+          max_turns
+      );
+  }

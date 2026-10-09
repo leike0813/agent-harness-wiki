@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-config-load-readfile
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261009-internal-config-load
+locator:
+  kind: file_lines
+  file: internal/config/load.go
+  start: 991
+  end: 1005
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  	for _, path := range configPaths {
+  		if path == "" {
+  			continue
+  		}
+  		data, err := readFile(path)
+  		if err != nil {
+  			if os.IsNotExist(err) {
+  				continue
+  			}
+  			return nil, nil, fmt.Errorf("failed to open config file %s: %w", path, err)
+  		}
+  		if len(data) == 0 {
+  			continue
+  		}
+

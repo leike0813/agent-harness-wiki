@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-prompt-reject
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-tui-src-cli-system-prompt-options-ts-8348311
+locator:
+  kind: file_lines
+  file: packages/tui/src/cli/system-prompt-options.ts
+  start: 85
+  end: 105
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  /**
+   * Prompt flags written before a subcommand that does not accept them fail the
+   * launch instead of being parsed by a parent and silently ignored.
+   */
+  export function rejectUnsupportedSystemPromptOptions(command: Command): void {
+    if (command.options.some((option) => option.attributeName() === 'systemPrompt')) return;

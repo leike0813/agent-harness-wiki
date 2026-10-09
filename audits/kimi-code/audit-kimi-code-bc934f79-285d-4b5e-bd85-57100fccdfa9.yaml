@@ -1,0 +1,76 @@
+schema_version: 2
+audit_id: audit-kimi-code-bc934f79-285d-4b5e-bd85-57100fccdfa9
+harness_id: kimi-code
+checked_at: '2026-10-08T18:02:36.994Z'
+previous_audit_id: audit-kimi-code-982ba42b-eeff-4c18-83c8-d95f656d6f78
+status: changed
+review_status: reviewed
+reviewed_by: kimi-code-maintenance-worker
+reviewed_at: '2026-10-09T02:00:00.000Z'
+pending_audit_refs: []
+checks:
+- source_id: source-kimi-code-repo
+  kind: git_repository
+  checked_at: '2026-10-08T18:02:35.445Z'
+  status: changed
+  baseline: 21406fb4c805cc8c715e6d1f16ad3fb5f25f4fe3
+  observed: 5b936697670ed15444bcb4720bd91e6ee776a941
+  remote_ref: refs/heads/main
+- source_id: source-kimi-code-legacy-repo
+  kind: git_repository
+  checked_at: '2026-10-08T18:02:35.453Z'
+  status: unchanged
+  baseline: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+  observed: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+  remote_ref: refs/heads/main
+- source_id: source-kimi-code-npm
+  kind: npm_registry
+  checked_at: '2026-10-08T18:02:35.461Z'
+  status: unchanged
+  baseline: 2.1.1@sha512-xClqcnTQUKgKDbeOGPU78qcwxGzL8wA2rqWuOX3CLpyQ1/NhSX7jAh6hZo/JFwThSX8obkgef3uw/li5JaJNyw==
+  observed: 2.1.1@sha512-xClqcnTQUKgKDbeOGPU78qcwxGzL8wA2rqWuOX3CLpyQ1/NhSX7jAh6hZo/JFwThSX8obkgef3uw/li5JaJNyw==
+impacts: []
+pending_question_ids: []
+investigation_notes:
+- 本轮 triage 分类：narrow_investigation。19 个 changed files 中与已登记主题相关者已逐一定位，结论是 skills 与 configuration 均无需改章。
+- >-
+  source-kimi-code-repo 由 21406fb 变为 5b93669（feat(kap-server): add allow_ignored_globs to
+  fs:list for un-ignoring named paths，#4058）。changed paths 中 4 个 changeset、7 个 TUI/survey 文件
+  （survey-controller.ts、survey-policy.ts、survey-popup-config.ts、shell-execution.ts 及其测试）
+  按任务 exclude 排除，与已登记主题无关。
+- >-
+  实质代码改动只有一处机制：packages/agent-core-v2/src/workspace/workspaceFs/{fs.ts,fsService.ts,internal/fsSearch.ts}
+  与 packages/kap-server/test/fs.test.ts，为 `fs:list` 新增可选 body 字段 `allow_ignored_globs: string[]`，
+  让被 gitignore 的命名路径（如 `.tmp`）在列目录时放行；fsSearch.ts 新增基于 picomatch 的
+  `globCanMatchBelow`，并把 glob 匹配统一到 `dot: true, nonegate: true`，fsService 用 PROBE_MAX_DEPTH=6 /
+  PROBE_MAX_ENTRIES=500 的探查预算判断被忽略目录是否有放行后代，从而保留可达的祖先目录。
+  docs/{en,zh}/reference/server-api.md 各增该字段一行说明。
+- >-
+  对 skills.roots / skills.conditions / skills.discovery 的判定：skills 章节从未记录任何「忽略规则」
+  机制，因此本改动对该章节无口径可推翻，正文与小节均不修改。核对依据：全章节 grep ignore/glob/gitignore/exclude
+  零命中；已登记的 skills 扫描引用 ref-kimi-code-src-skill-scan-depth 指向的排除规则是
+  `isSkillScanExcludedEntry`（entryName === 'node_modules' || entryName.startsWith('.')），
+  即与 gitignore 无关的固定按名跳过，且该函数本轮未改动。
+- >-
+  子系统边界已核实：packages/agent-core-v2/src/features/skill/ 下不出现 workspaceFs、WorkspaceFsService
+  或 gitignore 任一标识，技能发现不经过 fs:list；WorkspaceFsService 的调用方为 program.ts、fs.ts、
+  fsService.ts、fsSearch 相关测试、packages/kap-server/src/routes/fs.ts 与 packages/node-sdk/src/sdk-rpc-client-v2.ts，
+  即 kap-server 的 fs:list RPC 面，与 skills 加载路径无共享入口。
+- >-
+  configuration 主题同样无影响：configuration-v2 中唯一的 ignore 相关表述是建议把项目级
+  `.kimi-code/local.toml` 加入项目 .gitignore（ref-kimi-code-config-project-local），那是给用户的写法建议，
+  不描述宿主读取配置时的忽略规则；本轮改动也没有新增或修改任何配置文件解析路径。
+- >-
+  因此 impacts 保持为空、pending_question_ids 为空，skills 与 configuration 沿用
+  kimi-code-cli-skills-v1 与 kimi-code-cli-configuration-v2，不新建 edition，不新增 reference 或 mapping。
+  源码 commit 5b93669 只证明源码树，不证明 npm 发行版 2.1.1 含该字段，本轮不写映射。
+- >-
+  review_status 由 triage 写入的 pending 改为 reviewed（作者自检，pending_question_ids 为空）：判定是「该机制从无记录、且不与 skills 共享入口」的排除性结论，
+  不推翻任何已发布配置步骤，也不涉及跨主题加载机制变更，未触发独立复核条件。
+- >-
+  边界说明：项目 archive/kimi-code/ 下无归档原件目录，docs/{en,zh}/reference/server-api.md 是同一提交内
+  仓库自带文档而非归档官方文档；本轮未从该来源取任何证据写进候选，故不影响结论。
+- >-
+  交付边界：delivery=pr，未执行 sources:scan、pnpm ahw publish、pnpm chapters:update、pnpm managed:packages
+  或任何网络抓取；调查只在 coordinator 已 pin 的只读工作区 ws-5b936697670e-3135da85-b44a-4fc0-bb7d-de53d03729c8
+  内进行，未复制源码进候选，未把临时路径写入任何记录。

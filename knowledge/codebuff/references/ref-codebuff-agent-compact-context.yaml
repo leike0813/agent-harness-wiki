@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agent-compact-context
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-agent-definition-20261009
+locator:
+  kind: file_lines
+  file: common/src/templates/initial-agents-dir/types/agent-definition.ts
+  start: 208
+  end: 218
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |-
+  /** Opt in to in-process context compaction. Defaults to false.
+   *
+   * Compaction reserves input headroom and also runs after an idle gap. It is
+   * a mechanical rewrite of the history (no model call). Pass
+   * `{ cacheExpiryMs }` to tune that idle threshold, or `{ cacheExpiryMs: null }`
+   * to compact on the context limit only.
+   *
+   * The cold-cache pass is skipped on a context smaller than
+   * `cacheExpiryMinTokens`, since compaction always costs detail and a small
+   * history has little to reclaim. Pass null to take it at any size. The
+   * context-limit pass ignores this floor.
+   */

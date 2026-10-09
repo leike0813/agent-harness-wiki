@@ -1,0 +1,110 @@
+schema_version: 2
+audit_id: audit-crush-c5548c87-f9dd-4836-9b92-895a3f4be673
+harness_id: crush
+checked_at: '2026-10-08T18:01:50.418Z'
+previous_audit_id: audit-crush-20261006t134000z
+status: changed
+review_status: pending
+pending_audit_refs:
+- audit-crush-f2c1632d-d1da-4abf-a4be-8e2bafbae95a
+- audit-crush-20261006t134000z
+checks:
+- source_id: source-crush-repo
+  kind: git_repository
+  checked_at: '2026-10-08T18:01:48.854Z'
+  status: changed
+  baseline: 65865e01950368379ad1f9746b620a77fb7a5da8
+  observed: 011a9416c0624341420f9dc8787680308f45b994
+  remote_ref: refs/heads/main
+- source_id: source-crush-npm
+  kind: npm_registry
+  checked_at: '2026-10-08T18:01:48.862Z'
+  status: unchanged
+  baseline: 0.97.1@sha512-HloGB3U3SSVpQ9BMe6p88EMBPRx47YidQZ9LdNu6Gn3SF8xAIeUNJd3rfByGfoJugh2uLoX1Q0M0Dz2HHTFvqw==
+  observed: 0.97.1@sha512-HloGB3U3SSVpQ9BMe6p88EMBPRx47YidQZ9LdNu6Gn3SF8xAIeUNJd3rfByGfoJugh2uLoX1Q0M0Dz2HHTFvqw==
+impacts:
+- topic: mcp
+  question_ids:
+  - mcp.entry
+  - mcp.lifecycle
+  - mcp.diagnostics
+  section_ids:
+  - mcp-entry-definition
+  - mcp-lifecycle
+  - mcp-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-crush-code-mcp-local-toggle
+  - ref-crush-code-mcp-local-disabled-init
+  - ref-crush-code-mcp-override-presence
+  - ref-crush-code-mcp-start-local-disabled
+  - ref-crush-code-mcp-workspace-toggle
+  - ref-crush-code-mcp-toggle-apply
+  - ref-crush-code-mcp-toggle-status
+  - ref-crush-code-mcp-toggle-item-state
+  cross_topic_links:
+  - config.diagnostics
+  reason: 全局/局部 MCP 开关的语义被修正：仓库级覆盖（启用或禁用）现在优先于全局
+    配置的 disabled 字段，SetConfigDisabled 增加 localOverride 参数并把“应用运行态”拆到
+    新的 SetLocalDisabled；Initialize 新增 localDisabled 列表并在启动时跳过被仓库级禁用的
+    server；UI 侧删掉了“启用配置禁用 server 时额外调 MCPStartServer”的分支，改为统一走覆盖
+    路径。这改写了 mcp.entry（两个开关分别写到哪里）、mcp.lifecycle（启动跳过与运行态应用）
+    和 mcp.diagnostics（全局列表里 enabled 的含义）。
+- topic: mcp
+  question_ids:
+  - mcp.capabilities
+  section_ids:
+  - mcp-capabilities-exposure
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-crush-code-mcp-tool-list
+  - ref-crush-code-mcp-tool-mount
+  cross_topic_links: []
+  reason: 本轮 init.go 的改动只在 Initialize / SetConfigDisabled / SetLocalDisabled 三处，
+    工具发现与暴露路径未变；已逐个调用点确认无需改写，问题状态维持 answered。
+- topic: configuration
+  question_ids:
+  - config.sources
+  - config.diagnostics
+  section_ids:
+  - config-sources
+  - config-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-crush-code-config-fileretry-read
+  - ref-crush-code-config-fileretry-backoff
+  - ref-crush-code-config-fileretry-windows
+  - ref-crush-code-config-fileretry-unix
+  - ref-crush-code-config-atomicwrite-rename
+  - ref-crush-code-config-load-readfile
+  cross_topic_links:
+  - mcp.entry
+  reason: 配置读取路径从 os.ReadFile 统一换成新增的 readFile（重试版），load/store/provider
+    共 8 处调用点；atomicwrite 的改名重试被抽出为 fileretry 的 retryTransient，读写共用同一条
+    重试策略。属于读取入口与诊断（写入失败模式）的机制变化，故同时影响 config.sources 与
+    config.diagnostics。
+- topic: configuration
+  question_ids:
+  - config.defaults
+  section_ids:
+  - config-defaults
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-crush-code-config-defaults
+  cross_topic_links: []
+  reason: setDefaults 与选项默认值未改动，本轮只是它所在文件里的读取调用换了包装函数；
+    问题状态维持 answered。
+pending_question_ids: []
+investigation_notes:
+- 本轮 triage 分类：maintain。
+- 'source-crush-repo 由 65865e0 变为 011a941（fix: Toggle MCPs bug with global and local），25 个文件。'
+- 'internal/agent/tools/mcp/init.go 再 +24 行：上一轮改写的 10 条引用（states/initialize/budget/auth/client/ping/transport/oauth/sse-oauth/timeout）已按新 commit 重新定位，行区间整体下移，摘录逐条重新校验仍逐字匹配；新增 mcp-local-toggle、mcp-local-disabled-init 两条引用。'
+- 全局/局部 MCP 开关：internal/backend/session.go、internal/workspace/app_workspace.go、internal/ui/model/mcp.go、internal/ui/dialog/mcp_toggles.go、internal/session/session.go 的新增 HasMCPOverride、internal/app/app.go 的启动参数共同构成“仓库级覆盖优先”的完整链路，已写入 mcp-v4 的 entry/lifecycle/diagnostics 三节。
+- 配置写入：atomicwrite*.go 删除、fileretry*.go 新增，load.go/store.go/provider.go 的读取改为 readFile；非 Windows 平台重试为 no-op，已在 configuration-v2 的 sources/diagnostics 两节写明，并声明平台边界。
+- internal/projects/projects.go 的 Register 重写（改为“删除后插入队首”而不是按时间戳排序）、internal/oauth/mcp/handler.go 的 joined 计数、internal/lsp/client_test.go 与各 *_test.go 属实现细节或测试改动，本轮作用域（mcp、configuration）内没有对应的固定问题入口变化，不计章节 impact。
+- '本轮不写 reviewed_by/reviewed_at：pending_audit_refs 仍指向 review_status=pending 的 audit-crush-f2c1632d 与 audit-crush-20261006t134000z，且开关语义属跨主题关键加载/应用机制改动，需独立复核后再结案。'
+- delivery=pr，未运行 ahw publish、chapters:update 或 managed:packages；registry/chapter-current.yaml 在候选内指向 crush-cli-mcp-v4 与 crush-cli-configuration-v2，由聚合阶段决定是否采纳。

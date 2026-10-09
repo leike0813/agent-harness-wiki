@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-providers-tool-result-media
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-opencode-src-session-message-v2-20261009
+official_url: https://github.com/anomalyco/opencode/blob/388406238bd5ca15564a762840a2362c3a45bd9c/packages/opencode/src/session/message-v2.ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/session/message-v2.ts
+  start: 311
+  end: 318
+excerpt: |
+  // For providers that don't support media in tool results, extract media files
+  // (images, PDFs) to be sent as a separate user message
+  const mediaAttachments = attachments.filter((a) => isMedia(a.mime))
+  const extractedMedia = mediaAttachments.filter((a) => !supportsMediaInToolResult(a))
+  if (extractedMedia.length > 0) {
+    media.push(...extractedMedia)
+  }
+  const finalAttachments = attachments.filter((a) => !isMedia(a.mime) || supportsMediaInToolResult(a))

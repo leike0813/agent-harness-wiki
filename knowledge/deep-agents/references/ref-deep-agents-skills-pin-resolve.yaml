@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-skills-pin-resolve
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-deepagents-deepagents-middleware-skills-py
+locator:
+  kind: file_lines
+  file: libs/deepagents/deepagents/middleware/skills.py
+  start: 819
+  end: 829
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def _skills_to_pin(names: Sequence[str], skills: Sequence[SkillMetadata]) -> list[SkillMetadata]:
+      """Return the loaded skill each distinct name refers to, in first-seen order, skipping unknown names."""
+      by_name = {skill["name"]: skill for skill in skills}
+      resolved: list[SkillMetadata] = []
+      for name in dict.fromkeys(names):
+          skill = by_name.get(name)
+          if skill is None:
+              logger.debug("Not pinning skill '%s': unknown skill", name)
+          else:
+              resolved.append(skill)
+      return resolved

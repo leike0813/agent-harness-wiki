@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-skills-pin-state
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-deepagents-deepagents-middleware-skills-py
+locator:
+  kind: file_lines
+  file: libs/deepagents/deepagents/middleware/skills.py
+  start: 358
+  end: 371
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+      """Names of skills to pin before the next model call.
+
+      Each named skill's `SKILL.md`, without its frontmatter, is appended to the
+      conversation as its own `HumanMessage`. The message is a snapshot: editing the
+      file later doesn't change it, and naming the skill again appends a new copy.
+
+      Names only, matched exactly against `skills_metadata`. A name that isn't
+      loaded, or whose file can't be read, is skipped without an error. The key is
+      cleared once consumed, so a later run pins nothing unless it names skills
+      again. Writes in the same step add up, so parallel tool calls can each
+      pin skills.
+      """
+
+      skills_metadata: NotRequired[Annotated[list[SkillMetadata] | None, OmitFromOutput]]

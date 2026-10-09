@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-cfg-r967-package-dir-symlink
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-cfg-r967-crates-pa-cli-src-config-rs
+locator:
+  kind: file_lines
+  file: crates/pa-cli/src/config.rs
+  start: 59
+  end: 72
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/967eb13fd488507af5f590e9c6ea8b2672f1fc05/crates/pa-cli/src/config.rs
+excerpt: |
+  /// The packaged package-dir (`PI_PACKAGE_DIR` wins, else the directory of
+  /// the executable, launcher symlinks resolved through pa-core's
+  /// `exe_dir_of`).
+  fn package_dir() -> PathBuf {
+      if let Ok(env_dir) = std::env::var("PI_PACKAGE_DIR") {
+          if !env_dir.is_empty() {
+              return expand_tilde_path(&env_dir);
+          }
+      }
+      std::env::current_exe()
+          .ok()
+          .and_then(|exe| pa_core::packages::exe_dir_of(&exe))
+          .unwrap_or_else(|| PathBuf::from("."))
+  }

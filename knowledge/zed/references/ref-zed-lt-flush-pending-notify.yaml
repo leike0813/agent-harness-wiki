@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-flush-pending-notify
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-thread-rs-b47a4ca
+locator:
+  kind: file_lines
+  file: crates/agent/src/thread.rs
+  start: 4114
+  end: 4124
+official_url: https://github.com/zed-industries/zed/blob/b47a4ca595d3a3fba116b9e78ef01a46e2e43f3e/crates/agent/src/thread.rs
+excerpt: "    fn flush_pending_message(&mut self, cx: &mut Context<Self>) {\n        let Some(mut message) = self.pending_message.take() else {\n            return;\n        };\n\n        if message.content.is_empty() {\n            // Saves are skipped while a message streams, so notify to save\n            // anything that changed meanwhile, like token usage.\n            cx.notify();\n            return;\n        }"

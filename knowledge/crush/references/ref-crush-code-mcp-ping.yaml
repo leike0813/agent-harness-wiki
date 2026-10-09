@@ -2,11 +2,11 @@ schema_version: 2
 record_kind: production
 reference_id: ref-crush-code-mcp-ping
 harness_id: crush
-snapshot_id: snapshot-crush-repo-20261006
+snapshot_id: snapshot-crush-repo-20261009
 locator:
   kind: file_lines
   file: internal/agent/tools/mcp/init.go
-  start: 889
-  end: 899
-official_url: https://github.com/charmbracelet/crush
+  start: 907
+  end: 917
+official_url: "https://github.com/charmbracelet/crush"
 excerpt: "func pingSession(ctx context.Context, s *ClientSession, timeout time.Duration) error {\n\tpingCtx, cancel := context.WithTimeout(ctx, timeout)\n\tdefer cancel()\n\terr := s.Ping(pingCtx, nil)\n\t// MethodNotFound means the server answered; it just doesn't implement ping.\n\tvar wireErr *jsonrpc.Error\n\tif errors.As(err, &wireErr) && wireErr.Code == jsonrpc.CodeMethodNotFound {\n\t\treturn nil\n\t}\n\treturn err\n}"

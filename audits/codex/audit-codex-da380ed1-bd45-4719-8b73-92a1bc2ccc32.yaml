@@ -1,0 +1,807 @@
+schema_version: 2
+audit_id: audit-codex-da380ed1-bd45-4719-8b73-92a1bc2ccc32
+harness_id: codex
+checked_at: 2026-10-08T18:08:48.787Z
+previous_audit_id: audit-codex-54b83937-1b9c-4543-a99d-b639cd784d8f
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-codex-d41084bf-85cb-4e47-8c81-c18349ef1135
+  - audit-codex-20261004t061205z
+  - audit-codex-1d2b16ca-6d47-4dbe-873f-533a8c9297ab
+  - audit-codex-20261006t134000z
+  - audit-codex-54b83937-1b9c-4543-a99d-b639cd784d8f
+checks:
+  - source_id: source-codex-repo
+    kind: git_repository
+    checked_at: 2026-10-08T18:08:47.068Z
+    status: changed
+    baseline: c0c230e6730b3b3c9101b8aff4b9aea4027cea5b
+    observed: ade12342e21c34a859d14cd5be47e7531fabb734
+    remote_ref: refs/heads/main
+  - source_id: source-codex-cli-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-08T18:08:47.076Z
+    status: unchanged
+    baseline: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+    observed: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+    resolved_url: https://learn.chatgpt.com/docs/codex/cli.md
+  - source_id: source-codex-cli-npm
+    kind: npm_registry
+    checked_at: 2026-10-08T18:08:47.078Z
+    status: changed
+    baseline: 0.160.1@sha512-f1yrJhwgimKQI1kYQlxdPJcFwkNZxZrbz7Hf89EAcnLqkQ7TiESzr2FgSZn13Ga5RuHjlVUfurzwq10wk9zw2g==
+    observed: 0.161.0@sha512-+ZnJFGBbQBwYnjUTs+PoacgYVxmNyxMLiadIz6eSJ0AzQW0mRVxuuOQizSbz2qeNAJia9Syxag6j2uGf7guD2Q==
+  - source_id: source-codex-cli-skills-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-08T18:08:47.078Z
+    status: unchanged
+    baseline: d15791562748e64a53dfec534b8558aa522e732cec0fdedcf7257fa4ef486a20
+    observed: d15791562748e64a53dfec534b8558aa522e732cec0fdedcf7257fa4ef486a20
+    resolved_url: https://learn.chatgpt.com/docs/build-skills.md
+  - source_id: source-codex-cli-mcp-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-08T18:08:47.861Z
+    status: unchanged
+    baseline: adb28990c0c7be47b9ff6c177e3cdeae5803978935cd792f781af2c8b5643e92
+    observed: adb28990c0c7be47b9ff6c177e3cdeae5803978935cd792f781af2c8b5643e92
+    resolved_url: https://learn.chatgpt.com/docs/extend/mcp.md?surface=cli
+  - source_id: source-codex-cli-configuration-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-08T18:08:47.866Z
+    status: changed
+    baseline: 73242945d7891bc09bf95a39d83117025abd8eca61ae5707db38fda40db16d62
+    observed: d347f6bf16af6dcdfbdbce7236d8b27429eca748614e33ed1f0709c4e576cacd
+    resolved_url: https://learn.chatgpt.com/docs/config-file/config-reference.md
+    candidate_path: archive/codex/artifact-source-codex-cli-configuration-doc-learn-d347f6bf16af/source.md
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-overrides
+      - config-runtime-trust
+      - config-defaults-migration
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-config-managed-precedence-doc
+      - ref-codex-cli-config-merge-source
+      - ref-codex-cli-config-precedence-source
+      - ref-codex-cli-config-requirements-features-doc
+      - ref-codex-cli-config-requirements-version-doc
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-codex-repo, source-codex-cli-configuration-doc-learn: shared or
+      unknown impact; assess relevant entrypoints"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-entry
+      - agents-role-file
+      - agents-invocation
+      - agents-overrides-limits
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-agents-discovery-source
+      - ref-codex-cli-agents-loader-source
+      - ref-codex-cli-agents-role-file-source
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-codex-repo, source-codex-cli-configuration-doc-learn: shared or
+      unknown impact; assess relevant entrypoints"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-entry-auth
+      - providers-wire-models
+      - providers-responses-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-codex-repo, source-codex-cli-configuration-doc-learn: shared or
+      unknown impact; assess relevant entrypoints"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-events-entry
+      - hooks-handlers-input-output
+      - hooks-order
+      - hooks-conditions
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-hooks-events-source
+      - ref-codex-cli-hooks-managed-repo-doc
+      - ref-codex-cli-hooks-runtime-source
+      - ref-codex-cli-hooks-state-source
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-codex-repo, source-codex-cli-configuration-doc-learn: shared or
+      unknown impact; assess relevant entrypoints"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-entry
+      - mcp-server-definition
+      - mcp-transports
+      - mcp-auth
+      - mcp-lifecycle-exposure
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-codex-repo, source-codex-cli-configuration-doc-learn: shared or
+      unknown impact; assess relevant entrypoints"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model-package
+      - plugins-install-discovery
+      - plugins-api
+      - plugins-lifecycle-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-plugins-cmd-source
+      - ref-codex-cli-plugins-discoverable-source
+      - ref-codex-cli-plugins-loader-source
+      - ref-codex-cli-plugins-manifest-path-source
+      - ref-codex-cli-plugins-manifest-source
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-codex-repo, source-codex-cli-configuration-doc-learn: shared or
+      unknown impact; assess relevant entrypoints"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-discovery-roots
+      - skills-skill-md
+      - skills-openai-yaml
+      - skills-loading
+      - skills-invocation
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-skills-source-depth
+      - ref-codex-cli-skills-source-metadata
+      - ref-codex-cli-skills-source-parser
+      - ref-codex-cli-skills-source-roots
+      - ref-codex-cli-skills-source-scan
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-codex-repo, source-codex-cli-configuration-doc-learn: shared or
+      unknown impact; assess relevant entrypoints"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-recording-scope
+      - transcripts-storage-layout
+      - transcripts-jsonl-format-and-schema
+      - transcripts-lifecycle
+      - transcripts-state-database
+      - transcripts-archive-and-cleanup
+      - transcripts-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-transcripts-archive-move
+      - ref-codex-cli-transcripts-archive-writer-conflict
+      - ref-codex-cli-transcripts-cleanup-delete-order
+      - ref-codex-cli-transcripts-cleanup-delete-semantics
+      - ref-codex-cli-transcripts-cleanup-maintenance-lock
+      - ref-codex-cli-transcripts-database-backfill-lease
+      - ref-codex-cli-transcripts-database-backfill
+      - ref-codex-cli-transcripts-database-recovery
+      - ref-codex-cli-transcripts-database-threads-table
+      - ref-codex-cli-transcripts-diagnostics-parity-check
+      - ref-codex-cli-transcripts-diagnostics-read-example
+      - ref-codex-cli-transcripts-diagnostics-state-check
+      - ref-codex-cli-transcripts-format-append-open
+      - ref-codex-cli-transcripts-format-compression-cold-file
+      - ref-codex-cli-transcripts-format-compression-constants
+      - ref-codex-cli-transcripts-format-compression-worker
+      - ref-codex-cli-transcripts-format-envelope
+      - ref-codex-cli-transcripts-format-line-write
+      - ref-codex-cli-transcripts-history-max-bytes-doc
+      - ref-codex-cli-transcripts-history-persistence-doc
+      - ref-codex-cli-transcripts-lifecycle-cli-subcommands
+      - ref-codex-cli-transcripts-lifecycle-find-thread
+      - ref-codex-cli-transcripts-lifecycle-recorder-api
+      - ref-codex-cli-transcripts-lifecycle-writer-lock
+      - ref-codex-cli-transcripts-location-codex-home
+      - ref-codex-cli-transcripts-location-media-inline
+      - ref-codex-cli-transcripts-location-rollout-path
+      - ref-codex-cli-transcripts-location-session-index
+      - ref-codex-cli-transcripts-location-sqlite-db-files
+      - ref-codex-cli-transcripts-location-sqlite-home-env
+      - ref-codex-cli-transcripts-location-subdirs
+      - ref-codex-cli-transcripts-naming-file-name-render
+      - ref-codex-cli-transcripts-naming-file-name
+      - ref-codex-cli-transcripts-naming-lineage
+      - ref-codex-cli-transcripts-schema-item-types
+      - ref-codex-cli-transcripts-schema-migration-command
+      - ref-codex-cli-transcripts-schema-session-meta-head
+      - ref-codex-cli-transcripts-schema-session-meta-history
+      - ref-codex-cli-transcripts-scope-ephemeral-field
+      - ref-codex-cli-transcripts-scope-ephemeral-flag
+      - ref-codex-cli-transcripts-scope-history-file
+      - ref-codex-cli-transcripts-scope-history-settings
+      - ref-codex-cli-transcripts-scope-persisted-items
+      - ref-codex-cli-transcripts-scope-response-items
+      - ref-codex-cli-transcripts-scope-transient-events
+      - ref-codex-cli-transcripts-sqlite-home-doc
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-codex-repo, source-codex-cli-configuration-doc-learn: shared or
+      unknown impact; assess relevant entrypoints"
+pending_question_ids:
+  - config.sources
+  - config.overrides
+  - config.runtime
+  - config.trust
+  - config.defaults
+  - config.migration
+  - config.diagnostics
+  - agents.entry
+  - agents.format
+  - agents.roles
+  - agents.invocation
+  - agents.overrides
+  - agents.limits
+  - agents.diagnostics
+  - providers.entry
+  - providers.auth
+  - providers.protocol
+  - providers.models
+  - providers.metadata
+  - providers.forwarding
+  - providers.responses
+  - providers.diagnostics
+  - hooks.events
+  - hooks.entry
+  - hooks.input
+  - hooks.output
+  - hooks.order
+  - hooks.conditions
+  - hooks.diagnostics
+  - mcp.entry
+  - mcp.definition
+  - mcp.transport
+  - mcp.auth
+  - mcp.lifecycle
+  - mcp.capabilities
+  - mcp.exposure
+  - mcp.diagnostics
+  - plugins.model
+  - plugins.package
+  - plugins.install
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+  - skills.roots
+  - skills.discovery
+  - skills.collision
+  - skills.format
+  - skills.extensions
+  - skills.loading
+  - skills.invocation
+  - skills.conditions
+  - skills.diagnostics
+  - transcripts.scope
+  - transcripts.location
+  - transcripts.naming
+  - transcripts.format
+  - transcripts.schema
+  - transcripts.lifecycle
+  - transcripts.database
+  - transcripts.archive
+  - transcripts.cleanup
+  - transcripts.diagnostics
+investigation_notes: []

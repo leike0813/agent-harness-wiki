@@ -1,0 +1,98 @@
+schema_version: 2
+audit_id: audit-omp-1517b129-51c9-43ee-a4ba-41f05b72d32d
+harness_id: omp
+checked_at: '2026-10-08T18:03:04.917Z'
+previous_audit_id: audit-omp-20261006t134000z
+status: changed
+review_status: pending
+pending_audit_refs:
+- audit-omp-92124b10-5a87-4186-a79a-5e6141821407
+- audit-omp-20261004t061205z
+- audit-omp-f665c77f-f891-4595-aa9e-6f1f7a366d2f
+- audit-omp-20261006t134000z
+checks:
+- source_id: source-omp-npm
+  kind: npm_registry
+  checked_at: '2026-10-08T18:03:03.161Z'
+  status: changed
+  baseline: 18.6.3@sha512-m9aPsH69ktizletfpGoR2S0wV+Dg5EZG1H9QBWpRPqkcXJDga5joL71xW1tPly2NzBqchhhdEWHEZi5zNwr9tA==
+  observed: 18.8.5@sha512-rzRo/CWMPoia+FvpvPWacnJ2uAfQD9cfdw3C1TWskSCaVGOUoR62j4ZKqEI8/iLTdy6l7Oyu8c4uMYooSeIfVg==
+- source_id: source-omp-repo
+  kind: git_repository
+  checked_at: '2026-10-08T18:03:03.163Z'
+  status: changed
+  baseline: 093275112f7adff207608673c0e33c7f3d16e27f
+  observed: 788cf9ef10c82634b2a685fb2d1455362acf81b9
+  remote_ref: refs/heads/main
+impacts:
+- topic: local_transcripts
+  question_ids:
+  - transcripts.location
+  - transcripts.schema
+  - transcripts.lifecycle
+  - transcripts.archive
+  - transcripts.cleanup
+  - transcripts.diagnostics
+  section_ids:
+  - transcripts-storage-layout
+  - transcripts-schema-lifecycle
+  - transcripts-database
+  - transcripts-cleanup-archive
+  - transcripts-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-omp-lt2-location-natives-dir-code
+  - ref-omp-lt2-location-natives-dir-doc
+  - ref-omp-lt2-schema-prompt-digest-doc
+  - ref-omp-lt2-schema-prompt-digest-code
+  - ref-omp-lt2-lifecycle-body-lines-code
+  - ref-omp-lt2-storage-streaming-write-sync-code
+  - ref-omp-lt2-storage-streaming-write-atomic-code
+  - ref-omp-lt2-resume-missing-path-code
+  - ref-omp-lt2-resume-missing-path-doc
+  - ref-omp-lt2-resume-enterability-doc
+  - ref-omp-lt2-database-titles-have-no-life-doc
+  - ref-omp-lt2-gc-drops-session-titles-code
+  cross_topic_links:
+  - config.sources
+  - config.defaults
+  reason: 'source-omp-repo: session 存储/管理/索引与 gc-cli 在 788cf9e 有语义变化（按行流式发布、路径式 --resume 改为 fail-closed、归档连带删除 session_titles），dirs.ts 的新目录覆盖经核对不触及会话路径'
+- topic: configuration
+  question_ids:
+  - config.sources
+  - config.defaults
+  section_ids:
+  - config-roots
+  - config-defaults
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-omp-cfg4-sources-natives-dir-code
+  - ref-omp-cfg4-sources-natives-dir-doc
+  - ref-omp-cfg4-defaults-compaction-model-thresholds-code
+  - ref-omp-cfg4-defaults-compaction-model-thresholds-doc
+  - ref-omp-cfg4-defaults-compaction-model-threshold-rules-doc
+  - ref-omp-cfg4-defaults-tui-auto-graph-code
+  - ref-omp-cfg4-defaults-tui-auto-graph-doc
+  - ref-omp-cfg4-defaults-task-agent-account-pools-code
+  - ref-omp-cfg4-defaults-task-agent-account-pools-doc
+  - ref-omp-cfg4-defaults-title-settings-code
+  - ref-omp-cfg4-defaults-title-generator-code
+  - ref-omp-cfg4-defaults-title-refresh-on-replan-code
+  - ref-omp-cfg4-defaults-title-domain-registered-code
+  cross_topic_links:
+  - transcripts.location
+  - transcripts.schema
+  reason: 'source-omp-repo: 788cf9e 新增 compaction.modelThresholds(+Enabled)、tui.autoGraph、task.agentAccountPools 与 title.* 设置域并给出默认值；dirs.ts 新增的 PI_NATIVES_DIR 经核对不是配置来源入口'
+pending_question_ids: []
+investigation_notes:
+- 本轮 triage 分类：maintain。范围限定 local_transcripts 与 configuration 两主题共 8 个固定问题。
+- source-omp-repo 由 0932751 变为 788cf9e（1074 个文件）。逐项复核了任务点名的 session-storage.ts（+169）、session-manager.ts（+239）、session-index.ts、cli/gc-cli.ts、packages/utils/src/dirs.ts（+22）与 docs/session*.md。
+- 实质变化三处：SessionStorage 新增可选 writeLinesSync/writeLinesAtomic 全文件按行流式发布（磁盘字节与顺序不变）；路径式 --resume 改为 throwIfMissing 并报 Session "<path>" not found.，选择器同策略；omp gc 归档在 deleteHistoryRowsForSessions 里新增 DELETE FROM session_titles。
+- session-paths.ts、history-storage.ts、commands/gc.ts、cli/gc-settings.ts、session-listing.ts 在该区间无改动，上一版引用位置继续有效。
+- dirs.ts 的 +22 只涉及 worktree 基址解析函数改名复用与 getNativesDir 的 PI_NATIVES_DIR 覆盖；随仓文档明确该变量不移动 sessions/plugins/其它数据，故 transcripts.location 的路径结论不变，仅补充边界证据。
+- 配置侧新增设置默认值逐项对照 docs/settings.md 与 register() 定义取证；title.* 为本轮新接入 all-settings DOMAINS 的设置域。
+- npm 来源观察到 18.8.5（基线 18.6.3），仅发布身份；未取到对应会话记录文件，不写版本映射。
+- 排除：sdk/python、sdk/rust 的 omp-rpc wire 变化；packages/coding-agent/src/session 下与记录无关的 compaction/prewalk/ttsr 等改动。
+- 本轮不写 reviewed_by/reviewed_at：仍引用 review_status=pending 的旧审计。

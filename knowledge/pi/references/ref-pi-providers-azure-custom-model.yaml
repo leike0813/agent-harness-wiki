@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-providers-azure-custom-model
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261009-docs-providers-md
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/providers.md
+  start: 141
+  end: 154
+official_url: https://github.com/earendil-works/pi/blob/6fb2e7815167e6b19006fc526d1a5d0f5f998787/packages/coding-agent/docs/providers.md
+excerpt: |-
+  To use a Foundry model that Pi does not include, add it under `azure` in [`models.json`](models.md#configure-a-compatible-endpoint) with `api: "openai-completions"`. Custom models require a `baseUrl`; `AZURE_OPENAI_BASE_URL` and `AZURE_OPENAI_RESOURCE_NAME` take priority over it when set:
+
+  ```json
+  {
+    "providers": {
+      "azure": {
+        "baseUrl": "https://your-resource.services.ai.azure.com",
+        "models": [
+          { "id": "your-deployment", "api": "openai-completions" }
+        ]
+      }
+    }
+  }
+  ```

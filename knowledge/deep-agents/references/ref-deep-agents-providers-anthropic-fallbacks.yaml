@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-providers-anthropic-fallbacks
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-code-deepagents_code-model_config-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/model_config.py
+  start: 1408
+  end: 1427
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  ANTHROPIC_MODEL_PROFILE_FALLBACKS: dict[str, dict[str, Any]] = {
+      "claude-haiku-5-5": {
+          "name": "Claude Haiku 5.5",
+          "max_input_tokens": 1_000_000,
+          "max_output_tokens": 128_000,
+          "text_inputs": True,
+          "image_inputs": True,
+          "audio_inputs": False,
+          "video_inputs": False,
+          "text_outputs": True,
+          "reasoning_output": True,
+          "tool_calling": True,
+          "tool_choice": True,
+          "structured_output": True,
+          "temperature": False,
+          "reasoning_effort_levels": ["low", "medium", "high", "xhigh", "max"],
+          "reasoning_effort_default": "medium",
+      },
+  }
+  """Capability fallbacks from https://platform.claude.com/docs/en/models/haiku-5-5/overview."""

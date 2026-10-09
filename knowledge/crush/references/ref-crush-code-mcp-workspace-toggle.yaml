@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-workspace-toggle
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261009-internal-workspace-app_workspace
+locator:
+  kind: file_lines
+  file: internal/workspace/app_workspace.go
+  start: 515
+  end: 528
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // MCPSetServerDisabled adds or removes a repository-scoped MCP override
+  // and applies it to the running client. Config files are never touched.
+  func (w *AppWorkspace) MCPSetServerDisabled(ctx context.Context, name string, disabled bool) error {
+  	if err := w.app.Sessions.SetMCPServerDisabled(ctx, name, disabled); err != nil {
+  		return err
+  	}
+  	return mcptools.SetLocalDisabled(ctx, w.store, name, disabled)
+  }
+
+  // MCPSetServerConfigDisabled toggles an MCP server's disabled flag in the
+  // global config and applies the change to the running client unless a
+  // repository-scoped override takes precedence.
+  func (w *AppWorkspace) MCPSetServerConfigDisabled(ctx context.Context, name string, disabled bool) error {
+  	override, err := session.HasMCPOverride(ctx, w.app.Sessions, name)

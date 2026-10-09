@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-skills-pin-update
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-deepagents-deepagents-middleware-skills-py
+locator:
+  kind: file_lines
+  file: libs/deepagents/deepagents/middleware/skills.py
+  start: 860
+  end: 869
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def _pin_update(skills: Sequence[SkillMetadata], responses: Sequence[FileDownloadResponse]) -> dict[str, Any]:
+      """Return the update appending a message for each readable skill and clearing `pinned_skills`."""
+      update: dict[str, Any] = {"pinned_skills": Overwrite([])}
+      messages = [
+          _pinned_skill_message(skill, body)
+          for skill, response in zip(skills, responses, strict=True)
+          if (body := _pinned_skill_body(skill, response)) is not None
+      ]
+      if messages:
+          update["messages"] = messages

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-local-toggle
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261009
+locator:
+  kind: file_lines
+  file: internal/agent/tools/mcp/init.go
+  start: 701
+  end: 719
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func SetConfigDisabled(ctx context.Context, cfg *config.ConfigStore, scope config.Scope, name string, disabled, localOverride bool) error {
+  	if err := cfg.SetMCPServerDisabledConfig(scope, name, disabled); err != nil {
+  		return err
+  	}
+  	if localOverride {
+  		return nil
+  	}
+  	return SetLocalDisabled(ctx, cfg, name, disabled)
+  }
+
+  // SetLocalDisabled applies a repository-scoped toggle to the running
+  // client: disabling tears the connection down, enabling starts it even if
+  // its config entry is disabled. Persisting the override is the caller's job.
+  func SetLocalDisabled(ctx context.Context, cfg *config.ConfigStore, name string, disabled bool) error {
+  	if disabled {
+  		return DisableSingle(cfg, name)
+  	}
+  	return InitializeSingleForced(ctx, name, cfg)
+  }

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-stdin-failure
+harness_id: cline
+snapshot_id: snapshot-cline-mcp-client-ts-20261009
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/mcp/client.ts
+  start: 462
+  end: 472
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  		// A server on its way out gets the graceful window to exit, so the
+  		// "exit" handler reports its own code and stderr. One still running
+  		// after that fails the pending requests here and is shut down with the
+  		// same SIGTERM -> SIGKILL escalation as disconnect().
+  		child.stdin.on("error", (error) => {
+  			if (this.process !== child) {
+  				return;
+  			}
+  			this.stdinFailure ??= toErrorMessage(error);
+  			if (this.stdinFailureTimer !== undefined) {
+  				return;

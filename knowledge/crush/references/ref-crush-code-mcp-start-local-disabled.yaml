@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-mcp-start-local-disabled
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261009-internal-app-app
+locator:
+  kind: file_lines
+  file: internal/app/app.go
+  start: 158
+  end: 163
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  	// Servers disabled for this repository via Toggle MCPs are not started.
+  	localDisabled, err := app.Sessions.MCPDisabledServers(ctx)
+  	if err != nil {
+  		slog.Warn("Failed to list disabled MCP overrides; starting them anyway", "error", err)
+  	}
+  	go mcp.Initialize(ctx, app.Permissions, store, forceStart, localDisabled)

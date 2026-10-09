@@ -1,0 +1,70 @@
+schema_version: 2
+audit_id: audit-kilo-code-dbc0593a-d899-4a82-b7e2-1a27ae95deca
+harness_id: kilo-code
+checked_at: '2026-10-08T18:02:35.383Z'
+previous_audit_id: audit-kilo-code-20261006t134000z
+status: changed
+review_status: pending
+pending_audit_refs:
+- audit-kilo-code-6e7a9918-3280-4925-9598-126c3cdca611
+- audit-kilo-code-20261006t134000z
+checks:
+- source_id: source-kilo-code-repo
+  kind: git_repository
+  checked_at: '2026-10-08T18:02:33.453Z'
+  status: changed
+  baseline: 9d0f7a1dd8e843457f1166f64fb87b2275d00b35
+  observed: 974723450caa7c91f140b128e2f2e3b4a932ade8
+  remote_ref: refs/heads/main
+- source_id: source-kilo-code-npm
+  kind: npm_registry
+  checked_at: '2026-10-08T18:02:33.460Z'
+  status: changed
+  baseline: 7.8.3@sha512-3OBkmFrAi01YNrV7yZli7H3J3SR4X9e3dKey5sd9CVwVKXq85ZenbV/btp2xeDObWbRsdux4OYyfLuRR0ZA5xw==
+  observed: 7.8.8@sha512-kL9LPPAghiD2mpWjbmdKsgVB18vApI60pQ5wb6gaeuYhXezw6K+IGGRDA8Fw664039kJ0k+BkYZSXUhcq+/5Ww==
+impacts:
+  - topic: configuration
+    question_ids: [config.diagnostics]
+    section_ids: [config-diagnostics]
+    surface_ids: [cli]
+    source_refs: [ref-kilo-code-config-src-warnings-reserved, ref-kilo-code-config-src-command-reserved]
+    cross_topic_links: []
+    reason: >-
+      Config.warnings 现把 ReservedCommand.warnings(s.config.command) 追加到实例状态告警之后，
+      因此保留命令名（实现中只有 goal）会作为 path 为 command.<name> 的配置告警进入 kilo config check。
+      属诊断通道变化，未改变配置来源、优先级或信任边界，config-defaults-migration 与 config-trust 不受影响。
+  - topic: mcp
+    question_ids: [mcp.auth, mcp.diagnostics]
+    section_ids: [mcp-auth, mcp-diagnostics]
+    surface_ids: [cli]
+    source_refs: [ref-kilo-code-mcp-src-auth-issuer, ref-kilo-code-mcp-src-oauth-issuer, ref-kilo-code-mcp-src-oauth-provider-issuer]
+    cross_topic_links: []
+    reason: >-
+      mcp/auth.ts 的 Tokens 与 ClientInfo 各新增可选 issuer；配套的 oauth-issuer.ts 与 oauth-provider.ts
+      改变凭据写入与读取语义：预注册 clientId 不再落盘 secret，只存 client ID + issuer 绑定，
+      授权服务器变更时 SDK 重新注册。OAuth 命令面与 Status 联合未变，mcp.lifecycle 的既有冲突不动。
+  - topic: custom_agents
+    question_ids: [agents.limits]
+    section_ids: [custom-agents-limits]
+    surface_ids: [cli]
+    source_refs: [ref-kilo-code-agents-src-task-usage, ref-kilo-code-agents-src-task-usage-text]
+    cross_topic_links: []
+    reason: >-
+      task.ts 的工具 description 拼装新增 KiloTask.usageDescription，说明 Task 启动的 subagent
+      只在当前会话内、不建 worktree 或可交互会话。仅影响委派边界的表述；
+      agents.entry 与 agents.format 涉及的 agent 定义入口与字段未变。
+pending_question_ids: []
+investigation_notes:
+- 本轮 triage 分类：narrow_investigation
+- 本轮不写 reviewed_by/reviewed_at：仍引用 review_status=pending 的旧审计，且维护工作尚未完成。
+- source-kilo-code-repo 由 9d0f7a1 变为 9747234，507 个文件。
+- 命中已登记引用：packages/opencode/src/config/config.ts（新增 ReservedCommand.warnings 汇入配置警告）、src/mcp/auth.ts（token
+  与 client info 新增可选 issuer 绑定）、src/tool/task.ts（任务工具描述新增 usageDescription）。
+- 配置警告、OAuth issuer 绑定与任务工具描述都落在已登记机制小节内，需按点核对。
+- 逐点核对结论：config.diagnostics 受影响（新增保留命令告警来源），已在 configuration-v4 记录；mcp.auth 与 mcp.diagnostics 受影响，已在 mcp-v2 记录；agents.limits 受影响，已在 custom_agents-v3 记录。
+- 未受影响问题（本轮已核对，判定无需改写）：config.defaults（本轮变更未触及 schema 默认值、formatter/lsp 默认或 memory_model 回落分支）、agents.entry 与 agents.format（变更只在工具 description 拼装处，未改 agent 定义入口或 frontmatter 字段）。
+- config.trust 保持 conflict，本轮既未重开也未关闭：三处变更都不涉及 {env:}/{file:} 变量引用、项目配置可信度或 KILO_DISABLE_PROJECT_CONFIG。
+- mcp.lifecycle 的 5000 vs 30000 文档/源码冲突保持原样，本轮未触碰 MCP 超时常量。
+- 本轮新增引用全部固定到提交 974723450caa7c91f140b128e2f2e3b4a932ade8，来源身份为源码树；未据此推断任何 npm 发布版本的行为，未新增版本映射。
+- 507 个文件中的其余变更（VS Code 扩展、文档站、发布脚本、UI 包）按排除说明不属 CLI 界面，未展开调查。
+- 本轮不写 reviewed_by/reviewed_at：新审计仍 pending_audit_refs 引用 review_status=pending 的旧审计。

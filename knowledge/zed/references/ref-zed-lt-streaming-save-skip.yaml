@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-streaming-save-skip
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-agent-rs-b47a4ca
+locator:
+  kind: file_lines
+  file: crates/agent/src/agent.rs
+  start: 259
+  end: 268
+official_url: https://github.com/zed-industries/zed/blob/b47a4ca595d3a3fba116b9e78ef01a46e2e43f3e/crates/agent/src/agent.rs
+excerpt: "    fn can_skip_save_while_streaming(&self, cx: &App) -> bool {\n        // Streaming notifies the thread once per chunk, but `to_db` doesn't\n        // include the streaming message, so those notifies have nothing new to save.\n        let thread = self.thread.read(cx);\n        thread.is_streaming_message()\n            && self\n                .last_streaming_save_key\n                .as_ref()\n                .is_some_and(|key| *key == thread.streaming_save_key())\n            && self.last_draft_prompt_revision == self.draft_prompt_revision(cx)\n    }"

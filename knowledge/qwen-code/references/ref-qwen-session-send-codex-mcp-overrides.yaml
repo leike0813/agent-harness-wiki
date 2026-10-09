@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-session-send-codex-mcp-overrides
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-29aef7d-cli-session-send-codex-adapter
+locator:
+  kind: file_lines
+  file: packages/cli/src/serve/session-agents/adapters/codex-app-server.ts
+  start: 105
+  end: 121
+official_url: "https://github.com/QwenLM/qwen-code/blob/29aef7de40b752bb0464919ab4af8f08a988dd31/packages/cli/src/serve/session-agents/adapters/codex-app-server.ts"
+excerpt: |-
+  export function codexMcpOverrides(
+    server: NonNullable<AgentAdapterTurnInput['sessionSendServer']>,
+  ): string[] {
+    const prefix = `mcp_servers.${SESSION_SEND_MCP_SERVER_NAME}`;
+    // JSON strings and string arrays are valid TOML basic strings / arrays.
+    const args = [
+      '-c',
+      `${prefix}.command=${JSON.stringify(server.command)}`,
+      '-c',
+      `${prefix}.args=${JSON.stringify(server.args)}`,
+    ];
+    for (const [key, value] of Object.entries(server.env ?? {})) {
+      if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(key)) continue;
+      args.push('-c', `${prefix}.env.${key}=${JSON.stringify(value)}`);
+    }
+    return args;
+  }

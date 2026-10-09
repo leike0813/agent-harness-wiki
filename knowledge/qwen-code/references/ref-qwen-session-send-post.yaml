@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-session-send-post
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-29aef7d-cli-session-send-mcp
+locator:
+  kind: file_lines
+  file: packages/cli/src/commands/agents/session-send-mcp.ts
+  start: 41
+  end: 64
+official_url: "https://github.com/QwenLM/qwen-code/blob/29aef7de40b752bb0464919ab4af8f08a988dd31/packages/cli/src/commands/agents/session-send-mcp.ts"
+excerpt: |-
+  export async function postSessionSend(
+    url: string,
+    token: string | undefined,
+    text: string,
+    fetchImpl: typeof fetch = fetch,
+  ): Promise<string> {
+    if (!token) throw new Error(`${SESSION_SEND_TOKEN_ENV} is not set.`);
+    const response = await fetchImpl(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ text }),
+      signal: AbortSignal.timeout(POST_TIMEOUT_MS),
+    });
+    if (response.ok) return 'sent';
+    let detail = `HTTP ${response.status}`;
+    try {
+      const body = (await response.json()) as {
+        error?: unknown;
+        message?: unknown;
+      };
+      const message = typeof body.message === 'string' ? body.message : undefined;

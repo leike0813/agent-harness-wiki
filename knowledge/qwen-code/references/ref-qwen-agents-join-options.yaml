@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-agents-join-options
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-29aef7d-cli-agents-join
+locator:
+  kind: file_lines
+  file: packages/cli/src/commands/agents/join.ts
+  start: 235
+  end: 256
+official_url: "https://github.com/QwenLM/qwen-code/blob/29aef7de40b752bb0464919ab4af8f08a988dd31/packages/cli/src/commands/agents/join.ts"
+excerpt: |2-
+        .option('daemon-url', {
+          type: 'string',
+          description: `Local daemon base URL (default: $${QWEN_DAEMON_URL_ENV} or ${DEFAULT_DAEMON_URL})`,
+        })
+        .option('token', {
+          type: 'string',
+          description: `Local daemon bearer token (default: $${QWEN_SERVER_TOKEN_ENV} or $${QWEN_DAEMON_TOKEN_ENV})`,
+        })
+        .option('workspace', {
+          type: 'string',
+          description:
+            'Workspace on the local daemon that joins (default: current directory)',
+        })
+        .option('allow-http', {
+          type: 'boolean',
+          description:
+            'Allow a plain-HTTP coordinator outside loopback (trusted networks only)',
+        }),
+    handler: async (argv) => {
+      const code = await runAgentsJoin(argv, {
+        fetch,
+        env: process.env,

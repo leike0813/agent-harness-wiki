@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-cfg-r967-exe-dir-of-symlink
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-cfg-r967-crates-pa-core-src-packages-mod-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/packages/mod.rs
+  start: 60
+  end: 75
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/967eb13fd488507af5f590e9c6ea8b2672f1fc05/crates/pa-core/src/packages/mod.rs
+excerpt: |
+  /// The directory beside the binary's real file: a launcher symlink (the
+  /// Homebrew formula's `bin` link) must resolve, or the payload shipped
+  /// beside the real binary is invisible; a plain path stays untouched.
+  /// The managed installer's launcher (`update::install::install_root_of`)
+  /// resolves its launch the same way.
+  #[must_use]
+  pub fn exe_dir_of(exe: &std::path::Path) -> Option<PathBuf> {
+      let is_symlink =
+          std::fs::symlink_metadata(exe).is_ok_and(|metadata| metadata.file_type().is_symlink());
+      let resolved = if is_symlink {
+          exe.canonicalize().ok()?
+      } else {
+          exe.to_path_buf()
+      };
+      resolved.parent().map(std::path::Path::to_path_buf)
+  }

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-config-prompt-flags
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-lt-packages-tui-src-cli-system-prompt-options-ts-8348311
+locator:
+  kind: file_lines
+  file: packages/tui/src/cli/system-prompt-options.ts
+  start: 18
+  end: 29
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  const SYSTEM_PROMPT_FLAGS = [
+    '--system-prompt',
+    '--system-prompt-file',
+    '--append-system-prompt',
+    '--append-system-prompt-file',
+  ] as const;
+
+  /** Replace and append are independent; inline text and file are two forms of one slot. */
+  const SYSTEM_PROMPT_SLOTS = [
+    ['systemPrompt', 'systemPromptFile'],
+    ['appendSystemPrompt', 'appendSystemPromptFile'],
+  ] as const satisfies readonly (readonly (keyof RawSystemPromptOptions)[])[];

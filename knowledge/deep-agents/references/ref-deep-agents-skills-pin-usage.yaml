@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-skills-pin-usage
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-lt-libs-deepagents-deepagents-middleware-skills-py
+locator:
+  kind: file_lines
+  file: libs/deepagents/deepagents/middleware/skills.py
+  start: 934
+  end: 950
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+
+      To guarantee the model gets a skill's instructions, for example when the
+      user names it, pass its name in `pinned_skills`. Before the next model
+      call, each named skill's `SKILL.md` is appended to the conversation as its
+      own `HumanMessage`, with `additional_kwargs["lc_source"]` set to
+      `"pinned_skill"` and the skill's `name`, `path` and `description` under
+      `additional_kwargs["skill"]`:
+
+      ```python
+      agent.invoke(
+          {
+              "messages": [{"role": "user", "content": "/write-tests /house-style for auth.py"}],
+              "pinned_skills": ["write-tests", "house-style"],
+          },
+          config,
+      )
+      ```

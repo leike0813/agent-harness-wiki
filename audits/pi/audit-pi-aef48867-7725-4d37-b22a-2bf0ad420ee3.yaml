@@ -1,0 +1,133 @@
+schema_version: 2
+audit_id: audit-pi-aef48867-7725-4d37-b22a-2bf0ad420ee3
+harness_id: pi
+checked_at: '2026-10-08T18:03:18.423Z'
+previous_audit_id: audit-pi-20261006t134000z
+status: changed
+review_status: pending
+pending_audit_refs:
+- audit-pi-04bf1025-2be8-4fc0-855b-8d1d86097fcc
+- audit-pi-20261004t061205z
+- audit-pi-52367b72-118b-46ea-aad9-61bbba8d807e
+- audit-pi-20261006t134000z
+checks:
+- source_id: source-pi-npm
+  kind: npm_registry
+  checked_at: '2026-10-08T18:03:16.881Z'
+  status: changed
+  baseline: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+  observed: 1.1.0@sha512-SeEi/4hdcHNgA9UWlefZl7ZZpm3dzi2OoxNjDHsBJ9o298LNOtbL4DGKgitlEj6uCTccvtw6f2hlCkTPVJ2RXg==
+- source_id: source-pi-npm-legacy
+  kind: npm_registry
+  checked_at: '2026-10-08T18:03:16.881Z'
+  status: unchanged
+  baseline: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+  observed: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+- source_id: source-pi-repo
+  kind: git_repository
+  checked_at: '2026-10-08T18:03:16.883Z'
+  status: changed
+  baseline: 56b25ff4ebbd8a119ef9185447c7b2416059dbcb
+  observed: 6fb2e7815167e6b19006fc526d1a5d0f5f998787
+  remote_ref: refs/heads/main
+- source_id: source-pi-legacy-repo
+  kind: git_repository
+  checked_at: '2026-10-08T18:03:16.892Z'
+  status: changed
+  observed: 6fb2e7815167e6b19006fc526d1a5d0f5f998787
+  remote_ref: refs/heads/main
+impacts:
+- topic: configuration
+  question_ids:
+  - config.sources
+  - config.defaults
+  - config.migration
+  - config.diagnostics
+  section_ids:
+  - config-files
+  - config-defaults
+  - config-migration
+  - config-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-pi-config-defaults-table
+  - ref-pi-config-render-padding-defaults
+  - ref-pi-config-legacy-keys-deprecated
+  - ref-pi-config-settings-schema-source
+  - ref-pi-config-schema-generation-paths
+  - ref-pi-config-defaults-schema-generated
+  cross_topic_links:
+  - providers.models
+  reason: >-
+    settings-manager.ts 的 304 行改动经逐块核对是纯重构：类型声明搬到 settings-schema.ts、
+    默认字面量搬到 settings-defaults.ts 的 SETTINGS_DEFAULTS，读取路径、合并逻辑（isMergeableObject
+    及其后无改动）与 Settings 键集合都没有变。可写进知识的是三件事：默认值现在集中在一张同时供
+    访问器与发布 JSON Schema 使用的表里（config.defaults）；queueMode、websockets 与旧 skills
+    对象形态在设置模式里被显式标为 deprecated，迁移逻辑仍在管理器里（config.migration）；
+    generate-schemas.ts 从 TypeScript 源码生成 models/settings/keybindings/theme 四份 JSON Schema，
+    settings.schema.json 允许文件内写 $schema 字段引用该 schema（config.sources：设置文件的
+    机器可读形态来源）。
+    docs/settings.md 本轮只改 outputPad 与 showHardwareCursor 的描述文字，值与范围未变，属表述精度。
+    config.sources 的 dotenv 优先级、config.overrides 的逐键合并语义本轮未在变更集内命中，沿用原固定来源。
+- topic: custom_providers
+  question_ids:
+  - providers.entry
+  - providers.models
+  - providers.metadata
+  section_ids:
+  - providers-entry
+  - providers-models
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-pi-providers-azure-id
+  - ref-pi-providers-azure-deployment-map
+  - ref-pi-providers-azure-custom-model
+  - ref-pi-providers-compat-schema-source
+  - ref-pi-providers-compat-schema-published
+  - ref-pi-config-schema-generation-paths
+  - ref-pi-providers-classifier-models-doc
+  - ref-pi-providers-classifier-api-types
+  - ref-pi-providers-classifier-context-images
+  - ref-pi-providers-classifier-images-doc
+  cross_topic_links:
+  - config.defaults
+  reason: >-
+    docs/providers.md 新增 Azure 小节：provider ID 由 azure-openai-responses 改名为 azure（api id
+    azure-openai-responses 不变，KnownProvider 的 azure 项上一提交已存在），服务面扩到 Foundry 模型
+    走 Chat Completions，新增 AZURE_OPENAI_DEPLOYMENT_NAME_MAP，并给出在 models.json 的 azure 下以
+    api: "openai-completions" 添加自定义 Foundry 模型的写法（providers.entry、providers.models）。
+    types.ts 的 413 行改动是兼容与模型元数据类型搬到 providers/compat-schema.ts 与 model-schema.ts
+    并从 types.ts 原样转出，五个 compat 接口逐个比对字段无增减，只多出 description 与
+    additionalProperties: true；models.schema.json 由此生成并带出 ProviderCompat 等五个定义
+    （providers.metadata 的表达形式变了、语义没变）。
+    docs/models.md 的 classifier 清单新增 openai/gpt-6-luna，KnownClassifierApi 新增 openai-decisions，
+    ClassifierContext 新增可选 images（providers.models、providers.metadata）。
+    providers.auth、providers.forwarding、providers.responses、providers.diagnostics 本轮不在变更集内。
+pending_question_ids:
+- config.sources
+- config.diagnostics
+investigation_notes:
+- 本轮 triage 分类：maintain。
+- >-
+  固定工作区 ws-6fb2e7815167-94fe61ac-0147-40fc-b48e-11ef42d5b176，commit 6fb2e781
+  （fix: support npm 12 pack JSON output），基线 56b25ff4，252 个文件。
+- settings-manager.ts 的净减 190 行不是功能删除：逐块比对后，删掉的是 CompactionSettings、
+  RetrySettings、TerminalSettings、Settings 等接口声明（搬到 settings-schema.ts）与
+  DEFAULT_COMPACTION_TOKEN_SETTINGS 的字面量（改为引用 SETTINGS_DEFAULTS）；34 个 hunk 中
+  绝大多数是 `?? 字面量` 换成 `?? SETTINGS_DEFAULTS.x`，唯一非替换的新增是 clearOnShrink 分支
+  读取 PI_CLEAR_ON_SHRINK 环境变量，与默认值表无关。
+- Settings 键集合逐个比对：新增 $schema、queueMode、websockets 三项（后两项本就在迁移代码里，
+  现在同时进入模式并标 deprecated），无删除项。skills 的旧对象形态在模式里也标 deprecated。
+- types.ts 的 413 行改动经 compat-schema.ts 逐接口比对确认为类型搬迁：OpenAICompletionsCompat、
+  OpenAIResponsesCompat、AnthropicMessagesCompat、BedrockCompat、MistralConversationsCompat
+  字段无增减；新增的实质字段是 AssistantMessage/ToolResult 的 durationMs 与 ClassifierContext.images，
+  以及 KnownClassifierApi 的 openai-decisions。durationMs 属 transcripts 主题，不在本轮范围。
+- nested-tool-calls.ts 只增加 durationMs 的透传，同属 transcripts 范围，本轮按父进程范围只记录不维护。
+- 排除的路径：packages/tui 的终端/按键改动、scripts/release.mjs 与 package-artifacts.mjs 的
+  npm 12 pack JSON 适配、openai-decisions.lazy.ts 等 provider 实现、test/ 与 lockfile，均不触及
+  configuration / custom_providers 的固定问题。
+- npm 来源观察到 1.1.0（基线 0.73.1），按 exclude 只记录身份变化，未据此写任何映射。
+  新增事实全部来自 6fb2e781 的源码与文档，未建立软件版本映射。
+- 本轮不写 reviewed_by/reviewed_at：仍引用 review_status=pending 的旧审计，且维护工作尚未完成。
