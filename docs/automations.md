@@ -13,9 +13,9 @@
 | 宽限       | 60 分钟                                               |
 | 会话       | `--fresh-session`，每轮全新会话                       |
 | 工作区     | 固定专用 worktree，与主工作区分离                     |
-| provider   | `codex`                                               |
-| 协调者模型 | `.codex/config.toml` 声明的模型，经可信项目继承       |
-| 子代理模型 | `minimax-cn/MiniMax-M3.1-Flash-Preview`（显式指定） |
+| provider   | `omp`                                               |
+| 协调者模型 | `.omp/config.yml` 的 `modelRoles.default`       |
+| 子代理模型 | `minimax-code-cn/MiniMax-M3.1-Flash-Preview`（显式指定） |
 | 维护并行 | 主 Agent 决定规模，每产品一个独立候选 writer |
 
 宽限 60 分钟表示当次错过后仍可在窗口内补跑；补跑与正常轮次走同一流程，会话锁保证同一时刻只有一个实例。
@@ -24,7 +24,7 @@
 
 每轮用全新会话：会话历史里的临时路径、判断过程和失败中间态都不进入下一轮。
 
-协调者模型在项目 `.codex/config.toml` 中声明，经可信项目继承，所以巡检会话与它的维护子代理用同一套模型配置。子代理模型另外在每次委派时显式写明，不按可用性回退。
+协调者模型由自动化工作树的 `.omp/config.yml` 中 `modelRoles.default` 声明。OMP 启动参数 `--model` 可覆盖该默认值，配置须放在实际运行工作树根目录。子代理模型另外在每次委派时显式写明，不按可用性回退。
 
 滚动 PR：未合并时每天在同一分支上更新同一个 PR，合并后下一轮另开分支。合并后既有 CI 自动完成发布，维护者不需要再手动跑一次本地发布或受管二进制核对。
 
@@ -49,18 +49,18 @@ pnpm -s monitor:run finish <session-id>
 
 ## 启用顺序
 
-每日调度先注册为禁用状态，启用前完成四项核对：
+每日调度首次注册时保持禁用，启用前完成四项核对：
 
 1. 巡检依赖的仓库内命令已在 `main` 上可用：`pnpm monitor:run start`／`finish`、`pnpm sources:workspace open`／`close`、`pnpm maintenance:candidates prepare`／`check`／`plan`。
 2. 专用工作树已同步到当前 `origin/main`，其中确有上述命令。工作树停在旧提交时入口命令尚不存在，巡检无法启动；快进到最新 `origin/main` 即可，本次入口改动没有新增依赖，无需重装 `node_modules`。
-3. 项目模型在 `.codex/config.toml` 中已配置并实测可用，`minimax-cn/MiniMax-M3.1-Flash-Preview` 能被原生 subagent 工具选中。
-4. 维护者在 Codex 首次打开专用工作树时确认信任该目录，使项目模型配置能够加载。目录信任涉及用户级配置，由维护者确认。
+3. 项目模型在 `.omp/config.yml` 中已配置并实测可用，`minimax-code-cn/MiniMax-M3.1-Flash-Preview` 能被原生 subagent 工具选中。
+4. 在专用工作树运行 `omp config get modelRoles`，确认 `default` 是 `minimax-code-cn/MiniMax-M3.1-Flash-Preview`，并核对 Orca 启动参数没有覆盖它。
 
 四项都通过后，手动触发一次巡检验证整条链路（会话锁、只读观察、影响判断、隔离并行候选、聚合闸门、推送），再打开每日调度。链路未验证时保持禁用，不用一次真实调度去试基础设施。
 
-当前本机注册：工作树为 `/home/joshua/orca/workspaces/agent-harness-wiki/harness-monitor`，自动化 ID 为 `93f32c61-1d0d-4da3-97ac-3861a74af596`，状态为禁用。该工作树与已复制的现有依赖合计约 349 MiB，未检出任何上游源码；每轮的源码检出和验证产物在临时目录中使用后释放。
+当前本机注册：工作树为 `/home/joshua/orca/workspaces/agent-harness-wiki/harness-monitor`，自动化 ID 为 `93f32c61-1d0d-4da3-97ac-3861a74af596`，宿主为 `omp`，使用全新会话，状态为已启用（2026-10-08 核对）。该工作树与已复制的现有依赖合计约 349 MiB，未检出任何上游源码；每轮的源码检出和验证产物在临时目录中使用后释放。
 
-全链路已完成一次真实巡检并合入 `main`：分支 `automation/harness-monitor/20261004T061205Z`，PR #11，观察 50 个产品。该分支已合入，按滚动规则不复用；工作树当前停在该已合入分支上，下一轮从 `origin/main` 切新分支。每日调度是否启用仍待单独决定。
+全链路已完成一次真实巡检并合入 `main`：分支 `automation/harness-monitor/20261004T061205Z`，PR #11，观察 50 个产品。该分支已合入，按滚动规则不复用；工作树当前停在该已合入分支上，下一轮从 `origin/main` 切新分支。OMP 宿主切换后的整轮巡检尚未在本次配置调整中验证。
 
 ## 会话锁
 

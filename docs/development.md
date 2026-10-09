@@ -122,7 +122,7 @@ pnpm monitor:run finish <session-id>
 - 互斥通过 `var/harness-monitor/session.sqlite` 中的事务记录 owner PID。`start` 拒绝活跃 owner，接管死亡 owner 时释放其临时输出并回收本项目死亡 owner 的源码工作区。正常收尾先关闭本轮源码工作区、保存最近一次报告，再用 `finish` 释放运行锁与构建临时目录。
 - 收尾先确认所有 worker/reviewer 已停止，超时不代表停止；只清理本轮登记的来源工作区与验证输出，在 `finish` 时完成。官方文档原件按既有策略留在忽略归档；章节文档、来源元数据、审计与报告永久保留；巡检不接管二进制与完整日志。不承诺固定峰值占用。
 - 交付单位是一个持续到合并的滚动 PR：PR 合并前每日切回同一分支、普通合并 `origin/main` 后继续提交。PR 内同一产品 × 主题只有一个候选，新变化修订它，不追加第二个 edition，也不顺延或丢弃。
-- 主会话模型由 `.codex/config.toml` 决定；子代理模型必须作为显式参数传入 `minimax-cn/MiniMax-M3.1-Flash-Preview`，不由配置隐式继承，也不继承编排协调方的模型。启用前确认上述命令已在 `main` 可用、两个模型都能被原生 subagent 工具选中，再手动触发一次整链验证后打开每日调度。
+- 主会话模型由 `.omp/config.yml` 决定；子代理模型必须作为显式参数传入 `minimax-code-cn/MiniMax-M3.1-Flash-Preview`，不由配置隐式继承，也不继承编排协调方的模型。启用前确认上述命令已在 `main` 可用、两个模型都能被原生 subagent 工具选中，再手动触发一次整链验证后打开每日调度。
 
 ### 并行维护候选
 

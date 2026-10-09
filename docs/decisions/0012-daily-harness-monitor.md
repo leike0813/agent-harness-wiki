@@ -1,6 +1,6 @@
 # 0012 — 每日巡检编排与临时来源工作区
 
-状态：accepted（每日调度保持禁用，启用条件见文末）
+状态：accepted（启用条件见文末）
 日期：2026-10-03
 对应：PRD §3、§7、§9、§10，OpenSpec `daily-harness-monitor`
 
@@ -18,7 +18,7 @@
 
 巡检在编排工具管理的固定专用 worktree 中运行，该 worktree 不属于主工作区、必须干净。每轮以全新会话启动，不复用上一轮上下文：会话历史里的临时路径、判断过程和失败中间态都不进入下一轮。
 
-主会话通过项目 `.codex/config.toml` 选择 `minimax-cn/MiniMax-M3.1-Flash-Preview`，此配置也作用于其他可信项目会话。维护与独立复核 Subagent 在原生工具的模型参数中显式选择同一模型。主 Agent 决定维护与复核的并行规模，每产品一个 worker 写入独立候选，共享 catalog 与当前章节选择由主 Agent 合并。
+OMP 主会话通过实际运行工作树的 `.omp/config.yml` 中 `modelRoles.default` 选择 `minimax-code-cn/MiniMax-M3.1-Flash-Preview`，此配置也作用于在该工作树启动的其他 OMP 会话，显式 `--model` 启动参数优先。维护与独立复核 Subagent 在原生工具的模型参数中显式选择同一模型。主 Agent 决定维护与复核的并行规模，每产品一个 worker 写入独立候选，共享 catalog 与当前章节选择由主 Agent 合并。
 
 ## 观察范围与基线
 
@@ -66,6 +66,6 @@
 
 1. 巡检依赖的仓库内命令已在 `main` 可用：`monitor:run start`／`finish`、`sources:workspace open`／`close`／`recover`、`maintenance:candidates prepare`／`check`／`plan`。
 2. 专用工作树已同步到当前 `origin/main`，其中确有上述命令。入口命令随代码进入 `main`，工作树停在旧提交时巡检无法启动。
-3. `.codex/config.toml` 选定的主会话模型可用，且 `minimax-cn/MiniMax-M3.1-Flash-Preview` 能作为显式模型参数被原生 subagent 工具实际选中。
+3. `.omp/config.yml` 选定的主会话模型可用，且 `minimax-code-cn/MiniMax-M3.1-Flash-Preview` 能作为显式模型参数被原生 subagent 工具实际选中。
 
 三项都通过后手动触发一次巡检，验证 PID 锁、只读观察、必要性判断、隔离并行委派、聚合闸门与推送整条链路，再打开每日调度。链路未验证时保持禁用，不用一次真实调度去试基础设施。模型或命令任一项变更，先停调度，改完按同样顺序复核。

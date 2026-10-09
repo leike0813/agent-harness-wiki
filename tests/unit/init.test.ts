@@ -129,7 +129,7 @@ describe("init command", () => {
       }),
     );
     expect(port.confirm).toHaveBeenCalledWith(
-      expect.objectContaining({ default: false }),
+      expect.objectContaining({ default: true }),
     );
     expect(input.write).toHaveBeenCalledWith(
       expect.stringContaining("will not be configured"),
@@ -148,6 +148,16 @@ describe("init command", () => {
       expect.objectContaining({ projectDisabled: true }),
     );
     expect(result.plan.scope).toBe("global");
+  });
+
+  test("TUI lists harnesses in display-name order", async () => {
+    const port = prompts();
+    await runInit({}, { ...context(), prompts: port });
+    const choices = vi.mocked(port.multiSelect).mock.calls[0]![0].choices;
+    expect(choices.map((choice) => choice.name)).toEqual([
+      "Demo Global",
+      "Demo Project",
+    ]);
   });
 
   test("explicit tools with yes bypass all prompts and always print the plan", async () => {

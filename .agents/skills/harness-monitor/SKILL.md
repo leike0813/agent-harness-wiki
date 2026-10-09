@@ -21,7 +21,7 @@ coordinator 最终输出每个产品的 triage、理由、派发与复核状态�
 
 ## 约束
 
-- monitor 主会话及其 worker/reviewer 使用项目既定 `minimax-cn/MiniMax-M3.1-Flash-Preview` 模型；每次原生委派都显式设置工具模型参数。
+- monitor 主会话及其 worker/reviewer 使用项目既定 `minimax-code-cn/MiniMax-M3.1-Flash-Preview` 模型；每次原生委派都显式设置工具模型参数。
 - coordinator 自行决定普通 maintenance worker、独立 reviewer 的数量与并行规模。可并行多个独立产品和复核；同产品同一 candidate 只能有一个 writer。高影响 review 可与其他产品维护并行。
 - 扫描器的 `requires_maintenance` 与 `impacts` 只提供候选线索，不构成派发指令。coordinator 必须基于差异本身、固定问题、章节引用和可用证据入口决定。
 - 每个 worker 只编辑单产品候选。跨产品共享路径冲突由 coordinator 序列集成并复核。

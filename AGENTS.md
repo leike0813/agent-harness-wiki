@@ -440,7 +440,7 @@ M0 虚构数据仍位于 `tests/fixtures/datasets/`，不进入正式 `registry/
 
 ### 7.0 每日监控授权
 
-执行 `harness-monitor` 时，允许在专用监控工作树内创建和切换 `automation/harness-monitor/` 分支，普通合并同步 `origin/main`，提交本轮已验证的知识与审计、推送该分支并创建或更新面向 main 的 PR。合并 PR 由维护者手动完成。主 Agent 和原生 Subagent 使用 `minimax-cn/MiniMax-M3.1-Flash-Preview`，主 Agent 自行决定维护与复核的并行规模；每个产品由一个 worker 写入独立候选目录，共享 catalog 与当前章节选择由主 Agent 统一合并，高影响变化单独复核。
+执行 `harness-monitor` 时，允许在专用监控工作树内创建和切换 `automation/harness-monitor/` 分支，普通合并同步 `origin/main`，提交本轮已验证的知识与审计、推送该分支并创建或更新面向 main 的 PR。合并 PR 由维护者手动完成。主 Agent 和原生 Subagent 使用 `minimax-code-cn/MiniMax-M3.1-Flash-Preview`，主 Agent 自行决定维护与复核的并行规模；每个产品由一个 worker 写入独立候选目录，共享 catalog 与当前章节选择由主 Agent 统一合并，高影响变化单独复核。
 
 扫描器的 `requires_maintenance` 与 `impacts` 仅提示候选，先按固定问题与实际内容判断维护必要性。版本元数据、无关改动和排版变化可结案审计；影响不明先限定入口，来源失败无修复线索时保持 blocked，同一阻塞无新证据不重复派发。手动维护与监控均使用 `maintenance:candidates prepare/check/plan` 隔离产品写入；该工具只生成临时合并数据与 before/after 清单，主 Agent 核对基线后用内置编辑工具集成。所有 worker 与 reviewer 确认停止后才统一集成、发布或清理，超时不代表停止。
 

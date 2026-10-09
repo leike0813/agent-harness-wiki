@@ -81,7 +81,7 @@ Git 中的章节 Markdown、来源引用 YAML、版本映射 YAML 与 `registry/
 
 ## 每日巡检
 
-`harness-monitor` 每天 02:00（`Asia/Shanghai`，宽限 60 分钟）在编排工具管理的专用 worktree 中开一个全新会话，观察范围是 catalog 与 registry 的交集，即有登记来源的已登记产品。互斥由巡检主进程持有的 PID 锁实现，没有守护进程：`start` 接管死亡 owner 并取得锁，正常路径由 `finish` 释放并清理。主会话模型由项目 `.codex/config.toml` 决定；子代理模型必须作为显式参数传入 `minimax-cn/MiniMax-M3.1-Flash-Preview`，主 Agent 决定并行规模。
+`harness-monitor` 每天 02:00（`Asia/Shanghai`，宽限 60 分钟）在编排工具管理的专用 worktree 中开一个全新会话，观察范围是 catalog 与 registry 的交集，即有登记来源的已登记产品。互斥由巡检主进程持有的 PID 锁实现，没有守护进程：`start` 接管死亡 owner 并取得锁，正常路径由 `finish` 释放并清理。主会话模型由项目 `.omp/config.yml` 决定；子代理模型必须作为显式参数传入 `minimax-code-cn/MiniMax-M3.1-Flash-Preview`，主 Agent 决定并行规模。
 
 每个有实质更新线索或可执行未完成问题的产品至多委派一次维护；影响不明先检查相关入口，按证据扩大到相关问题。交付单位是持续到合并的滚动 PR：每日轮次普通合并 `origin/main` 后继续提交，PR 内同一产品 × 主题一个候选，新变化修订它。知识、审计、diff、完整验证与在线构建校验全过才推送；失败保留本地成果，无新增成果不推送。全部 worker/reviewer 确认停止后才关闭原项目与 owner PID 名下的源码工作区、写最近报告并 `finish`；超时不代表停止。官方文档原件、章节、来源元数据、审计与报告保留。调度参数见 [自动化](automations.md) 与 [ADR 0012](decisions/0012-daily-harness-monitor.md)。
 

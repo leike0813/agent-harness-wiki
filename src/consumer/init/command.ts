@@ -53,9 +53,9 @@ async function confirmLine(message: string): Promise<boolean> {
   });
   input.once("SIGINT", cancel);
   try {
-    return /^(?:y|yes)$/i.test(
+    return /^(?:|y|yes)$/i.test(
       (
-        await input.question(`${message} [y/N] `, {
+        await input.question(`${message} [Y/n] `, {
           signal: cancellation.signal,
         })
       ).trim(),
@@ -124,34 +124,40 @@ export async function runInit(
       ...cancellation,
       message: "Select harnesses to configure",
       pageSize: 15,
-      choices: products.map((product) => {
-        const adapter = registry.find(
-          (item) => item.harnessId === product.harness_id,
-        );
-        const enabled = adapter && (adapter.project || adapter.global);
-        return {
-          name: product.name,
-          value: product.harness_id,
-          description: [
-            product.harness_id,
-            ...product.aliases,
-            enabled
-              ? [
-                  adapter.project ? "project" : "",
-                  adapter.global ? "global" : "",
-                ]
-                  .filter(Boolean)
-                  .join(" / ")
-              : (adapter?.reason ?? "No verified local configuration entry"),
-          ].join(" · "),
-          ...(!enabled
-            ? {
-                disabled:
-                  adapter?.reason ?? "No verified local configuration entry",
-              }
-            : {}),
-        };
-      }),
+      choices: products
+        .toSorted(
+          (a, b) =>
+            a.name.localeCompare(b.name, "en") ||
+            a.harness_id.localeCompare(b.harness_id),
+        )
+        .map((product) => {
+          const adapter = registry.find(
+            (item) => item.harnessId === product.harness_id,
+          );
+          const enabled = adapter && (adapter.project || adapter.global);
+          return {
+            name: product.name,
+            value: product.harness_id,
+            description: [
+              product.harness_id,
+              ...product.aliases,
+              enabled
+                ? [
+                    adapter.project ? "project" : "",
+                    adapter.global ? "global" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" / ")
+                : (adapter?.reason ?? "No verified local configuration entry"),
+            ].join(" · "),
+            ...(!enabled
+              ? {
+                  disabled:
+                    adapter?.reason ?? "No verified local configuration entry",
+                }
+              : {}),
+          };
+        }),
     });
     if (!selection.length)
       throw new InitError("tools_required", "Select at least one harness.");
@@ -196,7 +202,7 @@ export async function runInit(
     const confirmed =
       options.tools !== undefined
         ? await (context.confirmLine ?? confirmLine)(message)
-        : await prompts.confirm({ message, default: false, ...cancellation });
+        : await prompts.confirm({ message, default: true, ...cancellation });
     if (!confirmed)
       return { status: "cancelled", plan: prepared.plan, backups: [] };
   }
