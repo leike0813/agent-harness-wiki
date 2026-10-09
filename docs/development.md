@@ -41,7 +41,7 @@ pnpm online:verify <输出目录>
 
 消费者 1.2.0 支持 `local_transcripts`。旧消费者校验闭合主题枚举，不能读取含新主题的在线发布；发布该主题前须先交付升级的消费者。在线协议和资源布局仍为 `data/v1/`，本次未发布 npm 或真实产品的新主题知识。
 
-消费者包位于 `packages/consumer/`，公开名 `agent-harness-wiki`、版本 `1.2.0`、命令 `ahw`，入口由 `src/consumer/index.ts` 编译到 `dist/consumer/index.js`；1.1.0 起提供 `init` 配置命令，其提示、适配器与计划／写入服务位于 `src/consumer/init/`。根工作区改名 `agent-harness-wiki-maintainer`，保持 private。消费者只打包运行所需编译代码、元数据、说明与许可，不打包工作区、测试、SQLite、模型或完整知识；安装不需要 pnpm、TypeScript 或本机编译工具，也不安装任何 harness。
+消费者包位于 `packages/consumer/`，公开名 `agent-harness-wiki`、版本 `1.3.0`、命令 `ahw`，入口由 `src/consumer/index.ts` 编译到 `dist/consumer/index.js`；1.1.0 起提供 `init` 配置命令，其提示、适配器与计划／写入服务位于 `src/consumer/init/`。根工作区改名 `agent-harness-wiki-maintainer`，保持 private。消费者只打包运行所需编译代码、元数据、说明与许可，不打包工作区、测试、SQLite、模型或完整知识；安装不需要 pnpm、TypeScript 或本机编译工具，也不安装任何 harness。
 
 ```sh
 pnpm consumer:build
