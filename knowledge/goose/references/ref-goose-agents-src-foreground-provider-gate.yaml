@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-foreground-provider-gate
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261011-summon
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/platform_extensions/summon.rs
+  start: 855
+  end: 867
+official_url: "https://github.com/block/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/crates/goose/src/agents/platform_extensions/summon.rs"
+excerpt: |2-
+  let subagent_config = self
+      .resolve_subagent_config(&params, &recipe, parent)
+      .await
+      .map_err(|e| format!("Failed to resolve subagent config: {e}"))?;
+  crate::providers::get_from_registry(&subagent_config.provider_name)
+      .await
+      .map_err(|_| {
+          format!(
+              "Provider '{}' cannot be reconstructed for a foreground subagent",
+              subagent_config.provider_name
+          )
+      })?;
+

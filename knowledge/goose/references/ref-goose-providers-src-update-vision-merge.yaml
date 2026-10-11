@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-update-vision-merge
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261011-declarative-providers
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/declarative_providers.rs
+  start: 307
+  end: 311
+official_url: "https://github.com/block/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/crates/goose/src/config/declarative_providers.rs"
+excerpt: |2-
+  model.supports_cache_control = model
+      .supports_cache_control
+      .or(existing.supports_cache_control);
+  model.supports_vision = model.supports_vision.or(existing.supports_vision);
+  model.reasoning |= existing.reasoning;

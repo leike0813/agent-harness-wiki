@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lingma-mcp-faq-client-init
+harness_id: lingma
+snapshot_id: snapshot-lingma-docs-faq-mcp-20261011
+locator:
+  kind: document_section
+  heading: "无法初始化 MCP Client"
+official_url: "https://docs.qoder.cn/support/faq-mcp.md"
+excerpt: |-
+  ### 3. 无法初始化 MCP Client
+  - <b>异常信息：failed to initialize MCP client: context deadline exceeded</b>
+  - <b>排查步骤：</b>
+  1. 单击复制完整命令，可以获取完整的命令。
+  2. 在终端中运行该命令，可以获取详细异常信息。
+  3. 分析异常信息，进行对应修复。
+  <b>常见问题 1：配置错误</b>
+  如果异常信息表明连接失败是由 Redis 连接 URL 配置错误导致的，请编辑该 MCP 服务，修正错误的 URL 配置。
+  <b>常见问题 2：资源拉取失败</b>
+  可以在命令行中执行以下命令添加镜像源，再重启 lingma 进程后再试：Windows 使用 `npm config set registry https://registry.npmmirror.com`，macOS 使用 `export UV_INDEX_URL=https://mirrors.aliyun.com/pypi/simple/`。
+  <b>常见问题 3：Node.js 运行被安全组件拦截</b>
+  根据安全组件的拦截提示，对 Node.js 进程或相关执行文件进行授权或加白操作。

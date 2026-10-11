@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-subagent-cancelled-message
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261011-ops-foreground-subagent
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/state_machine/ops_foreground_subagent.rs
+  start: 134
+  end: 153
+official_url: "https://github.com/block/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/crates/goose/src/agents/state_machine/ops_foreground_subagent.rs"
+excerpt: |2-
+  fn subagent_cancelled_message(pending: Vec<String>) -> Option<Message> {
+      if pending.is_empty() {
+          return None;
+      }
+      let text = pending
+          .iter()
+          .map(|subagent_id| {
+              format!(
+                  "{} was cancelled before it finished and will not run again.",
+                  subagent_label(subagent_id)
+              )
+          })
+          .collect::<Vec<_>>()
+          .join("\n");
+      let mut message = Message::user().with_text(text).with_visibility(false, true);
+      message
+          .metadata
+          .set_operation_note(OPERATION_NAME, CANCELLED, serde_json::json!(pending));
+      Some(message)
+  }

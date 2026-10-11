@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-a2a-task-view-session-context
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-e9582993-core-a2a-server
+locator:
+  kind: file_lines
+  file: packages/core/src/agents/workspace-agents/a2a-server.ts
+  start: 92
+  end: 103
+official_url: "https://github.com/QwenLM/qwen-code/blob/e9582993bf419dba43839d62a3ee4da67cfbab6a/packages/core/src/agents/workspace-agents/a2a-server.ts"
+excerpt: |-
+  /** The A2A `Task` this daemon publishes, in the shape the spec names. */
+  export interface A2ATaskView {
+    /** The agent run id. */
+    id: string;
+    /** The chat session id. */
+    contextId: string;
+    status: { state: A2ATaskState; timestamp: string };
+    metadata: Record<string, QwenA2ATaskMetadata>;
+    /** The granted agent's reply: what the caller asked for. */
+    answer?: string;
+    /** A sentence for `TaskStatus.message`, when the state needs one. */
+    statusText?: string;

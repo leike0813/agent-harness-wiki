@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-cli-stop-breaks-stream
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261011-cli-session
+locator:
+  kind: file_lines
+  file: crates/goose-cli/src/session/mod.rs
+  start: 1525
+  end: 1533
+official_url: "https://github.com/block/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/crates/goose-cli/src/session/mod.rs"
+excerpt: |2-
+      }
+  }
+  _ = cancel_token_clone.cancelled() => {
+      drain_stopped_run(&mut stream, &mut self.messages, &mut last_usage).await;
+      drop(stream);
+      if let Err(e) = self.handle_interrupted_messages(true).await {
+          eprintln!("Error handling interruption: {}", e);
+      }
+      break;

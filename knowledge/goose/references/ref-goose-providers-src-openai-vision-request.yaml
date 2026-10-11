@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-openai-vision-request
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261011-openai-provider
+locator:
+  kind: file_lines
+  file: crates/goose-providers/src/openai.rs
+  start: 813
+  end: 828
+official_url: "https://github.com/block/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/crates/goose-providers/src/openai.rs"
+excerpt: |2-
+  let declared_model = self.declared_model(&model_config.model_name);
+  let thinking_preservation_format =
+      declared_model.and_then(|m| m.thinking_preservation_format);
+  let supports_vision = self.vision_support(model_config).unwrap_or_default();
+
+  let mut payload = create_request_with_options(
+      model_config,
+      system,
+      messages,
+      tools,
+      &ImageFormat::OpenAi,
+      self.supports_streaming,
+      OpenAiFormatOptions {
+          preserve_thinking_context: self.preserve_thinking_context
+              || thinking_preservation_format.is_some(),
+          supports_vision,

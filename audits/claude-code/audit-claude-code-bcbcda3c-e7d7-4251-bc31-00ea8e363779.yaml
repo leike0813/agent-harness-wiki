@@ -1,0 +1,451 @@
+schema_version: 2
+audit_id: audit-claude-code-bcbcda3c-e7d7-4251-bc31-00ea8e363779
+harness_id: claude-code
+checked_at: 2026-10-11T02:07:50.888Z
+previous_audit_id: audit-claude-code-7a5810ee-89ba-4a72-93ad-c0804f151210
+status: changed
+review_status: reviewed
+pending_audit_refs:
+- audit-claude-code-20261004t061205z
+- audit-claude-code-9fe2e58d-c70a-4aa0-977a-0684460b1936
+- audit-claude-code-d239014b-fd9d-4f8b-9b56-1f66dc3cf4f8
+- audit-claude-code-7a5810ee-89ba-4a72-93ad-c0804f151210
+checks:
+- source_id: source-claude-code-npm
+  kind: npm_registry
+  checked_at: 2026-10-11T02:07:48.557Z
+  status: changed
+  baseline: 2.1.294@sha512-n5JvkRu2cd8zc4bINO5myqVaEKid3ttD8BVh+LT4W6Jmwww5TyKBLH8RzLhk/hS/cpEtwF8onh8XunjCZYerUg==
+  observed: 2.1.296@sha512-OX/k/rpcthMqnFKOWcpNcbiLsMKtAjLOpQNJHlYiDCFUznWCIwdRTyl/p9SdHVrsrzZuPMCNqZjnpakIni6upw==
+- source_id: source-claude-code-skills-doc
+  kind: official_documentation
+  checked_at: 2026-10-11T02:07:48.558Z
+  status: changed
+  baseline: 122b065227f63905c8417644d8bffcd3375236e2f8b8c4e1d66ef651c617957c
+  observed: 35fd2c11f870fbe1497a53796de31b2a6b760645e724bda58894525356d4602a
+  resolved_url: https://code.claude.com/docs/en/skills.md
+  candidate_path: archive/claude-code/artifact-source-claude-code-skills-doc-35fd2c11f870/source.md
+- source_id: source-claude-code-mcp-doc
+  kind: official_documentation
+  checked_at: 2026-10-11T02:07:48.559Z
+  status: changed
+  baseline: ca653f7d6df1d60838e2016c6897fcb2b411da854badc269b94d7ffb98213b4e
+  observed: 3b8b9783292cd6516679e2a0ab32e6de707526a0297196bc94b959d40b9b5c6f
+  resolved_url: https://code.claude.com/docs/en/mcp.md
+  candidate_path: archive/claude-code/artifact-source-claude-code-mcp-doc-3b8b9783292c/source.md
+- source_id: source-claude-code-configuration-doc
+  kind: official_documentation
+  checked_at: 2026-10-11T02:07:48.560Z
+  status: changed
+  baseline: 5c41248aea5764d32b14f90b77f4aa149486ca6bad6517c400398d9096b0ee25
+  observed: a8cc395af5e0938659ddfd38a703bdc8a5151640216c5230098408e30625e380
+  resolved_url: https://code.claude.com/docs/en/settings.md
+  candidate_path: archive/claude-code/artifact-source-claude-code-configuration-doc-a8cc395af5e0/source.md
+impacts:
+- topic: configuration
+  question_ids:
+  - config.sources
+  - config.defaults
+  - config.migration
+  - config.overrides
+  - config.runtime
+  - config.trust
+  - config.diagnostics
+  section_ids:
+  - config-sources
+  - config-overrides
+  - config-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-cc-config-broken-20261003
+  - ref-cc-config-cloud-20261003
+  - ref-cc-config-confirm-20261003
+  - ref-cc-config-exceptions-20261003
+  - ref-cc-config-files-20261003
+  - ref-cc-config-find-20261003
+  - ref-cc-config-lists-20261003
+  - ref-cc-config-localgitignore-20261003
+  - ref-cc-config-localroot-20261003
+  - ref-cc-config-lostsave-20261003
+  - ref-cc-config-managedcowork-20261003
+  - ref-cc-config-maxeffort-20261003
+  - ref-cc-config-onesession-20261003
+  - ref-cc-config-precedence-20261003
+  - ref-cc-config-reload-20261003
+  - ref-cc-config-troubleshoot-20261003
+  cross_topic_links:
+  - providers.entry
+  - providers.models
+  - providers.forwarding
+  - providers.diagnostics
+  - hooks.entry
+  - hooks.conditions
+  - hooks.diagnostics
+  - plugins.install
+  reason: 'source-claude-code-skills-doc, source-claude-code-mcp-doc, source-claude-code-configuration-doc:
+    cited source changed'
+- topic: custom_agents
+  question_ids:
+  - agents.entry
+  - agents.format
+  - agents.roles
+  - agents.invocation
+  - agents.overrides
+  - agents.limits
+  section_ids:
+  - agents-entry
+  - agents-roles
+  - agents-overrides
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-cc-agents-helper
+  - ref-cc-agents-plugin
+  - ref-cc-agents-trust
+  - ref-cc-mcp-pluginservers
+  - ref-cc-skills-adddir-20261003
+  - ref-cc-skills-checkpoints-20261003
+  - ref-cc-skills-explore-20261003
+  - ref-cc-skills-frontmatter-20261003
+  - ref-cc-skills-livechange-20261003
+  - ref-cc-skills-preload-20261003
+  - ref-cc-skills-subagent-20261003
+  - ref-cc-skills-subagenttools-20261003
+  cross_topic_links:
+  - providers.models
+  - hooks.entry
+  - mcp.exposure
+  - plugins.model
+  - plugins.package
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - skills.discovery
+  - skills.format
+  - skills.invocation
+  - skills.conditions
+  reason: 'source-claude-code-skills-doc, source-claude-code-mcp-doc, source-claude-code-configuration-doc:
+    cited source changed'
+- topic: custom_providers
+  question_ids:
+  - providers.entry
+  - providers.auth
+  - providers.models
+  - providers.protocol
+  - providers.forwarding
+  - providers.diagnostics
+  section_ids:
+  - providers-entry
+  - providers-protocol
+  - providers-responses
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-cc-config-confirm-20261003
+  - ref-cc-config-envpair
+  - ref-cc-config-exceptions-20261003
+  - ref-cc-config-lists-20261003
+  - ref-cc-config-managedmodel-20261003
+  - ref-cc-config-maxeffort-20261003
+  - ref-cc-config-onesession-20261003
+  - ref-cc-mcp-credential
+  - ref-cc-mcp-toolsearch-20261003
+  - ref-cc-skills-effortrow-20261003
+  - ref-cc-skills-frontmatter-20261003
+  cross_topic_links:
+  - config.overrides
+  - config.runtime
+  - config.diagnostics
+  - agents.overrides
+  - mcp.definition
+  - skills.format
+  reason: 'source-claude-code-skills-doc, source-claude-code-mcp-doc, source-claude-code-configuration-doc:
+    cited source changed'
+- topic: hooks
+  question_ids:
+  - hooks.events
+  - hooks.entry
+  - hooks.input
+  - hooks.conditions
+  - hooks.diagnostics
+  section_ids:
+  - hooks-entry
+  - hooks-behavior
+  - hooks-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-cc-agents-plugin
+  - ref-cc-config-broken-20261003
+  - ref-cc-config-files-20261003
+  - ref-cc-config-reload-20261003
+  - ref-cc-hooks-elicitation
+  - ref-cc-hooks-trust
+  - ref-cc-mcp-pluginservers
+  - ref-cc-mcp-stdio
+  - ref-cc-skills-hooksfield-20261003
+  - ref-cc-skills-stopsfollowing-20261003
+  cross_topic_links:
+  - config.sources
+  - config.diagnostics
+  - agents.roles
+  - agents.invocation
+  - mcp.definition
+  - mcp.transport
+  - mcp.exposure
+  - plugins.model
+  - plugins.package
+  - plugins.api
+  - plugins.lifecycle
+  reason: 'source-claude-code-skills-doc, source-claude-code-mcp-doc, source-claude-code-configuration-doc:
+    cited source changed'
+- topic: local_transcripts
+  question_ids:
+  - transcripts.scope
+  - transcripts.location
+  - transcripts.format
+  - transcripts.lifecycle
+  - transcripts.database
+  - transcripts.cleanup
+  - transcripts.diagnostics
+  section_ids:
+  - transcripts-storage-layout
+  - transcripts-record-content
+  - transcripts-session-lifecycle
+  - transcripts-retention-and-recovery
+  - transcripts-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-cc-lt-backgroundtask-20261006
+  - ref-cc-lt-charlimit-20261006
+  - ref-cc-lt-checkpoints-20261006
+  - ref-cc-lt-claudejson-20261006
+  - ref-cc-lt-claudejsonbackup-20261006
+  - ref-cc-lt-compaction-20261006
+  - ref-cc-lt-configdir-20261006
+  - ref-cc-lt-dirref-20261006
+  - ref-cc-lt-imagefile-20261006
+  - ref-cc-lt-nopersist-20261006
+  - ref-cc-lt-syncedtrash-20261006
+  - ref-cc-lt-tasklist-20261006
+  - ref-cc-lt-toolresultfile-20261006
+  - ref-cc-lt-trashretention-20261006
+  cross_topic_links: []
+  reason: 'source-claude-code-skills-doc, source-claude-code-mcp-doc, source-claude-code-configuration-doc:
+    cited source changed'
+- topic: mcp
+  question_ids:
+  - mcp.entry
+  - mcp.definition
+  - mcp.transport
+  - mcp.auth
+  - mcp.lifecycle
+  - mcp.capabilities
+  - mcp.exposure
+  - mcp.diagnostics
+  section_ids:
+  - mcp-entry
+  - mcp-definition
+  - mcp-auth-lifecycle
+  - mcp-capabilities
+  - mcp-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-cc-mcp-alwaysload-20261003
+  - ref-cc-mcp-approvals
+  - ref-cc-mcp-approvaltrust-20261003
+  - ref-cc-mcp-auth
+  - ref-cc-mcp-channels-20261003
+  - ref-cc-mcp-channelsnegotiate-20261003
+  - ref-cc-mcp-connectors
+  - ref-cc-mcp-credential
+  - ref-cc-mcp-disable
+  - ref-cc-mcp-dynamic
+  - ref-cc-mcp-envexpansion
+  - ref-cc-mcp-headershelper
+  - ref-cc-mcp-idletimeout-20261003
+  - ref-cc-mcp-limits-20261003
+  - ref-cc-mcp-managed-20261003
+  - ref-cc-mcp-orgcontrols
+  - ref-cc-mcp-pluginservers
+  - ref-cc-mcp-precedence
+  - ref-cc-mcp-prompts
+  - ref-cc-mcp-reconnect
+  - ref-cc-mcp-resources
+  - ref-cc-mcp-runtimes-20261003
+  - ref-cc-mcp-schemachecks-20261003
+  - ref-cc-mcp-schemacombinator-20261003
+  - ref-cc-mcp-schemacombinatorrules-20261003
+  - ref-cc-mcp-schemainvalid-20261003
+  - ref-cc-mcp-scopes-20261003
+  - ref-cc-mcp-scopes
+  - ref-cc-mcp-status-20261003
+  - ref-cc-mcp-statusdetail-20261003
+  - ref-cc-mcp-statusredact-20261003
+  - ref-cc-mcp-stdio
+  - ref-cc-mcp-timeouts-20261003
+  - ref-cc-mcp-toolapproval
+  - ref-cc-mcp-toolavailability-20261003
+  - ref-cc-mcp-toolsearch-20261003
+  - ref-cc-mcp-toolsearchtable-20261003
+  - ref-cc-mcp-transports
+  - ref-cc-mcp-waitforresume-20261003
+  - ref-cc-mcp-warnings
+  cross_topic_links:
+  - agents.invocation
+  - providers.auth
+  - providers.protocol
+  - providers.forwarding
+  - providers.diagnostics
+  - hooks.entry
+  - hooks.input
+  - plugins.model
+  - plugins.api
+  - plugins.lifecycle
+  reason: 'source-claude-code-skills-doc, source-claude-code-mcp-doc, source-claude-code-configuration-doc:
+    cited source changed'
+- topic: native_plugins
+  question_ids:
+  - plugins.model
+  - plugins.package
+  - plugins.install
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+  section_ids:
+  - plugins-model
+  - plugins-install
+  - plugins-lifecycle
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-cc-agents-plugin
+  - ref-cc-config-cloud-20261003
+  - ref-cc-config-troubleshoot-20261003
+  - ref-cc-mcp-pluginservers
+  - ref-cc-plugins-marketplace
+  - ref-cc-plugins-uninstall
+  - ref-cc-skills-commandname-20261003
+  - ref-cc-skills-diagnostics-20261003
+  - ref-cc-skills-livechange-20261003
+  - ref-cc-skills-locations-20261003
+  - ref-cc-skills-pluginevals-20261003
+  - ref-cc-skills-pluginoverride-20261003
+  - ref-cc-skills-remove-20261003
+  cross_topic_links:
+  - config.sources
+  - config.runtime
+  - config.trust
+  - agents.roles
+  - agents.invocation
+  - hooks.entry
+  - mcp.exposure
+  - skills.roots
+  - skills.extensions
+  - skills.conditions
+  - skills.diagnostics
+  reason: 'source-claude-code-skills-doc, source-claude-code-mcp-doc, source-claude-code-configuration-doc:
+    cited source changed'
+- topic: skills
+  question_ids:
+  - skills.roots
+  - skills.discovery
+  - skills.collision
+  - skills.format
+  - skills.extensions
+  - skills.loading
+  - skills.invocation
+  - skills.conditions
+  - skills.diagnostics
+  section_ids:
+  - skills-locations
+  - skills-discovery
+  - skills-format
+  - skills-invocation
+  - skills-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-cc-config-home-20261003
+  - ref-cc-skills-adddir-20261003
+  - ref-cc-skills-arguments-20261003
+  - ref-cc-skills-budget-20261003
+  - ref-cc-skills-bundled-20261003
+  - ref-cc-skills-bundleddoctor-20261003
+  - ref-cc-skills-collision-20261003
+  - ref-cc-skills-commandname-20261003
+  - ref-cc-skills-cowork-20261003
+  - ref-cc-skills-coworkloc-20261003
+  - ref-cc-skills-diagnostics-20261003
+  - ref-cc-skills-frontmatter-20261003
+  - ref-cc-skills-injection-20261003
+  - ref-cc-skills-injectionfail-20261003
+  - ref-cc-skills-invocation-20261003
+  - ref-cc-skills-invocation-20261004
+  - ref-cc-skills-lifecycle-20261003
+  - ref-cc-skills-livechange-20261003
+  - ref-cc-skills-locations-20261003
+  - ref-cc-skills-managedperm-20261003
+  - ref-cc-skills-manifest-20261003
+  - ref-cc-skills-monorepo-20261003
+  - ref-cc-skills-nameposition-20261004
+  - ref-cc-skills-nestedload-20261003
+  - ref-cc-skills-overrides-20261003
+  - ref-cc-skills-permissions-20261003
+  - ref-cc-skills-permissiontable-20261004
+  - ref-cc-skills-pluginevals-20261003
+  - ref-cc-skills-pluginoverride-20261003
+  - ref-cc-skills-projectdir-20261003
+  - ref-cc-skills-remove-20261003
+  - ref-cc-skills-removebundled-20261003
+  - ref-cc-skills-reservednames-20261003
+  - ref-cc-skills-restrict-20261003
+  - ref-cc-skills-restrictnested-20261003
+  - ref-cc-skills-skilldoctor-20261003
+  - ref-cc-skills-skilldoctorflag-20261003
+  - ref-cc-skills-specerror-20261003
+  - ref-cc-skills-specfields-20261003
+  - ref-cc-skills-stopsfollowing-20261003
+  - ref-cc-skills-subagent-20261003
+  - ref-cc-skills-subagenttools-20261003
+  - ref-cc-skills-substitutions-20261003
+  - ref-cc-skills-supporting-20261003
+  - ref-cc-skills-supportinglayout-20261003
+  - ref-cc-skills-synced-20261003
+  - ref-cc-skills-syncedbody-20261003
+  - ref-cc-skills-syncednames-20261003
+  - ref-cc-skills-trash-20261003
+  cross_topic_links:
+  - agents.entry
+  - agents.roles
+  - agents.invocation
+  - agents.overrides
+  - providers.models
+  - hooks.conditions
+  - plugins.model
+  - plugins.package
+  - plugins.discovery
+  - plugins.lifecycle
+  - plugins.diagnostics
+  reason: 'source-claude-code-skills-doc, source-claude-code-mcp-doc, source-claude-code-configuration-doc:
+    cited source changed'
+pending_question_ids: []
+investigation_notes:
+- 本轮 triage 分类：maintain（高影响，需独立复核）
+- 三个官方文档来源均有实质语义变化：skills 文档新增 managed-agents-onboard 命令并改写 worktree 下的父目录搜索与分叉技能结果返回规则；MCP 文档删除多处 “As
+  of v2.1.196” 版本限定、改变 oauth.scopes 默认行为、明确插件 MCP 服务器表述并新增响应体大小上限；configuration 文档在 settings 作用域列中新增 “User”
+  一项。
+- npm 版本 2.1.294→2.1.296 属发布身份变化，单独不构成知识影响；本轮知识影响来自上述文档。
+- skills、mcp、configuration 章节均引用这三个来源，按 SKILL §4 指定独立 reviewer 复核。
+- 本轮 worker 在候选根内复核三个官方文档原件的差异后，改写 skills、mcp、configuration 三个章节的新版本：skills-v5、mcp-v4、configuration-v4，保留既有已发布版本字节不变。
+- skills-v5：worktree 父目录搜索规则的适用面收窄到 `--worktree` / `git worktree add` 创建的 worktree；`disable-model-invocation` 的定时任务效果去掉 v2.1.196 版本限定；新增动态工作流中 fork 结果返回给调用 agent 的规则；`${CLAUDE_PROJECT_DIR}` 的 v2.1.196 版本说明已从页面删除。`managed-agents-onboard` 新增两行子命令属于捆绑 `/claude-api` skill 的子命令表，不改变 skills 章节任何固定问题的答案，本轮不写入。
+- "\"mcp-v4：`oauth.scopes` 未设置时不再请求整份 `scopes_supported`；v2 协议修订协商扩展到 claude.ai connector 且不再限定于拉取特性开关的会话；新增 HTTP/SSE 单响应 16 MB 上限；新增按工具 `_meta` 的 `anthropic/alwaysLoad` 与按 server 的 `alwaysLoad: false`；项目 server 批准与 `.mcp.json` 信任规则不再标注 v2.1.196。标题重命名与插件 MCP 措辞精简不改变答案。\""
+- configuration-v4：Scope 列新增 `User` 取值，写入忽略键的判定列表；共享 `.claude/settings.json` 按主工作目录读取；云会话多仓库读取限定为 Anthropic 托管环境。
+- 未调查的固定问题保持原状态；custom_agents、custom_providers、hooks、native_plugins、local_transcripts 未被本 worker 触碰。
+- npm 2.1.294→2.1.296 仅为发布身份变化，未进入任何章节结论或版本映射。
+reviewed_by: harness-monitor coordinator (20261011T015904Z)
+reviewed_at: '2026-10-11T02:20:00.000Z'

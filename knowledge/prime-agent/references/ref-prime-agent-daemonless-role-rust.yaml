@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-daemonless-role-rust
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-modelprompts-segment-rust
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/prompts/system_prompt.rs
+  start: 301
+  end: 312
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/2ee7e623a70d8ccd9c72ffc6c4f25be2cc1bc02d/crates/pa-core/src/prompts/system_prompt.rs"
+excerpt: |
+  fn session_role_section(options: &BuildSystemPromptOptions, has_ipython: bool) -> String {
+      let depth = options.rlm_depth.unwrap_or(0);
+      let mut lines = vec![format!(
+          "Recursive agent depth: {depth}{}",
+          if depth == 0 { " (root)" } else { " (not root)" }
+      )];
+      if options.daemonless {
+          lines.push(
+              "Subagents and completion notifications are unavailable in this session (no daemon): rlm.spawn will error, and nothing wakes you after your turn ends, so await background commands before ending it. Plan to do all work yourself."
+                  .to_string(),
+          );
+      }

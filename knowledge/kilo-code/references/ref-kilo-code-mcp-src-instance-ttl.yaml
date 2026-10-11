@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-instance-ttl
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-instancettl-packages-opencode-src-kilocode-effect-instance-state-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/effect/instance-state.ts
+  start: 1
+  end: 9
+official_url: https://github.com/Kilo-Org/kilocode/blob/fb7e96eda5409517a05948b9efaf01c53997bf6e/packages/opencode/src/kilocode/effect/instance-state.ts
+excerpt: "import { Duration, Exit } from \"effect\"\n\n/**\n * Cache lifetime for an InstanceState lookup. The lookup runs on the fiber of the first\n * caller, so a client that disconnects mid-lookup interrupts it. That interruption is not\n * a result: expire it at once so the next caller closes the abandoned scope (running the\n * finalizers it registered) and builds the state again. Real values and failures stay cached.\n */\nexport const ttl = <A, E>(exit: Exit.Exit<A, E>) => (Exit.hasInterrupts(exit) ? Duration.zero : Duration.infinity)"

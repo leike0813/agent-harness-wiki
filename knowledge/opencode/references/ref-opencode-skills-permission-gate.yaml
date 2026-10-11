@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-permission-gate
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-tool-plugin-skill-20261011
+official_url: https://github.com/anomalyco/opencode/blob/0d61729b3fa005cec9aa754c075a809663c736a4/packages/core/src/tool/plugin/skill.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/tool/plugin/skill.ts
+  start: 48
+  end: 58
+excerpt: |-
+  execute: (input, context) =>
+    Effect.gen(function* () {
+      const skill = yield* skills.get(input.id)
+      if (!skill) return yield* unableToLoad(input.id)
+      return yield* Effect.gen(function* () {
+        yield* permission.assert({
+          action: name,
+          resources: [skill.id],
+          save: [skill.id],
+          sessionID: context.sessionID,
+          agent: context.agent,
+          source: { type: "tool", messageID: context.messageID, id: context.id },
+        })
+        return { name: skill.name, ...(yield* Skill.prepare(fs, skill)) }

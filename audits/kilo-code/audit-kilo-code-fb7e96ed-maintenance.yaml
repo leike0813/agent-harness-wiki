@@ -1,0 +1,79 @@
+schema_version: 2
+audit_id: audit-kilo-code-fb7e96ed-maintenance
+harness_id: kilo-code
+checked_at: '2026-10-11T03:05:00.000Z'
+previous_audit_id: audit-kilo-code-a28d44e2-fad2-43dc-90f5-575c51ae934a
+status: changed
+review_status: reviewed
+reviewed_by: harness-maintenance worker (kilo-code, round 20261011T015904Z)
+reviewed_at: '2026-10-11T03:05:00.000Z'
+pending_audit_refs:
+- audit-kilo-code-6e7a9918-3280-4925-9598-126c3cdca611
+- audit-kilo-code-20261006t134000z
+- audit-kilo-code-dbc0593a-d899-4a82-b7e2-1a27ae95deca
+checks:
+- source_id: source-kilo-code-repo
+  kind: git_repository
+  checked_at: '2026-10-11T03:05:00.000Z'
+  status: changed
+  baseline: 974723450caa7c91f140b128e2f2e3b4a932ade8
+  observed: fb7e96eda5409517a05948b9efaf01c53997bf6e
+  remote_ref: refs/heads/main
+impacts:
+- topic: custom_agents
+  question_ids:
+  - agents.overrides
+  - agents.diagnostics
+  section_ids:
+  - custom-agents-overrides
+  - custom-agents-limits
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-kilo-code-agents-model-selection-doc
+  - ref-kilo-code-agents-src-task-resolve-doc
+  - ref-kilo-code-agents-src-task-resolve-logic
+  cross_topic_links:
+  - config.defaults
+  - providers.models
+  reason: 'commit 4ed8e7b461 (fix(cli): resolve bare model names for task subagents) 及其后续 ca197fdd78 / 4abafa9dee 改变了 agent.<name>.model 与 subagent_model 的解析规则：裸名与含 / 的名字改为先查 provider 目录，并新增两条 warning；这直接改写已发布章节对 model 覆盖的说明与诊断入口'
+- topic: mcp
+  question_ids:
+  - mcp.lifecycle
+  - mcp.diagnostics
+  section_ids:
+  - mcp-lifecycle
+  - mcp-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-kilo-code-mcp-src-finalizer
+  - ref-kilo-code-mcp-src-instance-ttl
+  - ref-kilo-code-mcp-src-instance-cache
+  - ref-kilo-code-mcp-src-cleanup-doc
+  - ref-kilo-code-mcp-src-cleanup-body
+  cross_topic_links:
+  - config.runtime
+  reason: 'changeset .changeset/mcp-interrupted-startup.md 对应提交 3b0be767c7 (fix(cli): clean up MCP servers when their startup is interrupted)：InstanceState 对被中断的 lookup 立即过期，MCP finalizer 提前到连接之前注册；改变已发布的生命周期与诊断说明'
+- topic: configuration
+  question_ids:
+  - config.runtime
+  section_ids:
+  - config-runtime
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-kilo-code-cli-shell-tmp-rule
+  - ref-kilo-code-cli-shell-tmp-body
+  - ref-kilo-code-cli-shell-prompt-tmp
+  cross_topic_links:
+  - agents.overrides
+  reason: '提交 9c96d61049 / 4290338d85 (fix(opencode): point cloud sessions at a permitted temp dir)：bash 工具描述的 ${tmp} 在云端会话改为 /tmp/<SESSION_ID>，与平台注入的 external_directory 放行集合对应；属于运行时环境变量如何改变行为，已发布章节未覆盖'
+pending_question_ids: []
+investigation_notes:
+- 本轮 triage 分类：maintain。按指派只调查 custom_agents（裸模型名解析）、mcp（启动中断清理）、configuration（云端会话临时目录）三处。
+- 范围外并已记录排除：JetBrains 前端 Kotlin 会话 UI/滚动/header 面板改动、合并提交（含 Merge branch 'main' into fix/shell-tmp-cloud-session）、以及 .changeset/cloud-session-shell-tmp.md 中超出临时目录问题所需的部分。
+- 同批排除主题未触碰：skills、hooks、native_plugins、custom_providers、local_transcripts。
+- 其余 52 个提交中未被指派的部分未调查；观察结果按冻结输入处理，未重新 scan。
+- 配置章节的 config.runtime 答案此前未提及 KILO_CLOUD_AGENT / SESSION_ID；这两个变量不在 packages/core/src/flag/flag.ts 中，而是被工具提示渲染路径直接读取，章节中已写明该边界。
+- custom_agents 的 agents.entry / agents.format / agents.roles / agents.invocation / agents.limits 结论未变，未改写；agents.limits 仍为 partial。

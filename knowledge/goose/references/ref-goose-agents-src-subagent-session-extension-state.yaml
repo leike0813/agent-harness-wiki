@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-subagent-session-extension-state
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261011-subagent-handler
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/subagent_handler.rs
+  start: 48
+  end: 60
+official_url: "https://github.com/block/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/crates/goose/src/agents/subagent_handler.rs"
+excerpt: |2-
+      .as_deref()
+      .ok_or_else(|| anyhow!("Subagent {session_id} has no saved provider"))?;
+  let model_config = session
+      .model_config
+      .as_ref()
+      .ok_or_else(|| anyhow!("Subagent {session_id} has no saved model"))?;
+  session
+      .extension_data
+      .get_extension_state(
+          EnabledExtensionsState::EXTENSION_NAME,
+          EnabledExtensionsState::VERSION,
+      )
+      .ok_or_else(|| anyhow!("Subagent {session_id} has no saved extension selection"))?;

@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-scan-glob
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-plugin-skill-20261011
+official_url: https://github.com/anomalyco/opencode/blob/0d61729b3fa005cec9aa754c075a809663c736a4/packages/core/src/config/plugin/skill.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/plugin/skill.ts
+  start: 120
+  end: 122
+excerpt: |-
+  const files = yield* fs
+    .scan("{*.md,**/SKILL.md}", { cwd: directory, absolute: true, include: "file", symlink: true, dot: true })
+    .pipe(Effect.orElseSucceed(() => [] as string[]))

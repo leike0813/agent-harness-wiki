@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-agents-src-task-resolve-logic
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-resolve-packages-opencode-src-kilocode-tool-task-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/tool/task.ts
+  start: 208
+  end: 222
+official_url: https://github.com/Kilo-Org/kilocode/blob/fb7e96eda5409517a05948b9efaf01c53997bf6e/packages/opencode/src/kilocode/tool/task.ts
+excerpt: "    const query = value.toLowerCase()\n    const keys = all.filter((item) => `${item.providerID}/${item.model.id}`.toLowerCase() === query)\n    const ids = all.filter((item) => item.model.id.toLowerCase() === query)\n    const named = all.filter((item) => item.model.name.toLowerCase() === query)\n    const matched = keys.length ? keys : ids.length ? ids : named\n    if (matched.length === 0) {\n      if (value.includes(\"/\")) return parse(value)\n      log.warn(\"task model name is not available\", { value })\n      return undefined\n    }\n    const preferred = matched.filter((item) => item.providerID === input.preferred)\n    const pool = preferred.length ? preferred : matched\n    if (pool.length > 1) {\n      log.warn(\"task model name is ambiguous\", {\n        value,"

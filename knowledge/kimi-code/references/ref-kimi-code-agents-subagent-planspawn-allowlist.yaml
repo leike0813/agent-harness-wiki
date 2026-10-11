@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-agents-subagent-planspawn-allowlist
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-src-subagent-service-ts
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/session/subagent/subagentService.ts
+  start: 94
+  end: 103
+official_url: "https://github.com/MoonshotAI/kimi-code/blob/c9f01f07388abc2cdca40c9c5267f58c65086710/packages/agent-core-v2/src/session/subagent/subagentService.ts"
+excerpt: |-
+    const requested = input.profileName !== undefined && input.profileName.length > 0
+      ? input.profileName
+      : undefined;
+    const requestedProfileName =
+      requested ?? (fork ? (own.profileName ?? DEFAULT_PROFILE_NAME) : DEFAULT_PROFILE_NAME);
+    let allowlist = subagentAllowlistFor(this.catalog, own);
+    if (allowlist !== undefined && own.subagents === undefined) {
+      allowlist = withoutDelegatingTargets(this.catalog, allowlist);
+    }
+    if (!fork && allowlist !== undefined && !allowlist.includes(requestedProfileName)) {

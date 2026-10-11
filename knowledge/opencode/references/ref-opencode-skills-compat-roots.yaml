@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-compat-roots
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-plugin-compatibility-20261011
+official_url: https://github.com/anomalyco/opencode/blob/0d61729b3fa005cec9aa754c075a809663c736a4/packages/core/src/config/plugin/compatibility.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/plugin/compatibility.ts
+  start: 36
+  end: 47
+excerpt: |-
+  const refresh = Effect.fn("ConfigCompatibilityPlugin.refresh")(
+    function* () {
+      yield* FiberMap.clear(watches)
+      const roots = config.compatibility ? yield* config.compatibility() : { claude: [], agents: [] }
+      const directories = [...roots.claude, ...roots.agents].map((root) => path.join(root, "skills"))
+      const loaded = new Map<Skill.ID, Skill.Info>()
+      for (const directory of directories) {
+        const resolved = yield* fs.realPath(directory).pipe(Effect.orElseSucceed(() => undefined))
+        if (!resolved) continue
+        yield* watch(resolved, "directory")
+        const files = yield* fs
+          .scan("{*.md,**/SKILL.md}", { cwd: resolved, absolute: true, include: "file", symlink: true, dot: true })
+          .pipe(Effect.orElseSucceed(() => [] as string[]))

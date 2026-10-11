@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-agents-fork-parity-discovered-profiles
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-src-subagent-forkparity-test-ts
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/test/session/subagent/forkParity.test.ts
+  start: 382
+  end: 404
+official_url: "https://github.com/MoonshotAI/kimi-code/blob/c9f01f07388abc2cdca40c9c5267f58c65086710/packages/agent-core-v2/test/session/subagent/forkParity.test.ts"
+excerpt: |-
+  it('keeps first-request parity when discovered profiles exist', async () => {
+    createMainForkCtx();
+    ctx.get(IAgentProfileRegistry).register({
+      sourceId: 'workspace',
+      priority: 30,
+      contribution: {
+        profiles: [
+          normalizeAgentProfile({
+            name: 'code-reviewer',
+            description: 'Reviews code changes for regressions.',
+            tools: ['Read', 'Grep', 'Glob'],
+            systemPrompt: () => 'You are a code reviewer.',
+          }),
+        ],
+      },
+    });
+    await runMainAgentFork();
+
+    const parentReq = ctx.llmCalls[0]!;
+    const agentTool = parentReq.tools.find((tool) => tool.name === 'Agent');
+    expect(agentTool?.description).toContain('code-reviewer');
+    expectMainForkParity();
+  });

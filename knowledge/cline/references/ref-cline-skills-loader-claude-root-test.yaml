@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-skills-loader-claude-root-test
+harness_id: cline
+snapshot_id: snapshot-cline-skills-loader-test-20261011
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/config/user-instruction-config-loader.test.ts
+  start: 59
+  end: 68
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  it("resolves legacy-compatible default search paths", () => {
+  		const workspacePath = "/repo/demo";
+  		expect(resolveSkillsConfigSearchPaths(workspacePath)).toEqual(
+  			expect.arrayContaining([
+  				join(workspacePath, ".clinerules", "skills"),
+  				join(workspacePath, ".cline", "skills"),
+  				join(workspacePath, ".claude", "skills"),
+  				join(workspacePath, ".agents", "skills"),
+  			]),
+  		);

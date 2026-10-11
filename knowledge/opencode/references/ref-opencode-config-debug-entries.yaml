@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-debug-entries
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-cli-src-commands-handlers-debug-config-20261011
+official_url: https://github.com/anomalyco/opencode/blob/0d61729b3fa005cec9aa754c075a809663c736a4/packages/cli/src/commands/handlers/debug/config.ts
+locator:
+  kind: file_lines
+  file: packages/cli/src/commands/handlers/debug/config.ts
+  start: 9
+  end: 15
+excerpt: |-
+  export default Runtime.handler(
+    Commands.commands.debug.commands.config,
+    Effect.fn("cli.debug.config")(function* () {
+      const { endpoint } = yield* ServerConnection.resolve()
+      const client = OpenCode.make({ baseUrl: endpoint.url, headers: Service.headers(endpoint) })
+      const entries = yield* Effect.promise(() => client.config.get({ location: { directory: process.cwd() } }))
+      process.stdout.write(JSON.stringify(redactConfig(entries), null, 2) + EOL)
+    }),
+  )

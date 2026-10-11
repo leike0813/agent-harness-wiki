@@ -1,0 +1,146 @@
+schema_version: 2
+audit_id: audit-opencode-2aa143e4-1b45-4f8f-8bba-c200a6007522
+harness_id: opencode
+checked_at: 2026-10-11T02:09:08.527Z
+previous_audit_id: audit-opencode-0f16a4f4-327b-41be-bbbb-d7da9bfdd6c0
+status: changed
+review_status: pending
+pending_audit_refs:
+- audit-opencode-0f16a4f4-327b-41be-bbbb-d7da9bfdd6c0
+checks:
+- source_id: source-opencode-npm
+  kind: npm_registry
+  checked_at: '2026-10-11T02:09:07.120Z'
+  status: changed
+  baseline: 1.18.35@sha512-tDQKThIZ3amp8NSn3XDP2Dj5BlhRbZC0VkIxgYuf6gvRSXkseqD31j/U4KfpPwha593i8M59hdsDfz32yJx4Og==
+  observed: 1.19.0@sha512-lddJhFwZI3GLlw8VyOo4yNwBVGeVN/mxH6ORh60h69zAXL7QhjSWY9orj10rwO2kxVnxH9dh45uDCWNuiqPb8A==
+- source_id: source-opencode-repo
+  kind: git_repository
+  checked_at: '2026-10-11T02:09:07.120Z'
+  status: changed
+  baseline: 388406238bd5ca15564a762840a2362c3a45bd9c
+  observed: 0d61729b3fa005cec9aa754c075a809663c736a4
+  remote_ref: refs/heads/dev
+impacts:
+- topic: configuration
+  question_ids:
+  - config.sources
+  - config.overrides
+  - config.runtime
+  - config.trust
+  - config.defaults
+  - config.migration
+  - config.diagnostics
+  section_ids:
+  - config-sources
+  - config-trust
+  - config-defaults
+  - config-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-opencode-config-load-order
+  - ref-opencode-config-discovery
+  - ref-opencode-config-debug-entries
+  - ref-opencode-config-api-shape
+  - ref-opencode-config-cli-debug-commands
+  - ref-opencode-config-schema-keys
+  - ref-opencode-config-managed-policy
+  - ref-opencode-config-migration-cli
+  - ref-opencode-config-migration-normalize
+  - ref-opencode-config-update-key
+  - ref-opencode-config-redact-code
+  cross_topic_links:
+  - skills.roots
+  - skills.extensions
+  - skills.discovery
+  - plugins.install
+  - agents.overrides
+  reason: '配置加载与诊断语义在本区间实质改变：packages/opencode 已整体移除，配置实现迁到
+    packages/core/src/config.ts，debug config 由打印合并配置改为按优先级打印配置条目列表，
+    debug 子命令缩减为 agents/config/paths；受管配置的文档描述与实现入口出现分歧；
+    autoupdate 迁移为 update，permission/tools/plugin/skills 等旧键有明确改写路径。'
+- topic: skills
+  question_ids:
+  - skills.roots
+  - skills.discovery
+  - skills.collision
+  - skills.format
+  - skills.extensions
+  - skills.loading
+  - skills.invocation
+  - skills.conditions
+  - skills.diagnostics
+  section_ids:
+  - skills-locations
+  - skills-authoring
+  - skills-extension-paths
+  - skills-selection
+  - skills-loading
+  - skills-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-opencode-skills-locations
+  - ref-opencode-skills-discovery-scan
+  - ref-opencode-skills-compat-roots
+  - ref-opencode-skills-scan-glob
+  - ref-opencode-skills-metadata-keys
+  - ref-opencode-skills-frontmatter-code
+  - ref-opencode-skills-autoinvoke-doc
+  - ref-opencode-skills-autoinvoke-code
+  - ref-opencode-skills-collision
+  - ref-opencode-skills-prepare-code
+  - ref-opencode-skills-permission-gate
+  - ref-opencode-skills-list-api
+  cross_topic_links:
+  - config.sources
+  - config.overrides
+  - config.migration
+  reason: '新增 metadata 的 opencode/slash 与 opencode/autoinvoke 两个宿主识别键及顶层
+    disable-model-invocation 字段，改变 skills.format、skills.extensions、skills.invocation；
+    来源由配置条目推导并新增 .claude/.agents 兼容插件，扫描模式改为 {*.md,**/SKILL.md}；
+    冲突规则改为按 id 覆盖；opencode debug skill 已移除，诊断入口改为 GET /api/skill。'
+- topic: native_plugins
+  question_ids:
+  - plugins.model
+  - plugins.package
+  - plugins.install
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+  section_ids:
+  - plugins-model
+  - plugins-discovery
+  - plugins-api
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-opencode-plugins-model
+  - ref-opencode-plugins-package
+  - ref-opencode-plugins-compat
+  - ref-opencode-plugins-install
+  - ref-opencode-plugins-loader
+  - ref-opencode-plugins-types
+  - ref-opencode-plugins-api
+  - ref-opencode-hooks-loadorder
+  - ref-opencode-hooks-logging
+  - ref-opencode-plugins-deprecated
+  cross_topic_links:
+  - config.sources
+  - config.migration
+  reason: '点名的 #53010 与 #53009 两个提交均不在 3884062..0d61729b 区间内，且其涉及的
+    packages/tui、packages/www 目录在本提交树中不存在，因此对已记录答案无影响；
+    区间内 plugins.mdx 仅删除 todo.updated 事件一节，属 Hooks 主题范围，不在本轮范围。'
+pending_question_ids: []
+investigation_notes:
+- "\u672C\u8F6E triage \u5206\u7C7B\uFF1Amaintain"
+- "\u8303\u56F4\u9650\u5B9A\u5728 configuration\u3001native_plugins\u3001skills \u4E09\u4E2A\u4E3B\u9898\uFF1Bcustom_agents\u3001custom_providers\u3001hooks\u3001mcp\u3001local_transcripts \u672A\u8C03\u67E5\u3002"
+- "\u56FA\u5B9A\u5DE5\u4F5C\u533A ws-0d61729b3fa0-0d2ae98b-9aea-4c68-9a88-f3143b52301e\uFF08commit 0d61729b3fa005cec9aa754c075a809663c736a4\uFF0Cbaseline 388406238bd5ca15564a762840a2362c3a45bd9c\uFF09\u3002"
+- "configuration\uFF1Apackages/opencode \u6574\u5305\u5728\u533A\u95F4\u5185\u88AB\u79FB\u9664\uFF0C\u914D\u7F6E\u5B9E\u73B0\u8FC1\u81F3 packages/core/src/config.ts \u4E0E packages/core/src/config/discovery.ts\uFF0CCLI \u8FC1\u81F3 packages/cli\u3002debug config \u7531 Config.Service.get() \u6539\u4E3A\u7ECF GET /api/config \u53D6\u56DE Config.Entry[] \u5E76\u6309\u4F18\u5148\u7EA7\u8F93\u51FA\u6761\u76EE\uFF1B\u53D7\u7BA1\u8BBE\u7F6E\u7684\u6587\u4EF6\u5F0F\u52A0\u8F7D\u5165\u53E3\u5728\u672C\u63D0\u4EA4\u6E90\u7801\u4E2D\u672A\u518D\u627E\u5230\uFF0C\u6539\u7531 ManagedPolicy \u7684\u7EC4\u7EC7\u7B56\u7565\u8BED\u53E5\u4E0E\u914D\u7F6E\u6587\u6863 experimental.policies \u627F\u62C5\uFF0C\u6587\u6863\u4ECD\u63CF\u8FF0 /etc/opencode \u4E0E ai.opencode.managed\uFF0C\u6545 config.trust \u8BB0\u4E3A conflict\u3002autoupdate\u2192update\u3001permission/tools\u2192permissions\u3001plugin\u2192plugins\u3001skills \u5BF9\u8C61\u2192\u6570\u7EC4\u5747\u6709\u660E\u786E\u5F52\u4E00\u5316\u5B9E\u73B0\uFF0Cconfig.migration \u7531 partial \u5347\u4E3A answered\u3002"
+- "skills\uFF1A\u65B0\u589E metadata \u7684 opencode/slash \u4E0E opencode/autoinvoke\uFF0C\u6E90\u7801\u89E3\u6790\u53E6\u6709\u9876\u5C42 disable-model-invocation\uFF1BSkill.Info \u589E\u52A0 autoinvoke \u5B57\u6BB5\u3002opencode debug skill \u5728\u672C\u63D0\u4EA4\u4E0D\u518D\u6CE8\u518C\uFF08CLI debug \u5206\u7EC4\u53EA\u5269 agents/config/paths\uFF09\uFF0C\u8BCA\u65AD\u5165\u53E3\u6539\u4E3A GET /api/skill\u3002skills.conditions \u4ECD\u4E3A partial\uFF1A\u65E7\u63D0\u4EA4\u4E2D\u7684 RuntimeFlags\uFF08disableExternalSkills\u3001disableClaudeCodeSkills\uFF09\u5728\u672C\u63D0\u4EA4\u56FA\u5B9A\u8303\u56F4\u5185\u672A\u627E\u5230\u5BF9\u5E94\u6765\u6E90\u4F4D\u7F6E\u3002"
+- "native_plugins\uFF1A#53010\uFF08fix(tui): allow plugin keymaps during setup\uFF09\u4E0E #53009\uFF08feat(plugin): add select dialog search and actions\uFF09\u7ECF git merge-base --is-ancestor \u9A8C\u8BC1\u5747\u4E0D\u662F 0d61729b \u7684\u7956\u5148\uFF0C\u4E14\u5176\u6539\u52A8\u8DEF\u5F84 packages/tui\u3001packages/www/src/docs \u5728\u672C\u63D0\u4EA4\u6811\u4E2D\u4E0D\u5B58\u5728\uFF0C\u5224\u5B9A\u5BF9\u5DF2\u8BB0\u5F55\u7B54\u6848\u65E0\u5F71\u54CD\uFF0C\u672A\u65B0\u5EFA edition\u3002\u533A\u95F4\u5185 plugins.mdx \u4EC5\u79FB\u9664 Todo Events \u4E00\u8282\uFF0C\u5F52\u5C5E Hooks \u4E3B\u9898\uFF0C\u6309\u8303\u56F4\u7EA6\u5B9A\u672A\u5904\u7406\u3002"
+- "\u65B0\u589E\u6765\u6E90\u8BB0\u5F55\uFF1A19 \u6761 artifact\uFF08commit 0d61729b\uFF0C\u542B config\u3001config/discovery\u3001config/normalize\u3001managed-policy\u3001cli debug config/redact/commands/migrate\u3001schema/config\u3001schema/skill\u3001skill\u3001skill/instructions\u3001config/plugin/skill\u3001config/plugin/skill-file\u3001config/plugin/compatibility\u3001tool/plugin/skill\u3001protocol groups config/skill\u3001web skills.mdx\uFF09\u53CA\u5176\u5BF9\u5E94 snapshot \u4E0E reference\u3002"
+- "\u65B0\u5EFA edition opencode-configuration-v4 \u4E0E opencode-skills-v3\uFF0Cv3/v2 \u65E7\u7248\u4FDD\u7559\u672A\u6539\uFF1B\u5019\u9009\u5185\u9009\u4E3A\u5F53\u524D\u7248\u672C\u3002"
+- "review_status \u8BB0\u4E3A pending\uFF1A\u672C\u8F6E\u7ED3\u8BBA\u542B\u63A8\u7FFB\u5DF2\u53D1\u5E03\u7684\u914D\u7F6E\u8BCA\u65AD\u6B65\u9AA4\uFF08debug config \u8F93\u51FA\u8BED\u4E49\u3001debug \u5B50\u547D\u4EE4\u96C6\u5408\u3001debug skill \u79FB\u9664\uFF09\u4E0E\u53D7\u7BA1\u914D\u7F6E\u6765\u6E90\u51B2\u7A81\uFF0C\u5C5E\u9AD8\u5F71\u54CD\u53D8\u66F4\uFF0C\u987B\u72EC\u7ACB\u590D\u6838\u3002"

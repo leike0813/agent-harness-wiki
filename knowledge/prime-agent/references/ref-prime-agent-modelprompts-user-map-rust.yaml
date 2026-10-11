@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-modelprompts-user-map-rust
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-modelprompts-map-rust
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/prompts/model_prompts.rs
+  start: 183
+  end: 205
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/2ee7e623a70d8ccd9c72ffc6c4f25be2cc1bc02d/crates/pa-core/src/prompts/model_prompts.rs"
+excerpt: |
+      let (shipped_rules, mut layer_errors) = parse_layer(shipped_toml, SHIPPED_SOURCE);
+      errors.append(&mut layer_errors);
+      let user_path = agent_dir.join(USER_MODEL_PROMPTS_TOML);
+      let user_layer = user_path.display().to_string();
+      let user_rules = match read_regular_file(&user_path) {
+          Ok(text) => {
+              let (rules, mut layer_errors) = parse_layer(&text, &user_layer);
+              errors.append(&mut layer_errors);
+              rules
+          }
+          Err(error) if error.kind() == io::ErrorKind::NotFound => Vec::new(),
+          Err(error) => {
+              errors.push(format!("{}: {error}", user_path.display()));
+              Vec::new()
+          }
+      };

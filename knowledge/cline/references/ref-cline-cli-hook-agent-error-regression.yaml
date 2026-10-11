@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-cli-hook-agent-error-regression
+harness_id: cline
+snapshot_id: snapshot-cline-cli-hook-test-ts-20261011
+locator:
+  kind: file_lines
+  file: apps/cli/src/commands/hook.test.ts
+  start: 57
+  end: 79
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  it("exits 0 with a JSON response for an agent_error event", async () => {
+  		mockStdin(AGENT_ERROR_PAYLOAD);
+  		const io = { writeln: vi.fn(), writeErr: vi.fn() };
+  		const auditOrder = vi.mocked(appendHookAudit).mockResolvedValue();
+  		const sessionOrder = vi.mocked(handleSessionHookEvent).mockResolvedValue();
+  		const jsonOrder = vi.mocked(writeHookJson);
+  		await expect(runHookCommand(io)).resolves.toBe(0);
+  		expect(io.writeErr).not.toHaveBeenCalled();
+  		expect(jsonOrder).toHaveBeenCalledWith({});
+  		// Audit log and session fan-out still run, in the usual order, before
+  		// the response is written.

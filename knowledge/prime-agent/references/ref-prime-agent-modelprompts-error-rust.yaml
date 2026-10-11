@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-modelprompts-error-rust
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-modelprompts-map-rust
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/prompts/model_prompts.rs
+  start: 248
+  end: 268
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/2ee7e623a70d8ccd9c72ffc6c4f25be2cc1bc02d/crates/pa-core/src/prompts/model_prompts.rs"
+excerpt: |
+  #[must_use]
+  pub fn load_model_prompts(selector: Option<&str>, agent_dir: &Path) -> ModelPromptResolution {
+      resolve_model_prompts(selector, MODEL_PROMPTS_TOML, MODEL_PROMPT_FILES, agent_dir)
+  }
+  
+  #[must_use]
+  pub fn model_prompt_error_message(errors: &[String]) -> CustomMessage {
+      let list = errors
+          .iter()
+          .map(|error| format!("- {error}"))
+          .collect::<Vec<_>>()
+          .join("\n");
+      CustomMessage {
+          custom_type: MODEL_PROMPT_ERROR_CUSTOM_TYPE.to_string(),
+          content: pa_types::ai::UserContent::Text(format!(
+              "[model-prompt-error]\n\nPer-model system prompt additions were not applied:\n{list}"
+          )),
+          display: true,

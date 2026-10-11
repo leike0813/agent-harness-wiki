@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-migration-cli
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-cli-src-config-migrate-20261011
+official_url: https://github.com/anomalyco/opencode/blob/0d61729b3fa005cec9aa754c075a809663c736a4/packages/cli/src/config/migrate.ts
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/migrate.ts
+  start: 88
+  end: 100
+excerpt: |-
+  const legacyValue = yield* readJson(path.join(input.config, "tui.json"))
+  const legacy = Option.getOrUndefined(decodeV1(legacyValue))
+  const kv = yield* readJson(path.join(input.state, "kv.json"))
+  const values = migrateV1(legacy, kv ?? {})
+  if (!Object.keys(values).length) return
+  const migrated = { $schema: SchemaURL, ...values }

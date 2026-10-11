@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-cleanup-body
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-cleanup-packages-opencode-src-kilocode-mcp-cleanup-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/mcp/cleanup.ts
+  start: 19
+  end: 40
+official_url: https://github.com/Kilo-Org/kilocode/blob/fb7e96eda5409517a05948b9efaf01c53997bf6e/packages/opencode/src/kilocode/mcp/cleanup.ts
+excerpt: "  Effect.suspend(() => {\n    const clients = Object.values(state.clients)\n    state.clients = {}\n    return Effect.forEach(\n      clients,\n      (client) =>\n        Effect.gen(function* () {\n          // Only stdio transports have a server process.\n          const transport = client.transport\n          if (\n            typeof transport === \"object\" &&\n            transport !== null &&\n            \"pid\" in transport &&\n            typeof transport.pid === \"number\"\n          ) {\n            for (const child of yield* descendants(transport.pid)) {\n              // The child may already have exited.\n              yield* Effect.try({ try: () => process.kill(child, \"SIGTERM\"), catch: () => undefined }).pipe(\n                Effect.ignore,\n              )\n            }\n          }"

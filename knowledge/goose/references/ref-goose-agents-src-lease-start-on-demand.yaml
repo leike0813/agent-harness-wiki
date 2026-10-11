@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-lease-start-on-demand
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261011-extension-lease
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/extension_manager/lease.rs
+  start: 218
+  end: 235
+official_url: "https://github.com/block/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/crates/goose/src/agents/extension_manager/lease.rs"
+excerpt: |2-
+  async fn start_extensions(&self) -> Vec<Arc<Extension>> {
+      futures::future::join_all(self.slots.iter().map(|slot| slot.start()))
+          .await
+          .into_iter()
+          .flatten()
+          .cloned()
+          .collect()
+  }
+
+  async fn start_extension(&self, extension_name: &str) -> Option<Arc<Extension>> {
+      let key = name_to_key(extension_name);
+      let slot = self.slots.iter().find(|slot| slot.key == key)?;
+      slot.start().await.cloned()
+  }
+
+  pub async fn start(&self) -> Vec<ExtensionLoadResult> {
+      futures::future::join_all(self.slots.iter().map(|slot| slot.load_result())).await
+  }

@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-declared-model-lookup
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261011-provider-types-base
+locator:
+  kind: file_lines
+  file: crates/goose-provider-types/src/base.rs
+  start: 384
+  end: 387
+official_url: "https://github.com/block/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/crates/goose-provider-types/src/base.rs"
+excerpt: |2-
+  /// Model IDs are case-sensitive; declarations apply only to the requested ID.
+  pub fn find_declared_model<'a>(models: &'a [ModelInfo], model_name: &str) -> Option<&'a ModelInfo> {
+      models.iter().find(|model| model.name == model_name)
+  }

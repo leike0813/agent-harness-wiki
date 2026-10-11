@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-schema-info
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-schema-src-skill-20261011
+official_url: https://github.com/anomalyco/opencode/blob/0d61729b3fa005cec9aa754c075a809663c736a4/packages/schema/src/skill.ts
+locator:
+  kind: file_lines
+  file: packages/schema/src/skill.ts
+  start: 22
+  end: 28
+excerpt: |-
+  export const Info extends Schema.Schema.Type<typeof Info> {}
+  export const Info = Schema.Struct({
+    id: ID,
+    name: Name,
+    description: Schema.String.pipe(optional),
+    autoinvoke: Schema.Boolean.pipe(optional),
+    path: AbsolutePath,
+    content: Schema.String,
+  }).annotate({ identifier: "Skill.Info" })

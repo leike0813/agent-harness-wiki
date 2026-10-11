@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-subagent-cancelled-outcome
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261011-ops-foreground-subagent
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/state_machine/ops_foreground_subagent.rs
+  start: 121
+  end: 133
+official_url: "https://github.com/block/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/crates/goose/src/agents/state_machine/ops_foreground_subagent.rs"
+excerpt: |2-
+              ),
+              format!("{label} failed: {reason}"),
+          ),
+          SubagentOutcome::Cancelled => return None,
+      };
+      emit.message(inline_notice(notice));
+      let mut message = Message::user().with_text(text).with_visibility(false, true);
+      message
+          .metadata
+          .set_operation_note(OPERATION_NAME, DELIVERED, serde_json::json!(subagent_id));
+      Some(message.into())
+  }
+
