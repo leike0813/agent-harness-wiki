@@ -24,11 +24,7 @@ on:
 permissions:
   contents: read
 
-# The online site build renders one page per chapter edition and holds the page
-# set in memory, so its footprint grows with the number of editions. Measured
-# peak RSS is ~6.1 GB at 673 editions, above the ~4 GB V8 default that both this
-# runner and a typical developer machine impose. The ubuntu-24.04 runner has
-# 16 GB, so an 8 GB heap leaves real headroom without exhausting the machine.
+# Leave headroom for the complete production site and resource validation.
 env:
   NODE_OPTIONS: --max-old-space-size=8192
 

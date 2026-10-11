@@ -161,12 +161,46 @@ test("builds one release with retained resources and preserves accepted output o
   expect(page).toContain("/wiki/");
   expect(page).toContain("demo-open-cli-skills-v2");
   expect(page).not.toContain("demo-open-cli-skills-v3.html");
+  const deployment = JSON.parse(
+    await readFile(path.join(secondDir, "integrity.json"), "utf8"),
+  ) as { files: Record<string, string> };
+  expect(
+    Object.keys(deployment.files).filter((file) =>
+      /^sources\/.*\.html$/.test(file),
+    ),
+  ).toEqual(["sources/index.html"]);
+  expect(page).toContain("sources/#ref-demo-open");
+  const overview = await readFile(
+    path.join(secondDir, "harnesses/demo-open-cli/index.html"),
+    "utf8",
+  );
+  expect(overview).toContain("sources/#ref-demo-open-catalog");
   await expect(
     readFile(path.join(secondDir, "chapters/demo-open-cli-skills-v3.html")),
   ).rejects.toMatchObject({ code: "ENOENT" });
 
   // Rehashing a damaged page must not bypass the semantic link/identity check.
   const pagePath = "harnesses/demo-open-cli/skills.html";
+  const missingSource = page.replaceAll(
+    "sources/#ref-demo-open",
+    "sources/#ref-demo-missing",
+  );
+  expect(missingSource).not.toBe(page);
+  await writeFile(path.join(secondDir, pagePath), missingSource);
+  deployment.files[pagePath] = sha256(missingSource);
+  await writeFile(
+    path.join(secondDir, "integrity.json"),
+    JSON.stringify(deployment),
+  );
+  await expect(verifyOnlineDeployment(secondDir)).rejects.toThrow(
+    /source missing/,
+  );
+  await writeFile(path.join(secondDir, pagePath), page);
+  deployment.files[pagePath] = sha256(page);
+  await writeFile(
+    path.join(secondDir, "integrity.json"),
+    JSON.stringify(deployment),
+  );
   const damaged = page.replaceAll(
     `web-v1-${secondCommit}`,
     "web-v1-" + "0".repeat(40),

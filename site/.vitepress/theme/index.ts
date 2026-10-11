@@ -3,6 +3,7 @@ import { useData, withBase } from "vitepress";
 import DefaultTheme from "vitepress/theme";
 import { h } from "vue";
 import KnowledgePortal from "./KnowledgePortal.vue";
+import SourceDetails from "./SourceDetails.vue";
 import "./custom.css";
 
 type Crumb = { text: string; link?: string };
@@ -92,5 +93,6 @@ export default {
   enhanceApp(context) {
     DefaultTheme.enhanceApp?.(context);
     context.app.component("KnowledgePortal", KnowledgePortal);
+    context.app.component("SourceDetails", SourceDetails);
   },
 } satisfies Theme;

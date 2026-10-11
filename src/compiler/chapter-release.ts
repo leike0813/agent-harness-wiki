@@ -118,6 +118,16 @@ export function projectChapters(
   });
 }
 
+export function sourcePageLink(
+  referenceId: string,
+  online = false,
+  sourcesPath = "sources",
+): string {
+  return online
+    ? `${sourcesPath}/#${referenceId}`
+    : `${sourcesPath}/${referenceId}.md`;
+}
+
 export function renderChapterDocs(
   knowledge: ChapterPublishedKnowledge,
   options: {
@@ -128,10 +138,12 @@ export function renderChapterDocs(
   const pages = new Map<string, string>();
   const fixture =
     knowledge.profile === "fixture" ? "> Fictional fixture data.\n\n" : "";
+  const sourceLink = (id: string, sourcesPath: string) =>
+    sourcePageLink(id, options.online, sourcesPath);
   const linkedBody = (body: string, sourcesPath: string) =>
     inertLinks(textSafe(body)).replace(
       /\[@([a-z][a-z0-9_-]*)\]/g,
-      (_match, id: string) => `[[${id}](${sourcesPath}/${id}.md)]`,
+      (_match, id: string) => `[[${id}](${sourceLink(id, sourcesPath)})]`,
     );
   const catalog = knowledge.records.catalog;
   const references = new Map(
@@ -173,7 +185,7 @@ export function renderChapterDocs(
         ? `固定来源：${refs
             .map((id) =>
               references.has(id)
-                ? `[\`${id}\`](${sourcesPath}/${id}.md)`
+                ? `[\`${id}\`](${sourceLink(id, sourcesPath)})`
                 : `\`${id}\``,
             )
             .join("、")}`
@@ -265,11 +277,17 @@ export function renderChapterDocs(
         .join("\n");
       pages.set(
         `docs/harnesses/${harness.harness_id}/${selection.topic}.md`,
-        `# ${textSafe(chapter.title)}\n\n${fixture}当前调查版：${chapter.edition_id}。以下为固定来源知识；未列明软件版本映射时，不代表已验证的安装版本。\n\n${body}\n\n## 小节与界面范围\n\n| 小节 | 界面 |\n|---|---|\n${sectionScope}\n\n## 问题索引\n\n| 问题 | 界面 | 状态 | 对应小节 |\n|---|---|---|---|\n${questionIndex}\n\n## 来源\n\n${refs.map((id) => `- [${id}](../../sources/${id}.md)`).join("\n")}\n\n## 历史章节\n\n${history.map((x) => `- [${x.edition_id}](../../chapters/${x.edition_id}.md)`).join("\n")}\n`,
+        `# ${textSafe(chapter.title)}\n\n${fixture}当前调查版：${chapter.edition_id}。以下为固定来源知识；未列明软件版本映射时，不代表已验证的安装版本。\n\n${body}\n\n## 小节与界面范围\n\n| 小节 | 界面 |\n|---|---|\n${sectionScope}\n\n## 问题索引\n\n| 问题 | 界面 | 状态 | 对应小节 |\n|---|---|---|---|\n${questionIndex}\n\n## 来源\n\n${refs.map((id) => `- [${id}](${sourceLink(id, "../../sources")})`).join("\n")}\n\n## 历史章节\n\n${history.map((x) => `- [${x.edition_id}](../../chapters/${x.edition_id}.md)`).join("\n")}\n`,
       );
     }
   }
-  for (const ref of knowledge.records.source_references)
+  if (options.online) {
+    pages.set(
+      "docs/sources/index.md",
+      `# 固定来源\n\n${fixture}<SourceDetails />\n\n<noscript>查看来源详情需要启用 JavaScript。</noscript>\n`,
+    );
+  }
+  for (const ref of options.online ? [] : knowledge.records.source_references)
     pages.set(
       `docs/sources/${ref.reference_id}.md`,
       `# ${ref.reference_id}\n\n${fixture}Snapshot: ${ref.snapshot_id}\n\nLocation: ${textSafe(JSON.stringify(ref.locator))}\n\nOfficial link: ${ref.official_url}\n\n### Excerpt\n\n${textSafe(
@@ -279,7 +297,7 @@ export function renderChapterDocs(
         .map((line) => `    ${line}`)
         .join("\n")}\n`,
     );
-  for (const ref of catalog.references)
+  for (const ref of options.online ? [] : catalog.references)
     pages.set(
       `docs/sources/${ref.reference_id}.md`,
       `# ${ref.reference_id}\n\n${fixture}Snapshot: ${ref.snapshot.sha256}\n\nLocation: ${textSafe(JSON.stringify(ref.locator))}\n\nOfficial link: ${ref.official_url}\n\n### Excerpt\n\n${textSafe(

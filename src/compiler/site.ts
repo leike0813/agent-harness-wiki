@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { stringify } from "yaml";
 import type { ChapterPublishedKnowledge } from "../domain/chapter.js";
 import { topicSchema } from "../domain/schema.js";
-import { renderChapterDocs } from "./chapter-release.js";
+import { renderChapterDocs, sourcePageLink } from "./chapter-release.js";
 import { topicNames } from "./docs.js";
 
 const project = fileURLToPath(new URL("../../", import.meta.url));
@@ -67,7 +67,10 @@ export async function buildSitePages(options: {
             ...product.runtimes.flatMap((runtime) => runtime.reference_ids),
             ...product.bindings.flatMap((binding) => binding.reference_ids),
           ]),
-        ].map((id) => ({ id, href: `/sources/${id}` })),
+        ].map((id) => ({
+          id,
+          href: `/${sourcePageLink(id, options.online).replace(/\.md$/, "")}`,
+        })),
         runtimes: product.runtimes.map((runtime) => ({
           id: runtime.runtime_id,
           name: runtime.name,
@@ -268,7 +271,11 @@ export async function buildSitePages(options: {
         "--outDir",
         path.resolve(options.outDir),
       ],
-      { cwd: temporary, stdio: ["ignore", "inherit", "inherit"] },
+      {
+        cwd: temporary,
+        stdio: ["ignore", "inherit", "inherit"],
+        env: { ...process.env, AHW_SITE_PROJECT_ROOT: project },
+      },
     );
     await new Promise<void>((resolve, reject) => {
       child.once("error", reject);

@@ -43,6 +43,25 @@ The online site build SHALL produce a staged deployment directory containing mat
 - **WHEN** staged pages identify another release or link a source absent from the projected data
 - **THEN** joint validation fails before the candidate output replaces existing accepted output
 
+### Requirement: Shared online source details
+The online site SHALL generate one shared source reader page at `sources/`, with citations selecting a reference ID through the URL fragment. The reader SHALL fetch only the selected source resource from the site's fixed release, validate its protocol, release and reference identity, and display snapshot identity, locator, short excerpt and official link as inert content. Switching references SHALL cancel stale reads and prevent stale results replacing the selected reference. Each read SHALL be bounded to 10 seconds and 16 MiB. Loading, missing references and read failures SHALL be distinguishable, with retry available for read failures. Local immutable release Markdown SHALL retain its static source pages.
+
+#### Scenario: Source count grows
+- **WHEN** an online publication retains more source references
+- **THEN** their source JSON resources remain readable and the site still builds one source HTML page
+
+#### Scenario: Source reader navigation
+- **WHEN** a reader opens a current chapter, retained historical chapter or product identity citation, refreshes its source URL, or navigates between source fragments using browser history
+- **THEN** the shared page displays the selected reference from the same fixed release without reading the current pointer or the full source directory
+
+#### Scenario: Invalid or absent source link
+- **WHEN** a generated source link selects an invalid ID or a reference absent from the same publication
+- **THEN** deployment validation fails even if the shared page exists and file hashes have been recalculated
+
+#### Scenario: Recovery source navigation
+- **WHEN** public readback verifies a restored archive
+- **THEN** it follows the representative chapter's actual source link and verifies the matching source page and data without requiring the archive to adopt the new source URL
+
 ### Requirement: Public static delivery acceptance
 Pages publication SHALL deploy matching machine resources and reader pages together after complete validation. Public readback SHALL confirm release identity and representative navigability before recording verified usability. Deployment failure or uncertain state SHALL be reported distinctly from successful output construction, with archived manual recovery available where a verified predecessor exists.
 

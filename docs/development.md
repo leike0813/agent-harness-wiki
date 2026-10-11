@@ -16,6 +16,10 @@ pnpm exec tsx scripts/compile-chapters.ts --dataset-root tests/fixtures/datasets
 
 文档站沿用 VitePress 1.6.4，配置在 `site/.vitepress/config.mts`，主题与产品目录组件在 `site/.vitepress/theme/`。`src/compiler/site.ts` 从已验证的结构化知识生成首页、产品概览、导航和页面数据，并把配置及主题复制到临时构建目录；这些展示变化不修改不可变发布内的 Markdown。名称、别名、界面和主题入口都来自同一发布。站内搜索使用浏览器本地索引，覆盖当前章节、产品概览和阅读指南；历史版和来源页由章节链接访问。
 
+在线来源入口为 `sources/#<reference-id>`：站点只编译一个详情页，浏览器读取 `data/v1/releases/<站点发布 ID>/sources/<reference-id>.json`，展示快照、定位、摘录和官方链接。查看详情需要 JavaScript；每次只加载一条来源，切换引用取消旧请求，读取受 10 秒及 16 MiB 上限约束。当前和保留历史章节、产品身份引用使用同一入口，来源页不进入站内搜索。本地发布仍生成静态来源页。构建校验来源链接和同发布数据的一致性，公开回读使用章节的实际链接，恢复归档时可验证原有页面。
+
+PR #15 同一生产快照的构建对比与浏览器验收见 [来源页优化实测](research/online-source-page-optimization.md)。
+
 运行 `pnpm docs:build --release-id <id>` 构建正式章节站点，或运行 `pnpm docs:build` 构建虚构测试站点。产物默认在 `site/.vitepress/dist/`，可用 `pnpm --dir site exec vitepress preview . --port 4173` 静态预览。检查部署子路径时，构建和预览都添加 `--base /agent-harness-wiki/`，并从预览的同名路径进入。改版验收应检查产品名称／别名筛选、中文搜索、章节导航、来源与历史链接，以及桌面／手机和浅色／深色阅读效果。在线构建将配置与主题文件计入输入摘要，修改主题后应生成新的发布产物。
 
 生产编译前确认本机 Ollama 已有 `qwen3-embedding:4b`，且 `/api/tags` 报告的 digest 与 `registry/search-model.json` 一致；编译器会再核对 GGUF blob digest，不会自动下载模型。默认端点 `127.0.0.1:11434` 可用 `OLLAMA_ENDPOINT` 覆盖，便于改用另一个本机实例（例如把嵌入模型放到 GPU 上的实例）。新发布的 `search.json` 和 SQLite FTS5 收录当前小节，`semantic.jsonl` 收录固定模型生成的有界片段向量。搜索返回命中方式、正文片段、来源范围和 `semantic_status`；模型暂时不可用时可继续词法检索，但不能据此宣称语义验收通过。模型与索引的选择依据见 [ADR 0007](decisions/0007-offline-hybrid-search.md)。

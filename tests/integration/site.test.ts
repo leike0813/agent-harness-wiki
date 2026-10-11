@@ -166,8 +166,16 @@ test("online pages link retained history and cite the same published sources", a
       (section) => section.source_refs,
     )) {
       if (chapter.body.includes(`[@${reference}]`))
-        expect(history).toContain(`../sources/${reference}.md`);
+        expect(history).toContain(`../sources/#${reference}`);
     }
   }
   expect(pages.get("docs/index.md")).toContain("本地发布");
+  expect(
+    [...pages.keys()].filter((file) => file.startsWith("docs/sources/")),
+  ).toEqual(["docs/sources/index.md"]);
+  const localPages = renderChapterDocs(knowledge);
+  for (const reference of knowledge.records.source_references)
+    expect(localPages.has(`docs/sources/${reference.reference_id}.md`)).toBe(
+      true,
+    );
 });

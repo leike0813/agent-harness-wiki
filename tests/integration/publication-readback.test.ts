@@ -38,7 +38,11 @@ const publishedAt = "2026-10-02T00:00:00Z";
 let root: string;
 let releaseId: string;
 let dataUrl: string;
+let outDir: string;
 let server: Server;
+let representative: NonNullable<
+  Awaited<ReturnType<typeof verifyPublishedSite>>["inputs"]
+>;
 const missing = new Set<string>();
 const delays = new Map<string, number>();
 let stalePointerReads = 0;
@@ -100,7 +104,7 @@ beforeAll(async () => {
     "fixture",
   ]);
   const commit = (await git(["rev-parse", "HEAD"])).stdout.trim();
-  const outDir = path.join(root, "deployment");
+  outDir = path.join(root, "deployment");
   await buildOnlineSite({
     datasetRoot,
     profile: "fixture",
@@ -113,6 +117,7 @@ beforeAll(async () => {
   server = await staticServer(outDir);
   const { port } = server.address() as AddressInfo;
   dataUrl = `http://127.0.0.1:${port}/data/v1/`;
+  representative = (await verifyPublishedSite({ dataUrl })).inputs!;
 }, 120_000);
 
 afterAll(async () => {
@@ -150,6 +155,10 @@ test("confirms a complete release and derives section-scoped inputs", async () =
   expect(inputs!.search_text.length).toBeGreaterThan(0);
   expect(report.pages).toHaveLength(3);
   expect(report.pages.every((page) => page.status === 200)).toBe(true);
+  // The source page is derived from the link the chapter publishes, so only
+  // its location under the site sources/ tree is asserted here; the exact
+  // shared-vs-legacy shape is covered by the scenario tests below.
+  expect(report.pages[2]!.url).toContain("/sources/");
 });
 
 test("reads the published pointer independently", async () => {
@@ -206,6 +215,120 @@ test("honours the optional deadline override", async () => {
   } finally {
     delays.delete("data/v1/current.json");
   }
+});
+
+const topicRelative = () =>
+  `harnesses/${representative.harness}/${representative.topic}.html`;
+
+/** Point every source anchor on the real topic page at one controlled link. */
+async function topicPointingAt(href: string): Promise<Record<string, string>> {
+  const html = await readFile(path.join(outDir, topicRelative()), "utf8");
+  const repointed = html.replace(
+    /href="([^"]*sources\/[^"]*)"/g,
+    () => `href="${href}"`,
+  );
+  expect(repointed).not.toBe(html);
+  return { [topicRelative()]: repointed };
+}
+
+const synthesizedSource = (title: string) =>
+  `<!doctype html><title>${title}</title><p>${releaseId}</p>`;
+
+/** Serve the real deployment with selected pages overridden or withheld. */
+async function readbackWith(
+  overrides: Record<string, string>,
+  withheld: string[] = [],
+): Promise<Awaited<ReturnType<typeof verifyPublishedSite>>> {
+  for (const relative of withheld) missing.add(relative);
+  const extra = createServer(async (request, response) => {
+    const relative = decodeURIComponent(
+      new URL(request.url ?? "/", "http://127.0.0.1").pathname,
+    ).replace(/^\//, "");
+    if (missing.has(relative)) {
+      response.writeHead(404).end();
+      return;
+    }
+    const override = overrides[relative];
+    const body =
+      override ??
+      (await readFile(path.join(outDir, relative)).catch(() => undefined));
+    if (body === undefined) {
+      response.writeHead(404).end();
+      return;
+    }
+    response.writeHead(200, {
+      "content-type": relative.endsWith(".html")
+        ? "text/html; charset=utf-8"
+        : "application/json",
+    });
+    response.end(body);
+  });
+  await new Promise<void>((resolve) => extra.listen(0, "127.0.0.1", resolve));
+  try {
+    const port = (extra.address() as AddressInfo).port;
+    return await verifyPublishedSite({
+      dataUrl: `http://127.0.0.1:${port}/data/v1/`,
+    });
+  } finally {
+    for (const relative of withheld) missing.delete(relative);
+    await new Promise<void>((resolve) => extra.close(() => resolve()));
+  }
+}
+
+test("follows the shared source-index link the chapter publishes", async () => {
+  const report = await readbackWith({
+    ...(await topicPointingAt(
+      `../../sources/index.html#${representative.reference_id}`,
+    )),
+    "sources/index.html": synthesizedSource("index"),
+  });
+  expect(report.result).toBe("passed");
+  expect(report.pages).toHaveLength(3);
+  expect(report.pages[2]!.url).toContain("/sources/index.html");
+  expect(report.pages[2]!.status).toBe(200);
+});
+
+test("normalises the shared clean-URL directory link for file-serving hosts", async () => {
+  const report = await readbackWith({
+    ...(await topicPointingAt(`../../sources/#${representative.reference_id}`)),
+    "sources/index.html": synthesizedSource("index"),
+  });
+  expect(report.result).toBe("passed");
+  expect(report.pages[2]!.url).toContain("/sources/index.html");
+});
+
+test("still reads an immutable legacy archive source page and its clean URL", async () => {
+  const archive = `sources/${representative.reference_id}.html`;
+  for (const link of [
+    `../../sources/${representative.reference_id}.html`,
+    `../../sources/${representative.reference_id}`,
+  ]) {
+    const report = await readbackWith({
+      ...(await topicPointingAt(link)),
+      [archive]: synthesizedSource("legacy"),
+    });
+    expect(report.result).toBe("passed");
+    expect(report.pages[2]!.url).toContain(`/${archive}`);
+  }
+});
+
+test("fails when the linked source page cannot be read", async () => {
+  const report = await readbackWith(
+    await topicPointingAt(`../../sources/${representative.reference_id}.html`),
+    [`sources/${representative.reference_id}.html`],
+  );
+  expect(report.result).toBe("failed");
+  expect(report.failures).toContain("reader pages");
+});
+
+test("rejects a source link that leaves the deployment origin", async () => {
+  const report = await readbackWith(
+    await topicPointingAt(
+      `https://elsewhere.example/sources/index.html#${representative.reference_id}`,
+    ),
+  );
+  expect(report.result).toBe("failed");
+  expect(report.failures).toContain("reader pages");
 });
 
 describe("installExactConsumerPackage", () => {

@@ -16,6 +16,7 @@ import { fileURLToPath } from "node:url";
 import * as z from "zod";
 import {
   onlinePointerSchema,
+  onlineIdSchema,
   parseOnlineResource,
   resourcePathSchema,
   type OnlineResource,
@@ -129,7 +130,9 @@ async function verifyPageLinks(
     const html = await readFile(path.join(root, file), "utf8");
     if (file !== "404.html" && !html.includes(releaseId))
       throw new Error(`Page release identity missing: ${file}`);
-    for (const match of html.matchAll(/(?:href|src)="([^"#]+)(?:#[^"]*)?"/g)) {
+    for (const match of html.matchAll(
+      /(?:href|src)="([^"#]+)(?:#([^"]*))?"/g,
+    )) {
       const target = match[1]!.replaceAll("&amp;", "&").split("?")[0]!;
       if (/^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(target)) continue;
       if (target.startsWith("/") && !target.startsWith(base))
@@ -147,6 +150,22 @@ async function verifyPageLinks(
       if (!resolved || resolved.endsWith("/")) resolved += "index.html";
       if (!available.has(resolved) && !available.has(`${resolved}.html`))
         throw new Error(`Page link resource missing: ${file} -> ${resolved}`);
+      if (resolved === "sources/index.html" && match[2]) {
+        let referenceId: string;
+        try {
+          referenceId = onlineIdSchema.parse(decodeURIComponent(match[2]));
+        } catch {
+          throw new Error(`Invalid source reference link: ${file}`);
+        }
+        if (
+          !available.has(
+            `data/v1/releases/${releaseId}/sources/${referenceId}.json`,
+          )
+        )
+          throw new Error(
+            `Page source missing from release: ${file} -> ${referenceId}`,
+          );
+      }
     }
   }
 }
@@ -269,6 +288,10 @@ export async function buildOnlineSite(
       "src/query/lexical.ts",
       "src/query/search-index.ts",
       "src/domain/online.ts",
+      "src/domain/catalog.ts",
+      "src/domain/chapter.ts",
+      "src/domain/schema.ts",
+      "src/site/source-reader.ts",
     ])
       extraInputs[file] = sha256(await readFile(path.join(project, file)));
     const retainedInputs: string[] = [];

@@ -1,9 +1,17 @@
 import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const navigationFile = new URL("./navigation.json", import.meta.url);
 const navigation = existsSync(navigationFile)
   ? JSON.parse(readFileSync(navigationFile, "utf8"))
   : {};
+// The site build runs from a temporary docs directory, so the theme reads the
+// shared browser reader from the repository the builder points at.
+const projectRoot = path.resolve(
+  process.env.AHW_SITE_PROJECT_ROOT ??
+    fileURLToPath(new URL("../../", import.meta.url)),
+);
 
 export default {
   title: "Agent Harness Wiki",
@@ -22,6 +30,16 @@ export default {
   // ponytail: serial indexing for stable IDs; parallelize when upstream preserves order.
   buildConcurrency: 1,
   cleanUrls: true,
+  vite: {
+    resolve: {
+      alias: {
+        "@ahw/source-reader": path.join(
+          projectRoot,
+          "src/site/source-reader.ts",
+        ),
+      },
+    },
+  },
   themeConfig: {
     ...navigation,
     outline: { level: [2, 3], label: "本页目录" },

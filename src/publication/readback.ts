@@ -157,6 +157,48 @@ function boundedSignal(
   return signal ? AbortSignal.any([signal, timeout]) : timeout;
 }
 
+/**
+ * Resolve the fetchable source page from the link the representative chapter
+ * actually publishes (shared `sources/index.html#<ref>` or a legacy
+ * `sources/<ref>` / `.html` archive), so readback follows the site's own
+ * navigation instead of assuming a file name; clean URLs are normalised to
+ * files because the static readback host serves no directory index.
+ */
+export function resolveSourcePageUrl(
+  pageUrl: URL,
+  html: string,
+  referenceId: string,
+  root: URL,
+): URL {
+  let legacy: URL | undefined;
+  for (const match of html.matchAll(/href="([^"]*)"/g)) {
+    let resolved: URL;
+    try {
+      resolved = new URL(match[1]!, pageUrl);
+    } catch {
+      continue;
+    }
+    if (resolved.origin !== root.origin) continue;
+    if (!resolved.pathname.startsWith(root.pathname)) continue;
+    const relative = resolved.pathname.slice(root.pathname.length);
+    if (!relative.startsWith("sources/")) continue;
+    const name = relative.slice("sources/".length);
+    if (
+      resolved.hash === `#${referenceId}` &&
+      /^(?:index(?:\.html)?)?$/.test(name)
+    )
+      return new URL("sources/index.html", root);
+    if (
+      !resolved.hash &&
+      (name === referenceId || name === `${referenceId}.html`) &&
+      legacy === undefined
+    )
+      legacy = new URL(`sources/${referenceId}.html`, root);
+  }
+  if (legacy) return legacy;
+  throw new Error(`Chapter page publishes no source link for ${referenceId}.`);
+}
+
 function brief(error: unknown): string {
   if (error instanceof z.ZodError)
     return error.issues
@@ -539,13 +581,7 @@ async function verifyReadbackAttempt(
 
     await run("reader pages", async () => {
       const root = siteRootFor(options.dataUrl);
-      const relatives = [
-        `harnesses/${product.harness_id}/${topic}.html`,
-        `harnesses/${product.harness_id}/index.html`,
-        ...(referenceId ? [`sources/${referenceId}.html`] : []),
-      ];
-      for (const relative of relatives) {
-        const url = new URL(relative, root);
+      const read = async (url: URL, label: string): Promise<string> => {
         const response = await globalThis.fetch(url, {
           signal: boundedSignal(signal, requestMs),
           headers: { accept: "text/html" },
@@ -553,15 +589,37 @@ async function verifyReadbackAttempt(
         pages.push({ url: url.href, status: response.status });
         if (!response.ok) {
           if (response.body) await response.body.cancel().catch(() => {});
-          throw new Error(`${relative} returned ${response.status}.`);
+          throw new Error(`${label} returned ${response.status}.`);
         }
         const html = (await readBoundedBody(response, pageByteLimit)).toString(
           "utf8",
         );
         if (!html.includes(releaseId))
-          throw new Error(`${relative} lacks release identity.`);
+          throw new Error(`${label} lacks release identity.`);
+        return html;
+      };
+      const topicUrl = new URL(
+        `harnesses/${product.harness_id}/${topic}.html`,
+        root,
+      );
+      const topicHtml = await read(
+        topicUrl,
+        `harnesses/${product.harness_id}/${topic}.html`,
+      );
+      await read(
+        new URL(`harnesses/${product.harness_id}/index.html`, root),
+        `harnesses/${product.harness_id}/index.html`,
+      );
+      if (referenceId) {
+        const sourceUrl = resolveSourcePageUrl(
+          topicUrl,
+          topicHtml,
+          referenceId,
+          root,
+        );
+        await read(sourceUrl, sourceUrl.pathname);
       }
-      return `${relatives.length} pages`;
+      return `${pages.length} pages`;
     });
   } finally {
     service.close();
