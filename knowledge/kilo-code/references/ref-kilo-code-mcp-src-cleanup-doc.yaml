@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-cleanup-doc
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-cleanup-packages-opencode-src-kilocode-mcp-cleanup-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/mcp/cleanup.ts
+  start: 9
+  end: 18
+official_url: https://github.com/Kilo-Org/kilocode/blob/fb7e96eda5409517a05948b9efaf01c53997bf6e/packages/opencode/src/kilocode/mcp/cleanup.ts
+excerpt: " * Closes the clients the MCP state has connected so far. Registered before any server\n * starts, so it also covers a state lookup that is interrupted part way through, when the\n * upstream finalizer has not been registered yet and connected servers would otherwise\n * keep running with no owner. When the lookup completes, the upstream finalizer runs\n * first and empties `clients`, which makes this a no-op.\n */\nexport const release = (\n  state: { clients: Record<string, Client> },\n  descendants: (pid: number) => Effect.Effect<number[]>,\n) =>"

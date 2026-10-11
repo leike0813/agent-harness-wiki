@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-autoinvoke-code
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-skill-instructions-20261011
+official_url: https://github.com/anomalyco/opencode/blob/0d61729b3fa005cec9aa754c075a809663c736a4/packages/core/src/skill/instructions.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/skill/instructions.ts
+  start: 73
+  end: 80
+excerpt: |-
+  load: Effect.fn("SkillInstructions.load")(function* (permissions) {
+    const available = Skill.available(yield* skills.list(), permissions)
+      .flatMap((skill) =>
+        skill.description === undefined || skill.autoinvoke === false
+          ? []
+          : [{ id: skill.id, name: skill.name, description: skill.description }],
+      )
+      .toSorted((a, b) => a.id.localeCompare(b.id))

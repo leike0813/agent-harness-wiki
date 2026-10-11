@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-extension-selection-unique
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261011-extension-data
+locator:
+  kind: file_lines
+  file: crates/goose/src/session/extension_data.rs
+  start: 134
+  end: 145
+official_url: "https://github.com/block/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/crates/goose/src/session/extension_data.rs"
+excerpt: |2-
+  pub fn check_unique_keys(extensions: &[ExtensionConfig]) -> Result<()> {
+      let mut keys = std::collections::HashSet::new();
+      match extensions.iter().find(|config| !keys.insert(config.key())) {
+          Some(config) => Err(anyhow::anyhow!(
+              "extension '{}' appears twice in the selection",
+              config.name()
+          )),
+          None => Ok(()),
+      }
+  }
+
+  pub fn from_extension_data(extension_data: &ExtensionData) -> Option<Self> {

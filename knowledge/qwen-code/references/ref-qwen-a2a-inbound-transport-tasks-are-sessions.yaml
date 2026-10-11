@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-a2a-inbound-transport-tasks-are-sessions
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-e9582993-cli-a2a-route
+locator:
+  kind: file_lines
+  file: packages/cli/src/serve/routes/a2a.ts
+  start: 7
+  end: 16
+official_url: "https://github.com/QwenLM/qwen-code/blob/e9582993bf419dba43839d62a3ee4da67cfbab6a/packages/cli/src/serve/routes/a2a.ts"
+excerpt: |-
+  /**
+   * A2A inbound transport: the public Agent Card and `POST /a2a/v1`
+   * (JSON-RPC). Mounted only while agent collaboration is enabled for some
+   * workspace, and refused per request for a workspace that has it off.
+   *
+   * A task is one agent run in a chat session the daemon creates for the
+   * caller; the `contextId` it returns is that session, and a later message
+   * with it continues there (core `a2a-contract.ts`). The caller cannot answer
+   * the agent's tool approvals: a run waiting on one reports `INPUT_REQUIRED`
+   * and the workspace owner answers it in WebShell.

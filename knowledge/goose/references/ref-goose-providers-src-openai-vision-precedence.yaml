@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-openai-vision-precedence
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261011-openai-provider
+locator:
+  kind: file_lines
+  file: crates/goose-providers/src/openai.rs
+  start: 469
+  end: 477
+official_url: "https://github.com/block/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/crates/goose-providers/src/openai.rs"
+excerpt: |2-
+  fn declared_model(&self, model_name: &str) -> Option<&ModelInfo> {
+      find_declared_model(self.custom_models.as_deref()?, model_name)
+  }
+
+  fn vision_support(&self, model_config: &ModelConfig) -> Option<bool> {
+      self.declared_model(&model_config.model_name)
+          .and_then(|model| model.supports_vision)
+          .or(model_config.supports_vision)
+  }

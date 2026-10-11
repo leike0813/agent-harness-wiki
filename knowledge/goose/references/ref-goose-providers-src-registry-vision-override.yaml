@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-registry-vision-override
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261011-provider-registry
+locator:
+  kind: file_lines
+  file: crates/goose/src/providers/provider_registry.rs
+  start: 76
+  end: 89
+official_url: "https://github.com/block/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/crates/goose/src/providers/provider_registry.rs"
+excerpt: |2-
+  pub fn normalize_model_config(&self, mut model: ModelConfig) -> Result<ModelConfig> {
+      if self.toolshim_enabled(model.toolshim) {
+          model = model.with_toolshim(true);
+      }
+      // Declared model metadata is authoritative over canonical detection, which
+      // may already have populated supports_vision earlier in materialization.
+      if let Some(supports_vision) =
+          find_declared_model(&self.metadata.known_models, &model.model_name)
+              .and_then(|m| m.supports_vision)
+      {
+          model.supports_vision = Some(supports_vision);
+      }
+      crate::model_config::materialize_model_config(&self.metadata.name, model)
+  }

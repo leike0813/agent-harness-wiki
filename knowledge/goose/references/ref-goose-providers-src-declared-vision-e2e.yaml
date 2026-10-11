@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-declared-vision-e2e
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261011-declared-vision-registry-test
+locator:
+  kind: file_lines
+  file: crates/goose/tests/declared_vision_registry.rs
+  start: 20
+  end: 27
+official_url: "https://github.com/block/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/crates/goose/tests/declared_vision_registry.rs"
+excerpt: |2-
+      (Some(false), true, false),
+      (None, true, true),
+      (None, false, false),
+  ] {
+      let server = MockServer::start().await;
+      let response = if endpoint == "responses" {
+          json!({
+              "id": "response-1", "object": "response", "created_at": 0,

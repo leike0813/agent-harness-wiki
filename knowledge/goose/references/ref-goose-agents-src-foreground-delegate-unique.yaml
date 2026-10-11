@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-foreground-delegate-unique
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261011-summon
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/platform_extensions/summon.rs
+  start: 893
+  end: 900
+official_url: "https://github.com/block/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/crates/goose/src/agents/platform_extensions/summon.rs"
+excerpt: |2-
+      .map_err(|e| format!("Invalid delegate response schema: {e}"))?;
+
+  let mut extension_data = ExtensionData::default();
+  EnabledExtensionsState::new(subagent_config.extensions)
+      .to_extension_data(&mut extension_data)
+      .map_err(|e| format!("Failed to save delegate extensions: {e}"))?;
+
+  let child = self

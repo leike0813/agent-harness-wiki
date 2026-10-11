@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-modelprompts-engine-rust
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-modelprompts-engine-rust
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session_engine/engine.rs
+  start: 480
+  end: 494
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/2ee7e623a70d8ccd9c72ffc6c4f25be2cc1bc02d/crates/pa-core/src/session_engine/engine.rs"
+excerpt: |
+      let prompt_model_selector = format!("{}/{}", model_info.provider, model_info.id);
+      let prompt_vision_capable = Some(model_info.input.contains(&pa_types::ai::ModelInput::Image));
+      let model_prompts = crate::prompts::model_prompts::load_model_prompts(
+          Some(&prompt_model_selector),
+          &config.agent_dir,
+      );
+      if !model_prompts.errors.is_empty() {
+          boot_notice_rows
+              .lock()
+              .unwrap_or_else(std::sync::PoisonError::into_inner)
+              .push(crate::prompts::model_prompts::model_prompt_error_message(
+                  &model_prompts.errors,
+              ));
+      }

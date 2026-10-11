@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-mcp-noninteractive-deny-stream-json-exception
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-e9582993-core-tool-scheduler
+locator:
+  kind: file_lines
+  file: packages/core/src/core/coreToolScheduler.ts
+  start: 4261
+  end: 4269
+official_url: "https://github.com/QwenLM/qwen-code/blob/e9582993bf419dba43839d62a3ee4da67cfbab6a/packages/core/src/core/coreToolScheduler.ts"
+excerpt: |-
+                !this.config.isInteractive() &&
+                !this.config.getExperimentalZedIntegration() &&
+                // STREAM_JSON is exempt because a host can answer
+                // `can_use_tool` — but that host is programmatic, so it cannot
+                // give the human-only confirmation the destructive guard
+                // escalated to. Deny here rather than hand it a dialog it is
+                // allowed to approve.
+                (this.config.getInputFormat() !== InputFormat.STREAM_JSON ||
+                  autoModeFallbackRequiresHuman);

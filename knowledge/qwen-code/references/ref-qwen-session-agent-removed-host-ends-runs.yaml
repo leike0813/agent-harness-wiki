@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-session-agent-removed-host-ends-runs
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-e9582993-cli-session-orchestrator
+locator:
+  kind: file_lines
+  file: packages/cli/src/serve/session-agents/orchestrator.ts
+  start: 1705
+  end: 1721
+official_url: "https://github.com/QwenLM/qwen-code/blob/e9582993bf419dba43839d62a3ee4da67cfbab6a/packages/cli/src/serve/session-agents/orchestrator.ts"
+excerpt: |-
+    async endRunsForRemovedHost(
+      hostId: string,
+      agentsMadeLocal: readonly string[],
+    ): Promise<number> {
+      await this.recovered;
+      const madeLocal = new Set(agentsMadeLocal);
+      const stranded = [...this.live.values()].filter(
+        (live) =>
+          live.remote?.hostId === hostId ||
+          (live.run.status === 'queued' && madeLocal.has(live.run.agentId)),
+      );
+      for (const live of stranded) {
+        const state = await this.session(live.sessionId);
+        await this.finishRun(state, live, {
+          status: 'offline',
+          outputText: live.frame.outputText ?? '',
+          error: SESSION_AGENT_HOST_REMOVED_ERROR,

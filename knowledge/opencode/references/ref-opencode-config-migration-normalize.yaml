@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-migration-normalize
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-normalize-20261011
+official_url: https://github.com/anomalyco/opencode/blob/0d61729b3fa005cec9aa754c075a809663c736a4/packages/core/src/config/normalize.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/normalize.ts
+  start: 179
+  end: 190
+excerpt: |-
+  const toolRules = migrateTools(input.tools, diagnostics)
+  const permissionRules = migratePermissions(input.permission, diagnostics)
+  const nativePermissions = decodeList(input.permissions, Permission.Rule, ["permissions"], diagnostics, decodeEncoded)
+  const permissions = [...toolRules, ...permissionRules, ...nativePermissions]
+  if (permissions.length || Array.isArray(input.permissions)) encoded.permissions = permissions
+
+  const legacyPlugins = decodeList(input.plugin, ConfigPluginV1.Spec, ["plugin"], diagnostics, decodeValue).map(
+    (plugin) => (typeof plugin === "string" ? plugin : { package: plugin[0], options: plugin[1] }),
+  )
+  const nativePlugins = decodeList(input.plugins, ConfigPlugin.Plugin, ["plugins"], diagnostics, decodeEncoded)

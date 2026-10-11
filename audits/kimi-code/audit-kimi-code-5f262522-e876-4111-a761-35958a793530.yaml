@@ -1,0 +1,127 @@
+schema_version: 2
+audit_id: audit-kimi-code-5f262522-e876-4111-a761-35958a793530
+harness_id: kimi-code
+checked_at: 2026-10-11T02:08:44.454Z
+previous_audit_id: audit-kimi-code-bc934f79-285d-4b5e-bd85-57100fccdfa9
+status: changed
+review_status: reviewed
+pending_audit_refs: []
+checks:
+- source_id: source-kimi-code-repo
+  kind: git_repository
+  checked_at: 2026-10-11T02:08:43.292Z
+  status: changed
+  baseline: 5b936697670ed15444bcb4720bd91e6ee776a941
+  observed: c9f01f07388abc2cdca40c9c5267f58c65086710
+  remote_ref: refs/heads/main
+- source_id: source-kimi-code-legacy-repo
+  kind: git_repository
+  checked_at: 2026-10-11T02:08:43.299Z
+  status: unchanged
+  baseline: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+  observed: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+  remote_ref: refs/heads/main
+- source_id: source-kimi-code-npm
+  kind: npm_registry
+  checked_at: 2026-10-11T02:08:43.306Z
+  status: unchanged
+  baseline: 2.1.1@sha512-xClqcnTQUKgKDbeOGPU78qcwxGzL8wA2rqWuOX3CLpyQ1/NhSX7jAh6hZo/JFwThSX8obkgef3uw/li5JaJNyw==
+  observed: 2.1.1@sha512-xClqcnTQUKgKDbeOGPU78qcwxGzL8wA2rqWuOX3CLpyQ1/NhSX7jAh6hZo/JFwThSX8obkgef3uw/li5JaJNyw==
+impacts:
+- topic: custom_agents
+  question_ids:
+  - agents.entry
+  - agents.format
+  - agents.roles
+  - agents.invocation
+  - agents.overrides
+  - agents.limits
+  - agents.diagnostics
+  section_ids:
+  - agents-invocation
+  - agents-limits
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-kimi-code-agents-bind-subagents
+  - ref-kimi-code-agents-bind-subagents-applied
+  - ref-kimi-code-agents-bind-subagents-restore
+  - ref-kimi-code-agents-tool-effective-allowlist
+  - ref-kimi-code-agents-subagent-planspawn-allowlist
+  - ref-kimi-code-agents-fork-parity-discovered-profiles
+  - ref-kimi-code-agents-changeset-fork-types
+  cross_topic_links:
+  - hooks.events
+  - config.sources
+  reason: >-
+    commit c9f01f0 的 #4152 把「主 Agent 可委派的 agent 类型」从每次派发时临时补算发现到的自定义
+    Agent，改为在 bind 时算进绑定快照（profileService.bindSubagents，仅 main 生效），并让恢复钩子重算；
+    Agent 工具列表与 planSpawn 校验都只读这份已算定列表。直接后果：分叉子 Agent 继承父 Agent 的可用
+    agent 类型（含自定义 Agent），其首个请求的 system prompt / 工具清单 / 继承历史与父 Agent 一致。
+    已发布 v2 未描述分叉的 agent 类型继承，且其「子 Agent 只继承内置委派允许列表」的表述不足以
+    覆盖这一新机制，因此新建 v3 edition 只改写 agents-invocation 与 agents-limits 两节。
+- topic: hooks
+  question_ids:
+  - hooks.events
+  - hooks.order
+  - hooks.conditions
+  - hooks.diagnostics
+  section_ids:
+  - hooks-order
+  - hooks-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-kimi-code-hooks-shutdown-hint-constant
+  - ref-kimi-code-hooks-shutdown-hint-render
+  - ref-kimi-code-hooks-shutdown-force-exit
+  - ref-kimi-code-hooks-shutdown-force-exit-exitcode
+  - ref-kimi-code-hooks-changeset-shutdown-hint
+  cross_topic_links:
+  - custom_agents.invocation
+  reason: >-
+    commit c9f01f0 的 #4164 在 TUI 关闭路径上加了 SessionEnd hook 等待窗口：关闭会话前把页脚提示设为
+    「Shutting down… (running shutdown hooks)」并重绘；窗口内在 UI 输入监听层注册的专用监听消费 Ctrl+C
+    并直接强制退出（退出码 130，跳过剩余优雅关闭，包括未跑完的 hook）。这改变 hooks.order 的退出等待
+    语义（上限不再只是 hook 超时）和 hooks.diagnostics 的可见性（退出路径成为唯一有内建提示的场景）。
+    已发布 v2 未提及该窗口，新建 v3 edition 只改写这两节。
+- topic: local_transcripts
+  question_ids:
+  - transcripts.scope
+  - transcripts.location
+  - transcripts.naming
+  - transcripts.format
+  - transcripts.schema
+  - transcripts.lifecycle
+  - transcripts.database
+  - transcripts.archive
+  - transcripts.cleanup
+  - transcripts.diagnostics
+  section_ids:
+  - transcripts-lifecycle
+  surface_ids:
+  - cli
+  source_refs: []
+  cross_topic_links:
+  - custom_agents.invocation
+  reason: >-
+    #4154 只在 AgentMediaToolsRegistrar 上挂了一个 onDidRestore 钩子来在恢复后重注册媒体工具，
+    改的是工具可用性而非记录内容。已核对本产品 local_transcripts v1 的 10 个问题答案：不涉及会话正文
+    写入路径、wire 记录类型、blob 引用、索引或生命周期事件的任何结论，故本轮判定为已复核、无知识影响，
+    不新建 edition。
+pending_question_ids: []
+investigation_notes:
+- >-
+  本轮 triage 分类：maintain。仓库前进 8 个提交，本 worker 只处理交办的三项：#4152 fork subagent 继承 agent 类型、#4164 关机 hook 提示与强制退出、#4154 恢复会话后恢复媒体工具。
+- >-
+  「fix(agent-core-v2): allow mid-turn progress notes and calm NotifyUser nudges」按 coordinator 指示确认排除：其 changeset 只改系统提示词措辞（system.md 的 progress note 段与 NOTIFY_USER_GUIDANCE），不改 agent 发现、格式、角色、委派允许列表或 hook 机制；本轮未就此写任何结论。
+- >-
+  完成的问题与证据身份：agents.invocation（answered，git c9f01f0 的 profileService.ts、agentTool.ts、subagentService.ts、forkParity.test.ts）；agents.limits（answered，同上前三个文件）；hooks.order（answered，git c9f01f0 的 apps/kimi-code/src/tui/kimi-tui.ts 与 apps/kimi-code/src/tui/constant/kimi-tui.ts）；hooks.diagnostics（仍为 partial，新增同一 TUI 位置与 .changeset/shutdown-hook-hint.md 的证据，缺口仍是「没有 hook 专属的触发记录入口」）。
+- >-
+  新增证据全部为 git_source_file，均固定在观察提交 c9f01f07388abc2cdca40c9c5267f58c65086710 上，一文件一 artifact 一 snapshot，content_sha256 为该文件在观察提交的内容哈希；未把临时工作区路径写入任何记录，也未把 checkout 复制进候选。
+- >-
+  章节处理：custom_agents 与 hooks 均为相对已发布版本的正文修改，按 delivery=pr 新建 v3 完整 edition 并保留 v1/v2；skills、mcp、native_plugins、custom_providers、configuration、local_transcripts 六项本轮未交付新 edition，选择保持不变。
+- >-
+  本地候选校验通过（pnpm maintenance:candidates check --candidate <candidate-root>）。
+reviewed_by: harness-maintenance/kimi-code (minimax-code-cn/MiniMax-M3.1-Flash-Preview)
+reviewed_at: '2026-10-11T03:10:00.000Z'

@@ -1,0 +1,81 @@
+schema_version: 2
+audit_id: audit-omp-20261011t015904z-omp-worker
+harness_id: omp
+checked_at: '2026-10-11T02:10:00.000Z'
+previous_audit_id: audit-omp-1517b129-51c9-43ee-a4ba-41f05b72d32d
+status: changed
+review_status: reviewed
+reviewed_by: harness-maintenance worker (OmpWorker), author self-check
+reviewed_at: '2026-10-11T02:30:00.000Z'
+pending_audit_refs:
+- audit-omp-92124b10-5a87-4186-a79a-5e6141821407
+- audit-omp-20261004t061205z
+- audit-omp-f665c77f-f891-4595-aa9e-6f1f7a366d2f
+- audit-omp-20261006t134000z
+- audit-omp-1517b129-51c9-43ee-a4ba-41f05b72d32d
+checks:
+- source_id: source-omp-repo
+  kind: git_repository
+  checked_at: '2026-10-11T02:10:00.000Z'
+  status: changed
+  baseline: 788cf9ef10c82634b2a685fb2d1455362acf81b9
+  observed: 4b5e4fb7ea8ec2d37b8b6b138ea01125fe0a17dc
+  remote_ref: refs/heads/main
+impacts:
+- topic: configuration
+  question_ids:
+  - config.sources
+  - config.overrides
+  - config.runtime
+  - config.defaults
+  - config.diagnostics
+  section_ids:
+  - config-roots
+  - config-precedence
+  - config-runtime
+  - config-defaults
+  - config-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-omp-cfg5-sources-contextfiles-extra-code
+  - ref-omp-cfg5-sources-contextfiles-extra-name-rules-code
+  - ref-omp-cfg5-sources-contextfiles-extra-provider-code
+  - ref-omp-cfg5-sources-contextfiles-extra-agentdir-code
+  - ref-omp-cfg5-sources-contextfiles-extra-project-hide-code
+  - ref-omp-cfg5-sources-contextfiles-extra-provider-doc
+  - ref-omp-cfg5-sources-contextfiles-extra-provider-table-doc
+  - ref-omp-cfg5-sources-contextfiles-extra-priority-doc
+  - ref-omp-cfg5-sources-natives-dir-doc-4b5e
+  - ref-omp-cfg5-sources-grammars-build-url-doc
+  - ref-omp-cfg5-diagnostics-extra-names-doc
+  cross_topic_links:
+  - mcp.entry
+  reason: 'source-omp-repo: 788cf9e..4b5e4fb7 区间内新增 contextFiles.extra 设置与 custom-context discovery provider（优先级 9），改变配置来源清单、数组替换语义、面板写入目标、默认值与“文件存在但未发现”的诊断第一顺位；docs/environment-variables.md 同区间改写 PI_NATIVES_DIR 说明（也搬移 tree-sitter grammars）并新增 PI_BUILD_URL / PI_GRAMMARS_URL'
+- topic: mcp
+  question_ids:
+  - mcp.exposure
+  - mcp.diagnostics
+  section_ids:
+  - mcp-capabilities
+  - mcp-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-omp-mcp5-lifecycle-interactive-startup-doc
+  cross_topic_links:
+  - mcp.lifecycle
+  reason: 'source-omp-repo: docs/mcp-config.md 在 788cf9e..4b5e4fb7 区间只新增一句交互式与 --mode rpc-ui 首轮最多等 1.5 秒 MCP 启动的时序说明，影响首轮系统提示中可见的 server 工具与“工具没出现”的排查顺序；mcp.entry / mcp.definition 的已录答案不受影响'
+pending_question_ids: []
+investigation_notes:
+- 本轮 triage 分类：maintain，定向固定来源模式。范围限定 configuration 与 mcp 两主题共 11 个点名问题。
+- 区间 788cf9e..4b5e4fb7 实际跨 966 个改动文件；按任务要求不整体评审，只用 git log/diff 逐文件核对 docs/environment-variables.md、docs/mcp-config.md、docs/context-files.md、docs/settings.md、packages/coding-agent/src/discovery/custom-context-files.ts、packages/coding-agent/src/session/context-settings.ts、packages/coding-agent/src/config/settings-ui.ts。
+- configuration：contextFiles.extra 在基线 788cf9e 中不存在（git grep 命中 0 次），在 4b5e4fb7 中为新设置与新 provider，属实质变化，必须新出 edition omp-configuration-v5；已发布的 v4 保留未改。
+- PI_NATIVES_DIR 的已录结论“它不移动 sessions/plugins/其它数据因此不是配置来源入口”在 4b5e4fb7 仍成立但范围收窄（新增 grammars/），因此以新引用 ref-omp-cfg5-sources-natives-dir-doc-4b5e 并列取代，旧引用仍保留。
+- config.trust 复核后维持 unknown（非本轮新增缺口，不计 pending）：新增的 includeAgentDir 隔离与面板隐藏条件都只按该键的 provenance 是否为 project 分支，源码与文档动机均为“不要把仓库名单/agent 目录文件带进提示”，未见用户确认、目录白名单或组织策略，不足以改写信任结论。
+- mcp：docs/mcp-config.md 在该区间的 diff 只有一行末尾追加（首轮 1.5 秒等待），配置位置、文件形状、传输、认证结论均未变，故只更新 mcp.exposure 与 mcp.diagnostics 两问，新出 edition omp-mcp-v4。
+- docs/settings.md 在该区间还有 retry.fallbackOn、bash.gitGuard、compaction.modelThresholds 新语义、tts.localSpeed / speech.speed、ask.timeout 扩展等改动；这些属于本轮任务点名范围之外，未据此改写任何已录答案，仅记录为未展开的候选证据。
+- 明确排除并未调查：merge commits、session/resumed-request 推理内部、editor/@annotate UI、relay target 行为、compaction 内部、所有 test/bazel/patch 文件；以及 skills、custom_agents、custom_providers、hooks、native_plugins、local_transcripts 六个排除主题。
+- 本审计未复跑 sources:scan，观察由协调者冻结；source-omp-npm 未在本轮取证。
+- review_status 取 reviewed（作者自检）：本轮为纯增量的新设置与时序说明，未推翻任何已发布配置步骤，也未改变跨主题关键加载机制，不属高影响结论。
+- 'self-check: pnpm maintenance:candidates check --candidate <omp candidate root> 通过；剩余 COVERAGE_INCOMPLETE 为 severity=warning，与原项目基线一致，非本轮引入。'

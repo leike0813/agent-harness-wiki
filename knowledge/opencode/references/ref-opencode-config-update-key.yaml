@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-update-key
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-normalize-20261011
+official_url: https://github.com/anomalyco/opencode/blob/0d61729b3fa005cec9aa754c075a809663c736a4/packages/core/src/config/normalize.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/normalize.ts
+  start: 73
+  end: 78
+excerpt: |-
+  const legacyUpdate = own(input, "autoupdate")
+    ? decodeValue(LegacyAutoupdate, input.autoupdate, ["autoupdate"], diagnostics)
+    : undefined
+  const nativeUpdate = own(input, "update")
+    ? decodeEncoded(Info.fields.update, input.update, ["update"], diagnostics)
+    : undefined

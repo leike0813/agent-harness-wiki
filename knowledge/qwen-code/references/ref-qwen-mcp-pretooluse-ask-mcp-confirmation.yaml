@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-mcp-pretooluse-ask-mcp-confirmation
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-e9582993-core-tool-scheduler
+locator:
+  kind: file_lines
+  file: packages/core/src/core/coreToolScheduler.ts
+  start: 1617
+  end: 1629
+official_url: "https://github.com/QwenLM/qwen-code/blob/e9582993bf419dba43839d62a3ee4da67cfbab6a/packages/core/src/core/coreToolScheduler.ts"
+excerpt: |-
+      case 'mcp':
+        // MCP details have no body that can carry the reason, so the ask falls
+        // back to a literal-text info confirmation, as the pre-merge bounce did.
+        // The `info` shape has no server field and its `title` is not rendered in
+        // the TUI, so the destination is named in the body: the hook's reason
+        // alone need not identify which server receives the write.
+        return {
+          type: 'info',
+          title: `Hook requested confirmation to run ${details.toolName}`,
+          prompt: `${reason}\n\nMCP Server: ${details.serverName}\nTool: ${details.toolName}`,
+          renderPromptAsPlainText: true,
+          hideAlwaysAllow: true,
+          onConfirm: details.onConfirm,

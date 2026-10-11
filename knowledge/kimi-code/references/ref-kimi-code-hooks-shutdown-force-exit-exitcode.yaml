@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-hooks-shutdown-force-exit-exitcode
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-src-tui-kimi-tui-ts
+locator:
+  kind: file_lines
+  file: apps/kimi-code/src/tui/kimi-tui.ts
+  start: 1096
+  end: 1106
+official_url: "https://github.com/MoonshotAI/kimi-code/blob/c9f01f07388abc2cdca40c9c5267f58c65086710/apps/kimi-code/src/tui/kimi-tui.ts"
+excerpt: |-
+  private forceExitDuringShutdown(): void {
+    try {
+      this.stopUiForExit();
+    } catch {
+      restoreTerminalModes();
+    }
+    if (this.onExit) {
+      void this.onExit(130);
+    } else {
+      process.exit(130);
+    }
+  }

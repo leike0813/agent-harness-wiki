@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-instance-cache
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-instancecache-packages-opencode-src-effect-instance-state-ts
+locator:
+  kind: file_lines
+  file: packages/opencode/src/effect/instance-state.ts
+  start: 30
+  end: 38
+official_url: https://github.com/Kilo-Org/kilocode/blob/fb7e96eda5409517a05948b9efaf01c53997bf6e/packages/opencode/src/effect/instance-state.ts
+excerpt: "  Effect.gen(function* () {\n    // kilocode_change start - do not cache a lookup interrupted by a disconnected caller\n    const cache = yield* ScopedCache.makeWith<string, A, E, R>({\n      capacity: Number.POSITIVE_INFINITY,\n      timeToLive: KiloInstanceState.ttl,\n      // kilocode_change end\n      lookup: () =>\n        Effect.gen(function* () {\n          return yield* init(yield* context)"

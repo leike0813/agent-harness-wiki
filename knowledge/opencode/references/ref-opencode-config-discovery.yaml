@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-discovery
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-discovery-20261011
+official_url: https://github.com/anomalyco/opencode/blob/0d61729b3fa005cec9aa754c075a809663c736a4/packages/core/src/config/discovery.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/discovery.ts
+  start: 10
+  end: 33
+excerpt: |-
+  export const names = ["opencode.json", "opencode.jsonc"]
+
+  /** Eligible sources in priority order, including paths that may appear later. */
+  export interface Sources {
+    readonly global?: AbsolutePath
+    readonly explicit?: AbsolutePath
+    readonly direct: readonly AbsolutePath[]
+    readonly project: readonly { readonly path: AbsolutePath; readonly present: boolean }[]
+    readonly claude: readonly AbsolutePath[]
+    readonly agents: readonly AbsolutePath[]
+  }
+
+  export const discover = Effect.fn("ConfigDiscovery.discover")(function* (options?: Options) {

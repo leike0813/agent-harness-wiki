@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-hooks-shutdown-hint-render
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-src-tui-kimi-tui-ts
+locator:
+  kind: file_lines
+  file: apps/kimi-code/src/tui/kimi-tui.ts
+  start: 1055
+  end: 1060
+official_url: "https://github.com/MoonshotAI/kimi-code/blob/c9f01f07388abc2cdca40c9c5267f58c65086710/apps/kimi-code/src/tui/kimi-tui.ts"
+excerpt: |-
+    // closeSession runs SessionEnd hooks, which can take seconds (bounded by
+    // the hook timeout) — keep the last frame from looking like a freeze by
+    // saying the shutdown is in progress.
+    this.state.footer.setTransientHint(SHUTTING_DOWN_HINT);
+    this.state.ui.requestRender();

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-load-order
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-20261011
+official_url: https://github.com/anomalyco/opencode/blob/0d61729b3fa005cec9aa754c075a809663c736a4/packages/core/src/config.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config.ts
+  start: 220
+  end: 238
+excerpt: |-
+  // Global entries sit below explicit and direct files; project
+  // directories rank above them.
+  const globalSupplementary = sources.global ? yield* loadDirectory(sources.global).pipe(Effect.orDie) : []
+  const projectSupplementary = yield* Effect.forEach(
+    sources.project.filter((root) => root.present),
+    (root) => loadDirectory(root.path),
+  ).pipe(Effect.orDie, Effect.map((entries) => entries.flat()))
+  return [
+    ...(yield* loadWellknown().pipe(Effect.orDie)),
+    ...globalSupplementary,
+    ...explicit,
+    ...direct,
+    ...projectSupplementary,
+    ...content,
+  ]

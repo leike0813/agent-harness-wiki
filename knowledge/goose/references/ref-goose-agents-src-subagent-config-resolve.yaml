@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-subagent-config-resolve
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261011-summon
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/platform_extensions/summon.rs
+  start: 1184
+  end: 1204
+official_url: "https://github.com/block/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/crates/goose/src/agents/platform_extensions/summon.rs"
+excerpt: |2-
+  let max_turns = params
+      .max_turns
+      .or_else(|| recipe.settings.as_ref().and_then(|s| s.max_turns))
+      .unwrap_or_else(|| self.resolve_max_turns(session));
+
+  if max_turns == 0 || max_turns > u32::MAX as usize {
+      anyhow::bail!(
+          "max_turns must be between 1 and {} (got {})",
+          u32::MAX,
+          max_turns
+      );
+  }
+
+  let effective_working_dir = match &params.working_dir {
+      Some(dir) => resolve_working_dir(&session.working_dir, dir)?,
+      None => session.working_dir.clone(),
+  };
+
+  Ok(SubagentConfig {
+      provider_name,
+      model_config: model_config.with_cache_ttl_clamped(),

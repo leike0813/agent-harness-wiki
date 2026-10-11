@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-a2a-message-continues-context-not-task
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-e9582993-cli-a2a-route
+locator:
+  kind: file_lines
+  file: packages/cli/src/serve/routes/a2a.ts
+  start: 482
+  end: 490
+official_url: "https://github.com/QwenLM/qwen-code/blob/e9582993bf419dba43839d62a3ee4da67cfbab6a/packages/cli/src/serve/routes/a2a.ts"
+excerpt: |-
+    // context, which starts the next turn (and task) in that chat session.
+    if (message.taskId) {
+      fail({
+        kind: 'invalid',
+        detail:
+          'Messages cannot be added to an existing task; send a new message with its contextId.',
+      });
+    }
+    if (

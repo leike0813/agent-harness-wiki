@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-managed-policy
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-managed-policy-20261011
+official_url: https://github.com/anomalyco/opencode/blob/0d61729b3fa005cec9aa754c075a809663c736a4/packages/core/src/managed-policy.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/managed-policy.ts
+  start: 49
+  end: 70
+excerpt: |-
+  export function statements(entries: readonly Entry[], organization: State) {
+    return [
+      ...entries
+        .filter((entry): entry is Document => entry.type === "document")
+        .toReversed()
+        .flatMap((entry) => entry.info.experimental?.policies ?? [])
+        .map((policy) => ({ ...policy, message: "Blocked by configuration policy" })),
+      ...organization.statements.map((policy) => ({
+        ...policy,
+        message: organization.organization
+          ? `Blocked by ${organization.organization}'s policy`
+          : "Blocked by your organization's policy",
+      })),
+    ]
+  }

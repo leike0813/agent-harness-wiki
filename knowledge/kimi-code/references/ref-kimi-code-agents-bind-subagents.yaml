@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-agents-bind-subagents
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-src-agent-profile-service-ts
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/agent/profile/profileService.ts
+  start: 290
+  end: 302
+official_url: "https://github.com/MoonshotAI/kimi-code/blob/c9f01f07388abc2cdca40c9c5267f58c65086710/packages/agent-core-v2/src/agent/profile/profileService.ts"
+excerpt: |-
+  private bindSubagents(
+    profileName: string | undefined,
+    subagents: readonly string[] | undefined,
+  ): readonly string[] | undefined {
+    if (this.scopeContext.agentId !== MAIN_AGENT_ID) return subagents;
+    const caller = { profileName, subagents };
+    const extras = rootDelegationExtras(this.catalog, caller, this.catalog.list());
+    const allowlist = subagentAllowlistFor(this.catalog, caller, extras);
+    if (allowlist === undefined) return subagents;
+    if (subagents !== undefined) return allowlist;
+    return withoutDelegatingTargets(this.catalog, allowlist);
+  }

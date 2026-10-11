@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-api-shape
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-protocol-src-groups-config-20261011
+official_url: https://github.com/anomalyco/opencode/blob/0d61729b3fa005cec9aa754c075a809663c736a4/packages/protocol/src/groups/config.ts
+locator:
+  kind: file_lines
+  file: packages/protocol/src/groups/config.ts
+  start: 8
+  end: 24
+excerpt: |-
+  HttpApiEndpoint.get("config.get", "/api/config", {
+    query: LocationQuery,
+    success: Schema.Array(Config.Entry),
+  })
+    .annotateMerge(locationQueryOpenApi)
+    .annotateMerge(
+      OpenApi.annotations({
+        identifier: "config.get",
+        summary: "Get configuration",
+        description:
+          "Return configuration documents and discovery sources for the requested location, from lowest to highest priority.",
