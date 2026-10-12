@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-cancel-flush-pending
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-thread-rs-c66312b
+locator:
+  kind: file_lines
+  file: crates/agent/src/thread.rs
+  start: 2357
+  end: 2377
+official_url: https://github.com/zed-industries/zed/blob/c66312b200d113694fca08c1d468669028a09a0e/crates/agent/src/thread.rs
+excerpt: |2-
+      pub fn cancel(&mut self, cx: &mut Context<Self>) -> Task<()> {
+          for subagent in self.running_subagents.drain(..) {
+              if let Some(subagent) = subagent.upgrade() {
+                  subagent.update(cx, |thread, cx| thread.cancel(cx)).detach();
+              }
+          }
+
+          let Some(running_turn) = self.running_turn.take() else {
+              self.flush_pending_message(cx);
+              return Task::ready(());
+          };
+
+          let turn_task = running_turn.cancel();
+
+          cx.spawn(async move |this, cx| {
+              turn_task.await;
+              this.update(cx, |this, cx| {
+                  this.flush_pending_message(cx);
+              })
+              .ok();
+          })

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-codex-abort-precedence-496
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-src-src-api-providers-openai-codex-496
+locator:
+  kind: file_lines
+  file: src/api/providers/openai-codex.ts
+  start: 320
+  end: 331
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/496bd11467f82791f98f8a3290e028c20767e415/src/api/providers/openai-codex.ts#L320-L331"
+excerpt: "\t\t\t} catch (error) {\n\t\t\t\t// The caller's cancellation wins over the retry: force-refreshing a token for a\n\t\t\t\t// request that is already gone would spend a network round trip on a dead request\n\t\t\t\t// and surface the cancellation as an authentication failure.\n\t\t\t\tif (abortSignal?.aborted) {\n\t\t\t\t\tthrow createAbortError(this.providerName)\n\t\t\t\t}\n\n\t\t\t\tconst message = error instanceof Error ? error.message : String(error)\n\t\t\t\tconst isAuthFailure = /unauthorized|invalid token|not authenticated|authentication|401/i.test(message)\n\n\t\t\t\t// Retrying is only safe while nothing has come back yet. Once the SDK has emitted,"

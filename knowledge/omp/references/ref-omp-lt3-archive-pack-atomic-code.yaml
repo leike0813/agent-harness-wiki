@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt3-archive-pack-atomic-code
+harness_id: omp
+snapshot_id: snapshot-omp-adc7-src-session-session-transfer-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-transfer.ts
+  start: 252
+  end: 264
+official_url: https://github.com/can1357/oh-my-pi/blob/adc7fed5c9d6837d77b590bc313a705e2b4136b0/packages/coding-agent/src/session/session-transfer.ts#L252-L264
+excerpt: "/** Write a tar to a sibling staging file and rename it over `target`, so a failure leaves no partial archive. */\nasync function writeArchiveAtomically(\n\ttarget: string,\n\tmembers: readonly (readonly [string, ArchiveMemberContent])[],\n): Promise<void> {\n\tconst staging = `${target}.${Snowflake.next()}.tmp`;\n\ttry {\n\t\tawait writeArchive(staging, \"tar\", members);\n\t\tawait replaceFileAtomically(staging, target);\n\t} catch (error) {\n\t\tawait fs.promises.rm(staging, { force: true });\n\t\tthrow error;\n\t}"

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-m62-src-limit-tool-selection
+harness_id: autohand
+snapshot_id: snapshot-autohand-m62-src-core-toolfilter-ts
+locator:
+  kind: symbol
+  file: src/core/toolFilter.ts
+  symbol: limitToolSelection
+official_url: "https://github.com/autohandai/code-cli/blob/6e69ad6b9c5c2d9655834d4c13a28cf5be636a18/src/core/toolFilter.ts"
+excerpt: |-
+  export function limitToolSelection(
+    selected: FunctionDefinition[],
+    relevant: readonly FunctionDefinition[],
+    messages: LLMMessage[],
+    maxTools: number | undefined,
+  ): FunctionDefinition[] {
+    if (maxTools === undefined || selected.length <= maxTools) return selected;
+    if (!Number.isSafeInteger(maxTools) || maxTools < 1) throw new Error('Invalid provider tool limit');
+    const recent = messages.filter(message => message.role !== 'system').slice(-8);
+    ...
+    if (matchesCategoryTrigger(userText, tool.name.toLowerCase())) score = 80;
+    if (tool.name === 'tool_search' || tool.name === 'tools_registry') score = 100;
+    ...
+    const retained = new Set(ranked.slice(0, maxTools).map(entry => entry.index));
+    return selected.filter((_, index) => retained.has(index));
+  }

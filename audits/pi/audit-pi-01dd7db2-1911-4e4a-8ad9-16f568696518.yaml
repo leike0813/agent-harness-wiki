@@ -1,0 +1,402 @@
+schema_version: 2
+audit_id: audit-pi-01dd7db2-1911-4e4a-8ad9-16f568696518
+harness_id: pi
+checked_at: 2026-10-12T18:50:14.790Z
+previous_audit_id: audit-pi-0de5f9ff-058e-4cfb-aee7-eed7c7ace63d
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-pi-04bf1025-2be8-4fc0-855b-8d1d86097fcc
+  - audit-pi-20261004t061205z
+  - audit-pi-52367b72-118b-46ea-aad9-61bbba8d807e
+  - audit-pi-20261006t134000z
+  - audit-pi-aef48867-7725-4d37-b22a-2bf0ad420ee3
+  - audit-pi-0de5f9ff-058e-4cfb-aee7-eed7c7ace63d
+checks:
+  - source_id: source-pi-npm
+    kind: npm_registry
+    checked_at: 2026-10-12T18:50:13.332Z
+    status: unchanged
+    baseline: 1.1.0@sha512-SeEi/4hdcHNgA9UWlefZl7ZZpm3dzi2OoxNjDHsBJ9o298LNOtbL4DGKgitlEj6uCTccvtw6f2hlCkTPVJ2RXg==
+    observed: 1.1.0@sha512-SeEi/4hdcHNgA9UWlefZl7ZZpm3dzi2OoxNjDHsBJ9o298LNOtbL4DGKgitlEj6uCTccvtw6f2hlCkTPVJ2RXg==
+  - source_id: source-pi-npm-legacy
+    kind: npm_registry
+    checked_at: 2026-10-12T18:50:13.332Z
+    status: unchanged
+    baseline: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+    observed: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+  - source_id: source-pi-repo
+    kind: git_repository
+    checked_at: 2026-10-12T18:50:13.334Z
+    status: changed
+    baseline: ea448f454af474f3e2fe9733b331e17b0662f5d6
+    observed: 7bd01fb92485c06f92ecfff7ccf3197148bc16af
+    remote_ref: refs/heads/main
+  - source_id: source-pi-legacy-repo
+    kind: git_repository
+    checked_at: 2026-10-12T18:50:13.342Z
+    status: changed
+    baseline: ea448f454af474f3e2fe9733b331e17b0662f5d6
+    observed: 7bd01fb92485c06f92ecfff7ccf3197148bc16af
+    remote_ref: refs/heads/main
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.diagnostics
+    section_ids:
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-schema-url-published
+      - ref-pi-config-schema-doc-url
+      - ref-pi-config-schema-generator-base
+      - ref-pi-config-changelog-schema-publish
+      - ref-pi-config-pattern-tilde-code
+      - ref-pi-config-pattern-tilde-changelog
+    cross_topic_links:
+      - providers.models
+      - plugins.api
+      - skills.extensions
+    reason: >-
+      generate-schemas.ts 把 schemaBaseUrl 从仓库 raw 前缀改成 https://pi.dev/schemas，
+      artifact 字段 path 拆成 filename；schemas/settings.schema.json 的 $id 随之变为
+      https://pi.dev/schemas/settings.schema.json，docs/settings.md 新增推荐的 $schema 写法；
+      package-manager.ts 的 matchesAnyPattern/normalizeExactPattern 改为先 normalizePath，
+      使 extensions/skills/prompts/themes 的 !pattern、+path、-path 展开 ~。两者都在已发布的
+      config-diagnostics 小节里陈述，因此本轮扩展到引用同一 keys 的两个主题。
+  - topic: custom_providers
+    question_ids:
+      - providers.models
+    section_ids:
+      - providers-models
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-providers-openrouter-auth
+      - ref-pi-providers-openrouter-refresh
+      - ref-pi-providers-openrouter-regional
+      - ref-pi-providers-openrouter-code
+      - ref-pi-providers-personalized-catalog
+      - ref-pi-providers-openrouter-changelog
+      - ref-pi-providers-models-schema-url
+    cross_topic_links:
+      - config.diagnostics
+    reason: >-
+      docs/providers.md 新增 OpenRouter 一节：有 key 时只列该 key 可用的 chat 模型及其 context
+      size、最大输出与价格，数据来自 /models/user，区域端点经 models.json 的 baseUrl 生效，
+      端点拒绝或缺失时回落全量；清单保存后离线、pi -p 与 RPC 均用保存值。
+      schemas/models.schema.json 的 $id 同步改到 https://pi.dev/schemas/，docs/models.md 示例新增 $schema 行。
+  - topic: native_plugins
+    question_ids:
+      - plugins.api
+    section_ids:
+      - plugins-api
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-pattern-tilde-code
+      - ref-pi-config-pattern-tilde-changelog
+    cross_topic_links:
+      - config.diagnostics
+      - skills.extensions
+    reason: >-
+      包清单与设置数组共用 package-manager.ts 的 applyPatterns，本次 normalizePath 修复同时覆盖
+      两处入口，因此 plugins-api 小节陈述的 !pattern/+path/-path 过滤语义需要记录 ~ 展开这一条件。
+  - topic: custom_agents
+    question_ids:
+      - agents.format
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-definition
+      - agents-limits
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-subagent-code-tool-list
+      - ref-pi-subagent-readme-inherit
+      - ref-pi-subagent-readme-trust
+    cross_topic_links:
+      - config.trust
+    reason: >-
+      本轮登记但未维护：变化路径中没有落到该主题引用文件上的内容，现有 partial 结论与缺口
+      （并发、递归、委派失败的定位手段）保持原样。
+  - topic: hooks
+    question_ids:
+      - hooks.input
+      - hooks.output
+    section_ids:
+      - hooks-input
+      - hooks-output
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-ext-doc-transform-events
+      - ref-pi-ext-doc-errors
+    cross_topic_links:
+      - config.sources
+    reason: >-
+      本轮登记但未维护：docs/extensions.md 确有 before_agent_start 按 messageType 区分的联合类型与
+      运行启动期间会话计为 busy 两处改动（packages/coding-agent/src/core/extensions/types.ts:940-957
+      与 CHANGELOG 第 8、9 行），直接影响 hooks.input 的事件字段契约与 hooks.output 的返回值适用条件，
+      但 hooks 不在本轮指定章节范围内，因此不改章节、也不在此断言新结论，两题保持 pending 留给下一轮定向维护。
+  - topic: skills
+    question_ids:
+      - skills.discovery
+      - skills.extensions
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-locations
+      - skills-extension-fields
+      - skills-invocation
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-resources
+      - ref-pi-skills-doc-locations
+      - ref-pi-skills-doc-frontmatter
+      - ref-pi-skills-doc-command-control
+    cross_topic_links:
+      - config.diagnostics
+    reason: >-
+      本轮登记但未维护：skills-extension-fields 陈述的 !pattern/+path/-path 语义与本轮 package-manager.ts
+      的 ~ 展开修复同源，但 skills 主题不在本轮指定章节范围内，未改章节。该主题四道 partial 题
+      （发现范围与忽略规则、第一方扩展字段清单、启动入口与信任之外的条件、缺少列出已加载 skill 的命令）
+      本轮均无新证据，原样保留为 pending。
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-files
+      - config-migration
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-env-dotenv-files
+      - ref-pi-settings-migration
+      - ref-pi-config-resources
+      - ref-pi-config-schema-url-published
+    cross_topic_links:
+      - transcripts.location
+    reason: >-
+      本轮未闭合的缺口：dotenv 三文件之间的优先级与环境变量覆盖顺序、迁移的弃用时间表与回滚方式、
+      以及打印某键最终生效值与来源的命令，都在本轮固定来源下仍无证据，保持 partial。
+  - topic: custom_providers
+    question_ids:
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-behavior
+      - providers-models
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-cp-doc-registration
+      - ref-pi-providers-openrouter-code
+    cross_topic_links:
+      - config.runtime
+    reason: >-
+      本轮未闭合的缺口：请求转发、响应处理与诊断的扩展点细节（含 stream/streamSimple 取舍）
+      仍未逐条登记；OpenRouter 一节只补上 providers.models，未涉及这四题。
+  - topic: native_plugins
+    question_ids:
+      - plugins.diagnostics
+    section_ids:
+      - plugins-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-packages-doc-dependencies
+      - ref-pi-packages-doc-filter
+    cross_topic_links:
+      - plugins.discovery
+    reason: >-
+      本轮未闭合的缺口：仍缺逐包列出「实际加载了哪些资源及其来源」的命令，按 partial 保留。
+  - topic: mcp
+    question_ids:
+      - mcp.diagnostics
+    section_ids:
+      - mcp-config
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-mcp-diagnostics-list
+      - ref-pi-mcp-diagnostics-log
+      - ref-pi-mcp-diagnostics-inspect
+    cross_topic_links:
+      - config.diagnostics
+    reason: >-
+      本轮未闭合的缺口：配置被读取、server 已连接、工具可见、调用成功四层仍缺逐层分离的诊断命令，
+      保持 partial。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.lifecycle
+      - transcripts.archive
+      - transcripts.cleanup
+    section_ids:
+      - transcripts-lifecycle
+      - transcripts-archive-and-cleanup
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-lt-lifecycle-compaction-steps
+      - ref-pi-lt-compaction-thinking-omitted
+      - ref-pi-lt-archive-export-jsonl
+      - ref-pi-lt-cleanup-delete-fallback
+    cross_topic_links:
+      - config.runtime
+    reason: >-
+      本轮未闭合的缺口：transcripts.lifecycle 的「把会话移交给子代理并落盘」在本轮固定来源下无证据；
+      transcripts.archive 的 /import 分发分支与恢复后的信息损失度量仍缺；transcripts.cleanup 的级联删除、
+      孤儿记录与并发写入行为仍无来源支撑。三者保持 partial。
+  - topic: mcp
+    question_ids:
+      - mcp.transport
+      - mcp.diagnostics
+      - mcp.capabilities
+      - mcp.lifecycle
+    section_ids:
+      - mcp-config
+      - mcp-capabilities
+      - mcp-lifecycle
+      - mcp-route
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-mcp-reaches-tools-doc
+      - ref-pi-mcp-reaches-tools-mcp-doc
+      - ref-pi-mcp-reaches-tools-wait
+      - ref-pi-mcp-reaches-tools-activate
+      - ref-pi-mcp-resources-not-listed
+      - ref-pi-mcp-list-resources-flag
+      - ref-pi-mcp-changelog-list-json
+      - ref-pi-mcp-changelog-resources-listing
+      - ref-pi-mcp-namespace-aliases
+      - ref-pi-mcp-login-timeout
+      - ref-pi-mcp-send-options
+      - ref-pi-mcp-structured-content
+    cross_topic_links:
+      - config.diagnostics
+    reason: >-
+      工具定义新增 reachesTools(input)，MCP 扩展据此决定是否为 MCP 工具激活替换的 codemode/
+      tool_search 并在调用前等待所涉 server；命名空间新增 aliases，MCP 命名空间用 server 名；
+      连接时不再列举资源，pi mcp list 改为输出 offers resources、JSON 的 resources 变布尔；
+      McpTransport.send() 新增可选 signal，CallToolResult.structuredContent 放宽为 unknown。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.lifecycle
+      - transcripts.database
+    section_ids:
+      - transcripts-lifecycle
+      - transcripts-database-and-index
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-lt-compaction-thinking-omitted
+      - ref-pi-lt-changelog-experimental-removed
+      - ref-pi-lt-package-files-published
+    cross_topic_links:
+      - config.migration
+    reason: >-
+      src/experimental/session-catalog.ts 与 src/experimental/durable/sessions.ts 在本区间被删除，
+      CHANGELOG 的 Removed 段记录未发布的实验 server/client/plugin 栈连同其源码导出一起移除，
+      coding-agent 的 files 字段也不再排除 dist/experimental 与 dist/cli/experimental；
+      transcripts-database-and-index 原以这两个文件加该排除项为证据。serializeConversation()
+      改为跳过 thinking 块，改变压缩摘要的输入。
+pending_question_ids:
+  - config.sources
+  - config.migration
+  - config.diagnostics
+  - providers.metadata
+  - providers.forwarding
+  - providers.responses
+  - providers.diagnostics
+  - plugins.diagnostics
+  - mcp.diagnostics
+  - transcripts.lifecycle
+  - transcripts.archive
+  - transcripts.cleanup
+  - skills.discovery
+  - skills.extensions
+  - skills.conditions
+  - skills.diagnostics
+  - agents.format
+  - agents.limits
+  - agents.diagnostics
+  - hooks.input
+  - hooks.output
+investigation_notes:
+  - >-
+    本轮 triage 分类：maintain。两个 Git 来源同时从 ea448f45 前进到 7bd01fb92485，各 443 个变化路径。
+    两个 pinned checkout（ws-7bd01fb92485-942304df… 与 ws-7bd01fb92485-2caf6dd0…）在同一提交上的
+    git ls-tree -r 输出逐行相同，字节一致，因此只用前者作为证据。
+  - >-
+    扫描器把两个 Git 来源的影响写成全部八个主题的「shared or unknown impact」。worker 逐条读取
+    变化文件后把 impacts 收窄到 configuration、custom_providers、native_plugins、mcp 四个主题，
+    其余四个主题（skills、custom_agents、hooks、local_transcripts 之外的 agents/hooks 部分）本轮不改章节。
+  - >-
+    settings.md 与生成的 schema：verify 后确认改动同时落在 docs/settings.md 第 5 行、
+    schemas/settings.schema.json 第 3 行、schemas/models.schema.json 第 3 行与
+    scripts/generate-schemas.ts 的 schemaBaseUrl/SchemaArtifact.filename 上，四处一致指向
+    https://pi.dev/schemas。键集合、默认值与合并逻辑未变，因此没有扩展到 config.defaults、
+    config.overrides、config.runtime、config.trust、config.migration——那些结论在 7bd01fb9 上没有
+    被推翻。config.diagnostics 本就按 partial 记录（缺「打印某键最终生效值与来源」的命令），
+    本轮补证据后仍为 partial，故留在 pending_question_ids。
+  - >-
+    跨主题扩展：$schema 发布地址与 !pattern 的 ~ 展开是共享机制，按「章节陈述了该键即同步」处理，
+    因此同时更新 custom_providers（models.json 的 $schema 与 models.schema.json 的 $id）与
+    native_plugins（包清单过滤）。skills 主题的 skills-extension-fields 也陈述同一组
+    !pattern/+path/-path 键，但本轮任务范围未包含该主题，且其结论（键集合与语义）未被推翻，
+    只在 investigation_notes 记录，留待下一轮 skills 定向维护；hooks 与 custom_agents 本轮无变化路径
+    落在其引用文件上，不扩展。
+  - >-
+    实验运行时（instruction 3）：src/experimental/session-catalog.ts 与
+    src/experimental/durable/sessions.ts 在本区间被整体删除，packages/coding-agent/package.json
+    的 files 也不再排除 dist/experimental 与 dist/cli/experimental。local_transcripts 的
+    transcripts-database-and-index 正是以这两个文件加 package.json 排除项为证据，因此新建
+    pi-local_transcripts-v2，保留「实验路径不属于 pi CLI 记录、也不随包发布」这一条件而非删除该结论，
+    并写明这两个文件的形态仍按 28dcce2 记录、本轮未复核其在后续提交中的存在性。
+    transcripts.lifecycle/archive/cleanup 三题本轮无新证据，维持原状态与缺口描述。
+  - >-
+    compaction：docs/compaction.md 与 src/core/compaction/utils.ts 显示 serializeConversation()
+    不再输出 thinking 块。这影响 transcripts.lifecycle 的摘要输入，已在 v2 中记录，并明确区分
+    「摘要输入不含 thinking」与「thinking 仍照常落盘」，未改动 transcripts.schema 的记录形态结论。
+  - >-
+    版本映射：本轮未新增、未修改任何 mappings/ 记录，仓库 HEAD 不作为映射依据。
+    npm 来源本轮 unchanged（1.1.0 与 legacy 0.73.1），继续按 source_only 阅读。
+  - >-
+    pending_question_ids 列出的是现行章节中仍未闭合的问题：config.sources 与 config.migration
+    的 dotenv 优先级、迁移弃用时间表等缺口本轮没有新证据；config.diagnostics 与 mcp.diagnostics
+    仍缺「打印某键最终生效值与来源」的命令与逐项 diagnostics 分解；providers.metadata/forwarding/
+    responses/diagnostics 四题按 v5 的 partial 保留；plugins.diagnostics 缺逐包列出实际加载资源的命令；
+    transcripts.lifecycle/archive/cleanup 三题的子代理委派、/import 分发分支与级联删除等缺口本轮仍无证据。
+  - >-
+    skills、custom_agents、hooks 三个主题本轮不改章节，但它们的未完问题必须继续在本审计里可见：
+    skills.discovery/extensions/conditions/diagnostics、agents.format/limits/diagnostics、
+    hooks.input/output 全部保留在 pending_question_ids，并由本审计的对应 impacts 覆盖。
+    其中 hooks.input/hooks.output 是本轮确知会受影响但未获授权范围处理的两题；
+    skills.extensions 与本轮的 ~ 展开修复同源。旧审计（audit-pi-04bf1025…、audit-pi-aef48867… 等）
+    同样保留在 pending_audit_refs 中，两处记录指向同一批未闭合问题，不构成重复结案。
+  - >-
+    复核修订记录（2026-10-13，changes_requested 之后）：一、pi-mcp-v5.md 的 capabilities 与 route 各有一份
+    重复段落、lifecycle 一行内重复了同一段 reachesTools 等待规则，均已删除，每条主张与其引用现在各出现一次。
+    二、pi-local_transcripts-v2.md 原写「files 排除项消失是因为 src/experimental 整棵树已不存在」，该说法不成立
+    （该目录下的 source-resolver.ts 在 7bd01fb9 仍存在并仍被 generate:schemas 引用），已改为只陈述
+    session-catalog.ts 与 durable/sessions.ts 两个文件不在源码树内，并删掉与之冲突的旧 hedge 句。
+    三、ref-pi-config-changelog-schema-publish 的 locator 原指向 CHANGELOG 第 8 行（before_agent_start 条目），
+    已改指第 7 行，即真正记录四份模式发布地址与启动期主题校验的那条。
+    四、pending_question_ids 恢复 skills.discovery/extensions/conditions/diagnostics、agents.format/limits/
+    diagnostics、hooks.input/output 九项，并扩写 skills 与 hooks 的 impacts 覆盖它们；review_status 保持 pending。
+  - >-
+    独立复核需求：有。docs/settings.md 的 $schema 发布地址与 package-manager.ts 的过滤展开属于
+    跨主题共享的加载/配置机制变更，且 CHANGELOG 把主题模式地址与启动期校验列为 breaking change，
+    需要只读 reviewer 复核新引用与四个新章节版本的证据链。

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-writer-format-barrier-stale-reclaim
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-18f80f56-core-session-writer-lease
+locator:
+  kind: file_lines
+  file: packages/core/src/services/session-writer-lease.ts
+  start: 1997
+  end: 2013
+official_url: https://github.com/QwenLM/qwen-code/blob/18f80f56666a347a2b67b2ef98099cc58356b253/packages/core/src/services/session-writer-lease.ts
+excerpt: "        });\n      }\n      // The format barrier is two-directional here as it is for a sealed\n      // takeover: reclaiming a stale active lock from a newer format would\n      // rewrite the durable record at this binary's lower format and append\n      // records the newer binary's reader then refuses.\n      if (\n        isManagedLockRecord(state.record) &&\n        normalizedOptions.lockSchema !== undefined &&\n        normalizedOptions.lockSchema.formatVersion < state.record.format_version\n      ) {\n        throw new SessionWriterUnavailableError({\n          cause: new Error(\n            `Stale session writer lock format ${state.record.format_version} is newer than this binary's format ${normalizedOptions.lockSchema.formatVersion}`,\n          ),\n        });\n      }"

@@ -1,0 +1,38 @@
+schema_version: 2
+audit_id: audit-opencode-12691d48-1a45-4b04-bc22-ef7201bd564e
+harness_id: opencode
+checked_at: 2026-10-12T18:50:16.702Z
+previous_audit_id: audit-opencode-2aa143e4-1b45-4f8f-8bba-c200a6007522
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-opencode-0f16a4f4-327b-41be-bbbb-d7da9bfdd6c0
+  - audit-opencode-2aa143e4-1b45-4f8f-8bba-c200a6007522
+checks:
+  - source_id: source-opencode-npm
+    kind: npm_registry
+    checked_at: 2026-10-12T18:50:14.911Z
+    status: unchanged
+    baseline: 1.19.0@sha512-lddJhFwZI3GLlw8VyOo4yNwBVGeVN/mxH6ORh60h69zAXL7QhjSWY9orj10rwO2kxVnxH9dh45uDCWNuiqPb8A==
+    observed: 1.19.0@sha512-lddJhFwZI3GLlw8VyOo4yNwBVGeVN/mxH6ORh60h69zAXL7QhjSWY9orj10rwO2kxVnxH9dh45uDCWNuiqPb8A==
+  - source_id: source-opencode-repo
+    kind: git_repository
+    checked_at: 2026-10-12T18:50:14.913Z
+    status: changed
+    baseline: 0d61729b3fa005cec9aa754c075a809663c736a4
+    observed: c57c448d31c390880e06493f81b91a2c92536ad9
+    remote_ref: refs/heads/dev
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - '本轮 triage 分类：reviewed_no_impact。source-opencode-repo 由 0d61729b 变为 1c74b9f0（fix(tui): restrict command autocomplete to prompt start），632 个文件。命中已登记引用的三个文件逐一读真实 hunk 后，八个主题均无字段、默认值、优先级、路径、鉴权流程或命令列表的变化，因此不新建章节版本。'
+  - 'agents.mdx（custom_agents 全部 9 条引用所在文件）：全文件只有一处 hunk，位于 366-370 行，把 OpenCode Zen 的说明链接由站内相对路径 /docs/zen 改为绝对地址 https://opencode.ai/v2/docs/console/。该段落其余文字（模型 ID 形如 provider/model-id）逐字未变。改动行不落在任何引用摘录的行范围内（16-39、119-138、142-184、188-216、226-313、424-450、578-597、601-630、700-716），已登记定位仍指向原内容。agents.entry、agents.format、agents.roles、agents.invocation、agents.overrides、agents.limits、agents.diagnostics 复核后答案与状态不变。'
+  - 'providers.mdx（custom_providers 全部 7 条引用所在文件）：两处 hunk，均只把 "Learn more" 的目标由 /docs/zen 换成 https://opencode.ai/v2/docs/console/（87-90 行、1810-1813 行），没有触及 provider 段字段、/connect 鉴权流程、models 发现规则或 baseURL 语义。两处行号都不在引用行范围内（11-22、25-47、51-84、2595-2622、2662-2669、2673-2685）。providers.entry、providers.auth、providers.protocol、providers.models、providers.metadata、providers.forwarding、providers.responses、providers.diagnostics 复核后答案与状态不变。'
+  - 'commands.ts（configuration 唯一引用所在文件）：唯一 hunk 在 533 行附近的 pair 命令，为 --remote 的描述补上“会把服务端暴露到互联网”，并新增 --yes/-y 布尔标志（默认 false，用于 --remote 首次开启对外访问时的同意确认）。已发布内容只引用该文件 115-143 行的 debug 分组，hunk 位于其后，摘录与章节结论（debug 分组只剩 agents、config、paths）逐字仍成立；已发布章节未陈述 pair 命令或其标志，没有章节依赖本次改动。config.sources、config.overrides、config.runtime、config.trust、config.defaults、config.migration、config.diagnostics 复核后答案与状态不变（含 config.trust 仍为来源冲突，未被本轮证据改变）。'
+  - '同批 runtime 改动逐项排除：packages/core/src/v1/config/migrate.ts 与新增的 packages/core/src/v1/config/provider-options.ts 只改 v1→v2 迁移路径，为 @ai-sdk/openai-compatible 的模型选项拆出 settings/body；configuration 的 config.migration 答案取自 packages/core/src/config/normalize.ts 与 packages/cli/src/config/migrate.ts，未陈述 v1 provider 迁移，custom_providers 的 npm 选择与转发参数语义也未因此改变，故不属于对已发布表述的修正。'
+  - 'packages/core/src/plugin/provider/azure.ts 把 /connect 表单的资源列举改为纯文本输入；已发布章节未涉及 Azure 连接流程，providers.auth 依据 providers.mdx 的 auth.json 存储不受影响。packages/core/src/plugin/provider/openai.ts 把 gpt-6.1-sol 的 limit 覆盖由 400_000/272_000 改为 628_000/500_000；该覆盖值未出现在任何已发布章节，providers.metadata 仍按 models.dev 自动取值加自定义手写保持 partial，正文无需改动。'
+  - 'packages/core/src/tool/plugin/edit.ts 新增 CRLF/LF 行尾保留与 edit 工具描述文案，八个主题均不覆盖工具实现细节；packages/cli/src/services/service-config.ts 新增 pair 远端同意状态，updater.ts 改安装方式探测与提示文案，packages/core/src/codemode/web.ts 禁止 file: fetch，均无已发布章节覆盖。packages/tui/src/component/prompt/autocomplete.tsx 把斜杠命令补全收紧到行首（slash === 0），只影响补全弹窗的触发位置，不改变 skills 章节“metadata 的 opencode/slash 把 Skill 暴露为 TUI 斜杠命令”的表述。'
+  - 'packages/console/**（359 删除 / 22 修改 / 5 重命名）与 packages/web 多语言文档、zen.mdx 与 go.mdx 删除属文档站与 console Web 应用重组，不涉及 CLI 配置、Agent、Provider、MCP、Hook、原生插件、Skill 或本地记录机制。'
+  - '来源范围说明：本轮固定工作区 ws-1c74b9f0209d-e88c2548-9332-400b-be5a-0bc6c33b136d 检出 1c74b9f0209deea9d7a6192fac989d8cf0562502，为浅克隆，不含本审计 checks 记录的 observed c57c448d31c390880e06493f81b91a2c92536ad9。以只读 compare（1c74b9f0…c57c448d）核对该多出的一个提交，仅涉及 packages/console/app 的 changelog 页面与 i18n 资源、console 的 package.json 与 bun.lock，不触及本轮核查的任何文件或主题，故 0d61729b → c57c448d 的差异在八个主题上已完整覆盖。'
+  - '未新建章节版本、未新增快照或引用、未新增软件版本映射：npm 侧本轮 unchanged（1.19.0 同一 identity），仓库 HEAD 不足以证明已发布二进制的行为。'
+  - 'review_status 保持 pending：本审计引用 audit-opencode-0f16a4f4 与 audit-opencode-2aa143e4，二者 review_status 仍为 pending（2aa143e4 的 config.trust 来源冲突与 config.diagnostics 语义变更待独立复核）。本轮自身改动不触发高影响条件——无来源冲突、无推翻已发布配置步骤、无跨主题关键加载机制变化——但不通过标 reviewed 间接关闭上游待办。'

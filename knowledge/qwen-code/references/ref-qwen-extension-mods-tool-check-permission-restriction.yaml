@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-extension-mods-tool-check-permission-restriction
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-18f80f56-doc-mods
+locator:
+  kind: file_lines
+  file: docs/users/extension/mods.md
+  start: 155
+  end: 163
+official_url: https://github.com/QwenLM/qwen-code/blob/18f80f56666a347a2b67b2ef98099cc58356b253/docs/users/extension/mods.md
+excerpt: '`tool.check` receives `{tool, input, tool_use_id}` after native validation and
+
+  classic input rewrites. All fields are pinned. Its next returns a declarative
+
+  `{decision: ''allow'' | ''ask'' | ''deny'', reason?}` without executing the tool.
+
+  Qwen merges the answer restrictively: a Mod cannot upgrade a native deny or
+
+  ask to allow. A Mod ask follows the current approval mode''s existing decision
+
+  flow; required human interaction and classic forced asks remain authoritative.
+
+  This is deliberately stricter than Claude''s consumer permission overrides.
+
+  If a native PermissionRequest hook rebuilds the arguments, they are checked
+
+  again. A Mod-authored `rule`, `hook` or `ceiling` cannot create host permissions.'

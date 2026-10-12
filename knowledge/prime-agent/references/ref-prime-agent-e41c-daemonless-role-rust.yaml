@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e41c-daemonless-role-rust
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e41c-daemonless-role-rust
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/prompts/system_prompt.rs
+  start: 313
+  end: 321
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e41c9c4c6ccabf700f1dfdc1653e7ef9c5e96312/crates/pa-core/src/prompts/system_prompt.rs"
+excerpt: |
+  if options.daemonless {
+      lines.push(if options.can_spawn {
+          "This session has no daemon: heartbeats never fire, and background `bash()` completions do not wake you, so await them before ending your turn. Subagent replies and exit notices still wake you, and the run waits for your subagents before it exits."
+              .to_string()
+      } else {
+          "This session has no daemon: `rlm.spawn` is unavailable, heartbeats never fire, and background `bash()` completions do not wake you, so await them before ending your turn."
+              .to_string()
+      });
+  }

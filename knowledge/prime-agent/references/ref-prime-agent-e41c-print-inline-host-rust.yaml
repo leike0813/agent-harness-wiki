@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e41c-print-inline-host-rust
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e41c-print-runtime-rust
+locator:
+  kind: file_lines
+  file: crates/pa-cli/src/print_runtime.rs
+  start: 680
+  end: 690
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e41c9c4c6ccabf700f1dfdc1653e7ef9c5e96312/crates/pa-cli/src/print_runtime.rs"
+excerpt: |
+  let (rlm_subagent_host, extra_host_handlers) = match embedding {
+      HeadlessEmbedding::Rpc => (None, None),
+      HeadlessEmbedding::Root { node } => {
+          let (host, handlers) = crate::print_rlm::inline_subagent_wiring(node);
+          (Some(host), Some(handlers))
+      }
+      HeadlessEmbedding::Child(overrides) => {
+          let (host, handlers) = crate::print_rlm::inline_subagent_wiring(&overrides.node);
+          (Some(host), Some(handlers))
+      }
+  };

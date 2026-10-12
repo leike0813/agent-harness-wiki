@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-20261013-skills-invocation-name-only
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-20261013-skills-invocation-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/skills/invocation.py
+  start: 169
+  end: 201
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def build_skill_invocation_envelope(
+      name: str,
+      args: str = "",
+  ) -> SkillInvocationEnvelope:
+      """Build the user request and persisted metadata for SDK skill pinning.
+
+      The agent server resolves, trust-checks, and reads the skill, so only the
+      name the user typed is sent.
+      ...
+      """
+      prompt = f"I'm invoking the skill `{name}`."
+      if args:
+          prompt += f"\n\n**User request:** {args}"
+
+      message_kwargs = {
+          "additional_kwargs": {
+              # `pinned` marks an invocation whose instructions arrive in a
+              # separate SDK message, unlike older ones that embedded them.
+              "__skill": {"name": name, "args": args, "pinned": True},
+          },
+      }

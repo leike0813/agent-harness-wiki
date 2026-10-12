@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-20261013-skills-trust-interrupt
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-20261013-skills-trust-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/skills/trust.py
+  start: 71
+  end: 101
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  SKILL_TRUST_INTERRUPT_TYPE: Literal["skill_trust"] = "skill_trust"
+  """`type` of the interrupt the agent server raises to ask for skill trust."""
+
+
+  class SkillTrustRequest(TypedDict):
+      """Interrupt payload asking the user to trust a skill's directory.
+
+      The client answers with `{"approved": bool}`. Any other answer is a deny.
+      """
+
+
+  def parse_skill_trust_request(value: object) -> SkillTrustRequest | None:
+      """Return `value` as a skill trust request, or `None` if it is not one."""
+      if not isinstance(value, dict) or value.get("type") != SKILL_TRUST_INTERRUPT_TYPE:
+          return None

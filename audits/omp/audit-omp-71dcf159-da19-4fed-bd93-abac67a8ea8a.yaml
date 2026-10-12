@@ -1,0 +1,198 @@
+schema_version: 2
+audit_id: audit-omp-71dcf159-da19-4fed-bd93-abac67a8ea8a
+harness_id: omp
+checked_at: '2026-10-12T18:50:13.212Z'
+previous_audit_id: audit-omp-20261011t015904z-omp-worker
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+- source_id: source-omp-npm
+  kind: npm_registry
+  checked_at: '2026-10-12T18:50:11.562Z'
+  status: changed
+  baseline: 18.8.9@sha512-+AwkQxcueVTKWfjE3yRWD36Vhl3jRmdkATT7CoYYdPgNcBn1PhEYFQu6TIB9O7HOIf18TW8S/xgicW8uGK0R3w==
+  observed: 18.10.2@sha512-sR4mkYJl1eZvC57ee9ehzI2WJ6nCHw9EOwVUpE4C0DGjnpbLIJUHV0QY68Dcj2fIem+6soRud2Be6sAXIMAI4w==
+- source_id: source-omp-repo
+  kind: git_repository
+  checked_at: '2026-10-12T18:50:11.562Z'
+  status: changed
+  baseline: 4b5e4fb7ea8ec2d37b8b6b138ea01125fe0a17dc
+  observed: adc7fed5c9d6837d77b590bc313a705e2b4136b0
+  remote_ref: refs/heads/main
+impacts:
+- topic: local_transcripts
+  question_ids:
+  - transcripts.cleanup
+  - transcripts.archive
+  - transcripts.lifecycle
+  - transcripts.schema
+  - transcripts.diagnostics
+  - transcripts.location
+  - transcripts.archive
+  - transcripts.cleanup
+  section_ids:
+  - transcripts-scope
+  - transcripts-storage-layout
+  - transcripts-schema-lifecycle
+  - transcripts-cleanup-archive
+  - transcripts-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-omp-lt3-cleanup-staging-temps-doc
+  - ref-omp-lt3-cleanup-staging-temp-glob-code
+  - ref-omp-lt3-cleanup-staging-temp-sweep-code
+  - ref-omp-lt3-cleanup-registered-session-paths-code
+  - ref-omp-lt3-cleanup-gc-temp-report-code
+  - ref-omp-lt3-storage-staging-path-code
+  - ref-omp-lt3-archive-transfer-command-code
+  - ref-omp-lt3-archive-transfer-module-code
+  - ref-omp-lt3-archive-transfer-marker-code
+  - ref-omp-lt3-lifecycle-fork-if-moved-away-code
+  - ref-omp-lt3-lifecycle-resume-forks-code
+  cross_topic_links:
+  - config.defaults
+  - agents.limits
+  reason: gc-cli.ts adds a session staging-temp sweep to the sessions phase (docs/session.md paragraph at adc7fed5 L583 plus collectSessionStagingFiles/sweepSessionStagingFiles); session-storage.ts exports sessionStagingPath/SESSION_STAGING_RE so GC consumes the writer's naming; commands/session.ts and the new session-transfer.ts add omp session pack|unpack|moved with a session-transfer custom_message marker; main.ts routes every resume path through forkIfMovedAway. transcripts-scope changed because its fixed-source preamble now names this third pinned commit, and it carries the dirs.ts recheck paragraph; dirs.ts itself changed in the same range but only adds getMnemopiEmbedRuntimeDir(), which touches no session/blob/db path, so transcripts.location is re-verified unchanged rather than revised.
+- topic: configuration
+  question_ids:
+  - config.defaults
+  - config.trust
+  - config.defaults
+  section_ids:
+  - config-defaults
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-omp-cfg6-defaults-task-structured-code
+  - ref-omp-cfg6-defaults-task-agent-soft-request-budget-code
+  - ref-omp-cfg6-defaults-tui-auto-graph-code
+  - ref-omp-cfg6-defaults-tui-auto-graph-doc
+  cross_topic_links:
+  - agents.limits
+  - providers.protocol
+  reason: task/settings.ts registers two new settings (task.structured boolean default false, task.agentSoftRequestBudget record default {} with a non-negative-integer validator and null-clears-lower-layer); docs/settings.md and modes/settings.ts rewrite the tui.autoGraph smart description. Neither key has a docs/settings.md table row at this commit, so the code definition is the only evidence and that is stated in the chapter.
+- topic: custom_providers
+  question_ids:
+  - providers.protocol
+  - providers.auth
+  - providers.forwarding
+  - providers.metadata
+  - providers.forwarding
+  - providers.responses
+  - providers.diagnostics
+  section_ids:
+  - providers-schema
+  - providers-credentials
+  - providers-forwarding
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-omp-providers4-judgment-api-values-doc
+  - ref-omp-providers4-workers-ai-auth-doc
+  - ref-omp-providers4-beta-kill-switch-doc
+  cross_topic_links:
+  - config.defaults
+  - config.runtime
+  reason: 'The nine refs the previous edition cited all resolve to docs/models.md and docs/providers.md sections that are byte-identical between 4b5e4fb7 and adc7fed5, so no prior statement was invalidated. Three areas in the same files did change and are now covered: docs/models.md adds openai-decisions and workers-ai-systemone to the allowed api list with their differing request shapes; docs/providers.md adds the cloudflare-workers-ai credential entry with CLOUDFLARE_API_TOKEN/CLOUDFLARE_AUTH_TOKEN plus CLOUDFLARE_ACCOUNT_ID; docs/environment-variables.md documents CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS as a request-body switch gated by the honors-claude-code-beta-kill-switch compat axis.'
+- topic: custom_agents
+  question_ids:
+  - agents.limits
+  - agents.diagnostics
+  section_ids:
+  - agents-limits
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-omp-agents3-agent-soft-request-budget-doc
+  cross_topic_links:
+  - config.defaults
+  - config.overrides
+  reason: docs/task-agent-discovery.md section 'Model and structured-output precedence' is the only one of the eight cited by omp-custom_agents-v3 that changed at adc7fed5; it adds task.agentSoftRequestBudget[agentName] overriding both the global task.softRequestBudget and the bundled scout/sonic ceiling, in either direction.
+- topic: skills
+  question_ids:
+  - skills.extensions
+  - skills.diagnostics
+  section_ids:
+  - skills-extensions
+  - skills-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-omp-skills-format-doc-69e8
+  - ref-omp-skills-collision-doc-69e8
+  cross_topic_links: []
+  reason: 'No source change this round and none cited: every reference in omp-skills-v3 resolves to an unchanged path or to a document_section heading absent from all 13 changed docs. Recorded so the two still-open questions keep a named owner; they remain partial from earlier rounds and were not investigated here.'
+- topic: mcp
+  question_ids:
+  - mcp.auth
+  - mcp.diagnostics
+  section_ids:
+  - mcp-auth
+  - mcp-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-omp-mcp-oauth-doc-69e8
+  - ref-omp-mcp-health-doc-69e8
+  cross_topic_links: []
+  reason: No source change this round. The only citation that lands in a changed document is the models.md section 'oauth', which is byte-identical between 4b5e4fb7 and adc7fed5. Recorded so mcp.auth and mcp.diagnostics keep a named owner; they remain partial from earlier rounds and were not investigated here.
+- topic: hooks
+  question_ids:
+  - hooks.input
+  - hooks.diagnostics
+  section_ids:
+  - hooks-module
+  - hooks-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-omp-hooks-tool-doc-69e8
+  - ref-omp-hooks-order-doc-69e8
+  cross_topic_links: []
+  reason: 'No source change this round: omp-hooks-v3 cites no file in the changed set and no cited heading appears in any changed doc. Recorded so hooks.input and hooks.diagnostics keep a named owner; they remain partial from earlier rounds and were not investigated here.'
+- topic: native_plugins
+  question_ids:
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+  section_ids:
+  - plugins-api
+  - plugins-lifecycle
+  - plugins-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-omp-extensions-load-doc-69e8
+  - ref-omp-extension-loading-allowlist-doc-69e8
+  cross_topic_links: []
+  reason: No source change this round. The only citation in a changed document is the models.md section 'Runtime model', which is byte-identical across the range. Recorded so plugins.api, plugins.lifecycle and plugins.diagnostics keep a named owner; they remain partial from earlier rounds and were not investigated here.
+pending_question_ids:
+- skills.extensions
+- skills.diagnostics
+- mcp.auth
+- mcp.diagnostics
+- agents.diagnostics
+- providers.metadata
+- providers.forwarding
+- providers.responses
+- providers.diagnostics
+- hooks.input
+- hooks.diagnostics
+- plugins.api
+- plugins.lifecycle
+- plugins.diagnostics
+- config.trust
+- config.defaults
+- transcripts.archive
+- transcripts.cleanup
+investigation_notes:
+- 'Source triage: source-omp-repo 4b5e4fb7->adc7fed5 is 609 changed paths. Every source_reference cited by omp-local_transcripts-v2, omp-configuration-v5 and omp-custom_providers-v3 was resolved to its repo-relative file and its excerpt re-checked against the observed commit: 11 of them are no longer verbatim at adc7fed5 and 30 relocated only because earlier hunks shifted line numbers, which is not a knowledge change. Each of the 11 was read in the observed file to decide whether a documented statement changed, not whether a locator moved.'
+- 'npm 18.8.9->18.10.2 is an identity bump with the integrity changing alongside the version, which is a normal release. No per-section evidence ties any documented statement to a published 18.10.2 artifact, and no session/config file was retrieved for it, so this is reviewed_no_knowledge_impact: no chapter change, no software-version mapping created or changed. The repository HEAD alone is not evidence of published-package behaviour.'
+- 'The scanner marked all eight topics ''shared or unknown impact; assess relevant entrypoints''. That was narrowed by resolving each topic''s actual citations. Excluded with reasons: skills-v3 and hooks-v3 cite no file in the changed set at all (their refs are file_lines on untouched paths and document_section headings not present in any changed doc). mcp-v4 cites only the models.md section ''oauth'', which is byte-identical across the range. native_plugins-v3 cites only models.md ''Runtime model'', also byte-identical. custom_agents-v3''s eight document_section refs all live in docs/task-agent-discovery.md; seven of the eight sections are byte-identical and only ''Model and structured-output precedence'' changed. custom_providers-v3''s nine refs were all checked section-by-section and none changed, which is why its impact rests on newly added adjacent statements rather than on a corrected old one.'
+- 'dirs.ts follow-through (shared path resolver): in the 788cf9e..adc7fed5 range it adds exactly one function, getMnemopiEmbedRuntimeDir() -> ~/.omp/run/mnemopi (state domain), consumed only by mnemopi/embed-client.ts for the per-model embedding server. getSessionsDir, getBlobsDir, getArchivedSessionsDir, getTerminalSessionsDir, getCustomSessionFilesDir, getSessionOwnersDir and the history.db resolver are untouched. Therefore it was extended into local_transcripts (recorded as a verified-unchanged note in the storage layout section, because that chapter states these paths) and into configuration (same, in config-roots). It was NOT extended into skills, plugins or mcp: none of those chapters cites dirs.ts, and none of them states a data or config path derived from it, so there is nothing for the new function to contradict. No chapter was changed on the strength of the mnemopi path itself, since a memory-backend runtime directory is not a config source, a session record, or an extension install root.'
+- 'Included: local_transcripts (cleanup/archive/lifecycle/schema/diagnostics) on the gc-cli staging-temp sweep, the omp session pack|unpack|moved transfer command and its session-transfer custom_message entry, and the forkIfMovedAway resume guard; configuration (defaults) on task.structured and task.agentSoftRequestBudget and the rewritten tui.autoGraph smart description; custom_providers (protocol/auth/forwarding) on the two new judgment api values, the cloudflare-workers-ai credential entry and the CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS switch; custom_agents (limits) on the per-agent request budget override.'
+- 'Excluded after reading the actual hunks: main.ts''s remaining edits are only the forkIfMovedAway wrapping already covered; session-manager.ts''s diff is a billing-cost reset helper for inherited task results and touches no documented path, layout, retention rule or config key; modes/settings.ts''s only change is the tui.autoGraph smart label already covered; session-storage.ts''s change is the staging-path extraction already covered; docs/session.md''s only other change is the one gc paragraph already covered; the 26 changed files under packages/ai/src/providers/, packages/catalog/src/compat/ and the packages/tui, crates, sdk and test trees were not individually read because none of them is cited by any current chapter section for the questions in scope - the provider-side consequences that do reach a chapter are covered above through docs/models.md, docs/providers.md and docs/environment-variables.md.'
+- 'status: changed with review_status: pending. Reason: the new omp session pack|unpack|moved path changes how a session is moved between machines and adds a first-party custom_message type whose replay behaviour in older builds was not verified, and it changes every resume path in main.ts. That is a cross-cutting lifecycle/loading-mechanism change of the kind section 5 of the harness-maintenance skill routes to an independent reviewer, so it is not self-certified as reviewed here.'
+- No source is blocked. pending_question_ids lists the 18 questions that are not `answered` in the editions this candidate selects (16 partial, config.trust unknown), including transcripts.archive and transcripts.cleanup in the chapter revised this round. For the four topics with open questions and no source change (skills, mcp, hooks, native_plugins) the impact exists only so each pending question has a named owner with its real section and citation; those questions were not investigated this round and no revision was made. review_status stays `pending`.

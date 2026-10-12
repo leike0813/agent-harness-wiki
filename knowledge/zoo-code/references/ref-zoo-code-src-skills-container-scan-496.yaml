@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-skills-container-scan-496
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-src-src-services-skills-skillsmanager-496
+locator:
+  kind: file_lines
+  file: src/services/skills/SkillsManager.ts
+  start: 233
+  end: 246
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/496bd11467f82791f98f8a3290e028c20767e415/src/services/skills/SkillsManager.ts#L233-L246"
+excerpt: "\t): Promise<void> {\n\t\tlet realContainerPath = containerPath\n\t\ttry {\n\t\t\trealContainerPath = await fs.realpath(containerPath)\n\t\t\tpass.containers.set(realContainerPath, containerPath)\n\n\t\t\tconst entries = [...(await fs.readdir(realContainerPath))].sort()\n\t\t\tfor (const entryName of entries) {\n\t\t\t\tif (isHiddenEntry(entryName)) continue\n\t\t\t\tconst entryPath = path.join(realContainerPath, entryName)\n\n\t\t\t\tlet isDirectory = false\n\t\t\t\ttry {\n\t\t\t\t\tisDirectory = (await fs.stat(entryPath)).isDirectory()"

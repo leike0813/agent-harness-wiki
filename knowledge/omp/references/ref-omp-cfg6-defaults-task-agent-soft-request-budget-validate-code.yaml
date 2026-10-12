@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-cfg6-defaults-task-agent-soft-request-budget-validate-code
+harness_id: omp
+snapshot_id: snapshot-omp-adc7-src-task-settings-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/task/settings.ts
+  start: 415
+  end: 430
+official_url: https://github.com/can1357/oh-my-pi/blob/adc7fed5c9d6837d77b590bc313a705e2b4136b0/packages/coding-agent/src/task/settings.ts#L415-L430
+excerpt: "/**\n * Validates `task.agentSoftRequestBudget`: exact agent name → request budget,\n * a non-negative integer (0 disables that agent's guard). A `null` entry clears\n * one inherited from a lower-priority settings layer.\n */\nfunction validateAgentSoftRequestBudget(value: unknown): void {\n\tif (value === undefined || value === null) return;\n\tif (!isRecord(value)) {\n\t\tconst received = Array.isArray(value) ? \"an array\" : `a ${typeof value}`;\n\t\tthrow new Error(\n\t\t\t`Invalid task.agentSoftRequestBudget: expected a map of agent name to request budget, got ${received}.`,\n\t\t);\n\t}\n\tfor (const [agentName, budget] of Object.entries(value)) {\n\t\tif (budget === null || (typeof budget === \"number\" && Number.isSafeInteger(budget) && budget >= 0)) continue;\n\t\tthrow new Error("

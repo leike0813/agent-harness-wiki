@@ -1,0 +1,159 @@
+schema_version: 2
+audit_id: audit-cline-84b84535-1539-4f92-9309-5111c87aa6b0
+harness_id: cline
+checked_at: 2026-10-12T18:50:20.394Z
+previous_audit_id: audit-cline-363740c6-188f-4f19-b53f-e0d698c0454a
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-cline-repo
+    kind: git_repository
+    checked_at: 2026-10-12T18:50:18.868Z
+    status: changed
+    baseline: c3a40572765b76873c597247941118c1778d02c8
+    observed: a48408909bf9b2ff7f620d420be8547fb509e8ed
+    remote_ref: refs/heads/main
+  - source_id: source-cline-npm
+    kind: npm_registry
+    checked_at: 2026-10-12T18:50:18.875Z
+    status: unchanged
+    baseline: 3.0.70@sha512-ekeGJ7YdVKL9p//KF0F5nxFXMvgSuhwPxvCUkS+SaBDJJoOUt+HMeJS+J+hkF3ezPekbSvpK1wCPGraZbAEO8A==
+    observed: 3.0.70@sha512-ekeGJ7YdVKL9p//KF0F5nxFXMvgSuhwPxvCUkS+SaBDJJoOUt+HMeJS+J+hkF3ezPekbSvpK1wCPGraZbAEO8A==
+  - source_id: source-cline-docs-skills
+    kind: official_documentation
+    checked_at: 2026-10-12T18:50:18.876Z
+    status: unchanged
+    baseline: 4bb4766eaef7ed6e33ccaacbe4e367faf48ccf9c204204d14eb29a00d416129f
+    observed: 4bb4766eaef7ed6e33ccaacbe4e367faf48ccf9c204204d14eb29a00d416129f
+    resolved_url: https://docs.cline.bot/customization/skills.md
+  - source_id: source-cline-docs-mcp
+    kind: official_documentation
+    checked_at: 2026-10-12T18:50:18.878Z
+    status: unchanged
+    baseline: 47f5e46c4c92bffae832be15706d2586db4a7c5e3285a56cade5d2e6707d8eb2
+    observed: 47f5e46c4c92bffae832be15706d2586db4a7c5e3285a56cade5d2e6707d8eb2
+    resolved_url: https://docs.cline.bot/mcp/mcp-overview.md
+  - source_id: source-cline-docs-plugins
+    kind: official_documentation
+    checked_at: 2026-10-12T18:50:19.004Z
+    status: unchanged
+    baseline: 634dfe11cff0e3aad9844f04b5af028cf76d5b729dcee7b6f15bb20a25e2c42e
+    observed: 634dfe11cff0e3aad9844f04b5af028cf76d5b729dcee7b6f15bb20a25e2c42e
+    resolved_url: https://docs.cline.bot/sdk/plugins.md
+  - source_id: source-cline-docs-config
+    kind: official_documentation
+    checked_at: 2026-10-12T18:50:19.793Z
+    status: unchanged
+    baseline: 76f4d40ede89e8340c4b2ea10c17bc85b1d16fc302bd628c62778161ea05944e
+    observed: 76f4d40ede89e8340c4b2ea10c17bc85b1d16fc302bd628c62778161ea05944e
+    resolved_url: https://docs.cline.bot/getting-started/config.md
+  - source_id: source-cline-docs-cli
+    kind: official_documentation
+    checked_at: 2026-10-12T18:50:19.809Z
+    status: unchanged
+    baseline: 2d46cc4ef4c8b5a45dff7b4233e2b355b8395a5d21f5401b77353e4d2f702f7d
+    observed: 2d46cc4ef4c8b5a45dff7b4233e2b355b8395a5d21f5401b77353e4d2f702f7d
+    resolved_url: https://docs.cline.bot/cli/cli-reference.md
+  - source_id: source-cline-docs-install-plugins
+    kind: official_documentation
+    checked_at: 2026-10-12T18:50:19.882Z
+    status: unchanged
+    baseline: 19e4c8278924d25fce33fd3ec1b16dd29314eb599059f79433c3f41acea46d72
+    observed: 19e4c8278924d25fce33fd3ec1b16dd29314eb599059f79433c3f41acea46d72
+    resolved_url: https://docs.cline.bot/customization/plugins.md
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-migration
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-cline-ruleslike-symlink-candidates
+      - ref-cline-ruleslike-symlink-test
+      - ref-cline-sdk-doc-symlink-rules
+      - ref-cline-watcher-symlink-candidates
+      - ref-cline-skill-file-symlink-scope
+      - ref-cline-watcher-debounce
+      - ref-cline-paths-dir-constants
+      - ref-cline-cli-config-refresh
+    cross_topic_links:
+      - skills.discovery
+      - skills.diagnostics
+    reason: "user-instruction-config-loader.ts 的 discoverRulesLikeFiles 由
+      entry.isFile() 改为「普通文件，或符号链接且目标 stat 为普通文件」，rules/workflows
+      目录里的符号链接文件成为候选；unified-config-file-watcher.ts 的
+      readDirectoryFileCandidates 同步改，并保持按 fileName 排序。已在固定工作区用
+      a48408909bf9b2ff7f620d420be8547fb509e8ed 的源码实跑核对：baseline 只载入 regular.md，
+      observed 载入 linked.md 与 regular.md，指向目录/断链/自环链接被跳过；sdk/DOC.md
+      新增小节与之一致。config.diagnostics 的重载触发条件随之明确：fs.watch 只挂链接所在目录，
+      实跑中只改目标文件不产生事件，改同目录文件才产生 upsert。"
+  - topic: skills
+    question_ids:
+      - skills.discovery
+    section_ids:
+      - skills-discovery
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-cline-skill-file-symlink-scope
+      - ref-cline-skills-discovery
+      - ref-cline-skills-include-file
+    cross_topic_links:
+      - config.sources
+    reason: "同一提交只放宽 rules/workflows 通道的链接判定；discoverSkillFiles 的文件分支
+      仍是 entry.isFile() && entry.name === SKILL_FILE_NAME。实跑核对：指向目录的链接被发现，
+      搜索根下直接放一个指向别处文件的 SKILL.md 符号链接不被发现。skills-discovery 原文只说
+      「每个目录（含指向目录的符号链接）」，未界定文件链接，故补一句边界，避免读者按新规则推断
+      skill 也支持文件链接。"
+pending_question_ids: []
+investigation_notes:
+  - "本轮分类：maintain。source-cline-repo c3a40572765b76873c597247941118c1778d02c8 →
+    a48408909bf9b2ff7f620d420be8547fb509e8ed，16 个变更路径；其余 7 个登记来源（npm 与 6 个官方
+    文档）观察值与基线相同。"
+  - "已验证并改章节：sdk/packages/core/src/extensions/config/user-instruction-config-loader.ts
+    （discoverRulesLikeFiles 的候选判定改为接受指向普通文件的符号链接，落点 540-560 行）与
+    sdk/packages/core/src/extensions/config/unified-config-file-watcher.ts
+    （readDirectoryFileCandidates 同步，477-496 行）。运行时核对在 pinned workspace
+    ws-a48408909bf9-5752eebb-9d5e-4d65-b810-f3aa080f2205 用 bun 直接加载该提交源码执行：baseline
+    提交同一脚本只得到 1 条 rule 记录，observed 得到 2 条（linked.md 与 regular.md）；断链、
+    指向目录、自环链接均未进入快照。监听行为用 start() 后订阅事件核对：只写链接目标时 0 个事件、
+    快照仍是旧内容；写链接所在目录的文件时产生 upsert 事件并读到新内容。"
+  - "改章节二：cline-cli-configuration-v2.md（新增 cline-cli-configuration-v2，config-sources
+    增写 rules/workflows 符号链接规则与 skill 通道的对照，config-migration 增写符号链接的重载
+    边界）与 cline-cli-skills-v3.md（skills-discovery 增写「符号链接只跟到目录，不跟到文件」）。
+    两版都保留旧版文件与原 {#section-id} 锚点。chapter-current.yaml 的 configuration 与 skills
+    选择随之指向新版本，其余六个主题不变。"
+  - "新增固定来源记录（全部按 a48408909bf9b2ff7f620d420be8547fb509e8ed 的工作区字节计算
+    sha256）：git_source_file 依次为 user-instruction-config-loader.ts
+    (b47be676…)、unified-config-file-watcher.ts (ae199b26…)、sdk/DOC.md (bd8c06c5…)、
+    user-instruction-config-loader.test.ts (ec6c9d59…)，各配 source_revision 快照；引用
+    ref-cline-ruleslike-symlink-candidates、ref-cline-watcher-symlink-candidates、
+    ref-cline-sdk-doc-symlink-rules、ref-cline-ruleslike-symlink-test、
+    ref-cline-skill-file-symlink-scope。"
+  - "排除 sdk/packages/core/src/cron/runner/cron-runner.ts 与
+    sdk/packages/core/src/cron/store/sqlite-cron-store.ts：改动是取消被新排期取代的 queued 运行、
+    把 finishReason==\"error\" 当失败、报告补 usage/toolCalls、把 claimDueRuns 的具名参数改成位置参数。
+    本产品章节没有任何一处陈述 cron/定时执行的路径、优先级、加载顺序或诊断入口；cline-cli-configuration-v1/v2
+    只在目录树里列出 `.cline/cron/` 这一目录名，本轮该路径常量未变（paths.ts 无 diff）。八类固定问题
+    也不覆盖定时执行本身，故不为它新造主题或结论，仅在此记录观察。"
+  - "排除 sdk/packages/core/src/extensions/tools/schemas.ts：EditFile 的 old_text 由
+    string().nullable().optional() 改为 preprocess(null→undefined)，属模型入参契约；本产品现有章节
+    未陈述任何内置工具的入参 schema，八类固定问题中也没有对应条目。"
+  - "排除 apps/examples/desktop-app/webview/components/views/chat/cloud-onboarding.tsx、
+    .../settings/routine-view.tsx、sdk/packages/ui/components/agent-conversation-layout.tsx、
+    apps/vscode/src/utils/fs.ts：前者三处为示例桌面端/共享 UI 的样式与 provider 目录刷新时序，
+    后者是 VS Code 扩展的目录列举；三者都不在 cli 界面的章节证据范围内，本产品章节只发布 cli
+    界面的答案。（apps/vscode/src/utils/fs.ts 同样改为跟随指向普通文件的符号链接，但属于 vscode
+    扩展的 readDirectory，与 cli 的指令文件加载不是同一条路径。）"
+  - "排除 custom_agents、local_transcripts 与 mcp/hooks/custom_providers/native_plugins 六个主题：
+    登记章节引用本仓库的位置分别是 configured-agent-config.ts、会话与存储模块等，均不在本轮 16 个
+    变更路径内；已逐一确认 configured-agent-config.ts 与 paths.ts 在 baseline→observed 之间无 diff。"
+  - "未建任何软件版本映射：本轮证据是仓库 HEAD 的源码与 SDK 文档，没有对应的 npm 发布版本证据，
+    按契约不从 HEAD 造映射。"
+  - "本审计不再声称八个主题全部受影响：影响面收敛为 configuration 的 config.sources 与
+    config.diagnostics，以及 skills 的 skills.discovery 三道题。"

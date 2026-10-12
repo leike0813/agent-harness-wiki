@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-m62-src-autohand-ai-capabilities
+harness_id: autohand
+snapshot_id: snapshot-autohand-m62-src-providers-autohandaiprovider-ts
+locator:
+  kind: symbol
+  file: src/providers/AutohandAIProvider.ts
+  symbol: getCapabilities
+official_url: "https://github.com/autohandai/code-cli/blob/6e69ad6b9c5c2d9655834d4c13a28cf5be636a18/src/providers/AutohandAIProvider.ts"
+excerpt: |-
+  getCapabilities(): LLMProviderCapabilities {
+    if (this.localProvider) {
+      return this.localProvider.getCapabilities();
+    }
+
+    const model = AUTOHAND_AI_CLOUD_MODEL_DEFINITIONS.find(
+      (definition) => definition.id === this.model,
+    );
+    return { nativeToolCalling: model?.toolCalls === true, streaming: true,
+      ...(this.model === "grok-4.7" ? { maxTools: 128 } : {}),
+    };
+  }

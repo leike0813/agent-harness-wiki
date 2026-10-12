@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-mcp-reaches-tools-wait
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261013-src-extensions-mcp-index-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/extensions/mcp/index.ts
+  start: 1186
+  end: 1193
+official_url: https://github.com/earendil-works/pi/blob/7bd01fb92485c06f92ecfff7ccf3197148bc16af/packages/coding-agent/src/extensions/mcp/index.ts
+excerpt: "		// A tool that reaches other tools (`reachesTools`) waits for the servers it may reach, so their\n		// tools are registered before it runs: a codemode script for the servers it names, or for every\n		// server when it searches or enumerates tools, and tool_search for every server. The resource\n		// tools reach every server, so they wait for all of them. Direct MCP calls wait only for their\n		// own server, including a reconnect still closing its old transport.\n		pi.on(\"tool_call\", async (event, ctx) => {\n			const tool = pi.getAllTools().find((candidate) => candidate.name === event.toolName);\n			if (!tool) return;"
