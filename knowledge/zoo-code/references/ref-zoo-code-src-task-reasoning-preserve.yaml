@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-task-reasoning-preserve
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-src-src-core-task-task-1d3
+locator:
+  kind: file_lines
+  file: src/core/task/Task.ts
+  start: 6106
+  end: 6115
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/1d37994661f43b9105d731dfafe6161ad0c2e97a/src/core/task/Task.ts"
+excerpt: |2
+  					// Check if the model's preserveReasoning flag is set, resolved from
+  					// the request's threaded model snapshot (same per-request source as
+  					// the prompt and tool arrays) rather than a fresh getModel() re-read,
+  					// so a mid-request metadata refresh cannot change what this request sends.
+  					// If true, include the reasoning block in API requests
+  					// If false/undefined, strip it out (stored for history only, not sent back to API)
+  					const shouldPreserveForApi = requestModelInfo.preserveReasoning === true
+  					let assistantContent: Anthropic.Messages.MessageParam["content"]
+
+  					if (shouldPreserveForApi) {

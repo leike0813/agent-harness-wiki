@@ -1,0 +1,145 @@
+schema_version: 2
+audit_id: audit-github-copilot-7c1d5e93-4b28-4f6a-9d31-2e5a4c7b8f30
+harness_id: github-copilot
+checked_at: 2026-10-13T18:02:29.856Z
+previous_audit_id: audit-github-copilot-2d927801-224f-4f0c-861f-6f2fb78eb2f2
+status: blocked
+review_status: pending
+pending_audit_refs:
+  - audit-github-copilot-6e6a5df9-1868-4f63-a805-2bfda137e2b9
+  - audit-github-copilot-20261006t134000z
+  - audit-github-copilot-483749ab-5dc0-4960-bc55-257421bf6999
+  - audit-github-copilot-69040a6b-6260-4667-b303-5b3373186d29
+  - audit-github-copilot-be7f8529-b2eb-4c12-965d-b747a5d47e00
+  - audit-github-copilot-f19a14af-a207-45bf-a176-528b6df7d3d0
+  - audit-github-copilot-abcd7ff0-c097-405e-8c7a-56f6212eef8c
+  - audit-github-copilot-2d927801-224f-4f0c-861f-6f2fb78eb2f2
+checks:
+  - source_id: source-github-copilot-repo
+    kind: git_repository
+    checked_at: 2026-10-13T18:02:25.993Z
+    status: changed
+    baseline: dcdc0273c0250d8b32677ca99bc0e1f5006daa89
+    observed: a3f560eca2c03168a1730b162f859c15c72713e1
+    remote_ref: refs/heads/main
+    changed_paths:
+      - changelog.md
+  - source_id: source-github-copilot-npm
+    kind: npm_registry
+    checked_at: 2026-10-13T18:02:26.002Z
+    status: changed
+    baseline: 1.0.95@sha512-TAYlgMwjTnHi04ZGRc6Z+41piGeUC6xuA8z7gWVc5qOTqJLi/B3vCVg9ttkwvxnahbTWjX8x0DORwrJMXOQxGg==
+    observed: 1.0.96@sha512-J8F+Gu0TP+hnKMpr0/FDGW8NTKeTg/AcEaBpp+3sIC34Z2iIheN1N+kN0X85s/EWD1apsVorwBLt3rCQtYKeaQ==
+  - source_id: source-github-copilot-docs-cfgdir
+    kind: official_documentation
+    checked_at: 2026-10-13T18:02:27.266Z
+    status: changed
+    baseline: 8e729d408816e47f28772e0c52bf475dd72910f522ce6bc39455ecbf36948a7f
+    observed: b1bc2aed0c78b302def4e1e915ad5e219480197f5ee1f6f0ccef45df38aee827
+    resolved_url: https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-config-dir-reference.md
+  - source_id: source-github-copilot-docs-cli-concept
+    kind: official_documentation
+    checked_at: 2026-10-13T18:02:27.391Z
+    status: blocked
+    baseline: d88b94d926f5b26bf9cb021fce1f9fbec9607da2457f1aeaebb57d6d0e0a7e8b
+    error: HTTP source returned 404.
+  - source_id: source-github-copilot-docs-cmdref
+    kind: official_documentation
+    checked_at: 2026-10-13T18:02:27.407Z
+    status: changed
+    baseline: 53380857e574ce548b0a347f09b5fee752cb605b06587d68e3b3ee441b8ed60f
+    observed: 2f309f72d65826507c6943066c7ef3be8b4e548211dc0855f48ce342b59bc68e
+    resolved_url: https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference.md
+  - source_id: source-github-copilot-docs-hooks-ref
+    kind: official_documentation
+    checked_at: 2026-10-13T18:02:28.432Z
+    status: changed
+    baseline: 3b492ffdadfd26817fa507b164c0003100550beb1ae65d2532f86be775dc44ac
+    observed: fdf139f891380906e09b0a461ca23726902818f85ffa5a5f40bf6c4359f7cd02
+    resolved_url: https://docs.github.com/en/copilot/reference/hooks-reference.md
+impacts:
+  - topic: hooks
+    question_ids:
+      - hooks.entry
+      - hooks.order
+      - hooks.conditions
+      - hooks.output
+    section_ids:
+      - hooks-entry-events
+      - hooks-input-output
+      - hooks-order-conditions
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - agents.format
+    reason: hooks 参考页新增“Agent-scoped hooks”小节（自定义 agent frontmatter 的 hooks
+      事件映射，CLI专有，叠加在会话/用户/仓库/插件/策略 hook 之上），并给 preToolUse 的 permissionDecision
+      补上 CLI autopilot 模式下 "ask" 被拒绝的语义；两者都改变已发布 v2 的入口、顺序、条件与输出答案。
+  - topic: custom_agents
+    question_ids:
+      - agents.format
+    section_ids:
+      - agents-entry-format
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - hooks.entry
+      - hooks.conditions
+    reason: agent frontmatter 新增 hooks 事件映射这一字段形态；命令参考页的 frontmatter 字段表本轮未新增 hooks
+      行，共享 custom-agents-configuration 页亦未变，故该字段目前只有 hooks 参考页一处证据，按 partial
+      记录并交叉链接 hooks 主题。
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.defaults
+      - config.runtime
+    section_ids:
+      - configuration-sources-precedence
+      - configuration-trust-defaults
+      - configuration-runtime
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - hooks.conditions
+    reason: cfgdir 用户设置表新增 inlineImages（默认 true，Kitty 图形协议），托管键
+      forceRemoteSettingsRefresh 改写为“缓存策略不能满足新鲜度要求、拉取失败即保持受限”，cmdref 改写
+      /add-dir（开启沙箱时授予目录沙箱访问）、/model（模型 ID 大小写不敏感、保存规范 ID）与
+      /sandbox（保存前提示环境密钥并可加 masking hosts）。
+pending_question_ids:
+  - config.sources
+  - config.runtime
+  - config.defaults
+  - agents.format
+  - hooks.entry
+  - hooks.output
+  - hooks.order
+  - hooks.conditions
+investigation_notes:
+  - 本轮 triage：hooks/custom_agents/configuration 为 maintain（跨主题加载与配置来源机制变化）；仓库与
+    npm 仅版本身份变化；cli-concept 保持 blocked。
+  - 已完成（固定来源核对）：hooks.entry/hooks.order/hooks.conditions/hooks.output
+    由新增的“Agent-scoped hooks”小节与 preToolUse autopilot 说明更新；agents.format 增加
+    frontmatter hooks 字段并记录跨页不一致；config.defaults 增加 inlineImages；config.sources
+    更新 forceRemoteSettingsRefresh 的 fail-closed 措辞与 /add-dir
+    的沙箱授予；config.runtime 记录 /model 规范 ID 与 /sandbox 对话框提示。
+  - 版本边界：/add-dir 沙箱授予、/model 规范 ID、/sandbox 密钥提示三项由 1.0.96 changelog 逐条记录，按
+    1.0.96 记边界；forceRemoteSettingsRefresh 的 fail-closed 取向可追到 1.0.81 changelog
+    条目；agent-scoped hooks 与 inlineImages 键在截至 1.0.96 的 changelog
+    快照中通读未见对应条目，这是整份 changelog.md 的范围说明而非行号证据，正文不作被引证据；inlineImages 另有
+    changelog.md:1066（1.0.64，Add inline image rendering in the
+    CLI）作为渲染能力落地的可追溯记录，但键名未被点名。两者都只按来源级记录，不建版本映射。
+  - 排除：仓库提交 dcdc027..a3f560e 只改 changelog.md（+12 行，1.0.96 段），源码无语义变化，记为无知识影响；npm
+    1.0.95→1.0.96 仅发布身份变化，新版本仍未验证。
+  - source-github-copilot-docs-cli-concept 仍返回 404，与 2026-10-09
+    审计（audit-github-copilot-f19a14af…）记录的阻塞一致且无新证据：未重复探测，保留上次成功 baseline
+    d88b94d9 与 pending；修复步骤仍需协调者改 registry URL 并新建快照/原件。
+  - pending_question_ids 只列本轮 impacts 覆盖的 8 题；其余题（其他 topic 及本 topic 未受影响题）仍由
+    pending_audit_refs 中的旧审计继续挂账，本审计不代它们结案。
+  - review_status 保持 pending：本轮 hooks/configuration/custom_agents 的新 edition
+    属高影响改写（新入口改变已发布 hooks 入口与配置语义），且 2026-10-09 审计留下的复核链尚未完成，故相关问题继续
+    pending，不以作者自审替代独立复核。
+  - 本轮修正后的候选章节未获独立复核批准，已移出交付候选并作为任务工件保留在巡检临时目录；本审计的影响范围已收窄到仍在库内的章节小节，待复核问题继续
+    pending。

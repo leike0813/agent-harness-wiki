@@ -1,0 +1,702 @@
+schema_version: 2
+audit_id: audit-omp-217604e7-0074-4c26-8e56-ab0ae0b78861
+harness_id: omp
+checked_at: 2026-10-13T18:03:02.417Z
+previous_audit_id: audit-omp-71dcf159-da19-4fed-bd93-abac67a8ea8a
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-omp-71dcf159-da19-4fed-bd93-abac67a8ea8a
+checks:
+  - source_id: source-omp-npm
+    kind: npm_registry
+    checked_at: 2026-10-13T18:03:00.771Z
+    status: changed
+    baseline: 18.10.2@sha512-sR4mkYJl1eZvC57ee9ehzI2WJ6nCHw9EOwVUpE4C0DGjnpbLIJUHV0QY68Dcj2fIem+6soRud2Be6sAXIMAI4w==
+    observed: 18.10.3@sha512-H8EXhdZCT4RNVBj/hgTuh5OZ9w3qBpKnOP55FMZ2iL0jvmdQV5/qTeOImDb/wHJBN7248C9KylNmcst/jt94gA==
+  - source_id: source-omp-repo
+    kind: git_repository
+    checked_at: 2026-10-13T18:03:00.771Z
+    status: changed
+    baseline: adc7fed5c9d6837d77b590bc313a705e2b4136b0
+    observed: f1ac114d8d3438bee43010aee559bfe720ba3224
+    remote_ref: refs/heads/main
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.defaults
+      - config.migration
+    section_ids:
+      - config-defaults
+      - config-migration
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-cfg7-defaults-gc-compress-settings-code
+      - ref-omp-cfg7-defaults-code-mode-removed-doc
+      - ref-omp-cfg7-migration-unknown-setting-guard-code
+      - ref-omp-cfg7-migration-override-layer-code
+      - ref-omp-cfg7-migration-registered-only-validate-code
+    cross_topic_links:
+      - transcripts.cleanup
+      - transcripts.archive
+    reason: >-
+      source-omp-repo: adc7fed5..f1ac114d 设置注册表本身变化——packages/coding-agent/src/cli/gc-settings.ts 新增
+      gc.compress（boolean，默认 false）与 gc.compressAfterDays（number，默认 7）两个 opt-in 开关，
+      packages/coding-agent/src/session/settings.ts 删除 providers.openai-codex.codeMode 与
+      providers.openai-codex.codeModeDirectTools 两个注册块及 cfgCodeModeInputs 派生。删除走的是移除而非改名：
+      #migrateRawSettings() 无对应条目，文件层残留键不会被改名也不会被 assertKnownSettingPaths 拒绝（该守卫只作用于
+      构造 overrides 层），只有已注册设置会被 #validateAll 逐个 checkConfigured。packages/coding-agent/src/config/settings.ts
+      与 packages/utils/src/dirs.ts 在该区间零改动，因此 config.sources / overrides / runtime / trust / diagnostics 的
+      已录结论不受影响。新出 edition omp-configuration-v7。
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.diagnostics
+    section_ids:
+      - config-roots
+      - config-precedence
+      - config-runtime
+      - config-trust
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-config-roots-doc-69e8
+      - ref-omp-config-layers-doc-69e8
+      - ref-omp-config-precedence-doc-69e8
+      - ref-omp-config-project-write-doc-69e8
+      - ref-omp-cfg5-sources-contextfiles-extra-provider-doc
+    cross_topic_links:
+      - transcripts.scope
+    reason: >-
+      source-omp-repo: adc7fed5..f1ac114d 区间内 packages/coding-agent/src/config/settings.ts、src/config.ts、
+      packages/utils/src/dirs.ts 与 config/all-settings.ts 的 DOMAINS 列表零改动，因此配置来源顺序、层优先级、运行时覆盖、
+      写入目标与诊断入口的已录结论不变。config.trust 仍为 unknown 且本轮未改变这一缺口——区间内没有出现任何用户确认、
+      目录白名单或组织策略门控配置读取的机制；新建 impact 只是为了让该 pending 问题在审计中有具名归属与真实小节。
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-discovery
+      - agents-format
+      - agents-roles
+      - agents-lookup
+      - agents-limits
+      - agents-merge
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-agents-cross-harness-skip-doc-69e8
+      - ref-omp-agents-discovery-doc-69e8
+      - ref-omp-agents-limits-doc-69e8
+      - ref-omp-agents-lookup-doc-69e8
+      - ref-omp-agents-merge-doc-69e8
+      - ref-omp-agents-model-doc-69e8
+      - ref-omp-agents-plugin-gating-doc-69e8
+      - ref-omp-agents-shape-doc-69e8
+      - ref-omp-agents3-agent-soft-request-budget-doc
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-omp-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-file
+      - providers-credentials
+      - providers-schema
+      - providers-metadata
+      - providers-forwarding
+      - providers-runtime
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-providers-apple-doc-69e8
+      - ref-omp-providers-auth-values-doc-69e8
+      - ref-omp-providers-availability-doc-69e8
+      - ref-omp-providers-cache-doc-69e8
+      - ref-omp-providers-config-shape-doc-69e8
+      - ref-omp-providers-credentials-doc-69e8
+      - ref-omp-providers-env-doc-69e8
+      - ref-omp-providers-merge-doc-69e8
+      - ref-omp-providers-scope-doc-69e8
+      - ref-omp-providers4-beta-kill-switch-doc
+      - ref-omp-providers4-judgment-api-values-doc
+      - ref-omp-providers4-workers-ai-auth-doc
+      - ref-omp-providers4-workers-ai-endpoint-doc
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-omp-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-events
+      - hooks-location
+      - hooks-module
+      - hooks-execution
+      - hooks-conditions
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-hooks-agent-events-doc-69e8
+      - ref-omp-hooks-discovery-doc-69e8
+      - ref-omp-hooks-events-surfaces-doc-69e8
+      - ref-omp-hooks-order-doc-69e8
+      - ref-omp-hooks-status-doc-69e8
+      - ref-omp-hooks-tool-doc-69e8
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-omp-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.cleanup
+      - transcripts.archive
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-scope
+      - transcripts-cleanup-archive
+      - transcripts-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-lt4-cleanup-compress-settings-code
+      - ref-omp-lt4-cleanup-compress-flag-code
+      - ref-omp-lt4-cleanup-compress-doc
+      - ref-omp-lt4-cleanup-compress-fs-doc
+      - ref-omp-lt4-cleanup-compress-scratch-glob-code
+      - ref-omp-lt4-cleanup-compress-scratch-sweep-code
+      - ref-omp-lt4-cleanup-compress-scratch-prefix-code
+      - ref-omp-lt4-cleanup-compress-tree-lease-code
+      - ref-omp-lt4-cleanup-compress-cutoff-code
+      - ref-omp-lt4-cleanup-compress-run-order-code
+      - ref-omp-lt4-cleanup-compress-report-code
+      - ref-omp-lt4-changelog-compress-doc
+      - ref-omp-lt4-scope-prompt-cache-key-code
+      - ref-omp-lt4-scope-prompt-cache-key-anonymizer-code
+      - ref-omp-lt4-scope-restore-persistence-doc
+    cross_topic_links:
+      - config.defaults
+      - config.migration
+    reason: >-
+      source-omp-repo: adc7fed5..f1ac114d 的决定性变化是 omp gc 新增 opt-in 的 compress 阶段（--compress / gc.compress
+      默认关闭，gc.compressAfterDays 默认 7），runGcCommand 的阶段序列由 stale→blobs→archive→wal 变为
+      stale→blobs→archive→compress→wal；它就地压缩空闲会话的 transcript 及其 artifact 树，清扫自己留下的
+      .omp-gc-compress-* 暂存目录（仅 APFS，范围为 sessions 根与 archive 根），并按整棵会话树的租约跳过活跃会话。
+      这改变 transcripts.cleanup 的阶段清单与清扫对象；transcripts.archive 因“该阶段不删 history/stats 行、路径与
+      mtime 不变、产物仍可续接”与归档明确不同而连带受影响；transcripts.scope 因 SessionHeader 新增 taskPromptCacheKey
+      与 CLI 新增 --restore（同样需要持久化、不能与 --no-session 同用）而变化。transcripts.diagnostics 补入新的报告行。
+      transcripts.location / naming / format / schema / lifecycle / database 的已录结论在该区间无对应改动。新出 edition
+      omp-local_transcripts-v4。
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-config-files
+      - mcp-file-shape
+      - mcp-transports
+      - mcp-secrets
+      - mcp-auth
+      - mcp-lifecycle
+      - mcp-capabilities
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-mcp-config-locations-doc-69e8
+      - ref-omp-mcp-exposure-doc-69e8
+      - ref-omp-mcp-health-doc-69e8
+      - ref-omp-mcp-imported-doc-69e8
+      - ref-omp-mcp-oauth-doc-69e8
+      - ref-omp-mcp-overrides-doc-69e8
+      - ref-omp-mcp-precedence-doc-69e8
+      - ref-omp-mcp-protocol-doc-69e8
+      - ref-omp-mcp-requestid-doc-69e8
+      - ref-omp-mcp-shape-doc-69e8
+      - ref-omp-mcp-startup-doc-69e8
+      - ref-omp-mcp-transport-doc-69e8
+      - ref-omp-mcp5-lifecycle-interactive-startup-doc
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-omp-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model
+      - plugins-manifest
+      - plugins-install
+      - plugins-discovery
+      - plugins-api
+      - plugins-lifecycle
+      - plugins-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-extension-loading-allowlist-doc-69e8
+      - ref-omp-extension-loading-manifest-doc-69e8
+      - ref-omp-extension-loading-native-doc-69e8
+      - ref-omp-extension-loading-order-doc-69e8
+      - ref-omp-extension-loading-paths-doc-69e8
+      - ref-omp-extensions-load-doc-69e8
+      - ref-omp-extensions-provider-doc-69e8
+      - ref-omp-extensions-settings-doc-69e8
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-omp-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-locations
+      - skills-discovery
+      - skills-collision
+      - skills-format
+      - skills-extensions
+      - skills-conditions
+      - skills-loading
+      - skills-invocation
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-skills-collision-doc-69e8
+      - ref-omp-skills-discovery-doc-69e8
+      - ref-omp-skills-exposure-doc-69e8
+      - ref-omp-skills-filters-doc-69e8
+      - ref-omp-skills-format-doc-69e8
+      - ref-omp-skills-invocation-doc-69e8
+      - ref-omp-skills-namespaced-doc-69e8
+      - ref-omp-skills-providers-doc-69e8
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    reason: "source-omp-repo: shared or unknown impact; assess relevant entrypoints"
+pending_question_ids:
+  - agents.diagnostics
+  - config.defaults
+  - config.trust
+  - hooks.diagnostics
+  - hooks.input
+  - mcp.auth
+  - mcp.diagnostics
+  - plugins.api
+  - plugins.diagnostics
+  - plugins.lifecycle
+  - providers.diagnostics
+  - providers.forwarding
+  - providers.metadata
+  - providers.responses
+  - skills.diagnostics
+  - skills.extensions
+  - transcripts.archive
+  - transcripts.cleanup
+investigation_notes:
+  - 本轮 triage 分类：narrow_investigation（定向固定来源模式）。worker 范围限定 configuration 与 local_transcripts
+    的 7 个点名问题：config.sources / config.defaults / config.migration 与 transcripts.scope / transcripts.location /
+    transcripts.cleanup / transcripts.archive。协调者冻结的观察未复跑，worker 未运行 sources:scan。
+  - 已逐文件 diff 的点名证据文件与其结论：docs/cli-reference.md 只有 --restore 一行表格新增与持久化清单加词（影响
+    transcripts.scope）；docs/models.md 只有 modelOverrides.tokenizer 枚举加 o200k（provider 侧，不在本轮范围）；
+    docs/session.md 新增 compress 阶段两段（影响 transcripts.cleanup / transcripts.archive）；
+    docs/settings.md 删除 providers.openai-codex.codeMode 与 codeModeDirectTools 两行表格（影响 config.defaults）；
+    docs/session-operations-export-share-fork-resume.md 新增 "## CLI --restore" 一节（lifecycle 语义，不在本轮点名范围，
+    仅记录为未展开候选证据）；packages/coding-agent/src/cli/gc-cli.ts +234/-6，新增 runCompressGc 与 CompressGcResult；
+    packages/coding-agent/src/cli/gc-settings.ts +6（两个 gc.* 设置）；packages/coding-agent/src/commands/gc.ts +6
+    （--compress / --compress-after-days）；packages/coding-agent/src/main.ts +34/-7（--restore 启动接线与 thinking 级
+    解析，不改配置来源）；packages/coding-agent/src/session/context-settings.ts 只有 snapcompact.toolResults 描述文案
+    （default 仍为 false，属描述级改动，不改已录默认值）；packages/coding-agent/src/session/session-manager.ts +62/-9
+    （新增 taskPromptCacheKey 继承与 model_usage 的 activeLeafId）；packages/coding-agent/src/session/session-storage.ts
+    +16（新增 replaceSessionFileSync，走既有 publish 锁）；packages/coding-agent/src/session/session-tools.ts -185（删除
+    Codex Code Mode 全部接线，与 settings.ts 的删除同源）。
+  - 为取到 gc compress 的落点另外读取（均在被点名文件的调用链上）：packages/coding-agent/src/cli/gc-compress.ts（本区间
+    新增文件，346 行）、packages/stats/src/parser.ts（COMPRESS_SCRATCH_PREFIX 与 isCompressScratchPath）、
+    packages/coding-agent/src/config/settings.ts（迁移与校验路径）。packages/coding-agent/src/config/settings.ts 与
+    packages/utils/src/dirs.ts 在 adc7fed5..f1ac114d 区间零改动，这是 config.sources / overrides / runtime / trust /
+    diagnostics 判定为 unaffected 的直接依据。
+  - 明确排除、未展开：packages/agent/src/compaction/* 与 tokenizer.ts、packages/ai/src/providers/openai-responses.ts /
+    openai-shared.ts / transform-messages.ts、packages/catalog/src/model-thinking.ts 与 compat 规则、docs/mcp-runtime-lifecycle.md
+    ——这些文件确实在本提交内被改动，但按任务点的 expansion basis 检查后，它们改变的是上下文压缩的 token 预算与 provider
+    回放形态，不是本章或配置章节已发布的记录保留或配置入口机制；expand 判据因此不成立，未据此改写任何已录答案。若协调者
+    认为 compaction 的记录保留语义需要覆盖，应在下一轮把相关问题显式纳入范围。
+  - transcripts.location / transcripts.naming / transcripts.format / transcripts.schema / transcripts.lifecycle /
+    transcripts.database 判定为 unaffected：区间内没有任何改动改变路径解析、命名规则、写入方式、条目类型全集、v1→v3
+    迁移、惰性落盘门槛或 history.db 的 DDL 与分工；新增的 header 字段 taskPromptCacheKey 与 model_usage 的 activeLeafId
+    属于 transcripts.scope 的记录范围问题，不改上述各问的已录结论。
+  - config.sources 判定为 unaffected：区间内 config.ts、dirs.ts、all-settings.ts 的 DOMAINS 列表与 contextFiles 相关文件
+    均未改动，gc.* 设置复用的仍是既有的 ../cli/gc-settings 域。
+  - npm 18.10.2→18.10.3 仅为发布身份变化（version@integrity），按任务要求排除，未产生任何章节影响、映射或 snapshot。
+  - review_status 保持 pending：本次结论改写了已发布的阶段清单（gc 由四阶段变五阶段）与设置默认值表（新增两个 gc.*、删除
+    两个 providers.openai-codex.codeMode*），且删除走的是移除而非改名，属推翻已发布配置事实的高影响变更，声明交独立复核。
+    本 worker 未运行任何 reviewer。
+  - self-check：pnpm maintenance:candidates check --candidate <omp candidate root> 通过（见返回消息）。

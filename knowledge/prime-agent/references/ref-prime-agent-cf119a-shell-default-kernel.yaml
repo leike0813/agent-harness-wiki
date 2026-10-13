@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-cf119a-shell-default-kernel
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-cf119a-crates-pa-core-src-platform-shell-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/platform/shell.rs
+  start: 194
+  end: 206
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/cf119a7a8c86a2c86d927cae79ed1eec03b07a91/crates/pa-core/src/platform/shell.rs
+excerpt: |
+  /// Absolute default shell for the kernel's `bash()` when no `shellPath` is
+  /// configured: POSIX uses `/bin/bash` else `/bin/sh`. `None` when no shell
+  /// resolves (kernel startup must not fail; `bash()` raises its teaching error).
+  #[cfg(unix)]
+  #[must_use]
+  pub fn default_kernel_bash_shell() -> Option<String> {
+      if Path::new("/bin/bash").exists() {
+          Some("/bin/bash".to_string())
+      } else {
+          Some("/bin/sh".to_string())
+      }
+  }

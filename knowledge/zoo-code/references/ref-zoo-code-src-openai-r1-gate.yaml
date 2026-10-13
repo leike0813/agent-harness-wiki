@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-openai-r1-gate
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-src-src-api-providers-openai-1d3
+locator:
+  kind: file_lines
+  file: src/api/providers/openai.ts
+  start: 302
+  end: 308
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/1d37994661f43b9105d731dfafe6161ad0c2e97a/src/api/providers/openai.ts"
+excerpt: |2
+  	// Single gate for everything that depends on the R1 request format: message
+  	// conversion in createMessage() and reasoning retention in getModel(). Both
+  	// must agree, otherwise reasoning is converted for the request but stripped
+  	// from the follow-up context (or vice versa).
+  	private usesR1Format(modelId: string): boolean {
+  		return modelId.includes("deepseek-reasoner") || (this.options.openAiR1FormatEnabled ?? false)
+  	}

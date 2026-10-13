@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-openai-r1-preserve-reasoning
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-src-src-api-providers-openai-1d3
+locator:
+  kind: file_lines
+  file: src/api/providers/openai.ts
+  start: 322
+  end: 332
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/1d37994661f43b9105d731dfafe6161ad0c2e97a/src/api/providers/openai.ts"
+excerpt: |2
+  		// Local OpenAI-compatible reasoning models (llama.cpp, LM Studio, Ollama)
+  		// stream reasoning_content, but Zoo Code strips it from the follow-up context
+  		// unless info.preserveReasoning is set. Whenever createMessage() treats the
+  		// model as R1 (deepseek-reasoner id or the R1 format toggle), also treat it
+  		// as preserving reasoning so the chain is fed back.
+  		return {
+  			id,
+  			info: this.usesR1Format(id) ? { ...info, preserveReasoning: true } : info,
+  			...params,
+  		}
+  	}

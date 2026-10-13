@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-hooks-input-block-example
+harness_id: bob
+snapshot_id: snapshot-bob-lt-hooks-20261013
+locator:
+  kind: document_section
+  heading: Block a matched tool
+official_url: "https://bob.ibm.com/docs/shell/configuration/lifecycle-hooks"
+excerpt: |-
+  Exit with code 2 from a PreToolUse hook to prevent a specific tool from running:
+  #!/bin/sh
+  # Block write_file operations on files outside the src/ directory
+  PATH_VAL=$(cat | python3 -c "import sys,json; print(json.load(sys.stdin)['tool_input'].get('path',''))")
+  case "$PATH_VAL" in
+  src/*) ;;
+  *)
+  echo "Blocked: writes outside src/ are not allowed" >&2
+  exit 2
+  ;;
+  esac

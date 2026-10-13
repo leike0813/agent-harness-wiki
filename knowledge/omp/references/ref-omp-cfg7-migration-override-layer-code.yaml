@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-cfg7-migration-override-layer-code
+harness_id: omp
+snapshot_id: snapshot-omp-f1ac-src-config-settings-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/config/settings.ts
+  start: 682
+  end: 696
+official_url: https://github.com/can1357/oh-my-pi/blob/f1ac114d8d3438bee43010aee559bfe720ba3224/packages/coding-agent/src/config/settings.ts#L682-L696
+excerpt: "\t/**\n\t * Runtime-override layer for dotted constructor `overrides`: legacy ids migrate first, then every\n\t * path must belong to a registered setting and every value is normalized and checked like a\n\t * handle `override`. `undefined` values are skipped; `null` stays as an unset tombstone.\n\t *\n\t * @throws Error on an unknown setting or a value its definition rejects.\n\t */\n\t#overrideLayer(overrides: Readonly<Record<string, unknown>>): RawSettings {\n\t\tconst raw: RawSettings = {};\n\t\tfor (const key in overrides) {\n\t\t\tconst value = overrides[key];\n\t\t\tif (value !== undefined) setByPath(raw, key.split(\".\"), value);\n\t\t}\n\t\tconst layer = this.#migrateRawSettings(raw);\n\t\tassertKnownSettingPaths(layer);"

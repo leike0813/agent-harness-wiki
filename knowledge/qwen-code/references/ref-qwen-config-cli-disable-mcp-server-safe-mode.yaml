@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-config-cli-disable-mcp-server-safe-mode
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-6212189f-cli-config-test
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/config.test.ts
+  start: 4994
+  end: 5006
+official_url: https://github.com/QwenLM/qwen-code/blob/6212189f1f8334da78a69e3fb6b63ff6ca88251e/packages/cli/src/config/config.test.ts
+excerpt: |2-
+    it('should still apply --disable-mcp-server under --safe-mode', async () => {
+      // Safe mode drops settings.mcpServers entirely (only top-tier session and
+      // `--mcp-config` servers survive), so these servers come from --mcp-config.
+      process.argv = [
+        'node',
+        'script.js',
+        '--safe-mode',
+        '--disable-mcp-server',
+        'cli-server-1',
+        '--mcp-config',
+        JSON.stringify({
+          mcpServers: {
+            'cli-server-1': { command: 'cmd-1' },

@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-lovable-apikeys-iplist
+harness_id: lovable
+snapshot_id: snapshot-lovable-docs-api-keys-58895f92
+locator:
+  kind: document_section
+  heading: Restrict a key to an IP allowlist
+official_url: "https://docs.lovable.dev/features/api-keys.md"
+excerpt: |-
+  An entry is an IPv4 or IPv6 address, or an address range in CIDR notation, such as `203.0.113.0/24` or `2001:db8::/48`. Lovable rejects ranges wider than /8 for IPv4 or /32 for IPv6. Every list must include at least one IPv4 entry, because the Lovable API currently answers over IPv4 only. A key with no allowlist accepts requests from any address.
+
+  A request from an address that is not on the list fails with `403 ip_restricted`. On Enterprise plans, each refused request is recorded in your workspace [audit log](/features/audit-logs) as **User API key IP rejected**, and allowlist changes appear as **User API key updated**.

@@ -17,7 +17,7 @@ sections:
     source_refs: [ref-prime-agent-code-configdir, ref-prime-agent-code-sessiondir, ref-prime-agent-settings-sessions, ref-prime-agent-usage-env, ref-prime-agent-usage-modelopts, ref-prime-agent-providers-order, ref-prime-agent-usage-resourceopts, ref-prime-agent-args-flags, ref-prime-agent-settings-autonomous]
   - section_id: config-trust-defaults-migration
     surface_ids: [cli]
-    source_refs: [ref-prime-agent-mcp-generic, ref-prime-agent-settings-telemetry, ref-prime-agent-pkg-install, ref-prime-agent-settings-globalonly, ref-prime-agent-settings-model, ref-prime-agent-settings-autonomous, ref-prime-agent-settings-compaction, ref-prime-agent-settings-resources-getter, ref-prime-agent-retry-defaults, ref-prime-agent-code-pkgdir, ref-prime-agent-cfg-r967-package-dir-symlink, ref-prime-agent-cfg-r967-exe-dir-of-symlink, ref-prime-agent-settings-migrate, ref-prime-agent-code-migrations-run, ref-prime-agent-code-migrations-hooks, ref-prime-agent-factory-types-rust, ref-prime-agent-factory-gate-py]
+    source_refs: [ref-prime-agent-mcp-generic, ref-prime-agent-settings-telemetry, ref-prime-agent-pkg-install, ref-prime-agent-settings-globalonly, ref-prime-agent-settings-model, ref-prime-agent-settings-autonomous, ref-prime-agent-settings-compaction, ref-prime-agent-settings-resources-getter, ref-prime-agent-retry-defaults, ref-prime-agent-code-pkgdir, ref-prime-agent-cfg-r967-package-dir-symlink, ref-prime-agent-cfg-r967-exe-dir-of-symlink, ref-prime-agent-settings-migrate, ref-prime-agent-code-migrations-run, ref-prime-agent-code-migrations-hooks, ref-prime-agent-factory-types-rust, ref-prime-agent-factory-gate-py, ref-prime-agent-cf119a-settings-shellpath-field, ref-prime-agent-cf119a-shell-path-check, ref-prime-agent-cf119a-shell-user-config, ref-prime-agent-cf119a-shell-kernel-resolve, ref-prime-agent-cf119a-shell-default-kernel, ref-prime-agent-cf119a-session-shell-gate, ref-prime-agent-cf119a-settings-known-fields, ref-prime-agent-cf119a-settings-save-fields, ref-prime-agent-cf119a-settings-document-parse]
   - section_id: config-diagnostics
     surface_ids: [cli]
     source_refs: [ref-prime-agent-diag-main, ref-prime-agent-settings-locations, ref-prime-agent-pkg-enable, ref-prime-agent-settings-errors, ref-prime-agent-settings-persist, ref-prime-agent-diag-reload, ref-prime-agent-settings-ctor, ref-prime-agent-diag-interactive, ref-prime-agent-modelprompts-error-rust, ref-prime-agent-modelprompts-engine-rust, ref-prime-agent-modelprompts-cli-rust]
@@ -51,7 +51,7 @@ questions:
       - surface_ids: [cli]
         section_id: config-trust-defaults-migration
         status: answered
-        source_refs: [ref-prime-agent-settings-model, ref-prime-agent-settings-autonomous, ref-prime-agent-settings-compaction, ref-prime-agent-settings-resources-getter, ref-prime-agent-retry-defaults, ref-prime-agent-code-pkgdir, ref-prime-agent-cfg-r967-package-dir-symlink, ref-prime-agent-cfg-r967-exe-dir-of-symlink, ref-prime-agent-factory-types-rust, ref-prime-agent-factory-gate-py]
+        source_refs: [ref-prime-agent-settings-model, ref-prime-agent-settings-autonomous, ref-prime-agent-settings-compaction, ref-prime-agent-settings-resources-getter, ref-prime-agent-retry-defaults, ref-prime-agent-code-pkgdir, ref-prime-agent-cfg-r967-package-dir-symlink, ref-prime-agent-cfg-r967-exe-dir-of-symlink, ref-prime-agent-factory-types-rust, ref-prime-agent-factory-gate-py, ref-prime-agent-cf119a-settings-shellpath-field, ref-prime-agent-cf119a-shell-path-check, ref-prime-agent-cf119a-shell-kernel-resolve, ref-prime-agent-cf119a-shell-default-kernel, ref-prime-agent-cf119a-session-shell-gate]
   - question_id: config.migration
     answers:
       - surface_ids: [cli]
@@ -184,6 +184,8 @@ files = ["bash-over-subprocess.md"]
 - 没有文件夹信任模型（无 `trustedFolders`、无 `--trust`、无组织策略），限制是逐键实现的：`mcpServers` 项目条目被忽略，遥测只能被项目收紧；[@ref-prime-agent-settings-globalonly]
 - 反过来，项目设置本身是可以带来执行的：项目 `settings.json` 里 `packages` 声明的包会在启动时自动安装（离线模式除外），因此克隆一个不受信任的仓库并启动 agent 前应当先看这些文件；
 - 配置文件写入是原子的（临时文件 + 重命名，权限 `0600`），保存时按字段 diff，只写改动过的键。
+- 本轮提交 `cf119a7a8c86a2c86d927cae79ed1eec03b07a91` 把这条规则从“内存里整份 `Settings` 序列化后覆盖文件”改成**在存储锁内按字段改写磁盘上那份文档**：待写字段先并入 `pending_global_fields`，然后重新读取当前文件内容、只替换这些字段，取值为 `null` 时删除该键，写回前先跑一次键迁移[@ref-prime-agent-cf119a-settings-save-fields]。可观察的结果是：同一文件里**未被本次会话改动的键、以及其它进程在加载之后写入的键都会被保留**，而不再随一次保存被内存快照覆盖。
+- 同一提交给“拒绝回写”加了来源可查的兜底：磁盘文档在锁内解析失败或不是 JSON 对象时，保存直接返回错误（`parsing settings.json; settings not saved` / `settings.json must contain a JSON object; settings not saved`），而不是用默认空对象替换文件内容；全局作用域在加载阶段就已解析失败时则走原有的 `Global settings not saved: settings file failed to parse: ...` 提示并提前返回[@ref-prime-agent-cf119a-settings-document-parse][@ref-prime-agent-cf119a-settings-save-fields]。
 
 **读者常用的默认值**[@ref-prime-agent-settings-model][@ref-prime-agent-settings-autonomous][@ref-prime-agent-settings-compaction][@ref-prime-agent-settings-resources-getter][@ref-prime-agent-retry-defaults]：
 
@@ -197,6 +199,16 @@ files = ["bash-over-subprocess.md"]
 | `enableSkillCommands` / `enableBuiltinSkills` / `bundledSkills.websearch` | `true` / `true` / `true` |
 | `treeFilterMode` | `"user-only"` |
 | `idleEvictionMinutes` | `90` |
+
+**`shellPath`：默认值、校验与作用域（本轮提交 `cf119a7a8c86a2c86d927cae79ed1eec03b07a91` 语义变化）**。这个第一方键在类型定义里被明确写成“运行每一个内核 `bash()` 与用户 bash 命令”的自定义 shell，形式是 `SHELL -c COMMAND`，取值必须是**已存在的可执行文件的绝对路径**[@ref-prime-agent-cf119a-settings-shellpath-field]。它的两端消费者共用同一个校验谓词 `check_custom_shell_path`：用户 bash 侧 `get_shell_config` 先跑它，内核侧 `resolve_kernel_bash_shell` 也先跑它，失败信息统一带上 `(shellPath setting)`[@ref-prime-agent-cf119a-shell-path-check][@ref-prime-agent-cf119a-shell-user-config]。三种失败分别是路径不存在、在 unix 上不是可执行普通文件、以及内核侧额外要求的**相对路径**——后者只在内核解析里检查[@ref-prime-agent-cf119a-shell-kernel-resolve]。
+
+**默认值**：不设 `shellPath` 时内核 `bash()` 用平台默认——POSIX 是 `/bin/bash`，否则 `/bin/sh`；解析不出任何 shell 时返回 `None`，此时内核启动不失败、`bash()` 抛教学错误[@ref-prime-agent-cf119a-shell-default-kernel]。未配置时的默认值与显式值的校验是两条分开的路径，这正是本轮提交把“默认值”拆成独立的 `default_kernel_bash_shell` 的原因。
+
+**生效时机**：解析在会话创建时一次性完成，位于任何副作用之前；源码注释写明意图是让坏的 `shellPath` 以“点名该设置”的配置错误让会话创建失败，而不是让之后每一次内核 `bash()` 调用各自失败[@ref-prime-agent-cf119a-session-shell-gate]。
+
+**作用域**：类型定义的注释明确“项目 `.prime/agent/settings.json` 覆盖全局值（TS parity）”，并直接给出安全提醒——打开一个不受信任的仓库就等于让它决定包裹每一条 agent shell 命令的二进制，因此在该仓库运行 agent 前应先审查项目设置[@ref-prime-agent-cf119a-settings-shellpath-field]。这是本章 `config-overrides` 一节“项目覆盖全局”通则的一个具体落点，本轮任务范围未包含 `config.overrides`，此处只按同一份来源注释陈述，未据此改写该小节。
+
+本轮提交同时**移除**了 `decisionApi` 配置段：类型定义里的 `DecisionApiSettings` 结构与 `Settings.decision_api` 字段被删除，加载器的已知字段表中也不再列出该键[@ref-prime-agent-cf119a-settings-known-fields]。这是键级别的移除而非迁移规则变化，源码里没有为它留下迁移或告警路径。
 
 `factory.enabled` 的默认值是**失败关闭**而不是简单的缺省 false：内核侧读取 agent 目录的 `settings.json` 时，文件缺失、键缺失、值类型不对、文档损坏都按未设置处理，只有 `enabled` 恰好是 `true` 才算打开[@ref-prime-agent-factory-gate-py]。也就是说设置文件读不出来时是拒绝启用，而不是静默放行——这一点与上表其它“非法值按字段回退到内置默认”的键不同，后者回退后功能是开着的。类型化侧把这个默认值表达为可选布尔加 `unwrap_or(false)`，两层读到的结果一致[@ref-prime-agent-factory-types-rust]。
 

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-config-cli-disable-mcp-server-allow-then-deny
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-6212189f-cli-config-test
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/config.test.ts
+  start: 4978
+  end: 4992
+official_url: https://github.com/QwenLM/qwen-code/blob/6212189f1f8334da78a69e3fb6b63ff6ca88251e/packages/cli/src/config/config.test.ts
+excerpt: |2-
+        'server1,server2',
+        '--disable-mcp-server',
+        'server1',
+      ];
+      const argv = await parseArguments();
+      const config = await loadCliConfig(baseSettings, argv, undefined, []);
+      // The allow-list narrows the returned map; the disable flag still applies
+      // on top of it, so a server named by both ends up disabled.
+      expect(config.getMcpServers()).toEqual({
+        server1: { url: 'http://localhost:8080' },
+        server2: { url: 'http://localhost:8081' },
+      });
+      expect(config.isMcpServerDisabled('server1')).toBe(true);
+      expect(config.isMcpServerDisabled('server2')).toBe(false);
+    });

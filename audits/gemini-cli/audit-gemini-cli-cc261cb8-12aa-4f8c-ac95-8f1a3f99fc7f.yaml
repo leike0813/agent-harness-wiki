@@ -1,0 +1,100 @@
+schema_version: 2
+audit_id: audit-gemini-cli-cc261cb8-12aa-4f8c-ac95-8f1a3f99fc7f
+harness_id: gemini-cli
+checked_at: 2026-10-13T18:02:25.789Z
+previous_audit_id: audit-gemini-cli-d211a8cb-99e3-42df-9e75-2de5b5ed39ea
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-gemini-cli-repo
+    kind: git_repository
+    checked_at: 2026-10-13T18:02:24.031Z
+    status: changed
+    baseline: 9b6e0265d16bbd29ca51e33c9e0c01dc4cec5e83
+    observed: c10f094ee01c81663474d7d88252d6e6d2943583
+    remote_ref: refs/heads/main
+  - source_id: source-gemini-cli-docs
+    kind: official_documentation
+    checked_at: 2026-10-13T18:02:24.043Z
+    status: unchanged
+    baseline: 8e1b4cbe2cd31effa3375aa5d480269ab28bf82c02a42d9b52cbb61e5b248590
+    observed: 8e1b4cbe2cd31effa3375aa5d480269ab28bf82c02a42d9b52cbb61e5b248590
+    resolved_url: https://geminicli.com/docs/cli/skills.md
+  - source_id: source-gemini-cli-npm
+    kind: npm_registry
+    checked_at: 2026-10-13T18:02:24.046Z
+    status: unchanged
+    baseline: 0.63.0@sha512-mmhqMmAdsoplCzrLQQC4yJBqr4uSKXghnrLspgUU6N9drmsaq7pi7oF09skRYzEq2dYK6eMT4UpFQP6rG2o/ew==
+    observed: 0.63.0@sha512-mmhqMmAdsoplCzrLQQC4yJBqr4uSKXghnrLspgUU6N9drmsaq7pi7oF09skRYzEq2dYK6eMT4UpFQP6rG2o/ew==
+impacts:
+  - topic: native_plugins
+    question_ids:
+      - plugins.install
+      - plugins.discovery
+      - plugins.diagnostics
+    section_ids:
+      - plugins-scope
+      - plugins-install
+      - plugins-discovery-api
+      - plugins-lifecycle-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-gemini-cli-plugins-allowlist-load-skip
+      - ref-gemini-cli-plugins-allowlist-load-invalidregex
+      - ref-gemini-cli-plugins-allowlist-install-throw
+      - ref-gemini-cli-plugins-allowlist-test-skip
+      - ref-gemini-cli-plugins-manager-load
+      - ref-gemini-cli-plugins-manager-build
+      - ref-gemini-cli-plugins-manager-install
+      - ref-gemini-cli-settings-security-git
+    cross_topic_links:
+      - config.trust
+      - config.diagnostics
+      - skills.extensions
+      - hooks.events
+      - mcp.definition
+    reason: "source-gemini-cli-repo 9b6e0265 -> c10f094e 改动
+      packages/cli/src/config/extension-manager.ts 的 _buildExtension：白名单
+      security.allowedExtensions 非空时，安装元数据缺失/不可解析/source 非字符串由抛错
+      改为逐扩展 debugLogger.warn 并 return null，白名单非法正则由抛错改为该条按不匹配
+      并继续求值后续条目。安装路径 installOrUpdateExtension 未变，仍抛错。加载/发现与
+      诊断可观察行为因此改变，路径与安装语义未变。"
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：narrow_investigation；巡检观察来自 2026-10-13 的只读检查。
+  - 本轮 triage 分类：narrow_investigation；入口限 native_plugins 的固定问题。
+  - "仓库单提交 c10f094（fix(cli): restore debounced static UI refresh on terminal
+    width changes，10 个文件），与章节已引证据文件重合的有
+    packages/cli/src/config/extension-manager.ts 与
+    packages/core/src/utils/fileUtils.ts。"
+  - 先核实扩展安装与发现入口是否随之变化，其余 UI 刷新相关文件按无知识影响排除。
+  - 逐文件结论（工作区 ws-c10f094ee01c，baseline 9b6e0265 → observed c10f094e，10 个文件）：
+    packages/cli/src/config/extension-manager.ts 唯一实质改动在 _buildExtension（726-759 行）
+    的 allowedExtensions 分支，安装路径 181-213 行逐行未变；extensions/storage.ts、
+    extensions/extensionEnablement.ts、install/uninstall 命令入口均未出现在 changed paths 中，
+    故插件安装源、--ref 固定、link 符号链接与卸载语义不受影响，plugins.install 答案不变。
+  - packages/cli/src/config/extension.test.ts 新增两个回归用例（861 行起）：白名单下缺失/
+    不可解析/非字符串 source 的目录被跳过而其余扩展仍加载；非法正则不使整体加载失败。
+    这是把新行为固定下来的证据，不是独立机制。
+  - packages/core/src/utils/fileUtils.ts 改动为 BOM 处理重构：抽出 decodeBOMContent 供
+    readFileWithEncoding 与 isEmpty 共用，decodeUTF16BE 忽略尾部半个码元。扩展清单由
+    extension.ts:62 的 fs.readFileSync 读取，不经 fileUtils 的编码/BOM 路径，因此不影响
+    扩展发现或安装；该文件的现有引用属 local_transcripts 章节引用，不在本任务范围。
+  - packages/cli/src/ui/AppContainer.tsx 为终端宽度变化时的防抖刷新（同步输出序列
+    \x1b[?2026h/l、RESIZE_DEBOUNCE_MS=100、直接访问 Node 内部 _writableState/_refreshSize），
+    全文无 extension/plugin 路径字面量，排除为 UI 行为。
+  - packages/cli/src/ui/hooks/useReverseSearchCompletion.tsx 与其测试：历史记录补全改为对
+    query 做 escapeRegExp 后用 /iu 正则匹配以修正长度会变化的 Unicode 字符的 matchedIndex。
+    仅触及命令历史匹配，无扩展路径，排除（与任务排除项一致）。
+  - 排除的其余文件：integration-tests/utf-bom-encoding.test.ts、packages/core/src/utils/
+    fileUtils.test.ts、packages/cli/src/ui/AppContainer.test.tsx、packages/core/src/utils/
+    planUtils.test.ts 均为上述三处改动的测试，无独立机制。
+  - 三道固定问题的判定：plugins.discovery 答案变化（白名单过滤的失败处理与加载容错），
+    已新建 edition gemini-cli-cli-native_plugins-v2 并附逐字证据；plugins.diagnostics 变化
+    （新增两条逐扩展/逐模式的警告文本作为可观察线索）；plugins.install 不变（安装路径未改）。
+  - "结论改变已发布机制，按维护契约保留 review_status: pending 并声明独立复核，范围限于
+    plugins.discovery 与 plugins.diagnostics 的 v2 小节。"
+  - 官方文档与 npm 来源本轮 unchanged（hash 与 integrity 均未变），本轮结论全部来自
+    source-gemini-cli-repo 的 git_source_file，未建立任何 npm 发行版映射。

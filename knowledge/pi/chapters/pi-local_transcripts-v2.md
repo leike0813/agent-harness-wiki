@@ -67,6 +67,9 @@ sections:
     source_refs:
       - ref-pi-lt-archive-export-share
       - ref-pi-lt-archive-export-jsonl
+      - ref-pi-lt-share-destination-doc
+      - ref-pi-lt-share-destination-code
+      - ref-pi-lt-share-destination-command
       - ref-pi-lt-cleanup-deleting
       - ref-pi-lt-cleanup-delete-trash
       - ref-pi-lt-cleanup-delete-fallback
@@ -171,6 +174,9 @@ questions:
         source_refs:
           - ref-pi-lt-archive-export-share
           - ref-pi-lt-archive-export-jsonl
+          - ref-pi-lt-share-destination-doc
+          - ref-pi-lt-share-destination-code
+          - ref-pi-lt-share-destination-command
   - question_id: transcripts.cleanup
     answers:
       - surface_ids: [cli]
@@ -204,6 +210,8 @@ Pi 把一次会话记录成一个 JSONL 文件，文件里的条目用 `id`/`par
 本轮追加的第二个提交是 `7bd01fb92485c06f92ecfff7ccf3197148bc16af`（`source-pi-repo`，2026-10-12T18:50:13Z 观察），共 3 个新增文件级 snapshot，只用于两处：`packages/coding-agent/docs/compaction.md`（摘要序列化跳过 thinking 块）与 `packages/coding-agent/{CHANGELOG.md,package.json}`（实验 server／client／plugin 栈被移除、`files` 排除项随之变化）。
 
 **适用边界**：结论只针对 catalog 里 `pi` 的 `cli` 界面，运行环境是该 commit 的源码树（Linux 路径语义，`--path--` 目录名由 POSIX 风格的 `resolvePath` 产生）。同一个 commit 里的 `sdk` 界面本轮没有调查，查询会把它派生为 `not_investigated`。源码 commit 只代表源码树，本文没有写 `mappings/`，因此不对任何 npm 发行版本的记录形态作断言——这一点在数据库一节尤其重要。
+
+第三段固定来源是 `3daa20280f6a7c7cbe0935680c9a38fdc3863005`（`source-pi-repo`，2026-10-13T18:03:14Z 观察，提交标题「fix(coding-agent): keep codemode cancellation prompt and bounded」）。本页引用的九个文件在这个提交里全部有 diff，但只有 `docs/sessions.md`、`src/core/slash-commands.ts` 与（章节原本未引用、此轮新增的）`src/modes/interactive/session-share.ts` 落在会话记录机制上：**`/share` 的上传去向变成可配置**。`transcripts-archive-and-cleanup` 一节按此更新。`src/core/session-manager.ts`、`src/config.ts`、`src/cli-args.ts`、`src/modes/interactive/components/session-selector.ts`、`docs/session-format.md`、`src/core/session-export.ts` 在这次 diff 中一个字节都没动，因此**存储路径、命名、写入方式、诊断与删除入口全部不受影响**——`transcripts-location`、`transcripts-naming`、`transcripts-format`、`transcripts-schema`、`transcripts-diagnostics` 与 `transcripts.cleanup` 的已发布答案逐条成立（`transcripts.lifecycle` 与 `transcripts.database` 的结论来源的文件同样未变）。同提交里的 `src/core/agent-session.ts` 只改了恢复会话时的工具集合重建（把 `defaultToolModifiers` 应用到从 transcript 恢复出来的 loadout），不涉及会话文件、保留或删除；`docs/codemode.md` 只加了 codemode worker 上限与 Bun 上不可中断内建的两条限制。两者都按任务约定在本轮排除，逐条理由见审计的 investigation_notes。
 
 ## 记录什么、落成什么形状 {#transcripts-recording-scope}
 
@@ -335,7 +343,11 @@ pi 没有"归档开关"这种原生留存机制：没有把会话移入归档区
 
 **`/export`** 把当前会话写成 HTML（默认）或 JSONL。源码侧的 `exportSessionToJsonl()` 序列化的是**当前活动分支**加可选的尾部条目：它新建一个 header（不带 `parentSession`），然后遍历 `sessionManager.getBranch()`，把每条条目的 `parentId` 重新串成线性链，最后接上导出专用的尾部条目。[@ref-pi-lt-archive-export-jsonl] 输出路径没给就用 `session-时间戳.jsonl` 这样的默认名，目录不存在会先创建。这意味着导出的 JSONL 是**一条线性链**，不是原来那棵带分支的树；未被导出的旁支不会出现在文件里。
 
-**`/share`** 是上传并拿查看链接：配置了 Radius 认证时走 Radius artifact，否则退回私有 GitHub gist。文档提醒导出或分享前先检查内容——里面会有 prompt、模型回复、工具参数、命令输出、文件内容和扩展消息。[@ref-pi-lt-archive-export-share]
+**`/share`** 是上传并拿查看链接。**提交 `3daa2028` 之后去向可配置**：原先固定「配置了 Radius 认证时走 Radius artifact，否则退回私有 GitHub gist」，现在读 `sessionShareDestination` 设置，取 `auto`（默认，保留原来的 Radius→gist 顺序）、`gist`（**直接跳过 Radius**）或 `radius`（**不回退**到 gist，未认证时报 `Radius authentication is not configured. Run '/login radius' first.` 并终止）。文档在 `/share` 段新增了指向该设置的说明，命令表里 `/share` 的描述也从「Share session as a secret GitHub gist」改成「Share session via a Radius artifact or a GitHub gist」。[@ref-pi-lt-archive-export-share] [@ref-pi-lt-share-destination-doc] [@ref-pi-lt-share-destination-code] [@ref-pi-lt-share-destination-command]
+
+这一步只决定上传到哪，**不改变会话文件本身**：`exportSessionForShare()` 仍先写出一个 JSONL 再上传，那个文件与 `/export` 的产物同源（当前活动分支的线性链，见上），设置里没有任何值会影响它的路径、字段或删除行为。文档提醒导出或分享前先检查内容——里面会有 prompt、模型回复、工具参数、命令输出、文件内容和扩展消息。设置本身的默认值与访问器回落规则记在 configuration 的 `config-defaults` 一节。
+
+**上传不是留存**。`/share` 与 `/export` 都只是把内容送出或复制出去，本页没有找到任何按分享去向而改变本地会话文件处置的机制，`sessionShareDestination` 的三个取值在这一点上等价。
 
 **外部备份**的最小充分集就是那一个 `.jsonl` 文件（图片已内联，无附件目录）。但把它拷到别的机器或别的目录后，位置信息会变：header 的 `parentSession` 存的是绝对路径字符串，[@ref-pi-lt-schema-session-header] 拷贝后原路径可能不存在；会话 header 里的 `cwd` 也需要真实存在，否则恢复时会报"存储的会话工作目录不存在"（见下一节）。源码没有描述归档恢复后的信息损失度量，本题因此记为 partial。**剩余缺口**：`/import`（"Import and resume a session from a JSONL file"）在命令表里声明了，但本轮在这个 commit 的 `src/` 下没有检索到对应的分发处理分支，因此"从 JSONL 恢复"这条路径的具体行为与限制无法证实。
 

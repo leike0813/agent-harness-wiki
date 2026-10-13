@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt4-cleanup-compress-scratch-prefix-code
+harness_id: omp
+snapshot_id: snapshot-omp-f1ac-src-stats-parser-ts
+locator:
+  kind: file_lines
+  file: packages/stats/src/parser.ts
+  start: 674
+  end: 684
+official_url: https://github.com/can1357/oh-my-pi/blob/f1ac114d8d3438bee43010aee559bfe720ba3224/packages/stats/src/parser.ts#L674-L684
+excerpt: "/**\n * Name prefix of the scratch directories `omp gc --compress` creates beside\n * the files it copies on APFS. Their `.jsonl` files are transient copies of\n * transcripts, never transcripts of their own; a killed run can leave one\n * behind until the next `omp gc --compress --apply` removes it.\n */\nexport const COMPRESS_SCRATCH_PREFIX = \".omp-gc-compress-\";\n\n/** Whether `relativePath` (from any ancestor directory) lies inside a compress scratch directory. */\nexport function isCompressScratchPath(relativePath: string): boolean {\n\treturn relativePath.split(/[\\\\/]/).some(part => part.startsWith(COMPRESS_SCRATCH_PREFIX));"

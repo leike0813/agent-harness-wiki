@@ -25,6 +25,11 @@ sections:
       - ref-pi-config-cli-tools-modifiers
       - ref-pi-config-defaults-table
       - ref-pi-config-render-padding-defaults
+      - ref-pi-config-share-destination-defaults
+      - ref-pi-config-share-destination-schema
+      - ref-pi-config-share-destination-published
+      - ref-pi-config-share-destination-doc
+      - ref-pi-config-share-destination-accessor
   - section_id: config-overrides
     surface_ids: [cli]
     source_refs:
@@ -115,6 +120,11 @@ questions:
           - ref-pi-config-cli-tools-modifiers
           - ref-pi-config-defaults-table
           - ref-pi-config-render-padding-defaults
+          - ref-pi-config-share-destination-defaults
+          - ref-pi-config-share-destination-schema
+          - ref-pi-config-share-destination-published
+          - ref-pi-config-share-destination-doc
+          - ref-pi-config-share-destination-accessor
   - question_id: config.migration
     answers:
       - surface_ids: [cli]
@@ -147,6 +157,8 @@ questions:
 固定来源分两段。默认值来源、已弃用键的标记方式、JSON Schema 的生成与发布地址、资源过滤记法的路径展开，按 pi 仓库提交 7bd01fb92485c06f92ecfff7ccf3197148bc16af 阅读（`packages/coding-agent/scripts/generate-schemas.ts`、`packages/coding-agent/schemas/settings.schema.json`、`packages/coding-agent/src/core/package-manager.ts`、`packages/coding-agent/docs/settings.md`、`packages/coding-agent/CHANGELOG.md`）。文件作用域、项目信任、工具集合、`--tools` 语义、独立二进制 dotenv、`pi update` 保留策略、`SettingsSchema` 的 `$schema` 可选键仍按上一段固定来源（提交 56b25ff4 与 6fb2e781）阅读，本轮在这些文件上没有找到推翻它们的改动。相对 pi-configuration-v5 的实质变化有三处：生成的四份 JSON Schema 的 `$id` 从仓库 raw URL 改到 `https://pi.dev/schemas/`，`settings.json` 由此多了一条官方推荐的 `$schema` 写法；资源数组与包清单里的 `!pattern`、`+path`、`-path` 条目现在会展开 `~`；v5 中未被本章重写的小节按其原固定来源范围阅读。
 
 本库未为 Pi 建立软件版本映射，按 source_only 阅读。新增事实来自提交 7bd01fb9 的源码与文档，不外推到任何 npm 发行版；仓库 HEAD 也不构成任何版本映射的依据。
+
+第三段固定来源是 `3daa20280f6a7c7cbe0935680c9a38fdc3863005`（`source-pi-repo`，2026-10-13T18:03:14Z 观察，提交标题「fix(coding-agent): keep codemode cancellation prompt and bounded」）。该提交在本章的引用文件里只落在一处实质变化：**新增一个配置键 `sessionShareDestination`**（取值 `"auto"` / `"gist"` / `"radius"`，默认 `"auto"`），它同时出现在默认表、TypeBox 设置模式、发布的 JSON Schema、`docs/settings.md` 设置表与 `SettingsManager` 访问器里。`config-defaults` 一节按此更新。`config-files`、`config-overrides`、`config-runtime`、`config-migration`、`config-diagnostics` 五节所陈述的文件作用域、合并规则、项目信任、启动迁移与 schema 发布机制在这次 diff 中都没有被推翻，逐文件核对见审计的 investigation_notes。该提交同一批文件里还有 codemode 取消提示与 codemode worker 上限的改动，那部分只涉及 codemode 脚本执行与交互显示，不触及任何设置键、默认值、加载顺序或路径，因此按任务约定排除。
 
 ## 配置文件与作用域 {#config-files}
 
@@ -192,6 +204,10 @@ questions:
 重试有独立一组默认值：`retry.enabled` 为 `true`、`maxRetries` 为 `3`、`baseDelayMs` 为 `2000`、`maxAgentDelayMs` 为 `60000`；provider 侧 `retry.provider.timeoutMs` 默认取 `httpIdleTimeoutMs`，`maxRetries` 默认 `0`，`maxRetryDelayMs` 默认 `60000` 且设为 `0` 表示不设上限。[@ref-pi-config-retry] 本轮 `docs/settings.md` 的设置表只改了两处描述文字，值与范围未变：`outputPad` 的说明从「Horizontal transcript padding」扩到明确覆盖消息、工具输出、`!` 命令输出与摘要块；`showHardwareCursor` 的说明改成「改用终端光标，Pi 仍为输入法定位光标」。[@ref-pi-config-render-padding-defaults] 这属于表述精度，不是新的配置项。
 
 文档同时提醒：`retry.provider.maxRetries` 保持 `0`，除非确实需要 provider 层重试，因为 provider 重试会拖慢 Pi 自己处理配额与用量上限错误。
+
+**新增键 `sessionShareDestination`**（提交 `3daa2028`）按同一套默认机制落位：默认表里紧接 `transport` 之后新增 `sessionShareDestination: "auto"`，取值集合由 TypeBox 联合类型给出（`auto` / `gist` / `radius`），`docs/settings.md` 的「Sessions and context」表同步加了一行，生成的 `schemas/settings.schema.json` 也把它写成 `anyOf` 三个 `const`、默认 `"auto"`。[@ref-pi-config-share-destination-defaults] [@ref-pi-config-share-destination-schema] [@ref-pi-config-share-destination-published] [@ref-pi-config-share-destination-doc] 访问器的回落规则与既有键一致但更保守——只接受 `gist` 与 `radius`，其余任何值（包括写坏的键）都回落到默认值 `"auto"`；写入口落 `globalSettings` 并触发保存，因此这是一个**全局设置**，不参与项目层合并。[@ref-pi-config-share-destination-accessor]
+
+它控制的是 `/share` 的上传去向，不是会话存放位置：`sessionDir` 与 `sessionShareDestination` 同在「Sessions and context」一节，但前者决定会话文件目录，后者只在分享时读一次。`radius` 的语义与 `auto` 不同——`radius` 要求已配置 Radius 认证且**不回退**到 gist（见 local_transcripts 的归档一节）。该键本章只按配置机制记录，不在此断言其对某个 npm 发行版的行为。
 
 ## 覆盖与合并 {#config-overrides}
 

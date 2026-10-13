@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-hooks-input-tool-result
+harness_id: bob
+snapshot_id: snapshot-bob-lt-hooks-20261013
+locator:
+  kind: document_section
+  heading: Hook reference
+official_url: "https://bob.ibm.com/docs/shell/configuration/lifecycle-hooks"
+excerpt: |-
+  Runs after a matched tool completes, regardless of whether it succeeded.
+  Stdin schema
+  {
+  "session_id": "string",
+  "cwd": "string",
+  "hook_event_name": "string",
+  "tool_name": "string",
+  "tool_input": "object",
+  "tool_response": "string",
+  "tool_use_id": "string"
+  }
+  Example payload
+  {
+  "session_id": "3f2a9c1e8b7d4f6a0e5c2b1d9a8f7e6c",
+  "cwd": "/path/to/project",
+  "hook_event_name": "PostToolUse",
+  "tool_name": "write_file",
+  "tool_input": {
+  "path": "src/index.ts",
+  "content": "..."
+  },
+  "tool_response": "File written successfully",
+  "tool_use_id": "toolu_01abc123"
+  }
+  Stdout: Ignored.
+  Blocking: Exit code 2 has no effect. The tool has already run.
