@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-policy-decision
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-managed-policy-20261015
+official_url: https://github.com/anomalyco/opencode/blob/8ffbcc2c81d1ff558618137204c36954797d7a6f/packages/core/src/managed-policy.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/managed-policy.ts
+  start: 66
+  end: 74
+excerpt: |-
+  export function decision(
+    policies: readonly ConfigPolicy.Info[],
+    action: ConfigPolicy.Info["action"],
+    resource: string,
+  ) {
+    return (
+      policies.findLast((policy) => policy.action === action && Wildcard.match(resource, policy.resource))?.effect ??
+      "allow"
+    )

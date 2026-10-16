@@ -1,0 +1,32 @@
+schema_version: 2
+audit_id: audit-opencode-1a190643-5d32-4b65-930f-ec54bdf330bc
+harness_id: opencode
+checked_at: "2026-10-14T18:03:29.333Z"
+previous_audit_id: audit-opencode-52ea2a76-9938-44ec-a454-01dfc9e8e3b8
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-opencode-0f16a4f4-327b-41be-bbbb-d7da9bfdd6c0
+  - audit-opencode-2aa143e4-1b45-4f8f-8bba-c200a6007522
+  - audit-opencode-12691d48-1a45-4b04-bc22-ef7201bd564e
+  - audit-opencode-52ea2a76-9938-44ec-a454-01dfc9e8e3b8
+checks:
+  - source_id: source-opencode-npm
+    kind: npm_registry
+    checked_at: "2026-10-14T18:03:27.108Z"
+    status: unchanged
+    baseline: "1.19.0@sha512-lddJhFwZI3GLlw8VyOo4yNwBVGeVN/mxH6ORh60h69zAXL7QhjSWY9orj10rwO2kxVnxH9dh45uDCWNuiqPb8A=="
+    observed: "1.19.0@sha512-lddJhFwZI3GLlw8VyOo4yNwBVGeVN/mxH6ORh60h69zAXL7QhjSWY9orj10rwO2kxVnxH9dh45uDCWNuiqPb8A=="
+  - source_id: source-opencode-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:03:27.109Z"
+    status: changed
+    baseline: 0af756b30fa12764cec7affc52c400043d24ffa2
+    observed: 8ffbcc2c81d1ff558618137204c36954797d7a6f
+    remote_ref: refs/heads/dev
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "narrow_investigation → maintain。source-opencode-repo 0af756b3..8ffbcc2c 改动命中当前章节已引用的四个文件（packages/schema/src/config.ts、packages/core/src/config.ts、packages/core/src/config/normalize.ts、packages/core/src/managed-policy.ts）。"
+  - "normalize.ts 把 normalizeExperimental 中内嵌的 policies 解码拆成独立的 normalizePolicies，并在 Config.Info 上新增顶层 policies 键；V1 provider 列表与 experimental.policies 仍然受支持并合并进顶层 policies，同一文档内后出现者胜出。"
+  - "这属于配置键与合并规则的语义变化，直接命中 config.sources / config.overrides / config.runtime / config.migration 与权限策略面的问题。限定在 configuration 主题派发，不扩到其他七个主题。"

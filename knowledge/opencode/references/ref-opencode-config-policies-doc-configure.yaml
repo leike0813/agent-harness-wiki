@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-policies-doc-configure
+harness_id: opencode
+snapshot_id: snapshot-opencode-services-www-src-docs-content-policies-20261015
+official_url: https://github.com/anomalyco/opencode/blob/8ffbcc2c81d1ff558618137204c36954797d7a6f/services/www/src/docs/content/policies.mdx
+locator:
+  kind: file_lines
+  file: services/www/src/docs/content/policies.mdx
+  start: 16
+  end: 36
+excerpt: |-
+  Deny one provider everywhere by adding a statement to `opencode.jsonc`:
+
+  ```jsonc
+  {
+    "$schema": "https://opencode.ai/config.json",
+    "policies": [{ "action": "provider.use", "resource": "openai", "effect": "deny" }],
+  }
+  ```
+
+  A denied provider disappears from the catalog and model selection even when it has
+  valid credentials.
+
+  Earlier releases read policies from `experimental.policies`. That key still works and
+  merges into `policies`:
+
+  ```jsonc
+  {
+    "experimental": {
+      "policies": [{ "action": "provider.use", "resource": "openai", "effect": "deny" }],
+    },
+  }

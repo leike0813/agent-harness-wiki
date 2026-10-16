@@ -1,0 +1,50 @@
+schema_version: 2
+audit_id: audit-pi-e02d933b-58f6-49d6-a597-2105ad14fb10
+harness_id: pi
+checked_at: "2026-10-14T18:03:40.712Z"
+previous_audit_id: audit-pi-d72f5074-25a9-40ea-8a7e-6555128764e2
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-pi-04bf1025-2be8-4fc0-855b-8d1d86097fcc
+  - audit-pi-20261004t061205z
+  - audit-pi-52367b72-118b-46ea-aad9-61bbba8d807e
+  - audit-pi-20261006t134000z
+  - audit-pi-aef48867-7725-4d37-b22a-2bf0ad420ee3
+  - audit-pi-0de5f9ff-058e-4cfb-aee7-eed7c7ace63d
+  - audit-pi-01dd7db2-1911-4e4a-8ad9-16f568696518
+  - audit-pi-d72f5074-25a9-40ea-8a7e-6555128764e2
+checks:
+  - source_id: source-pi-npm
+    kind: npm_registry
+    checked_at: "2026-10-14T18:03:39.218Z"
+    status: unchanged
+    baseline: "1.2.0@sha512-h/4WaVWv1VlCaY8x8qEN5U+7jbF/e7+Ck6moPeEOFn5juMTWwNAXjwgYM7gRgbBYh8Zppwt6qWvJDzNTf4GNEQ=="
+    observed: "1.2.0@sha512-h/4WaVWv1VlCaY8x8qEN5U+7jbF/e7+Ck6moPeEOFn5juMTWwNAXjwgYM7gRgbBYh8Zppwt6qWvJDzNTf4GNEQ=="
+  - source_id: source-pi-npm-legacy
+    kind: npm_registry
+    checked_at: "2026-10-14T18:03:39.219Z"
+    status: unchanged
+    baseline: "0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ=="
+    observed: "0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ=="
+  - source_id: source-pi-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:03:39.220Z"
+    status: changed
+    baseline: 3daa20280f6a7c7cbe0935680c9a38fdc3863005
+    observed: b45e0ebcc5ae2fc42a6f2f23104d10e656e6bedb
+    remote_ref: refs/heads/main
+  - source_id: source-pi-legacy-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:03:39.233Z"
+    status: changed
+    baseline: 3daa20280f6a7c7cbe0935680c9a38fdc3863005
+    observed: b45e0ebcc5ae2fc42a6f2f23104d10e656e6bedb
+    remote_ref: refs/heads/main
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "本轮状态：本产品已完成协调者的只读观察与语义 triage，来源证据已固定（Git 工作区已按观察到的 commit 打开并保留），但**本轮没有执行 maintenance 派发**。上述限定范围、问题清单与已固定的来源入口是下一轮可直接接续的工作面，不是已完成结论。review_status 保持 pending，pending_audit_refs 保持不变；不得因本轮无候选产物而视为已结案。"
+  - "maintain。source-pi-repo 与 source-pi-legacy-repo 指向同一提交 b45e0ebc，命中 packages/ai/src/providers/compat-schema.ts（+12）与 packages/coding-agent/schemas/models.schema.json。"
+  - "compat-schema 与 models.schema 同为 provider 兼容面定义，改动指向 providers.protocol / providers.models / providers.metadata，限定在 custom_providers 派发。"
+  - "packages/coding-agent/CHANGELOG.md 也命中，但发布说明本身不作为章节证据。"

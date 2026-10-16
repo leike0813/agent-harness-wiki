@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-file-reference
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-variable-20261015
+official_url: https://github.com/anomalyco/opencode/blob/8ffbcc2c81d1ff558618137204c36954797d7a6f/packages/core/src/config/variable.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/variable.ts
+  start: 58
+  end: 75
+excerpt: |-
+      const fileContent = yield* fs
+        .readFileStringSafe(resolvedPath)
+        .pipe(
+          Effect.mapError(
+            (error) =>
+              new InvalidError({ path: configSource, message: `bad file reference: "${token}"` }, { cause: error }),
+          ),
+        )
+      // Like a missing {env:VAR}, a missing or unreadable file substitutes empty so one stale secret
+      // reference cannot take down every Location that loads this config.
+      if (fileContent === undefined)
+        yield* Effect.logWarning("config file reference is missing or unreadable", {
+          source: configSource,
+          reference: token,
+          path: resolvedPath,
+        })
+
+      out += JSON.stringify((fileContent ?? "").trim()).slice(1, -1)
