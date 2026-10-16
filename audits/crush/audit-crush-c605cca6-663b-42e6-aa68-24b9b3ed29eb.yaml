@@ -1,0 +1,1170 @@
+schema_version: 2
+audit_id: audit-crush-c605cca6-663b-42e6-aa68-24b9b3ed29eb
+harness_id: crush
+checked_at: 2026-10-13T18:01:56.709Z
+previous_audit_id: audit-crush-d26471df-ef09-4c6e-8b13-7c7cf3839ba5
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-crush-repo
+    kind: git_repository
+    checked_at: 2026-10-13T18:01:55.117Z
+    status: changed
+    baseline: c446d3f0ddf59089ff43a617dd4f3ee233f01892
+    observed: d6edc3222231a0177b88d073733413578c9a1e01
+    remote_ref: refs/heads/main
+    changed_paths:
+      - .github/cla-signatures.json
+      - .github/workflows/release.yml
+      - internal/agent/tools/bash_test.go
+      - internal/agent/tools/multiedit_test.go
+      - internal/agent/tools/view_test.go
+      - internal/backend/backend.go
+      - internal/backend/backend_test.go
+      - internal/backend/events.go
+      - internal/backend/prompts_test.go
+      - internal/permission/permission.go
+      - internal/permission/permission_test.go
+      - internal/proto/permission.go
+      - internal/proto/proto.go
+      - internal/question/question.go
+      - internal/question/question_test.go
+      - internal/server/e2e_test.go
+      - internal/server/endpoints.go
+      - internal/server/events.go
+      - internal/server/events_filter_test.go
+      - internal/server/proto.go
+      - internal/server/sessions_isbusy_test.go
+      - internal/ui/model/session.go
+      - internal/workspace/client_workspace.go
+      - internal/workspace/client_workspace_test.go
+  - source_id: source-crush-npm
+    kind: npm_registry
+    checked_at: 2026-10-13T18:01:55.128Z
+    status: unchanged
+    baseline: 0.98.1@sha512-TWjk5My+NLi+iNidiYNde4s05g85sOC97IiBs6aXywuFP2pZ9C+wjih985StTvmY3lJgPd9oKrtgbPRGT2SQ8g==
+    observed: 0.98.1@sha512-TWjk5My+NLi+iNidiYNde4s05g85sOC97IiBs6aXywuFP2pZ9C+wjih985StTvmY3lJgPd9oKrtgbPRGT2SQ8g==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.trust
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-scope
+      - config-sources
+      - config-merge
+      - config-runtime
+      - config-defaults
+      - config-migration
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-crush-code-attribution
+      - ref-crush-code-boundary
+      - ref-crush-code-cli-flags
+      - ref-crush-code-config-atomicwrite-rename
+      - ref-crush-code-config-attribution-default
+      - ref-crush-code-config-bytes
+      - ref-crush-code-config-defaults
+      - ref-crush-code-config-fileretry-backoff
+      - ref-crush-code-config-fileretry-read
+      - ref-crush-code-config-fileretry-unix
+      - ref-crush-code-config-fileretry-windows
+      - ref-crush-code-config-load-readfile
+      - ref-crush-code-config-lookup
+      - ref-crush-code-config-merge
+      - ref-crush-code-crushrc-builder
+      - ref-crush-code-crushrc-builtins
+      - ref-crush-code-crushrc-load
+      - ref-crush-code-dirs-cmd
+      - ref-crush-code-flag-kinds
+      - ref-crush-code-global-paths
+      - ref-crush-code-info-hooks
+      - ref-crush-code-info-mcp
+      - ref-crush-code-info-perms
+      - ref-crush-code-info-skills
+      - ref-crush-code-info-staleness
+      - ref-crush-code-info-tool
+      - ref-crush-code-install-migration
+      - ref-crush-code-load-startup
+      - ref-crush-code-mcp-struct
+      - ref-crush-code-metrics
+      - ref-crush-code-option-reset
+      - ref-crush-code-option-specs
+      - ref-crush-code-option-ui
+      - ref-crush-code-options
+      - ref-crush-code-permissions-builtin
+      - ref-crush-code-provider-resolve
+      - ref-crush-code-provider-update
+      - ref-crush-code-reload
+      - ref-crush-code-request-timeout
+      - ref-crush-code-schema-cmd
+      - ref-crush-code-skill-dirs
+      - ref-crush-code-staleness
+      - ref-crush-code-store-field
+      - ref-crush-code-store-overrides
+      - ref-crush-code-system-config-win
+      - ref-crush-code-system-config
+      - ref-crush-code-tool-opts
+      - ref-crush-code-tui-legacy-theme
+      - ref-crush-configdoc-cmdref
+      - ref-crush-configdoc-composing
+      - ref-crush-configdoc-future-realtime
+      - ref-crush-configdoc-future-state
+      - ref-crush-configdoc-json
+      - ref-crush-configdoc-legacy-json
+      - ref-crush-configdoc-lsp-add
+      - ref-crush-configdoc-option-ui
+      - ref-crush-configdoc-option
+      - ref-crush-configdoc-permissions
+      - ref-crush-configdoc-provider-add
+      - ref-crush-configdoc-security
+      - ref-crush-configdoc-versioning
+      - ref-crush-configdoc-where
+      - ref-crush-configdoc-why-bash
+      - ref-crush-readme-allow-tools
+      - ref-crush-readme-apikeys
+      - ref-crush-readme-auto-update-off
+      - ref-crush-readme-auto-update
+      - ref-crush-readme-config
+      - ref-crush-readme-context
+      - ref-crush-readme-deny-tools
+      - ref-crush-readme-init
+      - ref-crush-readme-logging
+      - ref-crush-readme-lsp
+      - ref-crush-readme-yolo
+      - ref-crush-schema-root
+      - ref-crush-skilldoc-config
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: >-
+      source-crush-repo d6edc32（PR #3924 workspace-prompts，父提交 c446d3f0）：本轮按派发范围只调查
+      configuration 的 config.sources、config.overrides、config.trust。合入提交标题为 “server: scope
+      permission/question prompts to the current session”，全部 24 个改动文件里没有任何配置读取、
+      配置文件发现或工作区文件加载路径的改动：internal/config/**、internal/shellconfig/**、
+      internal/skills/**、docs/** 与 schema.json 的 diff 均为空，非测试改动里也没有新增
+      os.ReadFile、filepath.Walk 或 glob。“workspace prompts” 指的是同一 workspace 内按会话投递的
+      权限/提问提示事件，不是新增的提示词文件发现机制；该能力在本提交之前不存在，也不新增任何
+      配置键。与已登记证据重合的 internal/permission/permission.go 的 +29 行只做两件事：给
+      PermissionNotification 加 SessionID 字段并在五处 Publish 带上 opts.SessionID，以及新增只读的
+      Service.ActiveRequest()（先查 activeRequest 再用 pendingRequests 校验其仍可 Grant/Deny 解析）。
+      Request 的判定顺序（skip → allowlist → hookApproved → autoApprove → AutoApproveSession →
+      autoApproveTools）逐字未改，故配置侧的跳过/允许/信任门机制不变。逐问题结论：config.sources 的
+      来源发现与优先级未变、config.overrides 的合并与覆盖语义未变、config.trust 的“配置文件即受信任
+      代码”边界未变，三题均结案为不受影响，不新建章节 edition，也不新增 mapping。config.runtime、
+      config.defaults、config.migration、config.diagnostics 未在派发范围，保持 pending。
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-scope
+      - agents-entry
+      - agents-format
+      - agents-roles
+      - agents-invocation-limits
+      - agents-overrides
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-crush-code-agent-models
+      - ref-crush-code-agent-prompts
+      - ref-crush-code-agent-setup
+      - ref-crush-code-agent-struct
+      - ref-crush-code-agent-tool-sets
+      - ref-crush-code-build-tools
+      - ref-crush-code-cli-flags
+      - ref-crush-code-config-defaults
+      - ref-crush-code-config-struct
+      - ref-crush-code-coordinator-agents
+      - ref-crush-code-info-tool
+      - ref-crush-code-mode-switch
+      - ref-crush-code-option-specs
+      - ref-crush-code-permission-service
+      - ref-crush-code-permissions-builtin
+      - ref-crush-code-prompt-skills
+      - ref-crush-code-run-subagent
+      - ref-crush-code-set-main-agent-backend
+      - ref-crush-code-set-main-agent
+      - ref-crush-code-skill-dirs
+      - ref-crush-code-store-overrides
+      - ref-crush-code-task-template
+      - ref-crush-code-task-tool
+      - ref-crush-code-template-coder
+      - ref-crush-code-template-plan
+      - ref-crush-code-tool-names
+      - ref-crush-configdoc-cmdref
+      - ref-crush-readme-logging
+      - ref-crush-schema-root
+    cross_topic_links:
+      - config.sources
+      - config.trust
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-crush-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-scope
+      - providers-entry
+      - providers-auth
+      - providers-protocol-models
+      - providers-metadata
+      - providers-forwarding-responses
+      - providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-crush-code-agent-model-refetch
+      - ref-crush-code-agent-model-resolve
+      - ref-crush-code-apply-env
+      - ref-crush-code-config-defaults
+      - ref-crush-code-config-merge
+      - ref-crush-code-context-threshold-use
+      - ref-crush-code-context-threshold
+      - ref-crush-code-discover-models
+      - ref-crush-code-get-model
+      - ref-crush-code-grok-callback-path
+      - ref-crush-code-grok-credential-exclusive
+      - ref-crush-code-grok-credential-fields
+      - ref-crush-code-grok-device-flow
+      - ref-crush-code-grok-login-cmd
+      - ref-crush-code-grok-login-flow
+      - ref-crush-code-grok-logout-cmd
+      - ref-crush-code-grok-models-cmd
+      - ref-crush-code-grok-models-fetch
+      - ref-crush-code-grok-models-field
+      - ref-crush-code-grok-small-model
+      - ref-crush-code-grok-store-lazy
+      - ref-crush-code-grok-store-refetch
+      - ref-crush-code-info-tool
+      - ref-crush-code-load-subscription-refetch
+      - ref-crush-code-login-cli
+      - ref-crush-code-login-platforms
+      - ref-crush-code-model-availability
+      - ref-crush-code-model-builtin
+      - ref-crush-code-model-fallback
+      - ref-crush-code-model-slots-builtin
+      - ref-crush-code-models-cmd
+      - ref-crush-code-openai-compat
+      - ref-crush-code-options
+      - ref-crush-code-provider-build
+      - ref-crush-code-provider-builtin
+      - ref-crush-code-provider-cache
+      - ref-crush-code-provider-custom
+      - ref-crush-code-provider-list
+      - ref-crush-code-provider-resolve
+      - ref-crush-code-provider-struct
+      - ref-crush-code-provider-update
+      - ref-crush-code-request-timeout-error
+      - ref-crush-code-request-timeout
+      - ref-crush-code-retry-401
+      - ref-crush-code-schema-cmd
+      - ref-crush-code-selected-model
+      - ref-crush-code-subscription-small-model
+      - ref-crush-configdoc-model-add
+      - ref-crush-configdoc-model-slots
+      - ref-crush-configdoc-provider-add
+      - ref-crush-readme-apikeys
+      - ref-crush-readme-auto-update-off
+      - ref-crush-readme-auto-update
+      - ref-crush-readme-env
+      - ref-crush-readme-local-models
+      - ref-crush-readme-logging
+      - ref-crush-readme-manual-models
+      - ref-crush-readme-providers-anthropic
+      - ref-crush-readme-providers-openai
+      - ref-crush-readme-providers
+      - ref-crush-schema-provider
+    cross_topic_links:
+      - config.sources
+      - config.trust
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-crush-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-scope
+      - hooks-events-entry
+      - hooks-input
+      - hooks-output
+      - hooks-order
+      - hooks-conditions
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-crush-code-build-tools
+      - ref-crush-code-config-lookup
+      - ref-crush-code-hook-aggregate
+      - ref-crush-code-hook-builtin
+      - ref-crush-code-hook-claude-compat
+      - ref-crush-code-hook-events
+      - ref-crush-code-hook-payload
+      - ref-crush-code-hook-run
+      - ref-crush-code-hook-runner
+      - ref-crush-code-hook-runone
+      - ref-crush-code-hook-stdout
+      - ref-crush-code-hook-struct
+      - ref-crush-code-hook-validate
+      - ref-crush-code-hook-wrap
+      - ref-crush-code-info-hooks
+      - ref-crush-code-permission-request
+      - ref-crush-code-reload
+      - ref-crush-configdoc-hook-add
+      - ref-crush-configdoc-hook-remove
+      - ref-crush-hooksdoc-aggregation
+      - ref-crush-hooksdoc-building
+      - ref-crush-hooksdoc-claude
+      - ref-crush-hooksdoc-config
+      - ref-crush-hooksdoc-env
+      - ref-crush-hooksdoc-events
+      - ref-crush-hooksdoc-example
+      - ref-crush-hooksdoc-examples
+      - ref-crush-hooksdoc-exec
+      - ref-crush-hooksdoc-exit-codes
+      - ref-crush-hooksdoc-facts
+      - ref-crush-hooksdoc-hookconfig
+      - ref-crush-hooksdoc-multiple
+      - ref-crush-hooksdoc-output
+      - ref-crush-hooksdoc-pretooluse
+      - ref-crush-hooksdoc-timeouts
+      - ref-crush-readme-hooks
+      - ref-crush-readme-logging
+      - ref-crush-schema-hook
+      - ref-crush-skilldoc-hooks
+    cross_topic_links:
+      - config.sources
+      - config.trust
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-crush-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-scope
+      - mcp-entry-definition
+      - mcp-transport
+      - mcp-auth
+      - mcp-lifecycle
+      - mcp-capabilities-exposure
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-crush-code-agent-setup
+      - ref-crush-code-build-tools
+      - ref-crush-code-cli-flags
+      - ref-crush-code-config-merge
+      - ref-crush-code-info-mcp
+      - ref-crush-code-mcp-auth
+      - ref-crush-code-mcp-budget
+      - ref-crush-code-mcp-builtin
+      - ref-crush-code-mcp-client
+      - ref-crush-code-mcp-disable
+      - ref-crush-code-mcp-initialize
+      - ref-crush-code-mcp-local-disabled-init
+      - ref-crush-code-mcp-local-toggle
+      - ref-crush-code-mcp-oauth
+      - ref-crush-code-mcp-override-presence
+      - ref-crush-code-mcp-ping
+      - ref-crush-code-mcp-prompts
+      - ref-crush-code-mcp-reconcile
+      - ref-crush-code-mcp-reinit
+      - ref-crush-code-mcp-resolved
+      - ref-crush-code-mcp-resources
+      - ref-crush-code-mcp-sse-oauth
+      - ref-crush-code-mcp-start-local-disabled
+      - ref-crush-code-mcp-states
+      - ref-crush-code-mcp-struct
+      - ref-crush-code-mcp-timeout
+      - ref-crush-code-mcp-toggle-apply
+      - ref-crush-code-mcp-toggle-item-state
+      - ref-crush-code-mcp-toggle-status
+      - ref-crush-code-mcp-tool-list
+      - ref-crush-code-mcp-tool-mount
+      - ref-crush-code-mcp-transport
+      - ref-crush-code-mcp-workspace-toggle
+      - ref-crush-code-permission-request
+      - ref-crush-code-scope
+      - ref-crush-code-store-field
+      - ref-crush-configdoc-mcp-add
+      - ref-crush-readme-logging
+      - ref-crush-readme-mcp-oauth
+      - ref-crush-readme-mcp-prereg
+      - ref-crush-readme-mcp-sessionless
+      - ref-crush-readme-mcp
+      - ref-crush-schema-mcp
+      - ref-crush-schema-root
+    cross_topic_links:
+      - config.sources
+      - config.trust
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-crush-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-scope
+      - plugins-model
+      - plugins-package-install
+      - plugins-discovery-api
+      - plugins-lifecycle
+      - plugins-diagnostics
+      - plugins-alternatives
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-crush-code-cli-flags
+      - ref-crush-code-command-sources
+      - ref-crush-code-dev-skills
+      - ref-crush-code-hook-run
+      - ref-crush-code-hook-validate
+      - ref-crush-code-info-hooks
+      - ref-crush-code-info-mcp
+      - ref-crush-code-info-skills
+      - ref-crush-code-info-tool
+      - ref-crush-code-mcp-initialize
+      - ref-crush-code-mcp-states
+      - ref-crush-code-mcp-tool-mount
+      - ref-crush-code-models-cmd
+      - ref-crush-code-schema-cmd
+      - ref-crush-code-skill-builtin-fs
+      - ref-crush-code-skill-discover
+      - ref-crush-code-skill-discovery
+      - ref-crush-configdoc-cmdref
+      - ref-crush-hooksdoc-facts
+      - ref-crush-readme-disable-skills
+      - ref-crush-readme-features
+      - ref-crush-readme-hooks
+      - ref-crush-readme-logging
+      - ref-crush-readme-mcp
+      - ref-crush-readme-skills-user
+      - ref-crush-readme-skills
+      - ref-crush-schema-root
+    cross_topic_links:
+      - config.sources
+      - config.trust
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-crush-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-scope
+      - skills-roots
+      - skills-discovery
+      - skills-format
+      - skills-extensions
+      - skills-loading-invocation
+      - skills-conditions-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-crush-code-command-sources
+      - ref-crush-code-config-defaults
+      - ref-crush-code-info-skills
+      - ref-crush-code-option-specs
+      - ref-crush-code-prompt-skills
+      - ref-crush-code-skill-builtin-fs
+      - ref-crush-code-skill-catalog
+      - ref-crush-code-skill-command-load
+      - ref-crush-code-skill-command-run
+      - ref-crush-code-skill-commands
+      - ref-crush-code-skill-dedupe
+      - ref-crush-code-skill-dirs
+      - ref-crush-code-skill-discover
+      - ref-crush-code-skill-discovery
+      - ref-crush-code-skill-frontmatter
+      - ref-crush-code-skill-label
+      - ref-crush-code-skill-log
+      - ref-crush-code-skill-manager
+      - ref-crush-code-skill-prompt-xml
+      - ref-crush-code-skill-read
+      - ref-crush-code-skill-struct
+      - ref-crush-code-skill-tracker
+      - ref-crush-code-skill-validate
+      - ref-crush-code-view-mark
+      - ref-crush-code-view-skill
+      - ref-crush-configdoc-option
+      - ref-crush-readme-disable-skills
+      - ref-crush-readme-skills-user
+      - ref-crush-readme-skills
+      - ref-crush-schema-root
+      - ref-crush-skilldoc-config
+      - ref-crush-skilldoc-hooks
+    cross_topic_links:
+      - config.sources
+      - config.trust
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-crush-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-scope
+      - transcripts-storage-layout
+      - transcripts-schema-lifecycle
+      - transcripts-database
+      - transcripts-cleanup-archive
+      - transcripts-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-crush-transcripts-compacted-read
+      - ref-crush-transcripts-data-dir-flag
+      - ref-crush-transcripts-data-dir-resolve
+      - ref-crush-transcripts-data-directory
+      - ref-crush-transcripts-datalock-acquire
+      - ref-crush-transcripts-datalock-optin
+      - ref-crush-transcripts-datalock
+      - ref-crush-transcripts-db-connect
+      - ref-crush-transcripts-db-pragmas
+      - ref-crush-transcripts-db-readonly
+      - ref-crush-transcripts-dirs-cmd
+      - ref-crush-transcripts-disable-auto-summarize
+      - ref-crush-transcripts-file-history
+      - ref-crush-transcripts-git-branch
+      - ref-crush-transcripts-global-data-dir
+      - ref-crush-transcripts-logs-path
+      - ref-crush-transcripts-message-count-trigger
+      - ref-crush-transcripts-message-debounce
+      - ref-crush-transcripts-message-service
+      - ref-crush-transcripts-message-struct
+      - ref-crush-transcripts-messages-from-summary
+      - ref-crush-transcripts-part-types
+      - ref-crush-transcripts-parts-encoding
+      - ref-crush-transcripts-project-bootstrap
+      - ref-crush-transcripts-projects-registry
+      - ref-crush-transcripts-prompt-history
+      - ref-crush-transcripts-schema-files
+      - ref-crush-transcripts-schema-mcp-disabled
+      - ref-crush-transcripts-schema-mcp-enabled
+      - ref-crush-transcripts-schema-messages
+      - ref-crush-transcripts-schema-read-files
+      - ref-crush-transcripts-schema-sessions
+      - ref-crush-transcripts-session-commands
+      - ref-crush-transcripts-session-create
+      - ref-crush-transcripts-session-delete
+      - ref-crush-transcripts-session-hash
+      - ref-crush-transcripts-session-id-lookup
+      - ref-crush-transcripts-session-json-flags
+      - ref-crush-transcripts-session-mutate-commands
+      - ref-crush-transcripts-session-show-json
+      - ref-crush-transcripts-session-struct
+      - ref-crush-transcripts-shell-part
+      - ref-crush-transcripts-shell-persist
+      - ref-crush-transcripts-shell-spill-cap
+      - ref-crush-transcripts-shell-spill-limits
+      - ref-crush-transcripts-shell-spill-prune
+      - ref-crush-transcripts-shell-spill-write
+      - ref-crush-transcripts-shutdown-flush
+      - ref-crush-transcripts-skip-lock
+      - ref-crush-transcripts-stats-crawl
+      - ref-crush-transcripts-stats-flags
+      - ref-crush-transcripts-stats-output
+      - ref-crush-transcripts-sub-session-id
+      - ref-crush-transcripts-summarize
+      - ref-crush-transcripts-title-session-id
+      - ref-crush-transcripts-tui-delete
+    cross_topic_links:
+      - config.sources
+      - config.trust
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-crush-repo: shared or unknown impact; assess relevant entrypoints"
+pending_question_ids:
+  - config.runtime
+  - config.defaults
+  - config.migration
+  - config.diagnostics
+  - agents.entry
+  - agents.format
+  - agents.roles
+  - agents.invocation
+  - agents.overrides
+  - agents.limits
+  - agents.diagnostics
+  - providers.entry
+  - providers.auth
+  - providers.protocol
+  - providers.models
+  - providers.metadata
+  - providers.forwarding
+  - providers.responses
+  - providers.diagnostics
+  - hooks.events
+  - hooks.entry
+  - hooks.input
+  - hooks.output
+  - hooks.order
+  - hooks.conditions
+  - hooks.diagnostics
+  - mcp.entry
+  - mcp.definition
+  - mcp.transport
+  - mcp.auth
+  - mcp.lifecycle
+  - mcp.capabilities
+  - mcp.exposure
+  - mcp.diagnostics
+  - plugins.model
+  - plugins.package
+  - plugins.install
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+  - skills.roots
+  - skills.discovery
+  - skills.collision
+  - skills.format
+  - skills.extensions
+  - skills.loading
+  - skills.invocation
+  - skills.conditions
+  - skills.diagnostics
+  - transcripts.scope
+  - transcripts.location
+  - transcripts.naming
+  - transcripts.format
+  - transcripts.schema
+  - transcripts.lifecycle
+  - transcripts.database
+  - transcripts.archive
+  - transcripts.cleanup
+  - transcripts.diagnostics
+investigation_notes:
+  - 本轮 triage 分类：narrow_investigation；巡检观察来自 2026-10-13 的只读检查。
+  - 本轮 triage 分类：narrow_investigation；入口限 configuration 的固定问题。
+  - "仓库单提交 d6edc32（Merge pull request #3924 from
+    charmbracelet/workspace-prompts，24 个文件），多为测试与内部 UI；与章节已引证据文件重合的只有
+    internal/permission/permission.go。"
+  - >-
+    固定来源工作区：ws-d6edc3222231-e90b7699-7de1-48a8-af86-cf4fa3c5592a（baseline
+    c446d3f0ddf59089ff43a617dd4f3ee233f01892，observed
+    d6edc3222231a0177b88d073733413578c9a1e01），未重扫来源。
+  - >-
+    workspace-prompts 的性质已核实：merge commit 的标题是 “server: scope permission/question
+    prompts to the current session”。24 个改动文件按职能分为四类——客户端/服务端事件投递
+    （internal/backend/backend.go、internal/backend/events.go、internal/workspace/client_workspace.go、
+    internal/server/{endpoints,events,proto}.go）、提示载荷加 session 维度
+    （internal/permission/permission.go、internal/question/question.go、
+    internal/proto/{permission,proto}.go）、TUI 注释
+    （internal/ui/model/session.go）与测试与 CI（13 个 *_test.go、.github/**）。其中没有任何配置文件、
+    配置目录或提示词文件的发现/读取路径；internal/config/**、internal/shellconfig/**、
+    internal/skills/**、docs/**、schema.json 在本次提交中 diff 为空。
+  - >-
+    已检查并据以结案的差异文件（commit d6edc3222231a0177b88d073733413578c9a1e01）：
+    internal/permission/permission.go 是本产品章节已引证据文件中唯一被改动的一个，+29 行、0 删除，
+    精确内容为——第 49 行给 PermissionNotification 增加 SessionID string `json:"session_id"`；
+    第 82-86 行在 Service 接口上新增带注释的方法 ActiveRequest() (PermissionRequest, bool)；
+    resolve()（第 135 行定义，第 145-146 行的 Publish）与 Request() 的四处 notificationBroker.Publish
+    （第 204、216、226、264 行）各补一行 SessionID；第 291-308 行新增 permissionService.ActiveRequest
+    实现，先取 activeRequest，再以 pendingRequests.Get(active.ID) 判断该请求是否仍能被 Grant/Deny
+    解析，均在 activeRequestMu 保护下读取。Request 的放行判定顺序（skip → allowedTools 命中 →
+    hookApproved → autoApprove → AutoApproveSession → autoApproveTools）逐字未改；PermissionRequest
+    结构本身的 SessionID 字段是既有的，本次未改。
+  - >-
+    排除的差异文件与其理由：13 个 *_test.go（bash_test.go、multiedit_test.go、view_test.go、
+    backend_test.go、prompts_test.go、permission_test.go、question_test.go、e2e_test.go、
+    events_filter_test.go、sessions_isbusy_test.go、client_workspace_test.go 等）只断言新行为，
+    不构成用户可依赖的配置机制；internal/ui/model/session.go 与 internal/server/sessions_isbusy_test.go
+    按派发范围显式排除（二者只改注释/测试，分别对应 TUI 会话上报说明与 sessions isbusy 回归测试，
+    与 config.sources、config.overrides、config.trust 无机制关系）；.github/cla-signatures.json 与
+    .github/workflows/release.yml 属仓库治理；internal/proto/**、internal/server/** 与
+    internal/backend/** 的其余改动是服务端 SSE 事件按会话过滤与 pending 提示重发，接口层面是
+    HTTP/SSE server surface，而 catalog 只为 crush 登记了 cli 一个 surface，且这些行为没有对应的
+    配置键、路径或加载顺序，按范围不纳入本轮 configuration 结论。
+  - >-
+    逐题结论：config.sources（来源发现、项目边界与反转后的优先级）不受影响；config.overrides
+    （JSON 深度合并、crushrc 内建命令顺序、permissions allow/deny 追加语义）不受影响；
+    config.trust（crushrc 以完整 shell 语义执行、JSON 字符串字段做 $VAR/$(cmd) 展开，无任何信任门或
+    沙箱）不受影响。已发布的 crush-cli-configuration-v2 三题答案与证据定位继续有效，
+    本轮不新建章节 edition、不新增或改写 reference、不新增 mapping。
+  - >-
+    证据定位复核：ref-crush-code-permission-request（internal/permission/permission.go 181-240）与
+    ref-crush-code-permission-service（290-310）虽指向本次改动的文件，但二者 snapshot_id 为
+    snapshot-crush-repo（commit 69c65c3d5be0a388d62047feb55d88b9bad7f1b2），定位在其自身固定快照上
+    仍然成立，无需改写；且这两条引用只被 hooks 与 custom_agents 章节引用，configuration 章节
+    config-merge 引用的权限证据是 internal/shellconfig/permissions.go（ref-crush-code-permissions-builtin），
+    该文件本次未改动。
+  - >-
+    复核：本轮没有改变任何已发布机制的结论，不触发高影响独立复核；但 audit 的 pending_question_ids
+    仍保留 config.runtime、config.defaults、config.migration、config.diagnostics 与其余七个主题的未完成
+    问题，review_status 维持 pending，由协调者在其余派发完成后统一处置。

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-goose-mode-resolve-20261013
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261013-config-base
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/base.rs
+  start: 1279
+  end: 1286
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  pub(crate) fn resolve_goose_mode(&self) -> Result<GooseMode, ConfigError> {
+      match self.get_goose_mode_strict() {
+          Ok(mode) => Ok(mode),
+          Err(ConfigError::NotFound(_)) => Ok(GooseMode::Auto),
+          Err(error) => Err(error),
+      }
+  }

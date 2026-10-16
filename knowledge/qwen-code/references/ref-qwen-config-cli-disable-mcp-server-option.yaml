@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-config-cli-disable-mcp-server-option
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-6212189f-cli-config
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/config.ts
+  start: 683
+  end: 691
+official_url: https://github.com/QwenLM/qwen-code/blob/6212189f1f8334da78a69e3fb6b63ff6ca88251e/packages/cli/src/config/config.ts
+excerpt: |2-
+          .option('disable-mcp-server', {
+            ...DEFAULT_COMMAND_OPTIONS['disable-mcp-server'],
+            string: true,
+            coerce: (disabledServerNames: string[]) =>
+              // Handle comma-separated values
+              disabledServerNames.flatMap((disabledServerName) =>
+                disabledServerName.split(',').map((m) => m.trim()),
+              ),
+          })

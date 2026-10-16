@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-cf119a-write-attribution-gate
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-cf119a-crates-pa-daemon-src-session-store-write-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_store/write.rs
+  start: 107
+  end: 114
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/cf119a7a8c86a2c86d927cae79ed1eec03b07a91/crates/pa-daemon/src/session_store/write.rs
+excerpt: |
+      pub fn rewrite(&self) -> Result<()> {
+          anyhow::ensure!(
+              self.child_usage_recovery.pending.is_none(),
+              "confirm unresolved attribution before rewriting session"
+          );
+          anyhow::ensure!(
+              self.window.is_none(),
+              "full history required before rewriting session"
+          );

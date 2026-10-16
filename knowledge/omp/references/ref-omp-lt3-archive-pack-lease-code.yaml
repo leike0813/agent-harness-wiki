@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt3-archive-pack-lease-code
+harness_id: omp
+snapshot_id: snapshot-omp-adc7-src-session-session-transfer-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-transfer.ts
+  start: 211
+  end: 222
+official_url: https://github.com/can1357/oh-my-pi/blob/adc7fed5c9d6837d77b590bc313a705e2b4136b0/packages/coding-agent/src/session/session-transfer.ts#L211-L222
+excerpt: "/**\n * Take this process's ownership lease on session `id` at `file` — the check\n * {@link SessionManager.moveTo} uses — or refuse while another live omp process\n * writes it.\n */\nfunction claimSessionOrRefuse(id: string, file: string, action: string): () => void {\n\tconst release = new FileSessionStorage().claimSession(id, file);\n\tif (!release) {\n\t\tthrow new SessionTransferError(\n\t\t\t`Cannot ${action} ${file}: another live omp process writes this session. Exit it first. Nothing was changed.`,\n\t\t);\n\t}"

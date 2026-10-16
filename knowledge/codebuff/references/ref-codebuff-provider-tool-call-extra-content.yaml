@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-provider-tool-call-extra-content
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-openai-compatible-model-20261013
+locator:
+  kind: file_lines
+  file: packages/llm-providers/src/openai-compatible/chat/openai-compatible-chat-language-model.ts
+  start: 802
+  end: 825
+official_url: "https://github.com/CodebuffAI/codebuff/blob/99d7092ee7cc6aa17aac3f3a292c2ba7a7d54310/packages/llm-providers/src/openai-compatible/chat/openai-compatible-chat-language-model.ts"
+excerpt: |2-
+  /**
+   * A tool call's `extra_content`, kept so the next request can send it back.
+   * Gemini 3's OpenAI-compatible endpoint puts the call's thought signature at
+   * `extra_content.google.thought_signature` and refuses (HTTP 400) a follow-up
+   * whose replayed call lacks it. Like `reasoning_details`, it is tagged with
+   * the model that produced it and only replayed to that model.
+   */
+  function toolCallExtraContentMetadata(
+    extraContent: unknown,
+    providerOptionsName: string,
+    modelId: string,
+  ): { providerMetadata?: SharedV2ProviderMetadata } {
+    if (
+      extraContent == null ||
+      typeof extraContent !== 'object' ||
+      Array.isArray(extraContent)
+    ) {
+      return {}

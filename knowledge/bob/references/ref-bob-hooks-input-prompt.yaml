@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-hooks-input-prompt
+harness_id: bob
+snapshot_id: snapshot-bob-lt-hooks-20261013
+locator:
+  kind: document_section
+  heading: Hook reference
+official_url: "https://bob.ibm.com/docs/shell/configuration/lifecycle-hooks"
+excerpt: |-
+  Runs each time you submit a prompt, before it is sent to the model.
+  Stdin schema
+  {
+  "session_id": "string",
+  "cwd": "string",
+  "hook_event_name": "string",
+  "prompt": "string"
+  }
+  Example payload
+  {
+  "session_id": "3f2a9c1e8b7d4f6a0e5c2b1d9a8f7e6c",
+  "cwd": "/path/to/project",
+  "hook_event_name": "UserPromptSubmit",
+  "prompt": "Refactor the auth module"
+  }
+  Stdout: Written to the model's context alongside the prompt.
+  Blocking: Exit code 2 blocks the prompt from being sent. Bob Shell shows an error and the prompt is not submitted.

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-save-thread-needs-session
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-agent-rs-c66312b
+locator:
+  kind: file_lines
+  file: crates/agent/src/agent.rs
+  start: 1821
+  end: 1831
+official_url: https://github.com/zed-industries/zed/blob/c66312b200d113694fca08c1d468669028a09a0e/crates/agent/src/agent.rs
+excerpt: |2-
+      fn save_thread(&mut self, thread: Entity<Thread>, cx: &mut Context<Self>) {
+          let id = thread.read(cx).id().clone();
+          let Some(session) = self.sessions.get(&id) else {
+              return;
+          };
+          if session.can_skip_save_while_streaming(cx) {
+              return;
+          }
+          let draft_prompt = session.draft_prompt(cx);
+          self.enqueue_save(&id, draft_prompt, cx);
+      }

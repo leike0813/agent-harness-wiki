@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-settings-workspace-restricted-strip
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-18f80f56-cli-settings
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settings.ts
+  start: 519
+  end: 531
+official_url: https://github.com/QwenLM/qwen-code/blob/18f80f56666a347a2b67b2ef98099cc58356b253/packages/cli/src/config/settings.ts
+excerpt: "/**\n * Strip the workspace-restricted settings before merging so a repository\n * cannot opt the user into those capabilities.\n */\nfunction stripWorkspaceRestrictedSettings(settings: Settings): Settings {\n  let stripped = settings;\n  for (const key of WORKSPACE_RESTRICTED_ROOT_SETTINGS) {\n    if (stripped[key] === undefined) continue;\n    const { [key]: _restricted, ...rest } = stripped;\n    stripped = rest as Settings;\n  }\n  return stripSettingKeys(stripped, WORKSPACE_RESTRICTED_SETTINGS);\n}"

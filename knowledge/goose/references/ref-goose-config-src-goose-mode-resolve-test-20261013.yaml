@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-config-src-goose-mode-resolve-test-20261013
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261013-config-base
+locator:
+  kind: file_lines
+  file: crates/goose/src/config/base.rs
+  start: 1468
+  end: 1493
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  #[test]
+  fn resolve_goose_mode_defaults_only_when_missing() {
+      ...
+      assert_eq!(config.resolve_goose_mode().unwrap(), GooseMode::Auto);
+      for mode in [GooseMode::Auto, GooseMode::SmartApprove, GooseMode::Approve, GooseMode::Chat] {
+          config.set_goose_mode(mode).unwrap();
+          assert_eq!(config.resolve_goose_mode().unwrap(), mode);
+      }
+      std::fs::write(config_file.path(), "GOOSE_MODE: invalid\n").unwrap();
+      assert!(matches!(config.resolve_goose_mode(), Err(ConfigError::DeserializeError(_))));
+  }

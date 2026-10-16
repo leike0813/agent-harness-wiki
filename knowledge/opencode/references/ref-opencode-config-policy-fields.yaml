@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-policy-fields
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-schema-src-config-policy-20261015
+official_url: https://github.com/anomalyco/opencode/blob/8ffbcc2c81d1ff558618137204c36954797d7a6f/packages/schema/src/config/policy.ts
+locator:
+  kind: file_lines
+  file: packages/schema/src/config/policy.ts
+  start: 5
+  end: 12
+excerpt: |-
+  export const Effect = Schema.Literals(["allow", "deny"])
+  export type Effect = typeof Effect.Type
+
+  export const Info = Schema.Struct({
+    action: Schema.Literals(["provider.use", "tool.use", "integration.use"]),
+    resource: Schema.String,
+    effect: Effect,
+  })

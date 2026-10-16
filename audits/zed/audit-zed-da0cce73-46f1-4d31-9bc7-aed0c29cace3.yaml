@@ -1,0 +1,72 @@
+schema_version: 2
+audit_id: audit-zed-da0cce73-46f1-4d31-9bc7-aed0c29cace3
+harness_id: zed
+checked_at: "2026-10-14T18:04:50.810Z"
+previous_audit_id: audit-zed-ef49024f-c99a-4de2-b967-115b9cb36f65
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-zed-89b88422-7e27-4d71-b9a7-29859660749a
+  - audit-zed-ef49024f-c99a-4de2-b967-115b9cb36f65
+checks:
+  - source_id: source-zed-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:04:48.596Z"
+    status: changed
+    baseline: 36682547bea1c3d4fa60c08d341cf60081853941
+    observed: e463c5ab74e016f6a16e02a8b21925b98643f9c7
+    remote_ref: refs/heads/main
+  - source_id: source-zed-docs-skills
+    kind: official_documentation
+    checked_at: "2026-10-14T18:04:48.608Z"
+    status: unchanged
+    baseline: 764f294ea53ecfe9220c5033ac805a53dc02607b25a85b63001c57343e2b9038
+    observed: 764f294ea53ecfe9220c5033ac805a53dc02607b25a85b63001c57343e2b9038
+    resolved_url: "https://zed.dev/docs/ai/skills.md"
+  - source_id: source-zed-docs-mcp
+    kind: official_documentation
+    checked_at: "2026-10-14T18:04:48.610Z"
+    status: unchanged
+    baseline: 4b63e4863aff99eac69af64220581c36f8becd856cb3d11fb811f038881615bf
+    observed: 4b63e4863aff99eac69af64220581c36f8becd856cb3d11fb811f038881615bf
+    resolved_url: "https://zed.dev/docs/ai/mcp.md"
+  - source_id: source-zed-docs-agents
+    kind: official_documentation
+    checked_at: "2026-10-14T18:04:48.611Z"
+    status: unchanged
+    baseline: 08b1b98333f1b97d44a5da73d3ccb1f19fa3d62ff3ba80f8303b571a2a21b732
+    observed: 08b1b98333f1b97d44a5da73d3ccb1f19fa3d62ff3ba80f8303b571a2a21b732
+    resolved_url: "https://zed.dev/docs/ai/external-agents.md"
+  - source_id: source-zed-docs-providers
+    kind: official_documentation
+    checked_at: "2026-10-14T18:04:49.430Z"
+    status: unchanged
+    baseline: b164ec181d366233ab55bfef5968c6d0f4c068695e5ccd05b1680829108484b0
+    observed: b164ec181d366233ab55bfef5968c6d0f4c068695e5ccd05b1680829108484b0
+    resolved_url: "https://zed.dev/docs/ai/use-api-access.md"
+  - source_id: source-zed-docs-hooks
+    kind: official_documentation
+    checked_at: "2026-10-14T18:04:49.509Z"
+    status: unchanged
+    baseline: d7b3f034a1df1c84bd557109a8a1cb15db3108d779a859b1e55eb1a4f6097e15
+    observed: d7b3f034a1df1c84bd557109a8a1cb15db3108d779a859b1e55eb1a4f6097e15
+    resolved_url: "https://zed.dev/docs/tasks.md"
+  - source_id: source-zed-docs-plugins
+    kind: official_documentation
+    checked_at: "2026-10-14T18:04:49.579Z"
+    status: changed
+    baseline: 146fa9b61c79669517d3b0bc48f78f710cd8918c0e04ed66f664aaf3632298d8
+    observed: b73ea3ccd7a4fdc3fa2f728f287afba35cd6394c29e3c303441a722cb228b620
+    resolved_url: "https://zed.dev/docs/extensions/developing-extensions.md"
+  - source_id: source-zed-docs-config
+    kind: official_documentation
+    checked_at: "2026-10-14T18:04:49.618Z"
+    status: changed
+    baseline: bc098aa3392a5e68826cf0764add3a64ebbd12636a673ef1ef5958f1adeb9d88
+    observed: 8ac80db4bd322129fd2c1746adf4aac985bb4063c9ef3634aa2a31817d62a799
+    resolved_url: "https://zed.dev/docs/reference/all-settings.md"
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "reviewed_no_impact。source-zed-repo 36682547..e463c5ab 共 72 个文件，与 62 个被引用文件的唯一交集是 crates/acp_thread/src/acp_thread.rs，逐行核对后确认新增的 85 行全部是 #[gpui::test] 测试用例，未改任何生产路径。"
+  - "排除的固定问题：config.*、plugins.*、agents.*、mcp.*、skills.*、hooks.*——被核对的是 crates/remote、crates/remote_server、crates/sidebar 与 script/linux，均不落在已录机制入口上。"

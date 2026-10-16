@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-deepseek-cache-scope
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-src-src-api-providers-deepseek-1d3
+locator:
+  kind: file_lines
+  file: src/api/providers/deepseek.ts
+  start: 105
+  end: 112
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/1d37994661f43b9105d731dfafe6161ad0c2e97a/src/api/providers/deepseek.ts"
+excerpt: |2
+  	override getModelCacheScope(): ModelCacheScope {
+  		return { urlScoped: true, keyScoped: false, authScoped: false }
+  	}
+
+  	async fetchModels(options: GetModelsOptions, signal?: AbortSignal): Promise<ModelRecord> {
+  		const fetchOpts: [] | [{ signal: AbortSignal }] = signal ? [{ signal }] : []
+  		return getDeepSeekModels(options.baseUrl, options.apiKey, ...fetchOpts)
+  	}

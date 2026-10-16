@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-policies-key
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-schema-src-config-20261015
+official_url: https://github.com/anomalyco/opencode/blob/8ffbcc2c81d1ff558618137204c36954797d7a6f/packages/schema/src/config.ts
+locator:
+  kind: file_lines
+  file: packages/schema/src/config.ts
+  start: 55
+  end: 62
+excerpt: |-
+    permissions: Permission.Ruleset.pipe(optional).annotate({
+      description: "Ordered tool permission rules applied to agent tool use",
+    }),
+    policies: ConfigPolicy.Info.pipe(Schema.Array, optional).annotate({
+      description: "Ordered policies controlling access to providers, tools, and integrations",
+    }),
+    agents: Schema.Record(Schema.String, ConfigAgent.Info).pipe(optional).annotate({
+      description: "Named built-in agent overrides and custom agent definitions",

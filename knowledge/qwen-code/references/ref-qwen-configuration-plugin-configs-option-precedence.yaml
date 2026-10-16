@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-configuration-plugin-configs-option-precedence
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-18f80f56-cli-mod-session
+locator:
+  kind: file_lines
+  file: packages/cli/src/nonInteractive/mod-session.ts
+  start: 61
+  end: 72
+official_url: https://github.com/QwenLM/qwen-code/blob/18f80f56666a347a2b67b2ef98099cc58356b253/packages/cli/src/nonInteractive/mod-session.ts
+excerpt: "  static create(\n    config: Config,\n    settings: LoadedSettings,\n    adapter: JsonOutputAdapterInterface,\n  ): ModSession | undefined {\n    return settings.merged.experimental?.mods\n      ? new ModSession(config, adapter, [\n          settings.systemDefaults.settings.pluginConfigs,\n          settings.user.settings.pluginConfigs,\n          settings.system.settings.pluginConfigs,\n        ])\n      : undefined;"

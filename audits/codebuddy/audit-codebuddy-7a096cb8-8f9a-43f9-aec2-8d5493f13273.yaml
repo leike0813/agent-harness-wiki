@@ -1,0 +1,109 @@
+schema_version: 2
+audit_id: audit-codebuddy-7a096cb8-8f9a-43f9-aec2-8d5493f13273
+harness_id: codebuddy
+checked_at: 2026-10-12T18:06:20.303Z
+previous_audit_id: audit-codebuddy-7c744ebc-6ee0-4c90-badf-dfd69548e6ee
+status: changed
+review_status: reviewed
+reviewed_by: CodebuddyWorker
+reviewed_at: '2026-10-13T00:00:00.000Z'
+pending_audit_refs: []
+checks:
+  - source_id: source-codebuddy-docs
+    kind: git_repository
+    checked_at: '2026-10-12T18:06:19.137Z'
+    status: changed
+    baseline: ac025a2f75b0a2d4e1b9a05ee343b854168f888a
+    observed: 7576ffa88f81540b71d4326cfbca779f78132073
+    remote_ref: refs/heads/main
+    changed_paths:
+      - CHANGELOG.md
+      - docs/env-vars.md
+      - docs/mcp.md
+      - docs/release-notes/README.md
+      - docs/release-notes/v2.165.0.md
+      - docs/settings.md
+      - docs/startup-profiling.md
+      - docs/tools-reference.md
+  - source_id: source-codebuddy-site
+    kind: official_documentation
+    checked_at: '2026-10-12T18:06:19.149Z'
+    status: unchanged
+    baseline: 6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b
+    observed: 6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b
+    resolved_url: https://www.codebuddy.cn/llms.txt
+  - source_id: source-codebuddy-npm
+    kind: npm_registry
+    checked_at: '2026-10-12T18:06:19.150Z'
+    status: unchanged
+    baseline: 2.164.0@sha512-1DvSEszHJQUysANsE1GF78dn6tWWjUpQYI4xZfJe5MTQqj3AfZDTywrNYJRKW2jTLYK8QaIX5rOSB8hUNFp8wA==
+    observed: 2.164.0@sha512-1DvSEszHJQUysANsE1GF78dn6tWWjUpQYI4xZfJe5MTQqj3AfZDTywrNYJRKW2jTLYK8QaIX5rOSB8hUNFp8wA==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.defaults
+    section_ids:
+      - config-defaults
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-settings-daemon-restart
+      - ref-codebuddy-env-daemon-auto-restart
+    cross_topic_links: []
+    reason: 'docs/settings.md 在 7576ffa8 的「可用设置」表新增第一方键 `daemon.autoRestartOnUpdate`（默认 true，空闲时自动重启到新版本；关闭则保持待重启、可在 Web UI / Desktop 手动重启；状态见 `GET /api/v1/info` 的 autoUpdate，立即检查用 `POST /api/v1/update/check`），并指向环境变量 `CODEBUDDY_DAEMON_AUTO_RESTART_DISABLED`。
+      configuration v3 的 config-defaults 正是引用同一张表（ref-codebuddy-settings-keys）并逐项列举默认值与开关，故新增段落进入 config-defaults。
+      env-vars.md:269 的同名字段说明其语义是「仍检查并安装更新、只是不自动重启」，与 settings.md 的「强制关闭」措辞不同，两处都要引，避免读者把它误当作关闭 autoUpdates。'
+  - topic: mcp
+    question_ids:
+      - mcp.capabilities
+    section_ids:
+      - mcp-capabilities
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-mcp-tool-concurrency
+    cross_topic_links: []
+    reason: 'docs/mcp.md 在 7576ffa8 新增「工具并发执行」一节（3. 性能优化 末尾 + 独立小节）：MCP 工具默认按顺序执行，
+      server 只有在 tools/list 的工具注解里声明 `"annotations": { "readOnlyHint": true }` 才与其他只读调用并发，
+      经 ToolSearch 延迟加载的工具同一规则。mcp v1 的 mcp-capabilities 讲工具/Prompts/Apps 的可用面但完全没有执行调度语义，
+      属该问题下的新增第一方字段；宿主侧只读判定规则留在官方 tools-reference，不在本章扩写。'
+pending_question_ids: []
+investigation_notes:
+- 本轮 triage 分类：maintain（scanner 的八主题 impacts 全部收窄为 2 条）。
+- source-codebuddy-docs 由 ac025a2 变为 7576ffa8（8 个文件、+122/-1），逐文件读实际 hunk：
+  `git diff ac025a2f75b0 7576ffa88f81 -- <path>`，workspace ws-7576ffa88f81-f1f5c41c-1ceb-4ded-a57e-59738ae1813d。
+- 已核实并据以改写：docs/settings.md（+1 行，新增 `daemon.autoRestartOnUpdate`）、docs/mcp.md（+18 行，新增「工具并发执行」）、
+  docs/env-vars.md:269（`CODEBUDDY_DAEMON_AUTO_RESTART_DISABLED` 的既有行，用于补全该设置键的环境变量语义，本轮 diff 未改这一行）。
+- 已核实并结案为无知识影响：docs/env-vars.md 唯一的 diff 是 Shell 输出截断 ASCII 流程图里 placeholder 的一行注释
+  （preview 取命令输出开头、命令失败时先给 Exit Code）。它不是配置键、默认值、优先级层级或写入目标，
+  且没有任何章节或引用以该流程图为 locator（refs 指向 env-vars 的章节是「Shell 配置」「性能和输出」「工具和功能开关」及若干变量行），
+  记为 reviewed_no_knowledge_impact。
+- 已核实并结案为无知识影响：docs/startup-profiling.md（+2 行）只在文末加了一条指向 `docs/agent-cli/bun-bytecode-pgo.md`
+  的自行构建链接；候选 references 中没有以 docs/startup-profiling.md 为 locator 的记录，八个主题章节也没有陈述启动采样机制。
+- 已核实并结案为无知识影响：docs/tools-reference.md（+22 行）新增「同一轮多个工具调用的执行顺序」与 Bash「命令失败时的显示」
+  两节。候选 references 中没有任何记录以 docs/tools-reference.md 为 locator，八个主题章节均未陈述工具调度顺序或 Bash 退出码显示；
+  只有 mcp.md 的新增小节与它交叉引用，因此本次只在 mcp 章内指向该文档名，不为它单开引用。
+- 已核实并结案：CHANGELOG.md（+34 行）与 docs/release-notes/v2.165.0.md（+43 行）只新增 2.165.0 段落
+  （浏览器通知、Mods API、Flightdeck、daemon 空转修复、ToolSearch 隐藏被禁工具等）。
+  npm 来源本轮 unchanged（2.164.0@sha512-1DvSEz…），仓库 main 的 2.165.0 记录描述的是尚未由该 npm 身份发布的构建，
+  按任务约束不作为 2.164.0 的行为证据；因此 CHANGELOG 中「MCP OAuth 登录自动续期 / MCP 授权失败原因可读 / ToolSearch 隐藏被禁工具 /
+  PTC 安全审批交互」等条目一律不写入章节，mcp.auth 的 `partial` 状态与既有缺口表述保持原样。
+  docs/release-notes/README.md 只多了一行 v2.165.0 链接，属版本身份。
+- 排除 custom_agents、custom_providers、hooks、native_plugins：它们虽然引用 ref-codebuddy-settings-keys（同一张设置表），
+  但引用点分别是 `agent`、`variantModels`/`reasoningEffort`、`disableAllHooks`/`allowUntrustedFrontmatterHooks`、
+  `enableAllProjectMcpServers`/`enabledMcpjsonServers`/`disabledMcpjsonServers` 这些具体键，本轮 diff 没有改动其中任何一个，
+  也没有改动它们的默认值、优先级层级或写入目标，因此不构成章节影响。
+- 排除 skills 与 local_transcripts：两章均不引用 docs/settings.md、docs/mcp.md、docs/env-vars.md 中本轮改动的段落，
+  本轮无任何相关 locator 命中。
+- 本轮写入内容全部按新 edition 处理：mcp v1 与 configuration v3 已在 origin/main（提交 b1a7455c），不可原地修改，
+  因此新建 codebuddy-cli-mcp-v2 与 codebuddy-cli-configuration-v4，v1/v3 文件逐字未动，并同步更新 registry/chapter-current.yaml。
+- 新增来源记录全部固定到 7576ffa88f81540b71d4326cfbca779f78132073，content_sha256 由 workspace 字节计算：
+  docs/settings.md=974792193bc921bc92a5f64122787c98c74ae74aa35ff435cba4cba2b288c305、
+  docs/mcp.md=af42ccf4e4c59067bfba8aea1aa081ec66c141f816647695050df1e3cca8064f、
+  docs/env-vars.md=aa5245dc0d9a3d9324b2a14c46b7d1ec0239ce9bbb1f1a74244633be01d86ff1；只记 commit/file/hash，未写入 workspace 路径。
+- 未新增任何软件版本映射：npm 身份未变，且仓库 main 的 2.165.0 记录不足以证明已发布包的行为。
+- 本轮不写 pending、不需要独立复核：两处改写都是新增字段/规则，没有来源冲突、没有推翻已发布配置步骤、
+  也没有改动跨主题的关键加载或优先级机制（settings 分层优先级与 MCP 工具命名/权限规则未变）。
+- pending_question_ids 为空：本轮两个问题（config.defaults、mcp.capabilities）都已由 7576ffa8 的固定来源给出答案；
+  mcp.auth 仍为章节内显式记录的 `partial` 缺口（文档未描述 MCP 专用 OAuth 刷新流程），本轮没有可据以改写的新证据，
+  等 npm 身份推进到包含 2.165.0 的发行版后复查。

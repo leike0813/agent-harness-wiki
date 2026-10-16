@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-cf119a-settings-document-parse
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-cf119a-crates-pa-core-src-settings-manager-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/manager.rs
+  start: 967
+  end: 979
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/cf119a7a8c86a2c86d927cae79ed1eec03b07a91/crates/pa-core/src/settings/manager.rs
+excerpt: |
+  /// Parse inside the storage lock; malformed or non-object documents must never
+  /// be replaced with defaults, including when another writer changed them after load.
+  fn settings_document(current: Option<&str>) -> Result<serde_json::Map<String, serde_json::Value>> {
+      let value: serde_json::Value = serde_json::from_str(current.unwrap_or("{}"))
+          .context("parsing settings.json; settings not saved")?;
+      let serde_json::Value::Object(mut map) = value else {
+          return Err(anyhow!(
+              "settings.json must contain a JSON object; settings not saved"
+          ));
+      };
+      migrate(&mut map);
+      Ok(map)
+  }

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-skills-scan-collision-496
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-src-src-services-skills-skillsmanager-496
+locator:
+  kind: file_lines
+  file: src/services/skills/SkillsManager.ts
+  start: 153
+  end: 166
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/496bd11467f82791f98f8a3290e028c20767e415/src/services/skills/SkillsManager.ts#L153-L166"
+excerpt: "\t/**\n\t * Scan a skills directory for skill subdirectories.\n\t * Handles symlink cases:\n\t * 1. The skills directory itself is a symlink (resolved by directoryExists using realpath)\n\t * 2. Individual skill subdirectories are symlinks\n\t * 3. Symlinked container of skills (e.g., .roo/skills/shared -> /repo/skills).\n\t *    Only symlinks are treated as containers, and only one level deep.\n\t *\n\t * On name collisions the last loaded skill wins. Containers are loaded first\n\t * in reverse order, so direct skills win over container skills, and the\n\t * alphabetically first container wins over the others.\n\t *\n\t * Errors are handled per entry, so one unreadable entry never hides the rest of the root.\n\t */"

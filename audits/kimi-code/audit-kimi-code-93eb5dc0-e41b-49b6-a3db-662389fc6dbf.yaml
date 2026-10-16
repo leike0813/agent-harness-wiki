@@ -1,0 +1,136 @@
+schema_version: 2
+audit_id: audit-kimi-code-93eb5dc0-e41b-49b6-a3db-662389fc6dbf
+harness_id: kimi-code
+checked_at: 2026-10-13T18:02:41.651Z
+previous_audit_id: audit-kimi-code-9a937c5a-0f5c-4a70-ab08-3d64826a4de5
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-kimi-code-repo
+    kind: git_repository
+    checked_at: 2026-10-13T18:02:40.244Z
+    status: changed
+    baseline: cbd754049a114ee36d1b27675c82819e4963c692
+    observed: b510fa9aec85f02849f64121550be2c3fbd4294d
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-legacy-repo
+    kind: git_repository
+    checked_at: 2026-10-13T18:02:40.257Z
+    status: unchanged
+    baseline: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    observed: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-npm
+    kind: npm_registry
+    checked_at: 2026-10-13T18:02:40.268Z
+    status: unchanged
+    baseline: 2.1.1@sha512-xClqcnTQUKgKDbeOGPU78qcwxGzL8wA2rqWuOX3CLpyQ1/NhSX7jAh6hZo/JFwThSX8obkgef3uw/li5JaJNyw==
+    observed: 2.1.1@sha512-xClqcnTQUKgKDbeOGPU78qcwxGzL8wA2rqWuOX3CLpyQ1/NhSX7jAh6hZo/JFwThSX8obkgef3uw/li5JaJNyw==
+impacts:
+  - topic: skills
+    question_ids:
+      - skills.collision
+      - skills.loading
+    section_ids:
+      - skills-discovery
+      - skills-invocation
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - plugins.discovery
+      - skills.invocation
+      - skills.extensions
+    reason: 插件技能登记机制在 b510fa9 改变：register 遇 plugin 上下文提前返回，裸名索引不再写入， 技能只登记在
+      `<pluginId>:<skillName>` 限定键上；模型清单打印限定名，技能工具要求照抄清单名； promptWithSkills 新增
+      steerIfActive 影响正文进入上下文的时机。skills.collision 与 skills.loading 的已发布答案随之改变。
+  - topic: native_plugins
+    question_ids:
+      - plugins.discovery
+    section_ids:
+      - plugins-package
+      - plugins-discovery
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - skills.collision
+      - plugins.api
+      - plugins.package
+    reason: 清单 name 校验正则由 `^[a-z0-9][a-z0-9_-]{0,63}$` 放宽为
+      `^[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)*(?:@[A-Za-z0-9_-]+)?$`（types.ts:196，manifest.ts:92-98
+      为唯一调用点），并明确插件 id 查表前统一小写；插件技能的限定名与命令优先级规则写入发现与 命名冲突小节。plugins.discovery
+      已发布答案改变，plugins.package 同一小节的正则表述同步修正。
+pending_question_ids:
+  - skills.collision
+  - skills.loading
+  - plugins.discovery
+investigation_notes:
+  - 本轮 triage 分类 narrow_investigation，worker 范围限 skills 与 native_plugins
+    的四个固定问题； coordinator 已把其余主题派发到同一轮的其他任务，本审计不代为结案它们。
+  - 已考察文件（commit
+    b510fa9）：packages/agent-core-v2/src/features/skill/catalog/registry.ts
+    （register 分支与 registerPluginSkill
+    重写、formatModelSkill）、features/skill/skillService.ts （promptWithSkills 新增
+    steerIfActive）、features/skill/skill.ts（PromptWithSkillsInput 新字段）、
+    features/skill/tools/skill.ts（技能工具 skill
+    参数描述）、features/skill/catalog/types.ts 与 catalog/skillSource.ts（未改动，用于确认优先级与
+    normalizeSkillName 未变）、
+    app/plugin/types.ts（PLUGIN_NAME_REGEX、normalizePluginId）、app/plugin/manifest.ts（name
+    校验调用点）、
+    apps/kimi-code/src/tui/commands/resolve.ts（斜杠解析顺序）、apps/kimi-code/src/tui/commands/dispatch.ts
+    与 tui/kimi-tui.ts（技能激活统一走 promptWithSkills、转向时传 steerIfActive）、
+    test/features/skill/catalog/registry.test.ts 与
+    test/features/skill/workspace/skillCatalog.test.ts
+    （断言已改为限定名）、docs/en/customization/plugins.md 与
+    docs/en/reference/slash-commands.md （限定名与插件命令优先级的文档表述）。
+  - skills.format 判定不受影响：SKILL.md 的 frontmatter 解析、别名规整、类型白名单与占位符展开
+    所在文件（catalog/fileSkillDiscovery.ts、catalog/types.ts、catalog/parser 相关）本轮未出现在
+    101 个变更文件中，diff 也未触及 frontmatter 字段处理；新增的限定名只作用于登记与展示阶段，
+    不改变文件格式。已发布答案、状态与引用范围原样保留。
+  - 打开的 changeset 及其核对结论：plugin-skill-qualified-names 指向 registry.ts 的
+    registerPluginSkill 重写，已按实现核对并据此改写
+    skills.collision；unify-skill-prompts（技能卡片改高亮提示、Ctrl-S 支持技能提示）对应 TUI 呈现与
+    steerIfActive 提交路径，已按实现记录到 skills.loading，未把 changeset
+    文本当作机制证据；plugin-name-validation 只是清单 name 的输入校验，已确认它确实改变一条已发布的 发现规则（见
+    plugins.discovery 的正则放宽与 id 小写），因此写入章节；select-tools-failure-reasons
+    属于工具选择与失败原因提示，不涉及 skills 或 native_plugins 的任何固定问题，排除。
+  - 排除项：packages/kap-server 与 packages/remote-control 的设备删除功能（任务显式排除，属独立特性）；
+    apps/kimi-code/src/tui 下其余 UI/呈现与编辑按键改动、vscode replay 适配、node-sdk/klient 传输层
+    类型扩展、toolPolicy/toolSelect/selectTools 相关改动、contextMemory 与遥测事件改动——均不在本轮
+    两个主题的固定问题范围内，且不构成 skills 或插件的发现/加载入口。
+  - "skills.collision 与 plugins.discovery 的新答案改变已发布的机制表述（同名解析、命名空间与调用形式），
+    属需要独立复核的高影响结论；两版新章节与本审计保持 review_status:
+    pending，registry/chapter-current.yaml 不切换，仍指向 kimi-code-cli-skills-v1 与
+    kimi-code-cli-native_plugins-v1。"
+  - "独立复核后的修订轮（changes_requested 修复）：复核逐条核对了本轮全部新引用在 b510fa9 上的原文，
+    确认机制类主张无误，并指出四处引用问题，均已按固定来源改正且未扩大调查范围。 (1)
+    ref-kimi-code-src-tui-command-precedence 原定位 101-124 从插件分支起，漏掉 92-95 的
+    「先匹配精确技能命令名」与 97-100 的意图注释，定位放宽为 92-124；因引用正文上限 800 字符， 拆出
+    ref-kimi-code-src-tui-command-shorthand-fallback（resolve.ts:110-124）承接插件命令解\
+    析与 `skill:` 简写回退，两章同时引用。 (2) ref-kimi-code-src-skill-service-steer 原定位
+    150-155 只有可转向判定，支撑不了正文所述的 合并与排队回退，定位放宽为 150-176，摘录改为 `loop.submit(..., {
+    steerIfActive })` 合并与 `state: 'queued'` 回退。 (3) 「TUI
+    在转向（Ctrl-S）路径上提交技能激活」原引用只到 kimi-tui.ts 的提交点，未覆盖按键入口； 新增
+    ref-kimi-code-src-tui-editor-ctrl-s-binding（editor-keyboard.ts:323-330，`edi\
+    tor.onCtrlS` 绑定及其前置守卫），正文改为「转向（steer）路径……键盘入口是编辑器的 `onCtrlS` 处理」并同时 引用两条证据。
+    (4) 64 KB 每次 prompt 预算原挂在 ref-kimi-code-plugins-manifest（只带 32 KB 的
+    PLUGIN_SYSTEM_PROMPT_MAX_BYTES）之下；新增
+    ref-kimi-code-src-plugin-sections-budget （profileService.ts:108 的
+    PLUGIN_SECTIONS_MAX_BYTES = 64 * 1024）与
+    ref-kimi-code-doc-plugins-size-limits（plugins.md:310-312），正文改为区分两个常量。 (5)
+    ref-kimi-code-plugins-manifest 摘录仍是旧 commit 的名称模式，且被五处 plugins.* 答案引用；
+    该引用属已发布引用，不改写其内容，改为在两版新章节中不再引用它，清单位置、示例、字段名模式、 刷新行为与大小限制分别改引当前 commit 上的
+    doc-plugins-manifest-locations、
+    doc-plugins-manifest-example、doc-plugins-name-pattern、doc-plugins-prompt-re\
+    fresh 与 doc-plugins-size-limits。 上述修订未改变任何问题的结论、状态或引用范围，review_status 仍为
+    pending，指针未切换。"
+  - 交付边界：delivery=pr，未执行 sources:scan、sources:workspace open、pnpm ahw publish、
+    pnpm chapters:update、pnpm managed:packages 或任何网络抓取；全部源码阅读只在 coordinator 已
+    pin 的 只读工作区 ws-b510fa9aec85-adcdaba7-c47c-45cd-b0d3-1dc5fe2bc05f
+    内进行，未把临时路径写入任何记录。
+  - 本轮修正后的候选章节未获独立复核批准，已移出交付候选并作为任务工件保留在巡检临时目录；本审计的影响范围已收窄到仍在库内的章节小节，待复核问题继续
+    pending。
+  - 本轮修正后的候选章节未获独立复核批准，已移出交付候选并作为任务工件保留在巡检临时目录；本审计的影响范围已收窄到仍在库内的章节小节，待复核问题继续
+    pending。

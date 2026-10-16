@@ -1,0 +1,155 @@
+schema_version: 2
+audit_id: audit-mistral-vibe-21f18606-7f25-4fce-a084-57d2004339d2
+harness_id: mistral-vibe
+checked_at: 2026-10-12T18:06:48.762Z
+previous_audit_id: audit-mistral-vibe-b84d5df5-9fa8-4fd0-95fb-aa3b5e6ec502
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-mistral-vibe-repo
+    kind: git_repository
+    checked_at: 2026-10-12T18:06:47.532Z
+    status: unchanged
+    baseline: 4ae5c5955da8e761318916bdb1a7f46f0b50c7d0
+    observed: 4ae5c5955da8e761318916bdb1a7f46f0b50c7d0
+    remote_ref: refs/heads/main
+  - source_id: source-mistral-vibe-docs-agents
+    kind: official_documentation
+    checked_at: 2026-10-12T18:06:47.541Z
+    status: changed
+    baseline: 6bbd6f7af40946c8bd637addcc7f2e720d168d3783793102a91a873cb5cee6fc
+    observed: 087fa322eb4fe51a3d69761647dfec5c4996dc3aa6c41a4725a6b0c42b35bce6
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/agents.md
+    candidate_path: archive/mistral-vibe/artifact-source-mistral-vibe-docs-agents-087fa322eb4f/source.md
+  - source_id: source-mistral-vibe-docs-api-keys
+    kind: official_documentation
+    checked_at: 2026-10-12T18:06:47.544Z
+    status: changed
+    baseline: d3b4a3612570c773f67e9b6c7e9cd4b9ae00493ae4d6d0c484e30570025c7f33
+    observed: 926431a0e2758a8d71c4e03f118cc47ed06fca5cb445d36f886f6eeca844cf68
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/api-keys-profiles.md
+    candidate_path: archive/mistral-vibe/artifact-source-mistral-vibe-docs-api-keys-926431a0e275/source.md
+  - source_id: source-mistral-vibe-docs-configuration
+    kind: official_documentation
+    checked_at: 2026-10-12T18:06:47.545Z
+    status: unchanged
+    baseline: 6dcf543b738dfa70c597f881d54f677df53bbd30683b563f1c11adf983d689c3
+    observed: 6dcf543b738dfa70c597f881d54f677df53bbd30683b563f1c11adf983d689c3
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/configuration.md
+  - source_id: source-mistral-vibe-docs-configuration-reference
+    kind: official_documentation
+    checked_at: 2026-10-12T18:06:48.132Z
+    status: changed
+    baseline: 32d47da097f7621e9e9f8fe7d973802813fc877a4fd38f773ce45326715d1e1d
+    observed: d4c6981b051a8831a3b7c3692711214a3bab05a0b39db229048c78d9618334f7
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/configuration-reference.md
+    candidate_path: archive/mistral-vibe/artifact-source-mistral-vibe-docs-configuration-reference-d4c6981b051a/source.md
+  - source_id: source-mistral-vibe-docs-hooks
+    kind: official_documentation
+    checked_at: 2026-10-12T18:06:48.155Z
+    status: unchanged
+    baseline: 1693ed84151385fae02169f87833353acbe906bd7f30f08ace0688fcded256ed
+    observed: 1693ed84151385fae02169f87833353acbe906bd7f30f08ace0688fcded256ed
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/hooks.md
+  - source_id: source-mistral-vibe-docs-mcp-servers
+    kind: official_documentation
+    checked_at: 2026-10-12T18:06:48.165Z
+    status: unchanged
+    baseline: 6cbb4e5628bb61eaec363575c4fb51308bcf6204e06e3c60cb93422f5accc9cf
+    observed: 6cbb4e5628bb61eaec363575c4fb51308bcf6204e06e3c60cb93422f5accc9cf
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/mcp-servers.md
+  - source_id: source-mistral-vibe-docs-safety
+    kind: official_documentation
+    checked_at: 2026-10-12T18:06:48.329Z
+    status: changed
+    baseline: 07b5f30e47989715914d001310055e30085fdc53265a1456663c95dd4361ac14
+    observed: 1b1bc3c91f44a7c6bbe3cc1725520f6bfc5d99353aff8e2db7b66d09550ce6e2
+    resolved_url: https://docs.mistral.ai/vibe/code/safety-approvals-permissions.md
+    candidate_path: archive/mistral-vibe/artifact-source-mistral-vibe-docs-safety-1b1bc3c91f44/source.md
+  - source_id: source-mistral-vibe-docs-skills
+    kind: official_documentation
+    checked_at: 2026-10-12T18:06:48.398Z
+    status: changed
+    baseline: 37d8056495cb1de0a57b10e147f1c6c0ea79d9a60d75ece565feebffd292c27e
+    observed: a87ce0619d88fc9e211180b9fecde98eb5a35f2880a5853ded42f8e1a444bbd4
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/skills.md
+    candidate_path: archive/mistral-vibe/artifact-source-mistral-vibe-docs-skills-a87ce0619d88/source.md
+impacts:
+  - topic: custom_agents
+    question_ids:
+      - agents.roles
+      - agents.invocation
+    section_ids:
+      - agents-entry
+      - agents-invocation
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-mv-docs-agents-builtin-087fa322
+      - ref-mv-docs-agents-select-087fa322
+    cross_topic_links: []
+    reason: "当前归档的 Agents 页（087fa322）把 smart-approve 列进内置 agent
+      表，而已发布 custom_agents-v2 只记了 default/plan/accept-edits/auto-approve/lean；
+      同一页的 Select an agent 一节也没有 --auto-approve / --yolo 启动开关，已发布正文却按官方文档引用了它们。已新建 custom_agents-v3 更正两处，并新增指向真实 archive 路径的引用。"
+  - topic: custom_providers
+    question_ids:
+      - providers.models
+    section_ids:
+      - providers-models
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-mv-docs-config-models-d4c6981b051a
+    cross_topic_links: []
+    reason: "当前归档的 Configuration reference 页（d4c6981b）Models 一节只有字段表，
+      没有已发布 custom_providers-v2 引用的『Mistral API 可用模型 ID 清单』与『-latest 换日期后缀钉版本』
+      说明。已新建 custom_providers-v3 删除该断言并改述当前字段表，新增指向真实 archive 路径的引用。"
+pending_question_ids:
+  - agents.roles
+  - agents.invocation
+  - providers.models
+investigation_notes:
+  - '范围：本轮只处理 scanner 标记的五个官方文档页（agents、api-keys、configuration-reference、
+    safety、skills），逐条对照候选中已发布章节正文，不重扫来源。'
+  - '关键限制（影响全部五页）：这五页的上一版基线原文都不在项目 archive/ 树里（archive/mistral-vibe/
+    下只有本轮新归档的五个 source.md），因此无法做文本 diff。本轮结论一律是「当前归档文本仍支持 /
+    不再支持已发布陈述」，这比「已验证的语义增量」弱，不能据此断言上游新增或删除了某段内容。'
+  - 'agents（archive/mistral-vibe/artifact-source-mistral-vibe-docs-agents-087fa322eb4f/source.md）：
+    读全文后与 custom_agents-v2 正文逐句比对，两处不再被支持：内置 agent 表现在含 smart-approve（已发布
+    正文漏列）；Select an agent 一节只有 --agent / Shift+Tab / default_agent，没有 --auto-approve /
+    --yolo（已发布正文按官方文档引用）。其余陈述仍被支持：custom agents 一节的 ~/.vibe/agents/ 与
+    ./.vibe/agents/ 位置、agent_type 两态、safety 仅改边框颜色不强制权限、custom subagents 一节
+    的 text-only 结果与不能向用户提问，均在当前文本中原样存在。已建 custom_agents-v3 修订。'
+  - 'configuration-reference（…-configuration-reference-d4c6981b051a/source.md）：Models 一节只有字段表，
+    没有模型 ID 清单与日期后缀说明（codestral-latest / ministral-8b-latest 在本页全文不存在），
+    custom_providers-v2 对应陈述不再被支持，已建 custom_providers-v3 修订。其余被引小节仍被支持：
+    Providers 字段表（含 [providers.extra_headers]、api_key_env_var 密钥必须用这种形式）、
+    Agent definition files（不在 config.toml、agent_type/safety/system_prompt_id 键）、Top-level keys
+    （default_agent 程序化模式被忽略并回退 auto-approve、allowed_models 按发给推理 API 的模型名而非
+    别名匹配）、Environment variables（VIBE_HOME / MISTRAL_API_KEY / <PROVIDER>_API_KEY 属配置模型
+    而非 config.toml 键）、Per-tool permissions、MCP servers 字段表。'
+  - 'api-keys（…-api-keys-926431a0e275/source.md）：Give the API key to the CLI 一节仍完整支持
+    configuration-v1/v2 与 custom_providers-v1/v2 的凭据陈述——三条路径（--setup 存 ~/.vibe/.env、
+    MISTRAL_API_KEY、手写 .env）、环境变量优先于 .env、.env 只放凭据；Switch between accounts or
+    providers 一节的 openrouter 示例与 providers-entry 正文逐字一致。无正文改动。'
+  - 'safety（…-safety-1b1bc3c91f44/source.md）：Trusted folders 一节仍完整支持 configuration-v1 的
+    config-trust 与 config-diagnostics 陈述（仅显式受信任目录加载 .vibe/、未信任时忽略并告警、
+    记录在 ~/.vibe/trusted_folders.toml、交互式信任对话框、--trust 临时信任），也仍支持
+    hooks-v2 的 hooks-entry / hooks-conditions（唯一前置条件是信任）与 skills-v1 的
+    skills-conditions；Per-tool permissions 一节仍支持 config-trust 的工具权限配套陈述。
+    该页新增的 smart-approve / utility_models 小节属 safety 主题范围，本轮固定问题未覆盖，不扩题。'
+  - 'skills（…-skills-a87ce0619d88/source.md）：Skill format、Skill locations、Enable/disable/filter、
+    Custom slash commands 四节仍逐条支持 skills-v1 已发布陈述——SKILL.md 示例字段一致、
+    skill_paths → 受信任 ./.vibe/skills/ 或 ./.agents/skills/ → ~/.vibe/skills/ 的顺序、
+    enabled_skills 非空即白名单否则减去 disabled_skills、user-invocable 默认 true 暴露为斜杠命令。
+    无正文改动。'
+  - '排除：scanner 影响的 mcp 与 native_plugins 主题经核对 source_refs 后不属于本次五页变更范围。
+    mcp-v2 的 mcp-definition / mcp-exposure 引用 ref-mv-docs-config-mcp 与 ref-mv-docs-config-tools，
+    两者摘录与当前 configuration-reference 页的 MCP servers 与 Per-tool permissions 两节一致（新增的
+    api_key_env / api_key_header / api_key_format 字段反而与正文已列字段相符），故不建新 edition；
+    mcp-servers 页本身 unchanged。native_plugins-v2 与 local_transcripts-v2 不引用任何 docs-* 引用。
+    hooks-v2 除 ref-mv-docs-trusted-folders 外全部引用 ref-mv-docs-hooks-*（unchanged 来源）。'
+  - '遗留：三个问题（agents.roles、agents.invocation、providers.models）本轮只能确认「当前文本不再
+    支持已发布陈述」并据此更正正文，无法验证语义增量方向（新增还是删除），因此保持 pending，
+    review_status 维持 pending；需下一轮取得可 diff 的基线或上游变更说明后再结案。'

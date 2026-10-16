@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-provider-repetition-migration-496
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-src-src-core-config-providersettingsmanager-496
+locator:
+  kind: file_lines
+  file: src/core/config/ProviderSettingsManager.ts
+  start: 293
+  end: 305
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/496bd11467f82791f98f8a3290e028c20767e415/src/core/config/ProviderSettingsManager.ts#L293-L305"
+excerpt: "\t */\n\tprivate async migrateToolRepetitionLimits(providerProfiles: ProviderProfiles): Promise<boolean> {\n\t\ttry {\n\t\t\tfor (const [_name, apiConfig] of Object.entries(providerProfiles.apiConfigs)) {\n\t\t\t\t// Default the soft warning threshold.\n\t\t\t\tif (apiConfig.toolRepetitionSoftLimit == null) {\n\t\t\t\t\tapiConfig.toolRepetitionSoftLimit =\n\t\t\t\t\t\tapiConfig.consecutiveMistakeLimit === 0 ? 0 : DEFAULT_TOOL_REPETITION_SOFT_LIMIT\n\t\t\t\t}\n\t\t\t}\n\t\t\treturn true\n\t\t} catch (error) {\n\t\t\tconsole.error(`[MigrateToolRepetitionLimits] Failed to migrate tool repetition limits:`, error)"

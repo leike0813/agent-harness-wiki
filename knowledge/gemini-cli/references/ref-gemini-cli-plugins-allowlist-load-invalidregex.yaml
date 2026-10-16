@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-plugins-allowlist-load-invalidregex
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-plugins-allowlist-load
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/extension-manager.ts
+  start: 739
+  end: 753
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+  const extensionAllowed = this.settings.security?.allowedExtensions.some(
+    (pattern) => {
+      try {
+        return new RegExp(pattern).test(source);
+      } catch (e) {
+        // An invalid pattern cannot match anything. Ignore it, so the
+        // patterns listed after it are still evaluated and one bad entry
+        // does not make every extension unavailable.
+        debugLogger.warn(
+          `Invalid regex pattern in allowedExtensions setting: "${pattern}". Error: ${getErrorMessage(e)}`,
+        );
+        return false;
+      }
+    },
+  );

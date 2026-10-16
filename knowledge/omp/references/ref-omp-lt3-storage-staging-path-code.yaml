@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt3-storage-staging-path-code
+harness_id: omp
+snapshot_id: snapshot-omp-adc7-src-session-session-storage-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-storage.ts
+  start: 27
+  end: 37
+official_url: https://github.com/can1357/oh-my-pi/blob/adc7fed5c9d6837d77b590bc313a705e2b4136b0/packages/coding-agent/src/session/session-storage.ts#L27-L37
+excerpt: "/**\n * Basename of a rewrite staged by {@link sessionStagingPath}; group 1 is the\n * target's basename. A live publish renames it away within milliseconds;\n * `omp gc` reclaims one a killed writer left behind.\n */\nexport const SESSION_STAGING_RE = /^\\.(.+)\\.[0-9a-f]{16}\\.tmp$/;\n\n/** Fresh staging path beside `target`, matching {@link SESSION_STAGING_RE}. */\nexport function sessionStagingPath(target: string): string {\n\treturn path.join(path.dirname(target), `.${path.basename(target)}.${Snowflake.next()}.tmp`);\n}"

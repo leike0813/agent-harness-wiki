@@ -1,0 +1,39 @@
+schema_version: 2
+audit_id: audit-zoo-code-35f606aa-c413-4130-9154-24ab3bdd00e3
+harness_id: zoo-code
+checked_at: "2026-10-14T18:04:52.552Z"
+previous_audit_id: audit-zoo-code-fb456d07-a446-4740-9ea5-9bb298d13e00
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-zoo-code-f9720bc5-ced6-4b53-8895-f2f811b13824
+  - audit-zoo-code-583abb97-bedb-4196-abc0-054e4fe26037
+  - audit-zoo-code-fb456d07-a446-4740-9ea5-9bb298d13e00
+checks:
+  - source_id: source-zoo-code-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:04:51.027Z"
+    status: changed
+    baseline: 1d37994661f43b9105d731dfafe6161ad0c2e97a
+    observed: 58341d882e57e9dd7eb50c5187a52917541789eb
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs
+    kind: git_repository
+    checked_at: "2026-10-14T18:04:51.039Z"
+    status: unchanged
+    baseline: dfd2628c31073ec6b111bfedbcd071d197d37ad2
+    observed: dfd2628c31073ec6b111bfedbcd071d197d37ad2
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs-site
+    kind: official_documentation
+    checked_at: "2026-10-14T18:04:51.047Z"
+    status: unchanged
+    baseline: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    observed: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    resolved_url: "https://docs.zoocode.dev/"
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "本轮状态：本产品已完成协调者的只读观察与语义 triage，来源证据已固定（Git 工作区已按观察到的 commit 打开并保留），但**本轮没有执行 maintenance 派发**。上述限定范围、问题清单与已固定的来源入口是下一轮可直接接续的工作面，不是已完成结论。review_status 保持 pending，pending_audit_refs 保持不变；不得因本轮无候选产物而视为已结案。"
+  - "maintain。source-zoo-code-repo 1d379946..58341d88 命中 27 个已引用文件，含 src/services/skills/SkillsManager.ts、src/services/mcp/McpHub.ts、src/core/config/CustomModesManager.ts、src/core/config/ProviderSettingsManager.ts、src/utils/mcp-name.ts 与 src/core/auto-approval/index.ts。"
+  - "自定义模式、provider 设置、skills 与 MCP 装载面同时改动，属跨主题关键加载机制变化，按维护契约列为高影响并交独立 reviewer。"

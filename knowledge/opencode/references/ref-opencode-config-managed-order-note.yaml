@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-managed-order-note
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-20261015
+official_url: https://github.com/anomalyco/opencode/blob/8ffbcc2c81d1ff558618137204c36954797d7a6f/packages/core/src/config.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config.ts
+  start: 244
+  end: 251
+excerpt: |-
+          // Managed settings load last so they override everything, and MDM
+          // preferences outrank the system directory as in V1. Policies evaluate
+          // in reverse load order, so managed policies split off and load first
+          // to keep final file-based authority.
+          const managed = [
+            ...(sources.system?.present ? yield* loadDirectory(sources.system.path).pipe(Effect.orDie) : []),
+            ...(sources.preferences ? yield* loadPreferences(sources.preferences).pipe(Effect.orDie) : []),
+          ]

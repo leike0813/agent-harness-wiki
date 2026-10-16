@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-config-cli-disable-mcp-server-boot-only
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-6212189f-cli-hot-reload-test
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/hot-reload.test.ts
+  start: 442
+  end: 451
+official_url: https://github.com/QwenLM/qwen-code/blob/6212189f1f8334da78a69e3fb6b63ff6ca88251e/packages/cli/src/config/hot-reload.test.ts
+excerpt: |2-
+    // CHARACTERIZATION, not a contract: `--disable-mcp-server` populates the
+    // exclude set at boot only, and `recomputeMcpGating` has no launch-flag
+    // input for it — unlike `cliAllowedMcpServerNames` on the allow side above.
+    // Pinned so the gap stays visible; the durable fix is #14009.
+    it('CHARACTERIZATION: a settings edit drops a boot --disable-mcp-server exclusion', async () => {
+      // Pre-image gating mimics `qwen --disable-mcp-server a`: boot populated the
+      // exclude set while settings carry no `mcp.excluded` at all.
+      const fc = makeFakeConfig(cwd, {
+        settingsMcp: { a: { command: 'a' } },
+        gating: { excluded: ['a'] },

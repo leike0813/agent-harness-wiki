@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-mcp-tool-concurrency
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs-mcp-20261012
+locator:
+  kind: file_lines
+  file: docs/mcp.md
+  start: 666
+  end: 681
+official_url: https://cnb.cool/codebuddy/codebuddy-code
+excerpt: |-
+  ### 工具并发执行
+
+  模型在同一轮里调用多个工具时，CodeBuddy Code 只让只读调用并发执行，其他调用按模型给出的顺序依次执行（规则见[工具参考](tools-reference.md#同一轮多个工具调用的执行顺序)）。
+
+  MCP 工具默认按顺序执行。如果某个工具只读取数据、不修改任何状态，服务器可以在 `tools/list` 返回的工具注解里声明 `readOnlyHint: true`，这样它就能与其他只读调用并发执行：
+
+  ```json
+  {
+    "name": "search_issues",
+    "description": "Search issues by keyword",
+    "inputSchema": { "type": "object", "properties": { "query": { "type": "string" } } },
+    "annotations": { "readOnlyHint": true }
+  }
+  ```
+
+  通过 `ToolSearch` 延迟加载的 MCP 工具遵循同样的规则。只给确实不产生副作用的工具声明 `readOnlyHint`：声明为只读的工具可能与同一轮的其他只读调用同时运行。

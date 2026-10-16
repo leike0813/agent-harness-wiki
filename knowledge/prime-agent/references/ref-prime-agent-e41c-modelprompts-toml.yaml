@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e41c-modelprompts-toml
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e41c-modelprompts-toml
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/prompts/layers/model_prompts.toml
+  start: 1
+  end: 9
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e41c9c4c6ccabf700f1dfdc1653e7ef9c5e96312/crates/pa-core/src/prompts/layers/model_prompts.toml"
+excerpt: |
+  # Per-model system-prompt additions.
+  #
+  # File names resolve inside the agent dir; absolute paths and ".." are rejected.
+  # The user map is <agent_dir>/model-prompts.toml; matching, order, and
+  # error rules live in pa_core::prompts::model_prompts.
+
+  [[rule]]
+  match = ["glm-5.3*"]
+  files = ["bash-over-subprocess.md"]

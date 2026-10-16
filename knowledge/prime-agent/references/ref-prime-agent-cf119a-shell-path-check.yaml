@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-cf119a-shell-path-check
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-cf119a-crates-pa-core-src-platform-shell-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/platform/shell.rs
+  start: 23
+  end: 36
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/cf119a7a8c86a2c86d927cae79ed1eec03b07a91/crates/pa-core/src/platform/shell.rs
+excerpt: |
+  fn check_custom_shell_path(path: &str) -> anyhow::Result<()> {
+      if !Path::new(path).exists() {
+          anyhow::bail!("Custom shell path not found: {path} (shellPath setting)");
+      }
+      #[cfg(unix)]
+      {
+          use std::os::unix::fs::PermissionsExt;
+          let executable = std::fs::metadata(path)
+              .is_ok_and(|meta| meta.is_file() && meta.permissions().mode() & 0o111 != 0);
+          if !executable {
+              anyhow::bail!("Custom shell path is not executable: {path} (shellPath setting)");
+          }
+      }
+      Ok(())
+  }

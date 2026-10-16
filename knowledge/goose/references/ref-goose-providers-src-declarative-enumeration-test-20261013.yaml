@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-declarative-enumeration-test-20261013
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261013-declarative-registry
+locator:
+  kind: file_lines
+  file: crates/goose-providers/src/declarative.rs
+  start: 472
+  end: 489
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  #[test]
+  fn expose_declarative_providers_enumerates_all_bundled_json_files() {
+      let enumerated: HashSet<_> = fixed_provider_config_entries()
+          .into_iter().map(|(path, _)| path.to_string()).collect();
+      let bundled: HashSet<_> = FIXED_PROVIDERS.files()
+          .filter(|file| file.path().extension().and_then(|s| s.to_str()) == Some("json"))
+          ...
+      assert_eq!(enumerated, bundled);
+  }

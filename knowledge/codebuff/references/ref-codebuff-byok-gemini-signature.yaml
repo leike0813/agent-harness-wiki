@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-gemini-signature
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-byok-request-20261013
+locator:
+  kind: file_lines
+  file: sdk/src/impl/byok-request.ts
+  start: 263
+  end: 282
+official_url: "https://github.com/CodebuffAI/codebuff/blob/99d7092ee7cc6aa17aac3f3a292c2ba7a7d54310/sdk/src/impl/byok-request.ts"
+excerpt: |2-
+    const replayRefused = refusesReasoningReplay(endpoint)
+
+    const geminiSignatures = new URL(endpoint).hostname === GEMINI_API_HOST
+
+    return (body: Record<string, unknown>): Record<string, unknown> => {
+      if (Array.isArray(body.messages)) {
+        if (replayRefused || replayRejected.has(rejectionKey(connection))) {
+          body = { ...body, messages: stripReasoningReplay(body.messages) }
+        } else if (deepSeekReplay) {
+          body = { ...body, messages: backfillDeepSeekReasoning(body.messages) }
+        }
+        if (geminiSignatures) {
+          body = {
+            ...body,
+            messages: backfillGeminiThoughtSignatures(body.messages as unknown[]),
+          }
+        }

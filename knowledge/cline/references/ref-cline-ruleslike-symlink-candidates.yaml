@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-ruleslike-symlink-candidates
+harness_id: cline
+snapshot_id: snapshot-cline-user-instruction-loader-20261013
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/config/user-instruction-config-loader.ts
+  start: 540
+  end: 560
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  		const entries = await readdir(directoryPath, { withFileTypes: true });
+  		const candidates: UnifiedConfigFileCandidate[] = [];
+  		for (const entry of entries) {
+  			if (!isMarkdownFile(entry.name)) {
+  				continue;
+  			}
+  			const filePath = join(directoryPath, entry.name);
+  			const isFile =
+  				entry.isFile() ||
+  				(entry.isSymbolicLink() &&
+  					(await stat(filePath)
+  						.then((target) => target.isFile())
+  						.catch(() => false)));
+  			if (!isFile) {
+  				continue;
+  			}
+  			candidates.push({
+  				directoryPath,
+  				fileName: entry.name,
+  				filePath,
+  			});

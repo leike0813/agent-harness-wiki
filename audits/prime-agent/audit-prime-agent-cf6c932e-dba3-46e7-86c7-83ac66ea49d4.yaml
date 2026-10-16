@@ -1,0 +1,65 @@
+schema_version: 2
+audit_id: audit-prime-agent-cf6c932e-dba3-46e7-86c7-83ac66ea49d4
+harness_id: prime-agent
+checked_at: '2026-10-12T18:50:36.068Z'
+previous_audit_id: audit-prime-agent-1f7dab30-5252-4281-99c4-6a1fb619a7c2
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-prime-agent-fe998a91-5291-4f0c-8bbc-45887d1f607b
+  - audit-prime-agent-1f7dab30-5252-4281-99c4-6a1fb619a7c2
+checks:
+  - source_id: source-prime-agent-repo
+    kind: git_repository
+    checked_at: '2026-10-12T18:50:34.450Z'
+    status: changed
+    baseline: 2ee7e623a70d8ccd9c72ffc6c4f25be2cc1bc02d
+    observed: e41c9c4c6ccabf700f1dfdc1653e7ef9c5e96312
+    remote_ref: refs/heads/main
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+    section_ids:
+      - config-sources
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-e41c-modelprompts-toml
+      - ref-prime-agent-e41c-modelprompts-files-rust
+      - ref-prime-agent-e41c-bash-over-subprocess-rust
+      - ref-prime-agent-modelprompts-toml
+      - ref-prime-agent-modelprompts-user-map-rust
+    cross_topic_links:
+      - agents.roles
+      - agents.limits
+    reason: crates/pa-core/src/prompts/layers/model_prompts.toml 由“只有注释”变成一条真实规则（match = ["glm-5.3*"]，files = ["bash-over-subprocess.md"]），model_prompts.rs 的 MODEL_PROMPT_FILES 由空表变成带该内嵌文件；已发布的 prime-agent-cli-configuration-v4 §config-sources 断言“随包层只有注释、内嵌文件表为空、实质规则全部来自用户”，在本提交上不再成立。
+  - topic: custom_agents
+    question_ids:
+      - agents.roles
+      - agents.limits
+    section_ids:
+      - agents-roles
+      - agents-overrides-limits
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-e41c-daemonless-role-rust
+      - ref-prime-agent-e41c-daemonless-wiring-rust
+      - ref-prime-agent-e41c-daemonless-config-rust
+      - ref-prime-agent-e41c-print-inline-host-rust
+      - ref-prime-agent-e41c-print-daemonless-rust
+    cross_topic_links:
+      - config.sources
+    reason: "engine.rs 新增 SessionEngineConfig.daemonless，并把原先单一条件 daemonless: config.rlm_subagent_host.is_none() 拆成 daemonless: config.daemonless 与 can_spawn: config.rlm_subagent_host.is_some()；system_prompt.rs 的 session role 段据此分成两行提示，print 运行时同时传 daemonless: true 与内联子 Agent 宿主。已发布的 prime-agent-cli-custom_agents-v3 §agents-roles 与 §agents-overrides-limits 把两者当同一个条件，并引用了上一提交的行文本。"
+pending_question_ids: []
+investigation_notes:
+  - 证据入口：pinned workspace /tmp/ahw-source-workspaces/ws-e41c9c4c6cca-5718024f-eb78-4c4a-baa7-4395658b1791（commit e41c9c4c6ccabf700f1dfdc1653e7ef9c5e96312），全部结论用只读 `git -C <ws> diff 2ee7e623a70d e41c9c4c -- <path>` 与 workspace 实际字节核对，没有运行二进制。
+  - 纳入 configuration：只改 §config-sources 与 config.sources。其余配置问题未纳入——config.overrides/config.runtime/config.trust/config.defaults/config.migration/config.diagnostics 在本提交的引用（settings 合并、路径解析、迁移、诊断入口）未出现在 changed paths 中，scanner 的 7 条 configuration 影响是按“共享或未知影响”给出的候选线索，未在差异里得到对应。
+  - 纳入 custom_agents：只改 §agents-roles 与 §agents-overrides-limits（agents.roles、agents.limits）。agents.entry/agents.format/agents.invocation/agents.overrides/agents.diagnostics 未纳入：定义格式、rlm.spawn 调用方式、模型覆盖与注册表诊断的证据入口（rlm 子 Agent 发现、frontmatter 解析、subagent 工具、rlmMaxDepth 与深度闸门、父子注册表）本轮未变；rlm_host.rs 只是把既有错误文本与默认深度抽成共享 helper，错误文本逐字未变（已在 baseline 与 observed 两边比对 Agent name unavailable 与 RLM recursion depth limit reached 两条错误文本）。
+  - 排除 local_transcripts：本轮引用的 rlm_ledger.rs 与 worker/create.rs 确有改动，但已发布的 prime-agent-local_transcripts-v2 只断言了 `rlm_ledger_path()` 的 `{agent-dir}/rlm-ledger/{hash}.jsonl` 布局与“续接已存在会话时先取租约再修复”的顺序，两者在本提交上未变。rlm_ledger.rs 的实质改动是抽出 resolve_live_edges/fold_records/read_records 并新增 `live_edges_of_parent()`（只折叠某个父会话自己的子 Agent 记录），属内部实现与新 API，本章没有对应问题可推翻；worker/create.rs 的改动只是把 `reseed_rlm_children()` 收进 `if opened_existing_session`，不影响修复顺序。故不改该章、不新建 edition。
+  - 排除 pa-types/src/ai/mod.rs：新增 PYTHON_TOOL_NAME = "python_repl" 与 is_python_tool_name（接受 python_repl / python / ipython）。本轮三章没有任何一处断言该工具名，configuration 与 custom_agents 正文也不提 ipython；同一改名还波及 prime-agent-cli-skills-v1（“模型用 `ipython` 工具读取完整 SKILL.md”）与 prime-agent-cli-native_plugins-v1（“同名可覆盖内置 `ipython`/`bash`/`edit`”），但这两个主题不在本任务范围内，按 worker 契约不自行扩范围，留给协调者决定是否另派。
+  - 未新增任何软件版本映射：来源是源码提交而非 npm 发行版快照，按契约不以仓库 HEAD 造 mapping。
+  - 新增引用一律新 ID 并钉在 e41c9c4c（artifact/snapshot 各 6 条、reference 8 条）；已发布的 ref-prime-agent-modelprompts-toml / -daemonless-role-rust / -daemonless-wiring-rust 等旧引用保持不变，只在正文中作为“上一提交的行为”对照被引用。
+  - 新建 edition：prime-agent-cli-custom_agents-v4 与 prime-agent-cli-configuration-v5（v3/v4 已随 43e3bab1 合入 main，不得原地修改），未改小节沿用原 {#section-id} 与原引用；chapter-current 已指向两个新 edition。
+  - "review_status 保持 pending 的原因：本轮改动由作者自检完成、没有来源冲突、也没有推翻用户可照做的配置步骤，按 §5 不属于必须独立复核的高影响项；但 pending_audit_refs 里的两条旧审计自身仍是 review_status=pending 且没有 reviewed_by，按“不得通过标 reviewed 间接关闭旧审计阻塞”，本审计不能自行置 reviewed。"

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-subagent-live-cap
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-spawn-agents-params-20261013
+locator:
+  kind: file_lines
+  file: common/src/tools/params/tool/spawn-agents.ts
+  start: 24
+  end: 33
+official_url: "https://github.com/CodebuffAI/codebuff/blob/99d7092ee7cc6aa17aac3f3a292c2ba7a7d54310/common/src/tools/params/tool/spawn-agents.ts"
+excerpt: |2-
+  /** Most subagents of any type one root run may have running at once, nested
+   *  ones included. Each spawn_agents call is held to MAX_SPAWN_AGENTS_PER_CALL
+   *  on its own, which nesting multiplies (6 agents each spawning 6 is 42 live);
+   *  the runtime handler refuses a spawn past this total. An agent counts until
+   *  it reports, so a parent waiting on its children keeps its slot too (a
+   *  file-picker and its file-lister take two). Freebuff Projects subagents keep
+   *  their own count (FREEBUFF_PROJECTS_MAX_LIVE_SUBAGENTS), and each one gets
+   *  this same allowance for its own helpers and their spawns, apart from the
+   *  root's. */
+  export const MAX_LIVE_SUBAGENTS_PER_ROOT = 20

@@ -1,0 +1,37 @@
+schema_version: 2
+audit_id: audit-kimi-code-0e5dd3dc-24fa-419e-bba5-d44fdeb0a493
+harness_id: kimi-code
+checked_at: "2026-10-14T18:03:01.119Z"
+previous_audit_id: audit-kimi-code-93eb5dc0-e41b-49b6-a3db-662389fc6dbf
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-kimi-code-93eb5dc0-e41b-49b6-a3db-662389fc6dbf
+checks:
+  - source_id: source-kimi-code-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:02:59.045Z"
+    status: changed
+    baseline: b510fa9aec85f02849f64121550be2c3fbd4294d
+    observed: d4b9dc4a2d6ff72413964feda2563f0adf8e04d2
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-legacy-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:02:59.062Z"
+    status: unchanged
+    baseline: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    observed: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-npm
+    kind: npm_registry
+    checked_at: "2026-10-14T18:02:59.077Z"
+    status: changed
+    baseline: "2.1.1@sha512-xClqcnTQUKgKDbeOGPU78qcwxGzL8wA2rqWuOX3CLpyQ1/NhSX7jAh6hZo/JFwThSX8obkgef3uw/li5JaJNyw=="
+    observed: "2.2.0@sha512-I1w2l6JGYEUSwA1DTvYrw/kDJYjJQKHFON+RON61epDeTITvwpXoDn4Kgl4atA82RfwcsMp3KG6k8Yaoj6LT0A=="
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "本轮状态：本产品已完成协调者的只读观察与语义 triage，来源证据已固定（Git 工作区已按观察到的 commit 打开并保留），但**本轮没有执行 maintenance 派发**。上述限定范围、问题清单与已固定的来源入口是下一轮可直接接续的工作面，不是已完成结论。review_status 保持 pending，pending_audit_refs 保持不变；不得因本轮无候选产物而视为已结案。"
+  - "maintain。source-kimi-code-repo b510fa9a..d4b9dc4a 命中 packages/agent-core-v2/src/agent/profile/profileService.ts、packages/agent-core-v2/src/mcpCore/connection-manager.ts、apps/kimi-code/src/tui/kimi-tui.ts，并有 .changeset/fork-subagent-inherit-agent-types.md 与 .changeset/shutdown-hook-hint.md 两个新增 changeset。"
+  - "changeset 名称直接指向前两个主题；两个 changeset 未被已录章节引用，因此作为新增线索纳入同一 worker 的判定范围。"
+  - "npm 2.1.1→2.2.0 是 minor 跳变，但本轮只记录发布身份，不据此推断行为。"

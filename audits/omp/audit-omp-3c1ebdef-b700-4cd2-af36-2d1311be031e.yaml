@@ -1,0 +1,31 @@
+schema_version: 2
+audit_id: audit-omp-3c1ebdef-b700-4cd2-af36-2d1311be031e
+harness_id: omp
+checked_at: "2026-10-14T18:03:26.958Z"
+previous_audit_id: audit-omp-217604e7-0074-4c26-8e56-ab0ae0b78861
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-omp-71dcf159-da19-4fed-bd93-abac67a8ea8a
+  - audit-omp-217604e7-0074-4c26-8e56-ab0ae0b78861
+checks:
+  - source_id: source-omp-npm
+    kind: npm_registry
+    checked_at: "2026-10-14T18:03:25.239Z"
+    status: changed
+    baseline: "18.10.3@sha512-H8EXhdZCT4RNVBj/hgTuh5OZ9w3qBpKnOP55FMZ2iL0jvmdQV5/qTeOImDb/wHJBN7248C9KylNmcst/jt94gA=="
+    observed: "18.10.4@sha512-JZqUebDzrBNIdtW5ztWQAre67QnCV6xVZ9/R2ZdOX5zGFUO7d73Nd5TYqTRRQZrjKD+bUnXLkqk3IE1cu4aDZQ=="
+  - source_id: source-omp-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:03:25.239Z"
+    status: changed
+    baseline: f1ac114d8d3438bee43010aee559bfe720ba3224
+    observed: 611c189fa2f6b8c9b368559ea6b98062b9b54539
+    remote_ref: refs/heads/main
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "本轮状态：本产品已完成协调者的只读观察与语义 triage，来源证据已固定（Git 工作区已按观察到的 commit 打开并保留），但**本轮没有执行 maintenance 派发**。上述限定范围、问题清单与已固定的来源入口是下一轮可直接接续的工作面，不是已完成结论。review_status 保持 pending，pending_audit_refs 保持不变；不得因本轮无候选产物而视为已结案。"
+  - "maintain。source-omp-repo f1ac114d..611c189f 命中 11 个已引用文件（session-manager.ts、task/settings.ts、main.ts、context-settings.ts、session-anonymizer.ts、session-entries.ts、docs/settings.md、docs/models.md、docs/task-agent-discovery.md、docs/environment-variables.md、coding-agent/CHANGELOG.md）。"
+  - "本地 transcript 记录面在上一轮 gc compress 与 taskPromptCacheKey 之后继续变化，本轮限定在 local_transcripts 与受影响的 configuration / custom_agents 小节。"
+  - "npm 18.10.3→18.10.4 是纯发布身份变化，不单独产生章节影响、映射或 snapshot。"

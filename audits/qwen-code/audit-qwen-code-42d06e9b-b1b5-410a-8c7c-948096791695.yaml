@@ -1,0 +1,99 @@
+schema_version: 2
+audit_id: audit-qwen-code-42d06e9b-b1b5-410a-8c7c-948096791695
+harness_id: qwen-code
+checked_at: '2026-10-12T18:50:18Z'
+previous_audit_id: audit-qwen-code-4df99874-ea39-403a-8bfa-e4768499e535
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+- source_id: source-qwen-code-repo
+  kind: git_repository
+  checked_at: '2026-10-12T18:50:16Z'
+  status: changed
+  baseline: e9582993bf419dba43839d62a3ee4da67cfbab6a
+  observed: 18f80f56666a347a2b67b2ef98099cc58356b253
+  remote_ref: refs/heads/main
+- source_id: source-qwen-code-npm
+  kind: npm_registry
+  checked_at: '2026-10-12T18:50:16Z'
+  status: changed
+  baseline: 0.25.0@sha512-XlqtxN7UKEkXLpuKioorDTBoIR/rWMdNHMtO/aPuQb7HDsTswMPqkEMYsVY56wuF3xSaI9PKgh9Q2NU/CSTkAQ==
+  observed: 0.25.1@sha512-6cEbtfx4Ugl1d3FdFLa8fcsG6knHuUUHqvDseLxGY06Xan8p7Fcd7+g5KlX694zX4mo/+Vh56AHxT/4R15zpYA==
+impacts:
+- topic: configuration
+  question_ids:
+  - config.overrides
+  - config.defaults
+  - config.runtime
+  - config.diagnostics
+  section_ids:
+  - config-scope
+  - config-overrides
+  - config-defaults
+  - config-runtime
+  - config-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-qwen-settings-plugin-configs-key
+  - ref-qwen-settings-workspace-restricted-root-list
+  - ref-qwen-settings-workspace-restricted-strip
+  - ref-qwen-settings-workspace-restricted-warning
+  - ref-qwen-configuration-plugin-configs-option-precedence
+  - ref-qwen-configuration-plugin-configs-session-gate
+  - ref-qwen-extension-mods-plugin-options-declaration
+  - ref-qwen-extension-mods-plugin-options-precedence
+  cross_topic_links:
+  - plugins.discovery
+  reason: 18f80f56 在 settingsSchema.ts 新增根级对象键 pluginConfigs（默认 {}、requiresRestart、showInDialog false、值类型 string/number/boolean/string[]），在 settingsUtils.ts 的 WORKSPACE_RESTRICTED_ROOT_SETTINGS 增加 pluginConfigs（现为 advisorModel/advisorMaxUses/pluginConfigs 三项），并由 settings.ts 的剥离与告警、mod-session.ts 的读取顺序共同确定行为：逐选项键合并、SystemDefaults→User→System、工作区即使受信任也被忽略、且仅在非交互受信任 headless 会话中被读取。键、默认值、受限归属、优先级档与写入目标全部变化，故 config.overrides/config.defaults/config.runtime/config.diagnostics 需维护，并因根级受限清单内容首次可核而在 config-scope 补齐。
+- topic: native_plugins
+  question_ids:
+  - plugins.api
+  - plugins.discovery
+  section_ids:
+  - plugins-api
+  - plugins-discovery
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-qwen-extension-mods-tool-check-permission-restriction
+  - ref-qwen-core-mod-tool-check-restrictive-merge
+  - ref-qwen-core-mod-tool-check-nested-scheduler-excluded
+  - ref-qwen-extension-mods-plugin-options-precedence
+  - ref-qwen-extension-mods-plugin-options-declaration
+  - ref-qwen-configuration-plugin-configs-option-precedence
+  - ref-qwen-core-mod-tool-check-sole-producer
+  cross_topic_links:
+  - config.overrides
+  - config.runtime
+  reason: 'coreToolScheduler.ts 新增 modToolCheck 门控：Mod 的 tool.check 按限制性方向合并（不可把原生 deny/ask 升为 allow），嵌套调度器显式置 modToolCheck: undefined 使其不向嵌套子调度器继承；subagent 调度器另行构造、同样不带该选项（全树唯一传入点是 nonInteractiveToolExecutor）。这直接限定了本章 plugins-api 中『扩展通过目录或清单字段贡献组件，而非通过运行时 API』这一已发布表述的适用边界，需在同节写明 Mod 例外；pluginConfigs 又构成与 qwen extensions settings set 的 .env 通道并列的第二条插件选项路径，故 plugins.discovery 补齐其声明、身份解析与作用域规则。'
+- topic: local_transcripts
+  question_ids:
+  - transcripts.archive
+  section_ids:
+  - transcripts-archive-and-cleanup
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-qwen-transcripts-writer-format-barrier-stale-reclaim
+  - ref-qwen-transcripts-writer-format-barrier-sealed-takeover
+  cross_topic_links: []
+  reason: session-writer-lease.ts 在陈旧活跃锁回收与 sealed 锁接管两处新增双向格式屏障：观察到的托管锁 format_version 高于本进程锁 schema 格式版本时抛 SessionWriterUnavailableError 而不回收/接管，反方向（较新获取者续接较旧封存）不受限。本章已发布的『已死写者可被回收』边界是必要条件而非充分条件，该屏障是新增的必要条件，直接影响 transcripts.archive 的既有表述。
+pending_question_ids: []
+investigation_notes:
+- 来源核对：source-qwen-code-repo e9582993bf419dba43839d62a3ee4da67cfbab6a -> 18f80f56666a347a2b67b2ef98099cc58356b253，workspace ws-18f80f56666a-ac11d9be-ae71-4437-9139-51426a0413af；source-qwen-code-npm 0.25.0 -> 0.25.1（integrity 同步变化）。
+- 纳入 configuration：逐行读 packages/cli/src/config/settingsSchema.ts、settingsUtils.ts、settings.ts 与 packages/cli/src/nonInteractive/mod-session.ts 在两个提交间的真实 hunk，并用 docs/users/extension/mods.md 的 'Plugin options' 一节交叉核对。settingsSchema 的 diff 仅两处 hunk——新增 pluginConfigs 键块，以及 experimental.mods 描述由 JavaScript 改为 JavaScript and TypeScript（仅描述文案，不改默认/作用域，不单独构成 impact）。pluginConfigs 是新增键，故按固定问题扩展到 config.overrides（受限归属与逐键合并优先级）、config.defaults（默认值/分类/需重启/不在对话框）、config.runtime（读取门控与非交互 headless 条件）、config.diagnostics（工作区告警文案与剥离顺序）。
+- 纳入 native_plugins：本章 plugins-api 原文断言『扩展……而非通过运行时 API』。coreToolScheduler 的 modToolCheck 是运行时的真实工具权限门控，因此该断言需要标注适用边界而非删除；同章 plugins.discovery 原文只描述 qwen extensions settings set 的 .env 通道，pluginConfigs 构成并列的第二条选项通道。两者都写进新 edition，保留原小节锚点 plugins-api / plugins-discovery。
+- 纳入 local_transcripts：session-writer-lease.ts 的新增 hunk 只增加两道版本方向的拒绝条件，未改变既有回收/封存流程本身。已发布的『已死活跃写者只有在身份检查确认同属已验证存活域时才可回收』在文档层面仍然成立（源码未改动那段），因此只在同一小节补一段说明它是必要而非充分条件，不改动原有表述。
+- 排除 custom_agents：coreToolScheduler 的新增 modToolCheck 在 getOrCreateNestedToolScheduler 中被显式置为 undefined （ref-qwen-core-mod-tool-check-nested-scheduler-excluded），该调度器仅由 flushNestedQueue <- dispatchCodeModeTool 到达；subagent 运行时则自行构造 CoreToolScheduler（packages/core/src/agents/runtime/agent-core.ts:2345），且全树唯一把该选项传入的构造点是 nonInteractiveToolExecutor:78 （ref-qwen-core-mod-tool-check-sole-producer），故 subagent 同样不会带上它。两条路径各自有独立证据，本章 agents-overrides 关于“父会话宽松模式优先”的表述未被推翻；settingsSchema 的 pluginConfigs 与 agents.* 键无关，故不改本章。
+- 排除 mcp：coreToolScheduler 的 PreToolUse ask 改写与 plan-mode 判定代码路径（withPreToolUseAskReason、planModeDetails、isNonInteractiveDeny）在 18f80f56 未被本轮改动触及，新增块位于其之前且只在 modToolCheck 存在时执行；本章 mcp-v4 的三条既有引用仍成立，故不改本章。
+- 排除 hooks、skills、custom_providers：这三个主题的章节 source_refs 不含本轮任何被改动文件的证据，且 settingsSchema 本轮 diff 未触及它们的键；无入口可核，记为无知识影响。
+- 排除 local_transcripts 的其它问题：session-writer-lease 的改动不改变记录 schema、命名、位置、归档路径或删除语义，transcripts.schema/lifecycle/diagnostics 的既有表述不受影响。
+- 排除 config.ts 的 stripUtf8Bom 改动：该行位于 parseMcpConfig，属于 MCP 配置文件解析的健壮性修复；已发布的章节未就 BOM/JSON 注释解析行为作出任何陈述（grep 全章节无相关主张），因此不构成需要维护的知识变更。
+- npm 0.25.0 -> 0.25.1 判为 reviewed_no_knowledge_impact：仅版本与 integrity 同步变化的常规发布身份递增，未固定或比较包字节，不据此创建任何版本映射，也不从仓库 HEAD 推导 npm 发行版行为。
+- 本审计由 scan 生成的八主题全量 impacts 收窄为三个主题；其余五个主题记为无知识影响，理由如上。
+- 所有新增 git_source_file 记录的 content_sha256 均由 workspace 在 18f80f56666a347a2b67b2ef98099cc58356b253 的实际字节计算，未复制任何 checkout 到候选。
+- review_status 保持 pending：plugins-api 的已发布断言被新证据限定适用边界，属于需要独立复核确认表述未过度延伸的高影响改动；复核通过前不写 reviewed_by/reviewed_at。
+- 独立复核 changes_requested 修正一：native_plugins-v2 的 plugins-api 原句把“嵌套 code-mode 调度器”与“子 Agent”两半归因于同一机制，但 ref-qwen-core-mod-tool-check-nested-scheduler-excluded 的行区间只覆盖嵌套调度器构造。已改写为两半各自带证据：嵌套半保留原引用，子代理半改引唯一产生点 ref-qwen-core-mod-tool-check-sole-producer（新增 artifact/snapshot 均 pin 在 18f80f56666a347a2b67b2ef98099cc58356b253）；audit 本条与报告同步更新。
+- '独立复核修正二：ref-qwen-settings-plugin-configs-key 的 end 由 1650 改为 1651，使引用区间覆盖 config-defaults 所断言的 showInDialog: false。因 1624-1651 整段为 805 字符、超出 800 上限，start 相应由 1624 改为 1625（去掉 `pluginConfigs: {` 一行），关键字段 type/requiresRestart/default/description/showInDialog 均在区间内，摘录 786 字符。'

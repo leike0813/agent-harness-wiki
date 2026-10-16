@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-managed-split
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-20261015
+official_url: https://github.com/anomalyco/opencode/blob/8ffbcc2c81d1ff558618137204c36954797d7a6f/packages/core/src/config.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config.ts
+  start: 252
+  end: 269
+excerpt: |-
+          const managedPolicies = managed
+            .flatMap((entry) =>
+              entry.type === "document" && entry.info.policies
+                ? [
+                    new Document({
+                      type: "document",
+                      path: entry.path,
+                      info: new Info({ policies: entry.info.policies }),
+                    }),
+                  ]
+                : [],
+            )
+            .toReversed()
+          const managedSettings = managed.map((entry) =>
+            entry.type === "document" && entry.info.policies
+              ? new Document({ ...entry, info: new Info({ ...entry.info, policies: undefined }) })
+              : entry,
+          )

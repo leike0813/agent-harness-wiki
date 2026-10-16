@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-plugins-allowlist-test-skip
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-plugins-allowlist-test
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/extension.test.ts
+  start: 893
+  end: 909
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+      requestConsent: mockRequestConsent,
+      requestSetting: mockPromptForSettings,
+      settings: extensionAllowlistSetting,
+      integrityManager: mockIntegrityManager,
+    });
+    const extensions = await extensionManager.loadExtensions();
+  
+    expect(extensions.map((e) => e.name)).toEqual(['my-ext']);
+    for (const dir of [interruptedDir, corruptDir, wrongTypeDir]) {
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining(
+          `Failed to load extension ${dir}. The ${INSTALL_METADATA_FILENAME} file is missing or misconfigured.`,
+        ),
+      );
+    }
+    consoleSpy.mockRestore();
+  });
