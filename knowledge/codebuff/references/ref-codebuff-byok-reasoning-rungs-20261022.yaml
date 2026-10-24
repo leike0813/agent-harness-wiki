@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-reasoning-rungs-20261022
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-reasoning-effort-20261022
+locator:
+  kind: file_lines
+  file: common/src/constants/reasoning-effort.ts
+  start: 101
+  end: 120
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |2-
+  /**
+   * The rungs a ChatGPT plan's models take (provider `chatgpt`). Their requests go to the same
+   * Responses backend Codex uses, whose `reasoning.effort` accepts every rung up to `ultra`, so the
+   * Freebuff agent offers what Codex offers rather than the three-rung BYOK ladder.
+   */
+  export const CHATGPT_REASONING_EFFORTS = [
+    'low',
+    'medium',
+    'high',
+    'xhigh',
+    'max',
+    'ultra',
+  ] as const satisfies readonly ReasoningEffort[]
+
+  /** The rungs a saved provider connection can be asked for. */
+  export function byokReasoningEfforts(
+    provider: string,
+  ): readonly ReasoningEffort[] {
+    return provider === 'chatgpt' ? CHATGPT_REASONING_EFFORTS : BYOK_REASONING_EFFORTS
+  }

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-8aac-sidecar-two-writers
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-8aac-crates-pa-daemon-src-session-store-info-sidecar-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_store/info_sidecar.rs
+  start: 1
+  end: 10
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/8aac8692456c00c01d4e53e60e6d3347a3506559/crates/pa-daemon/src/session_store/info_sidecar.rs
+excerpt: |2
+  //! The persisted scan-state sidecar: `<stem>.info-cache.json`, written
+  //! beside the session file when the runtime lease is released and loaded
+  //! on a process-cache miss, so a warm resume folds only the appended tail
+  //! instead of rescanning the whole file. pa-daemon owns the sidecar:
+  //! the scan state is this crate's type, and it certifies differently from
+  //! pa-core's window snapshot (an exact generation there, a grown-file
+  //! resume with a prefix check here). Two writers: the lease holder at
+  //! release, and the catalog scan for a file it had to fold. Both persist
+  //! only certified states and every load re-validates the generation or
+  //! prefix, so a lost race leaves an older valid prefix, never a wrong row.

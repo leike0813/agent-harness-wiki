@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-8aac-legacy-archive-restore
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-8aac-crates-pa-daemon-src-session-catalog-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_catalog.rs
+  start: 29
+  end: 32
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/8aac8692456c00c01d4e53e60e6d3347a3506559/crates/pa-daemon/src/session_catalog.rs
+excerpt: |2
+  /// Resolve one selector to a saved session: cwd-scoped sessions first, the
+  /// whole live catalog second. A live miss lazily restores a match from
+  /// `sessions-archive/` (written by older Rust releases) before waking its worker. Misses are `None` (the caller
+  /// answers its unknown-target error, not a catalog one).

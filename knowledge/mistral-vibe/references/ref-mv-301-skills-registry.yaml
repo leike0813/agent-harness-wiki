@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-skills-registry
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/skills/manager.py
+  start: 253
+  end: 268
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      def _registry_sources(self) -> list[tuple[Path, SkillScope]]:
+          sources: list[tuple[Path, SkillScope]] = [
+              (_manifest.global_manifest_path(), SkillScope.GLOBAL)
+          ]
+          sources.extend(
+              (p, SkillScope.PROJECT)
+              for p in _manifest.project_manifest_paths_sync(
+                  self._harness_files.project_roots
+              )
+          )
+          return sources
+
+      def _discover_registry_skills(self) -> dict[str, SkillInfo]:
+          """The active set the agent uses: one entry per name, project wins."""
+          if not self._config.experimental_enable_registry_skills:
+              return {}

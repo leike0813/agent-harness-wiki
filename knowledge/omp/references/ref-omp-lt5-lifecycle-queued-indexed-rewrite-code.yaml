@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt5-lifecycle-queued-indexed-rewrite-code
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-src-session-session-manager-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-manager.ts
+  start: 1646
+  end: 1659
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/packages/coding-agent/src/session/session-manager.ts#L1646-L1659
+excerpt: "\t\t\t}\n\t\t\tthis.#clearDiskError();\n\t\t\tif (this.#storage.defersSyncPublish) {\n\t\t\t\tthis.#fileIsCurrent = false;\n\t\t\t\tthis.#rewriteRequired = true;\n\t\t\t\t// The publish is only queued: record nothing and stay non-current\n\t\t\t\t// until the backend confirms (hV-oB). A racing rewrite still\n\t\t\t\t// carries the last confirmed token, so the store's queue-time\n\t\t\t\t// size check fail-fasts it instead of queueing a second\n\t\t\t\t// provisional publish behind the unconfirmed one; a racing\n\t\t\t\t// append retries the transcript on the cold path instead of\n\t\t\t\t// landing a bare append on a body the backend may still reject.\n\t\t\t\t// The success handler below is the single place the replacement\n\t\t\t\t// becomes durable state."

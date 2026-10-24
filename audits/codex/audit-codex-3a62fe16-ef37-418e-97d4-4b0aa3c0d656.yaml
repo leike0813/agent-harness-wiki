@@ -1,0 +1,122 @@
+schema_version: 2
+audit_id: audit-codex-3a62fe16-ef37-418e-97d4-4b0aa3c0d656
+harness_id: codex
+checked_at: 2026-10-22T12:53:26.249Z
+previous_audit_id: audit-codex-17999352-bfc4-4cd1-93cb-b6eac41ab58c
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-codex-1e99ac2e-274d-4179-a6bc-5d7c8dd49f35
+  - audit-codex-911e2546-2762-49cf-a33c-2e59c98062b9
+  - audit-codex-17999352-bfc4-4cd1-93cb-b6eac41ab58c
+checks:
+  - source_id: source-codex-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:53:23.125Z
+    status: changed
+    baseline: 1f7fe9b0afb301f895b2d56ae8c05c2cfb19e440
+    observed: 2f3fb111be71d277c80bd5b96d9019748b921f5a
+    remote_ref: refs/heads/main
+  - source_id: source-codex-cli-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-22T12:53:23.133Z
+    status: unchanged
+    baseline: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+    observed: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+    resolved_url: https://learn.chatgpt.com/docs/codex/cli.md
+  - source_id: source-codex-cli-npm
+    kind: npm_registry
+    checked_at: 2026-10-22T12:53:23.135Z
+    status: changed
+    baseline: 0.162.1@sha512-NWZdi/kxyjv/8EUGFupziGU38YyleugZRM4JXgY5XFH7FUmaFA33NZS2Bmq0HPazf7S3jJQQWsZ/jAK9jsrV3Q==
+    observed: 0.163.0@sha512-HNd7vR9oTK6M2ikxFnvNDCdYUgAsyo9VVnd5KnEd2ON0GYI++7MiX9XNPUkhtdgGKFPsWS+CEppQ1UU63uVhUw==
+  - source_id: source-codex-cli-skills-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-22T12:53:23.135Z
+    status: unchanged
+    baseline: ed6e324f747d47adf6f60ee1fca13ba469b3671f55f58c3a78f35947af6919d5
+    observed: ed6e324f747d47adf6f60ee1fca13ba469b3671f55f58c3a78f35947af6919d5
+    resolved_url: https://learn.chatgpt.com/docs/build-skills.md
+  - source_id: source-codex-cli-mcp-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-22T12:53:23.966Z
+    status: changed
+    baseline: ed03f227b54c5e02f425c700ddcd21046d6a9fc47cbf211f9e7928a98a80c6d9
+    observed: c78df8c70b7f31f73557f77ad4208ff97656808fb423e6f4eb81151f8b009284
+    resolved_url: https://learn.chatgpt.com/docs/extend/mcp.md?surface=cli
+  - source_id: source-codex-cli-configuration-doc-learn
+    kind: official_documentation
+    checked_at: 2026-10-22T12:53:24.057Z
+    status: changed
+    baseline: b3158464b335ab6fd2302a6b2f69b6ca85db2b0552a0ce8d0d836d24d79b7562
+    observed: fe48af085a53345cf171cf492f3147eb2bb297b8ab28f83e67b8e9e62f715a21
+    resolved_url: https://learn.chatgpt.com/docs/config-file/config-reference.md
+impacts:
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.database
+      - transcripts.archive
+    section_ids:
+      - transcripts-storage-layout
+      - transcripts-jsonl-format-and-schema
+      - transcripts-state-database
+      - transcripts-archive-and-cleanup
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-transcripts-location-sqlite-db-files-v2
+      - ref-codex-cli-transcripts-location-sqlite-db-memories-v2
+      - ref-codex-cli-transcripts-location-logs-home-v2
+      - ref-codex-cli-transcripts-location-logs-dir-default-v2
+      - ref-codex-cli-transcripts-location-sqlite-home-order-v2
+      - ref-codex-cli-transcripts-location-sqlite-env-name-v2
+      - ref-codex-cli-transcripts-location-session-index-path-v2
+      - ref-codex-cli-transcripts-database-journal-init-v2
+      - ref-codex-cli-transcripts-database-busy-retry-v2
+      - ref-codex-cli-transcripts-database-migrate-nfs-command-v2
+      - ref-codex-cli-transcripts-database-migrate-nfs-usage-v2
+      - ref-codex-cli-transcripts-database-migrate-nfs-unix-v2
+      - ref-codex-cli-transcripts-database-nfs-migration-backup-v2
+      - ref-codex-cli-transcripts-format-append-open-v2
+      - ref-codex-cli-transcripts-format-materialize-v2
+      - ref-codex-cli-transcripts-format-compress-publish-v2
+      - ref-codex-cli-transcripts-format-compress-lock-v2
+      - ref-codex-cli-transcripts-format-compression-constants-v2
+      - ref-codex-cli-transcripts-lifecycle-cli-subcommands-v2
+    cross_topic_links: []
+    reason: 状态库位置、SQLite 初始化与 NFS 迁移、压缩/物化的元数据与发布顺序、以及 CLI 子命令集合在 2f3fb111 上均与已发布 v1 章节不同，需按固定问题重写存储、格式、数据库与归档小节。
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：maintain；local_transcripts 的 5 道固定问题全部调查完毕，结论写成新 edition
+    codex-local_transcripts-v2，v1 原样保留并切换 current 选择。
+  - 仍不写 reviewed_by/reviewed_at：本审计 pending_audit_refs 指向的 3 份旧审计仍是
+    review_status=pending，不能通过结案新审计间接关闭其未完成阻塞。
+  - 已发布引用逐个在 2f3fb111 上复核：ref-codex-cli-transcripts-format-append-open（recorder.rs）、
+    ref-codex-cli-transcripts-lifecycle-cli-subcommands（cli/src/main.rs）、
+    ref-codex-cli-transcripts-schema-item-types（history/src/lib.rs）三处摘录文本已不存在；压缩、
+    状态库、SessionMeta、行写、find-thread、lineage 等引用整体位移。逐条判断后只有下列机制级变化进入
+    章节重写，纯位移与 Box 化的内部调整不改变已发布结论。
+  - transcripts.location：sqlite home 三级来源（config.toml sqlite_home → CODEX_SQLITE_HOME →
+    codex_home）与 SQLITE_HOME_ENV 字面量本轮首次可引用；库文件集合新增 memories_v2_1.sqlite；
+    logs_2.sqlite 改由 logs_home() 解析（仅显式配置 log_dir 且 requirements 未固定 sqlite_home 时
+    使用 log_dir，默认 codex_home/log，否则回落到 sqlite_home）；session_index.jsonl 的完整路径
+    codex_home/session_index.jsonl 已确认（v1 曾标为未验证）。
+  - transcripts.naming：rollout_file_name.rs 的解析与渲染规则未变，lineage 指针语义未变，故命名结论
+    保持不变，仅随新 edition 重述。
+  - transcripts.format：RolloutLine 信封与逐行追加未变；append 打开改为仅在明文文件不存在的场景刷新
+    mtime，并把 ACL 造成的 PermissionDenied 视为可接受；压缩与物化改为先复制 owner/权限/mtime 再校验
+    发布，物化临时文件改用 .rollout-materialize- 前缀，压缩发布需取得线程 writer 发布锁；压缩常量
+    （7 天冷阈值、级别 3、.zst/.tmp、6 小时 marker/temp 过期、5 小时上限、2 并发）未变。
+  - transcripts.database：新库初始化改为 incremental auto_vacuum + WAL，已有库保留原 journal/vacuum
+    模式；启动对 SQLITE_BUSY 有界重试；新增 codex migrate-nfs-db（仅 Unix、需确认、要求所有客户端停止、
+    依赖跨客户端 POSIX 锁、--staging-dir 本地暂存、原库与 WAL 备份到 <库路径>_wal_migration_backup/）。
+    threads 表结构、backfill 与 BackupAndRebuild 恢复路径未变。
+  - transcripts.archive：archive_thread.rs 与 delete_thread.rs 的移动/硬删除顺序与锁检查未变；归档
+    结论保持，仍为 partial（可移植性损失与删除级联范围无来源）。CLI 引用改为 2f3fb111 的
+    子命令枚举（新增 MigrateNfsDb）。
+  - 文档来源：source-codex-cli-mcp-doc-learn 与 source-codex-cli-configuration-doc-learn 本轮 changed，
+    但属于 mcp/configuration 主题，不在本轮派发范围，未对其做语义判断，留待对应主题派发。
+  - npm 来源观察到 0.163.0（基线 0.162.1），仅说明发布身份变化；未据此建立任何版本映射。

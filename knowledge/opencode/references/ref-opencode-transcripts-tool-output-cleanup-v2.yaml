@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-tool-output-cleanup-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-tool-output-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/core/src/tool-output.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/tool-output.ts
+  start: 40
+  end: 50
+excerpt: |-
+  const cleanup = Effect.fn("ToolOutput.cleanup")(function* (fs: FSUtil.Interface, directory: string) {
+    const entries = yield* fs.readDirectory(directory).pipe(
+      Effect.map((entries) => entries.filter((entry) => /^tool_[0-9a-f]{12}/.test(entry))),
+      Effect.orElseSucceed(() => []),
+    )
+    yield* FileRetention.cleanup(
+      fs,
+      entries.map((entry) => path.join(directory, entry)),
+      RETENTION,
+    )
+  })

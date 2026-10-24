@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-skills-projection
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/app_server/_skills.py
+  start: 1
+  end: 12
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  """Projection of the workspace skill catalogue into Unified Harness configuration.
+
+  Core is handed *what a skill is* — name, description, and a real ``SKILL.md``
+  path it renders into the prompt. The local Runtime is handed *what a skill
+  says* — the already-rendered ``<skill_content>`` block. The client is handed
+  *what a skill is called* — the list behind the ``/`` menu. All three come out
+  of one pass over the same sources, which is what keeps the prompt catalogue,
+  the Runtime payload map, and the slash menu from drifting.
+
+  The Runtime never parses frontmatter and never learns what a skill is; that
+  stays on this side of the seam, exactly as it does for plugins.
+  """

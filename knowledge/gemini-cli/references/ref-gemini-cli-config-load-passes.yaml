@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-load-passes
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-git-settings-cli
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settings.ts
+  start: 1047
+  end: 1077
+official_url: "https://github.com/google-gemini/gemini-cli/blob/09d81bf116b6f0ef084731dc996aa9d56438bb70/packages/cli/src/config/settings.ts"
+excerpt: |-
+  // Preliminary pass: resolve placeholders against the environment as it is
+  // before any `.env` file is loaded. The workspace trust check only depends on
+  // system and user settings, so workspace settings are not resolved before
+  // trust is established.
+  userSettings = resolveSettings(userResult.rawSettings, USER_SETTINGS_PATH);
+
+  // For the initial trust check, we can only use user and system settings.
+  const isTrusted =
+    isWorkspaceTrusted(initialTrustCheckSettings as Settings, workspaceDir)
+      ?.isTrusted ?? false;
+
+  if (isTrusted) {
+    workspaceSettings = resolveSettings(
+      workspaceResult.rawSettings,
+      workspaceSettingsPath,
+    );
+  }

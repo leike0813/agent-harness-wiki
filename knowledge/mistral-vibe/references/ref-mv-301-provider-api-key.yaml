@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-provider-api-key
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/utils/api_keys.py
+  start: 71
+  end: 89
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  def active_api_key(
+      *, env_value: str | None, keyring_value: str | None
+  ) -> tuple[ApiKeySource, str] | None:
+      """The winning credential and its source, or ``None`` when neither holds one.
+
+      The precedence rule shared by resolution and ``/status``: a truthy
+      environment value wins, otherwise the keyring decides. Inputs are
+  ...
+      if env_value:
+          return ApiKeySource.ENVIRONMENT, env_value
+      if keyring_value:
+          return ApiKeySource.KEYRING, keyring_value
+      return None
+
+
+  def resolve_api_key_with_origin(env_key: str) -> tuple[str, ApiKeyOrigin] | None:
+      """The key for ``env_key`` and where it was read from, or ``None``.

@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-session-config
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 108
+  end: 124
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      # Matches its sibling groups. Under per-field merging the union of keys
+      # from every layer reaches the validator, so forbidding extras would turn
+      # one unrecognised key in any layer -- a project file naming a setting from
+      # a newer Vibe, say -- into a hard config-load failure.
+      model_config = SettingsConfigDict(extra="ignore")
+
+      save_dir: str = ""
+      session_prefix: str = "session"
+      enabled: bool = True
+      # Background LLM-generated session titles (shown in --resume and the
+      # terminal tab) for CLI, Desktop, and ACP (VS Code extension) clients.
+      # False falls back to the first-message preview.
+      generate_titles: bool = True
+
+      @field_validator("save_dir", mode="before")
+      @classmethod
+      def set_default_save_dir(cls, v: str) -> str:

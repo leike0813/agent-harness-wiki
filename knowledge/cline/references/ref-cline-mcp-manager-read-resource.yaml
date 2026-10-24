@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-manager-read-resource
+harness_id: cline
+snapshot_id: snapshot-cline-mcp-manager-ts-20261022
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/mcp/manager.ts
+  start: 184
+  end: 206
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  	async readResource(
+  		request: McpResourceReadRequest,
+  	): Promise<McpResourceReadResult> {
+  		const current = this.requireServer(request.serverName);
+  		const client =
+  			current.status === "connected" &&
+  			current.client &&
+  			!current.registration.disabled
+  				? current.client
+  				: await this.runExclusive(request.serverName, async () =>
+  						this.ensureConnectedClient(this.requireServer(request.serverName)),
+  					);
+  		this.requireServer(request.serverName).updatedAt = nowMs();
+  		if (!client.readResource) {
+  			throw new Error(
+  				`MCP server "${request.serverName}" client does not support reading resources.`,
+  			);
+  		}
+  		return client.readResource({
+  			uri: request.uri,
+  			context: request.context,
+  		});
+  	}

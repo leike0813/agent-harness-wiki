@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-skills-format-content-20261022
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-skills-util-20261022
+locator:
+  kind: file_lines
+  file: common/src/util/skills.ts
+  start: 7
+  end: 19
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |2-
+  /** Keep bundled resource paths usable in both tool and user-invoked skills. */
+  export function formatSkillContent(
+    skill: Pick<SkillDefinition, 'content' | 'filePath'>,
+  ): string {
+    // Forward slashes work in Windows file tools and Git Bash as well as POSIX.
+    // Preserve the supplying host's path rather than resolving it on this host.
+    const filePath = skill.filePath.replace(/\\/g, '/')
+    const baseDirectory = filePath.slice(0, filePath.lastIndexOf('/') + 1) || './'
+    return `Base directory for this skill: ${JSON.stringify(baseDirectory)}
+  Resolve skill-relative paths (such as scripts/, references/, and assets/) against this directory, not the project's working directory.
+
+  ${skill.content}`
+  }

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-skills-filters
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/skills/manager.py
+  start: 150
+  end: 163
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      def _apply_filters(self, skills: dict[str, SkillInfo]) -> dict[str, SkillInfo]:
+          if self._config.enabled_skills:
+              return {
+                  name: info
+                  for name, info in skills.items()
+                  if name_matches(name, self._config.enabled_skills)
+              }
+          if self._config.disabled_skills:
+  ...
+                  if not name_matches(name, self._config.disabled_skills)
+              }
+          return dict(skills)

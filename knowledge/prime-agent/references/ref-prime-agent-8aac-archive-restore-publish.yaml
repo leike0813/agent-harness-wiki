@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-8aac-archive-restore-publish
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-8aac-crates-pa-daemon-src-session-catalog-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_catalog.rs
+  start: 68
+  end: 83
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/8aac8692456c00c01d4e53e60e6d3347a3506559/crates/pa-daemon/src/session_catalog.rs
+excerpt: |2
+          std::io::copy(&mut source, &mut target)?;
+          target.set_times(std::fs::FileTimes::new().set_modified(source.metadata()?.modified()?))?;
+          target.sync_all()?;
+          Ok(())
+      })();
+      drop(target);
+      let result = result
+          .and_then(|()| std::fs::hard_link(&temp, &destination).context("publish restored session"));
+      let cleanup = std::fs::remove_file(&temp);
+      result.with_context(|| format!("restore archived session {}", info.id))?;
+      cleanup.with_context(|| format!("remove restore staging file {}", temp.display()))?;
+      std::fs::remove_file(&info.path)
+          .with_context(|| format!("unlink restored archive {}", info.path.display()))?;
+      let mut restored = info.clone();
+      restored.path = destination;
+      Ok(Some(restored))

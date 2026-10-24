@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-m63-src-resume-startup
+harness_id: autohand
+snapshot_id: snapshot-autohand-m63-src-startup-resumecommand-ts
+locator:
+  kind: symbol
+  file: src/startup/resumeCommand.ts
+  symbol: resolveStartupSession
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  export async function resolveStartupSession(
+    options: CLIOptions,
+    workspaceRoot: string,
+    dependencies: Pick<ResumeCommandDependencies, 'sessionManager' | 'isInteractive'> = {},
+  ): Promise<boolean> {
+    if (!options.continue && options.resume === undefined) return true;
+    const sessionManager = dependencies.sessionManager ?? new SessionManager();
+    if (options.continue) {
+      options.resumeSessionId = (await sessionManager.getLastSession(workspaceRoot))?.sessionId;
+      if (!options.resumeSessionId) console.log('No previous session in this folder, starting a new one');
+      return true;
+    }

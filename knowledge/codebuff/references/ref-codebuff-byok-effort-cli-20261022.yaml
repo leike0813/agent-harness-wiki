@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-effort-cli-20261022
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-byok-command-20261022
+locator:
+  kind: file_lines
+  file: cli/src/commands/byok.ts
+  start: 531
+  end: 553
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |2-
+      if (action === 'effort') {
+        const [value] = args
+        if (!value) {
+          const current = loadSettings().byokReasoningEffort
+          post(
+            params,
+            `BYOK reasoning effort: ${current ?? 'default (the provider decides)'}. Change it with /byok effort <default|${BYOK_REASONING_EFFORTS.join('|')}>.`,
+          )
+          return
+        }
+        if (value !== 'default' && !isByokReasoningEffort(value)) {

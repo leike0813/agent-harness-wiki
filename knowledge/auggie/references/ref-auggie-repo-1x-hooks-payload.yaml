@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-repo-1x-hooks-payload
+harness_id: auggie
+snapshot_id: snapshot-auggie-repo-1x-preview
+locator:
+  kind: file_lines
+  file: docs/1.x-preview-guide.md
+  start: 93
+  end: 94
+official_url: "https://github.com/augmentcode/auggie"
+excerpt: |-
+  ### Hook Payloads: Changed Files Detection
+  In 0.x, hook events for shell execution attempted to calculate and inject an internal list of modified files into the hook payload. This has been removed from `bash` hooks (and is being phased out across other tool hooks). Hooks requiring a list of modified files should rely directly on version control (e.g., `git status --porcelain` or `git diff --name-only`) rather than tool-level payload heuristics.

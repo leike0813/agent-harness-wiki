@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt5-lifecycle-offbranch-leaf-code
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-src-session-session-manager-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-manager.ts
+  start: 3436
+  end: 3458
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/packages/coding-agent/src/session/session-manager.ts#L3436-L3458
+excerpt: "\t\tmessage:\n\t\t\t| Message\n\t\t\t| CustomMessage\n\t\t\t| HookMessage\n\t\t\t| BashExecutionMessage\n\t\t\t| PythonExecutionMessage\n\t\t\t| FileMentionMessage,\n\t\tparentId: string | null,\n\t\toptions?: { preserveActiveLeaf?: boolean },\n\t): string {\n\t\tif (parentId !== null && !this.#index.has(parentId)) throw new Error(`Entry ${parentId} not found`);\n\t\tconst activeLeafId = this.#index.leafId();\n\t\tconst entry: SessionMessageEntry = {\n\t\t\ttype: \"message\",\n\t\t\tid: generateId(this.#index),\n\t\t\tparentId,\n\t\t\ttimestamp: nowIso(),\n\t\t\truntime: currentRuntimeIdentity(),\n\t\t\tmessage,\n\t\t\t...(options?.preserveActiveLeaf === false ? {} : { activeLeafId }),\n\t\t};\n\t\t// The entry never joins the active branch; keep it out of any branch view\n\t\t// already handed out. Recording `activeLeafId` leaves the index's leaf on"

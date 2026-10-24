@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-agents-builtin
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/agents/models.py
+  start: 148
+  end: 160
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  BUILTIN_AGENTS: dict[str, AgentProfile] = {
+      BuiltinAgentName.ASK: ASK,
+      BuiltinAgentName.ACCEPT_EDITS: ACCEPT_EDITS,
+      BuiltinAgentName.SMART_APPROVE: SMART_APPROVE,
+      BuiltinAgentName.AUTO_APPROVE: AUTO_APPROVE,
+      BuiltinAgentName.EXPLORE: EXPLORE,
+      BuiltinAgentName.LEAN: LEAN,
+  }
+
+  # Builtin agents dropped from the product, mapped to the agent a config that still
+  # names one as `default_agent` starts on. Plan was read-only: ask runs no tool
+  # without approval, so the fallback grants no permission the user did not have.
+  REMOVED_BUILTIN_AGENTS: dict[str, str] = {"plan": BuiltinAgentName.ASK}

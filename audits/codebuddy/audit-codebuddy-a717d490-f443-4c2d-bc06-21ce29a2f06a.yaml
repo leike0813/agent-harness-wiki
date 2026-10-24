@@ -1,0 +1,169 @@
+schema_version: 2
+audit_id: audit-codebuddy-a717d490-f443-4c2d-bc06-21ce29a2f06a
+harness_id: codebuddy
+checked_at: 2026-10-22T12:53:19.053Z
+previous_audit_id: audit-codebuddy-b2f1e4d2-885e-474a-808f-950b78020684
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-codebuddy-9f90f95d-be63-48f2-9d75-f841bcaa2a8f
+  - audit-codebuddy-b2f1e4d2-885e-474a-808f-950b78020684
+checks:
+  - source_id: source-codebuddy-docs
+    kind: git_repository
+    checked_at: 2026-10-22T12:53:17.947Z
+    status: changed
+    baseline: 79abbc5fe8c55ea7765c4018df6027800c667a56
+    observed: 3d2d64bb9ad8b1701946c59782dcb49768571e4a
+    remote_ref: refs/heads/main
+  - source_id: source-codebuddy-site
+    kind: official_documentation
+    checked_at: 2026-10-22T12:53:17.955Z
+    status: unchanged
+    baseline: 6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b
+    observed: 6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b
+    resolved_url: https://www.codebuddy.cn/llms.txt
+  - source_id: source-codebuddy-npm
+    kind: npm_registry
+    checked_at: 2026-10-22T12:53:17.957Z
+    status: changed
+    baseline: 2.167.0@sha512-1lELyeN1cEbkv2CbxSAxPSOPPWKCE+5Me9OvdRQJ/JesJ7mR4wBnT0vPZcac2NSCV1VXwzjoe0LDg2wBhb8G6w==
+    observed: 2.172.1@sha512-W0EMBNpkCNgwXLOydyYSfmQnRSBp15Mjhi9SqBGdO+SzawpKMgi5jSwlpP9hFbSMJPSLoGXOw3/bh+urv5yRiw==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.defaults
+    section_ids:
+      - config-defaults
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-settings-keys
+      - ref-codebuddy-settings-main-agent
+      - ref-codebuddy-cli-agent-flag
+      - ref-codebuddy-settings-prevent-sleep
+      - ref-codebuddy-env-max-retries
+      - ref-codebuddy-env-shell
+      - ref-codebuddy-env-fs
+      - ref-codebuddy-env-tools
+      - ref-codebuddy-env-context-usage
+      - ref-codebuddy-env-image-history
+      - ref-codebuddy-env-task-reminders
+      - ref-codebuddy-env-responses-store
+      - ref-codebuddy-env-sensitive-protection
+      - ref-codebuddy-env-otel-raw-bodies
+      - ref-codebuddy-settings-daemon-restart
+      - ref-codebuddy-env-daemon-auto-restart
+    cross_topic_links:
+      - providers.forwarding
+      - providers.responses
+      - hooks.entry
+      - mcp.entry
+    reason: docs/settings.md 的 codebuddy.mainAgent 行改写 default / lastUsed 语义（--agent
+      压过 lastUsed、不写 default、交互 TUI 无记录时默认 PTC）并新增 daemon.preventSleep；
+      docs/cli-reference.md 的 --agent 行同步；docs/env-vars.md 把
+      CODEBUDDY_MAX_RETRIES 默认从 1 改为 8 并改写退避与错误集。默认值答案因此变化，新建
+      codebuddy-cli-configuration-v5 的 config-defaults 小节并新增 settings /
+      cli-reference / env-vars 三个修订快照与四个引用。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.naming
+      - transcripts.lifecycle
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-storage-layout
+      - transcripts-session-lifecycle
+      - transcripts-retention-and-purge
+      - transcripts-inspection
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codebuddy-lt-daemon-log-types
+      - ref-codebuddy-lt-subagent-storage-tree
+      - ref-codebuddy-lt-changelog-mcp-spill-path
+      - ref-codebuddy-lt-hooks-pretooluse-example
+      - ref-codebuddy-lt-slash-branch
+      - ref-codebuddy-lt-slash-fork
+      - ref-codebuddy-lt-sdk-session-options
+      - ref-codebuddy-lt-sdk-resume-option
+      - ref-codebuddy-lt-checkpoint-tracking
+      - ref-codebuddy-lt-changelog-replay-after-write
+      - ref-codebuddy-lt-settings-cleanup-days
+      - ref-codebuddy-lt-settings-cleanup-command-20261022
+      - ref-codebuddy-lt-cli-purge-command
+      - ref-codebuddy-lt-cli-purge-options
+      - ref-codebuddy-lt-cli-purge-scope
+      - ref-codebuddy-lt-cli-purge-all
+      - ref-codebuddy-lt-slash-export-surfaces
+      - ref-codebuddy-lt-webui-export-zip
+      - ref-codebuddy-lt-keybindings-transcript-view
+      - ref-codebuddy-lt-env-session-max-items
+      - ref-codebuddy-lt-daemon-pid-registry
+    cross_topic_links: []
+    reason: docs/slash-commands.md 改写 /branch 与 /fork：关联的已结束子代理转录改为独立复制，不再
+      「含子代理历史则不支持分支」，naming 与 lifecycle 答案随之改变；docs/settings.md 的本地
+      数据清理一节整体下移、正文逐字未变，cleanup 与 diagnostics 的机制结论不变，仅把该引用 重新锚定到本轮提交。新建
+      codebuddy-local_transcripts-v3 并新增 slash-commands 修订快照 与 branch / fork /
+      cleanup 三个引用。
+pending_question_ids:
+  - config.defaults
+  - transcripts.cleanup
+  - transcripts.diagnostics
+  - transcripts.lifecycle
+  - transcripts.naming
+investigation_notes:
+  - 本轮 triage 分类：maintain；只读观察时间 2026-10-22T12:53:19.053Z，会话
+    4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns。固定来源只有 source-codebuddy-docs
+    （79abbc5 → 3d2d64bb，20 个 changed paths），source-codebuddy-site unchanged，npm
+    2.167.0 → 2.172.1 属发布身份变化，单独不构成知识影响。
+  - 逐引用核对定位：把 references/ 下所有 file_lines 引用按 locator 在本轮提交上重新读取， 只有 3
+    条已发布引用由命中变为不再命中——ref-codebuddy-lt-settings-cleanup-command （docs/settings.md
+    753-758 → 755-759）、ref-codebuddy-lt-slash-resume-fork
+    （docs/slash-commands.md 47-48 的 /fork
+    行被重写）、ref-codebuddy-settings-daemon-restart （docs/settings.md 91 被新增的
+    daemon.preventSleep 占用、autoRestartOnUpdate 下移到 92）。
+    另有若干引用在本轮基线之前就已锚定更早的修订快照（env-vars、CHANGELOG、mods 等）， 它们仍对各自快照有效，本轮不改写。
+  - configuration：读 docs/settings.md 的 codebuddy.mainAgent
+    行、docs/cli-reference.md 的 --agent 行、docs/env-vars.md 的 CODEBUDDY_MAX_RETRIES
+    行与 docs/settings.md 新增的 daemon.preventSleep 行，确认默认值答案变化，按新修订写
+    codebuddy-cli-configuration-v5， config-defaults 增加主 Agent
+    模式默认值、重试默认值与休眠默认值三段；其余小节与问题原样保留。
+  - local_transcripts：docs/sub-agents.md 只新增 disable-model-invocation
+    字段（custom_agents 范围，未改子代理 transcript 存储段，仅整体下移一行）；docs/slash-commands.md 的
+    /branch 与 /fork 改为独立复制关联的已结束子代理转录；docs/web-ui.md 新增的是中继 Web 访问能力，
+    docs/interactive-mode.md 改的是 /agent-mode 默认 PTC，均不改 transcript 的记录范围、存储
+    布局、导出或清理机制。据此只改 naming 与 lifecycle 两处表述，cleanup / diagnostics 结论不变，
+    清理引用按本轮提交重新锚定；新建 codebuddy-local_transcripts-v3。
+  - 排除项与依据：docs/sub-agents.md 的 disable-model-invocation 属 custom_agents 主题；
+    docs/web-ui.md 中继访问、docs/http-api.md 的 fs locate 与 Lite 变体端点、docs/models.md
+    的 TUI 描述语言、docs/goal.md 的评估提示词、docs/mods-api.md 的删除都不属于本轮固定的两个主题
+    与五个问题，且未推翻已发布小节，只作为新增能力记录，不改写。
+  - 版本边界：CodeBuddy Code 闭源，上述结论只证明官方文档在该提交上这样写；npm 2.172.1 身份 已更新但本章不据此建立版本映射。
+  - pending_audit_refs 中的 audit-codebuddy-9f90f95d 与 audit-codebuddy-b2f1e4d2
+    仍保留各自的 pending 状态与问题清单（其范围超出本轮冻结的五个问题），本审计不代为结案；本审计自身的
+    五个固定问题已全部给出结论，但旧审计仍把这五个问题列为未结，故 pending_question_ids 保留它们。
+  - 复核触发判断（已更正）：本轮推翻了已发布的读者可见表述——codebuddy-local_transcripts-v2（v2:189、
+    v2:233）写「含子代理历史的对话会提示暂不支持」，固定提交 docs/slash-commands.md:20（/branch）与
+    :47（/fork）@3d2d64bb 已改为「关联的已结束子代理转录会独立复制」。这属 maintenance 第 5 节「新证据
+    推翻已发布配置步骤」的独立复核触发条件，本轮不能以 worker 自检结案。
+  - 跨主题矛盾（本轮未改写，需协调者排期）：候选仍选择 codebuddy-cli-custom_providers-v2，其
+    providers-responses 小节（knowledge/codebuddy/chapters/codebuddy-cli-custom_providers-v2.md:147）
+    仍写 CODEBUDDY_MAX_RETRIES「默认 1，上限 15」、错误集「429/502/503/529/请求超时/锁超时」、退避
+    「500ms 起步的指数退避加抖动」；新源 docs/env-vars.md:180 @3d2d64bb 写默认 8、上限 15，错误集
+    429 / 除 570-579 之外的 5xx / 请求超时 / 锁超时，退避 1s 起步、每次 2 倍、单次封顶 32s，与本轮
+    configuration v5 的 config-defaults 冲突。custom_providers 不在本轮冻结主题内，故不改写该章；协调者
+    须在 custom_providers 轮次重核 providers-responses 并新建 edition。
+  - 独立复核：rev2-codebuddy 于 2026-10-24 返回 changes_requested；五个固定问题全部 upheld
+    （config.defaults、transcripts.cleanup、transcripts.diagnostics、transcripts.lifecycle、
+    transcripts.naming），无问题结论被改正。已按复核意见修订四项：①记录上述
+    custom_providers 跨主题矛盾并交协调者排期；②更正如上的复核触发判断；③把
+    ref-codebuddy-lt-settings-cleanup-command-20261022 加宽到 docs/settings.md:755-770，使
+    --days/--dry-run 命令行块进入摘录；④恢复 configuration v5「主 Agent 模式的默认值」段的条件范围。
+    因本轮引用未结的旧审计，review_status 保持 pending，不写 reviewed_by / reviewed_at。
+  - 独立复核 rev3-codebuddy（2026-10-22 批次，verdict approved）：rev2-codebuddy 的 4 条 issue 逐条核实
+    关闭——custom_providers 跨主题矛盾已登记并排期、复核触发判断已更正、
+    ref-codebuddy-lt-settings-cleanup-command-20261022 已加宽到 docs/settings.md:755-770 使 --days/--dry-run
+    命令行块进入摘录、configuration v5 的「主 Agent 模式的默认值」段已恢复条件范围。复核判定
+    codebuddy-cli-configuration-v5 与 codebuddy-local_transcripts-v3 可作为当前 edition，协调者据此切换
+    registry 的两行。本审计 review_status 保持 pending、未写 reviewed_by/reviewed_at（引用的旧审计仍未结案）。

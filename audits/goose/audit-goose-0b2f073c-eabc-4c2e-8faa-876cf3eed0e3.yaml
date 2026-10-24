@@ -1,0 +1,124 @@
+schema_version: 2
+audit_id: audit-goose-0b2f073c-eabc-4c2e-8faa-876cf3eed0e3
+harness_id: goose
+checked_at: 2026-10-22T12:54:28.007Z
+previous_audit_id: audit-goose-b3b8ec85-01cd-4143-9159-9871989fd17b
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-goose-703d225e-c7ce-402d-8f1e-d6a2419b387e
+  - audit-goose-b3b8ec85-01cd-4143-9159-9871989fd17b
+checks:
+  - source_id: source-goose-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:54:25.110Z
+    status: changed
+    baseline: 9686d674000a5fbb8139214863289e4820714771
+    observed: 6835dd45a21a701b017abe38aa4204e18fed9213
+    remote_ref: refs/heads/main
+  - source_id: source-goose-npm
+    kind: npm_registry
+    checked_at: 2026-10-22T12:54:25.118Z
+    status: changed
+    baseline: 1.54.0@sha512-Y7whBgcYRn7cvXFs7B5h34iCtmRPkxchrgUskuVu4+YjIv7zQYj9ooSVbOzwE1p4zbMlJO6yFERwbPDSdj+rrQ==
+    observed: 1.55.0@sha512-EuAUMaJfbQt1J0rJQOth50yo231ajJuUNIqqSzp9xrP49W6BOa5JJDEZccNf7iVSZtHBTEVashO0bdZItztjew==
+impacts:
+  - topic: custom_agents
+    question_ids:
+      - agents.roles
+      - agents.diagnostics
+    section_ids:
+      - agents-roles
+      - agents-diagnostics
+      - agents-overrides
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-goose-agents-src-gdk-subagent-20261022
+      - ref-goose-agents-src-subagent-operation-20261022
+      - ref-goose-agents-src-subagent-messages-20261022
+      - ref-goose-agents-src-ops-subagent-notices-20261022
+      - ref-goose-agents-src-ops-subagent-runner-20261022
+      - ref-goose-agents-src-subagent-meta-strip-20261022
+      - ref-goose-agents-src-subagent-meta-strip-call-20261022
+      - ref-goose-agents-src-delegate-resume-20261022
+      - ref-goose-agents-src-resume-validation-20261022
+      - ref-goose-agents-src-max-concurrent-subagents-20261022
+      - ref-goose-agents-src-resolve-max-turns-20261022
+      - ref-goose-agents-src-new-session-extensions-20261022
+      - ref-goose-agents-doc-default-settings-20261022
+      - ref-goose-agents-doc-max-concurrent-20261022
+    cross_topic_links: []
+    reason: 子代理编排迁入 GDK crate
+      goose-agent（SubagentOperation/SubagentRunner/SubagentUpdate 流），goose 侧改为
+      ForegroundSubagentRunner；新增 resume
+      续跑、宿主并发上限、非平台扩展剥除委派元数据；取消结论文案与开始/结束通知改变，故新建 custom_agents v4。
+  - topic: custom_providers
+    question_ids:
+      - providers.models
+      - providers.metadata
+    section_ids:
+      - providers-models
+      - providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-goose-providers-src-cache-cost-fields-20261022
+      - ref-goose-providers-src-declared-cost-precedence-20261022
+      - ref-goose-providers-src-cost-merge-20261022
+      - ref-goose-providers-doc-custom-model-prices-20261022
+    cross_topic_links: []
+    reason: ModelInfo 新增 cache_read_token_cost/cache_write_token_cost
+      并接入定价合并，文档新增「Custom Model Prices」一节；模型成本元数据与生效规则变化，故新建 custom_providers
+      v4。
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage：maintain。只读观察时间 2026-10-22T12:54:28.007Z；Git 来源
+    9686d674..6835dd45（217 个变更路径），npm 1.54.0→1.55.0。工作区
+    ws-6835dd45a21a-ed682a81-2ea7-47ce-9f39-7cf89fecfab9 只读使用，未复制任何 checkout
+    或文档原件进候选。
+  - skills（9 个固定问题，全部结案、不建新 edition）：crates/goose/src/skills/mod.rs 只是把发现与参数替换搬到
+    goose-agent::skills，算法逐行等价——all_skill_dirs_with_config 的根目录清单与顺序未变（项目
+    .agents/.goose/.claude → 项目插件 → ~/.agents → config_dir/skills → ~/.claude →
+    ~/.config/agents → 用户插件），SKILL.md 精确文件名、跳过 .git/.hg/.svn、符号链接 + canonicalize
+    去环、先到先得去重、内置技能最后追加且路径为 builtin://skills/NAME 均保持
+    [ref-goose-skills-src-roots][ref-goose-skills-src-scan][ref-goose-skills-src-walk]；arguments.rs
+    与原文件唯一差异是把 split_command_args 从 crate::utils 内联，占位符正则与「无可解析占位符则追加
+    ARGUMENTS:」行为一致 [ref-goose-skills-src-args]；ops_skills.rs 不在变更清单内，聊天模式跳过
+    load_skill 的条件仍成立 [ref-goose-skills-src-chat]。GOOSE_MAX_CONCURRENT_SUBAGENTS
+    一类并发参数不在 skills 的加载链上，不影响结论。
+  - custom_agents（agents.roles、agents.diagnostics）：确认四类机制变化。其一，子代理调度变为 GDK 的
+    SubagentOperation，通过 SubagentRunner 特征与 SubagentUpdate
+    流（ToParent/Finished）驱动，三态结局 Completed/Failed/Cancelled；goose 侧由
+    ForegroundSubagentRunner 实现。其二，delegate 新增 resume：只接受
+    instructions，未完成且属于本会话的子代理可续跑，默认补 `Continue the task from where you left
+    off.`。其三， 非平台扩展的工具结果会被剥掉 subagent_session_id（配合
+    ExtensionMutation::take），因此只有平台扩展能产生委派 标记。其四，可见行为改变：开始/结束改为 InlineMessage
+    系统通知（Running subagent ID (任务摘要)、completed/failed 文案），取消消息改为 `Subagent ID was
+    cancelled before it finished.`，流未给出结局时记为 `it ended without an outcome` 失败。
+  - custom_agents 的范围扩展与依据：同一提交把子代理的配置链一起改了——resolve_max_turns 合并为单一函数（params →
+    recipe settings → GOOSE_SUBAGENT_MAX_TURNS →
+    default_max_turns=GOOSE_MAX_TURNS/1000，删除常量 25）， resolve_subagent_config 改用
+    resolve_extensions_for_new_session（子 recipe 声明的 extensions 优先于父会话继承），
+    并新增宿主并发上限 GOOSE_MAX_CONCURRENT_SUBAGENTS（默认 5）。这些句子位于 agents-overrides 小节、属于
+    agents.overrides/agents.limits 的答案范围，本轮固定问题未包含它们；但继续保留会让同一版章节自相矛盾（旧文写「没有
+    并发配置项」「默认 25」「省略=继承全部」），因此按 Skill 的「同一加载入口变化沿调用关系扩展」条款做了最小正文更正， 未改动这两个问题的
+    status 与答案 source_refs，供 parent 判断是否需另行派发。
+  - custom_providers（providers.models、providers.metadata）：ModelInfo 新增
+    cache_read_token_cost / cache_write_token_cost（per-token
+    USD，Option），pricing_from_model_info 现在把它们乘以 1e6 转成每百万令牌价； resolve_pricing 在
+    canonical 与 bundled 合并时补缓存价，merge_pricing 让声明价（含 0）优先、只补缺失，输入与输出都 为 0
+    时直接返回声明价。文档新增「Custom Model Prices」一节，与源码一致：输入/输出价必须同时存在，缓存价独立可选， provider
+    自报成本优先于估算，配置文件价格实时生效。providers.diagnostics 未变（错误串、providers()、goose info
+    --check 均未改动，成本回退警告在基线已存在）。
+  - 已核对但排除：crates/goose-provider-types/src/canonical/data/*.json
+    为目录数据刷新（新模型、provider model_count，canonical_models.json 为按 id 重排 +
+    新增条目），属数据而非机制；openrouter.rs 的内置 provider 模型发现缓存（5s 超时 / 1h 成功 TTL / 60s 失败
+    TTL）属内置 provider，不在自定义 provider 主题的现状范围内； agent.rs 的自动 thinking
+    effort（GOOSE_AUTO_EFFORT_ENABLED/TYPESAFE_API_KEY）与 provider session resume
+    属代理 循环与 providers.responses；prompt_manager.rs 删除未被模板引用的 enable_subagents
+    字段；ops_auto_effort.rs、 acp/ui/打包与 CI 变更与三个主题无关。
+  - 未解决缺口（不阻塞本轮结论）：subagent 5 分钟超时的实现位置仍未确立；agent 文件解析失败/重名告警的细粒度输出未记录； CLI
+    侧「子代理工具调用实时显示」仍只有文档证据（crates/goose-providers 的请求构造、重试与错误映射也未核对）。
+  - 候选自检：pnpm -s maintenance:candidates check --candidate <candidate> 通过；>0 的
+    pending_audit_refs 保持原样， 其阻塞未在本轮关闭。

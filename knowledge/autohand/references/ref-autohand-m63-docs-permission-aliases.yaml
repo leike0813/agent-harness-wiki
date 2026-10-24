@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-m63-docs-permission-aliases
+harness_id: autohand
+snapshot_id: snapshot-autohand-m63-docs-config-reference-md
+locator:
+  kind: file_lines
+  file: docs/config-reference.md
+  start: 1413
+  end: 1421
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  ### `denyList`
+
+  Array of tool patterns that are always blocked, including runs started with `--yes` or `--unrestricted`.
+
+  ```json
+  ["run_command:rm -rf /", "run_command:sudo *"]
+  ```
+
+  `whitelist` and `blacklist` are deprecated aliases for `allowList` and `denyList`. They are read only when the matching new key is absent, so a config that sets both uses `allowList` and `denyList` and ignores the older keys.

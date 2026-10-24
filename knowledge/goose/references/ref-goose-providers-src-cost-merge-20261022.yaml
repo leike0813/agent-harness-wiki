@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-cost-merge-20261022
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261022-canonical-cost
+locator:
+  kind: file_lines
+  file: crates/goose/src/providers/canonical_cost.rs
+  start: 118
+  end: 147
+official_url: "https://github.com/block/goose/blob/6835dd45a21a701b017abe38aa4204e18fed9213/crates/goose/src/providers/canonical_cost.rs"
+excerpt: |2-
+  fn merge_pricing(mut declared: Pricing, base: &Pricing) -> Pricing {
+      if matches!(declared.input, Some(0.0)) && matches!(declared.output, Some(0.0)) {
+          return declared;
+      }
+      if declared.cache_read.is_none() {
+          declared.cache_read = base.cache_read;
+      }
+      if declared.cache_write.is_none() {
+          declared.cache_write = base.cache_write;
+      }
+      declared
+  }
+
+  fn pricing_from_model_info(info: &ModelInfo) -> Option<Pricing> {
+      Some(Pricing {
+          input: Some(info.input_token_cost.map(|c| c * 1_000_000.0)?),
+          output: Some(info.output_token_cost.map(|c| c * 1_000_000.0)?),
+          cache_read: info.cache_read_token_cost.map(|c| c * 1_000_000.0),
+          cache_write: info.cache_write_token_cost.map(|c| c * 1_000_000.0),
+          tiers: Vec::new(),
+      })
+  }

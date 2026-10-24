@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-providers-config-models
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261022-docs-models-configuration-md
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/models-configuration.md
+  start: 26
+  end: 38
+official_url: https://github.com/earendil-works/pi/blob/be14d9732f98fcc33929cf103a92b96afaa6523e/packages/coding-agent/docs/models-configuration.md
+excerpt: |-
+  ## Models
+
+  Each `models` entry adds a model to the provider. An entry whose `id` matches an existing model replaces it.
+
+  | Field | Type | Default | Description |
+  |---|---|---|---|
+  | `id` | string |  | Required. Model ID sent to the API. |
+  | `name` | string |  | Display name, also matched by --model patterns. |
+  | `api` | string |  | Overrides the provider api. |
+  | `baseUrl` | string |  | Overrides the provider baseUrl. |
+  | `reasoning` | boolean | `false` | Whether the model supports thinking. |
+  | `thinkingLevelMap` | object |  | Provider value sent for each thinking level. null marks a level unsupported. Levels the model does not map use the provider's default value through high; xhigh and max are unsupported. |
+  | `input` | `("text" \| "image")[]` | `["text"]` |  |

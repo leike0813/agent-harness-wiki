@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-20261022-mcp-oauth-token-stem
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-20261022-mcp-auth-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/mcp_auth.py
+  start: 248
+  end: 262
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def _token_file_stem(
+      server_name: str, server_url: str | None, oauth_client_id: str | None = None
+  ) -> str:
+      """Return a path-safe storage stem for this server identity.
+  ...
+      """
+      if oauth_client_id is not None:
+          server_url = json.dumps([server_url, oauth_client_id])
+      if server_url is None:
+          return server_name
+      digest = hashlib.sha256(server_url.encode("utf-8")).hexdigest()[:16]
+      return f"{server_name}-{digest}"

@@ -1,0 +1,269 @@
+schema_version: 2
+audit_id: audit-zoo-code-ecb2d7bc-6539-4912-b9e0-f23e6722fb17
+harness_id: zoo-code
+checked_at: 2026-10-22T12:57:23.673Z
+previous_audit_id: audit-zoo-code-35f606aa-c413-4130-9154-24ab3bdd00e3
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-zoo-code-f9720bc5-ced6-4b53-8895-f2f811b13824
+  - audit-zoo-code-583abb97-bedb-4196-abc0-054e4fe26037
+  - audit-zoo-code-fb456d07-a446-4740-9ea5-9bb298d13e00
+  - audit-zoo-code-35f606aa-c413-4130-9154-24ab3bdd00e3
+checks:
+  - source_id: source-zoo-code-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:57:21.523Z
+    status: changed
+    baseline: 58341d882e57e9dd7eb50c5187a52917541789eb
+    observed: 05d01f33d03a7fd54baf8b7c61acf53824c56358
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs
+    kind: git_repository
+    checked_at: 2026-10-22T12:57:21.534Z
+    status: changed
+    baseline: dfd2628c31073ec6b111bfedbcd071d197d37ad2
+    observed: d596980c5efde2f72be2f92a74af972b9aa072d8
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs-site
+    kind: official_documentation
+    checked_at: 2026-10-22T12:57:21.543Z
+    status: unchanged
+    baseline: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    observed: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    resolved_url: https://docs.zoocode.dev/
+impacts:
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+    section_ids:
+      - providers-entry
+      - providers-protocol
+      - providers-models
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-src-openai-compatible-usage-details
+      - ref-zoo-code-src-openai-compatible-type-only-05d
+      - ref-zoo-code-src-provider-model-patch-keys-05d
+      - ref-zoo-code-src-provider-model-patch-05d
+      - ref-zoo-code-src-provider-model-bedrock-05d
+      - ref-zoo-code-src-provider-model-allowlist-05d
+      - ref-zoo-code-src-provider-model-patch-webview-05d
+      - ref-zoo-code-src-model-id-keys-05d
+      - ref-zoo-code-src-model-info-tool-calling-05d
+      - ref-zoo-code-src-model-cache-public-refresh-05d
+      - ref-zoo-code-src-model-cache-public-providers-05d
+      - ref-zoo-code-src-provider-settings-base
+      - ref-zoo-code-src-model-info
+    cross_topic_links:
+      - config.sources
+      - config.defaults
+      - config.migration
+    reason: 本轮提交删除并行的 Vercel AI SDK 兼容实现（src/api/providers/openai-compatible.ts
+      只剩配置接口）、给 ModelInfo 增加 supportsToolCalling、把模型切换收敛到
+      ClineProvider.updateProfileModel 的受限 patch（Bedrock ARN
+      与组织白名单校验），并给公共模型目录增加 IO Intelligence
+      后台刷新；providers.protocol、providers.models、providers.metadata 的答案因此改写为
+      edition v6。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-recorded-content
+      - transcripts-record-schema
+      - transcripts-diagnostics
+      - transcripts-storage-layout
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-lt-cline-message-fields
+      - ref-zoo-code-lt-cline-says-doc-05d
+      - ref-zoo-code-lt-cline-says-list-05d
+      - ref-zoo-code-lt-ignored-disabled-tools-say-05d
+      - ref-zoo-code-lt-ignored-disabled-tools-comment-05d
+      - ref-zoo-code-lt-ui-messages-parse-check
+      - ref-zoo-code-lt-task-messages-error-detail-05d
+      - ref-zoo-code-lt-api-messages-array-check
+    cross_topic_links:
+      - config.sources
+      - config.defaults
+      - config.diagnostics
+    reason: ui_messages.json 的 say 枚举新增 ignored_disabled_tools_warning（任务启动时对
+      disabledTools 中点名协议工具的提示），读取失败的 TaskMessagesReadError 消息附带底层错误码或 Error
+      详情；记录类型与诊断答案因此改写为 edition v2，布局与写入格式不变。
+  - topic: configuration
+    question_ids:
+      - config.migration
+    section_ids:
+      - config-migration
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-docs-modes-migration
+      - ref-zoo-code-src-modes-parse
+      - ref-zoo-code-src-provider-profiles
+      - ref-zoo-code-src-provider-repetition-migration-flag-496
+      - ref-zoo-code-src-provider-repetition-migration-fresh-496
+      - ref-zoo-code-src-provider-repetition-nullable-496
+      - ref-zoo-code-src-provider-repetition-shape-496
+      - ref-zoo-code-src-router-removal
+      - ref-zoo-code-src-roo-history-import
+    cross_topic_links:
+      - providers.entry
+    reason: 无知识变化。packages/types/src/provider-settings/common.ts 的改动只是
+      nullableOptional 的 Zod 类型断言与 ProviderDefinition.schema
+      类型收窄；ProviderSettingsManager 只在 token 字段过滤里补
+      disposeApiHandler，迁移标记、迁移顺序、null 预处理与 router 降级都不变，已发布 edition v3 保持。
+  - topic: custom_agents
+    question_ids:
+      - agents.format
+      - agents.overrides
+    section_ids:
+      - agents-format
+      - agents-overrides
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-src-modes-parse
+      - ref-zoo-code-src-mode-schema
+      - ref-zoo-code-schema-roomodes
+      - ref-zoo-code-src-modes-merge
+    cross_topic_links:
+      - config.sources
+    reason: 无知识变化。schemas/roomodes.json 只把 $schema 移到文件头、把
+      additionalItems/minItems/maxItems 移到 items
+      之后，约束等价；packages/types/src/mode.ts 只改组元组的类型断言注释；解析、覆盖与规则目录优先级的答案不变。
+  - topic: hooks
+    question_ids:
+      - hooks.conditions
+      - hooks.diagnostics
+      - hooks.entry
+      - hooks.input
+      - hooks.order
+      - hooks.output
+    section_ids:
+      - hooks-entry
+      - hooks-diagnostics
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-src-tool-policy
+      - ref-zoo-code-src-mcp-watchpaths
+      - ref-zoo-code-src-mcp-init-fetch
+      - ref-zoo-code-src-mcp-global-watch
+      - ref-zoo-code-src-extension-contrib
+    cross_topic_links:
+      - mcp.capabilities
+      - plugins.api
+    reason: 无知识变化。src/core/prompts/tools/effective-tool-policy.ts 的改动只把用户
+      disabledTools 里点名协议工具的条目剥离（协议工具不受用户禁用约束），仍没有事件注册表、回调分发器或脚本执行入口；"没有 Hook
+      机制"的结论不变。
+  - topic: mcp
+    question_ids:
+      - mcp.capabilities
+      - mcp.exposure
+    section_ids:
+      - mcp-capabilities
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-src-mcp-init-fetch
+      - ref-zoo-code-src-mcp-resources
+      - ref-zoo-code-src-mcp-read-resource
+      - ref-zoo-code-src-mcp-name
+      - ref-zoo-code-src-mcp-tool-name
+      - ref-zoo-code-src-mcp-server-tools
+      - ref-zoo-code-src-tool-policy
+    cross_topic_links:
+      - hooks.entry
+      - plugins.discovery
+    reason: 无知识变化。McpHub 的改动是 Zod 4 API 迁移（z.record(key,value)、error.issues），以及 MCP
+      OAuth 缓存按 issuer 绑定；tools/resources 的枚举与命名、allowedMcpServers 与
+      disabledTools/excludedTools 的暴露规则不变。
+  - topic: native_plugins
+    question_ids:
+      - plugins.api
+      - plugins.diagnostics
+      - plugins.discovery
+      - plugins.lifecycle
+    section_ids:
+      - plugins-discovery
+      - plugins-api
+      - plugins-diagnostics
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-src-build-tools-custom
+      - ref-zoo-code-src-custom-tools-load
+      - ref-zoo-code-src-custom-tools-validate
+      - ref-zoo-code-src-custom-tools-dirs
+      - ref-zoo-code-src-custom-tool-api
+      - ref-zoo-code-src-marketplace-config
+      - ref-zoo-code-src-roo-dirs-for-cwd
+    cross_topic_links:
+      - config.sources
+      - mcp.diagnostics
+    reason: 无知识变化。src/core/task/build-tools.ts 只删除了未被调用的 buildNativeToolsArray
+      包装；自定义工具的目录发现、mtime 失效重载、同名覆盖、esbuild 缓存与 marketplace 声明式条目行为都不变。
+pending_question_ids:
+  - agents.format
+  - agents.overrides
+  - config.migration
+  - hooks.conditions
+  - hooks.diagnostics
+  - hooks.entry
+  - hooks.input
+  - hooks.order
+  - hooks.output
+  - mcp.capabilities
+  - mcp.exposure
+  - plugins.api
+  - plugins.diagnostics
+  - plugins.discovery
+  - plugins.lifecycle
+  - providers.auth
+  - providers.entry
+  - providers.metadata
+  - providers.models
+  - providers.protocol
+  - transcripts.diagnostics
+  - transcripts.format
+  - transcripts.schema
+  - transcripts.scope
+investigation_notes:
+  - 本轮为固定来源模式，只使用 observation 2026-10-22T12:57:23.673Z 与 pinned workspace
+    ws-05d01f33d03a（05d01f3，baseline
+    58341d8）、ws-d596980c5efd（d596980）；未重扫或重新抓取上游。
+  - 机制级 diff 集中在 5 处：src/core/webview/ClineProvider.ts（updateProfileModel 受限
+    patch、Bedrock ARN 与组织白名单、profile 写入队列
+    runToCompletion）、packages/types/src/provider-settings/common.ts（仅类型断言）、src/core/task/Task.ts（API
+    handler 生命周期、abort 状态封装、ignored_disabled_tools_warning、run-state
+    校验）、schemas/roomodes.json（约束重排，语义等价）、src/api/providers/openai-compatible.ts（删除并行
+    AI SDK 实现，205 行）。
+  - 已发布引用的行定位不再命中（本轮 22
+    条，复核后范围更大）经逐条复核分为两类：多数是同一文件较靠前的插入导致行号平移，引用自身绑定的快照与摘录仍成立（引用绑定的是各自 commit，如
+    bf3bc78/d7963fc2/496bd11/1d37994/2baac5e），因此不据此新建 edition；只有支撑本轮新事实的引用改用新 id
+    并固定到 snapshot-zoo-code-repo-20261022（artifact-zoo-code-repo-20261022，commit
+    05d01f3，README.md sha256 0b301f7e…）。
+  - 文档仓库 d596980
+    的三个改动页（docs/providers/bedrock.md、gemini.md、vertex.md）只新增内置模型介绍（Gemini 4
+    Argon、Claude 5 系列），不改变 providers.* 机制答案；这些页面未被在册章节引用，未新增 archived_document
+    引用。
+  - 新增 edition：zoo-code-vscode-custom_providers-v6（providers.protocol
+    删除已不存在的并行兼容实现描述；providers.models 增加模型切换受限写入与公共目录后台刷新；providers.metadata 增加
+    supportsToolCalling）与 zoo-code-vscode-local_transcripts-v2（say
+    枚举新增值、读取错误带底层原因）；旧 edition v5 / v1 未改动，registry/chapter-current.yaml 已切换。
+  - 本轮未改正文但已观察、属其他轮次范围的变化：MCP OAuth 数据按 issuer 绑定（对应
+    mcp.auth）、collapseCommandOutputByDefault 新设置（config.defaults）、协议工具不受用户
+    disabledTools 约束及 ignored_disabled_tools_warning 提示（mcp.exposure /
+    hooks.conditions 的细节）、Task 的 API handler 释放与 abort 状态机重构。固定问题未覆盖，本轮不重审。
+  - pending_audit_refs 中四份历史审计仍为 pending 且各有自己的 blocker，本审计只是沿用引用关系，不以 reviewed
+    状态关闭它们。

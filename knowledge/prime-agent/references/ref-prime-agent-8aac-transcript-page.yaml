@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-8aac-transcript-page
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-8aac-crates-pa-daemon-src-session-store-view-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_store/view.rs
+  start: 470
+  end: 479
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/8aac8692456c00c01d4e53e60e6d3347a3506559/crates/pa-daemon/src/session_store/view.rs
+excerpt: |2
+      /// One page of the display transcript; `None` when an anchor row is not on the branch.
+      /// The page walks from its anchor, so its cost follows the page, not the session.
+      #[must_use]
+      pub fn transcript_page(&self, page: &TranscriptPage) -> Option<TranscriptPageRows> {
+          let (rows, more) = match page {
+              TranscriptPage::End { before, limit } => self.end_page(before.as_deref(), *limit)?,
+              TranscriptPage::Start {
+                  after,
+                  until,
+                  limit,

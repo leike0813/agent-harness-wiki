@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-ops-subagent-runner-20261022
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261022-ops-subagent
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/state_machine/ops_subagent.rs
+  start: 89
+  end: 100
+official_url: "https://github.com/block/goose/blob/6835dd45a21a701b017abe38aa4204e18fed9213/crates/goose/src/agents/state_machine/ops_subagent.rs"
+excerpt: |2-
+      fn requested_subagent_session_ids(
+          &self,
+          parent_session: &Session,
+          message: &Message,
+      ) -> Vec<String> {
+          if parent_session.session_type == SessionType::SubAgent {
+              return Vec::new();
+          }
+          delegated_subagent_ids(&message.content)
+              .map(str::to_owned)
+              .collect()
+      }

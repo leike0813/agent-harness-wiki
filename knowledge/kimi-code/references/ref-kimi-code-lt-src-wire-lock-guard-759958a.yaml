@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-wire-lock-guard-759958a
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-wire-service-759958a
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/wire/wireService.ts
+  start: 88
+  end: 95
+official_url: https://github.com/MoonshotAI/kimi-code/blob/759958afdfeb0f8c7d09cb03cbc2cf85b6255e9e/packages/agent-core-v2/src/wire/wireService.ts
+excerpt: |-
+  this._register(this.log.acquire(this.wireScope, AGENT_WIRE_RECORD_KEY));
+  this._register(
+    this.log.bindWriteGuard(this.wireScope, AGENT_WIRE_RECORD_KEY, () =>
+      this.sessionLocks.tryHold(this.sessionContext.sessionId),
+    ),
+  );

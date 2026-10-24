@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-plugins-manifest-derived-dirs
+harness_id: zed
+snapshot_id: snapshot-zed-extension-manifest-rs-5030407
+locator:
+  kind: file_lines
+  file: crates/extension/src/extension_manifest.rs
+  start: 373
+  end: 441
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  let languages_dir = extension_path.join("languages");
+  if fs.is_dir(&languages_dir).await {
+      let mut language_dir_entries = fs
+          .read_dir(&languages_dir)
+          .await
+          .context("listing languages directory")?;
+
+      while let Some(language_dir) = language_dir_entries.next().await {
+          let language_dir = language_dir?;
+          let config_path = language_dir.join(LanguageConfig::FILE_NAME);
+          if fs.is_file(config_path.as_path()).await {
+              let relative_language_dir = language_dir
+                  .strip_prefix(extension_path)?
+                  .to_rel_path_buf()?;
+              if !self.languages.contains(&relative_language_dir) {
+                  self.languages.push(relative_language_dir);
+              }
+          }
+      }
+  }

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-compaction-rebuild
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-history-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/core/src/session/history.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/history.ts
+  start: 144
+  end: 182
+excerpt: |-
+  /**
+   * A summary compaction references its kept messages by `metadata.keepID` instead of storing them, so
+   * history rebuilds their text from the messages between that one and the compaction, in memory only (see
+   * `SessionRecentText.kept`). Compactions written before the reference have none and keep the text they stored.
+   */
+  const withRecentText = Effect.fnUntraced(function* (
+    db: DatabaseService,
+    sessionID: SessionSchema.ID,
+    entries: ReadonlyArray<{ readonly seq: number; readonly message: SessionMessage.Info }>,
+  ) {
+    const first = entries[0]
+    const compaction = first?.message
+    if (compaction?.type !== "compaction" || compaction.status !== "completed") return entries
+    const keepID = compaction.metadata?.keepID
+    if (!Schema.is(SessionMessage.ID)(keepID)) return entries

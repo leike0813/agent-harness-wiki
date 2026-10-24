@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-plugin-reserved
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/plugins/_native.py
+  start: 83
+  end: 96
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  # Tool namespaces a plugin cannot claim: Harness built-ins, the live `agents`
+  # namespace, the retired `agent`, `subagent` and `collaboration` namespaces (which
+  # hold replay-only functions), and `vibe`.
+  _RESERVED_NAMESPACES = frozenset({
+      "agent",
+      "agents",
+      "collaboration",
+      "file_system",
+      "process",
+      "self",
+      "skill",
+      "subagent",
+      "vibe",
+  })

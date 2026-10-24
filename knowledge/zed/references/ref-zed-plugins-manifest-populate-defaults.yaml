@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-plugins-manifest-populate-defaults
+harness_id: zed
+snapshot_id: snapshot-zed-extension-manifest-rs-5030407
+locator:
+  kind: file_lines
+  file: crates/extension/src/extension_manifest.rs
+  start: 353
+  end: 483
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  /// Fills in the parts of the manifest that are derived from the extension's
+  /// directory layout (languages, themes, icon themes, snippets, library kind).
+  pub async fn populate_defaults(
+      &mut self,
+      extension_path: &Path,
+      fs: Arc<dyn Fs>,
+  ) -> Result<()> {
+      // For legacy extensions on the v0 schema (aka, using `extension.json`), clear out any existing
+      // contents of the computed fields, since we don't care what the existing values are.
+      if self.schema_version.is_v0() {
+          self.languages.clear();
+          self.grammars.clear();
+          self.themes.clear();
+      }
+
+      let cargo_toml_path = extension_path.join("Cargo.toml");
+      if cargo_toml_path.exists() {
+          self.lib.kind = Some(ExtensionLibraryKind::Rust);

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-providers-entry-redirect
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261022-docs-custom-provider-md
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/custom-provider.md
+  start: 32
+  end: 47
+official_url: https://github.com/earendil-works/pi/blob/be14d9732f98fcc33929cf103a92b96afaa6523e/packages/coding-agent/docs/custom-provider.md
+excerpt: |-
+  ### Redirect an existing provider
+
+  Register only the fields that should change. This keeps the provider's built-in catalog, authentication, API implementation, and compatibility settings:
+
+  ```typescript
+  import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+
+  export default function (pi: ExtensionAPI) {
+    pi.registerProvider("anthropic", {
+      baseUrl: "https://gateway.example.com/anthropic",
+      headers: {
+        "X-Gateway-Key": "$GATEWAY_API_KEY",
+      },
+    });
+  }
+  ```

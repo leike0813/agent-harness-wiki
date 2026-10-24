@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-skills-file-encoding
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-git-file-utils
+locator:
+  kind: file_lines
+  file: packages/core/src/utils/fileUtils.ts
+  start: 261
+  end: 277
+official_url: "https://github.com/google-gemini/gemini-cli/blob/09d81bf116b6f0ef084731dc996aa9d56438bb70/packages/core/src/utils/fileUtils.ts"
+excerpt: |-
+  export async function readFileWithEncoding(
+    filePath: string,
+    expectedStats?: fs.Stats,
+  ): Promise<string> {
+    // Read the file once securely; detect BOM and decode from the single buffer.
+    const full = await readSecureFileBuffer(filePath, expectedStats);
+    if (full.length === 0) return '';
+
+    const bom = detectBOM(full);
+    if (!bom) {
+      // No BOM → treat as UTF‑8
+      return full.toString('utf8');
+    }
+
+    // Strip BOM and decode per encoding
+    return decodeBOMContent(full, bom);
+  }

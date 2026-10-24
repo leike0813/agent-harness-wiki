@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-provider-missing-key
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 41
+  end: 52
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  class MissingAPIKeyError(RuntimeError):
+      def __init__(
+          self, env_key: str, provider_name: str, *, keyring_error: str | None = None
+      ) -> None:
+          message = f"Missing {env_key} environment variable for {provider_name} provider"
+          if keyring_error:
+              message = (
+                  f"Can't read {env_key} from the system keyring for {provider_name} "
+                  f"provider ({keyring_error}). Approve the keyring prompt or set "
+                  f"the {env_key} environment variable"
+              )
+          super().__init__(message)

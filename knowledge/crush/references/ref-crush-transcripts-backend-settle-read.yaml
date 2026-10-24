@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-backend-settle-read
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261022-internal-backend-session-go
+locator:
+  kind: file_lines
+  file: internal/backend/session.go
+  start: 77
+  end: 85
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  	// Every remote client reads through here, so this is where interrupted
+  	// calls get settled for them.
+  	if ws.AgentCoordinator != nil {
+  		return ws.AgentCoordinator.ListSettledMessages(ctx, sessionID)
+  	}
+  	// Drain debounced updates so clients observe the latest in-memory state.
+  	if err := ws.Messages.FlushAll(ctx); err != nil {
+  		return nil, err
+  	}

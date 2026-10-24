@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-context-v2
+harness_id: command-code
+snapshot_id: snapshot-source-command-code-docs-mods-14e4c167d85f
+locator:
+  kind: document_section
+  heading: "`ModContext.session`: saved mod data"
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  **`appendCustomEntry({customType, data?})`** - a `custom` tree entry. Mod-private data; **never** sent to the LLM, never rendered.
+  **`appendCustomMessageEntry({customType, content, display, details?})`** - a `custom_message` tree entry. Content the model SHOULD see: it is projected as an ordinary `user` message on the NEXT turn ...
+  The call returns `{entryId, message}` - a mod MUST fold `message` onto the `AgentState` it hands back from its hook ...
+  **`getCustomEntries({customType})`** - reads back every `custom` entry this mod itself wrote (filtered by `customType`) ... over the ACTIVE branch's full entry list.
+  `session` is absent ... only for a bare unit-test config built without a durable store ...
+  A `--no-session` run DOES populate `session` - entries still append ...

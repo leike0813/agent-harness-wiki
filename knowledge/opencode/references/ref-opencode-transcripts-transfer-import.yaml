@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-transfer-import
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-transfer-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/core/src/session/transfer.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/transfer.ts
+  start: 64
+  end: 88
+excerpt: |-
+  import: Effect.fn("SessionTransfer.import")(function* (input) {
+    const sessionID = input.data.info.id
+    const recorded = yield* db
+      .select({ id: SessionTable.id })
+      .from(SessionTable)
+      .where(eq(SessionTable.id, sessionID))
+      .get()
+      .pipe(Effect.orDie)
+    if (recorded) return yield* new ImportConflictError({ sessionID })
+    if (input.data.info.parentID) yield* sessions.get(input.data.info.parentID)
+    const project = yield* projects.resolve(input.location.directory)
+    yield* upsertProject(db, project).pipe(Effect.orDie)
+    const importedAt = yield* Clock.currentTimeMillis
+    const messages = input.data.messages.filter(isSettled).map((message, index) => {

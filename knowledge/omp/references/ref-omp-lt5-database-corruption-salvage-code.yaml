@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt5-database-corruption-salvage-code
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-src-session-history-storage-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/history-storage.ts
+  start: 471
+  end: 485
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/packages/coding-agent/src/session/history-storage.ts#L471-L485
+excerpt: "\t#salvage(backupPath: string): void {\n\t\tlet source: Database | undefined;\n\t\ttry {\n\t\t\tsource = new Database(backupPath, { readonly: true });\n\t\t\tconst prompts = readSalvageableRows<Record<keyof HistoryRow, unknown>>(\n\t\t\t\tsource,\n\t\t\t\t\"history\",\n\t\t\t\t\"id, prompt, created_at, cwd, session_id, use_count\",\n\t\t\t).filter(\n\t\t\t\trow =>\n\t\t\t\t\tNumber.isSafeInteger(row.id) &&\n\t\t\t\t\ttypeof row.prompt === \"string\" &&\n\t\t\t\t\trow.prompt.trim() !== \"\" &&\n\t\t\t\t\tNumber.isSafeInteger(row.created_at) &&\n\t\t\t\t\tNumber.isSafeInteger(row.use_count),"

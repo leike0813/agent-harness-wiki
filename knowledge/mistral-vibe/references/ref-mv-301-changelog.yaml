@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-changelog
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: CHANGELOG.md
+  start: 10
+  end: 15
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  ### Added
+
+  - New `enable_auto_approve` setting: when the admin-managed config sets it to `false`, the auto-approve (YOLO) mode is forbidden — the `auto-approve` agent (and any custom agent with `safety = "yolo"`) is hidden and `--auto-approve`/`--yolo` plus `bypass_tool_permissions` are ignored. Per-tool permissions still apply.
+  ...
+  - `vibe -p` waits for the subagents its turn left running before it exits; `--time-limit` and other stops interrupt them, and the `--output-dir` export lists each subagent with its status, model, usage, cost and steps, and copies its journal

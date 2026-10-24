@@ -1,0 +1,262 @@
+schema_version: 2
+audit_id: audit-qwen-code-67a32536-c8ca-43c6-a77f-3a97c7e748df
+harness_id: qwen-code
+checked_at: 2026-10-22T12:55:45.803Z
+previous_audit_id: audit-qwen-code-09fdd70c-8546-4453-9976-314fe6b62dfd
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-qwen-code-42d06e9b-b1b5-410a-8c7c-948096791695
+  - audit-qwen-code-888916ad-b2ec-4dba-9e92-2b032d361ba0
+  - audit-qwen-code-09fdd70c-8546-4453-9976-314fe6b62dfd
+checks:
+  - source_id: source-qwen-code-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:55:43.860Z
+    status: changed
+    baseline: 9dacfdbe1a2047c85b29ebe504c40657daeab3bd
+    observed: 9a83f1080e1432c72a07502417c97bff493b2ea2
+    remote_ref: refs/heads/main
+  - source_id: source-qwen-code-npm
+    kind: npm_registry
+    checked_at: 2026-10-22T12:55:43.868Z
+    status: changed
+    baseline: 0.25.1@sha512-6cEbtfx4Ugl1d3FdFLa8fcsG6knHuUUHqvDseLxGY06Xan8p7Fcd7+g5KlX694zX4mo/+Vh56AHxT/4R15zpYA==
+    observed: 0.26.0@sha512-JFO+gXpc3AVB+sR+ybQUb20DFfBMgB3p+F+rbru6xWeooYTixqOhCa3tOj0gCrDfkRxZFIziIH+zL05JgA2xVw==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.defaults
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-overrides
+      - config-defaults
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-settings-configuration-layers
+      - ref-qwen-settings-settings-files
+      - ref-qwen-settings-the-qwen-directory-in-your-project
+      - ref-qwen-qwen-ignore-how-it-works
+      - ref-qwen-qwen-ignore-how-to-use-ignore-files
+      - ref-qwen-settings-context-files-hierarchical-instructional-context
+      - ref-qwen-settings-environment-variables-table
+      - ref-qwen-configuration-models-dev-environment
+      - ref-qwen-configuration-models-dev-project-exclusion
+      - ref-qwen-settings-tools
+      - ref-qwen-settings-permissions
+      - ref-qwen-settings-tool-execution-sandbox
+      - ref-qwen-settings-ui
+      - ref-qwen-settings-skills
+      - ref-qwen-configuration-memory-mem0
+      - ref-qwen-configuration-mem0-workspace-restricted
+      - ref-qwen-configuration-mem0-operator-scope
+      - ref-qwen-settings-workspace-restricted-list
+      - ref-qwen-settings-memory-agent-timeout-scope
+      - ref-qwen-settings-memory-agent-max-turns-scope
+      - ref-qwen-settings-memory-agent-timeout-scope-doc
+      - ref-qwen-settings-memory-agent-max-turns-scope-doc
+      - ref-qwen-settings-workspace-restricted-root-list
+      - ref-qwen-settings-plugin-configs-key
+      - ref-qwen-configuration-plugin-configs-option-precedence
+      - ref-qwen-extension-mods-plugin-options-precedence
+      - ref-qwen-config-cli-disable-mcp-server-flag-description
+      - ref-qwen-config-cli-disable-mcp-server-option
+      - ref-qwen-config-cli-disable-mcp-server-precedence
+      - ref-qwen-config-cli-disable-mcp-server-exclude-union
+      - ref-qwen-config-cli-disable-mcp-server-allow-then-deny
+      - ref-qwen-config-cli-disable-mcp-server-safe-mode
+      - ref-qwen-config-cli-disable-mcp-server-boot-only
+      - ref-qwen-settings-available-settings-in-settings-json
+      - ref-qwen-settings-example-settings-json
+      - ref-qwen-settings-general
+      - ref-qwen-settings-model
+      - ref-qwen-settings-context
+      - ref-qwen-settings-memory
+      - ref-qwen-settings-agents
+      - ref-qwen-settings-mcp
+      - ref-qwen-settings-experimental
+      - ref-qwen-configuration-mem0-settings-schema
+      - ref-qwen-configuration-tools-freeform
+      - ref-qwen-mem0-options-and-troubleshooting
+      - ref-qwen-extension-mods-plugin-options-declaration
+      - ref-qwen-settings-ui-arrow-keys-scroll-transcript-schema
+      - ref-qwen-settings-ui-arrow-keys-scroll-transcript-doc
+      - ref-qwen-commands-1-10-information-settings-and-help
+      - ref-qwen-settings-command-line-arguments
+      - ref-qwen-settings-environment-variables-env-files
+      - ref-qwen-architecture-direct-cli-flow
+      - ref-qwen-settings-workspace-restricted-warning
+      - ref-qwen-settings-workspace-restricted-strip
+      - ref-qwen-settings-ui-allowed-approval-modes-schema
+      - ref-qwen-settings-ui-allowed-approval-modes-doc
+      - ref-qwen-settings-workspace-restricted-approval-modes
+      - ref-qwen-settings-model-loop-protection-schema
+      - ref-qwen-settings-model-loop-protection-doc
+      - ref-qwen-settings-experimental-generated-ui-schema
+      - ref-qwen-settings-experimental-mods-schema
+      - ref-qwen-settings-experimental-mods-doc
+      - ref-qwen-config-loop-protection-invalid-warning
+    cross_topic_links:
+      - providers.entry
+      - providers.metadata
+      - providers.responses
+      - providers.diagnostics
+      - mcp.entry
+      - plugins.discovery
+      - skills.roots
+    reason: settingsSchema.ts 新增 ui.allowedApprovalModes、model.loopProtection 与
+      experimental.generatedUi 并改写 experimental.mods，settingsUtils.ts 把
+      ui.allowedApprovalModes 加入工作区受限清单，config.ts 为 loopProtection
+      非法值加回落告警；config.defaults、config.overrides、config.diagnostics 的答案因此变化并写入新
+      edition v6，config.sources 核对后未变。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+    section_ids:
+      - transcripts-recording-scope
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-transcripts-recording-toggle
+      - ref-qwen-transcripts-record-identity
+      - ref-qwen-transcripts-record-cwd-version
+      - ref-qwen-transcripts-record-message-payload
+      - ref-qwen-transcripts-record-subtypes-a
+      - ref-qwen-transcripts-record-subtypes-b
+      - ref-qwen-transcripts-record-system-payload
+      - ref-qwen-transcripts-shell-history-path
+      - ref-qwen-transcripts-checkpoints-dir
+      - ref-qwen-transcripts-runtime-status-path
+      - ref-qwen-transcripts-agent-record-subtypes
+      - ref-qwen-transcripts-agent-record-provenance
+    cross_topic_links: []
+    reason: chatRecordingService.ts、sessionService.ts、agent-transcript.ts 与
+      session-writer-lease.ts 在本轮有改动，但改动是 Web Shell/daemon 的消息组删除、hosted 会话的
+      clientInitiatedSkills 标记与写入租约替换，未新增本地 CLI 记录类型、未改 general.chatRecording
+      开关或记录范围，transcripts.scope 的答案保持有效。
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+    section_ids:
+      - mcp-entry
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-mcp-quick-start
+      - ref-qwen-mcp-where-configuration-is-stored-scopes
+      - ref-qwen-settings-mcp
+      - ref-qwen-introduction-qwen-extension-json
+      - ref-qwen-mem0-registered-external-context
+      - ref-qwen-mcp-mem0-bundled-server-gate
+      - ref-qwen-mcp-mem0-bundled-server-conflict
+      - ref-qwen-session-send-mcp-command
+      - ref-qwen-session-send-mcp-stdio-lifetime
+      - ref-qwen-session-send-server-argv
+      - ref-qwen-session-send-claude-mcp-config
+      - ref-qwen-session-send-claude-mcp-flag
+      - ref-qwen-session-send-codex-mcp-overrides
+      - ref-qwen-config-cli-disable-mcp-server-flag-description
+      - ref-qwen-config-cli-disable-mcp-server-option
+      - ref-qwen-config-cli-disable-mcp-server-precedence
+      - ref-qwen-config-cli-disable-mcp-server-exclude-union
+    cross_topic_links:
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - agents.invocation
+      - hooks.conditions
+      - plugins.package
+      - skills.roots
+      - skills.extensions
+    reason: 本轮 settingsSchema.ts 的改动只落在 ui/model/experimental 三组，mcpServers
+      定义、作用域文件与 qwen mcp add 入口均无变化；config.ts 新增的是 qwen daemon 子命令注册，不改变 MCP
+      server 的配置入口，mcp.entry 的答案保持有效。
+  - topic: native_plugins
+    question_ids:
+      - plugins.api
+    section_ids:
+      - plugins-api
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-introduction-custom-commands
+      - ref-qwen-introduction-custom-skills
+      - ref-qwen-introduction-custom-subagents
+      - ref-qwen-introduction-custom-workflows
+      - ref-qwen-agent-plugins-supported-capabilities
+      - ref-qwen-extension-mods-tool-check-permission-restriction
+      - ref-qwen-core-mod-tool-check-restrictive-merge
+      - ref-qwen-core-mod-tool-check-nested-scheduler-excluded
+      - ref-qwen-core-mod-tool-check-sole-producer
+      - ref-qwen-extension-mods-interactive-enable-doc
+      - ref-qwen-extension-mods-interactive-host-doc
+      - ref-qwen-interactive-mod-session-create-gate
+      - ref-qwen-mod-session-interactive-gate
+    cross_topic_links:
+      - skills.extensions
+      - skills.invocation
+      - skills.collision
+    reason: docs/users/extension/mods.md 与新增的
+      interactive-mod-session.ts/mod-session.ts 把 Mod 运行面从 headless
+      扩展到本地交互终端（surface terminal、composer origin、交互工具中间件与预算边界），plugins.api
+      的答案因此变化并写入新 edition v3。
+pending_question_ids:
+  - config.diagnostics
+  - plugins.api
+  - transcripts.scope
+investigation_notes:
+  - 本轮 triage 分类：maintain；只读观察时间 2026-10-22T12:55:45.803Z，会话
+    4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns。
+  - 按已发布章节引用逐条核对：18 条已发布引用的行定位在本轮提交上不再命中。受影响主题
+    configuration、local_transcripts、mcp、native_plugins，受影响小节
+    config-defaults、config-diagnostics、config-overrides、config-sources、mcp-entry、plugins-api、transcripts-recording-scope。
+  - Git 来源 changed 的 3347 个文件中有 14
+    个被章节引用，逐个比对后确认机制级变化：packages/cli/src/config/settings.ts 与
+    packages/cli/src/config/settingsSchema.ts 改动设置与
+    schema、docs/users/configuration/settings.md
+    同步更新、docs/users/extension/mods.md 改动扩展机制、docs/users/features/headless.md 改动
+    headless 行为。
+  - 本轮派发入口：topic configuration、local_transcripts、mcp、native_plugins；固定问题
+    config.defaults、config.diagnostics、config.overrides、config.sources、mcp.entry、plugins.api、transcripts.scope。
+  - "结论（configuration）：settingsSchema.ts 新增
+    ui.allowedApprovalModes（array、mergeStrategy REPLACE、默认 undefined、仅
+    User/System/SystemDefaults、showInDialog 假）、model.loopProtection（enum
+    warn/stop/off、默认 warn、requiresRestart 真）与 experimental.generatedUi（布尔、默认
+    false、requiresRestart 真），并把 experimental.mods 改名为 Mods
+    (Experimental)、showInDialog 改为真、描述扩展为本地交互终端与 headless；settingsUtils.ts 把 {
+    section: 'ui', key: 'allowedApprovalModes' } 加入
+    WORKSPACE_RESTRICTED_SETTINGS；config.ts 的 resolveLoopProtection 对非法值告警一次并回落
+    warn。据此新建 qwen-code-cli-configuration-v6：config.defaults
+    补三组默认值，config.overrides 增加例外三（运维作用域 + REPLACE 合并 + 受限键剥离），config.diagnostics
+    增加非法值告警与 /settings Mods 开关两个可观察信号，config.runtime 修正“Mod
+    只在非交互会话生效”的旧结论。config.sources 的层级、路径与来源入口未变，保持 answered。"
+  - 结论（native_plugins）：Mods 运行面扩展到本地 Ink/OpenTUI 交互终端，InteractiveModSession 仅在
+    experimental.mods 为真且 config.isInteractive() 为真时创建；ModSession.allowed()
+    增加“交互性与终端输出面一致”的约束，其余门控与 headless 相同；交互宿主字段（surface terminal、isInteractive
+    true、composer origin、presentation）、交互工具中间件、60 秒 root 限制与 64 次尝试上限、Esc
+    撤销、初始化失败恢复与 worker 终止后需重启 CLI 等边界均有同提交文档与源码证据。据此新建
+    qwen-code-cli-native_plugins-v3 并改写 plugins-api 的 Mod 段落。
+  - 结论（mcp）：settingsSchema.ts 的 mcp 分组、mcpServers 作用域文件与 qwen mcp add
+    入口在本轮无变化，config.ts 只新增 qwen daemon 子命令注册；mcp.entry 保持原 edition 与 answered
+    状态。
+  - 结论（local_transcripts）：chatRecordingService.ts 新增消息组删除（Web Shell/daemon 路由，重写
+    transcript 并由写租约替换）、压缩检查点新增
+    contextPrefixLength/summaryPrefixLength/directoryContextIndices、ChatRecord
+    新增 clientInitiatedSkills（仅 hosted-workspace
+    会话写入）；sessionService.ts/agent-transcript.ts 无新增
+    subtype，general.chatRecording 开关与本地 CLI 记录范围不变。这些属于 cleanup/schema/hosted
+    路径，未改变 transcripts.scope 的答案（记录哪些内容、由哪个开关控制、哪些内容另行存放），因此保留
+    qwen-code-local_transcripts-v3。
+  - 排除项：docs/users/features/headless.md 的新增章节说明 --safe-mode 保留内置工具并忽略 settings
+    来源的 tools.eager、--max-tool-calls 0 不移除工具 schema；它属于 headless
+    工具预算与排障指导，未改变本轮四个配置固定问题的来源、覆盖或默认值结论，故未写入章节。docs/users/configuration/settings.md
+    对 skills.directories 的补充只是为已存在的设置键补文档，归属 skills 主题且本轮不在范围内，未改写。
+  - review_status 置为 reviewed
+    是因为本轮固定问题（config.defaults、config.diagnostics、config.overrides、config.sources、mcp.entry、plugins.api、transcripts.scope）全部完成；pending_audit_refs
+    按要求原样保留，其中 888916ad 仍列有 config.runtime/config.trust 等历史 pending
+    标记，属本轮范围外的既有阻塞，未被本审计改写或关闭。

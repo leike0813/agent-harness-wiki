@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-hooks-payload
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_foreign_hooks.py
+  start: 256
+  end: 266
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  def _base_payload(context: HookContext) -> dict[str, Any]:
+      # The legacy payload's shared session fields, emitted identically by all three
+      # builders so they cannot drift between points.
+      return {
+          "session_id": context.session_id,
+          # The session's storage root; the durable journal lives under it, which is
+          # what per-session audit and transcript-reading hooks key off.
+          "transcript_path": str(context.session_root) if context.session_root else "",
+          "cwd": str(context.config.workspace.cwd),
+          "parent_session_id": context.parent_session_id,
+      }

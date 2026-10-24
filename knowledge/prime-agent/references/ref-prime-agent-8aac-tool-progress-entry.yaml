@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-8aac-tool-progress-entry
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-8aac-crates-pa-types-src-session-rs
+locator:
+  kind: file_lines
+  file: crates/pa-types/src/session.rs
+  start: 313
+  end: 322
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/8aac8692456c00c01d4e53e60e6d3347a3506559/crates/pa-types/src/session.rs
+excerpt: |2
+
+  /// `type: "tool_progress"`: heartbeat row for a still-running tool call
+  /// (`elapsedMs` since the call started); quiet for short calls.
+  #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+  #[serde(rename_all = "camelCase")]
+  pub struct ToolProgressEntry {
+      pub tool_call_id: String,
+      pub tool_name: String,
+      pub elapsed_ms: u64,
+  }

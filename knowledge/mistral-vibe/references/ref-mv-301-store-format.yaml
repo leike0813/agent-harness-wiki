@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-store-format
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_storage.py
+  start: 91
+  end: 136
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  STORE_FORMAT = "mistral.vibe.unified-session-store/v1"
+  # Readers accept lower minor versions and reject higher ones.
+  ...
+  # 9: atomic session relocation and system-instruction baselines.
+  ...
+  STORE_FORMAT_MINOR = 9
+  ...
+  _CHUNK_TARGET_BYTES = 64 * 1024
+  _CHUNKS_DIRNAME = "chunks"
+  _QUARANTINE_DIRNAME = "quarantine"
+  ...
+  _RETAINED_GENERATIONS = 2

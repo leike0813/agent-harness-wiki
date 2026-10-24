@@ -1,0 +1,190 @@
+schema_version: 2
+audit_id: audit-mistral-vibe-470a3a59-d0b7-455f-bdd8-058e31caccfb
+harness_id: mistral-vibe
+checked_at: 2026-10-22T12:55:14.701Z
+previous_audit_id: audit-mistral-vibe-a1dfa350-8732-4527-893f-bc2f5f0ad076
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-mistral-vibe-21f18606-7f25-4fce-a084-57d2004339d2
+  - audit-mistral-vibe-a1dfa350-8732-4527-893f-bc2f5f0ad076
+checks:
+  - source_id: source-mistral-vibe-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:55:11.588Z
+    status: changed
+    baseline: 4ae5c5955da8e761318916bdb1a7f46f0b50c7d0
+    observed: dd2c04ce717c417731ab89c333cd0a72541e33ba
+    remote_ref: refs/heads/main
+  - source_id: source-mistral-vibe-docs-agents
+    kind: official_documentation
+    checked_at: 2026-10-22T12:55:11.597Z
+    status: changed
+    baseline: 087fa322eb4fe51a3d69761647dfec5c4996dc3aa6c41a4725a6b0c42b35bce6
+    observed: 28495614ee273dd516e5629bf16379809e812b04c85a0b9a4b3ca7878412bd8c
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/agents.md
+  - source_id: source-mistral-vibe-docs-api-keys
+    kind: official_documentation
+    checked_at: 2026-10-22T12:55:11.599Z
+    status: changed
+    baseline: 926431a0e2758a8d71c4e03f118cc47ed06fca5cb445d36f886f6eeca844cf68
+    observed: 75f588a08b055403c24a7d921d2dc1db896a36089c9d10d4224f264afc56f253
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/api-keys-profiles.md
+  - source_id: source-mistral-vibe-docs-configuration
+    kind: official_documentation
+    checked_at: 2026-10-22T12:55:11.599Z
+    status: changed
+    baseline: 6dcf543b738dfa70c597f881d54f677df53bbd30683b563f1c11adf983d689c3
+    observed: ab1722a298821e8452255630ec11fbb7dbe5e12a14d88bace6583eb7ec90cb60
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/configuration.md
+  - source_id: source-mistral-vibe-docs-configuration-reference
+    kind: official_documentation
+    checked_at: 2026-10-22T12:55:12.987Z
+    status: changed
+    baseline: d4c6981b051a8831a3b7c3692711214a3bab05a0b39db229048c78d9618334f7
+    observed: b09e575dd34cdf35dde391d8e4b38c0d340cfb0518d0fbb4e2a0834c732ec692
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/configuration-reference.md
+  - source_id: source-mistral-vibe-docs-hooks
+    kind: official_documentation
+    checked_at: 2026-10-22T12:55:13.190Z
+    status: changed
+    baseline: 1693ed84151385fae02169f87833353acbe906bd7f30f08ace0688fcded256ed
+    observed: cc82106acc635e7c66c3fd4cf02c3861a71578f118b4a041b4bbdd03d7c3d549
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/hooks.md
+  - source_id: source-mistral-vibe-docs-mcp-servers
+    kind: official_documentation
+    checked_at: 2026-10-22T12:55:13.498Z
+    status: changed
+    baseline: 6cbb4e5628bb61eaec363575c4fb51308bcf6204e06e3c60cb93422f5accc9cf
+    observed: 8df363d6c48b3a35318e7d841e856ae289cb1823f6d720177545550ee0ab2b5c
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/mcp-servers.md
+  - source_id: source-mistral-vibe-docs-safety
+    kind: official_documentation
+    checked_at: 2026-10-22T12:55:13.548Z
+    status: changed
+    baseline: 1b1bc3c91f44a7c6bbe3cc1725520f6bfc5d99353aff8e2db7b66d09550ce6e2
+    observed: 41f9e3692e0fe8540a1181f774236d2ba07343c3eb3df579abbad23b01c00670
+    resolved_url: https://docs.mistral.ai/vibe/code/safety-approvals-permissions.md
+  - source_id: source-mistral-vibe-docs-skills
+    kind: official_documentation
+    checked_at: 2026-10-22T12:55:13.932Z
+    status: changed
+    baseline: a87ce0619d88fc9e211180b9fecde98eb5a35f2880a5853ded42f8e1a444bbd4
+    observed: 1d88b86101131e7493bf3bbbe4bf12dd595803526c5792d25b092b6bd13855ac
+    resolved_url: https://docs.mistral.ai/vibe/code/cli/skills.md
+impacts:
+  - topic: configuration
+    question_ids: [config.sources, config.overrides, config.runtime, config.trust, config.defaults, config.migration, config.diagnostics]
+    section_ids: [config-sources, config-merge, config-runtime, config-trust, config-defaults-migration, config-diagnostics]
+    surface_ids: [cli]
+    source_refs: [ref-mv-301-config-layers, ref-mv-301-config-sources, ref-mv-301-config-merge, ref-mv-301-config-env, ref-mv-301-config-toml-write, ref-mv-301-config-defaults, ref-mv-301-config-auto-compact, ref-mv-301-config-auto-compact-constants, ref-mv-301-config-migration, ref-mv-301-config-fingerprint]
+    cross_topic_links: [agents.overrides]
+    reason: 层栈新增模型目录层并改写了项目层发现与宿主提供用户配置的来源，写回改为原子替换加指纹校验；已发布 edition 的层序与来源表不再成立。新 edition 同时重写信任门控、默认值/自动压缩解析与迁移规则、诊断来源标注，并修正 auto_compact_threshold 的解析优先级（模型声明 → 全局显式设置 → 窗口 80% → 全局默认）。
+  - topic: custom_agents
+    question_ids: [agents.entry, agents.format, agents.roles, agents.invocation, agents.overrides, agents.limits, agents.diagnostics]
+    section_ids: [agents-entry, agents-format, agents-roles, agents-invocation, agents-overrides-limits, agents-diagnostics]
+    surface_ids: [cli]
+    source_refs: [ref-mv-301-agents-models, ref-mv-301-agents-builtin, ref-mv-301-agents-registry, ref-mv-301-agents-available, ref-mv-301-agents-diagnostics, ref-mv-301-agents-tools, ref-mv-301-agents-spawn, ref-mv-301-agents-mode, ref-mv-301-agents-types, ref-mv-301-agents-profile, ref-mv-301-agents-subagent-gate, ref-mv-301-agents-subagent-limits, ref-mv-301-agents-subagent-limit-enforcement, ref-mv-301-agents-subagent-depth-guard, ref-mv-301-agents-cli]
+    cross_topic_links: [config.runtime]
+    reason: 内置 plan 移除并回退到 ask，委派工具由 task 改为 agents.*（spawn/send_message/interrupt/list/list_configs），可见性新增 enable_auto_approve、installed_agents 与禁用的 agents 命名空间；并发/深度不再是缺口，SubagentLimits 固定 max_depth=1、max_children=8、max_concurrent_turns=4、max_lifetime_names=128，并由控制器以三个错误码与 depth-one 断言强制。
+  - topic: custom_providers
+    question_ids: [providers.entry, providers.auth, providers.protocol, providers.models, providers.metadata, providers.forwarding, providers.responses, providers.diagnostics]
+    section_ids: [providers-entry, providers-auth, providers-protocol, providers-models, providers-metadata, providers-diagnostics]
+    surface_ids: [cli]
+    source_refs: [ref-mv-301-provider-config, ref-mv-301-provider-defaults, ref-mv-301-provider-api-key, ref-mv-301-provider-factory, ref-mv-301-api-adapters, ref-mv-301-model-config, ref-mv-301-model-resolution, ref-mv-301-provider-retries, ref-mv-301-provider-probe, ref-mv-301-provider-missing-key]
+    cross_topic_links: [config.defaults]
+    reason: ProviderConfig 增加 api_style、emits_finish_reason、extra_headers、project_id/region 等字段，默认模型集合缩为单一 mistral-medium-3.5，凭据优先序（会话/环境/钥匙串）与可用性探测缓存成为诊断主线。
+  - topic: hooks
+    question_ids: [hooks.events, hooks.entry, hooks.input, hooks.output, hooks.order, hooks.conditions, hooks.diagnostics]
+    section_ids: [hooks-events, hooks-entry, hooks-io, hooks-order, hooks-conditions, hooks-diagnostics]
+    surface_ids: [cli]
+    source_refs: [ref-mv-301-hooks-load, ref-mv-301-hooks-declaration, ref-mv-301-hooks-points, ref-mv-301-hooks-binding, ref-mv-301-hooks-matcher, ref-mv-301-hooks-payload, ref-mv-301-hooks-output, ref-mv-301-hooks-failure, ref-mv-301-harness-hook-points, ref-mv-301-hook-files]
+    cross_topic_links: [config.trust]
+    reason: 执行位置迁到 Unified harness（Core 绑定 + 运行时 handler，id 为 source:name），失败策略按点分化；可声明点仍为 pre_tool/post_tool/post_agent，但 Core 另有三个不可声明的点。
+  - topic: mcp
+    question_ids: [mcp.entry, mcp.definition, mcp.transport, mcp.auth, mcp.lifecycle, mcp.capabilities, mcp.exposure, mcp.diagnostics]
+    section_ids: [mcp-entry, mcp-definition, mcp-auth, mcp-lifecycle, mcp-exposure, mcp-diagnostics]
+    surface_ids: [cli]
+    source_refs: [ref-mv-301-mcp-entry, ref-mv-301-mcp-cli, ref-mv-301-mcp-base, ref-mv-301-mcp-stdio, ref-mv-301-mcp-http-fields, ref-mv-301-mcp-auth-static, ref-mv-301-mcp-auth-oauth, ref-mv-301-mcp-oauth-errors, ref-mv-301-mcp-registry, ref-mv-301-mcp-pool, ref-mv-301-mcp-capabilities, ref-mv-301-mcp-tools-publish, ref-mv-301-stdio-runtime-required]
+    cross_topic_links: [providers.protocol]
+    reason: mcp add/remove 与 /mcp add 语义确认，OAuth 失败面扩展（端口占用、回调超时、无钥匙串、refresh 失效），stdio 连接池迁入 harness（串行 worker + 单次重连），能力面仍只有 tools；前言改为记录 Unified runtime 为必需运行时、本提交不存在 --legacy-harness 回退开关（vibe/core/tools/mcp/ 仍被工具管理器、插件 MCP 目录与 app-server 引用）。
+  - topic: native_plugins
+    question_ids: [plugins.model, plugins.package, plugins.install, plugins.discovery, plugins.api, plugins.lifecycle, plugins.diagnostics]
+    section_ids: [plugins-model, plugins-package, plugins-install, plugins-discovery, plugins-api, plugins-lifecycle]
+    surface_ids: [cli]
+    source_refs: [ref-mv-301-plugin-reserved, ref-mv-301-plugin-extension, ref-mv-301-plugin-extension-doc, ref-mv-301-plugin-resolver, ref-mv-301-plugin-limits, ref-mv-301-plugin-locations, ref-mv-301-plugin-structure, ref-mv-301-plugin-diagnostics]
+    cross_topic_links: [skills.conditions]
+    reason: 保留命名空间由六个扩为九个（新增 agents/agent/collaboration），扩展块新增 displayName；作者指南的保留列表落后于代码，已在正文按代码为准并说明边界。
+  - topic: skills
+    question_ids: [skills.roots, skills.discovery, skills.collision, skills.format, skills.extensions, skills.loading, skills.invocation, skills.conditions, skills.diagnostics]
+    section_ids: [skills-roots, skills-format, skills-invocation, skills-loading, skills-conditions, skills-diagnostics]
+    surface_ids: [cli]
+    source_refs: [ref-mv-301-skills-paths, ref-mv-301-skills-discovery, ref-mv-301-skills-metadata, ref-mv-301-skills-openai, ref-mv-301-skills-projection, ref-mv-301-skills-tool, ref-mv-301-skills-registry, ref-mv-301-skills-filters]
+    cross_topic_links: [config.trust, plugins.api]
+    reason: frontmatter 新增 license/compatibility/metadata/allowed-tools/user-invocable/disable-model-invocation，description 上限提至 1024，发现结果改为提示词/运行时/斜杠菜单三面投影。
+  - topic: local_transcripts
+    question_ids: [transcripts.scope, transcripts.location, transcripts.naming, transcripts.format, transcripts.schema, transcripts.lifecycle, transcripts.database, transcripts.archive, transcripts.cleanup, transcripts.diagnostics]
+    section_ids: [transcripts-recording-switches, transcripts-storage-layout, transcripts-record-schema, transcripts-lifecycle, transcripts-index-and-required-files, transcripts-archive-and-cleanup, transcripts-diagnostics]
+    surface_ids: [cli]
+    source_refs: [ref-mv-301-session-config, ref-mv-301-unified-root, ref-mv-301-store-format, ref-mv-301-store-current, ref-mv-301-manifest, ref-mv-301-legacy-store, ref-mv-301-legacy-import, ref-mv-301-session-lease, ref-mv-301-metadata, ref-mv-301-lt-permission-sweep, ref-mv-301-store-errors]
+    cross_topic_links: [config.runtime]
+    reason: 旧 JSONL 会话写入器移除，unified 存储成为唯一写入者且次版本升到 9；旧 meta.json/messages.jsonl 目录降级为导入源，租约与权限收敛语义随之重写；开头段落已拆分"messages.jsonl 不再写入"与"meta.json 仍原子写入 unified 目录"两件事。
+  - topic: configuration
+    question_ids: []
+    section_ids: []
+    surface_ids: [cli]
+    source_refs: [ref-mv-docs-config-precedence, ref-mv-docs-trusted-folders]
+    cross_topic_links: []
+    reason: 待办来源项：官方文档 source-mistral-vibe-docs-configuration（ab1722a29882…）、source-mistral-vibe-docs-configuration-reference（b09e575dd34c…）与 source-mistral-vibe-docs-safety（41f9e3692e0f…）本轮 hash 变更，但 worker 不能把新原件写入项目 archive/，因此没有新的文档快照/artifact，也没有 impact 引用新文本；已发布 edition 仍引用旧快照（ref-mv-docs-config-precedence、ref-mv-docs-trusted-folders 等），其文档侧结论已由新 edition 的源码证据取代。可归档时需重新 triage。
+  - topic: custom_agents
+    question_ids: []
+    section_ids: []
+    surface_ids: [cli]
+    source_refs: [ref-mv-docs-agents-builtin-087fa322, ref-mv-docs-agents-select-087fa322]
+    cross_topic_links: []
+    reason: 待办来源项：source-mistral-vibe-docs-agents 本轮 hash 变更为 28495614ee27…；新原件无法归档，未生成文档快照/artifact，已发布 edition 仍引用旧快照 ref-mv-docs-agents-builtin-087fa322 / ref-mv-docs-agents-select-087fa322，其文档侧答案已由新 edition 的源码证据取代。可归档时需重新 triage。
+  - topic: custom_providers
+    question_ids: []
+    section_ids: []
+    surface_ids: [cli]
+    source_refs: [ref-mv-docs-apikeys-methods]
+    cross_topic_links: []
+    reason: 待办来源项：source-mistral-vibe-docs-api-keys 本轮 hash 变更为 75f588a08b05…；新原件无法归档，未生成文档快照/artifact，已发布 edition 仍引用旧快照 ref-mv-docs-apikeys-methods，其文档侧答案已由新 edition 的源码证据取代。可归档时需重新 triage。
+  - topic: hooks
+    question_ids: []
+    section_ids: []
+    surface_ids: [cli]
+    source_refs: [ref-mv-docs-hooks-contract]
+    cross_topic_links: []
+    reason: 待办来源项：source-mistral-vibe-docs-hooks 本轮 hash 变更为 cc82106acc63…；新原件无法归档，未生成文档快照/artifact，已发布 edition 仍引用旧快照 ref-mv-docs-hooks-contract，其文档侧答案已由新 edition 的源码证据取代。可归档时需重新 triage。
+  - topic: mcp
+    question_ids: []
+    section_ids: []
+    surface_ids: [cli]
+    source_refs: [ref-mv-docs-mcp-naming]
+    cross_topic_links: []
+    reason: 待办来源项：source-mistral-vibe-docs-mcp-servers 本轮 hash 变更为 8df363d6c48b…；新原件无法归档，未生成文档快照/artifact，已发布 edition 仍引用旧快照 ref-mv-docs-mcp-naming，其文档侧答案已由新 edition 的源码证据取代。可归档时需重新 triage。
+  - topic: skills
+    question_ids: []
+    section_ids: []
+    surface_ids: [cli]
+    source_refs: [ref-mv-docs-skills-format]
+    cross_topic_links: []
+    reason: 待办来源项：source-mistral-vibe-docs-skills 本轮 hash 变更为 1d88b8610113…；新原件无法归档，未生成文档快照/artifact，已发布 edition 仍引用旧快照 ref-mv-docs-skills-format，其文档侧答案已由新 edition 的源码证据取代。可归档时需重新 triage。
+pending_question_ids: []
+investigation_notes:
+  - 本轮固定在提交 dd2c04ce717c417731ab89c333cd0a72541e33ba（变更日志 3.0.1，基线 4ae5c5955da8e761318916bdb1a7f46f0b50c7d0），只读 pinned workspace，未重扫上游。
+  - 逐主题核对结论：八个主题的已发布答案全部需要修订——配置层序与来源、agent 内置集合与委派工具面、provider 字段与默认模型、hook 执行位置、MCP OAuth 与 stdio 连接、插件保留命名空间、skill frontmatter 与投影、会话存储写入者与格式次版本。
+  - 51 条旧引用仍绑定 2.26.0 的 source_revision 快照，按"已发布引用保留"原则未删除；新 edition 全部改用新快照 snapshot-mv-301-repo 下的 ref-mv-301-*，locator 与摘录按本提交逐条核对。
+  - 官方文档本轮也变更，但新文档原件需要落在项目 archive/ 下，worker 不可写；因此新 edition 不新增文档快照引用，用户可见行为改由仓库内第一方文件（内置 vibe skill 的 MCP/agent 章节、插件作者指南、CHANGELOG）与源码承担证据。
+  - 来源冲突：插件作者指南仍列六个保留命名空间，代码的 _RESERVED_NAMESPACES 为九个（含 agents/agent/collaboration）。冲突可由"指南文本滞后于实现"解释，正文以代码为执行依据并写明边界与诊断码 plugin.namespace.reserved。
+  - 仍为 partial 的问题：plugins.install（无版本固定/更新/卸载入口的第一方依据）、transcripts.archive（无用户级导出归档命令，quarantine 触发与保留未说明）、transcripts.cleanup（无保留期配置与批量清理入口）。
+  - 复核：本轮结论覆盖跨主题加载机制改变（配置九层栈含模型目录、hook 执行迁入 harness、会话存储写入者与次版本变更），按维护契约需独立只读复核；问题本身均已结案，pending_question_ids 为空，review_status 保持 pending 待复核。
+  - 独立复核（reviewer rev2-mistral-vibe，changes_requested）：逐问题 verdict 中除 config.defaults 与 mcp.entry 为 corrected、agents.limits 为 rejected 外，其余全部 upheld（三处均已按来源修正，见下）。已应用 issues：(1) agents.limits 改为记录 SubagentLimits 四个真实上限 max_depth=1 / max_children=8 / max_concurrent_turns=4 / max_lifetime_names=128 与控制器三个错误码、depth-one 断言，并新增三个引用记录；(2) ref-mv-301-legacy-import 摘录改为 vibe/app_server/_legacy_import.py:1-13 逐字文本；(3) 全部 ref-mv-301-* 摘录按 pinned workspace 重新逐字提取，locator 收紧到被引行（含作者指南两个 document_section 记录）；(4) configuration impact 补齐 7 个问题与 6 个小节；(5) auto_compact_threshold 优先级改为 模型声明 → 全局显式设置 → 窗口 80% → 全局默认，并新增两个引用；(6) mcp 前言删除不存在的 --legacy-harness 开关；(7) 补写同名 .md 审计报告；(8) transcripts 开头拆分 messages.jsonl 与 meta.json 两件事；(9) 八个官方文档来源记为待归档来源项。review_status 仍为 pending，未写 reviewed_by/reviewed_at。
+  - 独立复核（reviewer rev3-mistral-vibe，changes_requested）：rev2 的九项 issue 已逐条复核关闭，仅余一项 medium——config.defaults 答案中的「窗口未知时直接采用全局值」与所引源码相反：vibe/core/config/vibe_schema.py:1244-1246 先判 cap != UNSET_AUTO_COMPACT_THRESHOLD and (window is None or cap < window) 并以 models[alias] = model; continue 保留模型自身阈值，只有未声明阈值的模型才落到 1247-1252 的全局值；同一句的「(provider 会在压缩触发前拒绝请求)」出处 vibe_schema.py:1231-1236 落在所引 1237-1252 窗口之外。已在 pinned workspace 核对 models.py:527（max_context_length 可为 None，窗口确实可未知）后修正：改写为「窗口未知时模型自己声明的阈值仍然保留，只有未声明阈值的模型才落到全局值」，四级顺序与 ref-mv-301-config-auto-compact、ref-mv-301-config-auto-compact-constants 两条引用不变，并按 reviewer 允许的处理删去该括号说明（同一引用记录的摘录受 schema 800 字符上限约束，1231-1236 注释与 1237-1252 代码无法同时容纳，故未扩展其 locator）。review_status 仍为 pending，未写 reviewed_by/reviewed_at。
+  - 独立复核 rev4-mistral-vibe（2026-10-22 批次，verdict approved）：rev3 唯一遗留的 medium issue——
+    config.defaults 的「窗口未知时直接采用全局值」与所引源码相反——已按 pinned workspace 更正为
+    cap != UNSET_AUTO_COMPACT_THRESHOLD 且（窗口未知或 cap < window）时保留模型自身阈值、只有未声明阈值的模型
+    才落到全局值，并把出处收紧到所引窗口内。复核判定八个 topic 的新 edition 均可作为当前版本，协调者据此把
+    registry 的八行保持在新 edition。本审计 review_status 保持 pending、未写 reviewed_by/reviewed_at（引用的
+    旧审计仍未结案）。

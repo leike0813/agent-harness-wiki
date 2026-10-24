@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-store-errors
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_errors.py
+  start: 20
+  end: 47
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  class HarnessSessionBusyError(HarnessSessionError):
+      def __init__(self, session_id: str) -> None:
+          super().__init__(
+              "session_busy",
+              f"Session is already open: {session_id}",
+              details={"session_id": session_id},
+          )
+  ...
+                  "session_id": session_id,
+              },
+          )
+
+
+  class HarnessInvalidSessionStoreError(HarnessSessionError):
+      def __init__(self, session_id: str, message: str) -> None:
+          super().__init__(
+              "invalid_session_store", message, details={"session_id": session_id}
+          )

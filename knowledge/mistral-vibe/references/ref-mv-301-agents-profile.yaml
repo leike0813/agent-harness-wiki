@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-agents-profile
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/layers/agent_profile.py
+  start: 11
+  end: 23
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  # Fields an agent profile must never override. These route credentials -- the
+  # account call sends the API key to console_base_url, teleport sends it to
+  # vibe_code_sessions_base_url -- so a profile from an untrusted checkout could
+  # otherwise redirect them to an attacker host and exfiltrate the key.
+  PROTECTED_FIELDS = frozenset({
+      "vibe_base_url",
+      "console_base_url",
+      "vibe_code_sessions_base_url",
+  })
+
+
+  class AgentProfileLayer(ConfigLayer[RawConfig]):
+      """In-memory layer holding the currently active agent profile overrides."""

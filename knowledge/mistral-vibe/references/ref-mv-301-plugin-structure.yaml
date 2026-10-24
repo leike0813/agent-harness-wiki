@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-plugin-structure
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: document_section
+  heading: "Plugin directory structure"
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  ```
+  my-plugin/
+    plugin.json                 # required — Agent Plugins 1.0 manifest
+    mcp.json                    # optional — MCP server definitions
+    libraries.json              # optional — Node/Python library dependencies
+    connectors.json             # optional — managed connector requirements
+    skills/                     # optional — one subdirectory per skill
+      my-skill/
+        SKILL.md
+    ai.mistral.vibe/            # optional — Vibe-specific extensions
+      hooks.toml                # Vibe extension only
+      knowledge/                # one subdirectory per knowledge folder
+        topic-name/
+          KNOWLEDGE.md
+      agents/                   # one .toml per subagent
+        researcher.toml

@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-retry-reexecute
+harness_id: zed
+snapshot_id: snapshot-zed-agent-rs-5030407
+locator:
+  kind: file_lines
+  file: crates/agent/src/agent.rs
+  start: 3299
+  end: 3326
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  struct NativeSessionSubmissions {
+      connection: NativeAgentConnection,
+      session_id: acp_v2::SessionId,
+  }
+
+  impl acp_thread::ReceiptSessionSubmissions for NativeSessionSubmissions {
+      fn submit(
+          &self,
+          content: Vec<acp_v2::ContentBlock>,
+          cx: &mut Context<acp_thread::AcpThread>,
+      ) -> acp_thread::ReceiptSubmission {
+          self.connection
+              .submit_native(self.session_id.clone(), Some(content), cx)
+              .0
+              .into()
+      }
+
+      fn supports_retry(&self) -> bool {
+          true
+      }
+
+      fn retry(&self, cx: &mut Context<acp_thread::AcpThread>) -> acp_thread::ReceiptSubmission {
+          self.connection
+              .submit_native(self.session_id.clone(), None, cx)
+              .0
+              .into()
+      }
+  }

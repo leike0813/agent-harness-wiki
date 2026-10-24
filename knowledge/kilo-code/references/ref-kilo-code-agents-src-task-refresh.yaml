@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-agents-src-task-refresh
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-e08cc-kilocode-tool-task
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/tool/task.ts
+  start: 177
+  end: 187
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  export function refresh(stale: Permission.Ruleset, fresh: Permission.Ruleset) {
+    const mutation = mutations()
+    const keep = (rule: Permission.Rule) =>
+      !(
+        rule.action === "deny" &&
+        rule.pattern === "*" &&
+        mutation.has(rule.permission) &&
+        !fresh.some((next) => next.action === "deny" && next.pattern === "*" && next.permission === rule.permission)
+      )
+    return merge(stale.filter(keep), fresh)
+  }

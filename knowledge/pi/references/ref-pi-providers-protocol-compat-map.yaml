@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-providers-protocol-compat-map
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261022-ai-src-providers-compat-schema-ts
+locator:
+  kind: file_lines
+  file: packages/ai/src/providers/compat-schema.ts
+  start: 619
+  end: 631
+official_url: https://github.com/earendil-works/pi/blob/be14d9732f98fcc33929cf103a92b96afaa6523e/packages/ai/src/providers/compat-schema.ts
+excerpt: |-
+  /** Compatibility schema for each API whose models accept compat. Mirrors the compat type of Model. */
+  export const CompatSchemasByApi = {
+  	"openai-completions": OpenAICompletionsCompatSchema,
+  	"openai-responses": OpenAIResponsesCompatSchema,
+  	"azure-openai-responses": OpenAIResponsesCompatSchema,
+  	"openai-codex-responses": OpenAIResponsesCompatSchema,
+  	"anthropic-messages": AnthropicMessagesCompatSchema,
+  	"bedrock-converse-stream": BedrockCompatSchema,
+  	"mistral-conversations": MistralConversationsCompatSchema,
+  	"typesafe-system-one": SystemOneCompatSchema,
+  	"cloudflare-workers-ai-system-one": SystemOneCompatSchema,
+  } as const;

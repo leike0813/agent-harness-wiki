@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-20261022-lt-resume-enforce
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-20261022-app-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/app.py
+  start: 6028
+  end: 6044
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def _resume_cutoff() -> tuple[datetime, str, bool] | None:
+      """Resolve the strictest configured thread-resume cutoff.
+
+      Returns:
+          The cutoff, its source, and whether it is rolling, or `None`.
+      """
+      from deepagents_code.resume_policy import resume_cutoff
+
+      return resume_cutoff()
+
+  @staticmethod
+  async def _thread_resume_block(thread_id: str) -> str | None:
+      """Return why configured policy blocks resuming a thread, if applicable."""
+      from deepagents_code.resume_policy import thread_resume_block
+
+      return await thread_resume_block(thread_id, DeepAgentsApp._resume_cutoff())

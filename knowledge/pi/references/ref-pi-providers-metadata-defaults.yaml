@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-providers-metadata-defaults
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261022-schemas-models-schema-json
+locator:
+  kind: file_lines
+  file: packages/coding-agent/schemas/models.schema.json
+  start: 100
+  end: 132
+official_url: https://github.com/earendil-works/pi/blob/be14d9732f98fcc33929cf103a92b96afaa6523e/packages/coding-agent/schemas/models.schema.json
+excerpt: |-
+  "input": {
+    "type": "array",
+    "items": {
+      "enum": ["text", "image"]
+    },
+    "default": ["text"]
+  },
+  "promptCache": {
+    "$ref": "#/$defs/ModelPromptCache",
+    "description": "Best-effort prompt cache lifetime in seconds for the short and long retention tiers. Pi warms only tiers with a known lifetime."
+  },
+  "contextWindow": {
+    "type": "number",
+    "exclusiveMinimum": 0,
+    "default": 128000,
+    "description": "Context window in tokens."
+  },
+  "maxTokens": {
+    "type": "number",
+    "exclusiveMinimum": 0,
+    "default": 16384,
+    "description": "Maximum output tokens."
+  },

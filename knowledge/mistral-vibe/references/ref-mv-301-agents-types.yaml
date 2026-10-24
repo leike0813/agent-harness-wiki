@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-agents-types
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: harness/core/src/core/features/subagents/agent_types.rs
+  start: 5
+  end: 22
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  const MAX_AGENT_TYPES: usize = 128;
+
+  #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
+  pub(crate) struct AgentTypeDefinition {
+      pub(crate) name: String,
+      pub(crate) description: String,
+      pub(crate) path: String,
+  }
+
+  pub(crate) fn validate_agent_types<'a>(
+      agent_types: impl Iterator<Item = &'a AgentTypeDefinition>,
+  ) -> Result<(), String> {
+      let agent_types = agent_types.collect::<Vec<_>>();
+      if agent_types.len() > MAX_AGENT_TYPES {
+          return Err(format!(
+              "configuration contains more than {MAX_AGENT_TYPES} agent types"
+          ));
+      }

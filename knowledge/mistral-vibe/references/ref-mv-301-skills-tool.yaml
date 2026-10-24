@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-skills-tool
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/tools/builtins/skill.py
+  start: 12
+  end: 38
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  SAMPLED_SKILL_FILES = 10
+  MAX_WALKED_SKILL_ENTRIES = 200
+  SKIPPED_SKILL_DIR_NAMES = frozenset({
+      ".git",
+      "node_modules",
+      "__pycache__",
+      ".venv",
+      "venv",
+      ".mypy_cache",
+      ".ruff_cache",
+      ".pytest_cache",
+      "dist",
+      "build",
+  })
+
+
+  def skill_content_marker(name: str) -> str:
+      return f'<skill_content name="{name}">'
+
+
+  class SkillArgs(BaseModel):
+      name: str = Field(description="The name of the skill from available_skills")
+
+
+  class SkillResult(BaseModel):
+      name: str = Field(description="The name of the loaded skill")
+      content: str = Field(description="The full skill content block")

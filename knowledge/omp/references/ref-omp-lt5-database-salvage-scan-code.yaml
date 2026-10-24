@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt5-database-salvage-scan-code
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-src-utils-sqlite-ts
+locator:
+  kind: file_lines
+  file: packages/utils/src/sqlite.ts
+  start: 349
+  end: 364
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/packages/utils/src/sqlite.ts#L349-L364
+excerpt: "/**\n * Reads every row of a rowid table that SQLite can still decode, to salvage a\n * damaged store. A full scan aborts at the first unreadable page, so this walks\n * rowids with indexed seeks instead: when a seek hits damage it doubles its\n * stride past it, then bisects back to the first rowid from which seeking\n * works again, losing only rows on the damaged pages. Cross-linked pages can\n * still decode rows with foreign column types, so callers validate types;\n * rows returned out of rowid order count as damage. Only corruption errors are\n * treated as damage; anything else is thrown.\n */\nexport function readSalvageableRows<T extends object>(db: Database, table: string, columns: string): T[] {\n\ttype Row = T & { salvage_rowid: number };\n\tusing seek = db.prepare<Row, [number]>(\n\t\t`SELEC…"

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-agents-available
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/agents/manager.py
+  start: 106
+  end: 119
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      def _is_agent_available(self, name: str, profile: AgentProfile) -> bool:
+          if name in self._forced_agents:
+              # An explicit startup selection keeps the agent in the picker/cycle for
+              # the whole session, regardless of the rollout gate.
+              return True
+          if not self.config.enable_auto_approve and profile.safety is AgentSafety.YOLO:
+  ...
+              return False
+          if (
+              name == BuiltinAgentName.SMART_APPROVE
+              and not self.config.smart_approve_offered()
+          ):

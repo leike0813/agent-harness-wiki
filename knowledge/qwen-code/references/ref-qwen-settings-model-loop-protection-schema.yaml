@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-settings-model-loop-protection-schema
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-9a83f108-cli-settings-schema
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settingsSchema.ts
+  start: 1951
+  end: 1965
+official_url: https://github.com/QwenLM/qwen-code/blob/9a83f1080e1432c72a07502417c97bff493b2ea2/packages/cli/src/config/settingsSchema.ts
+excerpt: |-
+        loopProtection: {
+          type: 'enum',
+          label: 'Loop Protection',
+          category: 'Model',
+          requiresRestart: true,
+          default: 'warn',
+          description:
+            'What a loop detector does when it fires. "warn" (default) reminds the model once and does not stop the turn, except for content and thought repetition, which happens mid-stream where no reminder can be delivered; "stop" keeps every stop point: the always-on guards (identical calls, shell inspection, invalid tool parameters, and stuck repetition past the adaptive cap) remind the model once when the turn reaches their reminder point before the stop, and the opt-in heuristics stop without a reminder; "off" neither reminds nor stops and only records telemetry.',

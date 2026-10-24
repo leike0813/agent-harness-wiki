@@ -1,0 +1,196 @@
+schema_version: 2
+audit_id: audit-omp-b55d7a06-e2c9-44d8-af3b-b351500278ec
+harness_id: omp
+checked_at: 2026-10-22T12:55:17.079Z
+previous_audit_id: audit-omp-3c1ebdef-b700-4cd2-af36-2d1311be031e
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-omp-71dcf159-da19-4fed-bd93-abac67a8ea8a
+  - audit-omp-217604e7-0074-4c26-8e56-ab0ae0b78861
+  - audit-omp-3c1ebdef-b700-4cd2-af36-2d1311be031e
+checks:
+  - source_id: source-omp-npm
+    kind: npm_registry
+    checked_at: 2026-10-22T12:55:14.877Z
+    status: changed
+    baseline: 18.10.4@sha512-JZqUebDzrBNIdtW5ztWQAre67QnCV6xVZ9/R2ZdOX5zGFUO7d73Nd5TYqTRRQZrjKD+bUnXLkqk3IE1cu4aDZQ==
+    observed: 18.12.6@sha512-Wo+FcJ7A3RY/OFuafj4hcdIAXc/W7NMxbanwQh3Cmy8s57+ihLOLgAv+HROxHBkssEMg0MaScwkQ9xwqLPiC/g==
+  - source_id: source-omp-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:55:14.878Z
+    status: changed
+    baseline: 611c189fa2f6b8c9b368559ea6b98062b9b54539
+    observed: 0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0
+    remote_ref: refs/heads/main
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.defaults
+      - config.migration
+    section_ids:
+      - config-defaults
+      - config-migration
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-cfg8-defaults-widget-role-doc
+      - ref-omp-cfg8-defaults-judge-default-doc
+      - ref-omp-cfg8-defaults-judge-chain-doc
+      - ref-omp-cfg8-defaults-advisor-continue-doc
+      - ref-omp-cfg8-defaults-async-widgets-doc
+      - ref-omp-cfg8-defaults-computer-fallback-doc
+      - ref-omp-cfg8-defaults-lsp-timeout-doc
+      - ref-omp-cfg8-defaults-tui-scrollback-doc
+      - ref-omp-cfg8-defaults-approval-mode-doc
+      - ref-omp-cfg8-defaults-role-defaults-code
+      - ref-omp-cfg8-migration-catalog-swap-code
+      - ref-omp-cfg8-migration-tts-selector-code
+      - ref-omp-cfg8-migration-judge-target-code
+    cross_topic_links:
+      - providers.protocol
+    reason: 默认值与迁移换算改变——judge 内建链钉到 typesafe/jev-1.14.0，新增 widget 聊天角色（未分配时按 smol
+      解析）、六个新设置与 tools.approvalMode 的 always-ask-cached，旧键迁移改为向 catalog 询问
+      web-search-model/image-model/tts 种子策略。
+  - topic: custom_providers
+    question_ids:
+      - providers.auth
+      - providers.protocol
+      - providers.forwarding
+    section_ids:
+      - providers-credentials
+      - providers-schema
+      - providers-forwarding
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-providers5-auth-inception-doc
+      - ref-omp-providers5-auth-sambanova-doc
+      - ref-omp-providers5-auth-inception-env-doc
+      - ref-omp-providers5-auth-sambanova-env-doc
+      - ref-omp-providers5-auth-broker-pool-doc
+      - ref-omp-providers5-protocol-inception-doc
+      - ref-omp-providers5-protocol-judge-images-doc
+      - ref-omp-providers5-protocol-jev-wire-doc
+      - ref-omp-providers5-protocol-judge-images-code
+      - ref-omp-providers5-forwarding-compression-doc
+      - ref-omp-providers5-forwarding-anthropic-version-doc
+    cross_topic_links:
+      - config.defaults
+    reason: 凭据入口新增 inception/sambanova，OMP_AUTH_BROKER_ACCOUNT_POOL_FILE 由 OAuth
+      账号路由改为凭据可见性规则；判定传输新增图像附件与 catalog 尺寸界；请求体压缩改为 catalog 端点规则加
+      PI_REQUEST_COMPRESSION，PI_CODEX_ZSTD 消失。
+  - topic: mcp
+    question_ids:
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-capabilities
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-mcp6-exposure-readonly-hint-code
+      - ref-omp-mcp6-diagnostics-plugin-timeout-doc
+      - ref-omp-mcp6-diagnostics-progress-doc
+      - ref-omp-mcp6-diagnostics-cancel-doc
+      - ref-omp-mcp6-diagnostics-nonretryable-doc
+      - ref-omp-mcp6-diagnostics-retry-boundary-doc
+      - ref-omp-mcp6-diagnostics-progress-code
+      - ref-omp-mcp6-diagnostics-discovery-warnings-code
+      - ref-omp-mcp6-diagnostics-lost-after-send-code
+    cross_topic_links:
+      - agents.roles
+    reason: server 声明的 readOnlyHint 只用于 prewalk、approval 仍为
+      write，批准改用统一参数格式化；诊断侧新增进度上报、尽力取消、请求可能已到达 server 后的非重试分类与发现期警告日志。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.location
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+    section_ids:
+      - transcripts-storage-layout
+      - transcripts-schema-lifecycle
+      - transcripts-database
+      - transcripts-cleanup-archive
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-lt5-location-absolute-session-dir-code
+      - ref-omp-lt5-location-symlink-listing-code
+      - ref-omp-lt5-location-shadowed-hashed-bucket-code
+      - ref-omp-lt5-lifecycle-queued-indexed-rewrite-code
+      - ref-omp-lt5-lifecycle-indexed-rewrite-doc
+      - ref-omp-lt5-lifecycle-offbranch-leaf-code
+      - ref-omp-lt5-lifecycle-seance-fork-code
+      - ref-omp-lt5-lifecycle-seance-artifacts-code
+      - ref-omp-lt5-lifecycle-seance-doc
+      - ref-omp-lt5-lifecycle-symlink-publish-code
+      - ref-omp-lt5-lifecycle-write-confirmation-code
+      - ref-omp-lt5-lifecycle-unpack-symlink-dedupe-code
+      - ref-omp-lt5-database-corruption-salvage-code
+      - ref-omp-lt5-database-open-close-index-code
+      - ref-omp-lt5-database-recent-window-code
+      - ref-omp-lt5-database-readable-rows-code
+      - ref-omp-lt5-database-index-identity-code
+      - ref-omp-lt5-database-index-salvage-code
+      - ref-omp-lt5-database-salvage-scan-code
+    cross_topic_links:
+      - config.sources
+      - agents.invocation
+    reason: 位置侧 --session-dir 绝对化、目录扫描跟随符号链接、新增 hashed home 桶名迁移；生命周期侧新增 /seance
+      只读咨询分叉、重写走符号链接指向、背压确认、离支条目 activeLeafId、排队重写非当前；数据库侧新增损坏隔离与可读行抢救；归档侧
+      unpack 按 realpath 去重副本。
+pending_question_ids:
+  - config.defaults
+  - mcp.diagnostics
+  - providers.forwarding
+  - transcripts.archive
+investigation_notes:
+  - 本轮分类 maintain。只读观察 2026-10-22T12:55:17.079Z，会话
+    4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns；Git 来源 611c189 到 0b5c27ab，npm
+    18.10.4 到 18.12.6。固定问题只覆盖
+    configuration、custom_providers、local_transcripts、mcp 的 12 题。
+  - 已发布引用中有 17 条的行定位在本轮提交上漂移。本轮不逐条重锚：新 edition 只为变化点新增基于 0b5c27ab 的快照与引用（前缀
+    ref-omp-cfg8-、ref-omp-providers5-、ref-omp-mcp6-、ref-omp-lt5-），未变小节的旧引用继续绑定其原始
+    commit 快照。
+  - configuration。config.defaults 变化来自 docs/settings.md 与设置注册表：judge 内建链改为
+    typesafe/jev-1.14.0 起头，新增 widget 聊天角色（未分配时按 smol
+    解析）、advisor.continueSeverity、async.widgets、computer.backgroundFallback、lsp.requestTimeout、shellCommandPrefix、tui.completeScrollback，tools.approvalMode
+    新增 always-ask-cached，lsp.shared 默认值不变但语义改为 per-project mux 加 5
+    分钟保温。config.migration 变化来自 packages/coding-agent/src/config/settings.ts 的
+  - custom_providers。providers.auth 新增 inception（INCEPTION_API_KEY，可 /login
+    inception，登录用单 token Mercury 3 请求校验）与 sambanova（SAMBANOVA_API_KEY，可 /login
+    sambanova）；OMP_AUTH_BROKER_ACCOUNT_POOL_FILE 由按 OAuth
+    账号路由改为进程内凭据可见性（identityKey 数组、true/false、accounts+apiKeys，未列 provider 跟随 *
+    规则）。providers.protocol 新增判定图像附件（链上过滤、280 到 1568 像素界、assets 与 image_url
+    两种线上形态、盒式问题只发 TypeSafe 与 OpenRouter）以及 catalog 驱动的 judgment-images
+    尺寸界。providers.forwarding 新增按 catalog request-encodings/endpoint-hosts
+    的请求体压缩与 PI_REQUEST_COMPRESSION，PI_CODEX_ZSTD 不再存在；PI_ANTHROPIC_API_VERSION
+    在新版本下省略 temperature/top_p/top_k。凭据七档顺序与 .env 载入未变。
+  - mcp。mcp.exposure 变化来自 mcp/tool-bridge.ts：MCPTool 与 DeferredMCPTool 记录
+    annotations.readOnlyHint 但仅供 prewalk，approval 仍是 write，批准展示改用
+    formatApprovalArguments。mcp.diagnostics 变化来自
+    mcp/protocol-transports、mcp/runtime-lifecycle、mcp/progress 与
+    tool-bridge：进度上报写入 _meta.progressToken 并以 50ms 节流转成部分结果更新；stdio 取消为尽力而为且不回证
+    server 停止；请求可能已到达 server 后失败标为非重试且有专门 next-step；发现期 warnings 写入日志，Claude
+    插件低于 1000ms 的 timeout 被忽略并告警。
+  - local_transcripts。transcripts.location：--session-dir 经 path.resolve
+    绝对化，listFilesSync 跟随符号链接，临时根嵌套 home 时新增 hashed home
+    桶名迁移。transcripts.lifecycle：新增 /seance 只读咨询分叉（seanceSource 头、artifact
+    就地读、session_init 转 source_session_init）、重写经 sessionPublishTarget
+    作用于符号链接指向、writeLinesToFile 等待背压写入确认、appendMessageToBranch 记录
+    activeLeafId、defersSyncPublish 下排队重写保持非当前。transcripts.database：history.db
+    隔离前关闭会话索引，随后从备份抢救 prompt、session_titles 与 session_recaps，读路径加类型过滤与最近 100 行
+    quick_check 自检，索引句柄按 dev:ino:birthtimeMs 复用。transcripts.archive：unpack 的
+    findLocalCopies 按 realpath 去重，避免符号链接分桶下重复搬移。
+  - transcripts.cleanup 本轮未变：packages/coding-agent/src/cli 下 gc 与 compress
+    相关文件、删除入口、stale 清理与保留规则在 611c189 到 0b5c27ab 区间都没有改动，答案与引用沿用
+    omp-local_transcripts-v5 中该题的既有结论（仍为 partial）。
+  - 未重审的固定问题（不在本轮派发范围）：config.sources、config.overrides、config.runtime、config.trust、config.diagnostics；providers.entry、providers.models、providers.metadata、providers.responses、providers.diagnostics；mcp.entry、mcp.definition、mcp.transport、mcp.auth、mcp.lifecycle、mcp.capabilities；transcripts.scope、transcripts.naming、transcripts.format、transcripts.schema、transcripts.diagnostics。新
+    edition 原样保留这些题的答案与小节正文。
+  - 本轮没有任何运行观察：未启动 MCP server、未发送模型请求、未执行 /seance、未对真实 history.db 制造损坏，也没有跑 omp
+    gc 或 session unpack。相关结论全部来自固定提交的源码与随仓文档。
+  - 候选自检 pnpm -s maintenance:candidates check 通过；旧引用中的 coverage 记录为历史材料，其
+    partial 状态只产生 warning，不阻断。pending_audit_refs 里的三个旧审计仍未结案，本审计不代为关闭。

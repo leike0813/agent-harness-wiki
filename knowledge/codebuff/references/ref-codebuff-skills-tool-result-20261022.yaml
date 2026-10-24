@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-skills-tool-result-20261022
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-skill-handler-20261022
+locator:
+  kind: file_lines
+  file: packages/agent-runtime/src/tools/handlers/tool/skill.ts
+  start: 138
+  end: 149
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |2-
+    const result: { name: string; description: string; content: string; license?: string } = {
+      name: skill.name,
+      description: skill.description,
+      content: formatSkillContent(skill),
+    }
+    if (skill.license) {
+      result.license = skill.license
+    }
+
+    return {
+      output: jsonToolResult(result),
+    }
+  }) satisfies CodebuffToolHandlerFunction<ToolName>

@@ -1,0 +1,98 @@
+schema_version: 2
+audit_id: audit-crush-fe97bf07-b4d2-485c-b16f-93b2357f7a08
+harness_id: crush
+checked_at: 2026-10-22T12:53:45.316Z
+previous_audit_id: audit-crush-2004ef1a-8bfd-4478-bec7-aef5dd27ce16
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-crush-c605cca6-663b-42e6-aa68-24b9b3ed29eb
+  - audit-crush-2004ef1a-8bfd-4478-bec7-aef5dd27ce16
+checks:
+  - source_id: source-crush-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:53:43.127Z
+    status: changed
+    baseline: a48dabea1a3562b24c39cc7f0dec10e867f8499b
+    observed: cd5f15d366f516c992ec8331f0bc158708bb69ec
+    remote_ref: refs/heads/main
+  - source_id: source-crush-npm
+    kind: npm_registry
+    checked_at: 2026-10-22T12:53:43.135Z
+    status: unchanged
+    baseline: 0.98.1@sha512-TWjk5My+NLi+iNidiYNde4s05g85sOC97IiBs6aXywuFP2pZ9C+wjih985StTvmY3lJgPd9oKrtgbPRGT2SQ8g==
+    observed: 0.98.1@sha512-TWjk5My+NLi+iNidiYNde4s05g85sOC97IiBs6aXywuFP2pZ9C+wjih985StTvmY3lJgPd9oKrtgbPRGT2SQ8g==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.defaults
+    section_ids:
+      - config-defaults
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-crush-code-config-max-background-jobs
+      - ref-crush-code-option-max-background-jobs
+      - ref-crush-schema-max-background-jobs
+      - ref-crush-configdoc-option-max-background-jobs
+      - ref-crush-code-background-jobs-limit
+    cross_topic_links: []
+    reason: 新增第一方选项 options.max_background_jobs（默认 50，0 或负数回到 50，crushrc 键 max-background-jobs），schema.json 与 docs/config/README.md 同步；默认值与开关清单需补齐，机制其余部分未变。
+  - topic: custom_providers
+    question_ids:
+      - providers.models
+      - providers.diagnostics
+    section_ids:
+      - providers-protocol-models
+      - providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-crush-code-discovery-jobs
+      - ref-crush-code-discovery-cache
+      - ref-crush-code-discovery-merge
+      - ref-crush-code-discovery-refresh
+      - ref-crush-code-load-discovery-merge
+    cross_topic_links:
+      - config.diagnostics
+    reason: 自定义 provider 的模型发现改为“按 base_url 缓存到 discovered_models、缓存命中不联网、后台 RefreshDiscoveredModels 变更即重载、mergeModels 配置优先补齐”，providers.models 的合并规则与 providers.diagnostics 的缓存位置都随之改变。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.schema
+    section_ids:
+      - transcripts-schema-lifecycle
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-crush-transcripts-agent-settle-turn
+      - ref-crush-transcripts-settle-constants
+      - ref-crush-transcripts-settle-tool-calls
+      - ref-crush-transcripts-settle-repair
+      - ref-crush-transcripts-backend-settle-read
+      - ref-crush-transcripts-add-finish-at
+      - ref-crush-transcripts-tool-call-input
+      - ref-crush-transcripts-empty-media
+    cross_topic_links: []
+    reason: 新增工具调用补记——回合结束与读取会话时为无回复的 tool_call 补一条 is_error 的 tool_result 并回填 finish(error) 时间；tool_call.input 可保存部分 JSON、发送前才归一化；空媒体结果落库为说明文字。这些是记录字段与相互关系层面的变化。
+pending_question_ids: []
+investigation_notes:
+  - "本轮只读观察 2026-10-22T12:53:45.316Z（会话 4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns）：source-crush-repo 由 a48dabea 前进到 cd5f15d，source-crush-npm 0.98.1 的 integrity 未变。所有结论只对源码树 commit 成立，本章不写发行版本映射。"
+  - "逐文件 triage：103 个变更文件中，workflows、cla-signatures、UI/主题/补全/渲染与 *_test.go 不进入固定问题；语义入口集中在 internal/config、schema.json、docs/config/README.md、internal/shellconfig/options.go、internal/agent/agent.go 与 settle.go、internal/agent/tools/**、internal/message/content.go、internal/backend/session.go、internal/cmd/{root,session,stats}.go。"
+  - "接受为机制级变化：internal/config/discovery.go 新增发现缓存、后台刷新与合并；config.go 新增 options.max_background_jobs；schema.json、docs/config/README.md 与内置 crush-config 技能同步该键；internal/agent/settle.go 新增工具调用补记；message/content.go 的 toolCallInput 与 AddFinishAt 改变落库字段语义；agent.go 与 backend/session.go 接入补记；empty_media.go 决定空媒体结果的落库文本。"
+  - "判定不改变固定问题答案（已查入口）：hooks 只有 reload_hooks_test.go 的签名调整，internal/hooks/** 与 docs/hooks 未改；skills 只有 internal/skills/builtin/crush-config/SKILL.md 增加一行配置键说明，技能发现与加载代码未改；native_plugins 没有任何插件相关文件改动，仍为 not_applicable；custom_agents 的 Agent 结构与 SetupAgents 未改，schema.json 顶层仍无 agents 键；mcp 侧本轮的两处改动分属不同文件：internal/agent/tools/mcp/tools.go:63-115 把原先内联在 RunTool 里的折叠逻辑抽成 toolResultFromCall/mediaPayload，并加入空/空白媒体载荷处理（配套新增 internal/agent/tools/mcp/empty_media_test.go），折叠规则本身在本轮之前已存在；“最多一份图片、一份音频”的折叠与 UnsupportedMediaResponse 无关——后者定义在 internal/agent/tools/tools.go:73-76，由 internal/agent/tools/mcp-tools.go:143 与 internal/agent/tools/view.go:210 调用，mcp/tools.go 内不存在该标识符（全仓 grep 确认）。ListTools、filterTools、resources、prompts 路径未改，故 mcp.capabilities 答案不变。"
+  - "配置加载入口本轮改为显式传 context（Load/Init/LoadProviders）并为发现探测加预算；这是调用层签名变化，不改变来源、合并、运行时覆盖与信任规则，config.sources、config.overrides、config.runtime、config.trust 结论不变。"
+  - "internal/cmd/session.go、stats.go、root.go 的改动是 context 传递、信号处理与分页 writer 的重构，不改变记录的位置、格式或记录范围；transcripts.scope、transcripts.location、transcripts.format 不变。"
+  - "已发布引用的行定位在本轮提交上会漂移（triage 记录 35 条不再命中）。处理方式是新 edition 只把新增结论绑定到 cd5f15d 的 git_source_file 快照（commit、仓库相对路径、content_sha256，不保留 checkout），旧 edition 与旧引用保持原字节。"
+  - "新 edition：crush-cli-configuration-v3（config.defaults 增补 max_background_jobs）、crush-cli-custom_providers-v3（providers.models 改为缓存/后台刷新/配置优先合并，providers.diagnostics 增补发现缓存）、crush-local_transcripts-v2（transcripts.schema 增补工具调用补记与字段语义）。registry/chapter-current.yaml 已指向这三版，旧版保留。"
+  - "本审计 review_status 保持 pending：本轮 24 道固定问题全部落定、pending_question_ids 已清空，但 pending_audit_refs 中的 audit-crush-c605cca6 与 audit-crush-2004ef1a 仍未结案。它们剩余的 config.migration、agents.entry/roles/invocation/limits/diagnostics、hooks.events/input/output/order/diagnostics、mcp.entry/definition/transport/auth/lifecycle/exposure/diagnostics、plugins.model/package/install/api/lifecycle、skills.discovery/collision/format/extensions/loading/invocation/diagnostics、transcripts.naming/lifecycle/database/archive/cleanup/diagnostics、providers.forwarding/responses 不在本轮固定问题集合内，不能由本审计代为关闭。"
+  - "独立复核 rev2-crush（只读，2026-10-22）结论 changes_requested：三份新 edition 的实质论断在固定提交 cd5f15d366f516c992ec8331f0bc158708bb69ec 上逐条核对通过，未发现来源冲突、未推翻任何已发布步骤，也未改变 config 优先级、插件/技能/MCP 发现或 hook 派发这三类跨主题加载机制。corrected 的固定问题为 config.defaults、providers.models、providers.diagnostics（均因引用行定位）、mcp.capabilities（审计与报告的排除理由归因），其余 20 道维持 upheld。"
+  - "按复核意见已应用：ref-crush-code-option-max-background-jobs 定位 212-214 → 214-216（摘录原不在所引范围内）；ref-crush-code-discovery-merge 定位 185-199 → 183-197（末行超出该文件 197 行，且摘录首两行注释在 183-184）；mcp 排除项归因改写（折叠逻辑与 UnsupportedMediaResponse 分属 mcp/tools.go 与 tools.go；折叠规则本轮之前已存在，本轮新增的是空/空白载荷处理与 mcp/empty_media_test.go）。"
+  - "复核要求之外、经源码复核发现的同批定位修正：ref-crush-transcripts-backend-settle-read 76-84 → 77-85（摘录实际起于 77 行，结束于 85 行的 `}`）。ref-crush-transcripts-settle-constants 原拟把摘录补成 14-24 的逐字连续块，但引用 excerpt 有 800 字符上限（补全后约 1050，候选校验 SCHEMA_INVALID），故保持原摘录（14-24 范围内省略 interrupted 三行）；章节引用的 interruptedToolCallResult 文本另有 ref-crush-transcripts-settle-repair 佐证。其余 11 条新引用的 start/end 均覆盖其摘录首末行，未改。"
+  - "复核对 ref-crush-code-load-discovery-merge 提出把 start 改为 439：经源码复核该说法不成立——`baseURL, err := resolver.ResolveValue(providerConfig.BaseURL)` 在 440 行（439 行为 `}`），而 440-452 与摘录逐字一致，故未改动该引用。"
+  - "本次复核未要求回退当前 edition 选择：registry/chapter-current.yaml 保持 crush-cli-configuration-v3、crush-cli-custom_providers-v3、crush-local_transcripts-v2；章节文本未改（corrected 的四道问题只涉及引用定位与审计留痕）。review_status 仍为 pending，未写 reviewed_by/reviewed_at，pending_audit_refs 与 pending_question_ids 未动。"
+  - 独立复核 rev3-crush（2026-10-22 批次，verdict approved）：rev2-crush 的 4 条 issue 中 3 条已实修并在固定提交
+    cd5f15d366f516c992ec8331f0bc158708bb69ec 上逐条核实通过（ref-crush-code-option-max-background-jobs 定位
+    212-214 → 214-216、ref-crush-code-discovery-merge 定位 185-199 → 183-197、mcp 排除项归因改写），第 4 条
+    （settle-constants 摘录省略三行）按数据集既有做法保留。复核判定 configuration/custom_providers/
+    local_transcripts 三题可作为当前 edition，其余五题本轮未写新 edition、维持已发布版本。本审计
+    review_status 保持 pending、未写 reviewed_by/reviewed_at（引用的旧审计仍未结案）。

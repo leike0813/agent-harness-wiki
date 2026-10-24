@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-8aac-tool-start-row-write
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-8aac-crates-pa-core-src-session-engine-mod-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session_engine/mod.rs
+  start: 410
+  end: 425
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/8aac8692456c00c01d4e53e60e6d3347a3506559/crates/pa-core/src/session_engine/mod.rs
+excerpt: |2
+          // Tool-call lifecycle rows: the start and running sides of the
+          // trace (the completion side is the toolResult message row). Like
+          // the message arm, a failed durable write never fails the run.
+          AgentEvent::ToolExecutionStart {
+              tool_call_id,
+              tool_name,
+              args,
+          } => {
+              let result = session
+                  .lock()
+                  .await
+                  .append_tool_started(&tool_call_id, &tool_name, args);
+              if let Err(error) = result {
+                  eprintln!("pa-core: tool_started row not persisted: {error}");
+              }
+          }

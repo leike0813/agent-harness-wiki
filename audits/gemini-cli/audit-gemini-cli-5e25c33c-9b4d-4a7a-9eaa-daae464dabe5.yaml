@@ -1,0 +1,435 @@
+schema_version: 2
+audit_id: audit-gemini-cli-5e25c33c-9b4d-4a7a-9eaa-daae464dabe5
+harness_id: gemini-cli
+checked_at: 2026-10-22T12:54:18.777Z
+previous_audit_id: audit-gemini-cli-dc9c7fa2-f6ae-4573-b6ef-b50105b41ad8
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-gemini-cli-cc261cb8-12aa-4f8c-ac95-8f1a3f99fc7f
+  - audit-gemini-cli-dc9c7fa2-f6ae-4573-b6ef-b50105b41ad8
+checks:
+  - source_id: source-gemini-cli-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:54:16.265Z
+    status: changed
+    baseline: 65454d01f98f0983a4fee0773528fb42433131da
+    observed: 09d81bf116b6f0ef084731dc996aa9d56438bb70
+    remote_ref: refs/heads/main
+  - source_id: source-gemini-cli-docs
+    kind: official_documentation
+    checked_at: 2026-10-22T12:54:16.273Z
+    status: unchanged
+    baseline: 8e1b4cbe2cd31effa3375aa5d480269ab28bf82c02a42d9b52cbb61e5b248590
+    observed: 8e1b4cbe2cd31effa3375aa5d480269ab28bf82c02a42d9b52cbb61e5b248590
+    resolved_url: https://geminicli.com/docs/cli/skills.md
+  - source_id: source-gemini-cli-npm
+    kind: npm_registry
+    checked_at: 2026-10-22T12:54:16.275Z
+    status: changed
+    baseline: 0.64.0@sha512-FHrZ1NPf9QszyVMaa/BP3SsPy40ogBLnbZNWkv/PMi1Uz2zoDNMLGiBzBGmx4Bl7iLRq01K9PY/5kmloXFTpsA==
+    observed: 0.65.0@sha512-B+flaYBNqX2zO71I5/gu7ZsnI38NlpOl654HWz+bK8I/P5sGILQsbkTOQ5a9V+w1Q6QO3wf9PlqtuMsl7XxpNQ==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.trust
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources-overrides
+      - config-runtime-defaults
+      - config-trust
+      - config-migration-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-gemini-cli-config-doc-files
+      - ref-gemini-cli-config-paths
+      - ref-gemini-cli-config-load
+      - ref-gemini-cli-storage-home
+      - ref-gemini-cli-config-doc-geminidir
+      - ref-gemini-cli-config-merge
+      - ref-gemini-cli-config-trust-empty
+      - ref-gemini-cli-config-admin-remote
+      - ref-gemini-cli-settings-admin
+      - ref-gemini-cli-config-validation
+      - ref-gemini-cli-config-otlpheaders-merge-order
+      - ref-gemini-cli-config-otlpheaders-env-parse
+      - ref-gemini-cli-config-telemetry-env-allowlist
+      - ref-gemini-cli-config-otlpheaders-doc-env
+      - ref-gemini-cli-config-oauth-iss-provider
+      - ref-gemini-cli-config-oauth-iss-discovery
+      - ref-gemini-cli-config-oauth-iss-doc
+      - ref-gemini-cli-config-doc-envfiles
+      - ref-gemini-cli-config-envfile
+      - ref-gemini-cli-config-envload
+      - ref-gemini-cli-settings-advanced
+      - ref-gemini-cli-config-doc-args
+      - ref-gemini-cli-cli-options
+      - ref-gemini-cli-settings-modelconfigs-custom
+      - ref-gemini-cli-settings-experimental-agents
+      - ref-gemini-cli-settings-general
+      - ref-gemini-cli-settings-model
+      - ref-gemini-cli-settings-context
+      - ref-gemini-cli-settings-tools
+      - ref-gemini-cli-settings-experimental-extensions
+      - ref-gemini-cli-settings-experimental-dynamic
+      - ref-gemini-cli-settings-gemmarouter
+      - ref-gemini-cli-settings-security
+      - ref-gemini-cli-config-otlpheaders-schema
+      - ref-gemini-cli-config-otlpheaders-schema-json
+      - ref-gemini-cli-config-otlpheaders-doc-setting
+      - ref-gemini-cli-config-oauth-iss-schema
+      - ref-gemini-cli-config-oauth-iss-schema-json
+      - ref-gemini-cli-config-trusted-override
+      - ref-gemini-cli-config-trusted-dialog
+      - ref-gemini-cli-storage-runtime-scope
+      - ref-gemini-cli-skills-manager-discover
+      - ref-gemini-cli-agents-registry-sources
+      - ref-gemini-cli-hooks-registry-trust
+      - ref-gemini-cli-mcp-doc-list
+      - ref-gemini-cli-cmd-permissions
+      - ref-gemini-cli-config-trusted-impact
+      - ref-gemini-cli-config-trusted-enable
+      - ref-gemini-cli-config-enterprise-system
+      - ref-gemini-cli-config-enterprise-isolation
+      - ref-gemini-cli-config-policy-locations
+      - ref-gemini-cli-config-policy-tiers
+      - ref-gemini-cli-config-enterprise-tools
+      - ref-gemini-cli-config-enterprise-catalog
+      - ref-gemini-cli-config-legacy-theme
+      - ref-gemini-cli-settings-deprecated
+      - ref-gemini-cli-cmd-resume
+      - ref-gemini-cli-config-storage-migration
+      - ref-gemini-cli-cmd-settings
+      - ref-gemini-cli-settings-doc-intro
+      - ref-gemini-cli-settings-doc-ui
+      - ref-gemini-cli-settings-doc-security
+      - ref-gemini-cli-settings-doc-skills
+      - ref-gemini-cli-settings-doc-hooksconfig
+      - ref-gemini-cli-cmd-memory
+      - ref-gemini-cli-config-doc-context
+      - ref-gemini-cli-config-workspace-write-guard
+      - ref-gemini-cli-config-otlpheaders-parse
+      - ref-gemini-cli-config-otlpheaders-doc-table
+      - ref-gemini-cli-config-resolve-env
+      - ref-gemini-cli-config-coerce-valid
+      - ref-gemini-cli-config-load-passes
+      - ref-gemini-cli-config-final-pass
+      - ref-gemini-cli-config-trust-late
+      - ref-gemini-cli-config-doc-env-resolution
+      - ref-gemini-cli-config-allowprivate-schema
+    cross_topic_links:
+      - agents.entry
+      - agents.roles
+      - agents.overrides
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.models
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.entry
+      - hooks.conditions
+      - mcp.entry
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.lifecycle
+      - skills.roots
+      - skills.extensions
+      - skills.conditions
+    reason: 提交 09d81bf1 把 settings 的占位符解析改成两遍（.env 之前与之后）、新增 coerceValidSettings
+      的尽力而为校验、工作区设置在信任后才解析，并新增 oauth.allowPrivateNetwork；configuration 章节已按新机制新建
+      v3
+      edition，config.overrides、config.runtime、config.trust、config.defaults、config.migration、config.diagnostics
+      的答案随之更新，config.sources 不变。
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.roles
+      - agents.overrides
+      - agents.diagnostics
+    section_ids:
+      - agents-entry-format
+      - agents-roles-invocation
+      - agents-overrides-limits
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-gemini-cli-agents-doc-files
+      - ref-gemini-cli-storage-agents-dirs
+      - ref-gemini-cli-storage-project-scope
+      - ref-gemini-cli-agents-doc-extension
+      - ref-gemini-cli-agents-registry-sources
+      - ref-gemini-cli-agents-registry-ack
+      - ref-gemini-cli-agents-doc-builtin
+      - ref-gemini-cli-agents-doc-investigator
+      - ref-gemini-cli-agents-doc-browser
+      - ref-gemini-cli-agents-doc-remote
+      - ref-gemini-cli-agents-doc-schema
+      - ref-gemini-cli-agents-doc-overrides
+      - ref-gemini-cli-settings-agents
+      - ref-gemini-cli-agents-doc-modeloverrides
+      - ref-gemini-cli-settings-modelconfigs-custom
+      - ref-gemini-cli-agents-doc-policies
+      - ref-gemini-cli-agents-policy-syntax
+      - ref-gemini-cli-cmd-agents
+      - ref-gemini-cli-cli-interactive
+      - ref-gemini-cli-agents-loader-local
+      - ref-gemini-cli-settings-experimental-agents
+      - ref-gemini-cli-agents-registry-home-skip
+    cross_topic_links:
+      - config.runtime
+      - config.defaults
+      - config.trust
+      - providers.entry
+      - providers.models
+      - providers.forwarding
+      - providers.responses
+      - skills.roots
+      - skills.discovery
+    reason: packages/core/src/agents/registry.ts 在项目层加载外新增“工作区等于 home
+      目录时跳过”的前置条件；custom_agents 章节据此新建 v2 edition，agents.entry 与
+      agents.diagnostics 更新，agents.roles、agents.overrides 的机制未变。
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.models
+      - providers.forwarding
+      - providers.responses
+    section_ids:
+      - providers-entry-auth
+      - providers-protocol-models
+      - providers-forwarding-responses
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-gemini-cli-providers-auth-methods
+      - ref-gemini-cli-settings-security-auth
+      - ref-gemini-cli-settings-model
+      - ref-gemini-cli-providers-routing-precedence
+      - ref-gemini-cli-settings-modelconfigs-custom
+      - ref-gemini-cli-settings-experimental-dynamic
+      - ref-gemini-cli-config-doc-files
+      - ref-gemini-cli-cli-models
+      - ref-gemini-cli-settings-modeldefs
+      - ref-gemini-cli-providers-default-model-configs
+      - ref-gemini-cli-providers-models
+      - ref-gemini-cli-cmd-model
+      - ref-gemini-cli-providers-routing-how
+      - ref-gemini-cli-settings-general
+      - ref-gemini-cli-providers-gemma-how
+      - ref-gemini-cli-hooks-ref-aftermodel
+    cross_topic_links:
+      - config.sources
+      - config.runtime
+      - config.defaults
+      - agents.overrides
+      - mcp.entry
+    reason: 已按固定问题逐个核对：本轮提交没有改变该主题在固定问题上的机制，已发布引用的行定位只是随代码移动而偏移；答案维持不变，不新建 edition。
+  - topic: hooks
+    question_ids:
+      - hooks.entry
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-events-entry
+      - hooks-order-conditions
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-gemini-cli-hooks-ref-definition
+      - ref-gemini-cli-hooks-doc-schema
+      - ref-gemini-cli-hooks-doc-config
+      - ref-gemini-cli-hooks-registry-sources
+      - ref-gemini-cli-hooks-doc-fields
+      - ref-gemini-cli-settings-hooksconfig
+      - ref-gemini-cli-settings-hooks
+      - ref-gemini-cli-settings-doc-hooksconfig
+      - ref-gemini-cli-hooks-registry-trust
+      - ref-gemini-cli-config-trusted-dialog
+      - ref-gemini-cli-hooks-doc-security
+      - ref-gemini-cli-cmd-hooks
+      - ref-gemini-cli-hooks-doc-manage
+      - ref-gemini-cli-hooks-best-panel
+      - ref-gemini-cli-hooks-best-telemetry
+      - ref-gemini-cli-hooks-best-debug
+      - ref-gemini-cli-hooks-doc-json
+      - ref-gemini-cli-hooks-best-exitcodes
+      - ref-gemini-cli-hooks-planner-plan
+    cross_topic_links:
+      - config.trust
+      - config.diagnostics
+      - plugins.discovery
+    reason: 已按固定问题逐个核对：本轮提交没有改变该主题在固定问题上的机制，已发布引用的行定位只是随代码移动而偏移；答案维持不变，不新建 edition。
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.exposure
+    section_ids:
+      - mcp-entry-definition
+      - mcp-lifecycle-capabilities
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-gemini-cli-mcp-doc-setup
+      - ref-gemini-cli-plugins-ref-manifest
+      - ref-gemini-cli-config-doc-files
+      - ref-gemini-cli-mcp-doc-add
+      - ref-gemini-cli-mcp-doc-global
+      - ref-gemini-cli-settings-mcp
+      - ref-gemini-cli-mcp-doc-override
+      - ref-gemini-cli-config-enterprise-mcpmerge
+      - ref-gemini-cli-mcp-doc-trustbypass
+      - ref-gemini-cli-mcp-doc-allowlist
+      - ref-gemini-cli-mcp-doc-confirm
+      - ref-gemini-cli-mcp-doc-props
+      - ref-gemini-cli-config-doc-args
+      - ref-gemini-cli-mcp-policy-syntax
+      - ref-gemini-cli-mcp-doc-namespace
+      - ref-gemini-cli-settings-admin
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.trust
+      - providers.entry
+      - plugins.model
+      - plugins.package
+      - plugins.discovery
+      - plugins.api
+      - skills.extensions
+      - skills.conditions
+    reason: 已按固定问题逐个核对：本轮提交没有改变该主题在固定问题上的机制，已发布引用的行定位只是随代码移动而偏移；答案维持不变，不新建 edition。
+  - topic: native_plugins
+    question_ids:
+      - plugins.install
+    section_ids:
+      - plugins-install
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-gemini-cli-plugins-ref-install
+      - ref-gemini-cli-plugins-doc-install
+      - ref-gemini-cli-plugins-ref-update
+      - ref-gemini-cli-plugins-ref-link
+      - ref-gemini-cli-plugins-write-link
+      - ref-gemini-cli-plugins-ref-new
+      - ref-gemini-cli-plugins-ref-uninstall
+      - ref-gemini-cli-plugins-ref-disable
+      - ref-gemini-cli-plugins-ref-enable
+      - ref-gemini-cli-plugins-enablement-store
+      - ref-gemini-cli-plugins-enablement-is-enabled
+      - ref-gemini-cli-settings-security-git
+    cross_topic_links: []
+    reason: 已按固定问题逐个核对：本轮提交没有改变该主题在固定问题上的机制，已发布引用的行定位只是随代码移动而偏移；答案维持不变，不新建 edition。
+  - topic: skills
+    question_ids:
+      - skills.discovery
+      - skills.format
+      - skills.extensions
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-discovery-collision
+      - skills-locations-format
+      - skills-conditions-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-gemini-cli-skills-doc-how
+      - ref-gemini-cli-skills-docsite-how
+      - ref-gemini-cli-skills-loader-dir
+      - ref-gemini-cli-skills-doc-manage
+      - ref-gemini-cli-skills-using-manage
+      - ref-gemini-cli-cli-interactive
+      - ref-gemini-cli-skills-create-metadata
+      - ref-gemini-cli-skills-create-quickstart
+      - ref-gemini-cli-skills-create-structure
+      - ref-gemini-cli-skills-loader-frontmatter
+      - ref-gemini-cli-skills-loader-file
+      - ref-gemini-cli-skills-doc-precedence
+      - ref-gemini-cli-settings-skills
+      - ref-gemini-cli-settings-admin
+      - ref-gemini-cli-skills-doc-options
+      - ref-gemini-cli-plugins-ref-skills
+      - ref-gemini-cli-skills-create-scripts
+      - ref-gemini-cli-skills-manager-state
+      - ref-gemini-cli-settings-doc-skills
+      - ref-gemini-cli-config-admin-remote
+      - ref-gemini-cli-skills-manager-discover
+      - ref-gemini-cli-settings-security
+      - ref-gemini-cli-skills-using-security
+      - ref-gemini-cli-settings-auto-memory
+      - ref-gemini-cli-cmd-skills
+      - ref-gemini-cli-skills-manager-conflict
+      - ref-gemini-cli-skills-activate-execute
+      - ref-gemini-cli-skills-loader-regex
+      - ref-gemini-cli-skills-loader-frontmatter-09d81bf1
+      - ref-gemini-cli-skills-loader-read
+      - ref-gemini-cli-skills-file-encoding
+    cross_topic_links:
+      - config.overrides
+      - config.defaults
+      - config.trust
+      - config.diagnostics
+      - agents.diagnostics
+      - mcp.exposure
+      - plugins.model
+      - plugins.api
+    reason: packages/core/src/skills/skillLoader.ts 放宽 SKILL.md 解析（允许 BOM 与 `---`
+      行尾空白、锚定全文、name/description 不区分大小写并去掉成对引号、支持 `>`/`|` 块标量，改用带编码识别的读取）；skills
+      章节据此新建 v2 edition，skills.format
+      更新，skills.discovery、skills.extensions、skills.conditions、skills.diagnostics
+      未变。
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：maintain；只读观察时间 2026-10-22T12:54:18.777Z，会话
+    4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns。
+  - 按已发布章节引用逐条核对：35 条已发布引用的行定位在本轮提交上不再命中。受影响主题
+    configuration、custom_agents、custom_providers、hooks、mcp、native_plugins、skills，受影响小节
+    agents-diagnostics、agents-entry-format、agents-overrides-limits、agents-roles-invocation、config-migration-diagnostics、config-runtime-defaults、config-sources-overrides、config-trust、hooks-diagnostics、hooks-events-entry、hooks-order-conditions、mcp-entry-definition、mcp-lifecycle-capabilities、plugins-install、providers-entry-auth、providers-forwarding-responses、providers-protocol-models、skills-conditions-diagnostics、skills-discovery-collision、skills-locations-format。
+  - Git 来源 changed 的 116 个文件中有 11
+    个被章节引用，逐个比对后确认机制级变化：packages/core/src/agents/registry.ts 改动 Agent 注册表（28
+    处机制相关行）、packages/cli/src/config/settings.ts 与 schemas/settings.schema.json
+    改动设置与 schema、packages/core/src/mcp/oauth-provider.ts 与 oauth-utils.ts 改动 MCP
+    OAuth 提供方与工具。
+  - 本轮派发入口：topic
+    configuration、custom_agents、custom_providers、hooks、mcp、native_plugins、skills；固定问题
+    agents.diagnostics、agents.entry、agents.overrides、agents.roles、config.defaults、config.diagnostics、config.migration、config.overrides、config.runtime、config.sources、config.trust、hooks.conditions、hooks.diagnostics、hooks.entry、mcp.entry、mcp.exposure、plugins.install、providers.entry、providers.forwarding、providers.models、providers.responses、skills.conditions、skills.diagnostics、skills.discovery、skills.extensions、skills.format。
+  - 语义结论（本轮新建 3 个 edition）：configuration 由 v2 升为 v3、custom_agents 由 v1 升为
+    v2、skills 由 v1 升为 v2；三者分别对应 settings.ts 的两遍占位符解析与尽力而为校验、agents/registry.ts
+    的“工作区等于 home 时跳过项目层”、skillLoader.ts 的 frontmatter 解析放宽。其余派发主题维持原 edition。
+  - configuration 的具体证据：settings.ts `resolveSettings`（891-926）在 `.env`
+    前后各解析一次，只有第二遍把校验问题写入
+    errors；`coerceValidSettings`（833-878）在整体校验失败时删掉失败属性重跑校验以转换其余字段；`_doLoadSettings`
+    （1047-1077、1089-1124）先只用系统与用户设置判定信任、受信后才解析工作区设置；`setTrusted`（365-397）在加载后建立信任时补解析
+    工作区原始设置；docs/reference/configuration.md（72-76）明确控制 `.env` 加载的键只能引用 shell 变量；
+    schemas/settings.schema.json（4165-4168）新增 `oauth.allowPrivateNetwork`，无
+    `default`。
+  - custom_agents 的证据：registry.ts 174-181 把项目层加载包在
+    `!storage.isWorkspaceHomeDir()` 外层判断内；内置、用户级、扩展层以及 项目层内的信任门禁与
+    acknowledged-agents 确认逻辑未变，因此 agents.roles、agents.overrides 未改。
+  - skills 的证据：skillLoader.ts 35-36 的 FRONTMATTER_REGEX 接受可选 BOM 与 `---`
+    行尾空白并锚定全文；86-130 的简单解析器把 key 匹配改为大小写不敏感、去掉成对引号、支持 `>`/`|` 块标量；190-200 改用
+    `readFileWithEncoding` （fileUtils.ts 261-277 按 BOM 识别
+    UTF-8/UTF-16/UTF-32）。skills.discovery 的 glob 规则、skills.extensions 的字段、
+    skills.conditions 与 skills.diagnostics 的入口均未变。
+  - 排除说明：`packages/core/src/mcp/oauth-provider.ts`、`oauth-utils.ts` 与
+    docs/tools/mcp-server.md 的改动只是 MCP OAuth 的 `allowPrivateNetwork` 选项与端点校验，归
+    mcp.auth（本轮未派发）；mcp.entry 与 mcp.exposure
+    的机制不变。custom_providers、hooks、native_plugins 的固定问题不经过被改动的代码路径：settings schema
+    只新增同一 OAuth 字段，hooks 配置与插件安装/启用路径未变，因此不新建 edition。
+  - 引用策略：新增引用只覆盖本轮改动区域，全部固定到提交 09d81bf116b6f0ef084731dc996aa9d56438bb70 并记录文件
+    content_sha256（git_source_file + source_revision 快照，不保留
+    checkout）；未变部分的已发布引用保持其 38700b4/44d764ee 快照，不回改。
+  - 复核判断：本轮没有来源冲突，也没有推翻已发布的配置操作步骤；文件优先级与合并策略未变，变的是占位符解析时机与校验回退方式，
+    属于同主题机制修订，因此按普通更新由作者自检结案。候选 check 已通过。

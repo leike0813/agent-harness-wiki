@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-delete-lease-759958a
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-session-lifecycle-759958a
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/workspace/sessionLifecycle/sessionLifecycleService.ts
+  start: 493
+  end: 509
+official_url: https://github.com/MoonshotAI/kimi-code/blob/759958afdfeb0f8c7d09cb03cbc2cf85b6255e9e/packages/agent-core-v2/src/workspace/sessionLifecycle/sessionLifecycleService.ts
+excerpt: |-
+  const lease = this.sessionLocks.lease(sessionId);
+  try {
+    if (handle !== undefined) {
+      await this.close(sessionId);
+    }
+    await this.hostFs.remove(sessionDirOf(this.bootstrap.homeDir, this.handlerScope, sessionId));
+    await this.index.remove(sessionId);
+    await dropFileHistorySession({ docs: this.docs, workspaceId: this.workspaceId, sessionId });
+    this.appendLogStore.append('', 'session_index.jsonl', { sessionId, deleted: true });
+    await this.appendLogStore.flush();
+  } finally {
+    lease.release();
+  }

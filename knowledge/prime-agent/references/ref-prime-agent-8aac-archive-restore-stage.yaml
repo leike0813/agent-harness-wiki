@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-8aac-archive-restore-stage
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-8aac-crates-pa-daemon-src-session-catalog-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_catalog.rs
+  start: 56
+  end: 67
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/8aac8692456c00c01d4e53e60e6d3347a3506559/crates/pa-daemon/src/session_catalog.rs
+excerpt: |2
+      let destination = sessions_dir.join(session_file_name(&info.id));
+      std::fs::create_dir_all(sessions_dir)?;
+      // Stage in the live directory so custom sessions dirs on another
+      // filesystem work too. Publish a complete file without replacing any
+      // live path, even one the catalog could not parse.
+      let temp = sessions_dir.join(format!(".restore-{}.tmp", uuid::Uuid::new_v4()));
+      let mut options = std::fs::OpenOptions::new();
+      options.write(true).create_new(true);
+      pa_core::platform::perms::set_private_mode(&mut options);
+      let mut target = options.open(&temp)?;
+      let result = (|| -> Result<()> {

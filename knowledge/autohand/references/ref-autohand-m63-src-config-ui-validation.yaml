@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-m63-src-config-ui-validation
+harness_id: autohand
+snapshot_id: snapshot-autohand-m63-src-config-ts
+locator:
+  kind: symbol
+  file: src/config.ts
+  symbol: validateConfig
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  const toolOutput: unknown = config.ui.toolOutput;
+  if (toolOutput !== undefined && toolOutput !== "compact" && toolOutput !== "full") {
+    throw new Error(`ui.toolOutput must be compact or full in ${configPath}`);
+  }
+  const defaultInteractionMode: unknown = config.ui.defaultInteractionMode;
+  if (
+    defaultInteractionMode !== undefined &&
+    !(INTERACTION_MODE_SEQUENCE as readonly unknown[]).includes(defaultInteractionMode)
+  ) {
+    throw new Error(
+      `ui.defaultInteractionMode must be one of ${INTERACTION_MODE_SEQUENCE.join(", ")} in ${configPath}`,
+    );
+  }
+  if (config.ui.statusBar !== undefined) {
+    validateStatusBarConfig(config.ui.statusBar, configPath);
+  }

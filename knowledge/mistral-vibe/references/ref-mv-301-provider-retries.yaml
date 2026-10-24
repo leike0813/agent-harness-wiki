@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-provider-retries
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/llm/backend/generic.py
+  start: 266
+  end: 296
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+          Args:
+              client: Optional Vibe HTTP client to use. If not provided, one will be created.
+              retry_max_elapsed_time: Total wall-clock budget for retrying retryable
+                  failures (429, 5xx, network/timeout errors). Retries continue for as
+                  long as the budget allows, matching the Mistral backend's behavior.
+  ...
+          # Budget-bounded retry: retry for as long as `retry_max_elapsed_time`
+          # allows rather than for a fixed attempt count, so a transient 429 or
+          # outage is waited out the same way the Mistral SDK backend does.
+          retried = async_retry(
+              tries=None, max_elapsed_time=retry_max_elapsed_time, on_retry=paced_on_retry
+          )(self._send_request)

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-currency-symbol-20261022
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261022-canonical-cost
+locator:
+  kind: file_lines
+  file: crates/goose/src/providers/canonical_cost.rs
+  start: 107
+  end: 116
+official_url: "https://github.com/block/goose/blob/6835dd45a21a701b017abe38aa4204e18fed9213/crates/goose/src/providers/canonical_cost.rs"
+excerpt: |2-
+  fn currency_symbol(declared: &str) -> String {
+      let declared = declared.trim();
+      match declared.to_ascii_uppercase().as_str() {
+          "" | "USD" => DEFAULT_CURRENCY.to_string(),
+          "EUR" => "€".to_string(),
+          "GBP" => "£".to_string(),
+          "JPY" => "¥".to_string(),
+          _ => declared.to_string(),
+      }
+  }

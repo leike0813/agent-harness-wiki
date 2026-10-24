@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-hooks-declaration
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/hooks/models.py
+  start: 52
+  end: 87
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  class HookConfig(BaseModel):
+      name: str
+      type: HookType
+      command: str
+      match: str | None = None
+      timeout: float | None = None
+      strict: bool = False
+      description: str | None = None
+  ...
+      @model_validator(mode="after")
+      def _apply_defaults_and_constraints(self) -> Self:
+          if self.match is not None and self.type == HookType.POST_AGENT:
+  ...
+          if self.strict and self.type == HookType.POST_AGENT:
+  ...
+          if self.timeout is None:
+              self.timeout = _DEFAULT_HOOK_TIMEOUT
+          return self

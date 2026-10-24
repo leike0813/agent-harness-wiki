@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-providers-metadata-classifier-compat
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261022-ai-src-types-ts
+locator:
+  kind: file_lines
+  file: packages/ai/src/types.ts
+  start: 897
+  end: 902
+official_url: https://github.com/earendil-works/pi/blob/be14d9732f98fcc33929cf103a92b96afaa6523e/packages/ai/src/types.ts
+excerpt: |-
+  /** Structured classifier model: usable with `classify()` only. */
+  export interface ClassifierModel<TApi extends ClassifierApi> extends BaseModel<TApi> {
+  	type: "classifier";
+  	contextWindow: number;
+  	/** Compatibility overrides for System One APIs. If not set, auto-detected from provider, baseUrl, and id. */
+  	compat?: TApi extends "typesafe-system-one" | "cloudflare-workers-ai-system-one" ? SystemOneCompat : never;
+  }

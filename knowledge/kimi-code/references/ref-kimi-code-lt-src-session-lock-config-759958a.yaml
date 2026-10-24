@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-session-lock-config-759958a
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-session-lock-759958a
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/persistence/backends/node-fs/sessionLockService.ts
+  start: 67
+  end: 75
+official_url: https://github.com/MoonshotAI/kimi-code/blob/759958afdfeb0f8c7d09cb03cbc2cf85b6255e9e/packages/agent-core-v2/src/persistence/backends/node-fs/sessionLockService.ts
+excerpt: |-
+  ) {
+    super();
+    this.lockDir = join(bootstrap.homeDir, 'locks', 'sessions');
+    this.hostname = os.hostname();
+    this.clientIdentity = bootstrap.clientIdentity.platform || bootstrap.clientIdentity.productName;
+    this.disabled = parseBooleanEnv(bootstrap.getEnv(SESSION_LOCK_ENV)) === false;
+  }

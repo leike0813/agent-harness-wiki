@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-skills-xml-20261022
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-skills-util-20261022
+locator:
+  kind: file_lines
+  file: common/src/util/skills.ts
+  start: 21
+  end: 50
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |2-
+  function escapeXml(str: string): string {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;')
+  }
+
+  /**
+   * Formats available skills as XML for inclusion in tool descriptions.
+   */
+  export function formatAvailableSkillsXml(skills: SkillsMap): string {
+    const skillEntries = Object.values(skills).filter(isSkillModelInvocable)
+    if (skillEntries.length === 0) {
+      return ''
+    }

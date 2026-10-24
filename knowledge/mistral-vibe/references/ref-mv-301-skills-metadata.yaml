@@ -1,0 +1,36 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-skills-metadata
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/skills/models.py
+  start: 39
+  end: 85
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  class SkillMetadata(BaseModel):
+      model_config = {"populate_by_name": True}
+
+      name: str = Field(
+          ...,
+          min_length=1,
+          max_length=64,
+          pattern=r"^[a-z0-9]+(-[a-z0-9]+)*$",
+          description="Skill identifier. Lowercase letters, numbers, and hyphens only.",
+      )
+  ...
+      allowed_tools: list[str] = Field(
+          default_factory=list,
+          validation_alias="allowed-tools",
+          description="Space-delimited list of pre-approved tools (experimental).",
+      )
+  ...
+      disable_model_invocation: bool = Field(
+          default=False,
+          validation_alias=DISABLE_MODEL_INVOCATION_FIELD,
+          description=(
+              "When true, the skill can only be invoked explicitly by the user."
+          ),
+      )

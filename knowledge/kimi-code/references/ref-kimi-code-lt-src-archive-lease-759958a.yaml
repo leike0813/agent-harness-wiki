@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-archive-lease-759958a
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-session-lifecycle-759958a
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/workspace/sessionLifecycle/sessionLifecycleService.ts
+  start: 445
+  end: 455
+official_url: https://github.com/MoonshotAI/kimi-code/blob/759958afdfeb0f8c7d09cb03cbc2cf85b6255e9e/packages/agent-core-v2/src/workspace/sessionLifecycle/sessionLifecycleService.ts
+excerpt: |-
+  async archive(sessionId: string): Promise<void> {
+    const handle = this.sessions.get(sessionId);
+    if (handle === undefined) return;
+    const lease = this.sessionLocks.lease(sessionId);
+    try {
+      const meta = handle.accessor.get(ISessionMetadata);
+      await meta.setArchived(true);
+      await this.drainAgents(handle);
+      await this.appendLogStore.drainRetirements();

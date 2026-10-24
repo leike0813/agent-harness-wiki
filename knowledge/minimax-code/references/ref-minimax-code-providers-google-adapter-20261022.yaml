@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-google-adapter-20261022
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo-20261022
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/model-system/connectivity/test-connection.ts
+  start: 100
+  end: 120
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  async function testGoogle(
+    target: ModelConnectionTestTarget,
+    signal: AbortSignal,
+  ): Promise<ModelConnectionTestResult> {
+    const reasoning = isThinkingEffortDisabled(target.effort)
+      ? undefined
+      : (target.effort as ThinkingLevel | undefined);
+    const result = await completeSimple(
+      {
+        id: target.modelId,
+        name: target.modelId,
+        provider: 'google',
+        api: 'google-generative-ai',
+        baseUrl: target.baseUrl,
+        reasoning: Boolean(reasoning),
+        input: ['text'],
+        contextWindow: 200_000,
+        maxTokens: resolveTestOutputLimit(target),
+        cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+      },
+      { messages: [{ role: 'user', content: 'ping', timestamp: Date.now() }] },

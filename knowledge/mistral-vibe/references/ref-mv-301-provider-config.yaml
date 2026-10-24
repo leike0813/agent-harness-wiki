@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-provider-config
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 135
+  end: 157
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  class ProviderConfig(BaseModel):
+      name: str
+      api_base: str
+      api_key_env_var: str = ""
+      browser_auth_base_url: str | None = None
+      browser_auth_api_base_url: str | None = None
+  ...
+      browser_auth_allow_origin_rewrite: bool = False
+      api_style: str = "openai"
+      backend: Backend = Backend.GENERIC
+      reasoning_field_name: str = "reasoning_content"
+  ...
+      emits_finish_reason: bool = True
+      project_id: str = ""
+      region: str = ""
+      extra_headers: dict[str, str] = Field(default_factory=dict)

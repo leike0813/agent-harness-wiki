@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-hooks-v2
+harness_id: command-code
+snapshot_id: snapshot-source-command-code-docs-mods-14e4c167d85f
+locator:
+  kind: document_section
+  heading: "`ModHooks`: hooks that change behavior"
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  `transformContext`, `appendSystemPrompt`, `transformSystemPrompt`, `transformMessage`, `transformTextDelta`, `beforeModelRequest`, `beforeToolCall`, `afterToolCall`, `onTurnStart`, `onTurnEnd`, `shouldStopAfterTurn`, `prepareNextTurn`, `onRunEnd`, `onStop`, plus the host-level `transformInput`, `onPermissionRequest`, `onSessionStart`, and `onSessionEnd`.
+  - `beforeToolCall` returns `{block?, input?, additionalContext?, terminate?, result?}`. `result` answers the call without running the tool.
+  - `onPermissionRequest` returns `'allow' | 'deny' | undefined`.
+  - `onStop` receives `{state, stopReason, turnNumber, lastAssistantText}` and returns `{continue?, reason?}`.
+  - `transformInput` returns `{action:'continue'} | {action:'transform', text} | {action:'handled', message?}`.

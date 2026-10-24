@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-config-toml-write
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/layers/_base.py
+  start: 54
+  end: 93
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  def _read_toml_snapshot(path: Path) -> LayerConfigSnapshot:
+      """Load the file into a snapshot paired with the fingerprint of its bytes.
+  ...
+      try:
+          with tempfile.NamedTemporaryFile(
+              mode="wb",
+              dir=path.parent,
+              prefix=f".{path.name}.",
+              suffix=".tmp",
+              delete=False,
+          ) as tmp_file:
+              tmp_path = Path(tmp_file.name)
+              tomli_w.dump(_canonical_toml_document(next_config), tmp_file)
+              tmp_file.flush()
+              os.fsync(tmp_file.fileno())
+              fingerprint = create_file_fingerprint(tmp_file)
+
+          tmp_path.replace(path)
+          tmp_path = None
+      finally:
+          if tmp_path is not None:
+              tmp_path.unlink(missing_ok=True)

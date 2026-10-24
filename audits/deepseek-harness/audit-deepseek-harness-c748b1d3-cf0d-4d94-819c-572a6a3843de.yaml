@@ -1,0 +1,103 @@
+schema_version: 2
+audit_id: audit-deepseek-harness-c748b1d3-cf0d-4d94-819c-572a6a3843de
+harness_id: deepseek-harness
+checked_at: 2026-10-22T12:53:58.658Z
+previous_audit_id: audit-deepseek-harness-5ab74160-9971-489f-994f-f30dccc91e5c
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-deepseek-harness-5ab74160-9971-489f-994f-f30dccc91e5c
+checks:
+  - source_id: source-deepseek-harness-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:53:57.544Z
+    status: changed
+    baseline: 571902028a75c64c1d767f4ae5fd099485f0ddf0
+    observed: 687f282e8625c6b8d11ff58211a90524be2e4317
+    remote_ref: refs/heads/master
+  - source_id: source-deepseek-harness-docs
+    kind: official_documentation
+    checked_at: 2026-10-22T12:53:57.553Z
+    status: changed
+    baseline: 665aa28b1c3a26f36d37e1b4faee68b6ff589139a3b1518a82fe83c0b869812c
+    observed: a4e4598fb9bde44a7b9917d445358e2267fa8adc3e7713b647cedcbb82ed0852
+    resolved_url: https://deepseek-harness.github.io/deepseek-harness/
+  - source_id: source-deepseek-harness-npm
+    kind: npm_registry
+    checked_at: 2026-10-22T12:53:57.556Z
+    status: changed
+    baseline: 0.2.0-rc.2@sha512-EAJ3gPNcVt/uv8X19PMm9NkVhWgT7xXNMk0UKCVm+IQ5rpSQOcsMUa0HWlnYYVybKMsccjcRB21vVVsaXQ6IdA==
+    observed: 0.2.1-rc.2@sha512-tvY+yhfKRifthbqPe/OK0AYxM5ZkvqfYq/jMYgJcEUxiRRL1Vwra3Ti5TB6AXgSWQdiPHYh/Vp6SJa9yHwMNuw==
+impacts:
+  - topic: mcp
+    question_ids:
+      - mcp.capabilities
+    section_ids:
+      - mcp-capability-coverage
+    surface_ids:
+      - web
+      - desktop
+      - headless
+      - acp
+      - sdk
+      - sdk-minimal
+    source_refs:
+      - ref-dsh-mcp-resources-tools-20261022
+      - ref-dsh-mcp-tool-sync
+      - ref-dsh-mcp-limits
+      - ref-dsh-mcp-server-context
+      - ref-dsh-mcp-resources-read
+    cross_topic_links: []
+    reason: docs/tool-catalog.md 在本轮提交里为新的 plugin_market 行让位，mcp-resources 那一行从第 19
+      行移到第 20 行，已发布引用 ref-dsh-mcp-resources-tools 的行定位因此不再命中。能力覆盖的答案本身未变，新
+      edition 只把该证据换到新快照上的正确行。
+  - topic: native_plugins
+    question_ids:
+      - plugins.package
+    section_ids:
+      - bundle-format
+    surface_ids:
+      - web
+      - desktop
+      - headless
+      - acp
+      - sdk
+      - sdk-minimal
+    source_refs:
+      - ref-dsh-compat-engines-20261022
+      - ref-dsh-compat-peer-20261022
+      - ref-dsh-appboot-compat-rule-20261022
+      - ref-dsh-publish-engines-dsh-20261022
+    cross_topic_links: []
+    reason: app-boot 的兼容判定改为 engines.dsh 单独决定、peerDependencies 只作回退，未满足项字段由 peers 改名
+      requirements，已发布引用 ref-dsh-compat-peer-scope 的定位与摘录同时失效。bundle-format
+      的兼容声明段落因此按新机制改写。
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：maintain。只读观察时间 2026-10-22T12:53:58.658Z，会话
+    4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns；pinned workspace
+    ws-687f282e8625-6f15605a-bea6-4cbb-bd51-949af2baffac @
+    687f282e8625c6b8d11ff58211a90524be2e4317。
+  - 按已发布章节引用逐条核对：本轮提交上确有 2 条引用的行定位不再命中——docs/tool-catalog.md 的 mcp-resources
+    行（19 → 20，受新增 plugin_market 行影响）与
+    packages/boot/app-boot/src/plugin-compatibility.ts 的 peer 判定块（原 75-79，现
+    62-72， 且语义已改）。其余本产品 mcp、native_plugins 章引用逐条复核仍命中。
+  - 旧引用与旧 edition 一律保留；新 edition 的证据指向新快照
+    snapshot-deepseek-harness-repo-20261022（git_source_file README.md，与旧快照同一内容
+    hash）。
+  - 兼容判定的实际变化：unmetRequirements 先看 engines.dsh，命中时该范围单独决定并忽略 peers；缺 engines.dsh
+    才回退到 @deepseek-ai/dsh 与 @deepseek-ai/dsh-* peer 规则；
+    evaluatePluginCompatibility 的未满足字段由 peers 改名 requirements；engines 非对象或
+    engines.dsh 非字符串视为清单畸形。上游同时更新了 docs/user/develop/basic/publish.md:66、
+    packages/boot/app-boot/README.md:52 与
+    upgrade-guide/v0.2.1-alpha.3/plugin-engines-dsh， 三处口径一致，无来源冲突。
+  - 文档来源 changed：与留存原件
+    archive/deepseek-harness/artifact-source-deepseek-harness-docs-665aa28b1c3a
+    逐行比对，差异仅为 VitePress 资产 hash 与一行预加载清单位移，正文机制文本 0 行变化；本产品没有任何
+    章节引用该来源，故不构成知识影响。
+  - npm 来源 0.2.0-rc.2 → 0.2.1-rc.2：仅有版本与 integrity 身份变化，本轮未写任何版本映射， 也未据此改写章节。
+  - 范围外但已观察到的旧陈述（本轮不派发、不改写，留给后续任务）： native_plugins 的 plugin-model
+    小节仍称「没有插件市场」，而本轮提交已带 @deepseek-ai/dsh-plugin-market、plugin_market 工具与
+    docs/user/guide/plugin-market.md； plugin-diagnostics 引用的
+    ref-dsh-pm-version-exemptions
+    （packages/boot/plugin-manager/README.md:69）在新提交上整段换成了安装前校验的描述， 引用摘录不再命中。

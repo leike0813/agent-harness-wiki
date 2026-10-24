@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-list-archived-filter
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-schema-src-session-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/schema/src/session.ts
+locator:
+  kind: file_lines
+  file: packages/schema/src/session.ts
+  start: 87
+  end: 98
+excerpt: |-
+  archived: Schema.Literals(["true", "false"])
+    .pipe(
+      Schema.decodeTo(Schema.Boolean, {
+        decode: SchemaGetter.transform((value) => value === "true"),
+        encode: SchemaGetter.transform((value): "true" | "false" => (value ? "true" : "false")),
+      }),
+    )
+    .annotate({
+      description:
+        "Filter by archive state. Use true to return only archived sessions or false to exclude them. Omit to include both.",
+    })
+    .pipe(Schema.optional),

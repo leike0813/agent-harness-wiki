@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-google-thinking-20261022
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo-20261022
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/model-system/resolution/model-ref.ts
+  start: 449
+  end: 455
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  api: Api,
+  value: unknown,
+  modelId?: unknown,
+  ): ModelThinkingProtocolConfig | undefined {
+    // Pi owns Google's model-specific thinking parameters.
+    if (api === 'google-generative-ai') return undefined;
+    const effort = normalizeModelThinkingEffort(value);

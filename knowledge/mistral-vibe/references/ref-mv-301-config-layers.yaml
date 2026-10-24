@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-config-layers
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/default_orchestrator.py
+  start: 33
+  end: 84
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+
+      Priority order (lowest to highest): schema defaults, the model catalog,
+      GrowthBook experiments, user TOML, project TOML, VIBE_* env vars, runtime
+      overrides, agent profile overrides, enforced admin config. The agent-profile
+  ...
+          ModelCatalogLayer(),
+          GrowthbookLayer(),
+          *([user_layer] if user_layer is not None else []),
+          *([project_layer] if project_layer is not None else []),
+          EnvironmentLayer(schema=VibeConfigSchema),
+          override_layer,
+          # Empty slot filled in place by AgentManager when a profile is selected
+          AgentProfileLayer(),
+          # Highest priority: org-enforced config populated at runtime.
+          AdminConfigLayer(),
+      ]
+
+      await migrate_config_layers(layers)

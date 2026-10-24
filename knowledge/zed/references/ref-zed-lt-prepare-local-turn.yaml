@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-prepare-local-turn
+harness_id: zed
+snapshot_id: snapshot-zed-agent-thread-rs-5030407
+locator:
+  kind: file_lines
+  file: crates/agent/src/thread.rs
+  start: 2794
+  end: 2799
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  pub(crate) fn prepare_local_turn(&mut self, cx: &mut Context<Self>) {
+      // Freeze the old partial before inserting a successor's user message,
+      // and fence detached cleanup while its checkpoint or command is prepared.
+      self.flush_pending_message(cx);
+      self.advance_prompt_id();
+  }

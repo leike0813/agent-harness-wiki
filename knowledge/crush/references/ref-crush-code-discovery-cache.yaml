@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-discovery-cache
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261022-internal-config-discovery-go
+locator:
+  kind: file_lines
+  file: internal/config/discovery.go
+  start: 153
+  end: 183
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func (s *ConfigStore) discoveryCachePath(providerID string) string {
+  	if s.globalDataPath == "" {
+  		return ""
+  	}
+  	return filepath.Join(filepath.Dir(s.globalDataPath), "discovered_models", url.PathEscape(providerID)+".json")
+  }
+
+  func (s *ConfigStore) cachedModels(job discoveryJob) ([]catwalk.Model, bool) {
+  	path := s.discoveryCachePath(job.id)
+  	if path == "" {
+  		return nil, false
+  	}
+  	entry, _, err := newCache[discoveredModels](path).Get()
+  	if err != nil || entry.BaseURL != job.cfg.BaseURL || len(entry.Models) == 0 {
+  		return nil, false
+  	}
+  	return entry.Models, true
+  }
+
+  func (s *ConfigStore) cacheModels(job discoveryJob, models []catwalk.Model) {
+  	path := s.discoveryCachePath(job.id)
+  	if path == "" {
+  		return
+  	}
+  	entry := discoveredModels{BaseURL: job.cfg.BaseURL, Models: models}

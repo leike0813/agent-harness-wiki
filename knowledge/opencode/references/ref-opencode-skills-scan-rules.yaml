@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-scan-rules
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-plugin-skill-scan-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/core/src/config/plugin/skill-scan.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/plugin/skill-scan.ts
+  start: 7
+  end: 46
+excerpt: |-
+  const MAX_DEPTH = 6
+
+  export const ignore = [...FSUtil.ignoreGlobs, "**/.*", "**/.*/**"]
+
+  export const scan = Effect.fn("SkillScan.scan")(function* (root: string) {
+    const fs = yield* FSUtil.Service
+    const files: string[] = []
+    const queue = [{ directory: root, depth: 0 }]
+    for (const item of queue) {
+      const entries = yield* fs.readDirectoryEntries(item.directory).pipe(Effect.orElseSucceed(() => []))
+      const children = yield* Effect.forEach(
+        entries.filter((entry) => !entry.name.startsWith(".") && !FSUtil.ignoredDirectories.includes(entry.name)),
+        (entry) => {
+          const target = path.join(item.directory, entry.name)
+          if (entry.type !== "symlink") return Effect.succeed({ name: entry.name, path: target, type: entry.type })
+          return fs.stat(target).pipe(

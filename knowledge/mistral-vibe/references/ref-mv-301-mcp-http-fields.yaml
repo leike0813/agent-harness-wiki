@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-mcp-http-fields
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 418
+  end: 435
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  class _MCPHttpFields(BaseModel):
+      url: str = Field(description="Base URL of the MCP HTTP server")
+      auth: MCPAuth = Field(default_factory=MCPStaticAuth)
+
+      def http_headers(self) -> dict[str, str]:
+          if isinstance(self.auth, MCPStaticAuth):
+              return self.auth.http_headers()
+          return {}
+
+
+  class MCPHttp(_MCPBase, _MCPHttpFields):
+      transport: Literal["http"]
+
+      _promote_legacy_auth = model_validator(mode="before")(_promote_legacy_auth)
+
+
+  class MCPStreamableHttp(_MCPBase, _MCPHttpFields):
+      transport: Literal["streamable-http"]

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-providers-forwarding-identity
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261022-core-client-identity-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/core/client-identity.ts
+  start: 5
+  end: 15
+official_url: https://github.com/earendil-works/pi/blob/be14d9732f98fcc33929cf103a92b96afaa6523e/packages/coding-agent/src/core/client-identity.ts
+excerpt: |-
+  /**
+   * How pi's requests identify it to providers: a detailed `User-Agent` with pi's version, and attribution to pi as a
+   * CLI agent while install telemetry is enabled.
+   */
+  export function getClientIdentity(settingsManager: SettingsManager): ClientIdentity {
+  	return {
+  		userAgent: "detailed",
+  		version: VERSION,
+  		attribution: isInstallTelemetryEnabled(settingsManager) ? PI_ATTRIBUTION : null,
+  	};
+  }

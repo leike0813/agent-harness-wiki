@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-retry-action
+harness_id: zed
+snapshot_id: snapshot-zed-agent-rs-5030407
+locator:
+  kind: file_lines
+  file: crates/agent/src/agent.rs
+  start: 264
+  end: 277
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  enum NativeRetryAction {
+      Prompt(Vec<acp_v2::ContentBlock>),
+      Mcp {
+          prompt_name: String,
+          server_id: ContextServerId,
+          arguments: HashMap<String, String>,
+          content: Vec<acp_v2::ContentBlock>,
+      },
+      Skill {
+          skill: Skill,
+          content: Vec<acp_v2::ContentBlock>,
+      },
+      Compact,
+  }

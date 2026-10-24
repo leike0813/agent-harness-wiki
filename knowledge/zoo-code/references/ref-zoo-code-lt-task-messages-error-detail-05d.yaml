@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-lt-task-messages-error-detail-05d
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo-20261022
+locator:
+  kind: file_lines
+  file: src/core/task-persistence/taskMessages.ts
+  start: 33
+  end: 62
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/05d01f33d03a7fd54baf8b7c61acf53824c56358/src/core/task-persistence/taskMessages.ts#L33-L62"
+excerpt: "\tconst taskDir = await getTaskDirectoryPath(globalStoragePath, taskId)\n\tconst filePath = path.join(taskDir, GlobalFileNames.uiMessages)\n\n\tlet fileContent: string\n\ttry {\n\t\tfileContent = await readFileWithMissingRetry(filePath)\n\t} catch (error) {\n\t\tconst kind = getErrorCode(error) === \"ENOENT\" ? \"not_found\" : \"io_error\"\n\t\tthrow new TaskMessagesReadError(\n\t\t\tkind,\n\t\t\t`Failed to read task messages for ${taskId} at ${filePath}${formatErrorDetail(error)}`,\n\t\t\terror,\n\t\t)\n\t}\n\n\tlet parsedData: unknown\n\ttry {\n\t\tparsedData = JSON.parse(fileContent)\n\t} catch (error) {\n\t\tthrow new TaskMessagesReadError("

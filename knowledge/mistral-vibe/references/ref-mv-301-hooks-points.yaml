@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-hooks-points
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_hook_config.py
+  start: 30
+  end: 37
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  # The authorable point names (what a user writes) and their Core hook points.
+  _AUTHORABLE_POINTS: dict[str, RustHookPoint] = {
+      "pre_tool": "pre_tool_call",
+      "post_tool": "post_tool_call",
+      "post_agent": "post_agent_turn",
+  }
+
+  _DEFAULT_TIMEOUT_S = 60.0

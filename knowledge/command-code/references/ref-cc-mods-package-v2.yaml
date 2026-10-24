@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-package-v2
+harness_id: command-code
+snapshot_id: snapshot-source-command-code-docs-mods-14e4c167d85f
+locator:
+  kind: document_section
+  heading: Turn a mod into a package
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  List what the package contains in `package.json`. Entries can be exact paths, folders, or globs, relative to the package root. Entries that point outside the root are ignored.
+  {
+  	"name": "@team/review-mod",
+  	"description": "Blocks risky diffs and adds a /review command.",
+  	"keywords": ["cmd-mod", "cmd-mod-tool", "cmd-mod-command"],
+  	"repository": "https://github.com/team/review-mod",
+  	"commandcode": {
+  		"mods": ["./src/review.ts", "src/checks/*.ts"],
+  		"skills": ["./skills"]
+  	}
+  }
+  Without `commandcode.mods`, Command Code looks for a `mods/` folder, then a root `index.ts`.
+  `commandcode.skills` lists skill folders the package ships next to its mods. ... A mod can add skills from code too, with `cmd.addSkillsPath`.

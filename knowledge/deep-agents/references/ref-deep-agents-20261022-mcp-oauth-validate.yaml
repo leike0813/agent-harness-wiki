@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-20261022-mcp-oauth-validate
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-20261022-mcp-config-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/mcp_config.py
+  start: 184
+  end: 202
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def _validate_slack_oauth_config(
+      server_name: str, server_config: Mapping[str, object]
+  ) -> None:
+      """Reject invalid Slack app settings without exposing credential values.
+
+      Raises:
+          TypeError: If `oauth` is not a mapping.
+          ValueError: If the settings or server are unsupported.
+      """
+      if "oauth" not in server_config:
+          return
+      prefix = f"mcpServers.{server_name}.oauth"
+      oauth = server_config["oauth"]
+      if not isinstance(oauth, dict):
+          msg = f"{prefix} must be a dictionary"
+          raise TypeError(msg)
+      if oauth.keys() - {"client_id", "client_secret"} or "client_id" not in oauth:
+          msg = f"{prefix} requires client_id and supports only an optional client_secret"
+          raise ValueError(msg)

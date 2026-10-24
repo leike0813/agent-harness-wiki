@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-20261022-mcp-oauth-slack-client
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-20261022-mcp-providers-slack-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/mcp_providers/slack.py
+  start: 149
+  end: 158
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  del redirect_uri
+  return OAuthClientMetadata(
+      client_name="deepagents-code",
+      redirect_uris=[AnyUrl(_SLACK_REDIRECT_URI)],
+      grant_types=["authorization_code", "refresh_token"],
+      response_types=["code"],
+      token_endpoint_auth_method=(
+          "client_secret_post" if self._client_secret else "none"
+      ),
+  )

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-agents-cli
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/plugins/builtins/vibe/skills/vibe/SKILL.md
+  start: 409
+  end: 423
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  # Forbid the auto-approve (YOLO) mode entirely: hides the "auto-approve" agent
+  # (and any custom agent with safety = "yolo") and ignores --auto-approve/--yolo.
+  # Per-tool permissions still apply.
+  # Intended for admin-managed (enterprise) config.
+  enable_auto_approve = false
+
+  # Opt-in builtin agents (only affects agents with install_required=True, e.g. lean)
+  installed_agents = ["lean"]
+
+  # Agent profile to use when --agent is not passed
+  # (default: "accept-edits"). Valid values: "ask", "accept-edits",
+  # "auto-approve", "lean" (only when listed in installed_agents), or any
+  # custom agent name from ~/.vibe/agents/ or .vibe/agents/. Subagents
+  # (e.g. "explore") are rejected. Applies in both interactive and programmatic
+  # (-p/--prompt) mode.
