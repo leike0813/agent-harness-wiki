@@ -15,7 +15,7 @@
 正文结论，但复核时应一并改掉。
 
 结论固定在上游提交 `6a83aef15ec76d149cd424e4b431a01248e3ec0b`（基线 `cd44ddada1bcae3405904410b7d66c1a348e0185`）；保留的
-原始字节在固定工作区 `/tmp/ahw-source-workspaces/ws-6a83aef15ec7-419981e5-628f-4e81-a5fe-61c52322c2eb`，候选里的
+原始字节在固定工作区 `ws-6a83aef15ec7-419981e5-628f-4e81-a5fe-61c52322c2eb`，候选里的
 artifact/snapshot 只记 `file`、`commit` 与 `content_sha256`，不内联正文。
 
 ## 变化的意义与证据边界
@@ -140,8 +140,9 @@ MCP、hooks、native_plugins、local_transcripts 四个主题本轮未改，选�
 ```bash
 diff -ru baseline/codebuff candidates/codebuff
 
-git -C /tmp/ahw-source-workspaces/ws-6a83aef15ec7-419981e5-628f-4e81-a5fe-61c52322c2eb \
-  diff cd44ddada1bcae3405904410b7d66c1a348e0185 6a83aef15ec76d149cd424e4b431a01248e3ec0b -- <path>
+# 本轮固定检出 ws-6a83aef15ec7-419981e5-628f-4e81-a5fe-61c52322c2eb 已在聚合闸门后释放；
+# 重新检出该 commit 后可执行同一对比：
+git diff cd44ddada1bcae3405904410b7d66c1a348e0185 6a83aef15ec76d149cd424e4b431a01248e3ec0b -- <path>
 ```
 
 改动章节：`knowledge/codebuff/chapters/codebuff-cli-skills-v3.md`、`codebuff-cli-custom-agents-v5.md`、

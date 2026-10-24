@@ -77,8 +77,10 @@
 ## 验证与差异入口
 
 ```sh
-pnpm -s maintenance:candidates check --candidate /tmp/ahw-monitor-4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns/batch-20261022/candidates/mistral-vibe
+pnpm -s maintenance:candidates check --candidate batch-20261022/candidates/mistral-vibe
 ```
+
+（`batch-20261022` 是本轮候选批次的相对标识；该批次目录与固定检出在聚合闸门后已释放，路径只作本轮溯源标记。）
 
 结果通过（返回产品与文件清单）。摘录保真另用只读核对：80 条既有 `ref-mv-301-*` 加 6 条新增引用，共 86 条；`file_lines` 记录的每个摘录块都能在 `locator` 行区间内逐字命中，四个 `document_section` 记录的摘录都能在内置插件作者指南的对应小节内逐字命中，且全部 ≤800 字符（schema 上限）。
 

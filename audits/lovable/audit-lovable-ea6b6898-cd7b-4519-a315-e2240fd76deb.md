@@ -139,10 +139,12 @@
 复现差异：
 
 ```bash
-cd /tmp/ahw-monitor-4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns/batch-20261022
+cd batch-20261022
 diff -rq baseline/lovable candidates/lovable
 diff -ru baseline/lovable/knowledge/lovable/chapters candidates/lovable/knowledge/lovable/chapters
 diff -u baseline/lovable/registry/chapter-current.yaml candidates/lovable/registry/chapter-current.yaml
 ```
+
+（`batch-20261022` 是本轮候选批次的相对标识；该批次目录与固定检出在聚合闸门后已释放，路径只作本轮溯源标记。）
 
 若在仓库内查看未跟踪文件：`git status --porcelain`。

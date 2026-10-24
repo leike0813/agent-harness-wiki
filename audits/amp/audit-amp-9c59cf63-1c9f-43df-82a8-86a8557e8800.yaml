@@ -433,10 +433,10 @@ investigation_notes:
     snapshot-amp-docs-cli-runners-20261022、snapshot-amp-docs-customize-agents-md-20261022，各有对应
     archived_document artifact（哈希等于本轮 observed_sha256）。
   - 归档缺口（交接给 coordinator）：前六个 20261022 快照的 archive 目录已补齐；本轮追加的 cli-runners
-    b77e6d22336f 与 customize-agents-md b5378b455ae0 在项目 archive/ 下尚不存在。worker 不能写项目根，
+    b77e6d22336f 与 customize-agents-md b5378b455ae0 在 worker 交接时于项目 archive/ 下尚不存在。worker 不能写项目根，
     artifact 记录按 scan 的规范路径 archive/amp/artifact-source-<source>-<hash12>/source.md 登记；
-    aggregate `sources:audit-log` 之前需用冻结的 /tmp/ahw-triage/docs/amp/*.md（哈希与 observed
-    一致）补齐这两个目录。
+    aggregate `sources:audit-log` 之前需用本轮冻结的 amp 文档原件（哈希与 observed
+    一致）补齐这两个目录，两个目录已在聚合闸门前补齐。
   - docs/customize/mcp 的逐工具 Allow/Ask First/Disabled 策略、隐私与 elicitation 属于
     mcp.exposure / mcp.capabilities，本轮未派发，未写入章节。
   - 独立复核（reviewer rev2-amp，2026-10-22）：20 个问题中 18 个 upheld，config.diagnostics 与

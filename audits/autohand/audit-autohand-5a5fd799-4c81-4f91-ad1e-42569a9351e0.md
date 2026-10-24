@@ -101,7 +101,7 @@
 
 ## 验证与差异入口
 
-固定身份：本轮全部结论固定在 commit `fcd92ec12f30ea113f44ef4887ea0d8c51556331`（只读观察时间 `2026-10-22T12:53:00.739Z`，会话 `4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns`）。原件留在 monitor 的固定 Git 工作区 `/tmp/ahw-source-workspaces/ws-fcd92ec12f30-1b51cb7d-0011-4620-82ca-449f7936b3c6`；候选内只记 commit、仓库相对路径与 `content_sha256`，没有复制 checkout。旧文档站原件仍按各自 snapshot 留在项目 archive，本轮没有 configuration/skills 的新副本。
+固定身份：本轮全部结论固定在 commit `fcd92ec12f30ea113f44ef4887ea0d8c51556331`（只读观察时间 `2026-10-22T12:53:00.739Z`，会话 `4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns`）。原件留在 monitor 的固定 Git 工作区 `ws-fcd92ec12f30-1b51cb7d-0011-4620-82ca-449f7936b3c6`；候选内只记 commit、仓库相对路径与 `content_sha256`，没有复制 checkout。旧文档站原件仍按各自 snapshot 留在项目 archive，本轮没有 configuration/skills 的新副本。
 
 改动入口：
 
@@ -113,9 +113,11 @@
 本地差异查看：
 
 ```sh
-cd /tmp/ahw-monitor-4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns/batch-20261022
+cd batch-20261022
 diff -rq baseline/autohand candidates/autohand
 diff -ruN baseline/autohand candidates/autohand
 ```
+
+（`batch-20261022` 是本轮候选批次的相对标识；该批次目录与固定检出在聚合闸门后已释放，路径只作本轮溯源标记。）
 
 写入本报告前的结果：差异仅为本轮的 2 个新章节、25 个 `ref-autohand-m63-*` 引用、10 个 snapshot、10 个 artifact、`registry/chapter-current.yaml` 与审计 YAML；写入后另加本报告。未运行 `pnpm maintenance:candidates check` 与全库 `knowledge:validate`（本任务为文档任务，不运行构建/校验），因此候选自检结论不由本报告代述。

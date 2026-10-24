@@ -48,7 +48,9 @@
 ## 验证与差异入口
 
 ```sh
-pnpm -s maintenance:candidates check --candidate /tmp/ahw-monitor-4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns/batch-20261022/candidates/deepseek-harness
+pnpm -s maintenance:candidates check --candidate batch-20261022/candidates/deepseek-harness
 ```
+
+（`batch-20261022` 是本轮候选批次的相对标识；该批次目录与固定检出在聚合闸门后已释放，路径只作本轮溯源标记。）
 
 源码调查在 pinned workspace `ws-687f282e8625-6f15605a-bea6-4cbb-bd51-949af2baffac` 内完成，临时路径未写入任何知识或审计记录。

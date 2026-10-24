@@ -69,7 +69,7 @@
 
 ## 验证与差异入口
 
-固定来源身份为本报告全部结论所依赖的 commit `e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b`；原件留在源码工作区 `/tmp/ahw-source-workspaces/ws-e965774fa0e2-a731bf82-b371-4e32-a4cb-19eaeade96f5`（`git log -1` 为该 commit，重算 `packages/core/src/config/plugin/skill-scan.ts` 的 sha256 得 `2af4ab4ca137e727d71bda2f480bbf38ba0def3ef6c216d4fcc067d536a01b0e`，与候选 snapshot 记录一致）。候选内只存 snapshot／artifact 的 commit、file 与 content_sha256，没有复制 checkout。
+固定来源身份为本报告全部结论所依赖的 commit `e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b`；原件留在源码工作区 `ws-e965774fa0e2-a731bf82-b371-4e32-a4cb-19eaeade96f5`（`git log -1` 为该 commit，重算 `packages/core/src/config/plugin/skill-scan.ts` 的 sha256 得 `2af4ab4ca137e727d71bda2f480bbf38ba0def3ef6c216d4fcc067d536a01b0e`，与候选 snapshot 记录一致）。候选内只存 snapshot／artifact 的 commit、file 与 content_sha256，没有复制 checkout。
 
 已做的只读核对：两章正文与 frontmatter 引用的 reference 全部存在（本轮新增 26 个，其余沿用旧引用）；17 个 `-20261022` snapshot 均带 `content_sha256`；`[@ref-…]` 标记全部能在 `knowledge/opencode/references/` 命中。本轮是文档任务，**未运行** `pnpm -s maintenance:candidates check --candidate <candidate-root>`、`pnpm knowledge:validate`、`pnpm sources:audit-log`、构建／lint／测试；父进程合并前应运行这四条校验与 `git diff --check`。
 
@@ -78,7 +78,9 @@
 查看完整差异与未跟踪文件：
 
 ```sh
-diff -ru /tmp/ahw-monitor-4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns/batch-20261022/baseline/opencode \
-         /tmp/ahw-monitor-4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns/batch-20261022/candidates/opencode
-find /tmp/ahw-monitor-4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns/batch-20261022/candidates/opencode -type f | sort
+diff -ru batch-20261022/baseline/opencode \
+         batch-20261022/candidates/opencode
+find batch-20261022/candidates/opencode -type f | sort
 ```
+
+（`batch-20261022` 是本轮候选批次的相对标识；该批次目录与固定检出在聚合闸门后已释放，路径只作本轮溯源标记。）

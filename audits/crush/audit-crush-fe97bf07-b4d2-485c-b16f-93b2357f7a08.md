@@ -7,7 +7,7 @@
 | source-crush-repo | git_repository | `a48dabea1a3562b24c39cc7f0dec10e867f8499b` | `cd5f15d366f516c992ec8331f0bc158708bb69ec` | changed |
 | source-crush-npm | npm_registry | `0.98.1@sha512-TWjk5My…` | 同左 | unchanged |
 
-固定工作区 `ws-cd5f15d366f5-662cca20-11e6-4e3a-b631-02bc244b45f2`，project 外 `/tmp/ahw-source-workspaces/…`，本轮只读。103 个变更文件、+3720/−572；提交标题 `feat(openrouter): send app attribution headers and session_id for sticky routing (#4115)`。
+固定工作区 `ws-cd5f15d366f5-662cca20-11e6-4e3a-b631-02bc244b45f2`，检出在项目外的临时目录，本轮只读。103 个变更文件、+3720/−572；提交标题 `feat(openrouter): send app attribution headers and session_id for sticky routing (#4115)`。
 
 ## 语义 triage
 
