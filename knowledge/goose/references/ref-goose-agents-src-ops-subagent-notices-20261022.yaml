@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-ops-subagent-notices-20261022
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261022-ops-subagent
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/state_machine/ops_subagent.rs
+  start: 23
+  end: 32
+official_url: "https://github.com/block/goose/blob/6835dd45a21a701b017abe38aa4204e18fed9213/crates/goose/src/agents/state_machine/ops_subagent.rs"
+excerpt: |2-
+  fn start_notice(subagent_id: &str, task: Option<&str>) -> String {
+      let snippet = task
+          .map(|task| {
+              let task = task.split_whitespace().collect::<Vec<_>>().join(" ");
+              format!(" ({})", safe_truncate(&task, TASK_SNIPPET_CHARS))
+          })
+          .unwrap_or_default();
+      format!("Running subagent {subagent_id}{snippet}")
+  }

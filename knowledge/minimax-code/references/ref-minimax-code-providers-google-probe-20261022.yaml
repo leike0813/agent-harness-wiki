@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-google-probe-20261022
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo-20261022
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/model-system/connectivity/test-connection.ts
+  start: 62
+  end: 71
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  private async runTest(target: ModelConnectionTestTarget): Promise<ModelConnectionTestResult> {
+    const timeoutMs =
+      this.timeoutMs ?? (target.api === 'google-generative-ai' ? 30_000 : DEFAULT_TIMEOUT_MS);
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      if (target.api === 'google-generative-ai') return await testGoogle(target, controller.signal);
+      const { url, init } = buildTestRequest(target);
+      const response = await this.fetchImpl(url, { ...init, signal: controller.signal });
+      if (response.ok) return await validateSuccessResponse(response, target.api, target);

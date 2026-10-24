@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-limits-v2
+harness_id: command-code
+snapshot_id: snapshot-source-command-code-docs-mods-14e4c167d85f
+locator:
+  kind: document_section
+  heading: What mods cannot do
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  - **Project mods are trust-gated** like project skills: they load only after the workspace trust prompt, because a mod is arbitrary code. User-scope and `--mod` mods always load. There is no sandbox - install packages you trust. Package installs run npm with `--ignore-scripts`.
+  - **Print mode loads user-scope and `--mod` mods only**, with the ui bridge degraded to headless defaults (confirm → false, select/input → undefined - never auto-approved). Project mods stay out of headless runs because print never shows a trust prompt; pass `--dangerously-skip-permissions` to opt a repo's own mods into a headless run (CI).
+  - **Rendering is data, not components.** Widgets, panes, and feed renderers return strings or a small element tree that each host draws; mods never mount React components.

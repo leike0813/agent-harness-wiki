@@ -1,0 +1,156 @@
+schema_version: 2
+audit_id: audit-zed-0a944474-303c-42b4-b3ff-fb97eedfe2a3
+harness_id: zed
+checked_at: 2026-10-22T12:57:21.366Z
+previous_audit_id: audit-zed-da0cce73-46f1-4d31-9bc7-aed0c29cace3
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-zed-89b88422-7e27-4d71-b9a7-29859660749a
+  - audit-zed-ef49024f-c99a-4de2-b967-115b9cb36f65
+  - audit-zed-da0cce73-46f1-4d31-9bc7-aed0c29cace3
+checks:
+  - source_id: source-zed-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:57:16.862Z
+    status: changed
+    baseline: e463c5ab74e016f6a16e02a8b21925b98643f9c7
+    observed: 50304070c283519f2f2338b45671af26374025fe
+    remote_ref: refs/heads/main
+  - source_id: source-zed-docs-skills
+    kind: official_documentation
+    checked_at: 2026-10-22T12:57:16.872Z
+    status: unchanged
+    baseline: 764f294ea53ecfe9220c5033ac805a53dc02607b25a85b63001c57343e2b9038
+    observed: 764f294ea53ecfe9220c5033ac805a53dc02607b25a85b63001c57343e2b9038
+    resolved_url: https://zed.dev/docs/ai/skills.md
+  - source_id: source-zed-docs-mcp
+    kind: official_documentation
+    checked_at: 2026-10-22T12:57:16.873Z
+    status: unchanged
+    baseline: 4b63e4863aff99eac69af64220581c36f8becd856cb3d11fb811f038881615bf
+    observed: 4b63e4863aff99eac69af64220581c36f8becd856cb3d11fb811f038881615bf
+    resolved_url: https://zed.dev/docs/ai/mcp.md
+  - source_id: source-zed-docs-agents
+    kind: official_documentation
+    checked_at: 2026-10-22T12:57:16.874Z
+    status: unchanged
+    baseline: 08b1b98333f1b97d44a5da73d3ccb1f19fa3d62ff3ba80f8303b571a2a21b732
+    observed: 08b1b98333f1b97d44a5da73d3ccb1f19fa3d62ff3ba80f8303b571a2a21b732
+    resolved_url: https://zed.dev/docs/ai/external-agents.md
+  - source_id: source-zed-docs-providers
+    kind: official_documentation
+    checked_at: 2026-10-22T12:57:17.551Z
+    status: unchanged
+    baseline: b164ec181d366233ab55bfef5968c6d0f4c068695e5ccd05b1680829108484b0
+    observed: b164ec181d366233ab55bfef5968c6d0f4c068695e5ccd05b1680829108484b0
+    resolved_url: https://zed.dev/docs/ai/use-api-access.md
+  - source_id: source-zed-docs-hooks
+    kind: official_documentation
+    checked_at: 2026-10-22T12:57:17.625Z
+    status: unchanged
+    baseline: d7b3f034a1df1c84bd557109a8a1cb15db3108d779a859b1e55eb1a4f6097e15
+    observed: d7b3f034a1df1c84bd557109a8a1cb15db3108d779a859b1e55eb1a4f6097e15
+    resolved_url: https://zed.dev/docs/tasks.md
+  - source_id: source-zed-docs-plugins
+    kind: official_documentation
+    checked_at: 2026-10-22T12:57:17.685Z
+    status: unchanged
+    baseline: b73ea3ccd7a4fdc3fa2f728f287afba35cd6394c29e3c303441a722cb228b620
+    observed: b73ea3ccd7a4fdc3fa2f728f287afba35cd6394c29e3c303441a722cb228b620
+    resolved_url: https://zed.dev/docs/extensions/developing-extensions.md
+  - source_id: source-zed-docs-config
+    kind: official_documentation
+    checked_at: 2026-10-22T12:57:17.692Z
+    status: changed
+    baseline: 8ac80db4bd322129fd2c1746adf4aac985bb4063c9ef3634aa2a31817d62a799
+    observed: f91bb517ba13e0d5c58aa52ead127499bdcd425c9b6d9202b6fd2ebb46301056
+    resolved_url: https://zed.dev/docs/reference/all-settings.md
+impacts:
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.lifecycle
+    section_ids:
+      - transcripts-lifecycle
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-lt-streaming-save-key-rev
+      - ref-zed-lt-late-tool-result-owner
+      - ref-zed-lt-cancel-prompt-fence
+      - ref-zed-lt-cancel-session
+      - ref-zed-lt-save-observer-subscriptions
+      - ref-zed-lt-prepare-local-turn
+      - ref-zed-lt-register-subagent
+    cross_topic_links: []
+    reason: 保存判据、取消路径与晚到工具结果的落盘归属都在本次提交上改变：StreamingSaveKey 增加
+      retained_history_revision、cancel 的刷盘按 prompt id 设栅栏、request_cancel 发出
+      CancellationRequested 并由 cancel_session 取消原生执行、被取消回合的工具结果回填到冻结的所属助手消息。新
+      edition zed-local_transcripts-v4 改写 transcripts-lifecycle 一节，其余小节按原样保留。
+  - topic: native_plugins
+    question_ids:
+      - plugins.package
+    section_ids:
+      - plugins-package
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-plugins-manifest-populate-defaults
+      - ref-zed-plugins-manifest-derived-dirs
+      - ref-zed-plugins-manifest-legacy-grammars
+      - ref-zed-plugins-manifest-dev-compile
+      - ref-zed-plugins-manifest-context-entry
+    cross_topic_links: []
+    reason: crates/extension/src/extension_manifest.rs 新增 populate_defaults，清单的
+      languages/themes/icon_themes/snippets/lib.kind
+      可由目录布局在编译期派生，v0（extension.json）清单改为清空后按目录重建 grammars。新 edition
+      zed-zed-native_plugins-v3 改写插件包格式一节。
+  - topic: skills
+    question_ids:
+      - skills.loading
+    section_ids:
+      - skills-loading-invocation
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-skills-body-trust
+      - ref-zed-skills-retry-action
+      - ref-zed-skills-retry-reexecute
+    cross_topic_links: []
+    reason: 项目级 skill 正文在物化时重新校验 worktree
+      信任（skill_body_resolver_for_project），且原生执行把解析出的动作记为
+      NativeRetryAction，重试会重放同一次 skill 调用。新 edition zed-zed-skills-v2 改写加载与调用一节。
+pending_question_ids:
+  - plugins.package
+investigation_notes:
+  - 本轮 triage 分类：maintain；只读观察时间 2026-10-22T12:57:21.366Z，会话
+    4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns。固定 Git 来源 workspace
+    ws-50304070c283-68b31bee-f96c-48a7-a22c-c548eb32c44e（5030407，baseline
+    e463c5ab）。
+  - 按已发布章节引用逐条核对：多数“不再命中”只是新提交里的行号漂移（agent.rs 净增约 2.6k 行、acp_thread.rs 约 3.1k
+    行），这些引用各自固定在旧 snapshot 上仍然有效，因此没有逐个重建。只对数据不足以描述新机制的引用新建同文件、同提交
+    50304070c283519f2f2338b45671af26374025fe 的
+    snapshot/artifact/reference（agent.rs、agent/src/thread.rs、acp_thread.rs、extension_manifest.rs、extension_builder.rs
+    五个 git_source_file 记录）。
+  - transcripts.scope：核对 crates/agent/src/db.rs 的 DbThread
+    字段集合（标题、消息、更新时间、摘要、初始项目快照、token 用量、模型、profile、subagent
+    上下文、速度、思考开关与强度、草稿提示、滚动位置、沙箱临时目录、沙箱授权）与 Message 四变体，与已发布答案一致；该文件在
+    baseline..5030407 之间无改动，也没有新增按界面的记录开关，因此本题判定为 unchanged。
+  - transcripts.schema：DbThread 字段与 DbThread::VERSION = "0.3.0"
+    未变，版本迁移分支、data_type、zstd level 3 upsert 与已发布答案一致；仍缺沙箱授权结构、初始项目快照与
+    request_token_usage 键形态的逐字段取证，保持 partial 不变。
+  - transcripts.lifecycle：判定为 changed，理由见 impacts 第一条。改写时保留未变部分（UUID 创建、observe
+    触发保存、payload 组装、退出并发刷盘、按 id 恢复、parent_id 子代理行、Compaction
+    延续），并补写本轮新增的保存判据字段、取消栅栏、CancellationRequested→cancel_session 与晚到工具结果回填。
+  - native_plugins plugins.package：判定为 changed。populate_defaults
+    只在编译扩展时调用（ExtensionBuilder::compile_extension 首步；extension_host
+    的开发扩展安装/rebuild 与扩展 CLI 打包都经由它），ExtensionManifest::load 仍只解析
+    extension.toml、退回 extension.json。状态保持 partial：opt_in_languages
+    与目录派生规则仍只有源码依据，官方文档站 developing-extensions 页面本轮 hash 未变。
+  - skills.loading：判定为 changed（正文读取再校验信任、重试重放 skill）。skills.extensions 与
+    skills.diagnostics 判定为 unchanged：disable-model-invocation、内置
+    create-skill、zed://skill 共享链接、50KB 目录预算、SkillLoadingIssuesUpdated/SkillIndex
+    与 live reload 在 baseline..5030407 上均无变化，文档站 skills.md hash
+    也未变；它们所在小节的正文与引用原样保留在新 edition 中。
+  - 未重审范围：config.migration 与其它产品主题不在本轮派发内。pending_audit_refs 里两条旧审计仍带着各自未完成的
+    config.migration 问题，本审计不替它们结案（它们自身仍为 review_status=pending）。

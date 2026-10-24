@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-mcp6-diagnostics-progress-doc
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-docs-mcp-protocol-transports-md
+locator:
+  kind: file_lines
+  file: docs/mcp-protocol-transports.md
+  start: 111
+  end: 121
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/docs/mcp-protocol-transports.md#L111-L121
+excerpt: "## Request progress\n\n`MCPRequestOptions.onProgress` opts a request into MCP progress reporting. The transport adds `_meta.progressToken` equal to that attempt's JSON-RPC request id, preserving other record-valued `_meta` keys and leaving tool `arguments` unchanged. Without a callback, the request stays unchanged. Request ids never reset within a transport's lifetime; every retry or reconnect attempt receives a new id/token.\n\nStdio and legacy HTTP+SSE route `notifications/progress` through their pending-request maps. Streamable HTTP routes progress from both the POST response's SSE stream and the optional GET listener through its active callback map. Tokens match without coercion: numeric `0` and string `\"0\"` are different tokens. Progress must be finite; optional totals must also be finit…"

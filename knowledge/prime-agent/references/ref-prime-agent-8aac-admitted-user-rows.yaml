@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-8aac-admitted-user-rows
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-8aac-crates-pa-core-src-session-manager-append-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session/manager/append.rs
+  start: 65
+  end: 79
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/8aac8692456c00c01d4e53e60e6d3347a3506559/crates/pa-core/src/session/manager/append.rs
+excerpt: |2
+      /// Register exact durable user rows that the worker already accepted while
+      /// the lazy engine built. The current prompt replays them into the agent in
+      /// this order; their `MessageEnd` events must reuse these rows rather than
+      /// append another copy. This is admission identity, never content deduplication.
+      ///
+      /// # Errors
+      /// An ID does not name a retained user row.
+      pub fn replay_admitted_user_rows(&mut self, ids: Vec<String>) -> std::io::Result<()> {
+          for id in &ids {
+              if !matches!(
+                  self.retained_entries()
+                      .iter()
+                      .find(|entry| entry.id() == Some(id.as_str())),
+                  Some(FileEntry::Message {
+                      message: AgentMessage::User(_),

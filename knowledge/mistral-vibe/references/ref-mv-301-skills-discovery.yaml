@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-skills-discovery
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/skills/manager.py
+  start: 165
+  end: 228
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      def _compute_search_paths(
+          self, config: VibeConfigSchema
+      ) -> list[tuple[Path, SkillScope]]:
+          paths: list[tuple[Path, SkillScope]] = []
+
+          for path in config.skill_paths:
+              if path.is_dir():
+                  paths.append((path, SkillScope.GLOBAL))
+
+          mgr = self._harness_files
+          paths.extend((p, SkillScope.PROJECT) for p in mgr.project_skills_dirs)
+          paths.extend((p, SkillScope.GLOBAL) for p in mgr.user_skills_dirs)
+  ...
+      ) -> dict[str, SkillInfo]:
+          skills: dict[str, SkillInfo] = {}
+          for skill_dir in base.iterdir():
+              if not skill_dir.is_dir():
+                  continue
+              skill_file = skill_dir / "SKILL.md"
+              if not skill_file.is_file():

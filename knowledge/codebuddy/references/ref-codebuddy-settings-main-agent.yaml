@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-settings-main-agent
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs-settings-20261022
+locator:
+  kind: file_lines
+  file: docs/settings.md
+  start: 82
+  end: 82
+official_url: https://cnb.cool/codebuddy/codebuddy-code
+excerpt: '| `codebuddy.mainAgent` | 四种主 Agent 模式（`cli` / `ptc` / `minimal` / `create`）与自定义智能体。子键：`enabled` 总闸（缺省开）；`allowUnopted` 未声明 `mainAgentSupport` 的 ACP 宿主（WorkBuddy）是否走模式解析（缺省关，始终原生 `cli`）；`default` 仅「设为默认」写入，作为新会话默认；`lastUsed` 为 Web chip / TUI `/agent-mode` / 新建智能体上次选择，**不覆盖** `default`。进程 `--agent` 压过 `lastUsed`，且不写 `default`。交互 TUI 在 `default` 与 `lastUsed` 都未设置时，新会话默认 PTC，其余入口（含 Agent View / `--bg` 后台会话）默认 `cli`。环境变量 `CODEBUDDY_MAIN_AGENT_ENABLED` / `CODEBUDDY_MAIN_AGENT_ALLOW_UNOPTED` 优先。CLI：`codebuddy config set codebuddy ''{"mainAgent":{"enabled":true,"allowUnopted":false}}''` | `{"enabled": true, "allowUnopted": false, "default": "cli"}` |'

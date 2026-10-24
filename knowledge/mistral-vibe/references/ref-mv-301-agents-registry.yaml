@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-agents-registry
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/agents/registry.py
+  start: 47
+  end: 65
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      def _compute_search_paths(self) -> list[Path]:
+          mgr = self._harness_files
+          return dedup_paths([
+              *(p for p in self._orchestrator.config.agent_paths if p.is_dir()),
+              *mgr.project_agents_dirs,
+              *mgr.user_agents_dirs,
+          ])
+  ...
+      def _discover(self) -> dict[str, AgentProfile]:
+          agents: dict[str, AgentProfile] = dict(BUILTIN_AGENTS)
+          candidate: ConfigOrchestrator[VibeConfigSchema] | None = None
+
+          for base in self.search_paths:

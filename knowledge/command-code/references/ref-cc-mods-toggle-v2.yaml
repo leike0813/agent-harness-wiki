@@ -1,0 +1,14 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-toggle-v2
+harness_id: command-code
+snapshot_id: snapshot-source-command-code-docs-mods-14e4c167d85f
+locator:
+  kind: document_section
+  heading: Turn a mod on or off
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  `cmd mods disable <name>` turns a mod off without removing it, and `cmd mods enable <name>` turns it back on. Both write to the project settings (`.commandcode/settings.json`) by default, or to your user settings (`~/.commandcode/settings.json`) with `-g`. ...
+  `disable` adds the name to `mods.disabled`. `enable` removes it from there, and for an opt-in built-in such as `todos` it also adds the name to `mods.enabled`:
+  A disable in any settings file wins. Command Code reads the user, project, and project local (`.commandcode/settings.local.json`) settings, and a `mods.disabled` entry in any of them keeps the mod off ... does not report success. It names that file, gives the fix, and exits with code 1 ...
+  No command writes to `settings.local.json`, so a disable there has to be removed ...

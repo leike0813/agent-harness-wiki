@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-agents-src-task-inherited
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-e08cc-kilocode-tool-task
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/tool/task.ts
+  start: 128
+  end: 138
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  export function inherited(input: {
+    caller: Agent.Info
+    session: Pick<Session.Info, "permission">
+    mcp: Config.Info["mcp"]
+  }): Permission.Ruleset {
+    const session = input.session.permission ?? []
+    const rules = Permission.merge(input.caller.permission ?? [], session)
+    const edit = input.caller.native === false ? session : rules
+    const prefixes = Object.keys(input.mcp ?? {}).map((k) => k.replace(/[^a-zA-Z0-9_-]/g, "_") + "_")
+    const isMcp = (p: string) => prefixes.some((prefix) => p.startsWith(prefix))

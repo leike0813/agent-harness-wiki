@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-mcp-oauth-errors
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/auth/mcp_oauth.py
+  start: 51
+  end: 103
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+          return self.__class__.__name__
+
+
+  class MCPOAuthPortInUse(MCPOAuthError):
+      def __init__(self, *, port: int, server_alias: str) -> None:
+          self.port = port
+          self.server_alias = server_alias
+          super().__init__(self._fmt())
+
+      def _fmt(self) -> str:
+          return (
+              f"Loopback callback port {self.port} is already in use; cannot complete "
+              f"OAuth login for MCP server {self.server_alias!r}. "
+              "Set `auth.redirect_port` to a free port in this server's config and retry."
+  ...
+  class MCPOAuthInvalidGrant(MCPOAuthError):
+      def __init__(self, *, server_alias: str, reason: str) -> None:
+          self.server_alias = server_alias
+          self.reason = reason
+          super().__init__(self._fmt())

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-invalidate
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-e08cc-mcp-auth
+locator:
+  kind: file_lines
+  file: packages/opencode/src/mcp/auth.ts
+  start: 167
+  end: 184
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  // kilocode_change start - conditional automatic invalidation bound to the exact rejected
+    // credential. Clears the requested fields only when the stored entry still holds that
+    // credential, so a concurrent rotation that already saved newer tokens is never wiped.
+    const invalidate = Effect.fn("McpAuth.invalidate")(function* (
+      mcpName: string,
+      type: "tokens" | "client",
+      expected: Invalidation.Expected,
+    ) {
+      return yield* mutateWith<Invalidation.Outcome>((data) => {
+        const entry = data[mcpName]

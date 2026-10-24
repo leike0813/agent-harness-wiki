@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-api-adapters
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/llm/backend/generic.py
+  start: 222
+  end: 249
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      "openai": OpenAIAdapter,
+      "reasoning": ReasoningAdapter,
+      "anthropic": AnthropicAdapter,
+      "openai-responses": OpenAIResponsesAdapter,
+      "vertex-anthropic": _vertex_anthropic_adapter,
+  }
+  ...
+  def _get_adapter(api_style: str) -> APIAdapter:
+      """Build the adapter for the given API style.
+
+      Adapters are built per request: several of them buffer state while parsing a
+      streamed response, and a shared instance would let concurrent sessions observe
+      each other's partial state.
+      """
+      return _ADAPTERS[api_style]()

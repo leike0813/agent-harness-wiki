@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-mcp6-exposure-readonly-hint-code
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-src-mcp-tool-bridge-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/mcp/tool-bridge.ts
+  start: 724
+  end: 738
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/packages/coding-agent/src/mcp/tool-bridge.ts#L724-L738
+excerpt: "\t/** Server name */\n\treadonly mcpServerName: string;\n\t/** Server-declared read-only behavior for prewalk; approval stays conservative. */\n\treadonly mcpReadOnlyHint: boolean | undefined;\n\treadonly approval = \"write\" as const;\n\t/** Render completed MCP calls with the result header replacing the pending call header. */\n\treadonly mergeCallAndResult = true;\n\t/**\n\t * MCP-backed tools opt out of strict structured-output grammar. The server\n\t * owns validation, and strict mode makes OpenAI-family models over-fill\n\t * mutually exclusive optional fields (#4336/#4340). Serializers preserve an\n\t * explicit `false`; an omitted flag would leave nothing to preserve.\n\t */\n\treadonly strict = false as const;\n\treadonly formatApprovalDetails = formatApprovalArguments;"

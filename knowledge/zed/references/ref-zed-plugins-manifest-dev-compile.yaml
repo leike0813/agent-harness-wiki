@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-plugins-manifest-dev-compile
+harness_id: zed
+snapshot_id: snapshot-zed-extension-builder-rs-5030407
+locator:
+  kind: file_lines
+  file: crates/extension/src/extension_builder.rs
+  start: 89
+  end: 101
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  pub async fn compile_extension(
+      &self,
+      extension_dir: &Path,
+      extension_manifest: &mut ExtensionManifest,
+      options: CompileExtensionOptions,
+      fs: Arc<dyn Fs>,
+  ) -> Result<()> {
+      let start = std::time::Instant::now();
+
+      extension_manifest
+          .populate_defaults(extension_dir, fs.clone())
+          .await?;

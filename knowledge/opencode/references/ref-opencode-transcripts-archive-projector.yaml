@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-archive-projector
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-projector-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/core/src/session/projector.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/projector.ts
+  start: 625
+  end: 640
+excerpt: |-
+  yield* bus.project(SessionEvent.Archived, (event) =>
+    db
+      .update(SessionTable)
+      .set({ time_archived: event.created, time_updated: event.created })
+      .where(eq(SessionTable.id, event.data.sessionID))
+      .run()
+      .pipe(Effect.orDie),
+  )
+  yield* bus.project(SessionEvent.Unarchived, (event) =>
+    db
+      .update(SessionTable)
+      .set({ time_archived: null, time_updated: event.created })
+      .where(eq(SessionTable.id, event.data.sessionID))
+      .run()
+      .pipe(Effect.orDie),
+  )

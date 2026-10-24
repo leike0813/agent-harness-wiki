@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-hooks-output
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_foreign_hooks.py
+  start: 315
+  end: 364
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      call: RustExternalToolCall,
+  ) -> tuple[RustPreToolCallHookResult, _HookNotice | None]:
+      """Map exit-0 stdout to a result + notice. Empty stdout allows; invalid JSON fails."""
+      text = stdout.strip()
+      if not text:
+          return _continue(original_arguments), None
+      try:
+          parsed = json.loads(text)
+      except json.JSONDecodeError as error:
+          return _fail(
+              strict,
+              original_arguments,
+              tool_name=tool_name,
+              failure_reason=f"stdout did not match the hook response schema: {error}",
+          )
+      if not isinstance(parsed, dict):
+  ...
+  _MAX_HOOK_OUTPUT_BYTES = 1_000_000

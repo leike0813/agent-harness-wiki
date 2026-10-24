@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-fields-v2
+harness_id: command-code
+snapshot_id: snapshot-source-command-code-docs-mods-14e4c167d85f
+locator:
+  kind: document_section
+  heading: Fields
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  | Member | Type | Notes |
+  | `cmd.name` | `string` | the mod's name (from filename / manifest) |
+  | `cmd.cwd` | `string` | workspace root |
+  | `cmd.session` | `ModSessionApi | undefined` | persistence seam; undefined until bound |
+  | `cmd.events` | `ModEventBus` | `emit(channel, data?)` / `on(channel, handler)` cross-mod bus |
+  | `cmd.ui` | `ModUi` | `notify` / `confirm` / `select` / `input` / `setStatus` / `widget` / `refreshWidgets` / `pane` / `openPane` / `closePane` / `toast` / `copy` / `override` / `setTitle` / `capabilities` |
+  | `cmd.state` | `ModStateApi` | `get` / `set` / `subscribe` - session values that survive a hot reload |
+  | `cmd.store` | `ModStoreApi` | `get` / `set` / `delete` - values kept across sessions (`~/.commandcode/mods/.store/<mod>.json`) |

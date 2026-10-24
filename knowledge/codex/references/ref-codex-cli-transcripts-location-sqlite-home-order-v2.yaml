@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-location-sqlite-home-order-v2
+harness_id: codex
+snapshot_id: snapshot-codex-repo-2f3fb111-core-src-config-mod
+locator:
+  kind: file_lines
+  file: codex-rs/core/src/config/mod.rs
+  start: 4257
+  end: 4267
+official_url: https://github.com/openai/codex/blob/2f3fb111be71d277c80bd5b96d9019748b921f5a/codex-rs/core/src/config/mod.rs
+excerpt: "        let sqlite_home = cfg\n            .sqlite_home\n            .as_ref()\n            .cloned()\n            .or(sqlite_home_env)\n            .unwrap_or_else(|| codex_home.clone());\n        let mut sqlite = codex_state::SqliteConfig::from_sqlite_home(sqlite_home);\n        let requirements = config_layer_stack.requirements_toml();\n        if cfg.log_dir.is_some() && requirements.sqlite_home.is_none() {\n            sqlite = sqlite.with_local_logs_home(log_dir.clone());\n        }"

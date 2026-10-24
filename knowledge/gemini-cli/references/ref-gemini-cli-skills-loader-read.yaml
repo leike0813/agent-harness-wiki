@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-skills-loader-read
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-git-skills-loader
+locator:
+  kind: file_lines
+  file: packages/core/src/skills/skillLoader.ts
+  start: 190
+  end: 200
+official_url: "https://github.com/google-gemini/gemini-cli/blob/09d81bf116b6f0ef084731dc996aa9d56438bb70/packages/core/src/skills/skillLoader.ts"
+excerpt: |-
+  export async function loadSkillFromFile(
+    filePath: string,
+  ): Promise<SkillDefinition | null> {
+    try {
+      const content = await readFileWithEncoding(filePath);
+      const match = content.match(FRONTMATTER_REGEX);
+      if (!match) {
+        return null;
+      }

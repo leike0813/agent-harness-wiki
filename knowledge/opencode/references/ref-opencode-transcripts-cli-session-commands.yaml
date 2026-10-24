@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-cli-session-commands
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-cli-src-commands-commands-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/cli/src/commands/commands.ts
+locator:
+  kind: file_lines
+  file: packages/cli/src/commands/commands.ts
+  start: 418
+  end: 470
+excerpt: |-
+  Spec.make("session", {
+    description: "Manage sessions",
+    commands: [
+      Spec.make("list", {
+        description: "List top-level sessions in the current project, newest first",
+        params: {
+          ...ServerParams,
+          maxCount: Flag.Int("max-count").pipe(
+            Flag.withAlias("n"),
+            Flag.withSchema(Schema.Int.check(Schema.isGreaterThanOrEqualTo(1))),
+            Flag.withDescription("Limit to N most recent sessions (default: 100)"),
+            Flag.optional,
+          ),
+          format: Flag.Literals("format", ["table", "json"]).pipe(
+            Flag.withDescription("Output format"),
+            Flag.withDefault("table"),
+          ),
+        },
+      }),
+      Spec.make("delete", {

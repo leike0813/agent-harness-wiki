@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-agents-subagent-limits
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_subagents/_models.py
+  start: 507
+  end: 511
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  class SubagentLimits(SubagentModel):
+      max_depth: Literal[1] = 1
+      max_children: int = Field(default=8, gt=0)
+      max_concurrent_turns: int = Field(default=4, gt=0)
+      max_lifetime_names: int = Field(default=128, gt=0)

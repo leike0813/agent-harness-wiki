@@ -1,0 +1,133 @@
+schema_version: 2
+audit_id: audit-opencode-60e50849-c85d-456f-a3dd-90450aee400d
+harness_id: opencode
+checked_at: 2026-10-22T12:55:20.280Z
+previous_audit_id: audit-opencode-6b2f4d18-7c05-4e91-a3d6-5f18c02b7e44
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-opencode-0f16a4f4-327b-41be-bbbb-d7da9bfdd6c0
+  - audit-opencode-2aa143e4-1b45-4f8f-8bba-c200a6007522
+  - audit-opencode-12691d48-1a45-4b04-bc22-ef7201bd564e
+  - audit-opencode-52ea2a76-9938-44ec-a454-01dfc9e8e3b8
+  - audit-opencode-1a190643-5d32-4b65-930f-ec54bdf330bc
+  - audit-opencode-6b2f4d18-7c05-4e91-a3d6-5f18c02b7e44
+checks:
+  - source_id: source-opencode-npm
+    kind: npm_registry
+    checked_at: 2026-10-22T12:55:17.206Z
+    status: changed
+    baseline: 1.19.0@sha512-lddJhFwZI3GLlw8VyOo4yNwBVGeVN/mxH6ORh60h69zAXL7QhjSWY9orj10rwO2kxVnxH9dh45uDCWNuiqPb8A==
+    observed: 1.19.3@sha512-wDRcUlMDibaLzecIGvVGUA9naghXVqzCWcUE7N3qagpGiLSUlU4VbixI+bpsErwJp+AAuSO2lhSr/XxJl7XbrQ==
+  - source_id: source-opencode-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:55:17.206Z
+    status: changed
+    baseline: 8ffbcc2c81d1ff558618137204c36954797d7a6f
+    observed: e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b
+    remote_ref: refs/heads/dev
+impacts:
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-record-content
+      - transcripts-retention-and-recovery
+      - transcripts-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-transcripts-message-table
+      - ref-opencode-transcripts-compaction-keepid
+      - ref-opencode-transcripts-compaction-rebuild
+      - ref-opencode-transcripts-tool-output-limits
+      - ref-opencode-transcripts-tool-output-marker
+      - ref-opencode-transcripts-doc-compaction
+      - ref-opencode-transcripts-archive-service
+      - ref-opencode-transcripts-archive-projector
+      - ref-opencode-transcripts-list-archived-filter
+      - ref-opencode-transcripts-transfer-export
+      - ref-opencode-transcripts-transfer-import
+      - ref-opencode-transcripts-doc-cli-export-v2
+      - ref-opencode-transcripts-remove
+      - ref-opencode-transcripts-tool-output-cleanup-v2
+      - ref-opencode-transcripts-tool-output-schedule-v2
+      - ref-opencode-transcripts-cli-session-commands
+      - ref-opencode-transcripts-db-file
+      - ref-opencode-transcripts-cli-debug-paths
+      - ref-opencode-transcripts-doc-cli-db-v2
+    cross_topic_links: []
+    reason: 已发布 edition 记录内容、归档/删除与诊断三节所依据的表结构与命令面在本轮提交上已不成立，按固定问题重写并在 e965774fa0e2
+      上重新取证。
+  - topic: skills
+    question_ids:
+      - skills.collision
+      - skills.conditions
+      - skills.diagnostics
+      - skills.discovery
+      - skills.format
+      - skills.loading
+    section_ids:
+      - skills-locations
+      - skills-authoring
+      - skills-selection
+      - skills-loading
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-skills-scan-rules
+      - ref-opencode-skills-scan-load
+      - ref-opencode-skills-compat-scan
+      - ref-opencode-skills-refresh-collision
+      - ref-opencode-skills-reload
+      - ref-opencode-skills-context-delta
+      - ref-opencode-skills-claude-roots
+      - ref-opencode-skills-env-disable
+      - ref-opencode-skills-list-api
+      - ref-opencode-skills-frontmatter-code
+    cross_topic_links: []
+    reason: 本轮提交把 Skill 扫描收敛为带深度与忽略规则的独立扫描模块，并改变可用技能列表的增量重述与重扫日志，需按固定问题重写发现、加载与诊断三节。
+pending_question_ids:
+  - skills.collision
+  - skills.conditions
+  - skills.diagnostics
+  - skills.discovery
+  - skills.format
+  - skills.loading
+  - transcripts.archive
+  - transcripts.cleanup
+  - transcripts.diagnostics
+  - transcripts.scope
+investigation_notes:
+  - 本轮 triage 分类：maintain；只读观察时间 2026-10-22T12:55:20.280Z，会话
+    4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns。
+  - skills 结论：扫描由 packages/core/src/config/plugin/skill-scan.ts
+    统一实现，规则为广度优先、深度上限 6、跳过以 . 开头的条目与
+    node_modules/.git/.venv/venv/__pycache__、符号链接 stat 后按目标类型处理、目录内出现 SKILL.md
+    即停止向下递归、只有扫描根层收散装 .md。兼容根的 .claude/.agents 共用该扫描。可用技能列表的增量重述新增 changed
+    段。重扫去抖 100 毫秒并记 INFO「skills rescanned」，frontmatter 跳过记 DEBUG「skill file
+    skipped」。原 partial 的 skills.conditions 由配置发现的 claude 选项与
+    OPENCODE_DISABLE_CLAUDE_CODE(_SKILLS) 的映射闭合，改为 answered。
+  - transcripts 结论：会话正文收敛到 session_message 单表（session_v2 存元数据），V1 message/part
+    双表已不在当前表集合；摘要式压缩以 metadata.keepID 引用被保留消息，读取时在内存重建 recent
+    文本，被保留消息只存一份。归档改为发布 Archived/Unarchived 事件并由投影器写 time_archived；列表的 archived
+    过滤是可选参数，省略即包含归档，命令行 session list 不传该参数。导出/导入改走会话信息加当前消息表（导入重新编号
+    seq、回填费用与归档时间、冲突即 409），不再搬 V1 三表；share
+    文档页本轮被删除，会话层没有分享实现。删除为中断执行、等空闲、关传输、递归删子会话后发 Deleted 事件，会话行删除级联消息。保留策略仍只覆盖
+    tool-output（7 天、每小时清理）。
+  - 来源冲突（同一提交内文档与实现不一致）：packages/web/src/content/docs/cli.mdx 仍列出 opencode db
+    [query] 与 opencode db path、以及顶层 opencode export/import，但
+    packages/cli/src/commands/commands.ts 的注册表里没有顶层 db，export/import 位于 session
+    子命令下。章节按注册表描述实际入口并保留文档说法，排错以实际输出为准。该差异在基线 8ffbcc2c 已存在，非本轮引入。
+  - 残留范围：local_transcripts 的 location、naming、format、schema、lifecycle、database
+    六题不在本轮派发范围，未重审；v2 edition 中这三节正文与引用沿用 652c090d
+    的调查结论，读者需按小节标注的提交判断适用性。后续轮次如派发这些题目，需同时核对
+    session_v2/session_message/session_pending/session_inbox/instruction_* 表集合与
+    packages/opencode→packages/cli、packages/core 的路径迁移。
+  - 新引用均固定到 e965774fa0e2 的 git_source_file 记录（commit/file/content_sha256），未复制
+    checkout；旧 edition 与旧引用未改动。selection 已切到 opencode-skills-v4 与
+    opencode-local_transcripts-v2。

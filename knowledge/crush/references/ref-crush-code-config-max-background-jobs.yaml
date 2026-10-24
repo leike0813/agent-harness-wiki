@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-config-max-background-jobs
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261022-internal-config-config-go
+locator:
+  kind: file_lines
+  file: internal/config/config.go
+  start: 482
+  end: 495
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  MaxBackgroundJobs         *int         `json:"max_background_jobs,omitempty" jsonschema:"description=How many background shell jobs may run at once. Jobs that have finished never count against it. 0 or negative restores the default.,default=50,example=10,example=200"`
+  }
+
+  // DefaultMaxBackgroundJobs is how many background shell jobs may run at once
+  // when the user has not set max_background_jobs.
+  const DefaultMaxBackgroundJobs = 50
+
+  // GetMaxBackgroundJobs returns the running-job ceiling, always positive.
+  func (o *Options) GetMaxBackgroundJobs() int {
+  	if o == nil || o.MaxBackgroundJobs == nil || *o.MaxBackgroundJobs <= 0 {
+  		return DefaultMaxBackgroundJobs
+  	}
+  	return *o.MaxBackgroundJobs
+  }

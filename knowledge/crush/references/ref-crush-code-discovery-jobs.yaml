@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-discovery-jobs
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261022-internal-config-discovery-go
+locator:
+  kind: file_lines
+  file: internal/config/discovery.go
+  start: 41
+  end: 69
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func discoveryJobs(c *Config, known map[string]bool) []discoveryJob {
+  	var jobs []discoveryJob
+  	for id, pc := range c.Providers.Seq2() {
+  		if known[id] || pc.Disable || pc.BaseURL == "" {
+  			continue
+  		}
+  		wanted := len(pc.Models) == 0
+  		if pc.AutoDiscoverModels != nil {
+  			wanted = *pc.AutoDiscoverModels
+  		}
+  		if !wanted {
+  			continue
+  		}
+  		jobs = append(jobs, discoveryJob{
+  			id: id,
+  			cfg: discover.Config{
+  				ID:           cmp.Or(pc.ID, id),
+  				BaseURL:      pc.BaseURL,
+  				APIKey:       pc.APIKey,
+  				ExtraHeaders: pc.ExtraHeaders,
+  			},
+  			providerType: string(cmp.Or(pc.Type, catwalk.TypeOpenAICompat)),
+  		})
+  	}
+  	return jobs
+  }

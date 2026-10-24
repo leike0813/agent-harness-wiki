@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-agents-tools
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: harness/core/src/core/features/subagents/tools.rs
+  start: 107
+  end: 140
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  pub(crate) enum ToolName {
+      ListConfigs,
+      List,
+      Spawn,
+      SendMessage,
+      Interrupt,
+  }
+  ...
+          match self {
+              Self::ListConfigs => RuntimeBuiltinToolName::SubagentListConfigs,
+              Self::List => RuntimeBuiltinToolName::SubagentList,
+              Self::Spawn => RuntimeBuiltinToolName::SubagentSpawn,
+              Self::SendMessage => RuntimeBuiltinToolName::SubagentSendMessage,
+              Self::Interrupt => RuntimeBuiltinToolName::SubagentInterrupt,
+          }
+  ...
+              Self::ListConfigs => "agents_list_configs",
+              Self::List => "agents_list",
+              Self::Spawn => "agents_spawn",
+              Self::SendMessage => "agents_send_message",
+              Self::Interrupt => "agents_interrupt",

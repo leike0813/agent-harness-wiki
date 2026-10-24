@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-provider-model-patch-05d
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-repo-20261022
+locator:
+  kind: file_lines
+  file: src/core/webview/ClineProvider.ts
+  start: 1926
+  end: 1960
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/05d01f33d03a7fd54baf8b7c61acf53824c56358/src/core/webview/ClineProvider.ts#L1926-L1960"
+excerpt: "\n\t\t\t\t\tfor (const [key, value] of Object.entries(patch)) {\n\t\t\t\t\t\tif (PROFILE_MODEL_ID_PATCH_KEYS.has(key)) {\n\t\t\t\t\t\t\tif (typeof value !== \"string\" || value.length === 0) {\n\t\t\t\t\t\t\t\tthrow new Error(`Key \"${key}\" must be a non-empty string in a model patch`)\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\tmerged[key] = value\n\t\t\t\t\t\t} else if (PROFILE_MODEL_RESET_ONLY_KEYS.has(key)) {\n\t\t\t\t\t\t\tif (value !== null && value !== undefined) {\n\t\t\t\t\t\t\t\tthrow new Error(`Key \"${key}\" can only be cleared in a model patch`)\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\tdelete merged[key]\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tthrow new Error(`Key \"${key}\" is not allowed in a model patch`)\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n"

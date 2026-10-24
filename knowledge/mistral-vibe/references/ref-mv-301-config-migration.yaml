@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-config-migration
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/_migration.py
+  start: 75
+  end: 93
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  def migrate_config(
+      data: dict[str, Any], *, complete_aliases: AbstractSet[str] = frozenset()
+  ) -> bool:
+      """Apply every config migration in order, mutating ``data`` in place.
+  ...
+      """
+      changed = False
+      changed |= _migrate_bash_allowlist(data)
+      changed |= _migrate_bash_read_only(data)
+      changed |= _migrate_model_renames(data)
+      changed |= _migrate_removed_devstral_small(data)
+      changed |= _migrate_removed_local(data, complete_aliases=complete_aliases)
+      changed |= _migrate_renamed_tools(data)
+      changed |= _migrate_renamed_agents(data)
+      return changed

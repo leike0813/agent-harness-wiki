@@ -1,0 +1,11 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-reload-v2
+harness_id: command-code
+snapshot_id: snapshot-source-command-code-docs-mods-14e4c167d85f
+locator:
+  kind: document_section
+  heading: "4. Iterate: save, and it reloads"
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  In the interactive TUI, saving a mod's file reloads it in place, with no restart: the feed says `[mods] ✓ reloaded <name>` (or why it did not). The old code gets `onSessionEnd` with `reason: 'reload'`, then every registration it made is disposed, except tools added with `addTool`. Those keep the old code until the next session. `cmd.state` survives, and `onSessionStart` fires again with `source: 'reload'`. A save that throws while loading leaves the old code running. `/mods reload [name]` reloads on demand. Two things need more than a reload: tools (the tool set is fixed per session) and new mod files (`/reload` re-discovers). `COMMANDCODE_MODS_HOT_RELOAD=0` turns the watcher off.

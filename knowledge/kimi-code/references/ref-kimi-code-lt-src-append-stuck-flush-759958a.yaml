@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-append-stuck-flush-759958a
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-append-log-759958a
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/persistence/backends/node-fs/appendLogStore.ts
+  start: 333
+  end: 353
+official_url: https://github.com/MoonshotAI/kimi-code/blob/759958afdfeb0f8c7d09cb03cbc2cf85b6255e9e/packages/agent-core-v2/src/persistence/backends/node-fs/appendLogStore.ts
+excerpt: |-
+  private watchStuckFlush(scope: string, key: string, state: LogState, owned: Promise<void>): void {
+    if (state.stuckWatch !== undefined) clearInterval(state.stuckWatch);
+    const startedAt = Date.now();
+    let lastWarnAt = 0;
+    state.stuckWatch = setInterval(() => {
+      if (state.flushPromise !== owned) {
+        if (state.stuckWatch !== undefined) {
+          clearInterval(state.stuckWatch);
+          state.stuckWatch = undefined;
+        }
+        return;
+      }
+      const stuckMs = Date.now() - startedAt;
+      if (stuckMs < STUCK_FLUSH_WARN_MS) return;
+      if (Date.now() - lastWarnAt < STUCK_FLUSH_REPEAT_MS) return;
+      lastWarnAt = Date.now();
+      this.logger.warn('append log flush is stuck; records are accumulating in memory', {

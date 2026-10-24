@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-database-journal-init-v2
+harness_id: codex
+snapshot_id: snapshot-codex-repo-2f3fb111-state-sqlite
+locator:
+  kind: file_lines
+  file: codex-rs/state/src/sqlite.rs
+  start: 569
+  end: 581
+official_url: https://github.com/openai/codex/blob/2f3fb111be71d277c80bd5b96d9019748b921f5a/codex-rs/state/src/sqlite.rs
+excerpt: "        if empty {\n            let mode: i64 = sqlx::query_scalar(\"PRAGMA auto_vacuum\")\n                .fetch_one(&mut *connection)\n                .await?;\n            if mode == 0 {\n                sqlx::query(\"PRAGMA auto_vacuum = INCREMENTAL\")\n                    .execute(&mut *connection)\n                    .await?;\n            }\n            sqlx::query(\"PRAGMA journal_mode = WAL\")\n                .execute(&mut *connection)\n                .await?;\n        }"

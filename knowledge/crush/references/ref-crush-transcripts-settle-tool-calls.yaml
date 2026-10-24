@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-settle-tool-calls
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261022-internal-agent-settle-go
+locator:
+  kind: file_lines
+  file: internal/agent/settle.go
+  start: 99
+  end: 138
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func settleToolCalls(ctx context.Context, messages message.Service, assistant *message.Message, calls []message.ToolCall, reason string) ([]message.Message, error) {
+  	if len(calls) == 0 {
+  		return nil, nil
+  	}
+  	for _, tc := range calls {
+  		slog.Warn("Settling a tool call that will never be answered",
+  			"session_id", assistant.SessionID,
+  			"tool_call_id", tc.ID,
+  			"tool_name", tc.Name,
+  			"reason", reason)
+  		if !tc.Finished {
+  			tc.Finished = true
+  			assistant.AddToolCall(tc)
+  		}
+  	}
+  	if err := messages.Update(ctx, *assistant); err != nil {
+  		return nil, fmt.Errorf("failed to settle tool calls: %w", err)
+  	}

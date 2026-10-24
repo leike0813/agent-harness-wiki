@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-model-resolution
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/vibe_schema.py
+  start: 936
+  end: 950
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      def resolve_default_agent(self) -> str:
+          """The default agent, honoring the smart-approve default experiment."""
+          if self.smart_approve_default:
+              return BuiltinAgentName.SMART_APPROVE
+          return self.default_agent
+
+      def resolve_default_model_alias(self) -> str:
+          available = self.available_models()
+          if self.routed_default_model and self.routed_default_model in available:
+              return self.routed_default_model
+          if self.catalog_recommended_model in available:
+              return self.catalog_recommended_model
+          if DEFAULT_ACTIVE_MODEL_CONFIG.alias in available or not available:
+              # If there are no available models, fallback to default
+              return DEFAULT_ACTIVE_MODEL_CONFIG.alias

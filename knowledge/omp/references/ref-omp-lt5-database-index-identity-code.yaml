@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt5-database-index-identity-code
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-src-session-session-index-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-index.ts
+  start: 76
+  end: 94
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/packages/coding-agent/src/session/session-index.ts#L76-L94
+excerpt: "function openSessionIndex(): SessionIndexHandle | undefined {\n\t// A test run never writes the user's history.db: under the test runner the\n\t// index opens only an agent dir the test chose (`setAgentDir` exports\n\t// PI_CODING_AGENT_DIR). Otherwise every test naming a file-backed session\n\t// leaves a title row behind in the real index.\n\tif (isBunTestRuntime() && !process.env.PI_CODING_AGENT_DIR) return undefined;\n\tconst dbPath = getHistoryDbPath();\n\t// A quarantined history.db is unlinked and recreated at the same path, so\n\t// the path alone still matches a handle pinned to the dead inode. Reopen\n\t// unless the file behind the path is still the one this handle was opened\n\t// on. An `undefined` identity means the stat itself failed: no conclusion\n\t// is safe there, so treat the handle as sta…"

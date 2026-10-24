@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-hook-files
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/harness_files/_harness_manager.py
+  start: 128
+  end: 135
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      @property
+      def hook_files(self) -> list[Path]:
+          files: list[Path] = [
+              root / ".vibe" / "hooks.toml" for root in self.project_roots
+          ]
+          if "user" in self.sources:
+              files.append(VIBE_HOME.path / "hooks.toml")
+          return files

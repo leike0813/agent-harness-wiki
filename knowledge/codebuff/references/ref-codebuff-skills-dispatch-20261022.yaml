@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-skills-dispatch-20261022
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-skill-command-20261022
+locator:
+  kind: file_lines
+  file: cli/src/commands/command-registry.ts
+  start: 894
+  end: 905
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |2-
+  /**
+   * Send (or queue, mid-turn) a user-invoked skill prompt. Shared by the
+   * /skill:<name> args form and the skill input mode's submit (router), so the
+   * two entry paths for the same feature cannot drift.
+   */
+  export function dispatchSkillPrompt(
+    params: RouterParams,
+    skill: { name: string; content: string; filePath: string },
+    input: string,
+  ): void {
+    const userPrompt = buildSkillPrompt(skill, input)

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-subagent-cancelled-20261022
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261022-goose-agent-subagent
+locator:
+  kind: file_lines
+  file: crates/goose-agent/src/subagent.rs
+  start: 103
+  end: 121
+official_url: "https://github.com/block/goose/blob/6835dd45a21a701b017abe38aa4204e18fed9213/crates/goose-agent/src/subagent.rs"
+excerpt: |2-
+  fn subagent_cancelled_message(subagent_session_ids: &[String]) -> Option<Message> {
+      if subagent_session_ids.is_empty() {
+          return None;
+      }
+      let text = subagent_session_ids
+          .iter()
+          .map(|subagent_session_id| {
+              format!(
+                  "{} was cancelled before it finished.",
+                  subagent_label(subagent_session_id)
+              )
+          })
+          .collect::<Vec<_>>()
+          .join("\n");
+      let mut message = Message::user().with_text(text).with_visibility(false, true);

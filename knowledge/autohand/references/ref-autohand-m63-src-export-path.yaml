@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-m63-src-export-path
+harness_id: autohand
+snapshot_id: snapshot-autohand-m63-src-session-exportsession-ts
+locator:
+  kind: symbol
+  file: src/session/exportSession.ts
+  symbol: resolveExportPath
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  export function resolveExportPath(filename: string, workspaceRoot: string): string {
+    if (path.isAbsolute(filename)) return filename;
+    if (filename.startsWith('./') || filename.startsWith('.' + path.sep)) return path.resolve(workspaceRoot, filename);
+    const base = path.resolve(AUTOHAND_PATHS.exports);
+    const destination = path.resolve(base, filename);
+    const relative = path.relative(base, destination);
+    if (relative === '..' || relative.startsWith('..' + path.sep) || path.isAbsolute(relative)) {
+      throw new Error('Use an absolute or ./-prefixed path to save outside the exports directory.');
+    }
+    return destination;
+  }

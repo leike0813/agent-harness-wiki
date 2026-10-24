@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-refresh-collision
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-plugin-skill-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/core/src/config/plugin/skill.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/plugin/skill.ts
+  start: 149
+  end: 167
+excerpt: |-
+  const refresh = Effect.fn("ConfigSkillPlugin.refresh")(
+    function* (file?: string) {
+      yield* FiberMap.clear(watches)
+      const skills = new Map<Skill.ID, Skill.Info>()
+      const current = sources()
+      for (const source of current) {
+        for (const skill of yield* load(source)) skills.set(skill.id, skill)
+      }
+      loaded.skills = Array.from(skills.values())
+      if (file) {
+        yield* Effect.logInfo("skills rescanned", {
+          file,
+          sources: current.map(Skill.Source.key),
+          skills: loaded.skills.map((skill) => skill.id),
+        })
+      }
+    },
+    (effect, ..._args: [file?: string]) => lock.withPermit(effect),
+  )

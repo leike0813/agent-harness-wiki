@@ -1,0 +1,130 @@
+schema_version: 2
+audit_id: audit-prime-agent-57fc77b5-3379-4820-8afc-9a1622183cdd
+harness_id: prime-agent
+checked_at: 2026-10-22T12:55:34.149Z
+previous_audit_id: audit-prime-agent-c08789fa-8171-4da2-9dfa-af49c8c52d3f
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-prime-agent-fe998a91-5291-4f0c-8bbc-45887d1f607b
+  - audit-prime-agent-1f7dab30-5252-4281-99c4-6a1fb619a7c2
+  - audit-prime-agent-cf6c932e-dba3-46e7-86c7-83ac66ea49d4
+  - audit-prime-agent-5afda806-f11e-4ece-940b-312b4624acc5
+  - audit-prime-agent-c08789fa-8171-4da2-9dfa-af49c8c52d3f
+checks:
+  - source_id: source-prime-agent-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:55:32.197Z
+    status: changed
+    baseline: 791ce3d8f93aa863af63271e4646e46e38032a86
+    observed: 8aac8692456c00c01d4e53e60e6d3347a3506559
+    remote_ref: refs/heads/main
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.defaults
+    section_ids:
+      - config-trust-defaults-migration
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-8aac-compaction-threshold-field
+      - ref-prime-agent-8aac-compaction-threshold-default
+      - ref-prime-agent-8aac-harness-refinements-field
+      - ref-prime-agent-8aac-harness-refinements-getter
+    cross_topic_links: []
+    reason: 提交 8aac869 在类型化设置层新增 compaction.thresholdPercent（1–100，缺失/非法回退 95）与
+      harnessRefinements（未设置即开启、只读全局）；默认值表与说明段落已补两项，config.defaults 的答案与引用随之更新。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.diagnostics
+      - transcripts.archive
+    section_ids:
+      - transcripts-scope
+      - transcripts-storage-layout
+      - transcripts-format-and-writes
+      - transcripts-record-schema
+      - transcripts-index-and-archive
+      - transcripts-cleanup-and-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-8aac-tool-started-entry
+      - ref-prime-agent-8aac-tool-progress-entry
+      - ref-prime-agent-8aac-tool-start-row-write
+      - ref-prime-agent-8aac-tool-progress-row-write
+      - ref-prime-agent-8aac-admitted-user-rows
+      - ref-prime-agent-8aac-index-chain
+      - ref-prime-agent-8aac-transcript-page
+      - ref-prime-agent-8aac-sidecar-version-rule
+      - ref-prime-agent-8aac-sidecar-two-writers
+      - ref-prime-agent-8aac-scan-accumulator
+      - ref-prime-agent-8aac-scan-cold-flag
+      - ref-prime-agent-8aac-ledger-bad-line-skip
+      - ref-prime-agent-8aac-legacy-archive-restore
+    cross_topic_links: []
+    reason: 提交 8aac869 在会话记录链路上有四处机制级变化：新增 tool_started/tool_progress 两种
+      entry、用户行先准入后重放、内存索引加入父链且显示 transcript 改为分页、sidecar
+      版本规则/写者/折叠字段变化；另移除自动归档模块及其两个设置键。四项固定问题按新机制改写，归档相关的既有叙述只补记移除事实。
+pending_question_ids:
+  - transcripts.archive
+  - transcripts.diagnostics
+  - transcripts.lifecycle
+  - transcripts.schema
+investigation_notes:
+  - 本轮 triage 分类：maintain；只读观察时间 2026-10-22T12:55:34.149Z，会话
+    4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns。固定来源只有一个 Git 仓库，baseline
+    791ce3d8、observed 8aac8692（547 个文件变化），其中 24 个文件被已发布引用覆盖。
+  - config.defaults：新增 compaction.thresholdPercent 与 harnessRefinements
+    两个键，默认值、合法范围与作用域都在
+    crates/pa-core/src/settings/types.rs、crates/pa-core/src/session_engine/compaction.rs 与 crates/pa-core/src/settings/interactive_settings.rs 里直接可读（95
+    = COMPACT_THRESHOLD_RATIO 0.95 × 100； harnessRefinements 未设置时 true
+    且只读全局）。已发布默认值表与说明段落补上这两项，其余键与说明未改动； 新 edition
+    prime-agent-cli-configuration-v6。
+  - transcripts.schema：FileEntry 枚举新增 tool_started（toolCallId/toolName/args）与
+    tool_progress （toolCallId/toolName/elapsedMs），带同一套 EntryBase 信封；schema
+    小节补字段、序列化标签与脱敏示例行， 状态仍为 partial（块级内容 schema 等缺口未变）。
+  - transcripts.lifecycle：工具调用开始/进行中各自追加一行（写失败只记录、不失败整轮）；worker 在懒加载 engine
+    建好前落盘的用户行通过 replay_admitted_user_rows 以“准入身份”重放，MessageEnd 复用原行而不重复追加；
+    恢复第三步只剩更旧版本写入的 sessions-archive/ 兜底（复制+hard_link 发布+删除原件）。
+  - transcripts.database：正文仍不在数据库（sqlite/rusqlite/libsql/diesel 检索无命中）；内存索引新增
+    ChainLink 父链（skew-binary jump，O(log N) 祖先查询）且显示 transcript
+    改为按页读取（成本随页而非随会话）； sidecar 版本闸改为“删字段不必升版本”（值仍为 2），折叠状态里原来的全量消息搜索语料字段已删除， 并新增
+    catalog 扫描这一写者。
+  - transcripts.diagnostics：新增两个可观察信号——read_session_info_from 返回的 (SessionInfo,
+    cold) 布尔 说明本次读取是否真的绕过了 sidecar；RLM 账本单行损坏改为跳过并记录（one bad line costs one
+    record）。 修复路径（尾部扫描、首行闸、流式重写、租约闸）本轮所在文件未变化，原有条目保留。
+  - 归档（transcripts.archive 属于本轮不派发的固定问题）：session_archive.rs 整个模块与
+    sessionArchiveMaxAgeDays/sessionArchiveMaxSessions 两个设置键在本提交被删除，自动归档不再存在，
+    只剩对遗留目录的读取/恢复。为不把已知不实叙述带进新 edition，在共享小节里补了一段明确标注的移除说明，
+    并注明该问题本轮未重审、需要单独派发；transcripts.archive 的答案状态与引用未改动，但该问题已列入
+    pending_question_ids 并计入 impacts，下一轮必须作为固定问题单独派发。
+  - cross_topic_links 核对：scan 对 configuration 建议了 agents.overrides 与 providers.responses。本轮两个新键只在
+    类型化设置层新增字段与访问器（compaction.thresholdPercent 从 `compaction` 段读取，harnessRefinements 从
+    `global_settings()` 读取），取证路径既未进入 subagent 角色/覆盖解析，也未进入 provider responses API，
+    因此 impacts 的 cross_topic_links 保持为空列表，排除理由记录于此。
+  - 已发布引用的核对边界：现有引用都钉在更早的 snapshot 提交（7a52276、967eb13、cf119a、c24ac22、2ee7e62、
+    e41c9c4、e2fb7bf），而 pinned workspace 是只含 baseline+HEAD 的浅克隆，无法在这些提交上逐条复验行定位；
+    本轮没有删除或改写任何已发布引用，只新增 8aac869 的 snapshot/artifact/reference。
+  - 所有新引用均为 git_source_file（仅 commit/file/content_sha256），未复制 checkout；无新增
+    mapping（来源未标注 发行版本，保持来源级知识）。
+  - 校验：pnpm -s maintenance:candidates check --candidate <candidate> 通过。
+  - 独立复核（reviewer rev2-prime-agent，2026-10-22）：review=changes_requested。五个固定问题
+    config.defaults、transcripts.schema、transcripts.lifecycle、transcripts.database、transcripts.diagnostics
+    全部 upheld，无 corrected/rejected。按该复核逐项修复：审计保持 pending 且不写 reviewed_by/reviewed_at
+    （第 1 项，由 coordinator 校正）、补记 crates/pa-daemon/src/session_usage.rs:253-256 仍保留的相反「必须升版本」旧措辞
+    并新增引用（第 2 项）、为 session_catalog.rs:56-83 的恢复机制与 settings/load.rs 的 KNOWN_FIELDS 表补引用
+    （第 3 项）、把 transcripts.archive 列入 pending_question_ids 与 impacts（第 4 项）、记录 cross_topic_links
+    排除理由（第 5 项）、把 cf119a 时代的「本轮提交」改为提交哈希（第 6 项）、补
+    get_compaction_threshold_percent() 的引用（第 7 项）、修正本文件 investigation_notes 的 compaction.rs 路径
+    （第 8 项）、补 harnessRefinements 的 TUI 未声明面说明（第 9 项）、在 config-overrides 例外表加入
+    harnessRefinements（第 10 项）。复核未结束，configuration 与 local_transcripts 的选章回退到已发布版本，新 edition
+    保留在候选中等待复核。
+  - 独立复核 rev3-prime-agent（2026-10-22 批次，verdict approved）：rev2 的 10 条要求逐条落实并在固定提交
+    8aac8692456c00c01d4e53e60e6d3347a3506559 上逐字节复核通过（含两个新默认设置键、compaction 阈值 getter 的
+    引用、harnessRefinements 例外表行与 TUI 未声明面说明、显式提交哈希）。复核判定 configuration 与
+    local_transcripts 两题可作为当前 edition，协调者据此把 registry 的两行切到 v6/v4。本审计 review_status
+    保持 pending、未写 reviewed_by/reviewed_at（引用的 5 条旧审计仍未结案，本轮不代为关闭）。

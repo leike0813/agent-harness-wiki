@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-transfer-export
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-transfer-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/core/src/session/transfer.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/transfer.ts
+  start: 57
+  end: 63
+excerpt: |-
+  export: Effect.fn("SessionTransfer.export")(function* (input) {
+    const data = {
+      info: yield* sessions.get(input.sessionID),
+      messages: (yield* sessions.messages({ sessionID: input.sessionID, order: "asc" })).filter(isSettled),
+    }
+    return input.sanitize ? sanitize(data) : data
+  }),

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-hooks-failure
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_foreign_hooks.py
+  start: 1
+  end: 14
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  """Foreign-command hook executors for user-facing hooks.
+
+  A *foreign* hook is a user command declared in ``hooks.toml``. This module builds
+  the per-point handler that the Runtime registers: it assembles the point's JSON
+  event, spawns the command in the session cwd, enforces a timeout, and maps the
+  command's stdout to the point's typed result.
+
+  A handler **never raises for an execution failure**. Any spawn error, timeout,
+  non-zero exit, or invalid JSON is mapped to the point's fail action, never to an
+  exception — raising would surface as ``hook_pipeline_failed`` regardless of the
+  point's policy. The fail action per point:
+
+  * ``pre_tool`` — ``strict`` fails closed to *deny*, else open to *allow*.
+  * ``post_tool`` — ``strict`` blanks the tool result, else passes it through.

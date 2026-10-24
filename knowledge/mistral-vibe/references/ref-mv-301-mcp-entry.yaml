@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-mcp-entry
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/vibe_schema.py
+  start: 605
+  end: 613
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      mcp_servers: Annotated[
+          list[MCPServer],
+          WithUnionMerge(merge_key="name"),
+          AfterValidator(_unique_by("name")),
+      ] = Field(
+          default_factory=list, description="Preferred MCP server configuration entries."
+      )
+      enable_connectors: Annotated[bool, WithReplaceMerge()] = True
+      enable_mcp: Annotated[bool, WithReplaceMerge()] = True

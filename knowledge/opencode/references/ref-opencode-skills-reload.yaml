@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-reload
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-plugin-skill-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/core/src/config/plugin/skill.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/plugin/skill.ts
+  start: 169
+  end: 191
+excerpt: |-
+  // Editor saves arrive as bursts of watcher events; settle before rescanning once. Subscribe
+  // before debouncing so no update slips through while the debounce starts its pull.
+  const updates = yield* PubSub.subscribe(changes)
+  yield* Stream.fromSubscription(updates).pipe(
+    Stream.debounce("100 millis"),
+    Stream.runForEach((file) => refresh(file).pipe(Effect.andThen(ctx.skill.reload()))),
+    Effect.forkScoped({ startImmediately: true }),
+  )
+  yield* refresh()
+  yield* ctx.skill.transform((editor) => {
+    for (const skill of loaded.skills) editor.add(skill)
+  })
+  yield* ctx.event.subscribe().pipe(
+    Stream.filter((event) => event.type === "config.updated"),
+    Stream.runForEach(() =>
+      config.entries().pipe(

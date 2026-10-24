@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-resolve-env
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-git-settings-cli
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settings.ts
+  start: 891
+  end: 926
+official_url: "https://github.com/google-gemini/gemini-cli/blob/09d81bf116b6f0ef084731dc996aa9d56438bb70/packages/cli/src/config/settings.ts"
+excerpt: |-
+  /**
+   * Expands environment variable placeholders in `rawSettings` against the
+   * current `process.env` and validates the result.
+   *
+   * Validation issues are only recorded in `settingsErrors` when provided, so
+   * that the preliminary pass (which runs before `.env` files are loaded) does
+   * not report placeholders that are resolved later on.
+   */
+  function resolveSettings(
+    rawSettings: Settings,
+    filePath: string,
+    settingsErrors?: SettingsError[],
+  ): Settings {
+    if (Object.keys(rawSettings).length === 0) {
+      return {};
+    }
+
+    const expandedSettings = resolveEnvVarsInObject(rawSettings);

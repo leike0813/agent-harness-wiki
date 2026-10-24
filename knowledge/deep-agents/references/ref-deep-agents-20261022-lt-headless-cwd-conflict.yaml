@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-20261022-lt-headless-cwd-conflict
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-20261022-headless-resume-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/client/headless_resume.py
+  start: 95
+  end: 111
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  if not target.cwd:
+      return None
+  status, path = classify_thread_cwd(target.cwd, current_cwd)
+  if status == "mismatch":
+      return (
+          f"Thread {target.thread_id} belongs to {path}. "
+          "Run from that directory to resume it."
+      )
+  if status == "unavailable":
+      return (
+          f"Thread {target.thread_id} was last used in {target.cwd!r}, "
+          "which is no longer available, so it can't be resumed."
+      )
+  return None

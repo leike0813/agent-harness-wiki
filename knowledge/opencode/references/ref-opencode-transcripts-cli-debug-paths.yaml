@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-cli-debug-paths
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-cli-src-commands-commands-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/cli/src/commands/commands.ts
+locator:
+  kind: file_lines
+  file: packages/cli/src/commands/commands.ts
+  start: 115
+  end: 146
+excerpt: |-
+  Spec.make("debug", {
+    description: "Debugging and troubleshooting tools",
+    commands: [
+      Spec.make("agents", { description: "List all agents" }),
+      Spec.make("config", { description: "List configuration sources" }),
+      Spec.make("paths", {
+        description: "Show global paths (data, config, cache, state)",
+        params: {
+          name: Argument.Literals("name", [
+            "db",
+            "home",
+            "data",
+            "config",
+            "cache",
+            "state",
+            "tmp",
+            "bin",
+            "log",
+            "repos",
+          ]).pipe(
+            Argument.withDescription(
+              "Print only one path: db, home, data, config, cache, state, tmp, bin, log, repos",

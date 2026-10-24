@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-identity-20261022
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo-20261022
+locator:
+  kind: file_lines
+  file: packages/local-runtime-v2/src/service/model-system/identity.ts
+  start: 20
+  end: 32
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  * `openai-codex-responses` is deliberately excluded even though
+  * `LocalCustomProviderConfig.api` accepts it. The Codex OAuth provider is not a
+  * generic endpoint: its credentials, base URL and reasoning controls are owned
+  * by Pi's dedicated Codex transport, so this runtime must not rewrite its base
+  * URL or inject a BYOK Thinking patch. Its Thinking level is still resolved and
+  * exposed through the ordinary non-`anthropic-messages` path.
+  */
+  export const MODEL_PROVIDER_APIS = [
+    'anthropic-messages',
+    'openai-completions',
+    'openai-responses',
+    'google-generative-ai',
+  ] as const;

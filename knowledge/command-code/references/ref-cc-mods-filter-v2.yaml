@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-filter-v2
+harness_id: command-code
+snapshot_id: snapshot-source-command-code-docs-mods-14e4c167d85f
+locator:
+  kind: document_section
+  heading: Load only some mods from a package
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  `{ "mods": { "sources": [ {"source": "owner/review-pack", "mods": ["review/*.ts", "!review/slow.ts"]} ] } }`
+  Patterns match a file's path inside the package, or its mod name. There are four kinds, applied in this order:
+  1. `-path` always excludes that exact path, and beats everything else.
+  2. `+path` always includes that exact path, even if a glob dropped it.
+  3. `!glob` excludes matches.
+  4. A plain glob includes matches. When any includes exist, a mod must match one of them.
+  `cmd mods add` and `cmd mods remove` keep entries you wrote by hand, filters included.

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-8aac-tool-progress-row-write
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-8aac-crates-pa-core-src-session-engine-mod-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session_engine/mod.rs
+  start: 426
+  end: 439
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/8aac8692456c00c01d4e53e60e6d3347a3506559/crates/pa-core/src/session_engine/mod.rs
+excerpt: |2
+          AgentEvent::ToolExecutionProgress {
+              tool_call_id,
+              tool_name,
+              elapsed_ms,
+          } => {
+              let result =
+                  session
+                      .lock()
+                      .await
+                      .append_tool_progress(&tool_call_id, &tool_name, elapsed_ms);
+              if let Err(error) = result {
+                  eprintln!("pa-core: tool_progress row not persisted: {error}");
+              }
+          }

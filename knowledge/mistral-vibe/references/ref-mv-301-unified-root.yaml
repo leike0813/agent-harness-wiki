@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-unified-root
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/app_server/_runtime.py
+  start: 869
+  end: 872
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      def _unified_storage_root(self, session_logging: SessionLoggingConfig) -> str:
+          if session_logging.enabled:
+              return session_logging.save_dir
+          return str(self._throwaway_storage_root.path())

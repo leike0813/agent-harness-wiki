@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-register-subagent
+harness_id: zed
+snapshot_id: snapshot-zed-acp-thread-rs-5030407
+locator:
+  kind: file_lines
+  file: crates/acp_thread/src/acp_thread.rs
+  start: 5620
+  end: 5631
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  /// Takes ownership of a child session. A session ID that is already registered
+  /// keeps its existing thread. Callers must not register this session or one of its
+  /// ancestors, since the registry holds children strongly.
+  pub fn register_subagent(&mut self, subagent: Entity<AcpThread>, cx: &mut Context<Self>) {
+      let session_id = subagent.read(cx).session_id().clone();
+      if self.subagents.contains_key(&session_id) {
+          return;
+      }
+      self.subagents.insert(session_id.clone(), subagent);
+      cx.emit(AcpThreadEvent::SubagentSpawned(session_id));
+  }

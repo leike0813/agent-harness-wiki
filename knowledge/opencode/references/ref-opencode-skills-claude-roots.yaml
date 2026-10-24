@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-claude-roots
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-discovery-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/core/src/config/discovery.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/discovery.ts
+  start: 129
+  end: 143
+excerpt: |-
+  claude:
+    options?.claude === false
+      ? []
+      : [
+          ...new Set([
+            ...(globalEnabled ? [globalClaudeDirectory] : []),
+            ...visible.filter((item) => path.basename(item) === ".claude").toReversed(),
+          ]),
+        ],
+  agents: [
+    ...new Set([
+      ...(globalEnabled ? [globalAgentsDirectory] : []),
+      ...visible.filter((item) => path.basename(item) === ".agents").toReversed(),
+    ]),
+  ],

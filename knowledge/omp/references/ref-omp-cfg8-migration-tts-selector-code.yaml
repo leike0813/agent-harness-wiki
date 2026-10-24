@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-cfg8-migration-tts-selector-code
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-src-config-settings-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/config/settings.ts
+  start: 3400
+  end: 3406
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/packages/coding-agent/src/config/settings.ts#L3400-L3406
+excerpt: "\t\t\tconst legacyTtsProvider = legacy(providerSettings, \"tts\", \"providers.tts\");\n\t\t\tconst speechSelector =\n\t\t\t\tlegacyTtsProvider === \"local\" || legacyTtsProvider === \"xai\" || legacyTtsProvider === \"deepinfra\"\n\t\t\t\t\t? bundledSelector(legacyTtsProvider, model => (modelKind(model) === \"tts\" ? model.id : undefined))\n\t\t\t\t\t: undefined;\n\t\t\tif (speechSelector) setRoleChain(\"speech\", [speechSelector]);\n"

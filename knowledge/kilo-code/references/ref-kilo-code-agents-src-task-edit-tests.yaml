@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-agents-src-task-edit-tests
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-e08cc-subagent-edit-allowlist-test
+locator:
+  kind: file_lines
+  file: packages/opencode/test/kilocode/subagent-edit-allowlist.test.ts
+  start: 154
+  end: 173
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  test("a custom caller's edit policy does not confine its writer", async () => {
+    const [lead, item] = await agents(
+      {
+        agent: {
+          lead: {
+            description: "Delegating lead",
+            mode: "primary",
+            permission: { edit: { "*": "deny", "candidate/*/*.md": "allow", "secrets/*": "deny" } },
+          },
+          worker: { ...worker, permission: { edit: "allow" as const } },
+        },
+      },
+      ["lead", "worker"],
+    )
+
+    expect(lead!.native).toBe(false)
+    const runtime = child(lead!, item!)
+    expect(Permission.disabled(["edit", "write", "apply_patch"], runtime)).toEqual(new Set())
+    expect(Permission.evaluate("edit", "secrets/a.txt", runtime).action).toBe("allow")
+  })

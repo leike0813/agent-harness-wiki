@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-m63-src-export-redaction
+harness_id: autohand
+snapshot_id: snapshot-autohand-m63-src-session-exportsession-ts
+locator:
+  kind: symbol
+  file: src/session/exportSession.ts
+  symbol: buildSessionExport
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  export function buildSessionExport(
+    metadata: SessionMetadata,
+    messages: SessionMessage[],
+    format: 'md' | 'json' | 'html',
+    options: ExportOptions = {},
+    pretty = true,
+  ): SessionExportResult {
+    let secretsRedacted = 0;
+    const serialized = JSON.stringify({ metadata, messages }, (key, value: unknown) => {
+      if (typeof value !== 'string') return value;
+      const result = redactSensitiveTextWithCount(value, { fieldName: key });
+      secretsRedacted += result.redactions;
+      return result.text;
+    });

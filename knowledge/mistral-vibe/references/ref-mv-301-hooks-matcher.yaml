@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-hooks-matcher
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_hook_matcher.py
+  start: 97
+  end: 131
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  def match_predicate(match: str | None) -> Callable[[str], bool]:
+      if match is None or match == _MATCH_ALL:
+          return lambda _name: True
+
+      if match.startswith(_REGEX_PREFIX):
+  ...
+          return lambda name: compiled.fullmatch(name) is not None
+
+      pattern = match.lower()
+      return lambda name: fnmatch(name.lower(), pattern)
+  ...
+  def compile_selector(
+      point: RustHookPoint, match: str | None
+  ) -> RustHarnessHookSelector:
+      if point in _LIFECYCLE_POINTS and match is not None:
+          raise ValueError(f"lifecycle hook point {point!r} cannot declare a match")
+      return RustAlwaysHookSelector()

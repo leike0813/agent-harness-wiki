@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-config-env
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/layers/environment.py
+  start: 25
+  end: 33
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  class EnvironmentLayer(ConfigLayer[RawConfig]):
+      """Reads VIBE_* env vars via pydantic-settings, which handles type coercion
+      and validation against the schema.
+
+      A top-level field whose variables do not parse is ignored with a warning, so an
+      unrelated tool exporting a colliding ``VIBE_*`` name cannot block startup. A
+      nested field such as ``VIBE_SESSION_LOGGING__ENABLED`` drops its whole
+      ``VIBE_SESSION_LOGGING`` group.
+      """

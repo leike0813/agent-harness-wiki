@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-compat-engines-20261022
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo-20261022
+locator:
+  kind: file_lines
+  file: packages/boot/app-boot/src/plugin-compatibility.ts
+  start: 51
+  end: 61
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: |-
+  function satisfies(runtimeVersion: string, range: string): boolean {
+    return range.trim() !== '' && semver.satisfies(runtimeVersion, range, { includePrerelease: true })
+  }
+
+  function unmetRequirements(fields: Record<string, unknown>, runtimeVersion: string): Record<string, string> {
+    const engines = Object.hasOwn(fields, 'engines') ? objectOf(fields.engines, 'Plugin manifest engines') : {}
+    if (Object.hasOwn(engines, 'dsh')) {
+      const range = engines.dsh
+      if (typeof range !== 'string') throw new Error('Plugin manifest engines.dsh must be a string')
+      return satisfies(runtimeVersion, range) ? {} : { 'engines.dsh': range }
+    }

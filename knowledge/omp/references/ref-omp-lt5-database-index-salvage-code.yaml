@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt5-database-index-salvage-code
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-src-session-session-index-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-index.ts
+  start: 265
+  end: 290
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/packages/coding-agent/src/session/session-index.ts#L265-L290
+excerpt: "/**\n * Copies the readable titles and recaps of a quarantined history.db into the\n * replacement `target`. Runs once per quarantined store, so recaps append\n * as-is; a title already rewritten in the replacement keeps the newer value.\n */\nexport function salvageSessionIndex(source: Database, target: Database): { titles: number; recaps: number } {\n\ttarget.run(SESSION_INDEX_DDL);\n\tconst titles = readSalvageable<SalvagedTitle>(source, \"session_titles\", \"session_id, title, updated_at\").filter(\n\t\trow =>\n\t\t\ttypeof row.session_id === \"string\" && typeof row.title === \"string\" && Number.isSafeInteger(row.updated_at),\n\t);\n\tconst recaps = readSalvageable<SalvagedRecap>(source, \"session_recaps\", \"session_id, cwd, recap, created_at\").filter(\n\t\trow =>\n\t\t\ttypeof row.session_id === \"string\" &&\n\t\t\ttypeof …"

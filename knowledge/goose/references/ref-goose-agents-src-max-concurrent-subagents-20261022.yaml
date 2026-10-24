@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-max-concurrent-subagents-20261022
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261022-state-machine-builder
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/state_machine_builder.rs
+  start: 89
+  end: 96
+official_url: "https://github.com/block/goose/blob/6835dd45a21a701b017abe38aa4204e18fed9213/crates/goose/src/agents/state_machine_builder.rs"
+excerpt: |2-
+  Arc::new(
+      SubagentOperation::new(Arc::new(subagent_runner)).with_max_concurrency(
+          Config::global()
+              .get_param::<NonZeroUsize>("GOOSE_MAX_CONCURRENT_SUBAGENTS")
+              .unwrap_or(NonZeroUsize::new(5).unwrap()),
+      ),
+  ),

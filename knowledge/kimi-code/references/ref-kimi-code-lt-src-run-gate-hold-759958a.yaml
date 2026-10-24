@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-run-gate-hold-759958a
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-session-run-gate-759958a
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/session/sessionActivity/sessionRunGateService.ts
+  start: 45
+  end: 88
+official_url: https://github.com/MoonshotAI/kimi-code/blob/759958afdfeb0f8c7d09cb03cbc2cf85b6255e9e/packages/agent-core-v2/src/session/sessionActivity/sessionRunGateService.ts
+excerpt: |-
+  begin(): void {
+    const sessionId = this.ctx.sessionId;
+    this.sessionLocks.hold(sessionId);
+    const stale = this.agents
+      .list()
+      .some(
+        (agent) =>
+          this.agents.handleOf(agent.agentId)?.accessor.get(IWireService).externallyModified() ??
+          false,
+      );
+    if (!stale) return;
+    this.sessionLocks.release(sessionId);
+    throw new Error2(
+      SessionErrors.codes.SESSION_STALE,
+      `Session "${sessionId}" was updated by another client; reload it before continuing`,
+      { details: { sessionId } },
+    );
+  }

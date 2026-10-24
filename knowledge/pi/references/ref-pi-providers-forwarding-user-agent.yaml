@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-providers-forwarding-user-agent
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261022-ai-src-utils-identity-ts
+locator:
+  kind: file_lines
+  file: packages/ai/src/utils/identity.ts
+  start: 4
+  end: 17
+official_url: https://github.com/earendil-works/pi/blob/be14d9732f98fcc33929cf103a92b96afaa6523e/packages/ai/src/utils/identity.ts
+excerpt: |-
+  /**
+   * The `User-Agent` sent to providers:
+   * - `"detailed"`: `pi/<version> (<platform>; <runtime>/<runtime version>; <arch>)`, or `pi/<version> (browser)`
+   *   outside Node.js and Bun.
+   * - `"short"`: `pi`.
+   * - `{ custom }`: the given value.
+   */
+  export type UserAgentMode = "short" | "detailed" | { custom: string };
+
+  /** Who requests are attributed to. `getAttributionHeaders()` maps the fields to each provider's headers. */
+  export interface ClientAttribution {

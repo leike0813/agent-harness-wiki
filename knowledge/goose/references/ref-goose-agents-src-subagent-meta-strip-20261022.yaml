@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-subagent-meta-strip-20261022
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261022-extension-manager
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/extension_manager/mod.rs
+  start: 525
+  end: 535
+official_url: "https://github.com/block/goose/blob/6835dd45a21a701b017abe38aa4204e18fed9213/crates/goose/src/agents/extension_manager/mod.rs"
+excerpt: |2-
+  fn remove_subagent_session_meta(result: &mut CallToolResult) {
+      let Some(meta) = result.meta.as_mut() else {
+          return;
+      };
+
+      meta.0.remove("subagent_session_id");
+
+      if meta.0.is_empty() {
+          result.meta = None;
+      }
+  }

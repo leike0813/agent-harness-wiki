@@ -1,0 +1,206 @@
+schema_version: 2
+audit_id: audit-cline-b00e3eee-6c27-4080-a9e1-bbbf86a2887d
+harness_id: cline
+checked_at: 2026-10-22T12:53:17.859Z
+previous_audit_id: audit-cline-b11f5d45-0d59-4ba3-935a-569e7008bbcd
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-cline-84b84535-1539-4f92-9309-5111c87aa6b0
+  - audit-cline-0e842971-a506-4c63-8140-8226cf44cba6
+  - audit-cline-b11f5d45-0d59-4ba3-935a-569e7008bbcd
+checks:
+  - source_id: source-cline-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:53:14.983Z
+    status: changed
+    baseline: 789f79e46d3ba579717e8dc8be35fe28af935b06
+    observed: c441897f11f658f978a00678f045670c1ab2b60d
+    remote_ref: refs/heads/main
+  - source_id: source-cline-npm
+    kind: npm_registry
+    checked_at: 2026-10-22T12:53:14.991Z
+    status: changed
+    baseline: 3.0.71@sha512-THSCuQrVPi5w48tyXaZrdUr4EnPQMMgsQN0moYxODl0LJveOeRytMyHx+WfzCY5NdPi1TzjDozFGn0uNVbK/fg==
+    observed: 3.0.73@sha512-4lx7qC8X2neX7k3RIshwkFw0zuzSFQ7Tua+8v/6MgLDcAI/hjUWiR7GVUmbyFtH1oOazaoAD/xR1GQeX1f2NNQ==
+  - source_id: source-cline-docs-skills
+    kind: official_documentation
+    checked_at: 2026-10-22T12:53:14.992Z
+    status: changed
+    baseline: 4bb4766eaef7ed6e33ccaacbe4e367faf48ccf9c204204d14eb29a00d416129f
+    observed: 6ebad683bcbacebf7db5ada24d7bbe61fd9ea5850932f9706349db8f4e022402
+    resolved_url: https://docs.cline.bot/customization/skills.md
+  - source_id: source-cline-docs-mcp
+    kind: official_documentation
+    checked_at: 2026-10-22T12:53:14.993Z
+    status: unchanged
+    baseline: 47f5e46c4c92bffae832be15706d2586db4a7c5e3285a56cade5d2e6707d8eb2
+    observed: 47f5e46c4c92bffae832be15706d2586db4a7c5e3285a56cade5d2e6707d8eb2
+    resolved_url: https://docs.cline.bot/mcp/mcp-overview.md
+  - source_id: source-cline-docs-plugins
+    kind: official_documentation
+    checked_at: 2026-10-22T12:53:15.385Z
+    status: changed
+    baseline: d1015410d3cc9a1f38764af316aaabeb6d3f91da7cff48466c23cb2401f12c0e
+    observed: 868c44b2d3ba058907fe42be988f3bf6bae9c4470b8066b4b702fdd5f324c834
+    resolved_url: https://docs.cline.bot/sdk/plugins.md
+  - source_id: source-cline-docs-config
+    kind: official_documentation
+    checked_at: 2026-10-22T12:53:16.235Z
+    status: changed
+    baseline: 76f4d40ede89e8340c4b2ea10c17bc85b1d16fc302bd628c62778161ea05944e
+    observed: b81e94c7ea4dd81213153b5b571272a663190351b5529ed37bc2086d43028552
+    resolved_url: https://docs.cline.bot/getting-started/config.md
+  - source_id: source-cline-docs-cli
+    kind: official_documentation
+    checked_at: 2026-10-22T12:53:16.580Z
+    status: unchanged
+    baseline: 2d46cc4ef4c8b5a45dff7b4233e2b355b8395a5d21f5401b77353e4d2f702f7d
+    observed: 2d46cc4ef4c8b5a45dff7b4233e2b355b8395a5d21f5401b77353e4d2f702f7d
+    resolved_url: https://docs.cline.bot/cli/cli-reference.md
+  - source_id: source-cline-docs-install-plugins
+    kind: official_documentation
+    checked_at: 2026-10-22T12:53:16.662Z
+    status: changed
+    baseline: 8f84c96048a852d1d8e8180a601eef66ec1e0d2eb2d236422fe27bbce01fb47a
+    observed: 8f995630f4f504b8c7e7e28970329d11e223591b47cdf826aaaa4b01a1970e23
+    resolved_url: https://docs.cline.bot/customization/plugins.md
+impacts:
+  - topic: mcp
+    question_ids:
+      - mcp.capabilities
+      - mcp.diagnostics
+    section_ids:
+      - mcp-exposure
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-cline-mcp-apps-extension
+      - ref-cline-mcp-app-tool-visibility
+      - ref-cline-mcp-client-app-capabilities
+      - ref-cline-mcp-client-tool-meta
+      - ref-cline-mcp-client-read-resource
+      - ref-cline-mcp-manager-read-resource
+      - ref-cline-mcp-model-tool-filter
+      - ref-cline-mcp-runtime-apps-off
+      - ref-cline-mcp-tools-20261022
+      - ref-cline-mcp-proto-20261022
+      - ref-cline-mcp-probe
+      - ref-cline-cli-mcp-cmd
+      - ref-cline-cli-doctor
+      - ref-cline-mcp-stdin-failure-message
+    cross_topic_links:
+      - config.diagnostics
+      - providers.diagnostics
+    reason: 本轮提交新增 MCP Apps 扩展、resources 读取与 _meta.ui.visibility 工具过滤，推翻 v3「只实现
+      tools、resources 无调用点」的结论；已新建 cline-cli-mcp-v4。独立复核 rev2-cline 判定 changes_requested
+      并更正了 resources 消费者与 prompts 调用点的归属表述，该版在再次复核前不切换：registry/chapter-current.yaml
+      的 mcp 选择保持 cline-cli-mcp-v3，v4 仅作为候选版本保留。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.lifecycle
+    section_ids:
+      - transcripts-lifecycle
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-cline-lt-session-manifest-init
+      - ref-cline-lt-persist-iteration-end
+      - ref-cline-lt-read-session-messages
+      - ref-cline-lt-fork-command
+    cross_topic_links: []
+    reason: 已发布引用的行定位因 local-runtime-host.ts 与 chat-commands.ts
+      增长而偏移，逐处复核后创建、重写落盘、恢复、分支与压缩边车的机制未变，故不改章节。
+  - topic: skills
+    question_ids:
+      - skills.loading
+    section_ids:
+      - skills-invocation
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-cline-skills-tool-desc
+      - ref-cline-skills-format-invocation
+    cross_topic_links: []
+    reason: 官方 skills 文档 hash 变化只是 MDX 组件改写为 Markdown（Note/Steps），definitions.ts 只新增
+      PowerShell 引号说明并使其后的 skills 工具描述行号下移；分层加载与调用后读正文的机制未变，故不改章节。
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：maintain；只读观察时间 2026-10-22T12:53:17.859Z，会话
+    4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns。
+  - 按已发布章节引用逐条核对：15 条已发布引用的行定位在本轮提交上不再命中。受影响主题
+    local_transcripts、mcp、skills，受影响小节
+    mcp-diagnostics、mcp-exposure、mcp-transport、skills-invocation、transcripts-lifecycle。
+  - Git 来源 changed 的 290 个文件中有 16
+    个被章节引用，逐个比对后确认机制级变化：sdk/packages/core/src/services/plugin-commands.ts 与
+    src/index.ts
+    改动插件命令与扩展注册、sdk/packages/core/src/extensions/plugin/plugin-sandbox.ts
+    改动插件沙箱、sdk/packages/core/src/extensions/mcp/client.ts 与 manager.ts 与
+    tools.ts 改动 MCP 客户端与管理、apps/cli/src/commands/skill.ts 改动 Skill
+    命令、sdk/packages/core/src/runtime/host/local-runtime-host.ts 改动本地运行时宿主。
+  - 本轮派发入口：topic local_transcripts、mcp、skills；固定问题
+    mcp.capabilities、mcp.diagnostics、mcp.lifecycle、skills.loading、transcripts.lifecycle。
+  - mcp 结论：提交 c441897f 新增 apps.ts（扩展 id io.modelcontextprotocol/ui、MIME
+    text/html;profile=mcp-app 与 ui 资源方案），client 的 initialize 仅在工厂选项 mcpApps
+    为真时声明该扩展；CLI 运行时构建两个客户端工厂都没有传这个选项，因此 CLI 会话不声明 MCP Apps。客户端与管理器新增
+    readResource（stdio 走 resources/read 并用 ReadResourceResultSchema 校验），但 CLI
+    运行时只从管理器取 tools 与 shutdown，没有把 resources 交给模型；prompts 仍无调用点。工具描述符保留
+    _meta，createMcpTools 按 _meta.ui.visibility 过滤（缺省 model 与 app 都可见），该过滤不受
+    mcpApps 开关影响。 据此 mcp.capabilities 与 mcp.diagnostics 的答案改写，新建
+    cline-cli-mcp-v4， 旧版 cline-cli-mcp-v3 保留；registry/chapter-current.yaml 起初切到
+    v4，按独立复核 issue 2 已回退到 v3（见末尾复核记录）。
+  - mcp.lifecycle 结论未变：连接预算（stdio 与远程各 10 秒）、禁用不连接、工具缓存 5000 毫秒、stdin 写失败的 250
+    毫秒宽限与错误文本都保持原样，mcp-transport 小节正文不改。
+  - local_transcripts 结论未变：local-runtime-host.ts 增加插件命令 API、prepareApiMessages 与
+    pluginCommandsClosing，chat-commands.ts 增加未知命令 fallback，二者只造成行号偏移；
+    SessionManifestStore 的创建/重写落盘、按 messagesPath 与 manifest 回退恢复、/fork 与
+    metadata.fork、压缩边车文件与 compaction_path 回填均未改动，故 transcripts.lifecycle 维持
+    cline-local_transcripts-v1。
+  - skills 结论未变：docs.cline.bot/customization/skills.md 的新旧原件对比只有 MDX 到 Markdown
+    的排版差异（Note 引用块、Steps 改为加粗编号），分层加载与 skills 工具的语义 表述一致；definitions.ts 只新增
+    PowerShell 引号说明，skills 工具描述（启用列表拼接） 与 user-instruction-plugin 的
+    formatSkillInvocation 未改；skills.loading 维持 cline-cli-skills-v3。cline skill
+    命令改为复用 @cline/core 的 SKILLS_CLI_PACKAGE （package.json 固定 skills
+    1.7.2）属安装入口，不在 skills.loading 范围内，本轮不改写。
+  - 排除项：source-cline-docs-plugins、source-cline-docs-install-plugins 与
+    source-cline-docs-config 的 hash 变化属 native_plugins 与 configuration 主题，本轮不在
+    派发范围；npm 3.0.71 到 3.0.73 只记录身份，未制造版本映射；plugin-commands.ts、 plugin-sandbox.ts
+    与 sdk/packages/core/src/index.ts 的改动属 native_plugins 主题， 本轮不重审。
+  - pending_audit_refs 保持原样：audit-cline-0e842971 仍自行携带 plugins.lifecycle 与
+    plugins.diagnostics 未决，本审计不代替其结案；本审计的五个派发问题均已结清。
+  - 独立复核记录（reviewer rev2-cline，verdict changes_requested）：mcp.capabilities 判为
+    corrected，其余 mcp.diagnostics、mcp.lifecycle、skills.loading、transcripts.lifecycle
+    四项 upheld。已应用 issue 1（resources 消费者归属：核心管理器 readResource 在 c441897f
+    除测试外无生产消费者，VS Code 走自带 McpHub；正文与报告同步改写，CLI 读不到 resources
+    的结论不变）、issue 3（prompts 无调用点限定为 SDK core 的 MCP 扩展，并注明 VS Code
+    McpHub 另有 prompts/list）、issue 4（mcp-exposure 的 tools.ts 与 client.ts 引用改钉
+    2026-10-22 快照，新增 ref-cline-mcp-tools-20261022 与 ref-cline-mcp-proto-20261022；
+    旧 ref-cline-mcp-tools/ref-cline-mcp-proto 仍服务于已发布旧版，不改动）、issue 5（文档
+    字节留存见下条）。issue 2 要求不以作者自检充当复核记录，故本审计保持 review_status 为
+    pending，不写 reviewed_by/reviewed_at，由协调者决定后续结论。
+  - 官方文档字节留存（issue 5）：source-cline-docs-skills 的基线原件在
+    archive/cline/artifact-source-cline-docs-skills-4bb4766eaef7/source.md（sha256
+    4bb4766eaef7ed6e33ccaacbe4e367faf48ccf9c204204d14eb29a00d416129f）；2026-10-22 观察值
+    6ebad683bcbacebf7db5ada24d7bbe61fd9ea5850932f9706349db8f4e022402 未落盘归档——本轮
+    抓取只在工作会话内瞬态存在，archive/ 不在候选写入范围，按契约也不复制文档原件进候选。
+    可复查锚点：该页由仓库 docs/customization/skills.mdx 渲染，后者在 c441897f 未变
+    （sha256 dd586c40d3e92f3d6015679761b6b1155d2c203adfbc96daf1cdf2fc214cf09d），已登记
+    artifact-cline-docs-skills-mdx-20261022 与 snapshot-cline-docs-skills-mdx-20261022，
+    排版差异的判定可用它复核。
+  - 章节选择（issue 2）：cline-cli-mcp-v4 在再次独立复核前不作为已发布章节，registry/chapter-current.yaml
+    的 mcp 选择已回退到 cline-cli-mcp-v3；v4 文件保留为候选版本，待复核后由协调者决定是否切换。
+  - 第二次独立复核记录（reviewer rev3-cline，verdict changes_requested）：rev2-cline 的五处改正经复核均为真实改正，
+    本轮只剩一处引用定位不实——readResource 调用点清单误列 client.test.ts。已在固定工作区 c441897f 逐文件复核
+    （sdk/packages/core/src/extensions/mcp/client.test.ts 不含 readResource，实际调用者为 manager.test.ts、
+    client-url.test.ts、client-apps.test.ts），据此同步改正章节 knowledge/cline/chapters/cline-cli-mcp-v4.md
+    与审阅报告 audits/cline/audit-cline-b00e3eee-6c27-4080-a9e1-bbbf86a2887d.md 的调用点清单；结论本身不变
+    （核心管理器 readResource 无生产消费者、apps/ 下无 InMemoryMcpManager 实例、VS Code 走自带 McpHub、
+    CLI 仍未把 MCP resources 交给模型），其余章节、引用、snapshot、artifact 与审计字段未改。
+  - 独立复核 rev4-cline（2026-10-22 批次，verdict approved）：rev3-cline 唯一遗留问题——mcp-exposure 的
+    readResource 调用点清单误列 client.test.ts——已改正，改正后的三个文件恰为 SDK core 扩展内全部调用
+    readResource 的测试文件，client.test.ts 确无 readResource（grep -c = 0）。结论本身不变（核心管理器
+    readResource 无生产消费者、apps/ 下无 InMemoryMcpManager 实例、VS Code 走自带 McpHub、CLI 仍未把 MCP
+    resources 交给模型）。复核判定 cline-cli-mcp-v4 可成为 cline/mcp 的当前版本，协调者据此把 registry 的
+    mcp 行切到 v4；local_transcripts 与 skills 本轮无新版可切，维持已发布版本。本审计 review_status 保持
+    pending、未写 reviewed_by/reviewed_at（引用的旧审计仍未结案）。

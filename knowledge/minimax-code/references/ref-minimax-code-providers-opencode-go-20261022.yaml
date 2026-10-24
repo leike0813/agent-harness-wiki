@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-minimax-code-providers-opencode-go-20261022
+harness_id: minimax-code
+snapshot_id: snapshot-minimax-code-repo-20261022
+locator:
+  kind: file_lines
+  file: packages/shared/src/opencode-go-headers.ts
+  start: 15
+  end: 36
+official_url: "https://github.com/MiniMax-AI/MiniMax-Code"
+excerpt: |-
+  // Runtime identity wins case-insensitively over stale, static config headers.
+  // Connectivity requests have no conversation and receive their own identity.
+  merged['x-opencode-session'] = sessionId || crypto.randomUUID();
+  merged['user-agent'] = 'MiniMaxCode';
+  return merged;
+  }
+
+  function isOpenCodeGoUrl(value: string | undefined): boolean {
+    if (!value) return false;
+    try {
+      const url = new URL(value);
+      return (
+        url.protocol === 'https:' &&
+        url.hostname === 'opencode.ai' &&
+        ['/zen/go', '/inference/go'].some(
+          (path) => url.pathname === path || url.pathname.startsWith(`${path}/`),
+        )
+      );
+      } catch {
+        return false;
+      }
+  }

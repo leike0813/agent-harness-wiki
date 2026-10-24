@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cc-mods-register-v2
+harness_id: command-code
+snapshot_id: snapshot-source-command-code-docs-mods-14e4c167d85f
+locator:
+  kind: document_section
+  heading: Registration methods
+official_url: "https://commandcode.ai/docs/mods"
+excerpt: |-
+  Call these while the mod's factory runs. Each one returns a `Disposable`.
+  Method| Signature
+  `cmd.hooks`| `(hooks: ModHooks) => Disposable`
+  `cmd.addTool`| `(tool: ToolModule) => Disposable`
+  `cmd.addCommand`| `(command: {name; description?; argumentHint?; handler}) => Disposable`
+  `cmd.addProvider`| `(module: ProviderModule) => Disposable`
+  `cmd.addRenderer`| `(customType: string, (data) => readonly string[]) => Disposable`
+  `cmd.addShortcut`| `(keys: string, {description?; handler}) => Disposable`
+  `cmd.addSkillsPath`| `(path: string) => Disposable`
+  `cmd.on`| `(event: AgentEventType | 'session_start' | 'session_shutdown', handler) => Disposable`
+  `cmd.addAgent`| `(definition: {name; description; systemPrompt; tools?; disallowedTools?; model?; maxTurns?}) => Disposable`

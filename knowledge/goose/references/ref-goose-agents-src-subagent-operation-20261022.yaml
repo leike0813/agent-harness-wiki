@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-subagent-operation-20261022
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261022-goose-agent-subagent
+locator:
+  kind: file_lines
+  file: crates/goose-agent/src/subagent.rs
+  start: 152
+  end: 190
+official_url: "https://github.com/block/goose/blob/6835dd45a21a701b017abe38aa4204e18fed9213/crates/goose-agent/src/subagent.rs"
+excerpt: |2-
+  pub struct SubagentOperation<S> {
+      runner: Arc<dyn SubagentRunner<S>>,
+      running: Mutex<Running>,
+      max_concurrency: NonZeroUsize,
+  }
+
+  impl<S> SubagentOperation<S> {
+      pub fn new(runner: Arc<dyn SubagentRunner<S>>) -> Self {
+          Self {
+              runner,
+              running: Mutex::default(),
+              max_concurrency: NonZeroUsize::MAX,
+          }
+      }
+
+      /// Limits how many subagents run at once; additional subagents remain pending.
+      pub fn with_max_concurrency(mut self, max_concurrency: NonZeroUsize) -> Self {
+          self.max_concurrency = max_concurrency;
+          self
+      }
+
+      fn pending_subagents(&self, session: &S, conversation: &Conversation) -> Vec<String> {
+          let mut pending: Vec<String> = Vec::new();

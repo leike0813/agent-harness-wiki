@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-mcp6-diagnostics-cancel-doc
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-docs-mcp-protocol-transports-md
+locator:
+  kind: file_lines
+  file: docs/mcp-protocol-transports.md
+  start: 152
+  end: 154
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/docs/mcp-protocol-transports.md#L152-L154
+excerpt: "For a request already written to the subprocess and still pending, caller abort or the hard deadline settles the local waiter immediately, then sends one best-effort `notifications/cancelled` notification with the original request ID (preserving its number or string type) and a fixed reason that does not expose the caller's abort reason. The cancellation write is never awaited; failure or backpressure cannot delay settlement, close the transport, or affect sibling requests.\n\nThe transport never sends cancellation for `initialize`, pre-aborted requests, requests that were not written or have already settled, or disconnected transports. Cancelling one request does not close or signal the shared server. The server may ignore the notification or may already have finished, so the request's out…"

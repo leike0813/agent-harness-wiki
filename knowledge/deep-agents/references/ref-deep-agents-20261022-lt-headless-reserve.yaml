@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-20261022-lt-headless-reserve
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-20261022-non-interactive-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/client/non_interactive.py
+  start: 2597
+  end: 2611
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  async def _reserve_thread(thread_id: str) -> None:
+      """Reserve a resumed thread so no other session writes to it meanwhile.
+
+      Raises:
+          ResumeError: The thread was deleted after `_select_thread` checked it.
+      """
+      from deepagents_code.client.headless_resume import ResumeError
+      from deepagents_code.sessions import thread_exists
+      from deepagents_code.thread_ownership import ensure_owned
+
+      ensure_owned(thread_id)
+      # Deleting a thread requires its reservation, so this check cannot go stale.
+      if not await thread_exists(thread_id):

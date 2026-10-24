@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-late-tool-result-owner
+harness_id: zed
+snapshot_id: snapshot-zed-agent-thread-rs-5030407
+locator:
+  kind: file_lines
+  file: crates/agent/src/thread.rs
+  start: 3535
+  end: 3578
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  // Keep late terminal output on its frozen owner, never on a reused
+  // message index after rewind or on the successor's pending message.
+  let mut agent_message = agent_message.clone();
+  agent_message
+      .tool_results
+      .insert(tool_result.tool_use_id.clone(), tool_result);
+  *message = Arc::new(Message::Agent(agent_message));
+  this.retained_history_revision += 1;
+  this.clear_summary();
+  cx.notify();

@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cline-mcp-apps-extension
+harness_id: cline
+snapshot_id: snapshot-cline-mcp-apps-ts-20261022
+locator:
+  kind: file_lines
+  file: sdk/packages/core/src/extensions/mcp/apps.ts
+  start: 3
+  end: 24
+official_url: "https://github.com/cline/cline"
+excerpt: |-
+  export const MCP_APPS_EXTENSION_ID = "io.modelcontextprotocol/ui";
+  export const MCP_APP_MIME_TYPE = "text/html;profile=mcp-app";
+  export const MCP_APP_RESOURCE_URI_SCHEME = "ui:";
+
+  export type McpAppToolVisibility = "model" | "app";
+
+  export interface McpAppToolMeta {
+  	resourceUri?: string;
+  	visibility: readonly McpAppToolVisibility[];
+  }
+
+  const DEFAULT_VISIBILITY: readonly McpAppToolVisibility[] = ["model", "app"];
+
+  export function createMcpAppsClientCapabilities(): {
+  	extensions: Record<string, Record<string, unknown>>;
+  } {
+  	return {
+  		extensions: {
+  			[MCP_APPS_EXTENSION_ID]: { mimeTypes: [MCP_APP_MIME_TYPE] },
+  		},
+  	};
+  }

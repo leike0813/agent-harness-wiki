@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-tool-output-marker
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-tool-output-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/core/src/tool-output.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/tool-output.ts
+  start: 88
+  end: 92
+excerpt: |-
+  const file = path.join(directory, fileName())
+  yield* fs.ensureDir(directory).pipe(Effect.orDie)
+  yield* fs.writeFileString(file, text).pipe(Effect.orDie)
+  const shown = kept.length > 0 ? `lines 1-${kept.length}` : "0 lines"
+  const marker = `[showing ${shown} of ${lines.length}; full output saved to ${file}]`

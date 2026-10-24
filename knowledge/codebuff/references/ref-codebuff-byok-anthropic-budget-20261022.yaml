@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-anthropic-budget-20261022
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-byok-request-20261022
+locator:
+  kind: file_lines
+  file: sdk/src/impl/byok-request.ts
+  start: 47
+  end: 53
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |2-
+  /** The budget for a rung; only the three BYOK rungs reach Anthropic (`withByokReasoningEffort`). */
+  function anthropicThinkingBudget(effort: ReasoningEffort): number {
+    return BYOK_ANTHROPIC_THINKING_BUDGETS[isByokReasoningEffort(effort) ? effort : 'high']
+  }
+
+  /** Fallback answer room when a request somehow carries no output cap. */
+  const ANTHROPIC_ANSWER_TOKENS = 4_096

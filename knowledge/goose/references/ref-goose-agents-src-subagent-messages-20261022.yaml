@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-subagent-messages-20261022
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261022-goose-agent-subagent
+locator:
+  kind: file_lines
+  file: crates/goose-agent/src/subagent.rs
+  start: 82
+  end: 101
+official_url: "https://github.com/block/goose/blob/6835dd45a21a701b017abe38aa4204e18fed9213/crates/goose-agent/src/subagent.rs"
+excerpt: |2-
+  fn subagent_result_message(
+      subagent_session_id: &str,
+      outcome: &SubagentOutcome,
+  ) -> Option<Message> {
+      let label = subagent_label(subagent_session_id);
+      let text = match outcome {
+          SubagentOutcome::Completed(output) => format!("{label} completed: {output}"),
+          SubagentOutcome::Failed(reason) => format!("{label} failed: {reason}"),
+          SubagentOutcome::Cancelled => {
+              return subagent_cancelled_message(&[subagent_session_id.to_string()])
+          }
+      };
+      let mut message = Message::user().with_text(text).with_visibility(false, true);
+      message.metadata.set_operation_note(
+          OPERATION_NAME,
+          DELIVERED,
+          serde_json::json!(subagent_session_id),
+      );
+      Some(message)
+  }

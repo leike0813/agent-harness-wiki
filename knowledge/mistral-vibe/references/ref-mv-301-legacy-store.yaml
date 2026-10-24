@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-legacy-store
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_index.py
+  start: 148
+  end: 160
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  class SessionIndex:
+      """In-memory, disk-persisted cache of session listing metadata.
+
+      The `meta.json` files remain the source of truth; this index is a cache that
+      reconciles against them on every read using cheap `stat` calls and only
+      re-reads directories whose `meta.json` changed. Any structural corruption of
+      the persisted index triggers a full rebuild from the session directories.
+      """
+
+      def __init__(self, save_dir: Path, session_prefix: str) -> None:
+          """Bind the index to a session directory without touching disk yet."""
+          self._save_dir = save_dir
+          self._pattern = f"{session_prefix}_*"

@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-mcp-auth-static
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 267
+  end: 344
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  class MCPStaticAuth(BaseModel):
+      model_config = ConfigDict(extra="forbid")
+
+      type: Literal["static"] = "static"
+  ...
+      api_key_env: str = Field(
+          default="",
+          description=(
+              "Environment variable name containing an API token to send for HTTP transport."
+          ),
+      )
+  ...
+      def _warn_inert_api_key_fields(self) -> MCPStaticAuth:
+          if not self.api_key_env and (
+              self.api_key_header != "Authorization"
+              or self.api_key_format != "Bearer {token}"
+          ):

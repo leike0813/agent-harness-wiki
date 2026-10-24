@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-metadata
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/session/metadata.py
+  start: 17
+  end: 33
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  def _persist_metadata_sync(metadata: dict[str, Any], session_dir: Path) -> None:
+      temp_metadata_filepath = None
+      metadata_filepath = session_dir / METADATA_FILENAME
+      try:
+          with tempfile.NamedTemporaryFile(
+              mode="w",
+              suffix=".json.tmp",
+              dir=str(session_dir),
+              delete=False,
+              encoding="utf-8",
+          ) as f:
+              temp_metadata_filepath = Path(f.name)
+              f.write(json.dumps(metadata, indent=2, ensure_ascii=False))
+              f.flush()
+              os.fsync(f.fileno())
+
+          os.replace(temp_metadata_filepath, str(metadata_filepath))
