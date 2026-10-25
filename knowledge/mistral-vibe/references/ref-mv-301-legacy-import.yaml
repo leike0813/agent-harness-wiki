@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-legacy-import
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/app_server/_legacy_import.py
+  start: 1
+  end: 13
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  """Read-only compatibility access to sessions written by older Vibe versions.
+
+  A legacy session is a folder with a ``meta.json`` file and a ``messages.jsonl``
+  transcript. The Unified runtime still lists those sessions in the picker,
+  previews them, and imports one into a new Unified session on resume, but the
+  legacy execution engine has been removed. This module is the one place the
+  unified list, read, and import paths read legacy session files. Pin/delete
+  cleanup fallbacks live outside this read-only importer.
+
+  Everything here is read-only: the module never writes inside a legacy
+  session folder, never constructs a legacy runtime object, and treats legacy
+  files as untrusted input. Pinning and deleting a legacy session are
+  user-requested cleanup operations and deliberately live elsewhere.

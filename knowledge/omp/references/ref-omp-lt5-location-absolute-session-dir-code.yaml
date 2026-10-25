@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt5-location-absolute-session-dir-code
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-src-session-session-manager-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-manager.ts
+  start: 1017
+  end: 1027
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/packages/coding-agent/src/session/session-manager.ts#L1017-L1027
+excerpt: "\n\tprivate constructor(cwd: string, sessionDir: string, persist: boolean, storage: SessionStorage) {\n\t\tthis.#cwd = cwd;\n\t\t// Absolute, so session files (and `PI_SESSION_FILE` in bash and eval) stay\n\t\t// valid after a command changes directory: `--session-dir` may be relative.\n\t\tthis.#sessionDir = sessionDir ? path.resolve(sessionDir) : sessionDir;\n\t\tthis.#persist = persist;\n\t\tthis.#storage = storage;\n\t\tthis.#blobs = new BlobStore(getBlobsDir());\n\n\t\tif (persist && sessionDir) this.#storage.ensureDirSync(this.#sessionDir);"

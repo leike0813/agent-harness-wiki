@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-cf119a-settings-shellpath-field
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-cf119a-crates-pa-core-src-settings-types-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/types.rs
+  start: 330
+  end: 338
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/cf119a7a8c86a2c86d927cae79ed1eec03b07a91/crates/pa-core/src/settings/types.rs
+excerpt: |
+      /// Custom shell that runs every kernel `bash()` and user-bash command as
+      /// `<shell> -c <command>`: an absolute path to an existing executable,
+      /// validated once at session start (a bad value fails session creation
+      /// naming this setting). Project `.prime/agent/settings.json` overrides
+      /// the global value (TS parity), so opening an untrusted repo lets it
+      /// choose the binary that wraps every agent shell command - review
+      /// project settings before running the agent there.
+      pub shell_path: Option<String>,
+      pub quiet_startup: Option<bool>,

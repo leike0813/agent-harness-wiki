@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-providers-forwarding-attribution
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261022-ai-src-utils-identity-ts
+locator:
+  kind: file_lines
+  file: packages/ai/src/utils/identity.ts
+  start: 107
+  end: 126
+official_url: https://github.com/earendil-works/pi/blob/be14d9732f98fcc33929cf103a92b96afaa6523e/packages/ai/src/utils/identity.ts
+excerpt: |-
+  /** Provider attribution headers of an identity for a request target. Empty when attribution is off. */
+  export function getAttributionHeaders(target: ClientIdentityTarget, identity?: ClientIdentity): Record<string, string> {
+  	const attribution = identity?.attribution;
+  	if (!attribution) return {};
+  	const { name, url, categories } = attribution;
+  	if (isOpenRouter(target)) {
+  		return {
+  			"HTTP-Referer": url,
+  			"X-OpenRouter-Title": name,
+  			...(categories === undefined || categories.length === 0
+  				? {}
+  				: { "X-OpenRouter-Categories": categories.join(",") }),
+  		};
+  	}
+  	if (isNvidiaNim(target)) return { "X-BILLING-INVOKE-ORIGIN": name.charAt(0).toUpperCase() + name.slice(1) };
+  	if (isOpenCode(target)) return { "x-opencode-client": name };
+  	return {};
+  }

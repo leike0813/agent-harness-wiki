@@ -1,0 +1,90 @@
+schema_version: 2
+audit_id: audit-opencode-6b2f4d18-7c05-4e91-a3d6-5f18c02b7e44
+harness_id: opencode
+checked_at: "2026-10-15T00:00:00.000Z"
+previous_audit_id: audit-opencode-1a190643-5d32-4b65-930f-ec54bdf330bc
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-opencode-0f16a4f4-327b-41be-bbbb-d7da9bfdd6c0
+  - audit-opencode-2aa143e4-1b45-4f8f-8bba-c200a6007522
+  - audit-opencode-12691d48-1a45-4b04-bc22-ef7201bd564e
+  - audit-opencode-52ea2a76-9938-44ec-a454-01dfc9e8e3b8
+  - audit-opencode-1a190643-5d32-4b65-930f-ec54bdf330bc
+checks:
+  - source_id: source-opencode-npm
+    kind: npm_registry
+    checked_at: "2026-10-15T00:00:00.000Z"
+    status: unchanged
+    baseline: "1.19.0@sha512-lddJhFwZI3GLlw8VyOo4yNwBVGeVN/mxH6ORh60h69zAXL7QhjSWY9orj10rwO2kxVnxH9dh45uDCWNuiqPb8A=="
+    observed: "1.19.0@sha512-lddJhFwZI3GLlw8VyOo4yNwBVGeVN/mxH6ORh60h69zAXL7QhjSWY9orj10rwO2kxVnxH9dh45uDCWNuiqPb8A=="
+  - source_id: source-opencode-repo
+    kind: git_repository
+    checked_at: "2026-10-15T00:00:00.000Z"
+    status: changed
+    baseline: 0af756b30fa12764cec7affc52c400043d24ffa2
+    observed: 8ffbcc2c81d1ff558618137204c36954797d7a6f
+    remote_ref: refs/heads/dev
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-policies
+      - config-trust
+      - config-defaults
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-config-policies-key
+      - ref-opencode-config-policies-merge
+      - ref-opencode-config-policy-statements
+      - ref-opencode-config-managed-order-note
+      - ref-opencode-config-entry-order
+      - ref-opencode-config-file-reference
+      - ref-opencode-config-managed-split
+      - ref-opencode-config-policies-doc-precedence
+    cross_topic_links:
+      - agents.overrides
+      - providers.entry
+      - providers.models
+      - mcp.entry
+      - mcp.exposure
+      - plugins.api
+      - skills.conditions
+    reason: >-
+      source-opencode-repo 0af756b3..8ffbcc2c 把 policies 从 experimental 提升为 Config.Info
+      顶层键（packages/schema/src/config.ts），并把 policies 解码从 normalizeExperimental
+      拆成独立的 normalizePolicies：V1 provider 列表、experimental.policies 与原生 policies
+      按此固定顺序合并进 encoded.policies，同文档内后出现者胜出；packages/core/src/managed-policy.ts
+      随之改读 entry.info.policies。同时 packages/core/src/config.ts 把受管层拆成 managedPolicies
+      （置于加载数组最前）与 managedSettings（置于最末），受管普通设置的优先级由上一轮的最低改为最高，
+      受管层内部 macOS 偏好 plist 的策略权威高于系统目录，与官方权威表一致；
+      packages/core/src/config/variable.ts 使缺失或不可读的 {file:} 引用替换为空串并记警告而不抛错。
+      这直接改写 config.sources、config.overrides、config.trust、config.defaults、config.migration、
+      config.runtime 与 config.diagnostics 的已发布表述。
+pending_question_ids:
+  - config.overrides
+investigation_notes:
+  - "范围限定在 configuration 主题的一个 topic worker，未打开其余七个主题。父进程已冻结观察，未重新扫描来源；固定工作区 ws-8ffbcc2c81d1-2c550bff-22f2-4536-bfee-7c4f2750ea5b 只读。"
+  - "决定性改动（直接读取 0af756b3..8ffbcc2c 的真实 hunk）：packages/core/src/config/normalize.ts 新增 normalizePolicies 并在 normalize() 中先于 normalizeExperimental 调用；生成的 encoded.policies = [...generated, ...experimental, ...native]，其中 generated 来自 V1 enabled_providers/disabled_providers。packages/schema/src/config/experimental.ts 的 experimental.policies 描述改为 Deprecated: use top-level policies；packages/schema/src/config/policy.ts 给出语句字段（action 三值 provider.use/tool.use/integration.use，effect 仅 allow/deny）。"
+  - "packages/core/src/managed-policy.ts 第 55 行由 entry.info.experimental?.policies 改为 entry.info.policies；statements() 先 entries.toReversed() 再拼接各文档 policies，decision() 用 findLast，故跨文档时加载位置更靠前的（更宽的）来源胜出，与普通设置相反。"
+  - "packages/core/src/config.ts 的受管层安排相对上一轮反转：上一轮 systemSupplementary 置于数组最前（最低优先级）、偏好 plist 排在系统目录之前；本轮 managed = [系统目录, 偏好 plist]，policies 抽出成只含策略的文档并整体 toReversed() 后置于数组最前，去掉 policies 的其余受管设置置于数组最末。源码注释称受管设置最后加载因而覆盖一切、MDM 偏好高于系统目录。测试 config.test.ts 同步由 loads system configuration at lowest priority 改名为 ...at highest priority，并断言 Config.latest(entries, \"shell\") 为 system。"
+  - "分文档的官方文档树 services/www/src/docs/content/{config,pololicies}.mdx 在本范围内实质改写：新增 policies 键章节、Precedence 权威表与 Console 通道，并明确 experimental.policies 仍可用且合并进 policies。旧文档树 packages/web/src/content/docs/config.mdx 在本范围内逐字未变，仍只写 experimental.policies。两棵树并存，官方文档对本轮改动的记述只能取 services/www 一侧。"
+  - "config.trust 由 conflict 改为 answered：受管目录与 MDM 偏好两条读取通道存在且对普通设置具最高优先级；受管层内部的策略层序也与 services/www 文档的权威表一致。推导链条为两次反转叠加——config.ts:248-251 的 managed 数组先系统目录后偏好 plist，252-264 的 managedPolicies 在 flatMap 之后整体 toReversed()，使数组最前一段变为偏好在前、系统目录在后；managed-policy.ts:52-55 的 statements() 再把整个条目数组 toReversed()，分组内相对次序随之回摆，语句列表中系统目录排在偏好之前；managed-policy.ts:72 的 findLast 因此取到偏好 plist 的语句，即 macOS 受管偏好域的策略权威高于系统目录，与权威表第 2、3 行相符。config.ts:244-245 的注释（MDM preferences outrank the system directory as in V1；policies evaluate in reverse load order）针对的是整个受管层而非仅普通设置，.toReversed() 正是为使该注释对策略成立而存在。"
+  - "config.overrides 保持 partial：本轮能确证的例外键只有 policies（数组拼接 + 反序求值 + 组织语句最终决定），该证据不依赖受管层内部的层序结论，故纠正 config.trust 不改变本项推理。普通对象与数组跨文件如何拼接、空值与删除标记的语义在固定范围内仍未找到实现说明，未把 Config.latest 的单键 findLast 语义推广为全部键的合并规则。"
+  - "config.runtime 与 config.diagnostics 的机制未变但表述更新：OPENCODE_CONFIG/OPENCODE_CONFIG_DIR/OPENCODE_CONFIG_CONTENT/OPENCODE_CONFIG_PROJECT_DISABLE 的读取位置逐字未变（packages/cli/src/server-process.ts）；debug config 仍打印脱敏后的条目数组，本轮补充说明受管目录同一文件会在输出中出现两次（最前只含 policies、最末为其余设置），这是受管层拆分带来的读者可见影响。opencode debug 分组仍只有 agents、config、paths。packages/cli/src/commands/commands.ts 与 handlers/debug/config.ts 在本范围内未变。"
+  - "排除（在本范围内但不属 configuration 主题固定问题）：packages/core/src/config/plugin/provider.ts 的 ?? 改 || 与 packages/core/src/v1/config/migrate.ts 的 packageSpecifier() 属 custom_providers 的 provider 语义；packages/tui/** 与 packages/cli/src/ui/** 属 TUI 呈现；packages/core/test/** 为测试夹具。packages/core/src/config/discovery.ts 本轮未变，config.sources 的来源发现表述沿用既有引用。"
+  - "新增 opencode-configuration-v5（v4 及更早版本保留未删），新增 9 个 git_source_file artifact、9 个 source_revision snapshot 与 17 条引用，全部只记 commit 8ffbcc2c81d1ff558618137204c36954797d7a6f、仓库相对 file 与 content_sha256，未复制源码 checkout，未记录临时路径。"
+  - "registry/chapter-current.yaml 的 configuration 选择保持 opencode-configuration-v4 不变：v5 的 review_status 为 pending，独立复核关闭前不切选择。其余七个主题的选择未动。"
+  - "未新增软件版本映射：npm 侧本轮 unchanged（1.19.0 同一 identity），仓库 HEAD 不足以证明已发布二进制的行为。"
+  - "review_status 保持 pending 并退回独立复核：本轮已按独立复核意见把 config.trust 由 conflict 改为 answered（受管层内部层序推导此前算错一次，已按两次反转叠加重新推导并改正章节与报告），但 config.sources 的加载顺序改写仍触发高影响条件（新证据推翻已发布配置步骤、跨主题关键加载机制变化），须同一独立 reviewer 复核。本审计引用的上游审计 review_status 仍为 pending，不通过标 reviewed 间接关闭上游待办。pending_question_ids 现只保留 config.overrides 一项未完成问题，其余六项由本轮证据结案。"
+  - "delivery=pr：未运行 pnpm ahw publish、pnpm chapters:update、pnpm managed:packages，未修改 registry/chapter-current.yaml，未切换任何本地发布指针。"

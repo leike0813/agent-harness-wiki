@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-m63-src-resume-validate
+harness_id: autohand
+snapshot_id: snapshot-autohand-m63-src-startup-resumecommand-ts
+locator:
+  kind: symbol
+  file: src/startup/resumeCommand.ts
+  symbol: validateSessionOptions
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  export function validateSessionOptions(options: CLIOptions): string | null {
+    const restoring = options.continue || options.resume !== undefined || options.resumeSessionId || options.fork;
+    if (options.ephemeral && restoring) {
+      return '--ephemeral cannot be combined with --continue, --resume or --fork: an ephemeral run has no session to continue.';
+    }
+    if (options.continue && (options.resume !== undefined || options.resumeSessionId || options.fork)) {
+      return '--continue cannot be combined with --resume or --fork.';
+    }
+    if (options.resume !== undefined && options.fork) {
+      return '--resume cannot be combined with --fork.';
+    }
+    return null;
+  }

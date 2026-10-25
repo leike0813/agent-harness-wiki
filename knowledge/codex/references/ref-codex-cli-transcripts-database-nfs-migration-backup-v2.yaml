@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-database-nfs-migration-backup-v2
+harness_id: codex
+snapshot_id: snapshot-codex-repo-2f3fb111-cli-migrate-nfs-db-replacement
+locator:
+  kind: file_lines
+  file: codex-rs/cli/src/migrate_nfs_db/replacement.rs
+  start: 36
+  end: 50
+official_url: https://github.com/openai/codex/blob/2f3fb111be71d277c80bd5b96d9019748b921f5a/codex-rs/cli/src/migrate_nfs_db/replacement.rs
+excerpt: "    pub(super) fn new(source: &Path) -> anyhow::Result<Self> {\n        let name = source.file_name().context(\"database needs a file name\")?;\n        let mut directory = source.as_os_str().to_owned();\n        directory.push(\"_wal_migration_backup\");\n        let directory = PathBuf::from(directory);\n        Ok(Self {\n            source: source.to_path_buf(),\n            backup_database: directory.join(name),\n            backup_directory: directory,\n        })\n    }\n\n    pub(super) fn replacement_path(&self) -> PathBuf {\n        self.backup_directory.join(\"delete.sqlite\")\n    }"

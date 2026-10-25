@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-cf119a-attribution-fold-once
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-cf119a-crates-pa-daemon-src-session-usage-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_usage.rs
+  start: 288
+  end: 306
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/cf119a7a8c86a2c86d927cae79ed1eec03b07a91/crates/pa-daemon/src/session_usage.rs
+excerpt: |
+      pub(crate) fn fold_child_attribution(
+          &mut self,
+          row_id: &str,
+          target_id: Option<&str>,
+          child_usage: Option<Usage>,
+          aggregate_usage: Option<Usage>,
+      ) {
+          let (Some(target_id), Some(child_usage), Some(aggregate_usage)) =
+              (target_id, child_usage, aggregate_usage)
+          else {
+              return;
+          };
+          if self.assistant_usage_by_id.contains(target_id) {
+              self.assistant_usage_by_id.set(target_id, aggregate_usage);
+              if row_id.is_empty() || self.attributed_child_ids.insert(row_id.to_owned()) {
+                  add_assistant_usage(&mut self.attributed_child_usage, &child_usage);
+              }
+          }
+      }

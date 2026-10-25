@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-streaming-save-key-rev
+harness_id: zed
+snapshot_id: snapshot-zed-agent-thread-rs-5030407
+locator:
+  kind: file_lines
+  file: crates/agent/src/thread.rs
+  start: 1270
+  end: 1286
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  /// The parts of `to_db` that are worth saving while a message streams. Token
+  /// usage and scroll position are left out because they can change on every
+  /// streamed chunk or scroll, and some fields never change after creation.
+  #[derive(PartialEq)]
+  pub(crate) struct StreamingSaveKey {
+      message_count: usize,
+      retained_history_revision: usize,
+      title: Option<SharedString>,
+      summary: Option<SharedString>,
+      model: Option<DbLanguageModel>,
+      profile_id: AgentProfileId,
+      speed: Option<Speed>,
+      thinking_enabled: bool,
+      thinking_effort: Option<String>,
+      sandboxed_terminal_temp_dir: Option<PathBuf>,
+      sandbox_grants: crate::db::DbSandboxGrants,
+  }

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-provider-rung-gate-20261022
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-byok-20261022
+locator:
+  kind: file_lines
+  file: sdk/src/byok.ts
+  start: 478
+  end: 499
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |2-
+  /**
+   * The connection with a run's reasoning effort attached, or the connection
+   * itself when there is none to attach (anything that is not one of this provider's rungs means
+   * "the provider's default"). A copy, never a mutation: the resolved connection
+   * is frozen and shared. The credential and revocation check stay
+   * non-enumerable on the copy, exactly as the resolver made them.
+   */
+  export function withByokReasoningEffort(
+    connection: ResolvedByokConnection,
+    effort: unknown,
+  ): ResolvedByokConnection {
+    if (!byokReasoningEfforts(connection.provider).includes(effort as ReasoningEffort)) {

@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-m63-src-permission-aliases
+harness_id: autohand
+snapshot_id: snapshot-autohand-m63-src-permissions-permissionmanager-ts
+locator:
+  kind: symbol
+  file: src/permissions/PermissionManager.ts
+  symbol: normalizeSettings
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  private normalizeSettings(settings: PermissionSettings | undefined): PermissionSettings {
+    return {
+      mode: settings?.mode ?? 'interactive',
+      allowList: [...(settings?.allowList ?? settings?.whitelist ?? [])],
+      denyList: [...(settings?.denyList ?? settings?.blacklist ?? [])],
+      rules: [...(settings?.rules ?? [])],
+      rememberSession: settings?.rememberSession ?? true,

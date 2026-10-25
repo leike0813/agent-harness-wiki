@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-8aac-scan-accumulator
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-8aac-crates-pa-daemon-src-session-store-info-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_store/info.rs
+  start: 175
+  end: 186
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/8aac8692456c00c01d4e53e60e6d3347a3506559/crates/pa-daemon/src/session_store/info.rs
+excerpt: |2
+  /// TS `SessionScanAccumulator`: the per-file fold state a resume continues
+  /// from. The finished [`SessionInfo`] is derived from this; the cached state
+  /// carries the accumulator so a grown file folds ONLY its appended entries.
+  /// Clone is the snapshot fold's copy (TS `snapshotSessionInfo`). Serialize is
+  /// the persisted sidecar's form ([`super::info_sidecar`]): a released lease
+  /// holder writes it, a cold process loads it and folds only the tail.
+  /// Persisted in `<stem>.info-cache.json`: see
+  /// `info_sidecar::INFO_SIDECAR_VERSION` for the version-bump rule.
+  #[derive(Clone, Default, Serialize, Deserialize)]
+  pub(super) struct SessionScanAccumulator {
+      header: Option<SessionHeader>,
+      name: Option<String>,

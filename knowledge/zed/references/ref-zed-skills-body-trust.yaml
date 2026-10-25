@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-skills-body-trust
+harness_id: zed
+snapshot_id: snapshot-zed-agent-rs-5030407
+locator:
+  kind: file_lines
+  file: crates/agent/src/agent.rs
+  start: 4279
+  end: 4290
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  // Retries can retain skills after their worktree leaves the catalog.
+  if let Some(trusted_worktrees) = TrustedWorktrees::try_get_global(cx) {
+      let worktree_store = project.read(cx).worktree_store();
+      anyhow::ensure!(
+          trusted_worktrees.update(cx, |trusted_worktrees, cx| {
+              trusted_worktrees.can_trust(&worktree_store, worktree_id, cx)
+          }),
+          "Cannot load a skill from a restricted worktree"
+      );
+  }
+  anyhow::Ok(buffer.read(cx).as_text_snapshot().as_rope().to_string())
+  })?;

@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-cf119a-session-shell-gate
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-cf119a-crates-pa-core-src-session-engine-engine-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session_engine/engine.rs
+  start: 210
+  end: 219
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/cf119a7a8c86a2c86d927cae79ed1eec03b07a91/crates/pa-core/src/session_engine/engine.rs
+excerpt: |
+      let (settings, trace_consent) =
+          crate::agent_traces::ContinuousTraceUpload::load_settings(&cwd, &config.agent_dir);
+      // Resolve the kernel shell once, before any side effects: an invalid
+      // `shellPath` must fail session creation with a clear config error
+      // naming the setting, not every kernel `bash()` call later.
+      let kernel_shell_path = crate::platform::shell::resolve_kernel_bash_shell(
+          settings.settings().shell_path.as_deref(),
+      )?
+      .map(std::path::PathBuf::from);

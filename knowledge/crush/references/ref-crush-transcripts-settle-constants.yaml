@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-settle-constants
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261022-internal-agent-settle-go
+locator:
+  kind: file_lines
+  file: internal/agent/settle.go
+  start: 14
+  end: 24
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // Replies recorded for a tool call that will never be answered. They are
+  // stored in the transcript, so they are also what the model reads next turn.
+  const (
+  	canceledToolCallResult    = "Error: user cancelled assistant tool calling"
+  	failedToolCallResult      = "There was an error while executing the tool"
+  	truncatedToolCallResult   = "the model ran out of output tokens before it finished writing this tool call, so the call was never run; retry with smaller arguments, splitting the work across several calls if that helps"
+  	refusedToolCallResult     = "the provider's safety classifier stopped this response before the tool call was finished, so the call was never run; rephrase the request or try a different model"
+  )

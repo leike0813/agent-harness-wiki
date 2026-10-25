@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt3-archive-pack-missing-blobs-code
+harness_id: omp
+snapshot_id: snapshot-omp-adc7-src-session-session-transfer-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-transfer.ts
+  start: 319
+  end: 333
+official_url: https://github.com/can1357/oh-my-pi/blob/adc7fed5c9d6837d77b590bc313a705e2b4136b0/packages/coding-agent/src/session/session-transfer.ts#L319-L333
+excerpt: "\t\tconst blobs = new BlobStore(getBlobsDir());\n\t\tconst missingBlobs: string[] = [];\n\t\tfor (const hash of [...hashes].sort()) {\n\t\t\tconst data = await blobs.get(hash);\n\t\t\tif (data) members.push([`${BLOBS_PREFIX}${hash}`, data]);\n\t\t\telse missingBlobs.push(hash);\n\t\t}\n\t\tif (missingBlobs.length > 0) {\n\t\t\tlogger.warn(\"Packing session without blobs missing from the local store\", { id, missingBlobs });\n\t\t}\n\n\t\tawait writeArchiveAtomically(archivePath, members);\n\t\treturn { archivePath, id, missingBlobs };\n\t} finally {\n\t\trelease();"

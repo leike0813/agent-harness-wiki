@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-cfg8-migration-catalog-swap-code
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-src-config-settings-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/config/settings.ts
+  start: 3291
+  end: 3307
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/packages/coding-agent/src/config/settings.ts#L3291-L3307
+excerpt: "\t\t\t// Legacy settings named a provider; its swap target is the catalog's\n\t\t\t// resolved per-model policy (`web-search-model` / `image-model` / tts\n\t\t\t// seed kind), uniform across that provider's bundled rows.\n\t\t\tconst bundledSelector = (\n\t\t\t\tprovider: string,\n\t\t\t\tpick: (model: Model<Api>) => string | undefined,\n\t\t\t): string | undefined => {\n\t\t\t\tfor (const model of getBundledModels(provider as GeneratedProvider)) {\n\t\t\t\t\tconst id = pick(model);\n\t\t\t\t\tif (id) return `${provider}/${id}`;\n\t\t\t\t}\n\t\t\t\treturn undefined;\n\t\t\t};\n\t\t\tconst webSearchSelector = (provider: string): string[] => {\n\t\t\t\tconst selector = bundledSelector(provider, model => model.webSearchModel);\n\t\t\t\treturn selector ? [selector] : [];\n\t\t\t};"

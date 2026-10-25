@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-20261013-skills-pinned-body
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-20261013-skills-invocation-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/skills/invocation.py
+  start: 132
+  end: 148
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  def pinned_skill_body(skill: SkillMetadata, content: str | None) -> str:
+      """Return the instructions the SDK pins for `skill`.
+
+      The SDK skips a skill it cannot pin. The agent server raises instead, so a
+      skill the user invoked never runs silently without its instructions.
+
+      Args:
+          skill: Metadata of the skill to pin.
+          content: Raw `SKILL.md` text, or `None` when it could not be read.
+
+      Returns:
+          The `SKILL.md` body without its frontmatter.
+
+      Raises:
+          ValueError: The file is unreadable or too large, or has no
+              instructions after its frontmatter.
+      """

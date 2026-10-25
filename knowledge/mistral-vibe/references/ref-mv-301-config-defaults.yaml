@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-config-defaults
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/vibe_schema.py
+  start: 471
+  end: 499
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      active_model: Annotated[str, WithReplaceMerge()] = UNPINNED_ACTIVE_MODEL
+      # Experiment-routed default model alias, populated at runtime by the
+      # GrowthBook layer. It only takes effect when ``active_model`` is unpinned.
+      routed_default_model: Annotated[str, WithReplaceMerge()] = ""
+  ...
+      catalog_recommended_model: Annotated[str, WithReplaceMerge()] = ""
+  ...
+      providers: Annotated[list[ProviderConfig], WithUnionMerge(merge_key="name")] = (
+          Field(default_factory=lambda: list(DEFAULT_PROVIDERS))
+      )

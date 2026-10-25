@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt3-cleanup-staging-temp-glob-code
+harness_id: omp
+snapshot_id: snapshot-omp-adc7-src-cli-gc-cli-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/cli/gc-cli.ts
+  start: 1674
+  end: 1690
+official_url: https://github.com/can1357/oh-my-pi/blob/adc7fed5c9d6837d77b590bc313a705e2b4136b0/packages/coding-agent/src/cli/gc-cli.ts#L1674-L1690
+excerpt: "\n/**\n * Staging temps ({@link SESSION_STAGING_RE}) of `.jsonl` transcripts under\n * `sessionsRoot`, plus those beside exact session files recorded elsewhere\n * (`--session` paths, collab replicas).\n */\nasync function collectSessionStagingFiles(sessionsRoot: string, exactSessionFiles: string[]): Promise<string[]> {\n\tconst files = new Map<string, string>();\n\ttry {\n\t\tfor await (const name of SESSION_STAGING_GLOB.scan({ cwd: sessionsRoot, dot: true })) {\n\t\t\tif (!SESSION_STAGING_RE.exec(path.basename(name))?.[1]?.endsWith(SESSION_SUFFIX)) continue;\n\t\t\tconst file = path.join(sessionsRoot, name);\n\t\t\tfiles.set(normalizePathForComparison(file), file);\n\t\t}\n\t} catch (error) {\n\t\tif (codeOf(error) !== \"ENOENT\") throw error;\n\t}"

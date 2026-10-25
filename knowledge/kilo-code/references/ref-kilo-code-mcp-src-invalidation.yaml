@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-invalidation
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-e08cc-mcp-invalidation
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/mcp/invalidation.ts
+  start: 44
+  end: 58
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  export function matches(entry: McpAuth.Entry, expected: Expected, type: "tokens" | "client"): boolean {
+    if (entry.serverUrl !== expected.serverUrl) return false
+
+    if (type === "client") {
+      if (expected.clientId != null && entry.clientInfo?.clientId !== expected.clientId) return false
+      if (expected.issuer != null && entry.clientInfo?.issuer !== expected.issuer) return false
+      return true
+    }
+
+    // "tokens": the client that presented the refresh must still own the entry.
+    if (expected.clientId != null && entry.clientInfo?.clientId !== expected.clientId) return false
+    if (expected.issuer != null && entry.tokens?.issuer !== expected.issuer) return false
+    if (expected.refreshToken != null && entry.tokens?.refreshToken !== expected.refreshToken) return false
+    return true
+  }

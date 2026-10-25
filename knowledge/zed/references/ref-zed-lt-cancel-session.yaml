@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-cancel-session
+harness_id: zed
+snapshot_id: snapshot-zed-agent-rs-5030407
+locator:
+  kind: file_lines
+  file: crates/agent/src/agent.rs
+  start: 1088
+  end: 1101
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  fn cancel_session(&mut self, session_id: &acp_v2::SessionId) {
+      let Some(session) = self.sessions.get_mut(session_id) else {
+          return;
+      };
+      if session.pending_cancellation.send(()).is_err() {
+          log::debug!("No pending native submissions to cancel");
+      }
+      if let Some(execution) = session.execution.as_mut()
+          && let Some(sender) = execution.cancellation.take()
+          && sender.send(NativeCancellation::Cancelled).is_err()
+      {
+          log::debug!("Native execution already completed");
+      }
+  }

@@ -1,0 +1,205 @@
+schema_version: 2
+audit_id: audit-kimi-code-a3703458-eda9-4a88-844e-e224b1c75e40
+harness_id: kimi-code
+checked_at: 2026-10-22T12:54:41.480Z
+previous_audit_id: audit-kimi-code-0e5dd3dc-24fa-419e-bba5-d44fdeb0a493
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-kimi-code-93eb5dc0-e41b-49b6-a3db-662389fc6dbf
+  - audit-kimi-code-0e5dd3dc-24fa-419e-bba5-d44fdeb0a493
+checks:
+  - source_id: source-kimi-code-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:54:38.608Z
+    status: changed
+    baseline: d4b9dc4a2d6ff72413964feda2563f0adf8e04d2
+    observed: 759958afdfeb0f8c7d09cb03cbc2cf85b6255e9e
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-legacy-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:54:38.618Z
+    status: unchanged
+    baseline: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    observed: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-npm
+    kind: npm_registry
+    checked_at: 2026-10-22T12:54:38.625Z
+    status: changed
+    baseline: 2.2.0@sha512-I1w2l6JGYEUSwA1DTvYrw/kDJYjJQKHFON+RON61epDeTITvwpXoDn4Kgl4atA82RfwcsMp3KG6k8Yaoj6LT0A==
+    observed: 2.3.0@sha512-/70t2bZV5ynYwYn13yjeA0EuQwY2v0UboH+Ks3LW/69+05eDNe29HZlwEg0F4iU0SvA2rWPcDRSfCRj5MqAJrA==
+impacts:
+  - topic: custom_agents
+    question_ids:
+      - agents.invocation
+      - agents.limits
+    section_ids:
+      - agents-invocation
+      - agents-limits
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kimi-code-agents-invoke
+      - ref-kimi-code-agents-permissions
+      - ref-kimi-code-agents-format
+      - ref-kimi-code-slash-info
+      - ref-kimi-code-agents-bind-subagents
+      - ref-kimi-code-agents-bind-subagents-applied
+      - ref-kimi-code-agents-bind-subagents-restore
+      - ref-kimi-code-agents-tool-effective-allowlist
+      - ref-kimi-code-agents-subagent-planspawn-allowlist
+      - ref-kimi-code-agents-fork-parity-discovered-profiles
+      - ref-kimi-code-agents-changeset-fork-types
+      - ref-kimi-code-agents-allowlist-live-refresh-759958a
+      - ref-kimi-code-agents-tool-availability-759958a
+      - ref-kimi-code-agents-tool-description-tools-759958a
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.trust
+      - config.diagnostics
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.lifecycle
+      - mcp.diagnostics
+      - plugins.install
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.conditions
+      - skills.diagnostics
+    reason: commit 759958a 的
+      packages/agent-core-v2/src/agent/profile/profileService.ts 让主 Agent
+      的委派允许列表在 profile catalog 变化时即时重算（不再只在绑定/恢复时算一次）； 同提交的
+      packages/agent-core-v2/src/agent/tools/agent/agentTool.ts 把 Agent
+      工具展示的工具清单改为按 isToolAvailable（运行时能力 + when）与模型能力过滤
+      （ReadMediaFile、SelectTools），并让子 Agent 类型卡片的 Tools 行总是输出实际可用列表。
+      委派选择规则与能力边界因此变化，已新建 edition v4。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-recording-scope
+      - transcripts-layout-naming
+      - transcripts-format-schema
+      - transcripts-lifecycle
+      - transcripts-database-index
+      - transcripts-archive-cleanup
+      - transcripts-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kimi-code-lt-doc-session-data
+      - ref-kimi-code-lt-doc-session-storage
+      - ref-kimi-code-lt-doc-log-scopes
+      - ref-kimi-code-lt-doc-user-history
+      - ref-kimi-code-lt-src-wire-types
+      - ref-kimi-code-lt-doc-clearing-data
+      - ref-kimi-code-lt-doc-session-tasks
+      - ref-kimi-code-lt-doc-data-root
+      - ref-kimi-code-lt-doc-layout-index
+      - ref-kimi-code-lt-src-addressing
+      - ref-kimi-code-lt-src-blob-ref
+      - ref-kimi-code-lt-src-blob-ref-format
+      - ref-kimi-code-lt-src-workdir-slug
+      - ref-kimi-code-lt-src-session-meta
+      - ref-kimi-code-lt-src-fork-meta
+      - ref-kimi-code-lt-src-wire-record
+      - ref-kimi-code-lt-src-append-fsync
+      - ref-kimi-code-lt-src-atomic-write
+      - ref-kimi-code-lt-src-atomic-tmp-rename
+      - ref-kimi-code-lt-doc-resume
+      - ref-kimi-code-lt-doc-compaction
+      - ref-kimi-code-lt-doc-fork
+      - ref-kimi-code-lt-src-copy-skip
+      - ref-kimi-code-lt-src-index-scan
+      - ref-kimi-code-lt-src-index-meta-keys
+      - ref-kimi-code-lt-src-minidb-dir
+      - ref-kimi-code-lt-src-db-switch
+      - ref-kimi-code-lt-src-archive-flag
+      - ref-kimi-code-lt-src-restore-flag
+      - ref-kimi-code-lt-doc-export
+      - ref-kimi-code-lt-src-export-manifest
+      - ref-kimi-code-lt-src-delete
+      - ref-kimi-code-lt-src-wire-repair
+      - ref-kimi-code-lt-src-wire-repair-rewrite
+      - ref-kimi-code-lt-src-torn-read
+      - ref-kimi-code-lt-src-torn-read-loop
+      - ref-kimi-code-lt-doc-export-sensitivity
+      - ref-kimi-code-lt-src-wire-manifest-index-759958a
+      - ref-kimi-code-lt-src-wire-manifest-snapshot-759958a
+      - ref-kimi-code-lt-src-session-lock-path-759958a
+      - ref-kimi-code-lt-src-session-lock-config-759958a
+      - ref-kimi-code-lt-src-session-lock-claim-759958a
+      - ref-kimi-code-lt-src-session-lock-holds-759958a
+      - ref-kimi-code-lt-src-run-gate-hold-759958a
+      - ref-kimi-code-lt-src-append-write-guard-759958a
+      - ref-kimi-code-lt-src-append-drop-on-close-759958a
+      - ref-kimi-code-lt-src-append-stuck-flush-759958a
+      - ref-kimi-code-lt-src-wire-lock-guard-759958a
+      - ref-kimi-code-lt-src-stale-reload-retry-759958a
+      - ref-kimi-code-lt-src-occupancy-prompt-759958a
+      - ref-kimi-code-lt-src-archive-lease-759958a
+      - ref-kimi-code-lt-src-delete-lease-759958a
+      - ref-kimi-code-lt-src-fork-source-lease-759958a
+      - ref-kimi-code-lt-doc-locks-layout-759958a
+      - ref-kimi-code-lt-doc-clearing-locks-759958a
+      - ref-kimi-code-lt-doc-session-lock-env-759958a
+      - ref-kimi-code-lt-doc-compact-queue-759958a
+    cross_topic_links:
+      - config.sources
+      - config.defaults
+      - config.diagnostics
+    reason: commit 759958a
+      为会话记录引入了跨进程会话锁（$KIMI_CODE_HOME/locks/sessions/{sessionId}.lock， 持有者
+      JSON、reclaim/tmp 伴生文件、陈旧回收、KIMI_CODE_SESSION_LOCK 开关）、append 日志写守卫与
+      关闭时丢弃未刷盘记录、external-modification 判定与 session.stale 自动重载、归档/删除/分叉的锁租约、 TUI
+      的 occupied/接管提示与运行中 /compact 排队，以及新的 changeNotifier.snapshot durable 记录。
+      位置、命名、格式、生命周期、归档清理与诊断的答案均受影响，已新建 edition v2；scope 记录面与 数据库分工的结论同步更新。
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：maintain；只读观察时间 2026-10-22T12:54:41.480Z，会话
+    4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns。只使用冻结 observation 与 pinned
+    workspace
+    ws-759958afdfeb-2a0a0fbb-af5e-4223-a1e7-1c98fde80e93（759958afdfeb0f8c7d09cb03cbc2cf85b6255e9e），
+    未重扫、未重取上游。
+  - 旧章节引用固定在更早的提交（21406fb4、c9f01f07），本轮提交上这些行定位不再命中； 逐条核对后按新提交新建 14 个
+    git_source_file artifact 与 per-file source_revision snapshot，并新增 23 条
+    reference，未删除或改写任何旧 edition/引用。
+  - custom_agents：机制级变化确认为 profileService 的 catalog.onDidChange 触发的
+    refreshBoundSubagentAllowlist（允许列表在会话内即时重算）与 agentTool 的
+    availableToolReferences（按 isToolAvailable + 模型能力过滤
+    ReadMediaFile/SelectTools， 用户来源条目不被覆盖）及 buildProfileDescriptions 的工具行改动。新增
+    edition kimi-code-cli-custom_agents-v4，agents.invocation/agents.limits 状态仍为
+    answered， agents.diagnostics 保持 partial（rf 无按来源列出 agent 文件的专用命令）。
+  - local_transcripts：新增跨进程会话锁（node-fs/sessionLockService.ts +
+    interface/sessionLock.ts） 改变了位置、命名（locks/sessions/{sessionId}.lock 与
+    .reclaim/.tmp 伴生文件）、生命周期 （run gate 持有、空闲 3 秒释放、fork/archive/delete
+    租约）、清理（delete 持锁、官方清理表 未列 locks/、KIMI_CODE_SESSION_LOCK=0
+    可关闭）与诊断（session.occupied 持有者信息、 TUI Retry→接管、session.stale 自动重载重试一次）。append
+    日志新增写守卫、关闭丢弃未刷盘记录 与 flush 卡住告警，改变 transcripts.format 的写入语义。wire 记录面新增
+    changeNotifier.snapshot （AGENTS.md/技能清单哈希、子 Agent 名单、模型池），改变
+    transcripts.scope。运行中 /compact 排队与自动压缩后跳过属于 transcripts.lifecycle。新增 edition
+    kimi-code-local_transcripts-v2。
+  - 未变化结论：session/workDirKey 命名规则、JSONL append + fsync 本身、state.json 原子改写、 wire
+    协议版本 1.5 迁移链、query-store 索引读模型与重建路径、导出 ZIP/清单字段；这些小节沿用 原有引用并在新 edition
+    中原样保留正文。
+  - 未纳入本轮：Web/桌面形态的 KIMI_CODE_SESSION_IDLE_RECLAIM_MS 会话空闲卸载（界面不在 catalog 登记的
+    cli 范围）、experimental Tower 多 Agent 协调（不在固定问题范围）。
+  - 候选内未新增 mappings：来源未标注软件版本，npm 2.2.0→2.3.0 只记录发布身份，不据此推断行为。
+  - 作者自检：核对每个新增引用的 file/start/end 与 excerpt 在 759958a 上逐行对应， 章节
+    questions/sections 引用闭包一致，旧 edition 与旧引用保持不变； pnpm -s maintenance:candidates
+    check 通过。

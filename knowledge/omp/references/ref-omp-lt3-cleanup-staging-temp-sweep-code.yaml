@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt3-cleanup-staging-temp-sweep-code
+harness_id: omp
+snapshot_id: snapshot-omp-adc7-src-cli-gc-cli-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/cli/gc-cli.ts
+  start: 1702
+  end: 1719
+official_url: https://github.com/can1357/oh-my-pi/blob/adc7fed5c9d6837d77b590bc313a705e2b4136b0/packages/coding-agent/src/cli/gc-cli.ts#L1702-L1719
+excerpt: "/**\n * Count, and with `--apply` delete, session staging temps past the write\n * grace. A live publish renames its temp away within milliseconds, so an\n * older one was left by a killed or crashed writer and nothing will claim it.\n */\nasync function sweepSessionStagingFiles(\n\toptions: ResolvedGcOptions,\n\tsessionsRoot: string,\n\tregisteredSessionPaths: string[],\n\tresult: ArchiveGcResult,\n): Promise<void> {\n\tconst exactSessionFiles = [\n\t\t...registeredSessionPaths,\n\t\t...(await collectBreadcrumbSessionFiles(getTerminalSessionsDir(options.agentDir))),\n\t];\n\tconst deleteBeforeMs = Date.now() - GC_WRITE_GRACE_MS;\n\tfor (const file of await collectSessionStagingFiles(sessionsRoot, exactSessionFiles)) {\n\t\tconst stat = await statIfPresent(file);"

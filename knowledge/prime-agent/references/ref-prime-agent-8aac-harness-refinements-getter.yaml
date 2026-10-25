@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-8aac-harness-refinements-getter
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-8aac-crates-pa-core-src-settings-interactive-settings-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/interactive_settings.rs
+  start: 9
+  end: 24
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/8aac8692456c00c01d4e53e60e6d3347a3506559/crates/pa-core/src/settings/interactive_settings.rs
+excerpt: |2
+  impl SettingsManager {
+      /// Global preference controlling refinement creation and context loading (default on).
+      /// Project settings cannot override the user's master switch.
+      #[must_use]
+      pub fn get_harness_refinements(&self) -> bool {
+          self.global_settings().harness_refinements.unwrap_or(true)
+      }
+
+      /// Persist the master harness switch to the global settings scope.
+      ///
+      /// # Errors
+      /// Returns an error when the global scope cannot be saved.
+      pub fn set_harness_refinements(&mut self, enabled: bool) -> Result<()> {
+          self.global_mut().harness_refinements = Some(enabled);
+          self.save_global_scope(&["harnessRefinements"])
+      }

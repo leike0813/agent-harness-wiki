@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-interactive-mod-session-create-gate
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-9a83f108-cli-interactive-mod-session
+locator:
+  kind: file_lines
+  file: packages/cli/src/services/interactive-mod-session.ts
+  start: 28
+  end: 39
+official_url: https://github.com/QwenLM/qwen-code/blob/9a83f1080e1432c72a07502417c97bff493b2ea2/packages/cli/src/services/interactive-mod-session.ts
+excerpt: |-
+  export function createInteractiveModSession(
+    config: Config,
+    settings: LoadedSettings,
+  ): InteractiveModSession | undefined {
+    if (!settings.merged.experimental?.mods || !config.isInteractive()) return;
+    let session = sessions.get(config);
+    if (!session) {
+      session = new InteractiveModSession(config, settings);
+      sessions.set(config, session);
+    }
+    return session;
+  }

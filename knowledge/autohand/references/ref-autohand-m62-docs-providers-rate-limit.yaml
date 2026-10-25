@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-m62-docs-providers-rate-limit
+harness_id: autohand
+snapshot_id: snapshot-autohand-m62-docs-providers-md
+locator:
+  kind: document_section
+  heading: Rate Limiting
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  Autohand AI retries server-identified request-per-minute and input/output
+  token-throughput throttles within the configured retry budget. It honors the
+  bounded `Retry-After` delay and remains cancellable while waiting. A 5-hour,
+  24-hour, weekly, or monthly quota limit ends the turn immediately.
+
+  Prompt caching is enabled by default for Autohand AI cloud sessions. The CLI
+  seeds a bounded tool selection at session start so normal relevance changes
+  reuse the tool prefix instead of repeatedly processing the full conversation
+  as uncached input. Provider limits, permission changes, and newly discovered
+  tools can still require a different selection. Set `features.promptCaching`
+  to `false` to opt out; the remote cache kill switch also remains effective.

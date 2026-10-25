@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-transcripts-writer-format-barrier-sealed-takeover
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-18f80f56-core-session-writer-lease
+locator:
+  kind: file_lines
+  file: packages/core/src/services/session-writer-lease.ts
+  start: 2113
+  end: 2127
+official_url: https://github.com/QwenLM/qwen-code/blob/18f80f56666a347a2b67b2ef98099cc58356b253/packages/core/src/services/session-writer-lease.ts
+excerpt: "    // The barrier is two-directional: an older binary must not adopt a seal\n    // from a newer format and downgrade the record (the newer binary would\n    // then fail reading its own log and an aborted takeover deletes the\n    // lock entirely). A newer acquirer continues an older seal fine.\n    if (\n      isManagedLockRecord(observed.record) &&\n      options.lockSchema !== undefined &&\n      options.lockSchema.formatVersion < observed.record.format_version\n    ) {\n      throw new SessionWriterUnavailableError({\n        cause: new Error(\n          `Sealed session writer lock format ${observed.record.format_version} is newer than this binary's format ${options.lockSchema.formatVersion}`,\n        ),\n      });\n    }"

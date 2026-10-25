@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-mcp-pool
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_mcp_pool.py
+  start: 30
+  end: 43
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+
+  class _PooledConnection:
+      def __init__(
+          self,
+          factory: MCPTransportFactory,
+          server: ResolvedMCPServerConfig,
+          sampling_callback: MCPSamplingCallback | None,
+      ) -> None:
+          self._factory = factory
+          self._server = server
+          self._sampling_callback = sampling_callback
+          self._requests: asyncio.Queue[_Request | None] = asyncio.Queue()
+          self._worker: asyncio.Task[None] | None = None
+          self._connection: MCPClientConnection | None = None

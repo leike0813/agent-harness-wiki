@@ -1,0 +1,82 @@
+schema_version: 2
+audit_id: audit-claude-code-2bb3ee3e-9e7f-4c58-86a3-f0c937b6315f
+harness_id: claude-code
+checked_at: 2026-10-13T18:01:34.640Z
+previous_audit_id: audit-claude-code-bcbcda3c-e7d7-4251-bc31-00ea8e363779
+status: changed
+review_status: reviewed
+reviewed_by: harness-maintenance-worker
+reviewed_at: 2026-10-14T00:00:00.000Z
+pending_audit_refs: []
+checks:
+  - source_id: source-claude-code-npm
+    kind: npm_registry
+    checked_at: 2026-10-13T18:01:33.561Z
+    status: unchanged
+    baseline: 2.1.296@sha512-OX/k/rpcthMqnFKOWcpNcbiLsMKtAjLOpQNJHlYiDCFUznWCIwdRTyl/p9SdHVrsrzZuPMCNqZjnpakIni6upw==
+    observed: 2.1.296@sha512-OX/k/rpcthMqnFKOWcpNcbiLsMKtAjLOpQNJHlYiDCFUznWCIwdRTyl/p9SdHVrsrzZuPMCNqZjnpakIni6upw==
+  - source_id: source-claude-code-skills-doc
+    kind: official_documentation
+    checked_at: 2026-10-13T18:01:33.563Z
+    status: unchanged
+    baseline: 35fd2c11f870fbe1497a53796de31b2a6b760645e724bda58894525356d4602a
+    observed: 35fd2c11f870fbe1497a53796de31b2a6b760645e724bda58894525356d4602a
+    resolved_url: https://code.claude.com/docs/en/skills.md
+  - source_id: source-claude-code-mcp-doc
+    kind: official_documentation
+    checked_at: 2026-10-13T18:01:33.565Z
+    status: changed
+    baseline: 3b8b9783292cd6516679e2a0ab32e6de707526a0297196bc94b959d40b9b5c6f
+    observed: d62172422b54a070f750a4637a9ea5708be6d8db8b4d74a947c11a7f7f1521d5
+    resolved_url: https://code.claude.com/docs/en/mcp.md
+    candidate_path: archive/claude-code/artifact-source-claude-code-mcp-doc-d62172422b54/source.md
+  - source_id: source-claude-code-configuration-doc
+    kind: official_documentation
+    checked_at: 2026-10-13T18:01:33.566Z
+    status: unchanged
+    baseline: a8cc395af5e0938659ddfd38a703bdc8a5151640216c5230098408e30625e380
+    observed: a8cc395af5e0938659ddfd38a703bdc8a5151640216c5230098408e30625e380
+    resolved_url: https://code.claude.com/docs/en/settings.md
+impacts:
+  - topic: mcp
+    question_ids:
+      - mcp.capabilities
+    section_ids:
+      - mcp-capabilities
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-cc-mcp-toolavailability-20261013
+    cross_topic_links:
+      - mcp.definition
+    reason: >-
+      docs/en/mcp.md 的 Tool availability 一节改写了没有 tool search 时改用 WaitForMcpServers
+      的适用条件表述，既有引用 ref-cc-mcp-toolavailability-20261003 的摘录不再与固定来源逐字一致，
+      mcp 章节依赖该条件句，需按新快照重建摘录。
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：maintain；巡检观察来自 2026-10-13 的只读检查，范围限 mcp 主题的固定问题。
+  - >-
+    逐行比对两份保留原件 archive/claude-code/artifact-source-claude-code-mcp-doc-3b8b9783292c/source.md
+    与 archive/claude-code/artifact-source-claude-code-mcp-doc-d62172422b54/source.md，全页只有一处文本差异：
+    Tool availability 一节第二条要点（Without tool search）末尾的条件描述。
+  - >-
+    改前为「and a model earlier than the Claude 4.5 generation on Google Cloud's Agent Platform」，
+    改后为「and a model earlier than Claude Opus 4.5, Claude Sonnet 4.5, and Claude Haiku 4.5 on
+    Google Cloud's Agent Platform」。其余标题、表格、版本门槛、示例与其他章节文字均无变化。
+  - >-
+    该句只是把「早于 4.5 世代」细化为逐个列出 Opus 4.5、Sonnet 4.5、Haiku 4.5 三个模型名，
+    tool search 的机制结论（ToolSearch 调用内等待、ENABLE_TOOL_SEARCH 取值、tool_reference 模型要求、
+    alwaysLoad 与 tool search 的取舍）均未改变，因此不重写这些结论。
+  - >-
+    仅更新不再逐字一致的摘录：新增 ref-cc-mcp-toolavailability-20261013，绑定新快照
+    snapshot-claude-code-mcp-doc-20261013 与 artifact-source-claude-code-mcp-doc-d62172422b54，
+    定位仍为文档小节「Tool availability」。其余既有引用与小节保持原样。
+  - >-
+    mcp 章节正文确实复述了该条件句，因此新建完整 edition claude-code-mcp-v5（保留 v1–v4）并把
+    对应句改写为新表述，同时把 mcp-capabilities 小节与 mcp.capabilities 答案的
+    source_refs 指向新引用；章节首段的快照日期同步为 2026-10-13。
+  - 该官方页未标注适用版本，version_applicability 仍为 unknown，本轮不新增版本映射。
+  - >-
+    巡检按来源整体列出的 custom_agents、custom_providers、hooks、local_transcripts、native_plugins
+    影响只是扫描器的粗粒度提示；本次逐行比对证明本页除该一句外无任何其他变化，这些主题不进入本轮维护范围。

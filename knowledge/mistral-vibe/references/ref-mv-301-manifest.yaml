@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-manifest
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_storage.py
+  start: 245
+  end: 317
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      session_id: str
+      generation: Generation
+      snapshot_sequence: int = Field(ge=0)
+  ...
+      execution_state: Literal["quiescent", "recoverable"]
+      checkpoint: StoredCheckpointV1
+      runtime_state: StoredFileV1
+      projection_state: StoredFileV1
+      # Only a generation written before minor 3 names an export document; the reader
+      # derives that document now, and leaves the record it no longer needs unread.
+      interop_export: StoredFileV1 | None = None
+      recovery_journal_segment: RecoveryJournalSegmentV1

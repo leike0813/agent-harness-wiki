@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-plugins-manifest-legacy-grammars
+harness_id: zed
+snapshot_id: snapshot-zed-extension-manifest-rs-5030407
+locator:
+  kind: file_lines
+  file: crates/extension/src/extension_manifest.rs
+  start: 443
+  end: 478
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  // For legacy extensions on the v0 schema (aka, using `extension.json`), we want to populate the grammars in
+  // the manifest using the contents of the `grammars` directory.
+  if self.schema_version.is_v0() {
+      let grammars_dir = extension_path.join("grammars");
+      if fs.is_dir(&grammars_dir).await {
+          while let Some(grammar_path) = grammar_dir_entries.next().await {
+              let grammar_path = grammar_path?;
+              if grammar_path.extension() == Some("toml".as_ref()) {
+                  #[derive(Deserialize)]
+                  struct GrammarConfigToml {
+                      pub repository: String,
+                      pub commit: String,
+                      #[serde(default)]
+                      pub path: Option<String>,
+                  }

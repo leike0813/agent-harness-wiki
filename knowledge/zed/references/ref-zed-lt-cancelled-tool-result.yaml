@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-cancelled-tool-result
+harness_id: zed
+snapshot_id: snapshot-zed-lt-crates-agent-src-thread-rs-c66312b
+locator:
+  kind: file_lines
+  file: crates/agent/src/thread.rs
+  start: 4132
+  end: 4152
+official_url: https://github.com/zed-industries/zed/blob/c66312b200d113694fca08c1d468669028a09a0e/crates/agent/src/thread.rs
+excerpt: |2-
+              if !message.tool_results.contains_key(&tool_use.id) {
+                  message.tool_results.insert(
+                      tool_use.id.clone(),
+                      LanguageModelToolResult {
+                          tool_use_id: tool_use.id.clone(),
+                          tool_name: tool_use.name.clone(),
+                          is_error: true,
+                          content: vec![LanguageModelToolResultContent::Text(
+                              TOOL_CANCELED_MESSAGE.into(),
+                          )],
+                          output: None,
+                      },
+                  );
+              }
+          }
+
+          self.messages.push(Arc::new(Message::Agent(message)));
+          self.updated_at = Utc::now();
+          self.clear_summary();
+          cx.notify()
+      }

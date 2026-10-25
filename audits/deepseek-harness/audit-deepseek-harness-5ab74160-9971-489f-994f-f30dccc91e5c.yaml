@@ -1,0 +1,35 @@
+schema_version: 2
+audit_id: audit-deepseek-harness-5ab74160-9971-489f-994f-f30dccc91e5c
+harness_id: deepseek-harness
+checked_at: "2026-10-14T18:02:27.041Z"
+previous_audit_id: audit-deepseek-harness-0bf3824c-fd43-4777-9117-b0966a716cc6
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-deepseek-harness-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:02:26.035Z"
+    status: changed
+    baseline: d743267388641bc76f17c45ce8b4c231aed1d32c
+    observed: 571902028a75c64c1d767f4ae5fd099485f0ddf0
+    remote_ref: refs/heads/master
+  - source_id: source-deepseek-harness-docs
+    kind: official_documentation
+    checked_at: "2026-10-14T18:02:26.048Z"
+    status: unchanged
+    baseline: 665aa28b1c3a26f36d37e1b4faee68b6ff589139a3b1518a82fe83c0b869812c
+    observed: 665aa28b1c3a26f36d37e1b4faee68b6ff589139a3b1518a82fe83c0b869812c
+    resolved_url: "https://deepseek-harness.github.io/deepseek-harness/"
+  - source_id: source-deepseek-harness-npm
+    kind: npm_registry
+    checked_at: "2026-10-14T18:02:26.051Z"
+    status: unchanged
+    baseline: "0.2.0-rc.2@sha512-EAJ3gPNcVt/uv8X19PMm9NkVhWgT7xXNMk0UKCVm+IQ5rpSQOcsMUa0HWlnYYVybKMsccjcRB21vVVsaXQ6IdA=="
+    observed: "0.2.0-rc.2@sha512-EAJ3gPNcVt/uv8X19PMm9NkVhWgT7xXNMk0UKCVm+IQ5rpSQOcsMUa0HWlnYYVybKMsccjcRB21vVVsaXQ6IdA=="
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "本轮状态：本产品已完成协调者的只读观察与语义 triage，来源证据已固定（Git 工作区已按观察到的 commit 打开并保留），但**本轮没有执行 maintenance 派发**。上述限定范围、问题清单与已固定的来源入口是下一轮可直接接续的工作面，不是已完成结论。review_status 保持 pending，pending_audit_refs 保持不变；不得因本轮无候选产物而视为已结案。"
+  - "maintain。source-deepseek-harness-repo d7432673..57190202 命中 40 个已引用文件，其中 packages/session/session-persistence-jsonl/src/storage.ts、packages/subagent/subagent/src/index.ts、packages/boot/app-boot/src/profile-context.ts、packages/client/ui-skill/src/client/index.ts 都是机制入口。"
+  - "会话持久化、子代理与 UI skill 客户端同时变化，横跨三个主题；按实际调用关系限定在这三个主题内派发，不扩到全主题重审。"

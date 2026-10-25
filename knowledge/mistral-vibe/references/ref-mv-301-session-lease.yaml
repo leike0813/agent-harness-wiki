@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-session-lease
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/session/session_lease.py
+  start: 15
+  end: 30
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  class SessionBusyError(RuntimeError):
+      def __init__(self, session_id: str) -> None:
+          self.session_id = session_id
+          super().__init__(f"Session is already open: {session_id}")
+
+
+  class SessionLease:
+      # The on-disk lease format (seed byte, {id}.lock.json, .registry) is
+      # shared with the twin in
+      # agents/harness/harness/runtimes/python/.../vibe/_storage.py; change both.
+
+      def __init__(self, root: Path, session_id: str) -> None:
+          if _SESSION_ID_PATTERN.fullmatch(session_id) is None:
+              raise ValueError(f"invalid session ID: {session_id!r}")
+          self._path = root / "active" / f"{session_id}.lock"
+          self._diagnostic_path = root / "active" / f"{session_id}.lock.json"

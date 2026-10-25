@@ -1,0 +1,177 @@
+schema_version: 2
+audit_id: audit-zed-89b88422-7e27-4d71-b9a7-29859660749a
+harness_id: zed
+checked_at: '2026-10-12T18:50:29.342Z'
+previous_audit_id: audit-zed-61896855-dc2b-40e7-8636-7768160bc5e2
+status: changed
+review_status: pending
+pending_audit_refs:
+- audit-zed-d0a7dce9-cf57-4fbf-a94c-f5d0c84464ab
+- audit-zed-20261004t061205z
+- audit-zed-d92f49ae-34c4-4981-ad09-9c31372ea687
+- audit-zed-20261006t134000z
+checks:
+- source_id: source-zed-repo
+  kind: git_repository
+  checked_at: '2026-10-12T18:50:27.637Z'
+  status: changed
+  baseline: 93d745668805029476e6d7fbb19652116fed51de
+  observed: c66312b200d113694fca08c1d468669028a09a0e
+  remote_ref: refs/heads/main
+- source_id: source-zed-docs-skills
+  kind: official_documentation
+  checked_at: '2026-10-12T18:50:27.645Z'
+  status: unchanged
+  baseline: 764f294ea53ecfe9220c5033ac805a53dc02607b25a85b63001c57343e2b9038
+  observed: 764f294ea53ecfe9220c5033ac805a53dc02607b25a85b63001c57343e2b9038
+  resolved_url: https://zed.dev/docs/ai/skills.md
+- source_id: source-zed-docs-mcp
+  kind: official_documentation
+  checked_at: '2026-10-12T18:50:27.647Z'
+  status: unchanged
+  baseline: 4b63e4863aff99eac69af64220581c36f8becd856cb3d11fb811f038881615bf
+  observed: 4b63e4863aff99eac69af64220581c36f8becd856cb3d11fb811f038881615bf
+  resolved_url: https://zed.dev/docs/ai/mcp.md
+- source_id: source-zed-docs-agents
+  kind: official_documentation
+  checked_at: '2026-10-12T18:50:27.648Z'
+  status: unchanged
+  baseline: 08b1b98333f1b97d44a5da73d3ccb1f19fa3d62ff3ba80f8303b571a2a21b732
+  observed: 08b1b98333f1b97d44a5da73d3ccb1f19fa3d62ff3ba80f8303b571a2a21b732
+  resolved_url: https://zed.dev/docs/ai/external-agents.md
+- source_id: source-zed-docs-providers
+  kind: official_documentation
+  checked_at: '2026-10-12T18:50:28.243Z'
+  status: unchanged
+  baseline: b164ec181d366233ab55bfef5968c6d0f4c068695e5ccd05b1680829108484b0
+  observed: b164ec181d366233ab55bfef5968c6d0f4c068695e5ccd05b1680829108484b0
+  resolved_url: https://zed.dev/docs/ai/use-api-access.md
+- source_id: source-zed-docs-hooks
+  kind: official_documentation
+  checked_at: '2026-10-12T18:50:28.246Z'
+  status: unchanged
+  baseline: d7b3f034a1df1c84bd557109a8a1cb15db3108d779a859b1e55eb1a4f6097e15
+  observed: d7b3f034a1df1c84bd557109a8a1cb15db3108d779a859b1e55eb1a4f6097e15
+  resolved_url: https://zed.dev/docs/tasks.md
+- source_id: source-zed-docs-plugins
+  kind: official_documentation
+  checked_at: '2026-10-12T18:50:28.366Z'
+  status: unchanged
+  baseline: 146fa9b61c79669517d3b0bc48f78f710cd8918c0e04ed66f664aaf3632298d8
+  observed: 146fa9b61c79669517d3b0bc48f78f710cd8918c0e04ed66f664aaf3632298d8
+  resolved_url: https://zed.dev/docs/extensions/developing-extensions.md
+- source_id: source-zed-docs-config
+  kind: official_documentation
+  checked_at: '2026-10-12T18:50:28.368Z'
+  status: changed
+  baseline: cd8932ca4ce458edb3b5387c3e1e5f99bd13e45550a9e82eb31b06dddfbb10f1
+  observed: bc098aa3392a5e68826cf0764add3a64ebbd12636a673ef1ef5958f1adeb9d88
+  resolved_url: https://zed.dev/docs/reference/all-settings.md
+  candidate_path: archive/zed/artifact-source-zed-docs-config-bc098aa3392a/source.md
+impacts:
+- topic: local_transcripts
+  question_ids:
+  - transcripts.lifecycle
+  section_ids:
+  - transcripts-lifecycle
+  surface_ids:
+  - zed
+  source_refs:
+  - ref-zed-lt-release-cancel-before-save
+  - ref-zed-lt-cancel-flush-pending
+  - ref-zed-lt-cancelled-tool-result
+  - ref-zed-lt-save-thread-needs-session
+  cross_topic_links: []
+  reason: 'source-zed-repo: crates/agent/src/agent.rs 的 release_session（1789-1812 行）新增
+    thread.cancel(cx) 并置于 enqueue_save 之前；crates/agent/src/thread.rs 的 cancel（2357-2376
+    行）递归取消子代理后调用 flush_pending_message，后者（4127-4152 行）把 pending 助手消息收尾追加
+    进 messages、刷新 updated_at，并为无结果的工具调用补写 is_error 工具结果（TOOL_CANCELED_MESSAGE）。
+    落盘效果分两种：没有运行中 turn 时刷盘同步发生在入队保存之前，收尾消息进入这一行；有运行中 turn
+    时刷盘在异步取消之后，而会话已从内存表摘除，save_thread（1821-1831 行）查不到会话即返回，该行
+    只保留入队时捕获的状态。这属于 transcripts.lifecycle 的「关闭」时机，未改变任何记录字段、版本号
+    或路径。'
+- topic: configuration
+  question_ids:
+  - config.migration
+  section_ids:
+  - config-defaults-migration
+  surface_ids:
+  - zed
+  source_refs:
+  - ref-zed-config-copilot-enterprise-migration
+  cross_topic_links: []
+  reason: '承接 audit-zed-d0a7dce9 未完成的缺口，本轮无新证据推进：迁移 m_2026_09_29 的触发时机
+    （启动、升级或需要用户确认）在固定来源里仍未给出。本轮 changed paths 不含 crates/migrator/*，
+    all-settings.md 也不描述迁移触发，因此章节与答案保持 v2 现状，问题保持 pending。'
+- topic: native_plugins
+  question_ids:
+  - plugins.package
+  section_ids:
+  - plugins-package
+  surface_ids:
+  - zed
+  source_refs:
+  - ref-zed-plugins-manifest-opt-in-languages
+  cross_topic_links: []
+  reason: '承接 audit-zed-d0a7dce9 未完成的缺口，本轮无新证据推进：扩展清单的 opt_in_languages
+    仍只有源码侧入口，官方文档来源 source-zed-docs-plugins 本轮 hash 未变，仓库内 docs/src/extensions/*.md
+    也未在本轮 changed paths 中，故该问题仍为 partial 并保持 pending。'
+pending_question_ids:
+- config.migration
+- plugins.package
+investigation_notes:
+- 本轮 triage 分类：maintain（worker，固定源码 workspace ws-c66312b200d1-43f14351-0f61-4ace-b0ea-e39443b2046d）。
+- changed paths 40 个；与本产品全部章节引用文件求交集后只有 5 个命中：crates/agent/src/agent.rs（local_transcripts
+  12 条引用）、crates/settings/src/settings_store.rs（configuration 3 条）、crates/acp_thread/src/mention.rs（1
+  条）、crates/agent_ui/src/agent_panel.rs（1 条）、crates/acp_thread/src/acp_thread.rs（1 条）。其余 35
+  个变更路径没有任何章节引用，按「不因文件相邻而引用」排除。
+- 纳入：crates/agent/src/agent.rs 的 release_session 新增取消并置于保存入队之前，Thread::cancel
+  → flush_pending_message 的收尾写入因此成为关闭会话时的可观察落盘行为；进一步核对 save_thread
+  （1821-1831 行）在会话已摘除时直接返回，因此异步刷盘的那部分写入不落盘，正文按两种路径分别写清。
+  新增 zed-local_transcripts-v3 的 transcripts-lifecycle 一段与四条固定在 commit
+  c66312b200d113694fca08c1d468669028a09a0e 的 git_source_file 引用（agent.rs 3dc95af6…、thread.rs
+  83466323…）；其余小节、问题答案与来源逐字保留 v2，锚点与已有定位符不变。
+- 纳入后核对：crates/agent/src/thread.rs 在本轮 diff 中零改动（c66312b 的内容 sha256 与上一轮
+  b47a4ca 快照同为 834663232b7e2edbf1355540fb154d334d4e2f25001af4edcc68882df4f412d2），DbThread
+  字段、VERSION 0.3.0、threads 表 DDL、StreamingSaveKey 与 to_db 契约所在文件均未变，因此 transcripts.schema
+  / transcripts.format / transcripts.database / transcripts.location / transcripts.naming 保持 v2 结论。
+- 排除（configuration）：crates/settings/src/settings_store.rs 的三处 hunk 是新增 VIRTUAL_FONT_NAMES
+  常量并把它并入 JSON schema 的 FontFamilyName enum（1304 行附近），以及两条测试；章节引用的 SettingsFile
+  枚举（168-196 行）、Ord 优先级实现（186-215 行）与 watch_settings_files（353-380 行）三个定位区间在
+  本轮 diff 中零改动，故 config.sources / config.overrides / config.diagnostics 不变。字体别名属编辑器主题域，
+  不属本章登记的 AI 设置面，也不据此扩写章节。
+- 排除（configuration 文档来源）：source-zed-docs-config 的 all-settings.md hash 变化，但上一版原件按保留
+  策略未留存（archive 仅保留 bc098aa3392a 一份），无法逐行 diff。改为逐条核对章节引用的四个定位点在新
+  原件中是否成立：disable_ai（745-750 行，默认 false）、agent.default_width（92-96 行，默认 640）、
+  agent.flexible（98-102 行，默认 true）、theme（5369-5373 行，默认 One Dark）四处摘录逐字未变，故 config.defaults
+  不需改；本轮文档新增或改写的其它设置项不属章节已登记问题，不新建小节。
+- 排除（local_transcripts 其它命中文件）：crates/acp_thread/src/acp_thread.rs 的 805 行改动是本地执行
+  错误上报（local_execution_error）、receipt 提交的重试/取消（supports_retry、SubmissionCancelled）与
+  foreground 活动同步；draft_prompt 与 draft_prompt_revision 仍只出现在构造处 3787 行、读取 3823 行、自增
+  3834 行，ref-zed-lt-draft-prompt-revision 的定位区间未变。crates/acp_thread/src/mention.rs 的两处改动把
+  util::paths::is_absolute 换成 PathStyle::has_root/is_absolute，解析分支与结果形态不变，
+  ref-zed-lt-mention-uri 仍成立。crates/agent_ui/src/agent_panel.rs 只改了 mention_path_for_terminal 的
+  显示拼接（772 行附近），ref-zed-lt-show-thread-metadata 指向的 ShowThreadMetadata（513、3931 行）
+  未变。
+- 排除（其余六个主题）：skills、mcp、hooks、custom_providers、native_plugins、custom_agents 六章引用的机制文件
+  （crates/agent_skills/agent_skills.rs、crates/agent_skills/*、crates/settings_content/src/agent.rs、
+  crates/settings_content/src/language_model.rs、crates/agent_servers/src/{custom.rs,agent_servers.rs}、
+  crates/agent_settings/src/agent_profile.rs、crates/extension/src/*、crates/context_server/src/oauth.rs、
+  crates/task/src/task_template.rs、crates/prompt_store/*、docs/src/ai/*.md、docs/src/extensions/*.md）在本轮
+  40 个 changed paths 中一个都没有出现，七个官方文档来源（除 all-settings.md 外）hash 全部 unchanged，因此
+  agents.*、providers.*、hooks.*、mcp.*、plugins.*、skills.* 全部排除，且不写任何新的软件版本映射。
+- 排除（无关路径，逐项核对后不构成八主题证据）：editor/*、go_to_line、markdown_preview、outline*、
+  project_symbols、debugger_ui、path/*、workspace/*、.github/workflows/*、script/*.py 属编辑器、导航、CI
+  与路径 API 重构；crates/project/*、crates/workspace/src/security_modal.rs 的改动是 is_absolute
+  → PathStyle::is_absolute/has_root 的机械替换与 strip_prefix 结果加 RelPath 包装，
+  TrustedWorktreesStore 的信任存储逻辑（317 行 debug_assert 迁移）与 config.trust 答案无关；
+  crates/agent/src/tools/terminal_tool.rs 只改 resolve_cd_in_worktrees 的路径拼接 API；
+  crates/agent_ui/src/{agent_ui.rs,conversation_view.rs,conversation_view/thread_view.rs} 全是渲染与
+  空状态判定（has_visible_conversation），不写数据库、不改设置键；crates/util/src/paths.rs 删除
+  is_absolute 辅助函数，与数据目录解析（crates/paths/src/paths.rs，本轮未变）无关。
+- pending_question_ids 只保留两项本轮未推进的真实缺口（承接 audit-zed-d0a7dce9）：config.migration 的迁移
+  触发时机、plugins.package 的 opt_in_languages 缺官方文档入口。二者分属 configuration 与 native_plugins，
+  本轮范围与证据都不覆盖，本审计不代为结案，因此 review_status 保持 pending、不写 reviewed_by/reviewed_at。
+- 本轮不建立任何软件版本映射：源码 HEAD（c66312b）只作为来源级固定点，未绑定任何已发布发行包。
+- 独立复核判断：不需要。本轮变化是新增一条有明确源码定位的生命周期陈述，未推翻任何已发布配置步骤，
+  未出现无法由版本/分发/条件解释的来源冲突，也未改变跨主题的设置键加载机制。

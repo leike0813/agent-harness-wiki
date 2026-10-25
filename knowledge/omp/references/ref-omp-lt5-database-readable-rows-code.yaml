@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt5-database-readable-rows-code
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-src-session-history-storage-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/history-storage.ts
+  start: 56
+  end: 67
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/packages/coding-agent/src/session/history-storage.ts#L56-L67
+excerpt: "\treturn `(?${first} IS NULL OR ${table}cwd = ?${first}) AND (?${session} IS NULL OR ${table}session_id = ?${session})`;\n}\n\n/**\n * Rows a reader may hand to callers. A damaged page cross-linked into\n * `history` decodes foreign bytes as rows (BLOB prompts and counters), which\n * would reach the editor as `Uint8Array`s.\n */\nfunction readableRowClause(table: string): string {\n\treturn `typeof(${table}prompt) = 'text' AND typeof(${table}created_at) = 'integer' AND typeof(${table}use_count) = 'integer'`;\n}\n"

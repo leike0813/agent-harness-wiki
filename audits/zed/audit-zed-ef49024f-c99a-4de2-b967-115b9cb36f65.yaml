@@ -1,0 +1,157 @@
+schema_version: 2
+audit_id: audit-zed-ef49024f-c99a-4de2-b967-115b9cb36f65
+harness_id: zed
+checked_at: 2026-10-13T18:04:18.886Z
+previous_audit_id: audit-zed-89b88422-7e27-4d71-b9a7-29859660749a
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-zed-89b88422-7e27-4d71-b9a7-29859660749a
+checks:
+  - source_id: source-zed-repo
+    kind: git_repository
+    checked_at: 2026-10-13T18:04:16.960Z
+    status: changed
+    baseline: c66312b200d113694fca08c1d468669028a09a0e
+    observed: 36682547bea1c3d4fa60c08d341cf60081853941
+    remote_ref: refs/heads/main
+  - source_id: source-zed-docs-skills
+    kind: official_documentation
+    checked_at: 2026-10-13T18:04:16.970Z
+    status: unchanged
+    baseline: 764f294ea53ecfe9220c5033ac805a53dc02607b25a85b63001c57343e2b9038
+    observed: 764f294ea53ecfe9220c5033ac805a53dc02607b25a85b63001c57343e2b9038
+    resolved_url: https://zed.dev/docs/ai/skills.md
+  - source_id: source-zed-docs-mcp
+    kind: official_documentation
+    checked_at: 2026-10-13T18:04:16.971Z
+    status: unchanged
+    baseline: 4b63e4863aff99eac69af64220581c36f8becd856cb3d11fb811f038881615bf
+    observed: 4b63e4863aff99eac69af64220581c36f8becd856cb3d11fb811f038881615bf
+    resolved_url: https://zed.dev/docs/ai/mcp.md
+  - source_id: source-zed-docs-agents
+    kind: official_documentation
+    checked_at: 2026-10-13T18:04:16.972Z
+    status: unchanged
+    baseline: 08b1b98333f1b97d44a5da73d3ccb1f19fa3d62ff3ba80f8303b571a2a21b732
+    observed: 08b1b98333f1b97d44a5da73d3ccb1f19fa3d62ff3ba80f8303b571a2a21b732
+    resolved_url: https://zed.dev/docs/ai/external-agents.md
+  - source_id: source-zed-docs-providers
+    kind: official_documentation
+    checked_at: 2026-10-13T18:04:17.573Z
+    status: unchanged
+    baseline: b164ec181d366233ab55bfef5968c6d0f4c068695e5ccd05b1680829108484b0
+    observed: b164ec181d366233ab55bfef5968c6d0f4c068695e5ccd05b1680829108484b0
+    resolved_url: https://zed.dev/docs/ai/use-api-access.md
+  - source_id: source-zed-docs-hooks
+    kind: official_documentation
+    checked_at: 2026-10-13T18:04:17.741Z
+    status: unchanged
+    baseline: d7b3f034a1df1c84bd557109a8a1cb15db3108d779a859b1e55eb1a4f6097e15
+    observed: d7b3f034a1df1c84bd557109a8a1cb15db3108d779a859b1e55eb1a4f6097e15
+    resolved_url: https://zed.dev/docs/tasks.md
+  - source_id: source-zed-docs-plugins
+    kind: official_documentation
+    checked_at: 2026-10-13T18:04:17.889Z
+    status: unchanged
+    baseline: 146fa9b61c79669517d3b0bc48f78f710cd8918c0e04ed66f664aaf3632298d8
+    observed: 146fa9b61c79669517d3b0bc48f78f710cd8918c0e04ed66f664aaf3632298d8
+    resolved_url: https://zed.dev/docs/extensions/developing-extensions.md
+  - source_id: source-zed-docs-config
+    kind: official_documentation
+    checked_at: 2026-10-13T18:04:17.921Z
+    status: unchanged
+    baseline: bc098aa3392a5e68826cf0764add3a64ebbd12636a673ef1ef5958f1adeb9d88
+    observed: bc098aa3392a5e68826cf0764add3a64ebbd12636a673ef1ef5958f1adeb9d88
+    resolved_url: https://zed.dev/docs/reference/all-settings.md
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.defaults
+    section_ids:
+      - config-defaults-migration
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-config-default-agent
+      - ref-zed-config-default-disable-ai
+      - ref-zed-config-default-session
+    cross_topic_links: []
+    reason: "assets/settings/default.json 本轮只新增 7 行（1478-1484 行新增顶层 tab_switcher 对象，内含 show_file_preview: true），其余 diff 无删改；crates/settings_content/src/settings_content.rs 新增 SettingsContent.tab_switcher 字段（205 行）、把 tab_switcher 加入 flattened_deserialize 名单（408 行）并新增 TabSwitcherSettingsContent（1509-1518 行），该结构与其它设置段一样 derive MergeFrom，因此沿用章节已发布的深合并规则，没有引入新的合并语义。章节 config-defaults-migration 登记的三个默认值定位区间（agent 段、disable_ai、session.trust_all_worktrees）在本轮 diff 中零改动，故 config.defaults 的答案不变；新增键属标签切换器显示行为，不在本章登记的 AI/代理设置面内，不据此扩写章节，也不为它新建小节。"
+  - topic: configuration
+    question_ids:
+      - config.sources
+    section_ids:
+      - config-sources
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-config-config-dir
+      - ref-zed-config-settings-file
+      - ref-zed-config-local-settings
+      - ref-zed-config-settings-file-enum
+    cross_topic_links: []
+    reason: "本轮 changed paths 不含 crates/paths/src/paths.rs、crates/settings/src/settings_store.rs、crates/settings_content/src/merge_from.rs 与 crates/settings_content/src/project.rs，config_dir 解析、SettingsFile 枚举与优先级、MergeFrom 规则、项目设置位置四处来源机制均未被触及。唯一与设置存储相关的改动是 crates/settings/src/vscode_import.rs 236 行在 VsCodeSettings 结构体字面量里补 tab_switcher: None，这是为新增字段补齐构造值，没有新增、删除或改名任何设置来源层级，也不改变 vscode_import 之外的读取路径。"
+  - topic: configuration
+    question_ids:
+      - config.migration
+    section_ids:
+      - config-defaults-migration
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-config-copilot-enterprise-migration
+      - ref-zed-config-user-content
+      - ref-zed-skills-migration
+    cross_topic_links: []
+    reason: "承接 audit-zed-89b88422 未完成的缺口，本轮同样无新证据推进：55 个 changed paths 中不含 crates/migrator/*，没有新增、删除或改写任何 MigrationType::Json 迁移，m_2026_09_29 的 move_copilot_enterprise_uri 及其经 migrate_settings 对渠道/平台/profile 覆盖键的重复搬运保持原样；docs/src/reference/all-settings.md 本轮只补 modeline_lines 条目、修 use_autoclose 锚点并新增 agent.subagent_model 条目，均不描述迁移触发时机。因此迁移的触发时机（启动、升级或需用户确认）在固定来源中仍无答案，config.migration 保持 pending，章节维持 v2。"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+    section_ids:
+      - agents-entry
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-agents-custom-server
+      - ref-zed-agents-custom-settings
+      - ref-zed-agents-custom-read
+    cross_topic_links: []
+    reason: "自定义/外部 agent 的配置面未变：crates/settings_content/src/agent.rs 中 CustomAgentServerSettings 的字段形状（command/path、args、env、default_mode、default_config_options、favorite_config_option_values）在 c66312b 与 36682547 两个提交之间逐字相同，本轮该文件的唯一 diff 是 282-287 行 subagent_model 的文档注释。运行侧 crates/agent_servers/src/custom.rs 的 8 增 4 删全部是把 acp::SessionModeId 换成 acp_v2::SessionConfigValueId（42、52、127-146 行），其中 43-53 行的 default_mode 读取仍是从全局 AllAgentServersSettings 按 agent id 现取、52 行仍把设置字符串包装成 id，145 行写回时仍写字符串；crates/agent_servers/src/agent_servers.rs 61-69 行只是 trait 方法签名换类型。因此注册方式、设置键与读取时机都不变，agents.entry 结论不受影响。"
+  - topic: custom_agents
+    question_ids:
+      - agents.overrides
+    section_ids:
+      - agents-invocation-overrides
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-agents-model-keys
+      - ref-zed-agents-profile-content
+      - ref-zed-agents-profiles-key
+      - ref-zed-agents-doc-boundaries
+    cross_topic_links: []
+    reason: "覆盖机制的代码在本轮未变，改变的只有注释与文档：crates/settings_content/src/agent.rs 282-287 行把 subagent_model 的注释从「未指定时继承父 agent 的模型」扩写为「继承父线程的模型及其 thinking、effort、speed，配置的模型不可用时改用父线程模型」；docs/src/ai/agent-settings.md 159-196 行新增 Subagent Models 小节（含模型选择优先级表），docs/src/ai/tools.md 与 docs/src/reference/all-settings.md 6065-6068 行补同一条目并加交叉链接。对应的实现 crates/agent/src/thread.rs 1386-1393（new_subagent 取 model_selection 或全局 subagent_model）、1498-1507（inherit_parent_settings 复制父线程 speed/thinking_enabled/thinking_effort）、1509-1530（apply_model_selection 在解析失败时 log::warn 后 return，从而保留继承值）在两个提交之间逐字相同，本轮 thread.rs 的 4 增 5 删只涉及 ProcessOutput 与 acp_v2 终端类型。所以已发布的「未设置时继承父 agent 的模型」既未被推翻也未被改写，新文档是对既有实现的补充说明，不是机制变更；agents.overrides 结论不变，章节维持 v1。"
+  - topic: native_plugins
+    question_ids:
+      - plugins.package
+    section_ids:
+      - plugins-package
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-plugins-manifest-opt-in-languages
+    cross_topic_links: []
+    reason: "本轮 worker 的调查范围限定在 configuration 与 custom_agents，未调查该问题；此处仅承接 audit-zed-89b88422 的未完成状态，不作结案。可确认的是本轮 55 个 changed paths 中不含 crates/extension/*、crates/context_server/*，扩展清单的 opt_in_languages 仍只有源码侧入口，source-zed-docs-plugins 的官方文档页面本轮 hash 未变，docs/src/extensions/languages.md 的改动只是把内置语言仓库链接从 crates/languages/src 改为 crates/grammars/src，不涉及清单字段。"
+pending_question_ids:
+  - config.migration
+  - plugins.package
+investigation_notes:
+  - "本轮 triage 分类：narrow_investigation（worker，固定源码 workspace ws-36682547bea1-6f11fdbf-7800-4df7-ac0c-b9650ee7e967，baseline c66312b → observed 36682547，单提交 agent_servers: Route v2 configuration and usage updates #65556，55 files changed）。worker 不重扫来源，只读该 pinned checkout。"
+  - 已检查的入口文件逐个结论：assets/settings/default.json 仅新增 tab_switcher/show_file_preview（1478-1484 行），无删改；crates/settings_content/src/agent.rs 仅 subagent_model 文档注释改写（282-287 行），CustomAgentServerSettings 字段与 AgentSettingsContent 其它键逐字未变；crates/settings_content/src/settings_content.rs 新增一个设置段（205、408、1509-1518 行）；crates/agent_servers/src/agent_servers.rs 仅 trait 的 default_mode/set_default_mode 换 v2 类型（61-69 行）；crates/agent_servers/src/custom.rs 换 v2 类型且设置读写路径不变（42、52、127-146 行）；crates/agent/src/agent.rs 与 crates/agent/src/thread.rs 只换终端/环境变量类型，thread.rs 的子代理模型继承三处函数逐字未变；crates/acp_thread/src/acp_thread.rs 的 358 行改动为 v1/v2 会话与终端类型路由（ModeUpdated 事件类型、ProcessOutput、meta 键），不触及 agent_servers 设置读取。
+  - 对决定性问题的明确回答一（是否改变已登记设置）：没有改名、没有迁移、没有默认值变更，也没有 scope/优先级变更；唯一的登记项变化是一个新增键 tab_switcher.show_file_preview（默认 true），它位于 UI 标签切换器域，不在本产品八个主题的任一固定问题所问的配置面上，因此不构成任何已发布答案的变更，也未新建章节版本。
+  - 对决定性问题的明确回答二（是否改变自定义/外部 agent 的配置或覆盖方式）：设置面不变——CustomAgentServerSettings 的键与形状未变，custom.rs 仍从 AllAgentServersSettings 按 id 现取现写 default_mode 与 favorite_config_option_values；变的是内部 Rust/协议类型（ACP v1 SessionModeId → v2 SessionConfigValueId）以及 v1 模式经新增的 mode_from_v1（crates/agent_servers/src/acp.rs 8777-8786 行，保留 id/name/description/meta）投影成 v2 选择项的显示路径。已发布的覆盖规则（profile 层 + agent.default_model/subagent_model/default_profile/profiles，外部 agent 只有 agent_servers 条目可控）未被推翻。
+  - 来源不能保证的部分：docs/src/ai/agent-settings.md 的 Subagent Models 小节与 all-settings.md 的 Subagent Model 条目是文档侧描述，本轮未获得任何运行观测（例如 speed 省略后实际请求里 effort/speed 的取值）；已核到的是 thread.rs 1498-1530 的静态继承逻辑，文档关于「省略 effort 不继承父线程 effort」「省略 speed 保持未指定」的表述与该代码不矛盾但本轮无独立验证。此外 3668254 只是源码 HEAD，未绑定任何已发布发行包，本轮不建立任何软件版本映射。
+  - 排除（UI，任务约定记录但不展开）：crates/agent_ui/src/conversation_view.rs（196 增 33 删，线程视图与会话更新渲染）、crates/agent_ui/src/conversation_view/thread_view.rs、crates/agent_ui/src/entry_view_state.rs、crates/agent_ui/src/mode_selector.rs（把 SessionMode 换成 SessionConfigSelectOption 并按 mode.value 比较选中态，UI 层类型适配，持久化仍走 agent_server.set_default_mode 写入同一 default_mode 字符串）。
+  - 排除（其余 changed paths，逐项核对不构成本轮五问证据）：crates/agent_servers/src/acp.rs 1796 增 211 删与新增 crates/agent_servers/src/acp/session_updates.rs（v2 会话通知入口，不读写设置，已核到该文件 197 行内无 settings/agent_servers 引用）；crates/agent_servers/src/acp.rs 内 apply_default_config_options（基线 1388-1477 行、观察 1445-1534 行）与 config_state（基线 7244-7259 行、观察 8754-8769 行）经逐行比对与基线完全相同；crates/acp_thread/src/connection.rs、crates/acp_thread/src/terminal.rs、crates/agent/src/tools/terminal_tool.rs、crates/agent/src/tests/mod.rs 为终端与测试的类型迁移；crates/anthropic/src/{anthropic,completion}.rs 为 Claude 新模型的 thinking/adaptive 判定；crates/copilot_chat/src/model.rs 为 anthropic thinking 变体判定；crates/audio/src/audio_pipeline.rs、crates/project_panel/src/{project_panel,project_panel_tests}.rs、crates/svg_preview/src/svg_preview_view.rs、crates/tab_switcher/src/{tab_switcher,tab_switcher_tests}.rs、crates/terminal_view/src/{terminal_view,terminal_element}.rs 为音频设备、项目面板 SVG 预览、标签切换器行为与终端内边距；crates/extension_suggest/{Cargo.toml,LICENSE-*} 为许可证与新增依赖；docs/src/{ai/edit-prediction,completions,development/release-notes,extensions/languages,git,key-bindings,languages*,repl,vim}.md 为文档措辞与链接修正；extensions/README.md 为说明文字。
+  - 独立复核判断：不需要独立 reviewer。本轮没有改变任何已发布机制（见上），未推翻任何已发布配置步骤，未出现无法由版本/分发/条件解释的来源冲突，也没有跨主题的加载或覆盖机制变化；audit-zed-89b88422 的两个未完成问题（config.migration 的迁移触发时机、plugins.package 的 opt_in_languages 文档入口）本轮都无新证据，按契约保持 pending，不因本审计而结案。

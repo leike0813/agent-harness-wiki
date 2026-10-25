@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt5-lifecycle-symlink-publish-code
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-src-session-session-storage-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-storage.ts
+  start: 39
+  end: 57
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/packages/coding-agent/src/session/session-storage.ts#L39-L57
+excerpt: "/**\n * The file a rewrite must land in: the referent when `fpath` is a symlink.\n *\n * A rewrite stages a body beside the path and renames it over it, which\n * replaces a symlink rather than the transcript it points at. A transcript\n * staged into `--session-dir` as a symlink would then stop being one: the\n * staged file would keep every turn before the rewrite while a new regular\n * file beside it took the rest, and losing the staging directory would lose\n * them (#15878). Appends need none of this — they write through an open\n * descriptor, which follows the link.\n */\nexport function sessionPublishTarget(fpath: string): string {\n\ttry {\n\t\tif (fs.lstatSync(fpath).isSymbolicLink()) return fs.realpathSync(fpath);\n\t} catch {\n\t\t// Not there, or not readable: the publish's own checks report tha…"

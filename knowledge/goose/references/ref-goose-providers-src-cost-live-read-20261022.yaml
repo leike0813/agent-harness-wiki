@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-cost-live-read-20261022
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261022-canonical-cost
+locator:
+  kind: file_lines
+  file: crates/goose/src/providers/canonical_cost.rs
+  start: 145
+  end: 152
+official_url: "https://github.com/block/goose/blob/6835dd45a21a701b017abe38aa4204e18fed9213/crates/goose/src/providers/canonical_cost.rs"
+excerpt: |2-
+  /// Read the custom provider config file for `provider` from disk. Reads are
+  /// live: price edits take effect without a restart.
+  fn custom_file_model_info(provider: &str, model: &str) -> Option<ModelInfo> {
+      let path = custom_provider_file_path(provider).ok()?;
+      if !path.exists() {
+          return None;
+      }

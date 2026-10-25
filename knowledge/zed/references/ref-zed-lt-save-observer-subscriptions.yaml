@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-lt-save-observer-subscriptions
+harness_id: zed
+snapshot_id: snapshot-zed-agent-rs-5030407
+locator:
+  kind: file_lines
+  file: crates/agent/src/agent.rs
+  start: 1012
+  end: 1044
+official_url: "https://github.com/zed-industries/zed"
+excerpt: |-
+  let subscriptions = vec![
+      cx.subscribe(&thread_handle, Self::handle_thread_title_updated),
+      cx.subscribe(&thread_handle, Self::handle_thread_token_usage_updated),
+      cx.subscribe(
+          &thread_handle,
+          |this, thread, _: &crate::thread::CancellationRequested, cx| {
+              this.cancel_session(thread.read(cx).id());
+          },
+      ),
+      cx.observe(&thread_handle, move |this, thread, cx| {
+          this.save_thread(thread, cx)
+      }),

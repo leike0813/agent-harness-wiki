@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-skills-command-20261022
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-skill-command-20261022
+locator:
+  kind: file_lines
+  file: cli/src/commands/command-registry.ts
+  start: 846
+  end: 905
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |2-
+  /**
+   * Creates a dynamic command definition for a skill.
+   * When invoked, the skill's content is sent to the agent.
+   */
+  function createSkillCommand(skillName: string): CommandDefinition {
+    return defineCommandWithArgs({
+      name: skillName,
+      handler: (params, args) => {
+        const skill = getSkillByName(skillName)

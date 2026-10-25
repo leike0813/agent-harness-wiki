@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-model-cache-handler-dispatch
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-src-src-api-providers-fetchers-modelcache-1d3
+locator:
+  kind: file_lines
+  file: src/api/providers/fetchers/modelCache.ts
+  start: 191
+  end: 202
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/1d37994661f43b9105d731dfafe6161ad0c2e97a/src/api/providers/fetchers/modelCache.ts"
+excerpt: |2
+   * @returns Fresh models from the provider API
+   */
+  async function fetchModelsFromProvider(
+  	options: GetModelsOptions,
+  	handler: ApiHandler,
+  	signal?: AbortSignal,
+  ): Promise<ModelRecord> {
+  	const { provider } = options
+  	if (!handler.fetchModels) {
+  		throw new Error(`Provider ${provider} does not expose a dynamic model catalog`)
+  	}
+  	return handler.fetchModels(options, signal)

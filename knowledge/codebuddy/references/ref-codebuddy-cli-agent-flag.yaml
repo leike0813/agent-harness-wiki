@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuddy-cli-agent-flag
+harness_id: codebuddy
+snapshot_id: snapshot-codebuddy-docs-cli-reference-20261022
+locator:
+  kind: file_lines
+  file: docs/cli-reference.md
+  start: 95
+  end: 95
+official_url: https://cnb.cool/codebuddy/codebuddy-code
+excerpt: '| `--agent`                        | 本进程新会话的主 Agent（TUI / `--serve` Web / ACP）。内置：`cli`、`ptc`、`minimal`、`create`，或自定义 agent 名。`multitask` **不是**站立 mode，只开 overlay（工具面走协调器，picker 身份仍是当前 mode）。**极简站立不能开 overlay**。压过 `codebuddy.mainAgent.lastUsed`，**不写入** `codebuddy.mainAgent.default` 或 settings `agent`。交互 TUI 在没有任何选择记录时默认 PTC，想使用标准模式请显式 `cli`。TUI 运行中用 [`/agent-mode`](./slash-commands.md) 切换（仅空白会话）。`multitask` **只允许交互 TUI**（stdout+stdin 都是 TTY）；与 `-p` / stream-json / `--acp` / `--serve` / 管道 stdin 互斥，进程非 0。ACP 宿主改走 [`session/set_config_option`](./acp.md#multitask-协调器)（`configId=multitask`）。对照表见 [Web UI](./web-ui.md#serve-启动-模式与权限) | `codebuddy --agent multitask`                                                                      |'

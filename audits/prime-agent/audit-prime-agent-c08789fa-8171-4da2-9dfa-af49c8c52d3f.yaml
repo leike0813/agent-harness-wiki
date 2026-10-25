@@ -1,0 +1,26 @@
+schema_version: 2
+audit_id: audit-prime-agent-c08789fa-8171-4da2-9dfa-af49c8c52d3f
+harness_id: prime-agent
+checked_at: "2026-10-14T18:03:42.380Z"
+previous_audit_id: audit-prime-agent-5afda806-f11e-4ece-940b-312b4624acc5
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-prime-agent-fe998a91-5291-4f0c-8bbc-45887d1f607b
+  - audit-prime-agent-1f7dab30-5252-4281-99c4-6a1fb619a7c2
+  - audit-prime-agent-cf6c932e-dba3-46e7-86c7-83ac66ea49d4
+  - audit-prime-agent-5afda806-f11e-4ece-940b-312b4624acc5
+checks:
+  - source_id: source-prime-agent-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:03:40.885Z"
+    status: changed
+    baseline: cf119a7a8c86a2c86d927cae79ed1eec03b07a91
+    observed: 791ce3d8f93aa863af63271e4646e46e38032a86
+    remote_ref: refs/heads/main
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "本轮状态：本产品已完成协调者的只读观察与语义 triage，来源证据已固定（Git 工作区已按观察到的 commit 打开并保留），但**本轮没有执行 maintenance 派发**。上述限定范围、问题清单与已固定的来源入口是下一轮可直接接续的工作面，不是已完成结论。review_status 保持 pending，pending_audit_refs 保持不变；不得因本轮无候选产物而视为已结案。"
+  - "maintain。source-prime-agent-repo cf119a7a..791ce3d8f 命中 crates/pa-daemon/src/worker/commands.rs（+142/-?）与 crates/pa-cli/src/print_runtime.rs。"
+  - "worker/commands.rs 的改动量集中在命令分发，限定在 mcp 与 custom_agents 主题派发。"

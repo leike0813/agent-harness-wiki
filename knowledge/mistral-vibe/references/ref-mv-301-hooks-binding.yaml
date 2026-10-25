@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-hooks-binding
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_hook_config.py
+  start: 63
+  end: 103
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  def compile_foreign_hooks(
+      definitions: Sequence[ForeignHookDefinition],
+      *,
+      tool_catalog: Callable[[], object] | None = None,
+  ) -> CompiledHooks:
+      """Compile ``definitions`` into shared Core bindings and Runtime handlers.
+
+      Every declaration produces a binding, so no hook can compile to something that never
+      fires: a tool-scoped ``match`` binds ``always`` and is applied at call time inside
+      the handler (see :mod:`._hook_matcher`).
+  ...
+          bindings.append(
+              RustHarnessHookBinding(
+                  id=bid, point=core_point, order=definition.order, selector=selector
+              )
+          )

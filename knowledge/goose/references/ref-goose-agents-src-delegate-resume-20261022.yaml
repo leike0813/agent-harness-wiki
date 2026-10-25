@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-delegate-resume-20261022
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261022-summon
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/platform_extensions/summon.rs
+  start: 886
+  end: 902
+official_url: "https://github.com/block/goose/blob/6835dd45a21a701b017abe38aa4204e18fed9213/crates/goose/src/agents/platform_extensions/summon.rs"
+excerpt: |2-
+  async fn resume_subagent(
+      &self,
+      subagent_id: &str,
+      instructions: Option<String>,
+      parent_id: &str,
+  ) -> Result<CallToolResult, String> {
+      let session_manager = &self.context.session_manager;
+      let subagent = session_manager
+          .get_session(subagent_id, true)
+          .await
+          .map_err(|e| format!("Failed to load subagent {subagent_id}: {e}"))?;
+      if subagent.session_type != SessionType::SubAgent
+          || subagent.parent_session_id.as_deref() != Some(parent_id)
+      {
+          return Err(format!(
+              "Subagent {subagent_id} does not belong to this session"
+          ));
+      }

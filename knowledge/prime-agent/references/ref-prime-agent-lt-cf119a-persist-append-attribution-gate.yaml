@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-cf119a-persist-append-attribution-gate
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-cf119a-crates-pa-daemon-src-session-store-write-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_store/write.rs
+  start: 29
+  end: 36
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/cf119a7a8c86a2c86d927cae79ed1eec03b07a91/crates/pa-daemon/src/session_store/write.rs
+excerpt: |
+      /// Persist only the newly appended creation records on a resumed file.
+      pub(crate) fn persist_appended(&self, start: usize) -> Result<()> {
+          anyhow::ensure!(
+              self.child_usage_recovery.pending.is_none(),
+              "confirm unresolved attribution before persisting appended rows"
+          );
+          let mut bytes = Vec::new();

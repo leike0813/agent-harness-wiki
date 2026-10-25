@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-8aac-index-chain
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-8aac-crates-pa-daemon-src-session-store-index-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_store/index.rs
+  start: 110
+  end: 121
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/8aac8692456c00c01d4e53e60e6d3347a3506559/crates/pa-daemon/src/session_store/index.rs
+excerpt: |2
+      /// The one place an entry joins the index: its `by_id` slot, its chain link, and the leaf.
+      /// The link resolves the parent at push time; a parent not indexed yet starts a new chain
+      /// (strict [`Self::branch`] stops at a missing parent too).
+      pub(crate) fn index_entry(&mut self, entry: SessionEntry) {
+          let position = self.entries.len();
+          let link = match entry
+              .parent_id
+              .as_deref()
+              .and_then(|id| self.by_id.get(id).copied())
+          {
+              Some(parent) => {
+                  let up = self.chain[parent];

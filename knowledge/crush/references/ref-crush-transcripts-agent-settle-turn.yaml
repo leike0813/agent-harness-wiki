@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-agent-settle-turn
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261022-internal-agent-agent-go
+locator:
+  kind: file_lines
+  file: internal/agent/agent.go
+  start: 1133
+  end: 1148
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  	// Final writes use a context detached from the run: workspace shutdown
+  	// cancels ctx before agent goroutines finish, and the turn's ending
+  	// must still land.
+  	cleanupCtx, cleanupCancel := context.WithTimeout(context.WithoutCancel(ctx), 5*time.Second)
+  	defer cleanupCancel()
+  	if currentAssistant != nil {
+  		answered := func(id string) bool {
+  			_, ok := answeredToolCalls.Get(id)
+  			return ok
+  		}
+  		if settleErr := a.settleTurn(cleanupCtx, currentAssistant, answered, err); settleErr != nil {
+  			slog.Error("Failed to settle unanswered tool calls",
+  				"session_id", call.SessionID, "error", settleErr)
+  		}
+  	}

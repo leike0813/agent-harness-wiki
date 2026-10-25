@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-m63-src-export-filename
+harness_id: autohand
+snapshot_id: snapshot-autohand-m63-src-session-exportsession-ts
+locator:
+  kind: symbol
+  file: src/session/exportSession.ts
+  symbol: getSuggestedFilename
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  export function getSuggestedFilename(
+    metadata: SessionMetadata,
+    format: 'md' | 'json' | 'html'
+  ): string {
+    const date = new Date(metadata.createdAt);
+    const dateStr = date.toISOString().split('T')[0];
+    const projectSlug = redactSensitiveText(metadata.projectName).toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const sessionShort = metadata.sessionId.slice(0, 8);
+
+    return `${projectSlug}-${dateStr}-${sessionShort}.${format}`;
+  }

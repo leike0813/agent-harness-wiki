@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-goose-mode-claude-code-20261013
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261013-claude-code-provider
+locator:
+  kind: file_lines
+  file: crates/goose/src/providers/claude_code.rs
+  start: 349
+  end: 357
+official_url: "https://github.com/block/goose"
+excerpt: |-
+  /// Returns true when the control protocol is enabled.
+  fn apply_permission_flags(cmd: &mut Command) -> Result<bool, ProviderError> {
+      let config = Config::global();
+      let goose_mode = config
+          .resolve_goose_mode()
+          .map_err(|error| ProviderError::RequestFailed(error.to_string()))?;
+
+      match goose_mode {
+          GooseMode::Auto => {

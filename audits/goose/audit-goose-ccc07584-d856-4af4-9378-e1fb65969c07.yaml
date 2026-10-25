@@ -1,0 +1,102 @@
+schema_version: 2
+audit_id: audit-goose-ccc07584-d856-4af4-9378-e1fb65969c07
+harness_id: goose
+checked_at: "2026-10-12T18:50:22.136Z"
+previous_audit_id: audit-goose-537724fa-d717-49b0-a16d-29c16cb111c1
+status: changed
+review_status: reviewed
+reviewed_by: harness-maintenance worker (MiniMax-M3.1-Flash-Preview)
+reviewed_at: '2026-10-13T00:00:00.000Z'
+pending_audit_refs: []
+checks:
+- source_id: source-goose-repo
+  kind: git_repository
+  checked_at: "2026-10-12T18:50:20.518Z"
+  status: changed
+  baseline: 3bd852002903e016ff30947e973f76e2fcfcf90f
+  observed: 4617040c7b650b37d599bdaa08d3790572c19ae8
+  remote_ref: refs/heads/main
+- source_id: source-goose-npm
+  kind: npm_registry
+  checked_at: "2026-10-12T18:50:20.527Z"
+  status: unchanged
+  baseline: 1.54.0@sha512-Y7whBgcYRn7cvXFs7B5h34iCtmRPkxchrgUskuVu4+YjIv7zQYj9ooSVbOzwE1p4zbMlJO6yFERwbPDSdj+rrQ==
+  observed: 1.54.0@sha512-Y7whBgcYRn7cvXFs7B5h34iCtmRPkxchrgUskuVu4+YjIv7zQYj9ooSVbOzwE1p4zbMlJO6yFERwbPDSdj+rrQ==
+impacts:
+- topic: configuration
+  question_ids:
+  - config.runtime
+  - config.defaults
+  - config.diagnostics
+  section_ids:
+  - config-runtime
+  - config-defaults
+  - config-diagnostics
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-goose-config-src-goose-mode-strict
+  - ref-goose-config-src-goose-mode-default
+  - ref-goose-config-src-goose-mode-resolve-20261013
+  - ref-goose-config-src-goose-mode-resolve-test-20261013
+  - ref-goose-providers-src-goose-mode-claude-code-20261013
+  - ref-goose-providers-src-goose-mode-codex-acp-20261013
+  - ref-goose-config-src-getparam
+  cross_topic_links:
+  - providers.entry
+  - providers.auth
+  - mcp.exposure
+  reason: crates/goose/src/config/base.rs 在 4617040c 新增 Config::resolve_goose_mode：只把 ConfigError::NotFound
+    换成 GooseMode::Auto，其余错误（GOOSE_MODE 环境变量或配置文件值非法、文件读取失败）原样上抛；同轮 claude_code.rs 与 codex_acp/amp_acp/claude_acp/copilot_acp/pi_acp
+    全部改用它，codex_acp.rs 内的同名私有函数被删除。这是已发布 GOOSE_MODE 默认值链的机制变更，直接改写 config-runtime、config-defaults 与 config-diagnostics。
+- topic: custom_providers
+  question_ids:
+  - providers.entry
+  - providers.models
+  section_ids:
+  - providers-entry
+  - providers-models
+  surface_ids:
+  - cli
+  source_refs:
+  - ref-goose-providers-src-declarative-registry-20261013
+  - ref-goose-providers-src-declarative-enumeration-test-20261013
+  - ref-goose-providers-src-aigateway-definition-20261013
+  - ref-goose-providers-src-register
+  - ref-goose-providers-src-dynamic-models
+  cross_topic_links:
+  - config.sources
+  reason: crates/goose-providers/src/declarative.rs 的 expose_declarative_providers! 清单新增 aigateway，并新增
+    definitions/aigateway.json。据此在源码侧确立内置声明式 provider 的定义位置（FIXED_PROVIDERS include_dir! 编译 crates/goose-providers/src/declarative/definitions）与“枚举集合必须等于目录内全部
+    .json”的一致性测试，关闭 providers-entry 中“内置目录 JSON 位置只能按文档链接记录”的既有缺口；aigateway.json 同时是 dynamic_models 与第一方字段组合的实例，进入
+    providers-models。
+pending_question_ids: []
+investigation_notes:
+- 本轮 triage 分类：maintain。观察冻结为 source-goose-repo 3bd852002903 → 4617040c7b65（21 个路径），source-goose-npm 仍为
+  1.54.0（版本与 integrity 均未变，不构成知识线索，也不从仓库 HEAD 造版本映射）。
+- 'configuration（已交付，新建 goose-cli-configuration-v3）：config/base.rs 只新增了 Config::resolve_goose_mode 一个函数与其两个单元测试，没有新增/删除
+  config_value! 键，也没有改动 merge/sources-order/set_param/secret/migrations 任何一条既有链路——diff 逐行确认其余 39 行为纯新增测试。GOOSE_MODE
+  的读取顺序（环境变量按 JSON 解析 → 合并后配置文件 → NotFound）、键级无默认值、GooseMode::Auto 带 #[default] 三条已发布结论仍然成立，因此 config.sources、config.overrides、config.trust、config.migration
+  未受影响，未延长。真正变化的是“缺失与写错被区别对待”：写错值在 Claude Code 与各 ACP provider 上从“静默按 Auto 启动”变为构造失败，故 config.runtime、config.defaults、config.diagnostics
+  三题改写，config.runtime/config.diagnostics 仍为 partial（环境变量清单未逐键核对、doctor 检查项未追进会话层）。'
+- 跨主题扩展的判断：GOOSE_MODE 只在 configuration 章节被直接陈述；custom_providers 章节讲的是 provider 定义/凭据/协议/模型，不陈述 GOOSE_MODE
+  的默认值链，因此不因同一键而延长（其本章变化来自另一处证据，见下条）。mcp 章节只按官方文档陈述权限模式 auto/approve/chat/smart_approve 的界面含义，不陈述 resolve_goose_mode
+  这一取值入口，且本轮无 otel/ACP 机制进入该章节的问题范围，故同样未延长。
+- custom_providers（已交付，新建 goose-cli-custom_providers-v3）：declarative.rs 的宏清单新增 aigateway，definitions/aigateway.json
+  为新增文件（97 行）。providers.entry 此前把“内置目录 JSON 的实际位置”记为只能按文档链接的缺口，本轮由 FIXED_PROVIDERS 的 include_dir! 与 fixed_provider_config_entries()
+  的一致性测试在源码侧确立，并给出 aigateway 作为第一方字段实例，故 providers.entry 与 providers.models 改写。providers.auth/protocol/forwarding/responses/diagnostics
+  未延长：aigateway.json 只使用章节已列出的字段（engine/api_key_env/base_url/catalog_provider_id/dynamic_models/models[]），没有新增字段或新的凭据路径；supports_vision
+  那条链在本轮两个文件里均无改动，相关结论继续绑定 3bd85200 的证据。
+- 排除（经逐个文件核对后确认不调查）：crates/goose-agent/src/inference.rs 与 crates/goose/src/agents/state_machine/ops_steer.rs。两者都只改“工具批准未决时不再发起推理
+  / steer 不再适用”的门控条件（新增 has_open_tool_approval、awaits_tool_responses 判定），八主题中只有 custom_agents 与之相邻，而该章节陈述的是
+  subagent/recipe/delegate 的定义与委派链，不陈述主会话的工具批准门控；本轮也无从把该门控接到某道固定问题的答案上，故不新建 edition，仅在此记录入口与缺口。
+- 排除：crates/goose/src/agents/mcp_client.rs、crates/goose/src/otel/{mod.rs,trace_context.rs}、crates/goose/src/acp/server.rs。真实变化是
+  call_tool 请求的 _meta 注入 W3C traceparent/tracestate（仅在 otel cargo feature 开启时；crates/goose/Cargo.toml
+  的 default = []，otel 只在 portable-default 里），以及 ACP prompt 侧从客户端 _meta 抽取并保持该上下文。mcp 章节的固定问题覆盖配置入口、定义字段、传输、认证、生命周期、能力与可见性、诊断入口，不覆盖请求级追踪元数据；这不是对已发布结论的推翻，按最小可验证范围本轮不新建
+  mcp edition。
+- 排除：crates/goose-test-support/src/mcp.rs 与 crates/goose/tests/*、state_machine/tests/* 新增测试。它们只是上述 otel
+  门控与批准门控的测试，不产生新的面向用户机制。documentation/src/pages/index.tsx 只把首页统计从 45k+/500+ 改为 55k+/600+，与任何固定问题无关。
+- 本轮新增 5 个 git_source_file artifact、5 个对应 source_revision snapshot（提交 4617040c）与 7 条引用；未新增软件版本映射（源码提交不能证明
+  npm 1.54.0 的发布版行为，per skill 第 4 节）。
+- 独立复核判断：不需要。三项高影响判据都不成立——来源之间无冲突（同一提交的源码与其自带单元测试互相印证）；GOOSE_MODE“缺失→Auto”的已发布结论没有被推翻，只是新增了“写错→失败”的边界，未推翻任何读者配置步骤；本轮没有跨主题关键加载机制改变（config/base.rs
+  的键加载器、合并顺序与写入目标逐行未变，新增的只是 GOOSE_MODE 的一个取值包装）。作者自检已逐条核对 source ref 的定位行与提交绑定。

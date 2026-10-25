@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-config-sources
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/harness_files/_harness_manager.py
+  start: 85
+  end: 107
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      def project_source_enabled(self) -> bool:
+          """True when the project layer is eligible for this cwd."""
+          return "project" in self.sources and not self.cwd_is_user_config_home
+  ...
+      def config_file(self) -> Path | None:
+          workdir = self._trusted_workdir
+          if workdir is not None:
+              candidate = workdir / ".vibe" / "config.toml"
+              if candidate.is_file():
+                  return candidate
+          if "user" in self.sources:
+              return VIBE_HOME.path / "config.toml"

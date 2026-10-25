@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-providers-metadata-systemone-compat
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261022-ai-src-providers-compat-schema-ts
+locator:
+  kind: file_lines
+  file: packages/ai/src/providers/compat-schema.ts
+  start: 524
+  end: 537
+official_url: https://github.com/earendil-works/pi/blob/be14d9732f98fcc33929cf103a92b96afaa6523e/packages/ai/src/providers/compat-schema.ts
+excerpt: |-
+  export const SystemOneCompatSchema = Type.Object(
+  	{
+  		imageInput: Type.Optional(
+  			Type.Union([Type.Literal("assets"), Type.Literal("images"), Type.Literal("state-image-urls")], {
+  				description:
+  					'How the service takes classifier images. … Classifier models read it from the provider-level compat; models and modelOverrides entries apply to chat models only.',
+  			}),
+  		),
+  		sendImageOptInHeader: optionalCompatBoolean({
+  			description:
+  				"Whether requests with images send the TypeSafe-Danger-Zone-Images: true header … Defaults to true for the typesafe-system-one API unless the model is detected as OpenRouter.",
+  		}),
+  	},
+  	{ description: "Compatibility settings for System One classifier APIs.", additionalProperties: true },
+  );

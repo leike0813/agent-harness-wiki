@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-8aac-compaction-threshold-getter
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-8aac-crates-pa-core-src-settings-interactive-settings-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/interactive_settings.rs
+  start: 26
+  end: 35
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/8aac8692456c00c01d4e53e60e6d3347a3506559/crates/pa-core/src/settings/interactive_settings.rs
+excerpt: |2
+      /// The percentage ceiling for automatic compaction (default 95%).
+      #[must_use]
+      pub fn get_compaction_threshold_percent(&self) -> f64 {
+          self.settings()
+              .compaction
+              .as_ref()
+              .and_then(|settings| settings.threshold_percent)
+              .filter(|percent| pa_types::compaction::is_valid_threshold_percent(*percent))
+              .unwrap_or(crate::session_engine::compaction::DEFAULT_THRESHOLD_PERCENT)
+      }

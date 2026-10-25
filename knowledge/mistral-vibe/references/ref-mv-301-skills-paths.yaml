@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-skills-paths
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/harness_files/_harness_manager.py
+  start: 148
+  end: 180
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      @property
+      def user_skills_dirs(self) -> list[Path]:
+          if "user" not in self.sources:
+              return []
+          return [
+              d
+              for d in (GLOBAL_SKILLS_DIR.path, GLOBAL_AGENTS_SKILLS_DIR.path)
+              if d.is_dir()
+          ]
+
+  ...
+      def _collect_project_roots(self) -> LocalConfigDirs:
+          result = LocalConfigDirs()
+          for root in self.project_roots:
+              result |= find_local_config_dirs(root)
+          return result
+
+      @property
+      def project_tools_dirs(self) -> list[Path]:
+          return list(self._collect_project_roots().tools)

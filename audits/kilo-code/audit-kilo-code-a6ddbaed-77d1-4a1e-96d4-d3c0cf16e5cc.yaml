@@ -1,0 +1,160 @@
+schema_version: 2
+audit_id: audit-kilo-code-a6ddbaed-77d1-4a1e-96d4-d3c0cf16e5cc
+harness_id: kilo-code
+checked_at: 2026-10-22T12:54:38.524Z
+previous_audit_id: audit-kilo-code-a24ae2b5-8893-4cbf-b159-df299f59ffee
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-kilo-code-7daf232a-2d3e-4dae-b574-57255b32c9ee
+  - audit-kilo-code-a24ae2b5-8893-4cbf-b159-df299f59ffee
+checks:
+  - source_id: source-kilo-code-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:54:34.732Z
+    status: changed
+    baseline: 4ee8d1b3b1f8cadefa925c9959dcbda7f87100da
+    observed: e08cc5429ae10c2e9ee106c1274edf627e02644d
+    remote_ref: refs/heads/main
+  - source_id: source-kilo-code-npm
+    kind: npm_registry
+    checked_at: 2026-10-22T12:54:34.742Z
+    status: changed
+    baseline: 7.8.8@sha512-kL9LPPAghiD2mpWjbmdKsgVB18vApI60pQ5wb6gaeuYhXezw6K+IGGRDA8Fw664039kJ0k+BkYZSXUhcq+/5Ww==
+    observed: 7.8.15@sha512-vLfP64MSNZkIDrTPY/2GZwWiNnkM0/nDN+mNO6TamAYaGpjnDe2uRnDCdIo4PV/RAO1aevPeBY8vfaaZ0BUdbA==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.diagnostics
+    section_ids:
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-cli-config-cmd
+      - ref-kilo-code-cli-debug-config
+      - ref-kilo-code-cli-slash
+      - ref-kilo-code-cli-global-options
+      - ref-kilo-code-config-src-warnings-reserved
+      - ref-kilo-code-config-src-command-reserved
+    cross_topic_links:
+      - agents.invocation
+      - agents.diagnostics
+      - mcp.capabilities
+      - skills.diagnostics
+    reason: 已核对 docs 行号漂移与配置源码未变，`kilo config check` / `kilo debug config` /
+      `/reload` 机制不变，答案维持；已发布引用固定在其快照提交，不因新提交行号移位而失效。
+  - topic: custom_agents
+    question_ids:
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - custom-agents-overrides
+      - custom-agents-limits
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-agents-override
+      - ref-kilo-code-agents-precedence
+      - ref-kilo-code-agents-permissions
+      - ref-kilo-code-agents-src-merge
+      - ref-kilo-code-agents-options
+      - ref-kilo-code-agents-model-selection-doc
+      - ref-kilo-code-agents-src-task-resolve-doc
+      - ref-kilo-code-agents-src-task-resolve-logic
+      - ref-kilo-code-agents-what
+      - ref-kilo-code-agents-invoke
+      - ref-kilo-code-agents-src-task
+      - ref-kilo-code-agents-src-task-usage
+      - ref-kilo-code-agents-src-task-usage-text
+      - ref-kilo-code-agents-src-task-ceiling-doc
+      - ref-kilo-code-agents-src-task-inherited
+      - ref-kilo-code-agents-src-allowlist
+      - ref-kilo-code-agents-src-task-edit-tests
+      - ref-kilo-code-agents-src-task-refresh
+      - ref-kilo-code-agents-src-task-resume
+      - ref-kilo-code-cli-slash
+      - ref-kilo-code-cli-agent-cmd
+    cross_topic_links:
+      - config.diagnostics
+      - mcp.capabilities
+      - skills.diagnostics
+    reason: packages/opencode/src/kilocode/tool/task.ts 改动委派权限上限的 edit
+      规则集与恢复时的上限合并，packages/opencode/src/tool/task.ts 改调用 KiloTask.refresh，新增
+      permission/allowlist.ts 区分允许列表基线与一刀切拒绝；已新建 custom_agents edition v5。
+  - topic: mcp
+    question_ids:
+      - mcp.lifecycle
+      - mcp.diagnostics
+    section_ids:
+      - mcp-lifecycle
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-runtime-entries
+      - ref-kilo-code-mcp-src-timeout
+      - ref-kilo-code-mcp-src-connect-timeout
+      - ref-kilo-code-mcp-src-status
+      - ref-kilo-code-cli-mcp-cmd
+      - ref-kilo-code-mcp-src-finalizer
+      - ref-kilo-code-mcp-src-instance-ttl
+      - ref-kilo-code-mcp-src-instance-cache
+      - ref-kilo-code-mcp-src-cleanup-doc
+      - ref-kilo-code-mcp-src-cleanup-body
+      - ref-kilo-code-mcp-src-remote-fetch
+      - ref-kilo-code-mcp-src-refresh
+      - ref-kilo-code-mcp-src-refresh-attempt
+      - ref-kilo-code-mcp-src-refresh-request
+      - ref-kilo-code-mcp-src-oauth-guard
+      - ref-kilo-code-mcp-src-invalidate
+      - ref-kilo-code-mcp-src-invalidation
+      - ref-kilo-code-mcp-src-oauth-invalidate
+      - ref-kilo-code-cli-mcp-auth-cmd
+      - ref-kilo-code-mcp-manage
+      - ref-kilo-code-mcp-src-auth
+      - ref-kilo-code-mcp-permissions
+      - ref-kilo-code-mcp-src-auth-issuer
+    cross_topic_links: []
+    reason: packages/opencode/src/mcp/index.ts 与 mcp/oauth-provider.ts、mcp/auth.ts
+      改动 MCP OAuth：连接前刷新过期令牌、两个远程传输共用 guarded fetch、自动失效改为按指纹条件清除；新增
+      kilocode/mcp/{refresh,invalidation,oauth-fetch}.ts；已新建 mcp edition v4。
+  - topic: native_plugins
+    question_ids:
+      - plugins.install
+    section_ids:
+      - native_plugins-sources
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kilo-code-plugins-config-file
+      - ref-kilo-code-plugins-cmd
+      - ref-kilo-code-cli-plugin-cmd
+      - ref-kilo-code-plugins-dir
+    cross_topic_links:
+      - hooks.entry
+    reason: 仅 cli-reference 中 `kilo plugin` 段落因新增 `kilo auto`
+      章节而整体下移，插件加载与安装源码（packages/opencode/src/plugin/**、cli/cmd/plug.ts）本轮未改，答案与引用维持。
+pending_question_ids:
+  - agents.diagnostics
+  - agents.limits
+  - agents.overrides
+  - mcp.diagnostics
+  - mcp.lifecycle
+  - plugins.install
+investigation_notes:
+  - 本轮 triage 分类：maintain；只读观察时间 2026-10-22T12:54:38.524Z，会话
+    4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns。
+  - 逐一核对章节引用的新提交内容：packages/opencode/src/mcp/index.ts、mcp/auth.ts、
+    mcp/oauth-provider.ts、kilocode/mcp/{refresh,invalidation,oauth-fetch,sse-probe}.ts、
+    kilocode/tool/task.ts、tool/task.ts、新增 kilocode/permission/allowlist.ts
+    构成机制级变化； cli-reference.md 仅新增 kilo auto 章节并整体下移既有段落，配置与插件命令文本逐字未变。
+  - 结论：mcp 与 custom_agents 各新建完整 edition（v4 / v5），旧 edition 保留原字节； configuration
+    的 config.diagnostics 与 native_plugins 的 plugins.install 答案维持， 不再新建
+    edition。已发布引用固定在其各自快照提交，行号随新提交位移不构成失效。
+  - 排除项：packages/opencode/src/session/llm.ts 的自定义自动路由属 custom_providers 机制，
+    不在本轮固定主题与问题内；新增 kilo auto 命令、kilo pr 的 --session 选项、JetBrains/VSCode 扩展改动、社区
+    triage 脚本与包版本提升同样不在本轮范围。
+  - 未处理的旧审计：audit-kilo-code-7daf232a 中 config.trust 等其它问题仍未结案，
+    audit-kilo-code-a24ae2b5 亦保留；本轮仅结案派发的七个问题，引用关系保持不变。

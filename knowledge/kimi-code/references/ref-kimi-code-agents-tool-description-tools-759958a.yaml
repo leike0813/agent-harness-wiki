@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-agents-tool-description-tools-759958a
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-agent-tool-759958a
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/agent/tools/agent/agentTool.ts
+  start: 699
+  end: 713
+official_url: https://github.com/MoonshotAI/kimi-code/blob/759958afdfeb0f8c7d09cb03cbc2cf85b6255e9e/packages/agent-core-v2/src/agent/tools/agent/agentTool.ts
+excerpt: |-
+  const externallyRestricted = tools.some(
+    (tool) =>
+      evaluateToolActive(profile, tool.name, tool.source) &&
+      !isToolActive(profile, tool.name, tool.source),
+  );
+  if (externallyRestricted || activeTools === undefined) {
+    const effectiveTools = tools
+      .filter((tool) => isToolActive(profile, tool.name, tool.source))
+      .map((tool) => tool.name);
+    if (effectiveTools.length === 0) {
+      return `${header}\n  Tools: none`;
+    }
+    return `${header}\n  Tools: ${effectiveTools.join(', ')}`;
+  }

@@ -1,0 +1,40 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-session-lock-holds-759958a
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-session-lock-interface-759958a
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/persistence/interface/sessionLock.ts
+  start: 67
+  end: 111
+official_url: https://github.com/MoonshotAI/kimi-code/blob/759958afdfeb0f8c7d09cb03cbc2cf85b6255e9e/packages/agent-core-v2/src/persistence/interface/sessionLock.ts
+excerpt: |-
+  hold(sessionId: string): void {
+    this.stateFor(sessionId).held = true;
+  }
+
+  tryHold(sessionId: string): boolean {
+    try {
+      this.hold(sessionId);
+      return true;
+    } catch (error) {
+      if (isError2(error) && error.code === SessionErrors.codes.SESSION_OCCUPIED) return false;
+      throw error;
+    }
+  }
+
+  lease(sessionId: string): SessionLockLease {
+    const state = this.stateFor(sessionId);
+    state.leases += 1;
+    let released = false;
+    return {
+      sessionId,
+      release: () => {
+        if (released) return;
+        released = true;
+        state.leases -= 1;
+        this.unpublishIfUnused(sessionId, state);
+      },
+    };
+  }

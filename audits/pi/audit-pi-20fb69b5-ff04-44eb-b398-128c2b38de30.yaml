@@ -1,0 +1,117 @@
+schema_version: 2
+audit_id: audit-pi-20fb69b5-ff04-44eb-b398-128c2b38de30
+harness_id: pi
+checked_at: 2026-10-22T12:55:32.042Z
+previous_audit_id: audit-pi-e02d933b-58f6-49d6-a597-2105ad14fb10
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-pi-04bf1025-2be8-4fc0-855b-8d1d86097fcc
+  - audit-pi-20261004t061205z
+  - audit-pi-52367b72-118b-46ea-aad9-61bbba8d807e
+  - audit-pi-20261006t134000z
+  - audit-pi-aef48867-7725-4d37-b22a-2bf0ad420ee3
+  - audit-pi-0de5f9ff-058e-4cfb-aee7-eed7c7ace63d
+  - audit-pi-01dd7db2-1911-4e4a-8ad9-16f568696518
+  - audit-pi-d72f5074-25a9-40ea-8a7e-6555128764e2
+  - audit-pi-e02d933b-58f6-49d6-a597-2105ad14fb10
+checks:
+  - source_id: source-pi-npm
+    kind: npm_registry
+    checked_at: 2026-10-22T12:55:28.643Z
+    status: changed
+    baseline: 1.2.0@sha512-h/4WaVWv1VlCaY8x8qEN5U+7jbF/e7+Ck6moPeEOFn5juMTWwNAXjwgYM7gRgbBYh8Zppwt6qWvJDzNTf4GNEQ==
+    observed: 1.4.0@sha512-Z41LpZ3yYHSC/UUps6Mr39UMFPwH8elhJBG9DY1P7kuzsE5qSK/6eMj2EHzO5evJRQWLbKSqUMw+4nCNtIyiQg==
+  - source_id: source-pi-npm-legacy
+    kind: npm_registry
+    checked_at: 2026-10-22T12:55:28.643Z
+    status: unchanged
+    baseline: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+    observed: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+  - source_id: source-pi-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:55:28.644Z
+    status: changed
+    baseline: b45e0ebcc5ae2fc42a6f2f23104d10e656e6bedb
+    observed: be14d9732f98fcc33929cf103a92b96afaa6523e
+    remote_ref: refs/heads/main
+  - source_id: source-pi-legacy-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:55:28.653Z
+    status: changed
+    baseline: b45e0ebcc5ae2fc42a6f2f23104d10e656e6bedb
+    observed: be14d9732f98fcc33929cf103a92b96afaa6523e
+    remote_ref: refs/heads/main
+impacts:
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.models
+      - providers.metadata
+      - providers.protocol
+      - providers.forwarding
+    section_ids:
+      - providers-entry
+      - providers-models
+      - providers-metadata
+      - providers-protocol
+      - providers-forwarding
+      - providers-behavior
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-providers-entry-redirect
+      - ref-pi-providers-entry-compatible
+      - ref-pi-providers-config-provider
+      - ref-pi-providers-models-proxy
+      - ref-pi-providers-config-models
+      - ref-pi-providers-config-model-defaults
+      - ref-pi-providers-metadata-defaults
+      - ref-pi-providers-classifier-list-current
+      - ref-pi-providers-classifier-images-current
+      - ref-pi-providers-config-systemone
+      - ref-pi-providers-metadata-systemone-compat
+      - ref-pi-providers-metadata-classifier-compat
+      - ref-pi-providers-protocol-api-lists
+      - ref-pi-providers-protocol-compat-map
+      - ref-pi-providers-protocol-stream-reuse
+      - ref-pi-providers-forwarding-header-order
+      - ref-pi-providers-forwarding-identity
+      - ref-pi-providers-forwarding-attribution
+      - ref-pi-providers-forwarding-user-agent
+      - ref-pi-providers-forwarding-hooks
+    cross_topic_links: []
+    reason: 固定提交 be14d973 改变了自定义 provider 的注册写法、模型默认值与分类器清单、System One 兼容字段、兼容模式到
+      API 的映射，以及请求身份头来源；五道固定问题的已发布答案均需按当前机制重述。
+pending_question_ids:
+  - providers.entry
+  - providers.forwarding
+  - providers.metadata
+  - providers.models
+  - providers.protocol
+investigation_notes:
+  - 本轮 triage 分类：maintain；只读观察时间 2026-10-22T12:55:32.042Z，会话
+    4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns。
+  - Git 来源 changed 的 430 个文件中有 13
+    个被章节引用，逐个比对后确认机制级变化：packages/coding-agent/schemas/models.schema.json 改动模型
+    schema（46 处机制相关行）、packages/ai/src/providers/compat-schema.ts 改动兼容层
+    schema、packages/coding-agent/docs/custom-provider.md 改动自定义 Provider
+    文档、packages/ai/src/types.ts 改动类型定义。
+  - 自定义 Provider 的模型清单、元数据与协议映射是本章已发布答案的直接来源，属跨主题的模型元数据机制变化。
+  - 本轮派发入口：topic custom_providers；固定问题
+    providers.entry、providers.models、providers.metadata、providers.protocol、providers.forwarding。
+  - providers.entry：文档新增“重定向既有 provider”与“注册兼容端点”两种最小写法，models.json 只改内置
+    provider 的 baseUrl 会保留模型与鉴权；注册机制等价，但入口说明需补 models.json 路径，故写入新 edition。
+  - providers.models：分类器清单新增 OpenRouter 的 Jev 1.14 与 Clef 三款、Workers AI 的 Jev
+    1.14.0 与 Clef Omni；模型条目补上 input/contextWindow/maxTokens/reasoning 默认值，并记录 $$
+    与 $! 转义；OpenRouter 按 key 清单机制未变。
+  - providers.metadata：SystemOneCompat 新增 imageInput 与
+    sendImageOptInHeader，provider 级 compat 开始作用于分类器模型而 models/modelOverrides 的
+    compat 仅作用于 chat；模型字段默认值由 schema 生成。证据足以把该问题从 partial 升为 answered。
+  - providers.protocol：CompatSchemasByApi 变为导出映射，新增 azure-openai-responses、
+    openai-codex-responses 与两个 System One API 的模式绑定；协议清单本身未增删。
+  - providers.forwarding：请求身份改由 client identity 生成 User-Agent 与归因头，identity
+    头位于模型/provider/请求 header 之下，null 请求头可移除默认头；System One imageInput
+    决定分类器图片请求形态。证据足以把该问题从 partial 升为 answered。
+  - 未改问题：providers.auth 顺序未变；providers.responses 与 providers.diagnostics 仍按
+    partial 记录，具体错误与诊断入口本轮未逐条登记，不在本轮范围内重审。

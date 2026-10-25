@@ -1,0 +1,39 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-trust-late
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-git-settings-cli
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settings.ts
+  start: 365
+  end: 397
+official_url: "https://github.com/google-gemini/gemini-cli/blob/09d81bf116b6f0ef084731dc996aa9d56438bb70/packages/cli/src/config/settings.ts"
+excerpt: |-
+  setTrusted(isTrusted: boolean): void {
+    if (this.isTrusted === isTrusted) {
+      return;
+    }
+    this.isTrusted = isTrusted;
+    if (
+      isTrusted &&
+      Object.keys(this._workspaceFile.settings).length === 0 &&
+      Object.keys(this._workspaceFile.originalSettings).length > 0
+    ) {
+      const resolvedWorkspaceSettings = resolveSettings(
+        this._workspaceFile.originalSettings,
+        this._workspaceFile.path,
+        this.errors,
+      );
+      normalizeLegacyTheme(resolvedWorkspaceSettings);
+      this._workspaceFile = {
+        ...this._workspaceFile,
+        settings: resolvedWorkspaceSettings,
+      };
+    }
+    this.workspace = isTrusted
+      ? this._workspaceFile
+      : this.createEmptyWorkspace(this._workspaceFile);
+    this._merged = this.computeMergedSettings();
+    coreEvents.emitSettingsChanged();
+  }

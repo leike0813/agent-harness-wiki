@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-compaction-keepid
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-compaction-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/core/src/session/compaction.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/compaction.ts
+  start: 326
+  end: 334
+excerpt: |-
+  const fit = trigger.reason === "overflow" ? budget : Math.max(budget, summaryRoom(context.model.limit))
+  const result = yield* deliver(trigger, prepared, budget - overhead, send, {
+    fit: fit - overhead,
+    history: withoutTail(prepared.request, split.keepID),
+  })
+  if (!split.keepID) return result
+  // A compaction hook may choose its own kept range.
+  return { ...result, metadata: { keepID: split.keepID, ...result.metadata } }

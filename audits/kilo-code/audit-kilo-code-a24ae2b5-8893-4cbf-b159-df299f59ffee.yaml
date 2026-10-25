@@ -1,0 +1,29 @@
+schema_version: 2
+audit_id: audit-kilo-code-a24ae2b5-8893-4cbf-b159-df299f59ffee
+harness_id: kilo-code
+checked_at: "2026-10-14T18:02:58.949Z"
+previous_audit_id: audit-kilo-code-7daf232a-2d3e-4dae-b574-57255b32c9ee
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-kilo-code-7daf232a-2d3e-4dae-b574-57255b32c9ee
+checks:
+  - source_id: source-kilo-code-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:02:57.349Z"
+    status: changed
+    baseline: f70f0da2d66104389268b644e30f8997c18ea008
+    observed: 4ee8d1b3b1f8cadefa925c9959dcbda7f87100da
+    remote_ref: refs/heads/main
+  - source_id: source-kilo-code-npm
+    kind: npm_registry
+    checked_at: "2026-10-14T18:02:57.360Z"
+    status: unchanged
+    baseline: "7.8.8@sha512-kL9LPPAghiD2mpWjbmdKsgVB18vApI60pQ5wb6gaeuYhXezw6K+IGGRDA8Fw664039kJ0k+BkYZSXUhcq+/5Ww=="
+    observed: "7.8.8@sha512-kL9LPPAghiD2mpWjbmdKsgVB18vApI60pQ5wb6gaeuYhXezw6K+IGGRDA8Fw664039kJ0k+BkYZSXUhcq+/5Ww=="
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "reviewed_no_impact。source-kilo-code-repo f70f0da2..4ee8d1b3 共 22 个文件，与当前章节引用文件的交集为零。"
+  - "改动内容为 ripgrep glob 忽略辅助（packages/core/src/ripgrep.ts、ripgrep-glob.ts、opencode 的 tool/glob-ignored.ts）与 packages/kilo-jetbrains 的 Kotlin 会话 UI。"
+  - "排除的固定问题：config.*、skills.*、mcp.*、agents.*、hooks.*、plugins.*、transcripts.*——工具内部的文件匹配行为不改变任何已发布的配置字段、加载路径或扩展机制。"

@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-format-materialize-v2
+harness_id: codex
+snapshot_id: snapshot-codex-repo-2f3fb111-rollout-compression
+locator:
+  kind: file_lines
+  file: codex-rs/rollout/src/compression.rs
+  start: 146
+  end: 166
+official_url: https://github.com/openai/codex/blob/2f3fb111be71d277c80bd5b96d9019748b921f5a/codex-rs/rollout/src/compression.rs
+excerpt: "            #[cfg(unix)]\n                    options.mode(0o600);\n                    options.open(path)\n                },\n            )?;\n        {\n            stage = \"decode_and_write\";\n            let mut decoder = zstd::stream::read::Decoder::new(&input)?;\n            io::copy(&mut decoder, &mut output)?;\n        }\n        stage = \"flush\";\n        output.flush()?;\n        stage = \"set_metadata\";\n        access_metadata::copy(&input, output.as_file())?;\n        stage = \"verify\";\n        File::open(output.path())?;\n        stage = \"sync\";\n        output.as_file().sync_all()?;\n        stage = \"publish\";\n        persist_temp_file_noclobber(output, plain_path.as_path())?;"

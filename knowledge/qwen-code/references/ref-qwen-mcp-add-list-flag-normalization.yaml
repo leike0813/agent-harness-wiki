@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-mcp-add-list-flag-normalization
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-6212189f-cli-mcp-add
+locator:
+  kind: file_lines
+  file: packages/cli/src/commands/mcp/add.ts
+  start: 16
+  end: 31
+official_url: https://github.com/QwenLM/qwen-code/blob/6212189f1f8334da78a69e3fb6b63ff6ca88251e/packages/cli/src/commands/mcp/add.ts
+excerpt: |-
+  // yargs reports a list flag in three shapes without usable values, and an
+  // unset list (no filter) differs from an empty one (allow none): an omitted
+  // flag is `undefined` (unset), a negated flag such as `--no-include-tools` is
+  // `[false]` (unset), and a flag given with no value is `[]` (empty). A
+  // negation given alongside values (`['a', false]`) is ignored: the explicit
+  // values win.
+  function splitCommaList(values: unknown[] | undefined): string[] | undefined {
+    if (values === undefined) return undefined;
+    const strings = values.filter(
+      (value): value is string => typeof value === 'string',
+    );
+    if (strings.length === 0) return values.length ? undefined : [];
+    return strings
+      .flatMap((value) => value.split(','))
+      .map((value) => value.trim())
+      .filter(Boolean);

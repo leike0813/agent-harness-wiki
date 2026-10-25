@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-config-loop-protection-invalid-warning
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-9a83f108-cli-config
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/config.ts
+  start: 1673
+  end: 1683
+official_url: https://github.com/QwenLM/qwen-code/blob/9a83f1080e1432c72a07502417c97bff493b2ea2/packages/cli/src/config/config.ts
+excerpt: |-
+  function resolveLoopProtection(value: unknown): LoopProtectionMode | undefined {
+    if (value === undefined || isLoopProtectionMode(value)) return value;
+    const warning = `Invalid model.loopProtection value ${JSON.stringify(value)}: expected "warn", "stop" or "off"; using the default "warn".`;
+    if (loopProtectionWarningsShown.has(warning)) return undefined;
+    loopProtectionWarningsShown.add(warning);
+    debugLogger.warn(warning);
+    // eslint-disable-next-line no-console
+    console.error(`WARNING: ${warning}`);
+    return undefined;
+  }

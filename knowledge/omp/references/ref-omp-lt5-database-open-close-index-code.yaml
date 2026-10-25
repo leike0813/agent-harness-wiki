@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt5-database-open-close-index-code
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-src-session-history-storage-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/history-storage.ts
+  start: 184
+  end: 214
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/packages/coding-agent/src/session/history-storage.ts#L184-L214
+excerpt: "\t\tif (existing) return existing;\n\n\t\tfs.mkdirSync(path.dirname(dbPath), { recursive: true });\n\t\t// Windows cannot move history.db aside while the session index holds it open.\n\t\tcloseSessionIndex();\n\t\tlet backupPath = undefined as string | undefined;\n\t\tconst instance = openSqliteDatabaseSync(\n\t\t\tdbPath,\n\t\t\tdb => {\n\t\t\t\tconst instance = new HistoryStorage(db);\n\t\t\t\t// Exit-only: a keep-alive cleanup leaves the handle valid so the editor can\n\t\t\t\t// keep submitting prompts; the real exit closes. Register before publishing\n\t\t\t\t// so a real-exit-in-progress late registration cannot close this instance.\n\t\t\t\tcancelExitCleanup = postmortem.register(\"history-storage\", () => HistoryStorage.close(), {\n\t\t\t\t\texitOnly: true,\n\t\t\t\t});\n\t\t\t\tHistoryStorage.#instance = instance;\n\t\t\t\treturn instance;\n\t\t\t},\n\t\t\t{\n\t…"

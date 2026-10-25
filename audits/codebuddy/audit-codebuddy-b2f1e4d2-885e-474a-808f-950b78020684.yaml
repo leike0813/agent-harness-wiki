@@ -1,0 +1,37 @@
+schema_version: 2
+audit_id: audit-codebuddy-b2f1e4d2-885e-474a-808f-950b78020684
+harness_id: codebuddy
+checked_at: "2026-10-14T18:01:56.985Z"
+previous_audit_id: audit-codebuddy-9f90f95d-be63-48f2-9d75-f841bcaa2a8f
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-codebuddy-9f90f95d-be63-48f2-9d75-f841bcaa2a8f
+checks:
+  - source_id: source-codebuddy-docs
+    kind: git_repository
+    checked_at: "2026-10-14T18:01:56.321Z"
+    status: changed
+    baseline: ae82976cdedc6fc812a66b2c2d8d5eaf7524097a
+    observed: 79abbc5fe8c55ea7765c4018df6027800c667a56
+    remote_ref: refs/heads/main
+  - source_id: source-codebuddy-site
+    kind: official_documentation
+    checked_at: "2026-10-14T18:01:56.331Z"
+    status: unchanged
+    baseline: 6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b
+    observed: 6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b
+    resolved_url: "https://www.codebuddy.cn/llms.txt"
+  - source_id: source-codebuddy-npm
+    kind: npm_registry
+    checked_at: "2026-10-14T18:01:56.333Z"
+    status: changed
+    baseline: "2.164.0@sha512-1DvSEszHJQUysANsE1GF78dn6tWWjUpQYI4xZfJe5MTQqj3AfZDTywrNYJRKW2jTLYK8QaIX5rOSB8hUNFp8wA=="
+    observed: "2.167.0@sha512-1lELyeN1cEbkv2CbxSAxPSOPPWKCE+5Me9OvdRQJ/JesJ7mR4wBnT0vPZcac2NSCV1VXwzjoe0LDg2wBhb8G6w=="
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "本轮状态：本产品已完成协调者的只读观察与语义 triage，来源证据已固定（Git 工作区已按观察到的 commit 打开并保留），但**本轮没有执行 maintenance 派发**。上述限定范围、问题清单与已固定的来源入口是下一轮可直接接续的工作面，不是已完成结论。review_status 保持 pending，pending_audit_refs 保持不变；不得因本轮无候选产物而视为已结案。"
+  - "maintain。source-codebuddy-docs ae82976c..79abbc5f 命中 docs/sub-agents.md、docs/env-vars.md、docs/mods-api.md、CHANGELOG.md 与 docs/release-notes/*。"
+  - "sub-agents、env-vars 与 mods-api 三页同时变化，分别指向 custom_agents、configuration 与 native_plugins。"
+  - "npm 2.164.0→2.167.0 只记录发布身份。"

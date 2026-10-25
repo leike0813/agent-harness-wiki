@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt5-lifecycle-unpack-symlink-dedupe-code
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-src-session-session-transfer-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-transfer.ts
+  start: 463
+  end: 492
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/packages/coding-agent/src/session/session-transfer.ts#L463-L492
+excerpt: "async function findLocalCopies(id: string, sessionDir: string): Promise<string[]> {\n\tconst candidates = new Set((await findSessionFiles(id)).map(file => path.resolve(file)));\n\ttry {\n\t\tfor await (const name of new Bun.Glob(`*_${id}.jsonl`).scan({ cwd: sessionDir, followSymlinks: true })) {\n\t\t\tcandidates.add(path.resolve(sessionDir, name));\n\t\t}\n\t} catch (error) {\n\t\tif (!isEnoent(error)) throw error;\n\t}\n\t// One transcript reached by two names — a bucket symlinked to another\n\t// lists it under both (#5385) — is one copy, or `setAside` would try to\n\t// move the same file aside twice. `path.resolve` leaves the symlink in\n\t// place, so the identity has to come from `realpath`.\n\tconst seen = new Set<string>();\n\tconst copies: string[] = [];\n\tfor (const file of candidates) {\n\t\tif (!path.basename(fi…"

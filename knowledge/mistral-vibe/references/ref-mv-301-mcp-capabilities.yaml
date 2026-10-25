@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-mcp-capabilities
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/tools/mcp/tools.py
+  start: 81
+  end: 103
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  async def list_tools_http(
+      url: str,
+      *,
+      headers: dict[str, str] | None = None,
+      auth: httpx.Auth | None = None,
+      startup_timeout_sec: float | None = None,
+  ) -> list[RemoteTool]:
+      from mcp import ClientSession
+      from mcp.client.streamable_http import streamable_http_client
+
+      timeout = timedelta(seconds=startup_timeout_sec) if startup_timeout_sec else None
+      async with create_vibe_mcp_http_client(headers, auth=auth) as http_client:
+  ...
+                  await session.initialize()
+                  tools_resp = await session.list_tools()
+                  return [RemoteTool.model_validate(t) for t in tools_resp.tools]

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-scan-load
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-plugin-skill-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/core/src/config/plugin/skill.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/plugin/skill.ts
+  start: 108
+  end: 147
+excerpt: |-
+  const load = Effect.fn("ConfigSkillPlugin.load")(function* (source: Source) {
+    const directories =
+      source.type === "directory"
+        ? [source.path]
+        : yield* discovery.pull(source.url).pipe(
+            Effect.catchCause((cause) =>
+              Effect.logWarning("failed to load skill source", {
+                source: Skill.Source.key(source),
+                cause,
+              }).pipe(Effect.as([] as AbsolutePath[])),
+            ),
+          )
+    const roots = (yield* Effect.forEach(directories, watchDirectory)).flat()
+    const skills: Skill.Info[] = []
+    for (const directory of directories) {
+      for (const filepath of yield* SkillScan.scan(directory)) {

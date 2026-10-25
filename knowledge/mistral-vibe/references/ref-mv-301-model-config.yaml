@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-model-config
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 502
+  end: 530
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      provider: str
+      alias: str
+      display_name: str | None = None
+      temperature: float = 0.2
+      # Request settings read by the Unified Harness runtime only; the legacy
+      # agent loop does not send them.
+      # Nucleus sampling; None leaves it to the provider's default.
+      top_p: float | None = Field(default=None, gt=0, le=1)
+      # Cap on output tokens per model request; None leaves it to the provider.
+      # A session's own ``max_tokens`` limit, when set, takes precedence.
+      max_output_tokens: int | None = Field(default=None, ge=1)
+  ...
+      max_context_length: int | None = Field(default=None, ge=1)
+      auto_compact_threshold: int = UNSET_AUTO_COMPACT_THRESHOLD
+      _default_alias_to_name = model_validator(mode="before")(_default_alias_to_name)

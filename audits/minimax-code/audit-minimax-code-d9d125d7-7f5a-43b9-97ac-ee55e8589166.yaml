@@ -1,0 +1,789 @@
+schema_version: 2
+audit_id: audit-minimax-code-d9d125d7-7f5a-43b9-97ac-ee55e8589166
+harness_id: minimax-code
+checked_at: 2026-10-13T18:02:58.845Z
+previous_audit_id: audit-minimax-code-b3c38527-e7ca-469a-8e5c-c66dd0369f4e
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-minimax-code-b3c38527-e7ca-469a-8e5c-c66dd0369f4e
+checks:
+  - source_id: source-minimax-code-repo
+    kind: git_repository
+    checked_at: 2026-10-13T18:02:56.555Z
+    status: changed
+    baseline: cee079138600224e9ad4d8b954c4a4ed549e15b6
+    observed: e798b460f4d8603ce732e5d319d63c8018ef6cad
+    remote_ref: refs/heads/main
+  - source_id: source-minimax-code-npm
+    kind: npm_registry
+    checked_at: 2026-10-13T18:02:56.563Z
+    status: changed
+    baseline: 0.6.9@sha512-21jqObdUhVoM5z3+3JfEsODDNF5fjso1kGPqD5Lnn25nKToSD3BEpYezZTsmo1Qi1dKgrmLHBrm+WDVzU+yP8g==
+    observed: 0.6.10@sha512-7j89aG4V0VdZ96sVnbN7mczg4+DBZByGMNalXODE0VPECQV83+1O624Gp/doFLR2k2pIZ15G4v9KoXXtUPa1Kg==
+  - source_id: source-minimax-code-docs-features
+    kind: official_documentation
+    checked_at: 2026-10-13T18:02:56.564Z
+    status: unchanged
+    baseline: a1230063ef181d330f3427f2879fbee8df2e09db7c76aa664175055de551e217
+    observed: a1230063ef181d330f3427f2879fbee8df2e09db7c76aa664175055de551e217
+    resolved_url: https://agent.minimax.io/docs/cli/features.md
+  - source_id: source-minimax-code-docs-configuration
+    kind: official_documentation
+    checked_at: 2026-10-13T18:02:56.565Z
+    status: unchanged
+    baseline: 9429573af63b4667c425a723f684857c4f50940d9f748590ce91864d2984a485
+    observed: 9429573af63b4667c425a723f684857c4f50940d9f748590ce91864d2984a485
+    resolved_url: https://agent.minimax.io/docs/cli/configuration.md
+  - source_id: source-minimax-code-docs-reference
+    kind: official_documentation
+    checked_at: 2026-10-13T18:02:57.707Z
+    status: unchanged
+    baseline: e35d9d1ad7fb5a84925e67117255fb83f18273115abdb52445b0543051d05b6b
+    observed: e35d9d1ad7fb5a84925e67117255fb83f18273115abdb52445b0543051d05b6b
+    resolved_url: https://agent.minimax.io/docs/cli/reference.md
+  - source_id: source-minimax-code-docs-security
+    kind: official_documentation
+    checked_at: 2026-10-13T18:02:57.791Z
+    status: unchanged
+    baseline: a651d45252f8be0a4473e3daa95fbe5627d77db7de9072202b0017bd4163193a
+    observed: a651d45252f8be0a4473e3daa95fbe5627d77db7de9072202b0017bd4163193a
+    resolved_url: https://agent.minimax.io/docs/cli/security.md
+  - source_id: source-minimax-code-docs-faq
+    kind: official_documentation
+    checked_at: 2026-10-13T18:02:57.830Z
+    status: unchanged
+    baseline: 39fd1c25a0cc1d87abbf908f2edbb379a280192e91541183d77fca5653c37db3
+    observed: 39fd1c25a0cc1d87abbf908f2edbb379a280192e91541183d77fca5653c37db3
+    resolved_url: https://agent.minimax.io/docs/cli/faq.md
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-overrides
+      - config-runtime
+      - config-prompt-overrides
+      - config-trust-defaults
+      - config-migration
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-minimax-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-entry-format
+      - agents-roles
+      - agents-invocation
+      - agents-overrides-limits
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-minimax-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-entry
+      - providers-auth
+      - providers-protocol
+      - providers-models-meta
+      - providers-forwarding-responses
+      - providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-minimax-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-entry
+      - hooks-events
+      - hooks-io
+      - hooks-order-conditions
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-minimax-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-storage-layout
+      - transcripts-record-scope-and-format
+      - transcripts-record-schema
+      - transcripts-lifecycle
+      - transcripts-database-and-index
+      - transcripts-archive-and-cleanup
+      - transcripts-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-minimax-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-entry
+      - mcp-definition
+      - mcp-transport-auth
+      - mcp-lifecycle-caps
+      - mcp-exposure
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-minimax-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model-package
+      - plugins-install
+      - plugins-discovery
+      - plugins-api
+      - plugins-lifecycle
+      - plugins-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-minimax-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-roots
+      - skills-discovery-collision
+      - skills-format
+      - skills-loading-invocation
+      - skills-conditions
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    reason: "source-minimax-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+pending_question_ids:
+  - config.sources
+  - config.overrides
+  - config.trust
+  - config.migration
+  - agents.entry
+  - agents.format
+  - agents.roles
+  - agents.invocation
+  - agents.overrides
+  - agents.limits
+  - agents.diagnostics
+  - providers.entry
+  - providers.auth
+  - providers.protocol
+  - providers.models
+  - providers.metadata
+  - providers.forwarding
+  - providers.responses
+  - providers.diagnostics
+  - hooks.events
+  - hooks.entry
+  - hooks.input
+  - hooks.output
+  - hooks.order
+  - hooks.conditions
+  - hooks.diagnostics
+  - transcripts.scope
+  - transcripts.location
+  - transcripts.naming
+  - transcripts.format
+  - transcripts.schema
+  - transcripts.lifecycle
+  - transcripts.database
+  - transcripts.archive
+  - transcripts.cleanup
+  - transcripts.diagnostics
+  - mcp.entry
+  - mcp.definition
+  - mcp.transport
+  - mcp.auth
+  - mcp.lifecycle
+  - mcp.capabilities
+  - mcp.exposure
+  - mcp.diagnostics
+  - plugins.model
+  - plugins.package
+  - plugins.install
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+  - skills.roots
+  - skills.discovery
+  - skills.collision
+  - skills.format
+  - skills.extensions
+  - skills.loading
+  - skills.invocation
+  - skills.conditions
+  - skills.diagnostics
+investigation_notes:
+  - 本轮 triage 分类：narrow_investigation；巡检观察来自 2026-10-13 的只读检查。
+  - 本轮 triage 分类：narrow_investigation；入口限 configuration 的固定问题
+    config.defaults、config.runtime、config.diagnostics。固定来源为 pinned 工作区
+    ws-e798b460f4d8-4f63576c-a12c-45aa-ba1d-7ab1c4fcaef5，commit
+    e798b460f4d8603ce732e5d319d63c8018ef6cad，未重扫来源。
+  - "仓库单提交 e798b46（feat(tui): report program status with OSC 7501，18
+    个文件，+399/-18），与章节已引证据文件重合的有 packages/config/src/tui-config.ts 与
+    docs/tui-capabilities.md。"
+  - "决定性结论：该提交不是纯输出变化，它新增了用户可配置项。packages/config/src/tui-config.ts 第 46-47 行新增
+    TuiConfig.programStatus?: boolean（注释 Defaults to true），第 117 行以 typeof
+    tui.programStatus === 'boolean' 条件透传；仓库文档 docs/tui-capabilities.md 第 33 行写明
+    Set `tui.programStatus: false` to disable them，第 46 行的示例配置块新增 programStatus:
+    true。因此任务里「不新增用户可配置项则无需维护」的排除条件不成立。"
+  - 逐文件判定（18 个变更文件）：packages/config/src/tui-config.ts
+    新增配置键，改动；docs/tui-capabilities.md
+    新增配置说明与示例，改动；packages/tui/src/tui/shell/status-line-config.ts 第 11、36
+    行把该键接入展示配置读取，是配置面而不是仅渲染；packages/tui/src/tui/launcher.ts 第 419-421 行把值透传进
+    TUI 应用选项，配置面；packages/tui/src/types/tui-app.ts 第 70-71 行新增 programStatus
+    选项与注释，配置面；packages/tui/src/tui/app-composition.ts 第 178-181 行按 isTTY &&
+    programStatus !== false
+    构造上报器，是配置生效判定；packages/tui/src/tui/platform/terminal-program-status.ts
+    为新增的纯发射模块（65 行，只有状态映射表与 terminal.write
+    调用），属输出实现；packages/tui/src/tui/app.ts、packages/tui/src/tui/platform/terminal-title.ts、packages/tui/src/tui/controller/product/chrome-flow.ts
+    只做发射与标题渲染接线，无新配置入口；packages/tui/src/tui/controller/interaction/interaction-flow.ts
+    去掉 agentStatusLineItems
+    门控，属状态栏项与结构化状态解耦，不新增配置键；packages/tui/src/tui/automation/status-store.ts 新增
+    loginRequired 派生事实，不触及配置读取；release/public-source.json 仅登记新文件；三份测试文件只覆盖上述行为。
+  - packages/tui/docs/status-line-config.md 本次只改了一句 Fatal errors 说明：登录阻塞的 error
+    在同一会话内登录成功后清除。这是 build-mode 状态栏协议的语义与渲染说明，不含任何配置键或加载路径，与本轮三道 configuration
+    固定问题无关，因此不作为配置证据引用。
+  - 逐题判定：config.defaults 变化（新增默认开启的 tui.programStatus，并写明布尔-only 解析、启动期一次性读取与
+    isTTY 门），已写入新章节版本 minimax-code-cli-configuration-v4；config.diagnostics
+    变化（该键不在 /reload 的重载范围内，也没有 /doctor 报告项，改后需重启），同版写入；config.runtime 不受影响（该键无
+    CLI 参数、无环境变量，只能写在 config.yaml），已在章节内显式写明入口清单不变。三题均 answered，已从
+    pending_question_ids
+    移除；config.sources、config.overrides、config.trust、config.migration
+    不在本轮固定问题范围内，保持 pending 不动。
+  - "复核声明：新增可配置键改变了已发布的配置机制表述（默认值清单与重载边界），属需独立复核的范围，audit 保持 review_status:
+    pending，不写 reviewed_by/reviewed_at。"
+  - npm 0.6.9→0.6.10 仅发布身份变化：新版本未验证，本轮不建软件版本映射，也不新增 artifact 记录。
+  - 本轮修正后的候选章节未获独立复核批准，已移出交付候选并作为任务工件保留在巡检临时目录；本审计的影响范围已收窄到仍在库内的章节小节，待复核问题继续
+    pending。
+  - 本轮修正后的候选章节未获独立复核批准，已移出交付候选并作为任务工件保留在巡检临时目录；本审计的影响范围已收窄到仍在库内的章节小节，待复核问题继续
+    pending。

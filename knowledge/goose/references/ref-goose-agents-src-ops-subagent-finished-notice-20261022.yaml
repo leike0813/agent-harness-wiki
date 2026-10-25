@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-agents-src-ops-subagent-finished-notice-20261022
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261022-ops-subagent
+locator:
+  kind: file_lines
+  file: crates/goose/src/agents/state_machine/ops_subagent.rs
+  start: 33
+  end: 48
+official_url: "https://github.com/block/goose/blob/6835dd45a21a701b017abe38aa4204e18fed9213/crates/goose/src/agents/state_machine/ops_subagent.rs"
+excerpt: |2-
+  fn finished_notice(
+      subagent_id: &str,
+      outcome: &SubagentOutcome,
+      show_output: bool,
+  ) -> Option<String> {
+      let notice = match outcome {
+          SubagentOutcome::Completed(_) => format!("Subagent {subagent_id} completed"),
+          SubagentOutcome::Failed(reason) => format!(
+              "Subagent {subagent_id} failed: {}",
+              reason.lines().next().unwrap_or_default()
+          ),
+          SubagentOutcome::Cancelled => return None,
+      };
+      Some(notice)
+  }

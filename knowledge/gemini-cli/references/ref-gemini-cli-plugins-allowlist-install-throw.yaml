@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-plugins-allowlist-install-throw
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-plugins-allowlist-load
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/extension-manager.ts
+  start: 186
+  end: 205
+official_url: "https://github.com/google-gemini/gemini-cli"
+excerpt: |2-
+  if ((this.settings.security?.allowedExtensions?.length ?? 0) > 0) {
+    const extensionAllowed = this.settings.security?.allowedExtensions.some(
+      (pattern) => {
+        try {
+          return new RegExp(pattern).test(
+            getRealPath(installMetadata.source),
+          );
+        } catch (e) {
+          throw new Error(
+            `Invalid regex pattern in allowedExtensions setting: "${pattern}. Error: ${getErrorMessage(e)}`,
+          );
+        }
+      },
+    );
+    if (!extensionAllowed) {
+      throw new Error(
+        `Installing extension from source "${installMetadata.source}" is not allowed by the "allowedExtensions" security setting.`,
+      );
+    }
+  } else if (

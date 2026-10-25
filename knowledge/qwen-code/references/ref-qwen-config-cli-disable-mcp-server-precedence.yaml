@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-config-cli-disable-mcp-server-precedence
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-6212189f-cli-config
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/config.ts
+  start: 2204
+  end: 2213
+official_url: https://github.com/QwenLM/qwen-code/blob/6212189f1f8334da78a69e3fb6b63ff6ca88251e/packages/cli/src/config/config.ts
+excerpt: |2-
+    // `--disable-mcp-server` is an explicit per-invocation argument, not local
+    // state, so it unions into the exclude set in its OWN block after the
+    // if/else-if chain above. Folding it into the `else if (!bareMode &&
+    // !safeMode)` branch would silently drop it twice over: under `--safe-mode`
+    // that branch does not run at all, and next to `--allowed-mcp-server-names`
+    // the first branch wins and leaves the set undefined. Precedence is
+    // allow-then-deny — a server named by both flags ends up disabled.
+    // Boot-time only: the settings-watcher and ACP reload paths rebuild the
+    // exclude set from settings alone, so a later settings.json edit drops these
+    // entries. Durable fix tracked in #14009.

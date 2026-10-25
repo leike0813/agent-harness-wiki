@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-cf119a-usage-scan-fold
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-cf119a-crates-pa-daemon-src-session-usage-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_usage.rs
+  start: 254
+  end: 270
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/cf119a7a8c86a2c86d927cae79ed1eec03b07a91/crates/pa-daemon/src/session_usage.rs
+excerpt: |
+  /// `<stem>.info-cache.json`: any change to this fold's semantics or fields
+  /// must bump `info_sidecar::INFO_SIDECAR_VERSION`, or old sessions keep
+  /// the old build's prefix fold.
+  #[derive(Default, Clone, Serialize, Deserialize)]
+  pub struct UsageScan {
+      assistant_usage_by_id: AssistantUsageById,
+      #[serde(with = "usage_bits")]
+      attributed_child_usage: Usage,
+      attributed_child_ids: std::collections::HashSet<String>,
+      #[serde(with = "usage_bits")]
+      summarization_usage: Usage,
+  }
+
+  impl UsageScan {
+      /// The assistant usage records and stable attribution IDs kept resident.
+      pub(crate) fn retained_entries(&self) -> usize {
+          self.assistant_usage_by_id.len() + self.attributed_child_ids.len()

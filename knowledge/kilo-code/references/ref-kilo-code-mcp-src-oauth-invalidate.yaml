@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-oauth-invalidate
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-e08cc-mcp-oauth-provider
+locator:
+  kind: file_lines
+  file: packages/opencode/src/mcp/oauth-provider.ts
+  start: 204
+  end: 236
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  async invalidateCredentials(type: "all" | "client" | "tokens"): Promise<void> {
+    // kilocode_change start - automatic invalidation is conditional. The fetch guard
+    // that observed the rejected OAuth request records the exact credential it presented
+    // here, then this clears only that credential and only if a newer one has not replaced
+    // it. Tokens without a recorded expectation are kept: refresh tokens rotate, so a blind
+    // delete could wipe a concurrent rotation, and the SDK retry re-reads the newer value.
+    const scope = type === "tokens" ? "tokens" : "client"
+    const recorded = this.rejected
+    this.rejected = undefined
+    if (!recorded && scope === "tokens") return

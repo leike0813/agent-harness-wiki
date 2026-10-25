@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-discovery-merge
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261022-internal-config-discovery-go
+locator:
+  kind: file_lines
+  file: internal/config/discovery.go
+  start: 183
+  end: 197
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // mergeModels appends the discovered models whose IDs the config does not
+  // already list; models from the config win.
+  func mergeModels(configured, discovered []catwalk.Model) []catwalk.Model {
+  	listed := make(map[string]bool, len(configured))
+  	for _, m := range configured {
+  		listed[m.ID] = true
+  	}
+  	merged := slices.Clone(configured)
+  	for _, m := range discovered {
+  		if !listed[m.ID] {
+  			merged = append(merged, m)
+  		}
+  	}
+  	return merged
+  }

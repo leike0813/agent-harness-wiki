@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-format-compress-publish-v2
+harness_id: codex
+snapshot_id: snapshot-codex-repo-2f3fb111-rollout-compression
+locator:
+  kind: file_lines
+  file: codex-rs/rollout/src/compression.rs
+  start: 909
+  end: 918
+official_url: https://github.com/openai/codex/blob/2f3fb111be71d277c80bd5b96d9019748b921f5a/codex-rs/rollout/src/compression.rs
+excerpt: "        access_metadata::copy(&input, temp_file.as_file())\n            .inspect_err(|err| FailureMetric::File(trigger).record(\"set_metadata\", err))?;\n        // Reopen after applying final access metadata: verifying the initial\n        // owner-only temporary would miss an inaccessible published file.\n        verify_zstd(temp_file.path())\n            .inspect_err(|err| FailureMetric::File(trigger).record(\"verify\", err))?;\n        temp_file\n            .as_file()\n            .sync_all()\n            .inspect_err(|err| FailureMetric::File(trigger).record(\"sync\", err))?;"

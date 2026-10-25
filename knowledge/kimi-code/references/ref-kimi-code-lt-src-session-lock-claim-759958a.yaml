@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-session-lock-claim-759958a
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-session-lock-759958a
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/persistence/backends/node-fs/sessionLockService.ts
+  start: 116
+  end: 137
+official_url: https://github.com/MoonshotAI/kimi-code/blob/759958afdfeb0f8c7d09cb03cbc2cf85b6255e9e/packages/agent-core-v2/src/persistence/backends/node-fs/sessionLockService.ts
+excerpt: |-
+  private claim(lockPath: string, token: string): ClaimOutcome {
+    this.ensureLockDir();
+    for (let attempt = 0; attempt < 2; attempt++) {
+      if (this.tryPublish(lockPath, this.payload(token))) return { claimed: true };
+      const current = this.readHolder(lockPath);
+      if (current !== undefined && this.alive(current)) return { claimed: false, holder: current };
+      this.reclaim(lockPath, token);
+    }
+    return { claimed: false, holder: this.readHolder(lockPath) };
+  }

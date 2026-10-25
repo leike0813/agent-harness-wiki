@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e41c-bash-over-subprocess-rust
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e41c-bash-over-subprocess-md
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/prompts/layers/bash-over-subprocess.md
+  start: 1
+  end: 1
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e41c9c4c6ccabf700f1dfdc1653e7ef9c5e96312/crates/pa-core/src/prompts/layers/bash-over-subprocess.md"
+excerpt: |
+  Never run shell commands through `subprocess`, `os.system`, or a helper that wraps them, even when you need the output. Start the command with `h = bash(cmd)`; in a later `ipython` call, collect `r = await h` (this returns instantly if the command already finished) and use `r.output` and `r.exit_code`. Only commands that finish in under a second may be awaited inline.

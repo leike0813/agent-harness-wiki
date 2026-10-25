@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-agents-diagnostics
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/agents/diagnostics.py
+  start: 16
+  end: 34
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      """Generate a message explaining why an agent is not available based on the config."""
+      profile = discovered.get(name)
+      if (
+          profile is not None
+          and profile.safety is AgentSafety.YOLO
+          and not config.enable_auto_approve
+      ):
+          return (
+              f"Agent '{name}' is unavailable: the auto-approve mode is disabled "
+              "('enable_auto_approve' is false)."
+          )
+  ...
+          and name not in config.installed_agents
+      ):
+          return (
+              f"Agent '{name}' requires installation. Run it once via --agent "
+              f"'{name}', or add it to 'installed_agents'."

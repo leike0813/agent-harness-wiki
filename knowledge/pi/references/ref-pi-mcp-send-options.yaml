@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-mcp-send-options
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261013-mcp-src-transports-transport-ts
+locator:
+  kind: file_lines
+  file: packages/mcp/src/transports/transport.ts
+  start: 9
+  end: 20
+official_url: https://github.com/earendil-works/pi/blob/7bd01fb92485c06f92ecfff7ccf3197148bc16af/packages/mcp/src/transports/transport.ts
+excerpt: "export interface McpTransportSendOptions {\n	/**\n	 * Aborted once the sender no longer waits for a reply (the request was cancelled, timed out, answered,\n	 * or the client closed). A transport must not dispatch the message after that, for example when\n	 * retrying it after an authorization refresh. It does not undo a message already dispatched.\n	 */\n	signal?: AbortSignal;\n}\n\nexport interface McpTransport {\n	start(): Promise<void>;\n	send(message: JsonRpcMessage, options?: McpTransportSendOptions): Promise<void>;"

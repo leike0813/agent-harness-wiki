@@ -1,0 +1,812 @@
+schema_version: 2
+audit_id: audit-pi-d72f5074-25a9-40ea-8a7e-6555128764e2
+harness_id: pi
+checked_at: 2026-10-13T18:03:16.114Z
+previous_audit_id: audit-pi-01dd7db2-1911-4e4a-8ad9-16f568696518
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-pi-04bf1025-2be8-4fc0-855b-8d1d86097fcc
+  - audit-pi-20261004t061205z
+  - audit-pi-52367b72-118b-46ea-aad9-61bbba8d807e
+  - audit-pi-20261006t134000z
+  - audit-pi-aef48867-7725-4d37-b22a-2bf0ad420ee3
+  - audit-pi-0de5f9ff-058e-4cfb-aee7-eed7c7ace63d
+  - audit-pi-01dd7db2-1911-4e4a-8ad9-16f568696518
+checks:
+  - source_id: source-pi-npm
+    kind: npm_registry
+    checked_at: 2026-10-13T18:03:14.605Z
+    status: changed
+    baseline: 1.1.0@sha512-SeEi/4hdcHNgA9UWlefZl7ZZpm3dzi2OoxNjDHsBJ9o298LNOtbL4DGKgitlEj6uCTccvtw6f2hlCkTPVJ2RXg==
+    observed: 1.2.0@sha512-h/4WaVWv1VlCaY8x8qEN5U+7jbF/e7+Ck6moPeEOFn5juMTWwNAXjwgYM7gRgbBYh8Zppwt6qWvJDzNTf4GNEQ==
+  - source_id: source-pi-npm-legacy
+    kind: npm_registry
+    checked_at: 2026-10-13T18:03:14.607Z
+    status: unchanged
+    baseline: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+    observed: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+  - source_id: source-pi-repo
+    kind: git_repository
+    checked_at: 2026-10-13T18:03:14.607Z
+    status: changed
+    baseline: 7bd01fb92485c06f92ecfff7ccf3197148bc16af
+    observed: 3daa20280f6a7c7cbe0935680c9a38fdc3863005
+    remote_ref: refs/heads/main
+  - source_id: source-pi-legacy-repo
+    kind: git_repository
+    checked_at: 2026-10-13T18:03:14.618Z
+    status: changed
+    baseline: 7bd01fb92485c06f92ecfff7ccf3197148bc16af
+    observed: 3daa20280f6a7c7cbe0935680c9a38fdc3863005
+    remote_ref: refs/heads/main
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.defaults
+      - config.sources
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-defaults
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-share-destination-defaults
+      - ref-pi-config-share-destination-schema
+      - ref-pi-config-share-destination-published
+      - ref-pi-config-share-destination-doc
+      - ref-pi-config-share-destination-accessor
+      - ref-pi-config-defaults-table
+      - ref-pi-config-default-tools
+      - ref-pi-config-cli-tools-modifiers
+    cross_topic_links:
+      - transcripts.archive
+    reason: >-
+      source-pi-repo, source-pi-legacy-repo: 提交 3daa2028 在本章引用文件上只新增一个设置键
+      sessionShareDestination（auto/gist/radius，默认 auto），落在 SETTINGS_DEFAULTS、SettingsSchema、
+      发布的 settings.schema.json、docs/settings.md 设置表与 SettingsManager 访问器五处，
+      因此 config.defaults 的已发布答案改变。config.sources 与 config.migration 在同一 diff 中未被触及
+      （无新增配置文件、无加载顺序变化、无新增迁移规则、无弃用标记变化），按不受影响结案，缺口保留原状。
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-core
+      - agents-definition
+      - agents-invocation
+      - agents-limits
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-trust-protected
+      - ref-pi-readme-philosophy
+      - ref-pi-readme-skips-features
+      - ref-pi-subagent-code-tool-list
+      - ref-pi-subagent-readme-inherit
+      - ref-pi-subagent-readme-trust
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: >-
+      source-pi-repo, source-pi-legacy-repo: 扫描器给出的 shared or unknown impact；本轮任务范围限 configuration 与 local_transcripts，该主题未调查，impact 按协调者原样保留，其未完问题继续列在 pending_question_ids。
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-entry
+      - providers-models
+      - providers-auth
+      - providers-behavior
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-schema-generation-paths
+      - ref-pi-cp-doc-model-replacement
+      - ref-pi-cp-doc-registration
+      - ref-pi-providers-api-types
+      - ref-pi-providers-auth-order
+      - ref-pi-providers-azure-custom-model
+      - ref-pi-providers-azure-deployment-map
+      - ref-pi-providers-azure-id
+      - ref-pi-providers-classifier-api-types
+      - ref-pi-providers-classifier-context-images
+      - ref-pi-providers-classifier-images-doc
+      - ref-pi-providers-classifier-models-doc
+      - ref-pi-providers-compat-schema-published
+      - ref-pi-providers-compat-schema-source
+      - ref-pi-providers-models-entry
+      - ref-pi-providers-models-schema-url
+      - ref-pi-providers-openrouter-auth
+      - ref-pi-providers-openrouter-changelog
+      - ref-pi-providers-openrouter-code
+      - ref-pi-providers-openrouter-refresh
+      - ref-pi-providers-openrouter-regional
+      - ref-pi-providers-personalized-catalog
+      - ref-pi-providers-sampling-fields
+      - ref-pi-providers-sampling-merge
+      - ref-pi-providers-sampling-overrides
+      - ref-pi-providers-sampling-scope
+      - ref-pi-providers-sampling-types
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: >-
+      source-pi-repo, source-pi-legacy-repo: 扫描器给出的 shared or unknown impact；本轮任务范围限 configuration 与 local_transcripts，该主题未调查，impact 按协调者原样保留，其未完问题继续列在 pending_question_ids。
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-events
+      - hooks-entry
+      - hooks-input
+      - hooks-output
+      - hooks-order
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-trust-protected
+      - ref-pi-ext-doc-errors
+      - ref-pi-ext-doc-events
+      - ref-pi-ext-doc-example
+      - ref-pi-ext-doc-lifecycle
+      - ref-pi-ext-doc-project-trust-event
+      - ref-pi-ext-doc-run-order
+      - ref-pi-ext-doc-run-phases
+      - ref-pi-ext-doc-transform-events
+      - ref-pi-ext-doc-user-bash
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: >-
+      source-pi-repo, source-pi-legacy-repo: 扫描器给出的 shared or unknown impact；本轮任务范围限 configuration 与 local_transcripts，该主题未调查，impact 按协调者原样保留，其未完问题继续列在 pending_question_ids。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.archive
+      - transcripts.location
+      - transcripts.cleanup
+      - transcripts.lifecycle
+      - transcripts.scope
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.database
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-archive-and-cleanup
+      - transcripts-storage-layout
+      - transcripts-lifecycle
+      - transcripts-recording-scope
+      - transcripts-record-schema
+      - transcripts-database-and-index
+      - transcripts-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-lt-share-destination-doc
+      - ref-pi-lt-share-destination-code
+      - ref-pi-lt-share-destination-command
+      - ref-pi-lt-archive-export-share
+      - ref-pi-lt-archive-export-jsonl
+      - ref-pi-lt-location-file-path
+      - ref-pi-lt-location-sessions-dir
+      - ref-pi-lt-location-cli-flags
+      - ref-pi-lt-cleanup-deleting
+      - ref-pi-lt-cleanup-delete-trash
+      - ref-pi-lt-cleanup-delete-fallback
+    cross_topic_links:
+      - config.defaults
+    reason: >-
+      source-pi-repo, source-pi-legacy-repo: 提交 3daa2028 改动了本章引用的 docs/sessions.md 与
+      src/core/slash-commands.ts，并在未被引用的 src/modes/interactive/session-share.ts 里按新设置
+      sessionShareDestination 分支上传去向，因此 transcripts.archive 的已发布答案改变（去回退行为）。
+      transcripts.location 与 transcripts.cleanup 逐文件核对为不受影响：session-manager.ts、config.ts、
+      cli-args.ts、session-selector.ts、docs/session-format.md、session-export.ts 在该 diff 中零改动，
+      存储路径、命名、优先级、删除入口与 trash/unlink 回退实现均未被推翻。
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-core
+      - mcp-config
+      - mcp-capabilities
+      - mcp-lifecycle
+      - mcp-route
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-builtin-extensions
+      - ref-pi-mcp-capabilities
+      - ref-pi-mcp-changelog-list-json
+      - ref-pi-mcp-changelog-resources-listing
+      - ref-pi-mcp-cli-entry
+      - ref-pi-mcp-cli-tools-keep-mcp
+      - ref-pi-mcp-cli-tools-mcp-pattern-example
+      - ref-pi-mcp-config-files
+      - ref-pi-mcp-config-rules
+      - ref-pi-mcp-diagnostics-inspect
+      - ref-pi-mcp-diagnostics-list
+      - ref-pi-mcp-diagnostics-log
+      - ref-pi-mcp-exposure
+      - ref-pi-mcp-ext-registration
+      - ref-pi-mcp-ext-replaced
+      - ref-pi-mcp-lifecycle-stop
+      - ref-pi-mcp-lifecycle
+      - ref-pi-mcp-list-resources-flag
+      - ref-pi-mcp-login-timeout
+      - ref-pi-mcp-namespace-aliases
+      - ref-pi-mcp-oauth-storage
+      - ref-pi-mcp-permissions
+      - ref-pi-mcp-reaches-tools-activate
+      - ref-pi-mcp-reaches-tools-doc
+      - ref-pi-mcp-reaches-tools-mcp-doc
+      - ref-pi-mcp-reaches-tools-wait
+      - ref-pi-mcp-resource-tools
+      - ref-pi-mcp-resources-not-listed
+      - ref-pi-mcp-send-options
+      - ref-pi-mcp-server-fields
+      - ref-pi-mcp-structured-content
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: >-
+      source-pi-repo, source-pi-legacy-repo: 扫描器给出的 shared or unknown impact；本轮任务范围限 configuration 与 local_transcripts，该主题未调查，impact 按协调者原样保留，其未完问题继续列在 pending_question_ids。
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model
+      - plugins-install
+      - plugins-api
+      - plugins-lifecycle
+      - plugins-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-pattern-tilde-changelog
+      - ref-pi-config-pattern-tilde-code
+      - ref-pi-config-trust-protected
+      - ref-pi-packages-doc-dependencies
+      - ref-pi-packages-doc-filter
+      - ref-pi-packages-doc-identity
+      - ref-pi-packages-doc-install
+      - ref-pi-packages-doc-manifest
+      - ref-pi-packages-doc-sources
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: >-
+      source-pi-repo, source-pi-legacy-repo: 扫描器给出的 shared or unknown impact；本轮任务范围限 configuration 与 local_transcripts，该主题未调查，impact 按协调者原样保留，其未完问题继续列在 pending_question_ids。
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-locations
+      - skills-authoring
+      - skills-extension-fields
+      - skills-loading
+      - skills-invocation
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-resources
+      - ref-pi-config-trust-protected
+      - ref-pi-skills-code-name-validation
+      - ref-pi-skills-doc-command-control
+      - ref-pi-skills-doc-frontmatter
+      - ref-pi-skills-doc-loading
+      - ref-pi-skills-doc-locations
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    reason: >-
+      source-pi-repo, source-pi-legacy-repo: 扫描器给出的 shared or unknown impact；本轮任务范围限 configuration 与 local_transcripts，该主题未调查，impact 按协调者原样保留，其未完问题继续列在 pending_question_ids。
+pending_question_ids:
+  - config.sources
+  - config.migration
+  - config.diagnostics
+  - transcripts.lifecycle
+  - transcripts.archive
+  - transcripts.cleanup
+  - agents.entry
+  - agents.format
+  - agents.roles
+  - agents.invocation
+  - agents.overrides
+  - agents.limits
+  - agents.diagnostics
+  - providers.entry
+  - providers.auth
+  - providers.protocol
+  - providers.models
+  - providers.metadata
+  - providers.forwarding
+  - providers.responses
+  - providers.diagnostics
+  - hooks.events
+  - hooks.entry
+  - hooks.input
+  - hooks.output
+  - hooks.order
+  - hooks.conditions
+  - hooks.diagnostics
+  - transcripts.scope
+  - transcripts.naming
+  - transcripts.format
+  - transcripts.schema
+  - transcripts.database
+  - transcripts.diagnostics
+  - mcp.entry
+  - mcp.definition
+  - mcp.transport
+  - mcp.auth
+  - mcp.lifecycle
+  - mcp.capabilities
+  - mcp.exposure
+  - mcp.diagnostics
+  - plugins.model
+  - plugins.package
+  - plugins.install
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+  - skills.roots
+  - skills.discovery
+  - skills.collision
+  - skills.format
+  - skills.extensions
+  - skills.loading
+  - skills.invocation
+  - skills.conditions
+  - skills.diagnostics
+investigation_notes:
+  - >-
+    本轮 triage 分类：narrow_investigation；巡检观察来自 2026-10-13 的只读检查，入口限 configuration 与
+    local_transcripts 的六个固定问题（config.sources、config.defaults、config.migration、
+    transcripts.location、transcripts.cleanup、transcripts.archive）。
+  - >-
+    仓库单提交 3daa2028（fix(coding-agent): keep codemode cancellation prompt and bounded，95 files changed，
+    +2278/−393）。两个登记来源 source-pi-repo 与 source-pi-legacy-repo 指向同一提交，两个 pinned workspace
+    ws-3daa20280f6a-e16011ea-8f72-42b3-aa63-b05caab271a3 与 ws-3daa20280f6a-b1af55d4-c664-40de-856f-e84b8f482647
+    的 git ls-tree -r 输出逐行相同（同一 sha256），因此只调查前者并记录两个来源观察到同一提交。
+  - >-
+    逐文件 delta（本章已引用为证据的九个文件，11 files changed 共 +97/−18）：
+    schemas/settings.schema.json +18/−0，properties 里新增 sessionShareDestination（anyOf 三个 const、default "auto"）；
+    src/core/settings-schema.ts +8/−0，SettingsSchema 新增同名 Type.Optional 联合（auto/gist/radius，default 取自
+    SETTINGS_DEFAULTS）并导出 SessionShareDestination 类型别名；src/core/settings-defaults.ts +1/−0，SETTINGS_DEFAULTS
+    在 transport 之后新增 sessionShareDestination: "auto"；src/core/settings-manager.ts +15/−0，新增
+    getSessionShareDestination/setSessionShareDestination；docs/settings.md +1/−0，Sessions and context 表新增一行；
+    docs/sessions.md 1 行改写，/share 段新增指向该设置的强制说明；src/core/slash-commands.ts 1 行改写，/share 描述
+    由 "Share session as a secret GitHub gist" 改为 "Share session via a Radius artifact or a GitHub gist"；
+    CHANGELOG.md +34/−5，新增 Unreleased/Fixed 段并把既有内容归入 [1.2.0] - 2026-10-12（其中 Added 段含
+    "Added the `sessionShareDestination` setting to choose automatic, GitHub gist, or Radius uploads for `/share`"）；
+    package.json 12 行改动是版本 1.1.0→1.2.0 与五个内部依赖由 ^1.1.0 改为精确 1.2.0。
+    另有一个章节未引用但落在范围内的文件：src/modes/interactive/session-share.ts +9/−3（按设置分支）。
+  - >-
+    提交主题「codemode cancellation」不是纯交互改动：同一次 diff 同时改了设置层（settings.schema.json、
+    settings-schema.ts、settings-defaults.ts、settings-manager.ts、docs/settings.md）与分享实现
+    （session-share.ts、sessions.md、slash-commands.ts）。因此本轮不能整提交排除，但 codemode 部分可排除——
+    docs/codemode.md 的两行新增只写 Bun 上不可中断内建与「一个 pi 进程最多两个存活 codemode worker、
+    取消的 worker 退出前仍占名额」，src/extensions/codemode/execute.ts 的 +14 是 worker admission 逻辑，
+    src/modes/interactive/interactive-mode.ts 的 +4 是分享设置的回调接线。都不涉及设置键、默认值、
+    会话文件路径、保留或删除。
+  - >-
+    agent-session.ts 的排除（任务约定第 3 条）：15 行改动全部落在「从 transcript 恢复工具集合」上——
+    AgentSessionConfig.usesDefaultTools 的注释补充、构造时由 `if (this._initialActiveToolNames === undefined)`
+    改为 `if (this._usesDefaultTools)` 触发、_restoreToolsFromTranscript 增加 defaultToolModifiers 形参并对
+    恢复出的工具名跑 applyToolModifiers。这改变的是恢复会话后的可用工具集合，不改变会话文件的位置、命名、
+    schema、写入方式、保留期或删除，因此不触及本轮六个固定问题。
+  - >-
+    config.defaults 判定为改变，pi-configuration-v6 已在候选中就地修订（该版本尚未进入 origin/main，
+    属开放 PR 内的未发布 edition，按规则修订该份而非另起 v7）：新增键按既有默认机制同时落在默认表、
+    TypeBox 模式、发布 schema、文档表与访问器五处；访问器只接受 gist/radius、其余回落 "auto"，
+    写入口落 globalSettings 因而是不参与项目层合并的全局设置。
+  - >-
+    config.sources 判定为不受影响：diff 未新增或移动任何配置文件、未改 PI_CODING_AGENT_DIR /
+    PI_CODING_AGENT_SESSION_DIR 的解析、未改 .pi 项目层与上下文文件的加载顺序、未改独立二进制的三个 dotenv 文件。
+    该题原有的三项缺口（三个 dotenv 文件的优先级、与进程环境的覆盖关系、npm 安装的 CLI 是否同样加载）
+    本轮没有新证据，仍为 partial 并保留在 pending_question_ids。
+  - >-
+    config.migration 判定为不受影响：启动迁移集合（凭据、会话文件、受管二进制、键绑定、扩展系统）在该 diff 中
+    零改动，settings-manager.ts 的新增是访问器而非迁移代码，SettingsSchema 的两个 deprecated 旧键标记
+    （queueMode、websockets）与旧 skills 对象形态的 deprecated 分支未变，additionalProperties: true 未变，
+    schema 内写 $schema 的允许项未变。迁移弃用时间表与回滚方式仍无来源。
+  - >-
+    transcripts.location 判定为不受影响：src/core/session-manager.ts、src/config.ts、src/cli-args.ts、
+    src/modes/interactive/components/session-selector.ts、docs/session-format.md、src/core/session-export.ts、
+    src/core/session-cwd.ts、src/experimental/* 在 7bd01fb9→3daa2028 的 95 个变化文件里一个都没有出现。
+    默认布局 ~/.pi/agent/sessions/--<path>--/<timestamp>_<session-id>.jsonl、cwd 有损编码、
+    --session-dir > PI_CODING_AGENT_SESSION_DIR > sessionDir 的优先级、--no-session 均未被触碰。
+  - >-
+    transcripts.cleanup 判定为不受影响：session-selector.ts 未改动，deleteSessionFile() 先 trash 再退回 unlink、
+    以 - 开头时插入 --、trash 返回 0 或文件已不存在即算成功、失败时把 trash 错误拼进错误信息这一实现原样成立；
+    docs/session-format.md 的两条删除入口（删 .jsonl 文件、/resume 里 Ctrl+D 确认）也未变。级联删除、孤儿检测、
+    并发写入三项缺口依旧无来源，按未证实处理，不因本轮无事而升级结论。
+  - >-
+    transcripts.archive 判定为改变，pi-local_transcripts-v2 已就地修订：/share 的上传去向由固定的
+    「Radius 认证则 artifact，否则私有 gist」变成读 sessionShareDestination——gist 直接跳过 Radius，
+    radius 在未认证时报错且不回退，auto 保持原顺序。docs/sessions.md 与 slash-commands.ts 的原文随之改变，
+    已在章节里引用 3daa2028 的新原文。该设置不改变会话文件本身：exportSessionForShare() 仍先写 JSONL 再上传，
+    三个取值对本地会话文件的处置等价。/import 的分发分支缺口未闭合，该题仍为 partial。
+  - >-
+    npm 1.1.0→1.2.0 的身份变化按任务第 6 条排除，且本轮不写任何软件版本映射：CHANGELOG 把
+    sessionShareDestination 归入 [1.2.0] - 2026-10-12 段确实把它与一个已发布版本名联系起来，但本轮没有
+    取得 1.2.0 的发行包快照，source-pi-npm 的检查只给出 registry 身份（version@integrity），不足以支撑
+    「该 npm 发行版有此行为」的映射。两个章节继续按 source_only 阅读，本轮未新增、未修改任何 mappings/ 记录。
+  - >-
+    pending_question_ids 的变化：config.defaults 与 transcripts.location 本轮取得充分证据、从该列表移除；
+    config.sources、config.migration、config.diagnostics 与 transcripts.lifecycle、transcripts.archive、
+    transcripts.cleanup 仍列其中（前四者是旧缺口无新证据，后三者是本轮确认受影响但缺口未闭合）。
+    本轮任务范围外的六个主题（custom_agents、custom_providers、hooks、mcp、native_plugins、skills）
+    与 local_transcripts 的其余固定问题未调查，其 impact 按协调者原样保留、未作结论，
+    其未完问题继续在本审计中可见，旧审计引用不因本轮结案而关闭。
+  - >-
+    独立复核需求：有。本次改的是两个已发布章节里用户可见的机制陈述——configuration 新增一个会被写进
+    settings.json 的全局设置键，local_transcripts 改变了 /share 的失败与回退行为；后者还推翻了 v2 里
+    「未配置 Radius 时回退到 gist」这一无条件表述。需要只读 reviewer 独立复核新增的八个 reference、
+    两个 edition 的修订，以及「sessionShareDestination 不影响会话文件」这一判断。

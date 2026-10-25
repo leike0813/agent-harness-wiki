@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt5-database-recent-window-code
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-src-session-history-storage-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/history-storage.ts
+  start: 444
+  end: 463
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/packages/coding-agent/src/session/history-storage.ts#L444-L463
+excerpt: "\t/**\n\t * Recall reads the newest window first, so foreign rows there are what crash\n\t * the editor. When the window holds any and `quick_check` confirms damage,\n\t * failing with SQLITE_CORRUPT hands the store to quarantine and salvage.\n\t * A clean check means only odd but intact values, which reads filter.\n\t */\n\t#assertRecentWindowReadable(): void {\n\t\tconst window = this.#db\n\t\t\t.query(\n\t\t\t\t`SELECT count(*) AS foreign_rows FROM (SELECT prompt, created_at, use_count FROM history ORDER BY created_at DESC, id DESC LIMIT ${RECENT_WINDOW}) WHERE NOT (${readableRowClause(\"\")})`,\n\t\t\t)\n\t\t\t.get() as { foreign_rows: number };\n\t\tif (window.foreign_rows === 0) return;\n\t\tconst check = this.#db.query(\"PRAGMA quick_check(1)\").get() as { quick_check: string };\n\t\tif (check.quick_check === \"ok\") return;\n\t\tt…"

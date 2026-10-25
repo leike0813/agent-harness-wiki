@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-refresh
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-e08cc-mcp-refresh
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/mcp/refresh.ts
+  start: 43
+  end: 61
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  /**
+   * Refresh an expired stored OAuth token so the next request carries a valid one.
+   * Never throws and never outlives `timeout`: a refresh that fails or times out leaves the
+   * stored credential in place for the normal connect path to classify as `needs_auth`.
+   */
+  export function refreshExpired(args: RefreshArgs): Promise<void> {
+    const key = `${args.name}\u0000${args.serverUrl}`
+    const active = inflight.get(key)
+    if (active) return active
+    const run = deadline(attempt(args), args.timeout)
+      .catch((err) => {
+        log.info("expired MCP token could not be refreshed", { server: args.name, err })
+      })
+      .finally(() => {
+        if (inflight.get(key) === run) inflight.delete(key)
+      })
+    inflight.set(key, run)
+    return run
+  }

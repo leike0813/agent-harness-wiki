@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt5-location-symlink-listing-code
+harness_id: omp
+snapshot_id: snapshot-omp-b5c2-src-session-session-storage-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-storage.ts
+  start: 1030
+  end: 1041
+official_url: https://github.com/can1357/oh-my-pi/blob/0b5c27ab24719c86a5986b95ee55f4e75bc1aaa0/packages/coding-agent/src/session/session-storage.ts#L1030-L1041
+excerpt: "\t}\n\n\tlistFilesSync(dir: string, pattern: string): string[] {\n\t\ttry {\n\t\t\t// Bun.Glob walks no symlink unless asked, and a transcript placed in\n\t\t\t// a session directory as one — a launcher's, a supervisor's — is a\n\t\t\t// transcript like any other (#15878)\n\t\t\treturn Array.from(new Bun.Glob(pattern).scanSync({ cwd: dir, followSymlinks: true })).map(name =>\n\t\t\t\tpath.join(dir, name),\n\t\t\t);\n\t\t} catch {\n\t\t\treturn [];"

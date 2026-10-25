@@ -1,0 +1,117 @@
+schema_version: 2
+audit_id: audit-zoo-code-f9720bc5-ced6-4b53-8895-f2f811b13824
+harness_id: zoo-code
+checked_at: 2026-10-12T18:05:02.547Z
+previous_audit_id: audit-zoo-code-24744deb-a7e2-42d1-9c0c-2e1a1ee133e4
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-zoo-code-repo
+    kind: git_repository
+    checked_at: 2026-10-12T18:05:01.014Z
+    status: changed
+    baseline: ecab51985709faeb2a1f35f23179d98f85abc485
+    observed: 496bd11467f82791f98f8a3290e028c20767e415
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs
+    kind: git_repository
+    checked_at: 2026-10-12T18:05:01.026Z
+    status: unchanged
+    baseline: dfd2628c31073ec6b111bfedbcd071d197d37ad2
+    observed: dfd2628c31073ec6b111bfedbcd071d197d37ad2
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs-site
+    kind: official_documentation
+    checked_at: 2026-10-12T18:05:01.036Z
+    status: unchanged
+    baseline: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    observed: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    resolved_url: https://docs.zoocode.dev/
+impacts:
+  - topic: skills
+    question_ids:
+      - skills.discovery
+      - skills.collision
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-discovery
+      - skills-conditions
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-src-skills-scan-496
+      - ref-zoo-code-src-skills-scan-pass-496
+      - ref-zoo-code-src-skills-scan-collision-496
+      - ref-zoo-code-src-skills-scan-classify-496
+      - ref-zoo-code-src-skills-container-scan-496
+      - ref-zoo-code-src-skills-hidden-entries-496
+      - ref-zoo-code-src-skills-publish-keep-496
+      - ref-zoo-code-src-skills-container-read-only-496
+      - ref-zoo-code-src-skills-watchers-496
+      - ref-zoo-code-src-skills-watchers-container-496
+    cross_topic_links:
+      - config.diagnostics
+    reason: "SkillsManager.ts 新增 symlinked skills container（只认符号链接、只下钻一层）、容器内技能只读、点号条目跳过、发现队列串行与失败路径保留、监视模式由 **/SKILL.md 改为 {*,*/SKILL.md} 并按容器真实路径补挂监视器。这直接改变已发布的 skills.discovery / skills.collision / skills.conditions 结论（v2 写的是「符号链接支持两种形态」「监视器用 **/SKILL.md」「同级同类先到先得」），skills.diagnostics 依赖同一发现/重载机制故同步复查。"
+  - topic: configuration
+    question_ids:
+      - config.defaults
+      - config.migration
+    section_ids:
+      - config-defaults
+      - config-migration
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-src-provider-repetition-migration-flag-496
+      - ref-zoo-code-src-provider-repetition-migration-fresh-496
+      - ref-zoo-code-src-provider-repetition-migration-run-496
+      - ref-zoo-code-src-provider-repetition-migration-496
+      - ref-zoo-code-src-provider-repetition-default-496
+      - ref-zoo-code-src-provider-repetition-normalize-496
+      - ref-zoo-code-src-provider-repetition-nullable-496
+      - ref-zoo-code-src-provider-repetition-shape-496
+    cross_topic_links:
+      - providers.entry
+      - providers.auth
+    reason: "ProviderSettingsManager.ts 新增 toolRepetitionLimitsMigrated 迁移标记与 migrateToolRepetitionLimits，provider-settings.ts 新增 DEFAULT_TOOL_REPETITION_SOFT_LIMIT 与 normalizeToolRepetitionSoftLimit，common.ts 把 consecutiveMistakeLimit 改为 nullableOptional 并新增 toolRepetitionSoftLimit。已发布的 config-migration 明确枚举了迁移标记清单、config-defaults 明确说了档案默认值来源，两处结论都因此过时。"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.responses
+    section_ids:
+      - providers-entry
+      - providers-responses
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-src-provider-repetition-migration-flag-496
+      - ref-zoo-code-src-provider-repetition-migration-496
+      - ref-zoo-code-src-provider-repetition-nullable-496
+      - ref-zoo-code-src-provider-repetition-default-496
+      - ref-zoo-code-src-provider-repetition-normalize-496
+      - ref-zoo-code-src-provider-repetition-shape-496
+      - ref-zoo-code-src-codex-abort-precedence-496
+    cross_topic_links:
+      - config.defaults
+      - config.migration
+    reason: "providers.entry 已发布的档案结构结论未提及新的两个阈值字段与其迁移/nullable schema（ProviderSettingsManager.ts 变化）；providers.responses 已发布的 Codex 重试结论未说明取消优先于重试（openai-codex.ts:316-344 明确在 attempt===0 之前先检查 abortSignal.aborted）。"
+pending_question_ids: []
+investigation_notes:
+  - "本轮固定来源：source-zoo-code-repo ecab51985709 → 496bd11467f8（150 个变更路径），只读 pinned workspace ws-496bd11467f8-d1bd1055-739b-49a4-b5b0-ef92fbdeee4f；source-zoo-code-docs 与 source-zoo-code-docs-site 均 unchanged，本轮未新建任何文档侧证据。"
+  - "纳入 skills：读取 src/services/skills/SkillsManager.ts 的真实 diff（480 insertions / 46 deletions）。scanSkillsDirectory 现在把条目分成 directSkills 与 containerPaths，容器先按 containerPaths.reverse() 加载再加载直接技能，因此「直接技能胜过容器技能、字母序最靠前的容器胜过其它容器」；新增 scanSkillContainer、assertNotContainerSkill（容器技能禁止 move/delete/updateSkillModes）、moveDirectory 跨文件系统回退、isHiddenEntry、discoveryQueue + publishSkills（失败路径保留）、SKILLS_WATCH_PATTERN `{*,*/SKILL.md}` 与 syncContainerWatchers。已发布的 skills-v2 关于符号链接形态、监视 glob、覆盖规则的表述被推翻，故写新 edition zoo-code-vscode-skills-v3 并保留 v2。"
+  - "纳入 configuration：src/core/config/ProviderSettingsManager.ts 的 migrations 对象新增 toolRepetitionLimitsMigrated（第 47 行），load() 新增对应分支（第 180-188 行），migrateToolRepetitionLimits（第 293-308 行）；packages/types/src/provider-settings.ts 新增 DEFAULT_TOOL_REPETITION_SOFT_LIMIT=2 与 normalizeToolRepetitionSoftLimit（第 58-83 行）；packages/types/src/provider-settings/common.ts 的 nullableOptional（第 19-26 行）使 consecutiveMistakeLimit 与新增的 toolRepetitionSoftLimit 容忍持久化的 null。config-sources / config-overrides / config-runtime / config.trust / config.diagnostics 的结论与这些行无关，未改。"
+  - "纳入 custom_providers：providers-entry 与 providers.auth 共用同一 source_refs 列表，档案结构结论随 ProviderSettingsManager/common.ts 变化，故与 providers.entry 一并更新；providers-responses 依 openai-codex.ts:316-344 补充取消优先于重试。providers.models / providers.protocol / providers.forwarding / providers.diagnostics 本轮无对应变更行，维持原结论。"
+  - "排除 custom_agents：该主题八条 source_refs 全部落在 src/shared/modes*、src/services/roo-config/、packages/types/src/mode.ts、src/core/tools/NewTaskTool.ts 与 schema，150 个变更路径中无一命中；src/core/task/Task.ts 虽变更但其 runState/runRejections、toolRepetitionSoftLimit 与 requestPolicySnapshot 均不进入 mode 定义、解析或委派路径。结论：reviewed_no_impact。"
+  - "排除 local_transcripts：ClineProvider.ts 仅新增两行把 toolRepetitionSoftLimit 透传进 Task 构造参数（第 1352、3423 行），不触及 historyItem 读删导出；Task.ts 的新增内容不进入 ui_messages.json / api_conversation_history.json / task_metadata.json，runState 仅是内存字段（grep 全仓仅 Task.ts 自身引用），saveApiConversationHistory(1585)、saveClineMessages(1762)、uuidv7(709) 与速率限制(5439) 逻辑未变。该主题已发布的路径、命名、格式与清理结论不受影响。"
+  - "排除 mcp / hooks / native_plugins：effective-tool-policy.ts 本轮只新增 RequestPolicySnapshot 接口（纯新增，零删除行），resolveEffectiveToolPolicy 与 buildToolRequirements 未改，因此 mcp.exposure 与 hooks 各题依赖的 disabledTools/excludedTools 剔除规则不变。改动主体是 presentAssistantMessage 的重复软拦截，属于工具执行期行为，八个主题里没有对应固定问题可承载，未新开章节。"
+  - "排除 locale 与 CI：src/i18n/locales/**/skills.json、tools.json 与 webview-ui/src/i18n/locales/**/settings.json 共 70 个文件为同一批文案同步（skills 三条新错误文案、tools 的 toolRepetitionSoftBlock、settings 的 toolRepetitionSoftLimit 标签与描述）。已发布章节未逐字引用任何 locale 字符串（技能错误文案与阈值默认值均改引源码行），故按 reviewed_no_impact 记录，不改章节。"
+  - "排除 .github/**、CODE_OF_CONDUCT.md、CONTRIBUTING.md 与 locales/*/{CODE_OF_CONDUCT,CONTRIBUTING}.md、pnpm-lock.yaml、eslint-suppressions.json、docs/architecture/task-lifecycle-run-state-kernel-tickets.md：贡献流程与仓库内部工单，不构成任何固定问题的证据。"
+  - "排除 src/api/providers/{openai-native,vscode-lm,opencode-go}.ts 与 packages/types/src/providers/opencode-go.ts：opencode-go.ts 仅新增 gpt-6-luna 模型条目并加入 OPENCODE_GO_RESPONSES_FORMAT_MODELS，已发布的 providers.models 只断言 DeepSeek V4.1 Flash 的窗口与输出上限（同表其它条目），新增模型不推翻任何已发布断言，故不新开 edition。"
+  - "排除 telemetry 与 tests：packages/telemetry/src/TelemetryService.ts 仅把 captureConsecutiveMistakeError 的原因参数从 ConsecutiveMistakeError 改为具名事件，其余为 *.spec.ts / *.test.ts。"
+  - "本轮未写 knowledge/zoo-code/mappings/：源码提交不证明 npm 发行版行为。"
+  - "新证据集：21 条 git_source_file 引用（SkillsManager.ts ×10、ProviderSettingsManager.ts ×4、provider-settings.ts ×2、provider-settings/common.ts ×2、ToolRepetitionDetector.ts ×1、ToolRepetitionLimitControl.tsx ×1、openai-codex.ts ×1），全部 pin commit 496bd11467f82791f98f8a3290e028c20767e415，content_sha256 由 pinned workspace 该 commit 下文件真实字节计算；对应 7 对 artifact/snapshot。"
+  - "未完成项：本轮固定问题已全部核完，pending_question_ids 为空；但 skills 发现/冲突/重载属跨主题关键加载机制变更（新 symlink container 形态 + 覆盖顺序变化 + 监视 glob 变化 + 容器技能只读），按维护契约属高影响，需独立 reviewer，故 review_status 保持 pending，未写 reviewed_by/reviewed_at。"
+  - "本轮未运行 pnpm ahw publish、pnpm chapters:update、pnpm managed:packages，未切换任何发布指针（delivery=pr）。只写了 registry/chapter-current.yaml 的三个选版指针（skills/configuration/custom_providers），未改动其它产品。"

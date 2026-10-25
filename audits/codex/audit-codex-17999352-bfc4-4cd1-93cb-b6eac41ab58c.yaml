@@ -1,0 +1,210 @@
+schema_version: 2
+audit_id: audit-codex-17999352-bfc4-4cd1-93cb-b6eac41ab58c
+harness_id: codex
+checked_at: "2026-10-14T18:02:01.784Z"
+previous_audit_id: audit-codex-911e2546-2762-49cf-a33c-2e59c98062b9
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-codex-1e99ac2e-274d-4179-a6bc-5d7c8dd49f35
+  - audit-codex-911e2546-2762-49cf-a33c-2e59c98062b9
+checks:
+  - source_id: source-codex-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:01:59.718Z"
+    status: changed
+    baseline: efa159f7aa3fcdb23a2f3aaf1f6f1249376bffc7
+    observed: 1f7fe9b0afb301f895b2d56ae8c05c2cfb19e440
+    remote_ref: refs/heads/main
+  - source_id: source-codex-cli-doc-learn
+    kind: official_documentation
+    checked_at: "2026-10-14T18:01:59.728Z"
+    status: unchanged
+    baseline: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+    observed: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+    resolved_url: "https://learn.chatgpt.com/docs/codex/cli.md"
+  - source_id: source-codex-cli-npm
+    kind: npm_registry
+    checked_at: "2026-10-14T18:01:59.731Z"
+    status: unchanged
+    baseline: "0.162.1@sha512-NWZdi/kxyjv/8EUGFupziGU38YyleugZRM4JXgY5XFH7FUmaFA33NZS2Bmq0HPazf7S3jJQQWsZ/jAK9jsrV3Q=="
+    observed: "0.162.1@sha512-NWZdi/kxyjv/8EUGFupziGU38YyleugZRM4JXgY5XFH7FUmaFA33NZS2Bmq0HPazf7S3jJQQWsZ/jAK9jsrV3Q=="
+  - source_id: source-codex-cli-skills-doc-learn
+    kind: official_documentation
+    checked_at: "2026-10-14T18:01:59.731Z"
+    status: changed
+    baseline: d15791562748e64a53dfec534b8558aa522e732cec0fdedcf7257fa4ef486a20
+    observed: ed6e324f747d47adf6f60ee1fca13ba469b3671f55f58c3a78f35947af6919d5
+    resolved_url: "https://learn.chatgpt.com/docs/build-skills.md"
+    error: >-
+      本轮观察到的新内容未保留原件，因此无法逐段比对。基线原件本身是可得的：
+      原项目 archive/codex/artifact-source-codex-cli-skills-doc-learn-d15791562748/source.md
+      与 archive/codex/artifact-codex-cli-skills-doc/raw.md 的 sha256 均为
+      d15791562748e64a53dfec534b8558aa522e732cec0fdedcf7257fa4ef486a20，与本条 baseline 一致。
+      阻塞点是"新观察内容 ed6e324f… 本轮未落盘"，而非"任何原件都不存在"——初稿误只在
+      工作树 archive 下查找，工作树 archive 是被 gitignore 的部分扫描史树，不是权威 archive。
+      按契约不重新扫描，故无法与新内容做 diff；skills 五个文档侧问题保持 pending。
+  - source_id: source-codex-cli-mcp-doc-learn
+    kind: official_documentation
+    checked_at: "2026-10-14T18:02:00.426Z"
+    status: changed
+    baseline: adb28990c0c7be47b9ff6c177e3cdeae5803978935cd792f781af2c8b5643e92
+    observed: ed03f227b54c5e02f425c700ddcd21046d6a9fc47cbf211f9e7928a98a80c6d9
+    resolved_url: "https://learn.chatgpt.com/docs/extend/mcp.md?surface=cli"
+  - source_id: source-codex-cli-configuration-doc-learn
+    kind: official_documentation
+    checked_at: "2026-10-14T18:02:00.474Z"
+    status: changed
+    baseline: ff9a198c4e39f191ec6d41141b3e867005a82dc1937c228b12197208585cba0b
+    observed: b3158464b335ab6fd2302a6b2f69b6ca85db2b0552a0ce8d0d836d24d79b7562
+    resolved_url: "https://learn.chatgpt.com/docs/config-file/config-reference.md"
+impacts:
+  - topic: hooks
+    question_ids:
+      - hooks.input
+      - hooks.output
+      - hooks.order
+    section_ids:
+      - hooks-handlers-input-output
+      - hooks-order
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-hooks-context-attribution-source
+      - ref-codex-cli-hooks-runtime-context-type-source
+      - ref-codex-cli-hooks-async-context-metadata-source
+      - ref-codex-cli-hooks-async-sender-source
+      - ref-codex-cli-hooks-output-entry-shape-source
+      - ref-codex-cli-hooks-append-context-metadata-source
+      - ref-codex-cli-hooks-command-runner-metadata-source
+      - ref-codex-cli-hooks-harness-fragment-metadata-source
+      - ref-codex-cli-hooks-provenance-source
+    cross_topic_links:
+      - skills.loading
+      - skills.extensions
+      - plugins.api
+      - config.runtime
+    reason: >-
+      source-codex-repo: codex-rs/core/src/hook_runtime.rs 的 additional_contexts 由
+      Vec<String> 改为 Vec<codex_hooks::HookContext>。沿该字段追到
+      codex-rs/hooks/src/context.rs（HookContext = text + ContentItemMetadata）、
+      codex-rs/hooks/src/events/common.rs（append_additional_context 接收并保存 metadata）、
+      codex-rs/hooks/src/engine/command_runner.rs（command 处理器 context_metadata 固定为
+      ContentItemMetadata::command_hook()）、codex-rs/core/src/context/hook_additional_context.rs
+      （HookAdditionalContext 的 content_metadata() 直接返回该 metadata）与
+      codex-rs/protocol/src/models/item_metadata.rs（provenance Harness { hook }）。
+      这条链只跨 hooks 主题，故不扩大到 mcp/custom_agents。记录于 codex-cli-hooks-v3：
+      hooks.output 增加注入归因结论（仍 partial，因退出码/阻断语义不在固定来源内）；
+      hooks.input 与 hooks.order 的已发布结论未被推翻。新增结论：异步排空路径
+      drain_async_hook_results 重建 HookContext 并填入 command_hook()，原因是承载通道的
+      HookOutputEntry 只有 kind 与 text、不携带 metadata。该硬编码不构成归因损失：
+      能进入该通道的只有 async 为真的 command 处理器——异步调度在 mcp_tool 处直接返回
+      （hooks/src/engine/command_runner.rs:134），executor 作用域处理器走 schedule_async_task
+      不发往该通道，command 处理器的运行时归因本就是 command_hook()。初稿曾把这一实现事实
+      表述为"同步路径下 MCP tool 可带 tool(namespace) 归因而在异步路径丢失"，独立复核证明该后果
+      不可达，已删除并改为等价的实现事实表述。
+  - topic: skills
+    question_ids:
+      - skills.discovery
+      - skills.extensions
+      - skills.loading
+    section_ids:
+      - skills-discovery-roots
+      - skills-openai-yaml
+      - skills-loading
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-skills-loader-constants-source
+      - ref-codex-cli-skills-shared-metadata-source
+      - ref-codex-cli-skills-metadata-parse-entry-source
+      - ref-codex-cli-skills-host-metadata-delegate-source
+      - ref-codex-cli-skills-discovery-v2-inert-source
+      - ref-codex-cli-skills-capability-v2-feature-source
+      - ref-codex-cli-skills-fragment-metadata-source
+    cross_topic_links:
+      - hooks.output
+      - plugins.api
+      - config.defaults
+    reason: >-
+      source-codex-repo: 协调者 triage 把 codex-rs/ext/skills/src/loader/mod.rs 记为"删除
+      MAX_DESCRIPTION_LEN / MAX_DEPENDENCY_* 长度上限"。逐常量在 1f7fe9b0 全树检索后确认这与事实不符，
+      不能按删除结案：这些常量被搬进新建的 codex-rs/skills/src/metadata.rs，取值逐项相同
+      （TYPE/TRANSPORT 64；VALUE/DESCRIPTION/COMMAND 1024）。同 commit 内 ext/skills 的
+      loader/metadata.rs 改为调用共享的 codex_skills::parse_skill_metadata，并从 Cargo.toml
+      移除 serde_yaml。记录于 codex-cli-skills-v3：skills.extensions 更正为"上限未删除而是换层执行"，
+      可观察约束未变；skills.discovery 增加 executor_capability_discovery_v2 惰性字段与其
+      UnderDevelopment/default_enabled false 开关；skills.loading 增加初始清单的
+      ContentItemMetadata::skills() 归因。
+  - topic: native_plugins
+    question_ids:
+      - plugins.discovery
+      - plugins.api
+    section_ids:
+      - plugins-install-discovery
+      - plugins-api
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-plugins-bundled-override-source
+      - ref-codex-cli-plugins-list-query-source
+    cross_topic_links:
+      - skills.discovery
+      - config.sources
+    reason: >-
+      source-codex-repo: codex-rs/core-plugins/src/loader.rs 的
+      merge_configured_plugins_with_remote_installed 在 remote_global_catalog_active 分支新增
+      visualize@openai-curated-remote 存在时移除 visualize@openai-bundled，与既有
+      sites 同构。记录于 codex-cli-native_plugins-v3：plugins.discovery 增加该替换规则及其
+      可观察后果（配置中显式写出的 visualize@openai-bundled 会被静默丢弃，
+      "已配置"不等于"会加载"）；plugins.api 增加 PluginListQuery.snapshots 惰性输入。
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.format
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-discovery-roots
+      - skills-skill-md
+      - skills-invocation
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-skills-roots-doc
+      - ref-codex-cli-skills-format-doc
+      - ref-codex-cli-skills-metadata-doc
+      - ref-codex-cli-skills-invocation-doc
+      - ref-codex-cli-skills-install-doc
+    cross_topic_links:
+      - hooks.entry
+      - config.sources
+    reason: >-
+      source-codex-cli-skills-doc-learn: 官方 Build skills 文档内容变化
+      （d1579156… → ed6e324f…），但新观察内容本轮未保留原件，无法逐段 diff。
+      基线原件已读通（229 行），其与五个问题的对应关系明确：技能位置表与扫描规则在
+      "Where Codex loads local skills"，SKILL.md 格式在 "Create a skill"，显式/隐式调用在
+      "How ChatGPT and Codex use skills"，启停在 "Enable or disable local Codex skills"，
+      openai.yaml 字段在 "Optional metadata"，初始清单预算在开头 2% / 截断警告段落。
+      恢复条件因此是具体的：保留 ed6e324f… 原件后，只需 diff 这六段即可判定是否影响本题。
+      在此之前 codex-cli-skills-v3 维持上一轮基于基线快照的答案与状态，不做改写；
+      本轮 skills 的源码侧结论另有独立证据，不受此阻塞影响。
+pending_question_ids:
+  - skills.roots
+  - skills.format
+  - skills.invocation
+  - skills.conditions
+  - skills.diagnostics
+investigation_notes:
+  - "派发范围为 hooks / skills / native_plugins 三个主题；mcp、custom_agents、custom_providers、configuration、local_transcripts 五主题本轮不在派发范围，未打开。"
+  - "expand_basis 已实际应用，而非断言：efa159f7..1f7fe9b0 共 395 个改动文件，先用 git diff --name-only 过滤出 skill|hook|plugin|feature|guardian|context 命中集合，再逐个读 diff 判定。落在三个主题内的机制级变化四处：core/src/hook_runtime.rs（additional_contexts 类型与归因）、ext/skills/src/loader/mod.rs（常量搬迁）、core-plugins/src/loader.rs（visualize 替换）、features/src/lib.rs（新增 ExecutorCapabilityDiscoveryV2 开关）。"
+  - "排除依据（逐文件）：config/src/types.rs 与 core/src/config/mod.rs 的其余改动经 diff 核对只是 tui.copy_on_select 与 tui_copy_on_select_clear_selection 的文档措辞从 transcript/footer 扩到 composer，无字段、路径、加载顺序或条件变化，按描述级排除；不因此打开 configuration 主题。exec-server-protocol/src/protocol.rs 与 protocol/src/protocol.rs 只改文档注释并新增 ConversationStartParams.voice_session_id 字段（Realtime 语音会话标识），后者属配置/协议面且不进入本次三主题的固定问题，按无知识影响排除。cli/src/doctor.rs、rollout/src/list.rs、thread-store/src/local/rollout_lineage.rs 属 local_transcripts 主题，本次未派发该主题，故不在本轮结论内，记为范围备注交协调者判断。"
+  - "本次引用的既有 13 个 locator 全部在 1f7fe9b0 重新定位成功（逐个 symbol 在固定提交内 grep 命中），因此它们是定位未失效而非知识变化，无需改写；本版新证据一律用 commit+repo 相对路径+content_sha256 的 git_source_file 引用。"
+  - "新增 16 条引用的 excerpt 已逐条在固定提交的文件内容中做字面子串校验，全部命中。"
+  - 'skills 官方文档 source-codex-cli-skills-doc-learn 本轮内容变化，阻塞点仅是"新观察内容 ed6e324f… 未落盘"；基线原件在原项目 archive/codex 下可得并已读通（见 skills impact reason 的段落→问题映射）。初稿把阻塞原因写成"任何原件都不存在"，是只查了工作树 archive 所致——工作树 archive 是被 gitignore 的部分扫描史树，权威 archive 在原项目根 /home/joshua/Workspace/Code/JavaScript/agent-harness-wiki/archive/。已更正。'
+  - '复核更正一：初稿称异步排空路径会使 MCP tool 处理器丢失 tool(namespace) 归因。独立复核证明该后果不可达，本 worker 已自行复核确认：result_sender 的唯一发送点是 command_runner.rs:163，而 schedule_async_hook 在 :134 对 ConfiguredHandlerKind::McpTool 直接 return；ExecutorScoped 处理器走 dispatcher.rs:128-133 → schedule_async_task，不发往该通道；HookOutputEntry(protocol.rs:1777-1780) 只有 kind+text，无 metadata 可丢。因此硬编码与处理器运行时归因等价。章节与本审计的"对比/丢失"表述均已删除，改写为等价的实现事实并补两条引用。'
+  - "复核更正三：ref-codex-cli-hooks-runtime-context-type-source 的行号由 72-78 更正为 76-79（已用 awk 核对，结构体含闭合大括号恰为 76-79 行）。"
+  - "本版 skills 结论只依赖源码证据，未使用该文档的新内容。"
+  - "高影响判定：hooks 与 skills 在同一轮同时命中，且共享 ContentItemMetadata 归因机制（hooks 侧 command_hook()、skills 侧 skills()），属跨主题关键加载机制变化，按维护契约交独立 reviewer，不由作者自审。"

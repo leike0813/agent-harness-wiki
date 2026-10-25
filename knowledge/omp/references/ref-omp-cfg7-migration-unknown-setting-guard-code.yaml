@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-cfg7-migration-unknown-setting-guard-code
+harness_id: omp
+snapshot_id: snapshot-omp-f1ac-src-config-settings-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/config/settings.ts
+  start: 271
+  end: 282
+official_url: https://github.com/can1357/oh-my-pi/blob/f1ac114d8d3438bee43010aee559bfe720ba3224/packages/coding-agent/src/config/settings.ts#L271-L282
+excerpt: "/**\n * @throws Error when a leaf of `layer` sits at a path that names no registered setting (typo guard\n * for constructor overrides).\n */\nfunction assertKnownSettingPaths(layer: RawSettings, prefix = \"\"): void {\n\tfor (const key in layer) {\n\t\tconst id = prefix ? `${prefix}.${key}` : key;\n\t\tif (lookupSetting(id)) continue;\n\t\tconst value = layer[key];\n\t\tif (!isRecord(value)) throw new Error(`Unknown setting \"${id}\"`);\n\t\tassertKnownSettingPaths(value, id);\n\t}"

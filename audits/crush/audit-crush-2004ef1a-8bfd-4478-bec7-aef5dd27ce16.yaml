@@ -1,0 +1,29 @@
+schema_version: 2
+audit_id: audit-crush-2004ef1a-8bfd-4478-bec7-aef5dd27ce16
+harness_id: crush
+checked_at: "2026-10-14T18:02:11.283Z"
+previous_audit_id: audit-crush-c605cca6-663b-42e6-aa68-24b9b3ed29eb
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-crush-c605cca6-663b-42e6-aa68-24b9b3ed29eb
+checks:
+  - source_id: source-crush-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:02:09.722Z"
+    status: changed
+    baseline: d6edc3222231a0177b88d073733413578c9a1e01
+    observed: a48dabea1a3562b24c39cc7f0dec10e867f8499b
+    remote_ref: refs/heads/main
+  - source_id: source-crush-npm
+    kind: npm_registry
+    checked_at: "2026-10-14T18:02:09.733Z"
+    status: unchanged
+    baseline: "0.98.1@sha512-TWjk5My+NLi+iNidiYNde4s05g85sOC97IiBs6aXywuFP2pZ9C+wjih985StTvmY3lJgPd9oKrtgbPRGT2SQ8g=="
+    observed: "0.98.1@sha512-TWjk5My+NLi+iNidiYNde4s05g85sOC97IiBs6aXywuFP2pZ9C+wjih985StTvmY3lJgPd9oKrtgbPRGT2SQ8g=="
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "本轮状态：本产品已完成协调者的只读观察与语义 triage，来源证据已固定（Git 工作区已按观察到的 commit 打开并保留），但**本轮没有执行 maintenance 派发**。上述限定范围、问题清单与已固定的来源入口是下一轮可直接接续的工作面，不是已完成结论。review_status 保持 pending，pending_audit_refs 保持不变；不得因本轮无候选产物而视为已结案。"
+  - "maintain。source-crush-repo d6edc322..a48dabea 命中 internal/agent/agent.go 与 internal/ui/model/ui.go，其余改动集中在 internal/ui/dialog 与 chat 渲染。"
+  - "agent.go 是代理主循环入口，改动需按已录问题判定，不能仅凭文件相邻引用。"

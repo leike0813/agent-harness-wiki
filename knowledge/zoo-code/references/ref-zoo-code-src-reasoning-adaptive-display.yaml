@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-reasoning-adaptive-display
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-src-src-api-transform-reasoning-1d3
+locator:
+  kind: file_lines
+  file: src/api/transform/reasoning.ts
+  start: 127
+  end: 136
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/1d37994661f43b9105d731dfafe6161ad0c2e97a/src/api/transform/reasoning.ts"
+excerpt: |2
+  export const getAnthropicProviderReasoning = ({
+  	model,
+  	reasoningBudget,
+  	settings,
+  }: GetModelReasoningOptions): AnthropicProviderReasoningParams | undefined => {
+  	if (model.supportsReasoningBinary && settings.enableReasoningEffort) {
+  		return { type: "adaptive", display: "summarized" }
+  	}
+
+  	return getAnthropicReasoning({ model, reasoningBudget, settings })

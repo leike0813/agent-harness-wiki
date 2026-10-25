@@ -1,0 +1,106 @@
+schema_version: 2
+audit_id: audit-kimi-code-9a937c5a-0f5c-4a70-ab08-3d64826a4de5
+harness_id: kimi-code
+checked_at: '2026-10-12T18:50:37.727Z'
+previous_audit_id: audit-kimi-code-5f262522-e876-4111-a761-35958a793530
+status: changed
+review_status: reviewed
+reviewed_by: kimi-code-maintenance-worker
+reviewed_at: '2026-10-13T00:00:00.000Z'
+pending_audit_refs: []
+checks:
+  - source_id: source-kimi-code-repo
+    kind: git_repository
+    checked_at: '2026-10-12T18:50:36.177Z'
+    status: changed
+    baseline: c9f01f07388abc2cdca40c9c5267f58c65086710
+    observed: cbd754049a114ee36d1b27675c82819e4963c692
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-legacy-repo
+    kind: git_repository
+    checked_at: '2026-10-12T18:50:36.187Z'
+    status: unchanged
+    baseline: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    observed: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-npm
+    kind: npm_registry
+    checked_at: '2026-10-12T18:50:36.196Z'
+    status: unchanged
+    baseline: 2.1.1@sha512-xClqcnTQUKgKDbeOGPU78qcwxGzL8wA2rqWuOX3CLpyQ1/NhSX7jAh6hZo/JFwThSX8obkgef3uw/li5JaJNyw==
+    observed: 2.1.1@sha512-xClqcnTQUKgKDbeOGPU78qcwxGzL8wA2rqWuOX3CLpyQ1/NhSX7jAh6hZo/JFwThSX8obkgef3uw/li5JaJNyw==
+impacts:
+  - topic: mcp
+    question_ids:
+      - mcp.definition
+      - mcp.transport
+    section_ids:
+      - mcp-definition
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kimi-code-src-mcp-schema-cbd7540
+      - ref-kimi-code-src-mcp-schema
+    cross_topic_links:
+      - config.sources
+    reason: >-
+      commit cbd7540（chore: remove unused kaos package and MCP kaos executor option，#4184）把
+      packages/agent-core-v2/src/mcpCore/config-schema.ts 中 stdio server 的 `executor` 枚举由
+      z.enum(['local','kaos']) 收窄为 z.enum(['local'])，同一改动同步收窄 packages/klient/src/contract/mcp.ts 与
+      packages/node-sdk/src/config/schema.ts 的同名字段，并删除 client-stdio.ts 里对非 local 取值抛
+      NOT_IMPLEMENTED 的分支。已发布的 mcp v2 在「定义字段与传输方式」表中把该字段写成 `local` 或 `kaos`，
+      与新固定提交不符，因此新建 v3 edition，只改写 mcp-definition 一节（字段表该行、紧随其后的未文档化字段
+      提示句，以及该节与 mcp.definition / mcp.transport 答案的 source_refs 指向新固定提交的
+      ref-kimi-code-src-mcp-schema-cbd7540）。官方文档从未描述该字段，其余传输、认证、生命周期与能力结论不受影响。
+pending_question_ids: []
+investigation_notes:
+  - >-
+    本轮 triage：source-kimi-code-repo 由 c9f01f0 前进到 cbd7540，108 个 changed paths 逐组读过实际 hunk
+    （git diff 只读，基线与观测提交均在 coordinator 已 pin 的工作区
+    /tmp/ahw-source-workspaces/ws-cbd754049a11-d52fb2c7-ea0f-45b5-9295-417409c1982f 内读取）。本审计把 scanner 的
+    八主题空转影响收缩为一个 mcp impact。
+  - >-
+    引用定位复核（不依赖 scanner 的计数）：逐个解析本产品 168 个 references/*.yaml 的 locator 后与 changed paths 求交，
+    唯一命中是 ref-kimi-code-src-mcp-schema → packages/agent-core-v2/src/mcpCore/config-schema.ts；
+    其余 locator 要么是 document_section（无 file 字段），要么指向未变动的文件。旧引用保留不动，
+    新提交另建 artifact-kimi-code-src-mcp-config-schema-ts / snapshot-kimi-code-src-mcp-config-schema-ts /
+    ref-kimi-code-src-mcp-schema-cbd7540（sha256 由工作区字节计算，locator 取 cbd7540 的 6–26 行）。
+  - >-
+    mcp（本轮唯一有知识影响的主题）：除上述 config-schema.ts 外，同一提交的
+    packages/agent-core-v2/src/mcpCore/client-stdio.ts（删除 NOT_IMPLEMENTED 分支）与
+    packages/klient/src/contract/mcp.ts、packages/node-sdk/src/config/schema.ts（同样的枚举收窄）互相印证，
+    无冲突来源。docs/en|zh/customization/mcp.md 未改动，mcp entry/lifecycle/auth/capabilities/diagnostics 各节结论原样沿用，
+    小节 id 与引用 locator 不变。
+  - >-
+    configuration（无知识影响，不改章）：新增 KIMI_CODE_LLM_HEADERS_TIMEOUT_MS（docs/en|zh/configuration/env-vars.md 的
+    Runtime switches 表）与对应实现 packages/agent-core-v2/src/human/llm/requester/timeout.ts，是请求头超时上限的新运行期开关。
+    已发布的 configuration-v2 对环境变量的表述是分工描述与举例（「主要处理数据目录定位、OAuth 端点切换与少量运行期开关」、
+    「少数环境变量显式覆盖对应字段……逐个标注」），并不断言存在某个封闭的变量清单，因此新变量不与任何已发布结论冲突；
+    本轮也不重开该章逐条补全变量表（那属于新增内容而非修正）。ref-kimi-code-env-switches 的 document_section 定位
+    （heading: Runtime switches）与摘录（表头与前几行）未被本次改动触及，仍然有效。
+  - >-
+    skills（无知识影响）：108 个 changed paths 中没有任何 Skill 发现、frontmatter、注册表或插件技能目录相关文件；
+    features/skill 下的加载入口本轮未改动，章节结论不受影响。
+  - >-
+    custom_agents / custom_providers / hooks（无知识影响）：diff 只触及
+    app/agentProfileCatalog/profile-shared.ts 的 NOTIFY_USER_GUIDE 提示文案、features/notify/* 的 NotifyUser 工具与
+    features/agent/tools/read-media-file 的 AbortSignal 透传，以及 packages/human/llm/requester 的请求头超时实现。
+    八章正文均未记录 NotifyUser、Updates 面板或 readMediaFile 的取消语义，全文 grep NotifyUser / Updates / notify_user
+    在 chapters/ 下零命中，故无口径需要修正。custom_providers 关注的协议/端点/凭据字段未变。
+  - >-
+    native_plugins（无知识影响）：本轮未触及插件清单、store、安装与发现代码；仅 apps/vscode 的构建脚本与 flake.nix、
+    pnpm-workspace.yaml 因删除 packages/kaos 而调整，与宿主插件机制无关。
+  - >-
+    local_transcripts（无知识影响）：本轮没有会话记录、wire schema、blob、索引或数据根代码改动；node-sdk 中删除的
+    rpc/sdk-rpc-client-v2 条目属 SDK 传输面，不进入已发布的记录结论（v1 的 transcripts.* 答案均以
+    persistence/session/sessionExport 等文件与 docs/en/guides/sessions.md 为依据）。
+  - >-
+    版本映射：未新增或修改任何 mapping。cbd7540 只证明源码树，source-kimi-code-npm 本轮 unchanged
+    （2.1.1 + 同一 integrity），没有证据把该字段变化绑定到任何已发布 npm 版本。
+  - >-
+    复核判定：本次结论是「已发布的一行字段取值被新固定提交收窄」，证据单一来源、无版本/条件冲突，
+    不涉及跨主题关键 loader 或配置加载机制变更，也未推翻任何有官方文档依据的配置步骤，故按作者自检结案，
+    review_status 记 reviewed，不触发独立复核。若后续独立复核认为删除未文档化字段的表述属高影响，可回退到 v2 并保留本轮证据。
+  - >-
+    交付边界：delivery=pr，未重跑 sources:scan，未执行 pnpm ahw publish / chapters:update / managed:packages，
+    未写主工作树或他产品候选，未把工作区临时路径写进任何知识记录，源码未复制进候选。

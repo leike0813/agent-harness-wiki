@@ -1,0 +1,1050 @@
+schema_version: 2
+audit_id: audit-qwen-code-888916ad-b2ec-4dba-9e92-2b032d361ba0
+harness_id: qwen-code
+checked_at: 2026-10-13T18:03:27.064Z
+previous_audit_id: audit-qwen-code-42d06e9b-b1b5-410a-8c7c-948096791695
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-qwen-code-42d06e9b-b1b5-410a-8c7c-948096791695
+checks:
+  - source_id: source-qwen-code-repo
+    kind: git_repository
+    checked_at: 2026-10-13T18:03:25.323Z
+    status: changed
+    baseline: 18f80f56666a347a2b67b2ef98099cc58356b253
+    observed: 6212189f1f8334da78a69e3fb6b63ff6ca88251e
+    remote_ref: refs/heads/main
+  - source_id: source-qwen-code-npm
+    kind: npm_registry
+    checked_at: 2026-10-13T18:03:25.335Z
+    status: unchanged
+    baseline: 0.25.1@sha512-6cEbtfx4Ugl1d3FdFLa8fcsG6knHuUUHqvDseLxGY06Xan8p7Fcd7+g5KlX694zX4mo/+Vh56AHxT/4R15zpYA==
+    observed: 0.25.1@sha512-6cEbtfx4Ugl1d3FdFLa8fcsG6knHuUUHqvDseLxGY06Xan8p7Fcd7+g5KlX694zX4mo/+Vh56AHxT/4R15zpYA==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.defaults
+      - config.migration
+    section_ids:
+      - config-scope
+      - config-overrides
+      - config-defaults
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-settings-configuration-layers
+      - ref-qwen-settings-plugin-configs-key
+      - ref-qwen-extension-mods-plugin-options-precedence
+      - ref-qwen-settings-workspace-restricted-root-list
+      - ref-qwen-config-cli-disable-mcp-server-flag-description
+      - ref-qwen-config-cli-disable-mcp-server-option
+      - ref-qwen-config-cli-disable-mcp-server-precedence
+      - ref-qwen-config-cli-disable-mcp-server-exclude-union
+      - ref-qwen-config-cli-disable-mcp-server-allow-then-deny
+      - ref-qwen-config-cli-disable-mcp-server-safe-mode
+      - ref-qwen-config-cli-disable-mcp-server-boot-only
+      - ref-qwen-settings-ui-arrow-keys-scroll-transcript-schema
+      - ref-qwen-settings-ui-arrow-keys-scroll-transcript-doc
+    cross_topic_links:
+      - mcp.entry
+      - mcp.definition
+    reason: "config.ts 与 top-level-options.ts 在 6212189f 为第 7 层新增
+      --disable-mcp-server：顶层选项表登记为数组型（说明为 MCP server names
+      to disable for this invocation），parseArguments 按逗号拆分，loadCliConfig
+      在 allow/exclude if-else-if 链之后独立并入 excludedMcpServers。并入语义
+      与既有设置文件的整体替换/并集规则都不同，故 config.overrides 的已发布
+      表述需新增第三类合并规则；settingsSchema.ts 同提交新增 UI 布尔键
+      ui.arrowKeysScrollTranscript（默认 false、requiresRestart false、
+      showInDialog true），docs/users/configuration/settings.md 的 ui 表新增
+      对应行，故 config.defaults 的分组清单需更新。config.ts 的 CliArgs 字段
+      与 parseArguments 仅新增这一个选项，配置文件路径、环境变量、加载顺序与
+      迁移表均未触及，故 config.sources 与 config.migration 关闭为不受影响。"
+  - topic: configuration
+    question_ids:
+      - config.runtime
+      - config.trust
+      - config.diagnostics
+    section_ids:
+      - config-runtime
+      - config-trust
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-settings-configuration-layers
+      - ref-qwen-settings-command-line-arguments-table
+      - ref-qwen-settings-environment-variables-env-files
+      - ref-qwen-trusted-folders-how-it-works-the-trust-dialog
+      - ref-qwen-settings-workspace-restricted-warning
+    cross_topic_links:
+      - config.overrides
+      - mcp.entry
+    reason: "本轮冻结任务只派发了 config.sources/config.overrides/config.defaults/
+      config.migration 四题，这三题未派发，维持 pending 不作结论。其中 config.runtime
+      是最可能在下一轮需要复查的一题：--disable-mcp-server 属第 7 层 CLI 参数，且只在
+      启动时并入排除集（settings-watcher 与 ACP 重载会丢弃），该生效时机应与该题的
+      『CLI 参数与环境变量如何压过设置文件』一起复核。"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-scope
+      - agents-entry
+      - agents-format
+      - agents-roles
+      - agents-invocation
+      - agents-overrides
+      - agents-limits
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-a2a-agents-unavailable-error
+      - ref-qwen-a2a-inbound-transport-tasks-are-sessions
+      - ref-qwen-a2a-message-continues-context-not-task
+      - ref-qwen-a2a-session-port-ordinary-chat-session
+      - ref-qwen-a2a-task-view-session-context
+      - ref-qwen-agent-plugins-supported-capabilities
+      - ref-qwen-agents-command-exits-interactive-flow
+      - ref-qwen-agents-command-module
+      - ref-qwen-agents-command-registered
+      - ref-qwen-agents-join-command
+      - ref-qwen-agents-join-defaults
+      - ref-qwen-agents-join-enroll-request
+      - ref-qwen-agents-join-options
+      - ref-qwen-agents-join-token-resolution
+      - ref-qwen-commands-1-slash-commands
+      - ref-qwen-getting-started-extensions-adding-a-custom-subagent
+      - ref-qwen-introduction-custom-subagents
+      - ref-qwen-multi-agent-coordination-choosing-the-right-multi-agent-mode
+      - ref-qwen-multi-agent-coordination-enable-agent-team
+      - ref-qwen-multi-agent-coordination-run-a-coordinated-task
+      - ref-qwen-readme-acknowledgments
+      - ref-qwen-session-agent-removed-host-ends-runs
+      - ref-qwen-session-send-mcp-server-registration
+      - ref-qwen-session-send-post
+      - ref-qwen-session-send-server-argv
+      - ref-qwen-session-send-server-command
+      - ref-qwen-session-send-server-spec
+      - ref-qwen-session-send-tool-contract
+      - ref-qwen-settings-agent-chain-limit
+      - ref-qwen-settings-agent-collaboration-flag
+      - ref-qwen-settings-agent-token-budget
+      - ref-qwen-settings-agents
+      - ref-qwen-settings-max-parallel-agents-per-model
+      - ref-qwen-settings-max-parallel-agents
+      - ref-qwen-settings-permissions
+      - ref-qwen-sub-agents-agent-working-directory
+      - ref-qwen-sub-agents-automatic-delegation
+      - ref-qwen-sub-agents-background-agent-continuation
+      - ref-qwen-sub-agents-basic-structure
+      - ref-qwen-sub-agents-claude-code-and-codex-subagents
+      - ref-qwen-sub-agents-claude-code-compatibility-fields
+      - ref-qwen-sub-agents-cli-commands
+      - ref-qwen-sub-agents-current-limitation
+      - ref-qwen-sub-agents-explicit-invocation
+      - ref-qwen-sub-agents-extension-subagents
+      - ref-qwen-sub-agents-file-format
+      - ref-qwen-sub-agents-fork-subagent
+      - ref-qwen-sub-agents-how-fork-differs-from-named-subagents
+      - ref-qwen-sub-agents-how-subagents-work
+      - ref-qwen-sub-agents-key-benefits
+      - ref-qwen-sub-agents-limits
+      - ref-qwen-sub-agents-management
+      - ref-qwen-sub-agents-model-selection
+      - ref-qwen-sub-agents-notification-queue
+      - ref-qwen-sub-agents-permission-mode
+      - ref-qwen-sub-agents-prompt-cache-sharing
+      - ref-qwen-sub-agents-quick-start
+      - ref-qwen-sub-agents-recursive-delegation-prevention
+      - ref-qwen-sub-agents-reusing-fork-restrictions-with-fork-profile
+      - ref-qwen-sub-agents-security-considerations
+      - ref-qwen-sub-agents-storage-locations
+      - ref-qwen-sub-agents-tool-configuration
+      - ref-qwen-sub-agents-what-are-subagents
+      - ref-qwen-sub-agents-when-fork-is-used
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.format
+      - skills.extensions
+      - skills.discovery
+      - skills.loading
+      - skills.invocation
+      - skills.collision
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-qwen-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-scope
+      - providers-entry
+      - providers-auth
+      - providers-protocol
+      - providers-models
+      - providers-metadata
+      - providers-forwarding
+      - providers-responses
+      - providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-auth-option-3-alibaba-cloud-token-plan
+      - ref-qwen-auth-recommended-one-file-setup-via-settings-json
+      - ref-qwen-auth-removed-qwen-auth-cli-command
+      - ref-qwen-auth-security-notes
+      - ref-qwen-auth-step-1-configure-models-and-providers-in-qwen-settings-j
+      - ref-qwen-auth-step-2-set-environment-variables
+      - ref-qwen-auth-step-3-switch-models-with-model
+      - ref-qwen-auth-supported-protocols
+      - ref-qwen-model-providers-anthropic-anthropic
+      - ref-qwen-model-providers-api-key-storage
+      - ref-qwen-model-providers-atomic-field-treatment
+      - ref-qwen-model-providers-budget-tokens
+      - ref-qwen-model-providers-custom-provider-ids-providerprotocol
+      - ref-qwen-model-providers-dynamic-values-in-customheaders
+      - ref-qwen-model-providers-example
+      - ref-qwen-model-providers-generation-config-layering-the-impermeable-provider-laye
+      - ref-qwen-model-providers-google-gemini-gemini
+      - ref-qwen-model-providers-how-it-works
+      - ref-qwen-model-providers-image-generation-routes
+      - ref-qwen-model-providers-interaction-with-samplingparams-openai-compatible-only
+      - ref-qwen-model-providers-key-differences
+      - ref-qwen-model-providers-live-voice-routes
+      - ref-qwen-model-providers-local-self-hosted-models-via-openai-compatible-api
+      - ref-qwen-model-providers-openai-compatible-providers-openai
+      - ref-qwen-model-providers-openai-responses-api-openai-responses
+      - ref-qwen-model-providers-override-reasoning-capabilities
+      - ref-qwen-model-providers-overview
+      - ref-qwen-model-providers-per-field-precedence-for-generationconfig
+      - ref-qwen-model-providers-per-provider-behavior
+      - ref-qwen-model-providers-provider-model
+      - ref-qwen-model-providers-provider-models-vs-runtime-models
+      - ref-qwen-model-providers-reasoning-false
+      - ref-qwen-model-providers-reasoning-thinking-configuration
+      - ref-qwen-model-providers-regions
+      - ref-qwen-model-providers-resolution-layers-and-atomicity
+      - ref-qwen-model-providers-runtime-model
+      - ref-qwen-model-providers-runtimemodelsnapshot-lifecycle
+      - ref-qwen-model-providers-selecting-the-openai-api
+      - ref-qwen-model-providers-selection-persistence-and-recommendations
+      - ref-qwen-model-providers-setup
+      - ref-qwen-model-providers-supported-auth-types
+      - ref-qwen-model-providers-transports-used-for-api-requests
+      - ref-qwen-model-providers-when-to-use-each
+      - ref-qwen-readme-acknowledgments
+      - ref-qwen-settings-advisormodel
+      - ref-qwen-settings-compactionmodel
+      - ref-qwen-settings-configuration-layers
+      - ref-qwen-settings-fastmodel
+      - ref-qwen-settings-imagemodel
+      - ref-qwen-settings-model
+      - ref-qwen-settings-modelfallbacks
+      - ref-qwen-settings-settings-files
+      - ref-qwen-settings-visionmodel
+      - ref-qwen-settings-voicemodel
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.format
+      - skills.extensions
+      - skills.discovery
+      - skills.loading
+      - skills.invocation
+      - skills.collision
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-qwen-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-scope
+      - hooks-events
+      - hooks-entry
+      - hooks-input
+      - hooks-output
+      - hooks-order
+      - hooks-conditions
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-hooks-a-hook-does-not-fire
+      - ref-qwen-hooks-agent-frontmatter-scope
+      - ref-qwen-hooks-allowing-private-network-hooks-managed-environments-only
+      - ref-qwen-hooks-async-hooks
+      - ref-qwen-hooks-browsing-your-hooks
+      - ref-qwen-hooks-command-hooks
+      - ref-qwen-hooks-function-hooks
+      - ref-qwen-hooks-hook-configuration
+      - ref-qwen-hooks-hook-events
+      - ref-qwen-hooks-hook-execution
+      - ref-qwen-hooks-hook-input-structure
+      - ref-qwen-hooks-hook-output-structure
+      - ref-qwen-hooks-hook-types
+      - ref-qwen-hooks-http-hooks
+      - ref-qwen-hooks-individual-hook-event-details
+      - ref-qwen-hooks-instructionsloaded
+      - ref-qwen-hooks-matcher-patterns
+      - ref-qwen-hooks-mem0-bundled-write-confirmation
+      - ref-qwen-hooks-mem0-system-scope-merge
+      - ref-qwen-hooks-messagedisplay
+      - ref-qwen-hooks-notification
+      - ref-qwen-hooks-other-checks
+      - ref-qwen-hooks-overview
+      - ref-qwen-hooks-parallel-vs-sequential-execution
+      - ref-qwen-hooks-permissiondenied
+      - ref-qwen-hooks-permissionrequest
+      - ref-qwen-hooks-postcompact
+      - ref-qwen-hooks-posttoolbatch
+      - ref-qwen-hooks-posttooluse
+      - ref-qwen-hooks-posttoolusefailure
+      - ref-qwen-hooks-precompact
+      - ref-qwen-hooks-pretooluse
+      - ref-qwen-hooks-prompt-hooks
+      - ref-qwen-hooks-security-model
+      - ref-qwen-hooks-sessiondelete
+      - ref-qwen-hooks-sessionend
+      - ref-qwen-hooks-sessionstart
+      - ref-qwen-hooks-stop
+      - ref-qwen-hooks-stopfailure
+      - ref-qwen-hooks-subagentstart
+      - ref-qwen-hooks-subagentstop
+      - ref-qwen-hooks-todocompleted
+      - ref-qwen-hooks-todocreated
+      - ref-qwen-hooks-userpromptexpansion
+      - ref-qwen-hooks-userpromptsubmit
+      - ref-qwen-mem0-registered-external-context
+      - ref-qwen-mem0-scope-and-writes
+      - ref-qwen-readme-acknowledgments
+      - ref-qwen-skills-optional-enforce-a-rule-deterministically-hooks
+      - ref-qwen-sub-agents-claude-code-compatibility-fields
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.format
+      - skills.extensions
+      - skills.discovery
+      - skills.loading
+      - skills.invocation
+      - skills.collision
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-qwen-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+    section_ids:
+      - mcp-entry
+      - mcp-definition
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-settings-mcp
+      - ref-qwen-settings-mcpservers
+      - ref-qwen-mcp-server-specific-configuration-mcpservers
+      - ref-qwen-mcp-configure-via-settings-json-vs-qwen-mcp-add
+      - ref-qwen-config-cli-disable-mcp-server-flag-description
+      - ref-qwen-config-cli-disable-mcp-server-option
+      - ref-qwen-config-cli-disable-mcp-server-precedence
+      - ref-qwen-config-cli-disable-mcp-server-exclude-union
+      - ref-qwen-mcp-add-list-flag-normalization
+    cross_topic_links:
+      - config.overrides
+    reason: "6212189f 为 MCP 引入一条新的本次运行排除入口 --disable-mcp-server，
+      与 settings 的 mcp.excluded 并入同一个排除集（allow-then-deny，safe mode
+      下仍生效，只在启动时并入一次），故 mcp-entry 已发布的『全局级开关只来自
+      settings 的 mcp 对象』表述需限定为『另有本次运行的命令行入口』。add.ts
+      把 includeTools/excludeTools/oauthScopes 三处散落的列表解析统一为一个
+      splitCommaList 归一化函数（区分未给/空数组/否定形式，按逗号拆分并丢空段），
+      但字段名、默认值、传输形状与路径处理均未变，故 mcp-definition 只补一段
+      边界说明，不改写已发布的字段表。"
+  - topic: mcp
+    question_ids:
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-transport
+      - mcp-auth
+      - mcp-lifecycle
+      - mcp-capabilities
+      - mcp-exposure
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-mcp-choose-a-transport
+      - ref-qwen-mcp-basic-usage
+      - ref-qwen-mcp-progressive-availability-and-discovery-timeouts
+      - ref-qwen-mcp-tool-filtering-allow-deny-tools-per-server
+      - ref-qwen-mcp-troubleshooting
+    cross_topic_links:
+      - config.overrides
+      - config.runtime
+    reason: "本轮冻结任务只派发了 mcp.entry/mcp.definition 两题，其余六题未派发，维持
+      pending 不作结论。其中 mcp.exposure 最可能受影响：本轮新增的 --disable-mcp-server
+      按 server 名禁用，与该题已发布的 mcp.allowed/mcp.excluded 全局允许/拒绝列表以及逐
+      server 的 includeTools/excludeTools 属于同一层暴露面，但该题不在本轮派发范围内，
+      不在此处下结论。"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-scope
+      - plugins-model
+      - plugins-package
+      - plugins-install
+      - plugins-discovery
+      - plugins-api
+      - plugins-lifecycle
+      - plugins-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-agent-plugins-supported-capabilities
+      - ref-qwen-architecture-extension-points
+      - ref-qwen-configuration-plugin-configs-option-precedence
+      - ref-qwen-core-mod-tool-check-nested-scheduler-excluded
+      - ref-qwen-core-mod-tool-check-restrictive-merge
+      - ref-qwen-core-mod-tool-check-sole-producer
+      - ref-qwen-extension-mods-plugin-options-declaration
+      - ref-qwen-extension-mods-plugin-options-precedence
+      - ref-qwen-extension-mods-tool-check-permission-restriction
+      - ref-qwen-extension-releasing-managing-release-channels
+      - ref-qwen-extension-releasing-package-requirements
+      - ref-qwen-getting-started-extensions-adding-conditional-rules
+      - ref-qwen-getting-started-extensions-package-json-and-tsconfig-json
+      - ref-qwen-getting-started-extensions-step-2-understand-the-extension-files
+      - ref-qwen-getting-started-extensions-step-6-add-a-custom-qwen-md
+      - ref-qwen-introduction-choosing-an-install-scope
+      - ref-qwen-introduction-cli-extension-management
+      - ref-qwen-introduction-conflict-resolution
+      - ref-qwen-introduction-custom-commands
+      - ref-qwen-introduction-custom-skills
+      - ref-qwen-introduction-custom-subagents
+      - ref-qwen-introduction-custom-workflows
+      - ref-qwen-introduction-disabling-an-extension
+      - ref-qwen-introduction-enabling-an-extension
+      - ref-qwen-introduction-extension-management
+      - ref-qwen-introduction-from-agent-plugins-v1
+      - ref-qwen-introduction-from-archive-url
+      - ref-qwen-introduction-from-claude-code-marketplace
+      - ref-qwen-introduction-from-gemini-cli-extensions
+      - ref-qwen-introduction-from-git-repository
+      - ref-qwen-introduction-from-local-path
+      - ref-qwen-introduction-from-npm-registry
+      - ref-qwen-introduction-from-qoder-plugins
+      - ref-qwen-introduction-how-it-works
+      - ref-qwen-introduction-installing-an-extension
+      - ref-qwen-introduction-managing-extension-settings
+      - ref-qwen-introduction-managing-marketplace-sources
+      - ref-qwen-introduction-qwen-extension-json
+      - ref-qwen-introduction-runtime-extension-management-slash-commands
+      - ref-qwen-introduction-the-interactive-extension-manager
+      - ref-qwen-introduction-uninstalling-an-extension
+      - ref-qwen-introduction-updating-an-extension
+      - ref-qwen-introduction-variables
+      - ref-qwen-readme-acknowledgments
+      - ref-qwen-rules-rules-from-extensions
+      - ref-qwen-settings-command-line-arguments-table
+      - ref-qwen-skills-extension-skills
+      - ref-qwen-skills-how-extension-skills-are-named
+      - ref-qwen-sub-agents-extension-subagents
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.format
+      - skills.extensions
+      - skills.discovery
+      - skills.loading
+      - skills.invocation
+      - skills.collision
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-qwen-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.format
+      - skills.extensions
+      - skills.discovery
+      - skills.loading
+      - skills.invocation
+      - skills.collision
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-scope
+      - skills-roots
+      - skills-format
+      - skills-discovery
+      - skills-invocation
+      - skills-collision
+      - skills-settings
+      - skills-conditions
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-commands-1-5-built-in-skills
+      - ref-qwen-hooks-agent-frontmatter-scope
+      - ref-qwen-hooks-security-model
+      - ref-qwen-introduction-conflict-resolution
+      - ref-qwen-introduction-custom-skills
+      - ref-qwen-introduction-qwen-extension-json
+      - ref-qwen-readme-acknowledgments
+      - ref-qwen-rules-rules-skills-and-context-files
+      - ref-qwen-settings-environment-variables-table
+      - ref-qwen-settings-skills
+      - ref-qwen-settings-slashcommands
+      - ref-qwen-settings-the-qwen-directory-in-your-project
+      - ref-qwen-skills-add-supporting-files
+      - ref-qwen-skills-check-yaml-syntax
+      - ref-qwen-skills-debug-a-skill
+      - ref-qwen-skills-extension-skills-and-the-skills-settings
+      - ref-qwen-skills-extension-skills
+      - ref-qwen-skills-field-requirements
+      - ref-qwen-skills-generate-a-project-skill-with-learn
+      - ref-qwen-skills-how-extension-skills-are-named
+      - ref-qwen-skills-how-skills-are-invoked
+      - ref-qwen-skills-maintain-auto-generated-project-skills
+      - ref-qwen-skills-make-the-description-specific
+      - ref-qwen-skills-optional-control-user-and-model-invocation
+      - ref-qwen-skills-optional-enforce-a-rule-deterministically-hooks
+      - ref-qwen-skills-optional-gate-a-skill-on-file-paths-paths
+      - ref-qwen-skills-personal-skills
+      - ref-qwen-skills-project-skills
+      - ref-qwen-skills-test-a-skill
+      - ref-qwen-skills-update-a-skill
+      - ref-qwen-skills-verify-file-path
+      - ref-qwen-skills-view-available-skills
+      - ref-qwen-skills-view-errors
+      - ref-qwen-skills-what-are-agent-skills
+      - ref-qwen-skills-write-skill-md
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-qwen-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-recording-scope
+      - transcripts-storage-layout
+      - transcripts-naming-and-format
+      - transcripts-record-schema-and-lifecycle
+      - transcripts-archive-and-cleanup
+      - transcripts-diagnostics-and-recovery
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-transcripts-agent-record-payload-union
+      - ref-qwen-transcripts-agent-record-payloads
+      - ref-qwen-transcripts-agent-record-provenance
+      - ref-qwen-transcripts-agent-record-subtypes
+      - ref-qwen-transcripts-append-write-path
+      - ref-qwen-transcripts-archive-move
+      - ref-qwen-transcripts-branch-checkpoint
+      - ref-qwen-transcripts-chats-dirs
+      - ref-qwen-transcripts-checkpoints-dir
+      - ref-qwen-transcripts-compression-payload
+      - ref-qwen-transcripts-conversation-file-create
+      - ref-qwen-transcripts-daemon-archive
+      - ref-qwen-transcripts-daemon-delete
+      - ref-qwen-transcripts-external-record-index-reset
+      - ref-qwen-transcripts-external-record-index
+      - ref-qwen-transcripts-external-record-key-field
+      - ref-qwen-transcripts-external-record-managed-refusal
+      - ref-qwen-transcripts-external-record-ref
+      - ref-qwen-transcripts-external-record-write-body
+      - ref-qwen-transcripts-external-record-write
+      - ref-qwen-transcripts-flush
+      - ref-qwen-transcripts-global-qwen-dir
+      - ref-qwen-transcripts-headless-session-path
+      - ref-qwen-transcripts-jsonl-append-fsync
+      - ref-qwen-transcripts-jsonl-overwrite-atomic
+      - ref-qwen-transcripts-jsonl-read-budget
+      - ref-qwen-transcripts-organization-store-path
+      - ref-qwen-transcripts-organization-store
+      - ref-qwen-transcripts-parent-session-payload
+      - ref-qwen-transcripts-project-dirs
+      - ref-qwen-transcripts-project-hash
+      - ref-qwen-transcripts-prompt-ledger-path
+      - ref-qwen-transcripts-record-cwd-version
+      - ref-qwen-transcripts-record-identity
+      - ref-qwen-transcripts-record-message-payload
+      - ref-qwen-transcripts-record-subtypes-a
+      - ref-qwen-transcripts-record-subtypes-b
+      - ref-qwen-transcripts-record-system-payload
+      - ref-qwen-transcripts-recording-failure-message
+      - ref-qwen-transcripts-recording-toggle
+      - ref-qwen-transcripts-remove-cleanup
+      - ref-qwen-transcripts-residual-lock-recovery
+      - ref-qwen-transcripts-runtime-base-dir
+      - ref-qwen-transcripts-runtime-status-path
+      - ref-qwen-transcripts-sanitize-cwd
+      - ref-qwen-transcripts-session-file-pattern
+      - ref-qwen-transcripts-sessions-command-table
+      - ref-qwen-transcripts-sessions-list-output
+      - ref-qwen-transcripts-sessions-ps-scope
+      - ref-qwen-transcripts-shell-history-path
+      - ref-qwen-transcripts-sidecar-paths
+      - ref-qwen-transcripts-subagent-jsonl-path
+      - ref-qwen-transcripts-subagent-layout
+      - ref-qwen-transcripts-turn-boundary-exclusion
+      - ref-qwen-transcripts-writer-conflict
+      - ref-qwen-transcripts-writer-diagnostics
+      - ref-qwen-transcripts-writer-format-barrier-sealed-takeover
+      - ref-qwen-transcripts-writer-format-barrier-stale-reclaim
+      - ref-qwen-transcripts-writer-lock-path
+      - ref-qwen-transcripts-writer-reclaim-rules
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.format
+      - skills.extensions
+      - skills.discovery
+      - skills.loading
+      - skills.invocation
+      - skills.collision
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-qwen-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+pending_question_ids:
+  - config.runtime
+  - config.trust
+  - config.diagnostics
+  - agents.entry
+  - agents.format
+  - agents.roles
+  - agents.invocation
+  - agents.overrides
+  - agents.limits
+  - agents.diagnostics
+  - providers.entry
+  - providers.auth
+  - providers.protocol
+  - providers.models
+  - providers.metadata
+  - providers.forwarding
+  - providers.responses
+  - providers.diagnostics
+  - hooks.events
+  - hooks.entry
+  - hooks.input
+  - hooks.output
+  - hooks.order
+  - hooks.conditions
+  - hooks.diagnostics
+  - mcp.transport
+  - mcp.auth
+  - mcp.lifecycle
+  - mcp.capabilities
+  - mcp.exposure
+  - mcp.diagnostics
+  - plugins.model
+  - plugins.package
+  - plugins.install
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+  - skills.roots
+  - skills.format
+  - skills.extensions
+  - skills.discovery
+  - skills.loading
+  - skills.invocation
+  - skills.collision
+  - skills.conditions
+  - skills.diagnostics
+  - transcripts.scope
+  - transcripts.location
+  - transcripts.naming
+  - transcripts.format
+  - transcripts.schema
+  - transcripts.lifecycle
+  - transcripts.database
+  - transcripts.archive
+  - transcripts.cleanup
+  - transcripts.diagnostics
+investigation_notes:
+  - 本轮 triage 分类：narrow_investigation；巡检观察来自 2026-10-13 的只读检查。
+  - 本轮 triage 分类：narrow_investigation；入口限 configuration 与 mcp 的固定问题。
+  - "仓库单提交 6212189（feat(managed-agent): Add the public-event transport and the
+    wake/materialization consumers，503 个文件），与章节已引证据文件重合的有
+    packages/cli/src/config/{config,settingsSchema}.ts、packages/core/src/servic\
+    es/sessionService.ts、docs/users/configuration/settings.md、docs/developers/d\
+    aemon/08-session-lifecycle.md。"
+  - packages/cli/src/commands/mcp/add.ts 与 config.test.ts 同步改动，属 MCP
+    入口线索；docs/design 下的 managed-agent 设计文档为设计材料，不作为已发布机制证据。
+
+  - 本轮 worker 范围收窄为 configuration 与 mcp 两个主题的六个固定问题（config.sources、
+    config.overrides、config.defaults、config.migration、mcp.entry、mcp.definition），
+    逐文件核对入口后其余主题维持 pending，未做全库重审。
+  - 逐文件核对结论：packages/cli/src/config/config.ts 的 diff 只有两处新增——CliArgs 的
+    disableMcpServer 字段与 parseArguments 的 --disable-mcp-server 选项，加上 loadCliConfig
+    末尾的排除集并入块；没有任何删除或修改，故既有配置文件解析、设置合并与迁移代码路径不变。
+  - packages/cli/src/config/top-level-options.ts 只在 allowed-mcp-server-names 之后插入
+    disable-mcp-server 的选项元数据（type array + 一句说明），未改动其它选项。
+  - packages/cli/src/config/settingsSchema.ts 的 diff 只有一处新增：UI 分类下的
+    arrowKeysScrollTranscript 布尔键；无删除、无既有键的默认值或作用域变化。
+  - packages/cli/src/config/config.test.ts 与 packages/cli/src/config/hot-reload.test.ts 的
+    新增用例是本轮 --disable-mcp-server 的行为证据（allow-then-deny、safe mode 仍生效、
+    settings 编辑会丢掉启动期排除项并标为 CHARACTERIZATION/#14009），不是独立机制变更。
+  - packages/cli/src/commands/mcp/add.ts 的 diff 是把 includeTools/excludeTools/oauthScopes
+    三处列表解析收敛为 splitCommaList，并新增三处调用点；字段名、默认值、传输自动探测
+    （URL → http、否则 stdio 的 middleware）与路径/作用域处理均未变，故 mcp.definition 只补
+    边界说明。add.test.ts 新增 7 个用例 + 1 个 oauth 用例，全部围绕该归一化函数的行为。
+  - packages/core/src/services/sessionService.ts 的 diff 是把两处 file_history_snapshot 记录
+    的判断收敛到 session-file-history-state.ts 导出的 readFileHistorySnapshotPayload，属纯
+    重构（无判断条件变化），且该文件属 local_transcripts 主题，不在本轮范围内，故不改章节。
+  - docs/developers/daemon/08-session-lifecycle.md 只在 replay 快照的字段列表补入
+    lifecycleReplay/lifecycleReplayIncomplete 两个字段，属 daemon/托管 Agent 传输层，
+    不涉及 configuration 与 mcp 的已发布机制，本轮不作为证据也不改这两个主题的章节。
+  - docs/users/configuration/settings.md 的 diff 为两处：ui 表新增 ui.arrowKeysScrollTranscript
+    一行；model.maxToolCallsPerTurn 的描述文字补入收敛提醒与 loop-detected 对话框同时抑制
+    上限与提醒。两者都不改变键名、默认值与作用域：前者已按新键写入 config-defaults，后者不
+    落在本轮六个固定问题的断言范围内（config.migration 与之无关），故不另起章节版本。
+  - docs/users/reference/keyboard-shortcuts.md 与 docs/users/support/troubleshooting.md 的改动
+    只是把新设置 ui.arrowKeysScrollTranscript 写进既有排障条目，属同一新键的用户说明，已由
+    settingsSchema.ts 与 settings.md 的引用覆盖，不单独成节。
+  - packages/cli/src/serve/hosted-mcp-session.ts 与 hosted-mcp-session.test.ts 的改动
+    （reconcileEffects/closeResources 拆分、lifecycleAuthority 门控）是托管 Agent 的宿主会话
+    生命周期，不是 settings.json 的 MCP server 定义或入口面，本轮不纳入 mcp 章节。
+  - 显式排除：docs/design/** 下的 managed-agent 设计文档（含 2026-10-12-managed-agent-event-transport-mq2）
+    为设计材料，未作为任何 configuration 或 mcp 结论的证据。
+  - 未创建任何软件版本映射：本轮只有仓库 HEAD 变化，npm 侧 0.25.1 未变，不从源码 HEAD 推导
+    发行版行为。
+  - review_status 保持 pending：本轮为 config.overrides 新增一类合并机制并同时改写 mcp-entry
+    的已发布表述（新增命令行排除入口），属跨主题的关键配置/入口机制变化，需独立复核；且
+    pending_audit_refs 仍指向 review_status 为 pending 的 audit-qwen-code-42d06e9b-b1b5-410a-8c7c-948096791695。

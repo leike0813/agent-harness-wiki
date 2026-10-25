@@ -1,0 +1,30 @@
+schema_version: 2
+audit_id: audit-qwen-code-09fdd70c-8546-4453-9976-314fe6b62dfd
+harness_id: qwen-code
+checked_at: "2026-10-14T18:03:51.533Z"
+previous_audit_id: audit-qwen-code-888916ad-b2ec-4dba-9e92-2b032d361ba0
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-qwen-code-42d06e9b-b1b5-410a-8c7c-948096791695
+  - audit-qwen-code-888916ad-b2ec-4dba-9e92-2b032d361ba0
+checks:
+  - source_id: source-qwen-code-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:03:49.785Z"
+    status: changed
+    baseline: 6212189f1f8334da78a69e3fb6b63ff6ca88251e
+    observed: 9dacfdbe1a2047c85b29ebe504c40657daeab3bd
+    remote_ref: refs/heads/main
+  - source_id: source-qwen-code-npm
+    kind: npm_registry
+    checked_at: "2026-10-14T18:03:49.795Z"
+    status: unchanged
+    baseline: "0.25.1@sha512-6cEbtfx4Ugl1d3FdFLa8fcsG6knHuUUHqvDseLxGY06Xan8p7Fcd7+g5KlX694zX4mo/+Vh56AHxT/4R15zpYA=="
+    observed: "0.25.1@sha512-6cEbtfx4Ugl1d3FdFLa8fcsG6knHuUUHqvDseLxGY06Xan8p7Fcd7+g5KlX694zX4mo/+Vh56AHxT/4R15zpYA=="
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "本轮状态：本产品已完成协调者的只读观察与语义 triage，来源证据已固定（Git 工作区已按观察到的 commit 打开并保留），但**本轮没有执行 maintenance 派发**。上述限定范围、问题清单与已固定的来源入口是下一轮可直接接续的工作面，不是已完成结论。review_status 保持 pending，pending_audit_refs 保持不变；不得因本轮无候选产物而视为已结案。"
+  - "maintain。source-qwen-code-repo 6212189f..9dacfdbe 命中 packages/cli/src/config/settingsSchema.ts（+10/-?）、docs/users/configuration/settings.md、packages/cli/src/nonInteractive/mod-session.ts、packages/core/src/services/chatRecordingService.ts（+43）。"
+  - "settingsSchema 与 chatRecordingService 分别是设置面与记录面入口，改动量与位置都指向已录问题，限定在 configuration 与 local_transcripts。"

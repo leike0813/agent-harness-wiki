@@ -1,0 +1,36 @@
+schema_version: 2
+audit_id: audit-gemini-cli-dc9c7fa2-f6ae-4573-b6ef-b50105b41ad8
+harness_id: gemini-cli
+checked_at: "2026-10-14T18:02:44.151Z"
+previous_audit_id: audit-gemini-cli-cc261cb8-12aa-4f8c-ac95-8f1a3f99fc7f
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-gemini-cli-cc261cb8-12aa-4f8c-ac95-8f1a3f99fc7f
+checks:
+  - source_id: source-gemini-cli-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:02:41.946Z"
+    status: changed
+    baseline: c10f094ee01c81663474d7d88252d6e6d2943583
+    observed: 65454d01f98f0983a4fee0773528fb42433131da
+    remote_ref: refs/heads/main
+  - source_id: source-gemini-cli-docs
+    kind: official_documentation
+    checked_at: "2026-10-14T18:02:41.958Z"
+    status: unchanged
+    baseline: 8e1b4cbe2cd31effa3375aa5d480269ab28bf82c02a42d9b52cbb61e5b248590
+    observed: 8e1b4cbe2cd31effa3375aa5d480269ab28bf82c02a42d9b52cbb61e5b248590
+    resolved_url: "https://geminicli.com/docs/cli/skills.md"
+  - source_id: source-gemini-cli-npm
+    kind: npm_registry
+    checked_at: "2026-10-14T18:02:41.960Z"
+    status: changed
+    baseline: "0.63.0@sha512-mmhqMmAdsoplCzrLQQC4yJBqr4uSKXghnrLspgUU6N9drmsaq7pi7oF09skRYzEq2dYK6eMT4UpFQP6rG2o/ew=="
+    observed: "0.64.0@sha512-FHrZ1NPf9QszyVMaa/BP3SsPy40ogBLnbZNWkv/PMi1Uz2zoDNMLGiBzBGmx4Bl7iLRq01K9PY/5kmloXFTpsA=="
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "reviewed_no_impact。npm 0.63.0→0.64.0 是发布身份变化，未固定也未比较包内容，没有小节级证据把任何已录结论绑定到 0.64.0 制品，按 reviewed_no_knowledge_impact 结案；新版本仍未验证。"
+  - "source-gemini-cli-repo c10f094e..65454d01 共 29 个文件，与当前 49 个被引用文件的唯一交集是 packages/core/package.json（版本字段）。其余改动是 CLI 加载动画组件（CliSpinner / LoadingIndicator / StatusRow / useGeminiStream）与各包版本号。"
+  - "排除的固定问题：config.*、skills.*、mcp.*、agents.*、hooks.*、transcripts.*——被核对的是 packages/core/src/utils/stdio.ts 与交互层，均不改配置入口、路径或机制。"

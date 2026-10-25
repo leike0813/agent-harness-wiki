@@ -1,0 +1,147 @@
+schema_version: 2
+audit_id: audit-cline-0e842971-a506-4c63-8140-8226cf44cba6
+harness_id: cline
+checked_at: 2026-10-13T18:01:40.963Z
+previous_audit_id: audit-cline-84b84535-1539-4f92-9309-5111c87aa6b0
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-cline-84b84535-1539-4f92-9309-5111c87aa6b0
+checks:
+  - source_id: source-cline-repo
+    kind: git_repository
+    checked_at: 2026-10-13T18:01:34.785Z
+    status: changed
+    baseline: a48408909bf9b2ff7f620d420be8547fb509e8ed
+    observed: ed469c753a0d7a0d41f906cf3fc75a983cd766ac
+    remote_ref: refs/heads/main
+  - source_id: source-cline-npm
+    kind: npm_registry
+    checked_at: 2026-10-13T18:01:34.793Z
+    status: changed
+    baseline: 3.0.70@sha512-ekeGJ7YdVKL9p//KF0F5nxFXMvgSuhwPxvCUkS+SaBDJJoOUt+HMeJS+J+hkF3ezPekbSvpK1wCPGraZbAEO8A==
+    observed: 3.0.71@sha512-THSCuQrVPi5w48tyXaZrdUr4EnPQMMgsQN0moYxODl0LJveOeRytMyHx+WfzCY5NdPi1TzjDozFGn0uNVbK/fg==
+  - source_id: source-cline-docs-skills
+    kind: official_documentation
+    checked_at: 2026-10-13T18:01:34.794Z
+    status: unchanged
+    baseline: 4bb4766eaef7ed6e33ccaacbe4e367faf48ccf9c204204d14eb29a00d416129f
+    observed: 4bb4766eaef7ed6e33ccaacbe4e367faf48ccf9c204204d14eb29a00d416129f
+    resolved_url: https://docs.cline.bot/customization/skills.md
+  - source_id: source-cline-docs-mcp
+    kind: official_documentation
+    checked_at: 2026-10-13T18:01:34.795Z
+    status: unchanged
+    baseline: 47f5e46c4c92bffae832be15706d2586db4a7c5e3285a56cade5d2e6707d8eb2
+    observed: 47f5e46c4c92bffae832be15706d2586db4a7c5e3285a56cade5d2e6707d8eb2
+    resolved_url: https://docs.cline.bot/mcp/mcp-overview.md
+  - source_id: source-cline-docs-plugins
+    kind: official_documentation
+    checked_at: 2026-10-13T18:01:34.992Z
+    status: changed
+    baseline: 634dfe11cff0e3aad9844f04b5af028cf76d5b729dcee7b6f15bb20a25e2c42e
+    observed: 050ba118a6d5cc1e4229803fcc4e0b1cc3bcce20850917ff40d29883b0c87111
+    resolved_url: https://docs.cline.bot/sdk/plugins.md
+  - source_id: source-cline-docs-config
+    kind: official_documentation
+    checked_at: 2026-10-13T18:01:36.394Z
+    status: unchanged
+    baseline: 76f4d40ede89e8340c4b2ea10c17bc85b1d16fc302bd628c62778161ea05944e
+    observed: 76f4d40ede89e8340c4b2ea10c17bc85b1d16fc302bd628c62778161ea05944e
+    resolved_url: https://docs.cline.bot/getting-started/config.md
+  - source_id: source-cline-docs-cli
+    kind: official_documentation
+    checked_at: 2026-10-13T18:01:36.643Z
+    status: unchanged
+    baseline: 2d46cc4ef4c8b5a45dff7b4233e2b355b8395a5d21f5401b77353e4d2f702f7d
+    observed: 2d46cc4ef4c8b5a45dff7b4233e2b355b8395a5d21f5401b77353e4d2f702f7d
+    resolved_url: https://docs.cline.bot/cli/cli-reference.md
+  - source_id: source-cline-docs-install-plugins
+    kind: official_documentation
+    checked_at: 2026-10-13T18:01:36.792Z
+    status: changed
+    baseline: 19e4c8278924d25fce33fd3ec1b16dd29314eb599059f79433c3f41acea46d72
+    observed: 8f84c96048a852d1d8e8180a601eef66ec1e0d2eb2d236422fe27bbce01fb47a
+    resolved_url: https://docs.cline.bot/customization/plugins.md
+impacts:
+  - topic: native_plugins
+    question_ids:
+      - plugins.discovery
+      - plugins.install
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-discovery
+      - plugins-install
+      - plugins-api
+      - plugins-lifecycle
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.migration
+    reason: ed469c7 把插件默认执行方式从按会话 node/bun 子进程沙箱改为每会话每插件一个 worker 线程，引入
+      PluginRegistry 状态机（loading/ready/degraded/failed/disabled）、新增
+      CLINE_PLUGIN_MODE 与 CLINE_PLUGIN_BOOTSTRAP_PATH、按会话 plugins 策略、setup
+      独立超时与连续失败阈值，并改了 CLI 与设置侧的诊断输出。plugins.install 的安装面本身未变。
+pending_question_ids:
+  - plugins.lifecycle
+  - plugins.diagnostics
+investigation_notes:
+  - 本轮 triage：narrow_investigation；入口限 native_plugins 与 configuration
+    的固定问题（plugins.discovery、plugins.install、config.sources、config.overrides、config.migration）。
+  - "仓库单提交 ed469c753（chore(vscode): release v4.1.24，125 文件）。协调者列出的 13
+    个已引证据文件全部发生变化：apps/cli/src/commands/config.ts +37/-3（tools 视图新增失败插件小节与
+    plugin_failure JSON 条目）；apps/cli/src/runtime/run-agent.ts +5（会话启动后打印插件 issue
+    warning）；plugin-config-loader.ts +174/-24（新增
+    resolveAgentPluginPathsWithDiagnostics、PluginExecutionMode/resolvePluginExe\
+    cutionMode、CLINE_PLUGIN_MODE_ENV，mode 联合类型扩为三值）；plugin-loader.ts
+    +4/-1（freshModule 选项与 setup 的 this 绑定）；plugin-sandbox.ts +201/-47（新增
+    PluginSandboxTransport、WorkerSandbox、setupTimeoutMs、policy、CLINE_PLUGIN_BOO\
+    TSTRAP_PATH_ENV、isPluginSandboxBootstrapAvailable、bootstrap
+    惰性解析）；core/src/index.ts +18/-1（导出新增类型与 WorkerSandbox）；local-runtime-host.ts
+    +62/-5（pluginIssues 进 StartSessionResult、之后发生的插件失败转 status
+    notice、会话定向事件在注册前暂存、build 失败时释放插件副本）；local-runtime-bootstrap.ts +40/-7（传
+    policy/hookErrorMode/onIssue，汇总 pluginIssues，整体发现失败也作为 plugin issue
+    上报）；plugin-commands.ts +2/-8（斜杠命令宿主缓存键由 statSync(mtime) 改为
+    fingerprintPluginSources 内容指纹）；plugin-mcp-settings.ts +27/-96（改用
+    collectPluginContributions 而非自建假 setup api 收集 MCP）；plugin-tools.ts
+    +84/-141（改用 collectPluginContributions、摘要新增
+    state/lastError、失败插件仍进列表、缓存键加入执行模式与注册表状态且失败运行不缓存）；settings-service.ts
+    +7/-3（loadError 文本与 inspectionStatus 的 failed
+    判定）；shared/extensions/contribution-registry.ts +18（PluginSetupContext 新增
+    cwd/emitEvent/onDispose）。"
+  - 随提交新增但不被已发布章节直接引用的支撑文件：sdk/packages/core/src/extensions/plugin/plugin-registry.ts（1881
+    行）、plugin-contributions.ts（243 行）以及两个 registry 测试文件。本轮按固定范围只读取 registry
+    的常量、loadForSession 分支与 formatSessionPluginIssue 三处，未展开其完整实现。
+  - 排除：vscode 扩展发布管道（apps/vscode/**）、desktop-app 示例 webview
+    视图（apps/examples/desktop-app/webview/**）、shared/src/llms/tokens.ts 与
+    rpc/runtime.ts 的发布配套改动；均在固定问题范围之外。
+  - 逐行比对可行的更正：协调者记录「docs/plugins 与 docs/install-plugins 的上一版原件未被 archive
+    保留，无法逐行比对」，但本次核查发现两版原件都在 archive/cline/ 下且 sha256
+    与冻结基线一致（artifact-source-cline-docs-plugins-20261003 =
+    634dfe11…、artifact-source-cline-docs-install-plugins-20261003 =
+    19e4c827…；新一版为 -050ba118a6d5 与 -8f84c96048a8）。因此逐行 diff 已执行：sdk/plugins 新增
+    How Plugins Run、Choosing Plugins per Session、Setup and Call Context、Plugin
+    Status and Errors 四节并重写 Hooks 一节（删除旧的 Hook Stages 与 Hook Policies
+    两节）；customization/plugins 仅新增 Troubleshooting Plugins 一节。安装命令、清单格式与目录结构段落未变。
+  - configuration 主题三道问题结案为不受影响：config.sources、config.overrides、config.migration
+    所依赖的路径解析（sdk/packages/shared/src/storage/paths.ts）、全局设置读写与规范化（sdk/packages/core/src/services/global-settings.ts）、provider
+    设置迁移与 docs/getting-started/config.mdx 在本提交均无改动，source-cline-docs-config 亦为
+    unchanged。apps/cli/src/commands/config.ts 的改动只落在 cline config tools
+    的输出渲染，不触及作用域、优先级或迁移。
+  - 按会话 plugins 策略与 CLINE_PLUGIN_MODE / CLINE_PLUGIN_BOOTSTRAP_PATH 是插件执行配置，不进入
+    Cline 全局设置分层；记入 native_plugins 章节，并在 configuration 侧只作为交叉链接，不新建
+    configuration 章节版本。
+  - plugins.install 结案为不受影响：本提交未触及 apps/cli/src/commands/plugin.ts、插件安装常量与
+    _installed 安装目录命名；安装面结论沿用既有引用，仅在新章节正文中点明该提交未改安装面。
+  - npm 3.0.70→3.0.71 仅记录为发布身份变化，不计为章节影响。
+  - "plugins.lifecycle 与 plugins.diagnostics 的结论改变已发布机制（诊断面从 loadError
+    单一信号扩展为状态机加 issue 通道），按契约保持 review_status: pending 并声明独立复核。"
+  - 本轮修正后的候选章节未获独立复核批准，已移出交付候选并作为任务工件保留在巡检临时目录；本审计的影响范围已收窄到仍在库内的章节小节，待复核问题继续
+    pending。
+  - 本轮修正后的候选章节未获独立复核批准，已移出交付候选并作为任务工件保留在巡检临时目录；本审计的影响范围已收窄到仍在库内的章节小节，待复核问题继续
+    pending。

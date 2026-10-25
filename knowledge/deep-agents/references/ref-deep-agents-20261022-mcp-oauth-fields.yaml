@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-20261022-mcp-oauth-fields
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-20261022-mcp-config-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/mcp_config.py
+  start: 171
+  end: 181
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  for name in ("env", "headers", "oauth"):
+      if name not in resolved:
+          continue
+      values = resolved[name]
+      if not isinstance(values, dict):
+          msg = f"{prefix}.{name} must be a dictionary, got {type(values).__name__}"
+          raise TypeError(msg)
+      resolved[name] = _resolve_mapping_values(values, field=f"{prefix}.{name}")
+
+  _validate_slack_oauth_config(server_name, resolved)
+  return resolved

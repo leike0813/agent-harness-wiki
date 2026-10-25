@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-skills-container-read-only-496
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-src-src-services-skills-skillsmanager-496
+locator:
+  kind: file_lines
+  file: src/services/skills/SkillsManager.ts
+  start: 757
+  end: 767
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/496bd11467f82791f98f8a3290e028c20767e415/src/services/skills/SkillsManager.ts#L757-L767"
+excerpt: "\t/**\n\t * Skills inside a symlinked container live outside the workspace (for example, in a\n\t * shared repo). Moving or deleting them would change that shared content. Unlinking\n\t * the container would remove all of its skills. So they are read-only here.\n\t */\n\tprivate assertNotContainerSkill(skill: SkillMetadata): void {\n\t\tif (this.containerSkillPaths.has(skill.path)) {\n\t\t\tthrow new Error(t(\"skills:errors.container_skill_read_only\", { name: skill.name, path: skill.path }))\n\t\t}\n\t}\n"

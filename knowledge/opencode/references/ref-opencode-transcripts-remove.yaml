@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-remove
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/core/src/session.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session.ts
+  start: 374
+  end: 384
+excerpt: |-
+  remove: Effect.fn("Session.remove")(function* (sessionID) {
+    yield* result.get(sessionID)
+    yield* execution.interrupt(sessionID)
+    yield* execution.awaitIdle(sessionID)
+    yield* transport.close(sessionID)
+    const children = yield* store.list({ parentID: sessionID })
+    yield* Effect.forEach(children, (child) => result.remove(child.id), { concurrency: 1, discard: true })
+    yield* environments.clear(sessionID)
+    yield* bus.publish(SessionEvent.Deleted, { sessionID })
+    yield* bus.remove(sessionID)
+  }),

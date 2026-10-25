@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-cf119a-child-usage-append-once
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-cf119a-crates-pa-daemon-src-session-store-child-usage-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_store/child_usage.rs
+  start: 80
+  end: 96
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/cf119a7a8c86a2c86d927cae79ed1eec03b07a91/crates/pa-daemon/src/session_store/child_usage.rs
+excerpt: |
+      /// Append one attribution row once: the row id is the retry identity, so
+      /// a re-delivered report finds its own row instead of billing the child
+      /// twice. A fresh id persists through [`Self::persist_entry_at`]'s shared
+      /// core, the same write-then-index contract every other row gets.
+      ///
+      /// # Errors
+      ///
+      /// Returns an error when the row id already names another row, the
+      /// immutable identity changed, the target assistant is missing, or the
+      /// durable append or its recovery confirmation fails. A complete owned
+      /// row may be indexed after an error so later aggregates include it;
+      /// acknowledgment still requires a successful durability confirmation.
+      pub(crate) fn append_child_usage_once(
+          &mut self,
+          row_id: &str,
+          target_id: &str,

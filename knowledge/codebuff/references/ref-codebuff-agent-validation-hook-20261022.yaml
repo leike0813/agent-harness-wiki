@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-agent-validation-hook-20261022
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-agent-validation-20261022
+locator:
+  kind: file_lines
+  file: cli/src/hooks/use-agent-validation.ts
+  start: 64
+  end: 101
+official_url: "https://github.com/CodebuffAI/codebuff"
+excerpt: |2-
+        const agentDefinitions = loadAgentDefinitions()
+
+        // Read selection at send time so changing provider never leaves a stale
+        // render using the hosted validation endpoint.
+        const validationResult = await validateSelectedAgentDefinitions(
+          agentDefinitions,
+        )
+
+        if (validationResult.success) {
+          setValidationErrors([])
+          return { success: true, errors: [] }
+        } else {
+          // Transport failures block the send too; retain the reason for the UI
+          // and diagnostics instead of silently aborting with an empty error list.
+          setValidationErrors(validationResult.validationErrors)
+          return { success: false, errors: validationResult.validationErrors }
+        }

@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-agents-src-task-ceiling-doc
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-e08cc-kilocode-tool-task
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/tool/task.ts
+  start: 100
+  end: 108
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  * Kilo intentionally differs: native-agent edit denials and parent notebook/MCP denials
+   * remain hard ceilings for Plan Mode and MCP restrictions. A custom delegator's edit
+   * policy governs only that agent: it is not projected onto the subagents it starts, so
+   * even path-scoped denies such as `edit: { "secrets/**": "deny" }` stop there and no
+   * longer confine delegated writes. Session edit denials still constrain every descendant,
+   * so use a session-level edit restriction to confine a delegated workflow.
+   * Parent ask/allow rules must not replace the selected subagent's policy.

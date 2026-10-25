@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-load-discovery-merge
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261022-internal-config-load-go
+locator:
+  kind: file_lines
+  file: internal/config/load.go
+  start: 440
+  end: 452
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  		baseURL, err := resolver.ResolveValue(providerConfig.BaseURL)
+  		if baseURL == "" || err != nil {
+  			slog.Warn("Skipping custom provider due to missing API endpoint", "provider", id, "error", err)
+  			c.Providers.Del(id)
+  			continue
+  		}
+
+  		if models, ok := discovered[id]; ok {
+  			providerConfig.Models = mergeModels(providerConfig.Models, models)
+  		}
+
+  		if len(providerConfig.Models) == 0 {
+  			slog.Warn("Skipping custom provider because the provider has no models", "provider", id)

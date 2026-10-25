@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-20261013-skills-server-pin
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-20261013-skills-middleware-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/plugins/adapters/skills_middleware.py
+  start: 512
+  end: 541
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  names = state.get("pinned_skills")
+          if not names:
+              return None
+          by_name = {skill["name"]: skill for skill in state.get("skills_metadata") or []}
+          roots = [*self._allowed_roots, *extra_skill_roots(self._path_base)]
+          for name in dict.fromkeys(names):
+              if name not in by_name:
+                  msg = (
+                      f"Skill '{name}' was not found. Check the name, or run "
+                      "/reload if you just added it."
+                  )
+                  raise ValueError(msg)
+              skill = by_name[name]
+              body = pinned_skill_body(skill, self._read_skill(skill, roots))
+              messages.append(sdk_skills._pinned_skill_message(skill, body))
+          return {"pinned_skills": Overwrite([]), "messages": messages}

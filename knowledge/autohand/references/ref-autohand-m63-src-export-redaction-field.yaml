@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-m63-src-export-redaction-field
+harness_id: autohand
+snapshot_id: snapshot-autohand-m63-src-feedback-sessiontranscript-ts
+locator:
+  kind: file_lines
+  file: src/feedback/sessionTranscript.ts
+  start: 50
+  end: 61
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  const field = options.fieldName?.replace(/([a-z0-9])([A-Z])/gu, '$1_$2').toLowerCase();
+  if (field && /(?:^|_)(?:api_key|apikey|secret|secret_key|private_key|token|password|passwd|authorization)$/u.test(field)
+    && text && text !== '[REDACTED]' && text !== '[REDACTED PRIVATE KEY]') {
+    return { text: '[REDACTED]', redactions: 1 };
+  }
+  let redactions = 0;
+  const redact = () => { redactions++; return '[REDACTED]'; };
+  const home = os.homedir();
+  const safe = (home.length > 1 ? text.replaceAll(home, '~') : text)
+    .replace(PRIVATE_KEY_BLOCK, () => { redactions++; return '[REDACTED PRIVATE KEY]'; })
+    .replace(SECRET_QUERY_PARAMETER, (_match, prefix: string) => prefix + redact())
+    .replace(SECRET_TOKEN, redact)

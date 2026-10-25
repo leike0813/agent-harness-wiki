@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-tool-output-schedule-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-tool-output-20261022
+official_url: https://github.com/anomalyco/opencode/blob/e965774fa0e2a8ffb27bf02827a2c3c6a8c0f45b/packages/core/src/tool-output.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/tool-output.ts
+  start: 141
+  end: 145
+excerpt: |-
+  const global = yield* Global.Service
+  yield* cleanup(fs, path.join(global.data, DIRECTORY)).pipe(
+    Effect.repeat(Schedule.spaced(Duration.hours(1))),
+    Effect.forkScoped,
+  )

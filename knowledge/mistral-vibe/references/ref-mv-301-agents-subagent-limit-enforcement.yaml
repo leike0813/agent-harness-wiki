@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-agents-subagent-limit-enforcement
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_subagents/_controller.py
+  start: 865
+  end: 885
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+                      if len(state.children) >= self._limits.max_lifetime_names:
+  ...
+                                  "subagent_name_limit",
+                                  "Subagent lifetime name limit reached",
+  ...
+                      if live_child_count(state) >= self._limits.max_children:
+  ...
+                                  "subagent_child_limit",
+                                  "Subagent child limit reached",
+  ...
+                      if running_child_count(state) >= self._limits.max_concurrent_turns:
+  ...
+                                  "subagent_concurrency_limit",
+                                  "Subagent concurrent Turn limit reached; wait for a"

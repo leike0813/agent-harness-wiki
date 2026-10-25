@@ -1,0 +1,44 @@
+schema_version: 2
+audit_id: audit-claude-code-83bc808d-8048-4a53-8fe3-bd5767789cac
+harness_id: claude-code
+checked_at: "2026-10-14T18:01:53.888Z"
+previous_audit_id: audit-claude-code-2bb3ee3e-9e7f-4c58-86a3-f0c937b6315f
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-claude-code-npm
+    kind: npm_registry
+    checked_at: "2026-10-14T18:01:52.185Z"
+    status: changed
+    baseline: "2.1.296@sha512-OX/k/rpcthMqnFKOWcpNcbiLsMKtAjLOpQNJHlYiDCFUznWCIwdRTyl/p9SdHVrsrzZuPMCNqZjnpakIni6upw=="
+    observed: "2.1.299@sha512-7pI5Pi+q0GHtX429SHGT0+IZgQ/2VlgcwRAHeDcH0vsumkF3tCHFp2vzKxp0uh8aytskZWHhmJ3kBi7ZfabywQ=="
+  - source_id: source-claude-code-skills-doc
+    kind: official_documentation
+    checked_at: "2026-10-14T18:01:52.188Z"
+    status: changed
+    baseline: 35fd2c11f870fbe1497a53796de31b2a6b760645e724bda58894525356d4602a
+    observed: 4d090296b0a4549865a7b5770b4ab33c6a522fc77a76c769dde589920f38c8fe
+    resolved_url: "https://code.claude.com/docs/en/skills.md"
+  - source_id: source-claude-code-mcp-doc
+    kind: official_documentation
+    checked_at: "2026-10-14T18:01:52.189Z"
+    status: changed
+    baseline: d62172422b54a070f750a4637a9ea5708be6d8db8b4d74a947c11a7f7f1521d5
+    observed: 3c658de8dce88add9a2779767dfcea844f017220f59ba4ce0a7e1109f9ac7406
+    resolved_url: "https://code.claude.com/docs/en/mcp.md"
+  - source_id: source-claude-code-configuration-doc
+    kind: official_documentation
+    checked_at: "2026-10-14T18:01:52.190Z"
+    status: unchanged
+    baseline: a8cc395af5e0938659ddfd38a703bdc8a5151640216c5230098408e30625e380
+    observed: a8cc395af5e0938659ddfd38a703bdc8a5151640216c5230098408e30625e380
+    resolved_url: "https://code.claude.com/docs/en/settings.md"
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "本轮状态：本产品已完成协调者的只读观察与语义 triage，来源证据已固定（Git 工作区已按观察到的 commit 打开并保留），但**本轮没有执行 maintenance 派发**。上述限定范围、问题清单与已固定的来源入口是下一轮可直接接续的工作面，不是已完成结论。review_status 保持 pending，pending_audit_refs 保持不变；不得因本轮无候选产物而视为已结案。"
+  - "maintain。source-claude-code-skills-doc（29 行差异）与 source-claude-code-mcp-doc（63 行差异）均有实质语义变化。"
+  - "skills 文档新增 “Characters a skill name can't hold” 一节，说明 Claude Code 拒绝含零宽空格、'< ' 等字符的命令名或 frontmatter name，并新增 skillOverride 覆盖入口；同时删除两处 v2.1.205 版本限定表述。"
+  - "命中 skills.discovery / skills.collision / skills.extensions 与 skills.diagnostics。mcp 文档的 63 行差异同轮判定。"
+  - "npm 2.1.296→2.1.299 是纯发布身份变化，不单独产生知识影响。"

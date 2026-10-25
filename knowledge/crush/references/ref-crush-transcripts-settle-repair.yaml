@@ -1,0 +1,35 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-transcripts-settle-repair
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261022-internal-agent-settle-go
+locator:
+  kind: file_lines
+  file: internal/agent/settle.go
+  start: 140
+  end: 179
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  func repairInterruptedToolCalls(ctx context.Context, messages message.Service, msgs []message.Message) ([]message.Message, error) {
+  	resolved := make(map[string]struct{})
+  	for _, msg := range msgs {
+  		for _, tr := range msg.ToolResults() {
+  			resolved[tr.ToolCallID] = struct{}{}
+  		}
+  	}
+
+  	var repaired []message.Message
+  	for i := range msgs {
+  		msg := &msgs[i]
+  		if msg.Role != message.Assistant {
+  			continue
+  		}
+  		var orphans []message.ToolCall
+  		for _, tc := range msg.ToolCalls() {
+  			if _, ok := resolved[tc.ID]; !ok {
+  				orphans = append(orphans, tc)
+  			}
+  		}
+  		if len(orphans) == 0 {
+  			continue
+  		}

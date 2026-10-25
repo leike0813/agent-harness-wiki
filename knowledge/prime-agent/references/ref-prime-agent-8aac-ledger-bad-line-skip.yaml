@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-8aac-ledger-bad-line-skip
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-8aac-crates-pa-daemon-src-rlm-ledger-replay-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/rlm_ledger/replay.rs
+  start: 73
+  end: 83
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/8aac8692456c00c01d4e53e60e6d3347a3506559/crates/pa-daemon/src/rlm_ledger/replay.rs
+excerpt: |2
+  /// Parse one ledger line: `v:1` records with a known op, `None` for a known
+  /// version with an unknown op (forward compatibility), an error for anything
+  /// else - which replay logs and skips: one bad line costs one record, never
+  /// the ledger.
+  pub(super) fn parse_ledger_line(line: &str, index: usize) -> Result<Option<LedgerRecord>> {
+      let line_no = index + 1;
+      let record: Value = serde_json::from_str(line.trim())
+          .with_context(|| format!("malformed RLM ledger line {line_no}"))?;
+      if record.get("v") != Some(&json!(1)) {
+          bail!("malformed RLM ledger line {line_no}: unsupported record version");
+      }

@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-agents-src-allowlist
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-e08cc-permission-allowlist
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/permission/allowlist.ts
+  start: 4
+  end: 24
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  // A scoped policy can be written either as an explicit catch-all deny or as an
+  // allowlist baseline: `"*": deny` followed by path allows. `Permission.evaluate`
+  // only ever sees the catch-all for a literal "*" pattern, so code that needs to
+  // tell a real blanket deny apart from an allowlist baseline has to inspect the
+  // rules that follow it. `editRestrictions` in `src/kilocode/agent/index.ts`
+  // encodes the same distinction for the built-in plan guard.
+  export namespace PermissionAllowlist {
+    /** Last rule that applies `permission`'s catch-all pattern, if any. */
+    export function catchAll(permission: string, rules: Ruleset) {
+      return rules.findLast((rule) => Wildcard.match(permission, rule.permission) && rule.pattern === "*")
+    }

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-mcp-base
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 219
+  end: 251
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  class _MCPBase(BaseModel):
+      name: str = Field(description="Short alias used to prefix tool names")
+  ...
+      disabled: bool = Field(
+          default=False,
+          description="Disable all tools from this MCP server. Tools are still discovered but hidden.",
+      )
+      disabled_tools: list[str] = Field(
+          default_factory=list,
+          description=(
+              "Tool names (without the server prefix) to disable from this server. "
+              "E.g. ['search', 'read'] to hide '{alias}_search' and '{alias}_read'."
+          ),
+      )
+  ...
+      @field_validator("name", mode="after")
+      @classmethod
+      def normalize_name(cls, v: str) -> str:
+          normalized = normalize_mcp_server_name(v)

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-remote-fetch
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-e08cc-mcp-index
+locator:
+  kind: file_lines
+  file: packages/opencode/src/mcp/index.ts
+  start: 348
+  end: 365
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  // kilocode_change start - scope the stream probe to this endpoint and compose it with
+      // the OAuth refresh guard so a rejected refresh cannot wipe newer rotated credentials
+      const remoteFetch = authProvider
+        ? oauthGuard(probe(fetch, url.href), {
+            name: key,
+            serverUrl: mcp.url,
+            auth,
+            provider: authProvider,
+          })
+        : probe(fetch, url.href)

@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-crush-code-background-jobs-limit
+harness_id: crush
+snapshot_id: snapshot-crush-repo-20261022-internal-shell-background-go
+locator:
+  kind: file_lines
+  file: internal/shell/background.go
+  start: 89
+  end: 97
+official_url: "https://github.com/charmbracelet/crush"
+excerpt: |-
+  // Start creates and starts a new background shell with the given command,
+  // unless maxJobs jobs are already running.
+  func (m *BackgroundShellManager) Start(ctx context.Context, workingDir string, blockFuncs []BlockFunc, command, description string, maxJobs int) (*BackgroundShell, error) {
+  	m.mu.Lock()
+  	defer m.mu.Unlock()
+
+  	if running := m.prune(); running >= maxJobs {
+  		return nil, fmt.Errorf("maximum number of running background jobs (%d) reached. Please terminate or wait for some jobs to complete", maxJobs)
+  	}

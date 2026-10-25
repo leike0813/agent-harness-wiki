@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-core-mod-tool-check-restrictive-merge
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-18f80f56-core-tool-scheduler
+locator:
+  kind: file_lines
+  file: packages/core/src/core/coreToolScheduler.ts
+  start: 3744
+  end: 3759
+official_url: https://github.com/QwenLM/qwen-code/blob/18f80f56666a347a2b67b2ef98099cc58356b253/packages/core/src/core/coreToolScheduler.ts
+excerpt: "            if (!['allow', 'ask', 'deny'].includes(decision.decision)) {\n              throw new Error('Invalid Mod tool.check decision.');\n            }\n            if (flowResult.finalPermission !== 'deny') {\n              if (decision.decision === 'deny') {\n                flowResult.finalPermission = 'deny';\n                flowResult.denyMessage =\n                  decision.reason?.trim() ||\n                  `Tool \"${reqInfo.name}\" is denied by a Mod.`;\n              } else if (\n                decision.decision === 'ask' &&\n                flowResult.finalPermission === 'allow'\n              ) {\n                flowResult.finalPermission = 'ask';\n              }\n            }"

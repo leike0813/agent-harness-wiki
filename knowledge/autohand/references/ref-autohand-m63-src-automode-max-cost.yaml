@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-m63-src-automode-max-cost
+harness_id: autohand
+snapshot_id: snapshot-autohand-m63-src-core-automodemanager-ts
+locator:
+  kind: symbol
+  file: src/core/AutomodeManager.ts
+  symbol: getAutomodeOptions
+official_url: "https://github.com/autohandai/code-cli"
+excerpt: |-
+  const configSettings = config.automode ?? {};
+  if (cliOptions.maxCost !== undefined) {
+    throw new Error('--max-cost is not supported. Use --max-iterations or --max-runtime instead.');
+  }
+  if (configSettings.maxCost !== undefined) {
+    throw new Error("automode.maxCost in your config isn't supported: Autohand can't enforce a dollar limit. Remove it and use --max-iterations or --max-runtime.");
+  }

@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-bob-hooks-input-common
+harness_id: bob
+snapshot_id: snapshot-bob-lt-hooks-20261013
+locator:
+  kind: document_section
+  heading: Hook reference
+official_url: "https://bob.ibm.com/docs/shell/configuration/lifecycle-hooks"
+excerpt: |-
+  Runs once when a new session begins, before the first turn.
+  Stdin schema
+  {
+  "session_id": "string",
+  "cwd": "string",
+  "hook_event_name": "string",
+  "source": "startup | resume | compact"
+  }
+  Example payload
+  {
+  "session_id": "3f2a9c1e8b7d4f6a0e5c2b1d9a8f7e6c",
+  "cwd": "/path/to/project",
+  "hook_event_name": "SessionStart",
+  "source": "startup"
+  }
+  Stdout: Written to the model's context as additional session information.
+  Blocking: Exit code 2 is not supported. The session always starts. Other non-zero exits are logged and ignored.

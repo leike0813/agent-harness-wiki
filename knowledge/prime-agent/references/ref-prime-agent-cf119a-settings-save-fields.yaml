@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-cf119a-settings-save-fields
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-cf119a-crates-pa-core-src-settings-manager-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/manager.rs
+  start: 915
+  end: 924
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/cf119a7a8c86a2c86d927cae79ed1eec03b07a91/crates/pa-core/src/settings/manager.rs
+excerpt: |
+          let snapshot = serde_json::to_value(&self.global)?;
+          let mut failure = None;
+          let mut saved = None;
+          self.storage
+              .with_lock(SettingsScope::Global, &mut |current| {
+                  let result = (|| -> Result<String> {
+                      let mut document = settings_document(current.as_deref())?;
+                      for field in &self.pending_global_fields {
+                          let (map, key, value) = if let Some((parent, child)) = field.split_once('.')

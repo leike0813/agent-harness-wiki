@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-dsh-compat-peer-20261022
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo-20261022
+locator:
+  kind: file_lines
+  file: packages/boot/app-boot/src/plugin-compatibility.ts
+  start: 62
+  end: 72
+official_url: "https://github.com/deepseek-ai/deepseek-harness"
+excerpt: |2-
+    if (!Object.hasOwn(fields, 'peerDependencies')) return {}
+    const dependencies = objectOf(fields.peerDependencies, 'Plugin manifest peerDependencies')
+    const unmet: Record<string, string> = {}
+    for (const [name, range] of Object.entries(dependencies)) {
+      if (typeof range !== 'string') {
+        throw new Error(`Plugin manifest peerDependencies[${JSON.stringify(name)}] must be a string`)
+      }
+      if (name !== '@deepseek-ai/dsh' && !name.startsWith('@deepseek-ai/dsh-')) continue
+      const requirement = ['workspace:^', 'workspace:~', 'workspace:*'].includes(range) ? runtimeVersion : range
+      if (!satisfies(runtimeVersion, requirement)) unmet[name] = range
+    }

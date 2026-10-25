@@ -1,0 +1,30 @@
+schema_version: 2
+audit_id: audit-goose-b3b8ec85-01cd-4143-9159-9871989fd17b
+harness_id: goose
+checked_at: "2026-10-14T18:02:51.201Z"
+previous_audit_id: audit-goose-703d225e-c7ce-402d-8f1e-d6a2419b387e
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-goose-703d225e-c7ce-402d-8f1e-d6a2419b387e
+checks:
+  - source_id: source-goose-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:02:49.702Z"
+    status: changed
+    baseline: 4811ae25f736fdf0ede847449c060e96645426b5
+    observed: 9686d674000a5fbb8139214863289e4820714771
+    remote_ref: refs/heads/main
+  - source_id: source-goose-npm
+    kind: npm_registry
+    checked_at: "2026-10-14T18:02:49.712Z"
+    status: unchanged
+    baseline: "1.54.0@sha512-Y7whBgcYRn7cvXFs7B5h34iCtmRPkxchrgUskuVu4+YjIv7zQYj9ooSVbOzwE1p4zbMlJO6yFERwbPDSdj+rrQ=="
+    observed: "1.54.0@sha512-Y7whBgcYRn7cvXFs7B5h34iCtmRPkxchrgUskuVu4+YjIv7zQYj9ooSVbOzwE1p4zbMlJO6yFERwbPDSdj+rrQ=="
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "本轮状态：本产品已完成协调者的只读观察与语义 triage，来源证据已固定（Git 工作区已按观察到的 commit 打开并保留），但**本轮没有执行 maintenance 派发**。上述限定范围、问题清单与已固定的来源入口是下一轮可直接接续的工作面，不是已完成结论。review_status 保持 pending，pending_audit_refs 保持不变；不得因本轮无候选产物而视为已结案。"
+  - "maintain。source-goose-repo 4811ae25..9686d674 命中 crates/goose/src/hooks/mod.rs（+54/-162，净减 108 行），另有 platform_extensions/mod.rs 与 summon.rs。"
+  - "hooks/mod.rs 是被改写而非排版变动，净删 108 行表明 hook 装配路径被重构，命中 hooks.entry / hooks.events / hooks.order / hooks.output。"
+  - "限定在 hooks 主题派发；agents 平台扩展的改动按 expansion basis 检查后未指向已录问题，先记为未展开候选证据。"

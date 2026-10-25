@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-301-agents-spawn
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-301-repo
+locator:
+  kind: file_lines
+  file: harness/core/src/core/features/subagents/tools.rs
+  start: 16
+  end: 35
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  struct SpawnInput {
+      #[schemars(length(min = 1), regex(pattern = r"^(?!\.{1,2}$)[^/]+$"))]
+      name: String,
+      #[schemars(length(min = 1))]
+      message: String,
+      #[schemars(length(min = 1))]
+      config_name: Option<String>,
+  }
+  ...
+  struct ConversationSpawnInput {
+      #[schemars(flatten)]
+      spawn: SpawnInput,
+      #[schemars(
+          default = "default_fork_turns",
+          regex(pattern = r"^(all|none|0*[1-9][0-9]*)$")
+      )]
+      fork_turns: String,
+  }

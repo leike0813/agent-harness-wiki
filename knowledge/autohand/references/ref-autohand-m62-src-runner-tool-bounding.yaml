@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-autohand-m62-src-runner-tool-bounding
+harness_id: autohand
+snapshot_id: snapshot-autohand-m62-src-core-agent-reactlooprunner-ts
+locator:
+  kind: file_lines
+  file: src/core/agent/ReactLoopRunner.ts
+  start: 294
+  end: 303
+official_url: "https://github.com/autohandai/code-cli/blob/6e69ad6b9c5c2d9655834d4c13a28cf5be636a18/src/core/agent/ReactLoopRunner.ts"
+excerpt: |-
+    if (!usesAutohandAICloud(host.runtime.config, host.activeProvider) || host.isPromptCachingEnabled?.() !== true) {
+      return relevant;
+    }
+    const sessionId = host.sessionManager.getCurrentSession()?.metadata.sessionId;
+    if (!sessionId) return relevant;
+    const initialTools = limitToolSelection(
+      allTools, relevant, messages, host.llm.getCapabilities?.().maxTools ?? 128,
+    );
+    return toolSet.select(sessionId, allTools, relevant, initialTools);

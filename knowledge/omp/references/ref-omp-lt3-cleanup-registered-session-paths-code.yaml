@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt3-cleanup-registered-session-paths-code
+harness_id: omp
+snapshot_id: snapshot-omp-adc7-src-cli-gc-cli-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/cli/gc-cli.ts
+  start: 411
+  end: 430
+official_url: https://github.com/can1357/oh-my-pi/blob/adc7fed5c9d6837d77b590bc313a705e2b4136b0/packages/coding-agent/src/cli/gc-cli.ts#L411-L430
+excerpt: "/**\n * Paths recorded in the persistent registry (`<agentDir>/custom-session-files/*`).\n * A first save may leave only its staging temp, so the target need not exist\n * when reclaiming crash leftovers.\n */\nasync function collectRegisteredSessionPaths(registryDir: string): Promise<string[]> {\n\tlet entries: string[];\n\ttry {\n\t\tentries = await fs.readdir(registryDir);\n\t} catch (error) {\n\t\tif (codeOf(error) === \"ENOENT\") return [];\n\t\tthrow error;\n\t}\n\tconst files = new Map<string, string>();\n\tfor (const entry of entries) {\n\t\tconst recorded = (await readTextIfPresent(path.join(registryDir, entry))).trim();\n\t\tif (!recorded) continue;\n\t\tconst sessionFile = path.resolve(recorded);\n\t\tfiles.set(normalizePathForComparison(sessionFile), sessionFile);\n\t}"

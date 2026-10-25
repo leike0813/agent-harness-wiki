@@ -1,0 +1,734 @@
+schema_version: 2
+audit_id: audit-goose-703d225e-c7ce-402d-8f1e-d6a2419b387e
+harness_id: goose
+checked_at: 2026-10-13T18:02:32.006Z
+previous_audit_id: audit-goose-ccc07584-d856-4af4-9378-e1fb65969c07
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-goose-repo
+    kind: git_repository
+    checked_at: 2026-10-13T18:02:30.023Z
+    status: changed
+    baseline: 4617040c7b650b37d599bdaa08d3790572c19ae8
+    observed: 4811ae25f736fdf0ede847449c060e96645426b5
+    remote_ref: refs/heads/main
+  - source_id: source-goose-npm
+    kind: npm_registry
+    checked_at: 2026-10-13T18:02:30.031Z
+    status: unchanged
+    baseline: 1.54.0@sha512-Y7whBgcYRn7cvXFs7B5h34iCtmRPkxchrgUskuVu4+YjIv7zQYj9ooSVbOzwE1p4zbMlJO6yFERwbPDSdj+rrQ==
+    observed: 1.54.0@sha512-Y7whBgcYRn7cvXFs7B5h34iCtmRPkxchrgUskuVu4+YjIv7zQYj9ooSVbOzwE1p4zbMlJO6yFERwbPDSdj+rrQ==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-overrides
+      - config-runtime
+      - config-trust
+      - config-defaults
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-goose-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: custom_agents
+    question_ids:
+      - agents.invocation
+      - agents.limits
+    section_ids:
+      - agents-invocation
+      - agents-overrides
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: crates/goose/src/agents/subagent_handler.rs 与
+      platform_extensions/summon.rs 本轮改变已发布的子代理执行宿主与调用条件（共享父
+      Agent、决策转发、会话模式继承、每会话 turn 锁），连同 ops_subagent.rs 的转发通道；agents.invocation 与
+      agents.limits 需按新提交重写。
+  - topic: custom_providers
+    question_ids:
+      - providers.protocol
+      - providers.forwarding
+      - providers.responses
+    section_ids:
+      - providers-protocol
+      - providers-forwarding
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: crates/goose-providers/src/{openai.rs,openai_compatible.rs,http_status.rs}
+      与 provider-types 的 token_usage.rs 新增厂商 request id 透传，改变已发布的 provider
+      响应/错误处理；providers.responses 需重写，protocol 与 forwarding 经 diff 核对为
+      unaffected。
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-entry
+      - hooks-events
+      - hooks-input
+      - hooks-output
+      - hooks-order
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-goose-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-recording
+      - transcripts-storage
+      - transcripts-schema
+      - transcripts-database
+      - transcripts-lifecycle
+      - transcripts-retention
+      - transcripts-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-goose-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-entry
+      - mcp-definition
+      - mcp-transport
+      - mcp-lifecycle
+      - mcp-capabilities
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-goose-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model
+      - plugins-package
+      - plugins-install
+      - plugins-discovery
+      - plugins-api
+      - plugins-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-goose-repo: shared or unknown impact; assess relevant entrypoints"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-roots
+      - skills-discovery
+      - skills-format
+      - skills-loading
+      - skills-invocation
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs: []
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    reason: "source-goose-repo: shared or unknown impact; assess relevant entrypoints"
+pending_question_ids:
+  - agents.invocation
+  - agents.limits
+  - providers.protocol
+  - providers.responses
+  - providers.forwarding
+  - config.sources
+  - config.overrides
+  - config.runtime
+  - config.trust
+  - config.defaults
+  - config.migration
+  - config.diagnostics
+  - hooks.events
+  - hooks.entry
+  - hooks.input
+  - hooks.output
+  - hooks.order
+  - hooks.conditions
+  - hooks.diagnostics
+  - transcripts.scope
+  - transcripts.location
+  - transcripts.naming
+  - transcripts.format
+  - transcripts.schema
+  - transcripts.lifecycle
+  - transcripts.database
+  - transcripts.archive
+  - transcripts.cleanup
+  - transcripts.diagnostics
+  - mcp.entry
+  - mcp.definition
+  - mcp.transport
+  - mcp.auth
+  - mcp.lifecycle
+  - mcp.capabilities
+  - mcp.exposure
+  - mcp.diagnostics
+  - plugins.model
+  - plugins.package
+  - plugins.install
+  - plugins.discovery
+  - plugins.api
+  - plugins.lifecycle
+  - plugins.diagnostics
+  - skills.roots
+  - skills.discovery
+  - skills.collision
+  - skills.format
+  - skills.extensions
+  - skills.loading
+  - skills.invocation
+  - skills.conditions
+  - skills.diagnostics
+investigation_notes:
+  - 本轮 triage 分类：narrow_investigation；巡检观察来自 2026-10-13 的只读检查。
+  - 本轮 triage 分类：narrow_investigation；入口限 custom_providers 与 custom_agents 的固定问题。
+  - "仓库单提交 4811ae2（chore(GDK): release v0.1.0-alpha.12，107 个文件），与章节已引证据文件重合的有
+    crates/goose-providers/src/openai.rs、crates/goose/src/agents/subagent_handl\
+    er.rs、crates/goose/src/agents/platform_extensions/summon.rs、crates/goose-cl\
+    i/src/session/mod.rs。"
+  - 同时改动 crates/goose-agent/src/inference.rs 与
+    crates/goose-providers/src/{anthropic,openai_compatible,http_status}.rs，属
+    provider 请求与子代理调度线索。
+  - 本轮范围：narrow_investigation，入口限 custom_providers 与 custom_agents
+    的五道固定问题；未扩展为全库重审。
+  - 逐文件核对（pinned workspace
+    ws-4811ae25f736-d197f1ee-c486-4929-b89d-ac07a4dc9922，4811ae25f736fdf0ede847449c060e96645426b5）：crates/goose-providers/src/openai.rs
+    仅两处非流式分支新增厂商 request id（+7/-4
+    行），无请求构造改动；crates/goose/src/agents/subagent_handler.rs 由
+    from_foreground_subagent_session(session_manager, session,
+    use_login_shell_path) 改为 prepare_subagent(agent, session) 并新增
+    SubagentRunner/SubagentEnding/forwarded；crates/goose/src/agents/platform_extensions/summon.rs
+    新增子会话继承父会话 goose_mode、handle_foreground_delegate 更名 create_subagent、错误文案去掉
+    foreground；crates/goose-cli/src/session/mod.rs 只有一处测试构造由 Arc::new(agent) 改为
+    agent。
+  - 扩展依据：四个被引用文件中 subagent_handler.rs 的 subagent 执行宿主改变、openai.rs
+    的响应/错误路径改变，故按契约展开到 crates/goose/src/agents/state_machine/ops_subagent.rs（由
+    ops_foreground_subagent.rs
+    重命名）、crates/goose/src/agents/agent.rs（stream_subagent_turn、release_session、Agent
+    改为
+    Arc<Agent>）、crates/goose-providers/src/{openai_compatible.rs,http_status.rs,anthropic.rs}
+    与
+    crates/goose-provider-types/src/{errors.rs,conversation/token_usage.rs}；未再扩展。
+  - 结案为 unaffected：providers.protocol（engine
+    路由与请求构造：crates/goose/src/config/*、crates/goose-providers/src/declarative.rs、model.rs、formats/、openai_compatible/
+    子目录在该提交零 diff）、providers.forwarding（配置字段到请求的映射同为零 diff）；agents.limits 的 max
+    turns 解析链（summon.rs 的 resolve_max_turns 与 subagent_task_config.rs
+    未变）保持原结论，仅新增每会话 turn 锁与收尾释放，已并入 agents.limits 的 partial 答案。
+  - 排除：GDK v0.1.0-alpha.12 版本号与 documentation/src/data/gdk-api.json、各 crate 的
+    Cargo.toml/CHANGELOG、Cargo.lock、ui/desktop/**（含 i18n 与 provider UI
+    组件）、crates/goose-agent/src/inference.rs 与 gen_ai_telemetry.rs 的
+    gen_ai.request.id
+    遥测字段、crates/goose/src/agents/state_machine/tests/**、crates/goose/tests/**、live_voice/service/tests.rs、elicitation.rs、execution/、providers/command_auth.rs、acp/、sdk
+    绑定等测试与非本范围改动。
+  - 交付：新建 goose-cli-custom_agents-v4 与 goose-cli-custom_providers-v4 两个完整
+    edition（旧版保留），新增 17 条 git_source_file 引用（commit 4811ae25）与对应
+    snapshot/artifact；chapter-current.yaml 未切换指针，等独立复核后再由协调者选择。
+  - "高影响判定：子代理执行宿主由独立 Agent 改为共享父
+    Agent，并新增跨会话的决策请求转发，属于推翻已发布机制的关键加载/调度路径变化，按契约保持 review_status: pending
+    并声明独立复核；providers.responses 的 request id 透传为机制新增，同样列入待复核。"
+  - 无来源阻塞：git 检出可用，未运行 sources:scan，未复制 checkout 进候选。
+  - 本轮修正后的候选章节未获独立复核批准，已移出交付候选并作为任务工件保留在巡检临时目录；本审计的影响范围已收窄到仍在库内的章节小节，待复核问题继续
+    pending。
+  - 本轮修正后的候选章节未获独立复核批准，已移出交付候选并作为任务工件保留在巡检临时目录；本审计的影响范围已收窄到仍在库内的章节小节，待复核问题继续
+    pending。

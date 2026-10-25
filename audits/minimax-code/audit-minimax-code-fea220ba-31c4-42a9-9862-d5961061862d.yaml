@@ -1,0 +1,215 @@
+schema_version: 2
+audit_id: audit-minimax-code-fea220ba-31c4-42a9-9862-d5961061862d
+harness_id: minimax-code
+checked_at: 2026-10-22T12:55:11.429Z
+previous_audit_id: audit-minimax-code-9b58250e-b196-437c-902f-a73a0ca10407
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-minimax-code-b3c38527-e7ca-469a-8e5c-c66dd0369f4e
+  - audit-minimax-code-d9d125d7-7f5a-43b9-97ac-ee55e8589166
+  - audit-minimax-code-9b58250e-b196-437c-902f-a73a0ca10407
+checks:
+  - source_id: source-minimax-code-repo
+    kind: git_repository
+    checked_at: 2026-10-22T12:55:08.329Z
+    status: changed
+    baseline: e798b460f4d8603ce732e5d319d63c8018ef6cad
+    observed: da22f11c55d4748155d7162c1030414228a00565
+    remote_ref: refs/heads/main
+  - source_id: source-minimax-code-npm
+    kind: npm_registry
+    checked_at: 2026-10-22T12:55:08.336Z
+    status: changed
+    baseline: 0.6.11@sha512-PYozM82jYbVQsdRNWMRLucQffFYV0SlYYS+p4cfQYmRhFwiJCjcicZJmETxAmLcdN5Ivd8pHGbiIqgarQoJBLQ==
+    observed: 0.6.12@sha512-aA4XPl9tYHTrtIS5DLB5DBSdxlcokZJ5BGUT/vSiDWei/tlVV5hIEVTgFhnSB6WM4evfNwOJtfi2fJVPNpJveg==
+  - source_id: source-minimax-code-docs-features
+    kind: official_documentation
+    checked_at: 2026-10-22T12:55:08.337Z
+    status: changed
+    baseline: a1230063ef181d330f3427f2879fbee8df2e09db7c76aa664175055de551e217
+    observed: 7f1dca2bf5abcff068e032299c3d43acd2e7d3ba7f4a479a531ef099bda39ccb
+    resolved_url: https://agent.minimax.io/docs/cli/features.md
+  - source_id: source-minimax-code-docs-configuration
+    kind: official_documentation
+    checked_at: 2026-10-22T12:55:08.338Z
+    status: changed
+    baseline: 9429573af63b4667c425a723f684857c4f50940d9f748590ce91864d2984a485
+    observed: d0ca00164c8ae214b44eafcca3c4d724fb42ded7c62849a25fb00aba83f0e51b
+    resolved_url: https://agent.minimax.io/docs/cli/configuration.md
+  - source_id: source-minimax-code-docs-reference
+    kind: official_documentation
+    checked_at: 2026-10-22T12:55:09.264Z
+    status: changed
+    baseline: e35d9d1ad7fb5a84925e67117255fb83f18273115abdb52445b0543051d05b6b
+    observed: a72a7c07732d20e75297e1e4a1cbc7d0395134253448812c3a880cbc46452023
+    resolved_url: https://agent.minimax.io/docs/cli/reference.md
+  - source_id: source-minimax-code-docs-security
+    kind: official_documentation
+    checked_at: 2026-10-22T12:55:09.845Z
+    status: changed
+    baseline: a651d45252f8be0a4473e3daa95fbe5627d77db7de9072202b0017bd4163193a
+    observed: 741384b2a862fa37a40c9c2d4994c5bc7f2147c03ba7f72b594076f3bd9b6f9b
+    resolved_url: https://agent.minimax.io/docs/cli/security.md
+  - source_id: source-minimax-code-docs-faq
+    kind: official_documentation
+    checked_at: 2026-10-22T12:55:09.944Z
+    status: changed
+    baseline: 39fd1c25a0cc1d87abbf908f2edbb379a280192e91541183d77fca5653c37db3
+    observed: 08754e61b49922c8773834b9fa22de051cf4caeaa7353c9d5bb27f63d7ca8ba8
+    resolved_url: https://agent.minimax.io/docs/cli/faq.md
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+    section_ids:
+      - config-sources
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-minimax-code-config-path
+      - ref-minimax-code-config-brand
+      - ref-minimax-code-config-datadir-paths
+      - ref-minimax-code-config-datadir-primary
+      - ref-minimax-code-config-datadir-precedence
+      - ref-minimax-code-config-env
+      - ref-minimax-code-config-tui-datadir
+      - ref-minimax-code-doc-data-dir
+      - ref-minimax-code-install-accounts
+      - ref-minimax-code-doc-sec-workspace
+      - ref-minimax-code-doc-runtime-settings
+      - ref-minimax-code-doc-faq-data
+    cross_topic_links: []
+    reason: config.ts 因新增 contextManagement.compactionTriggerAt 与默认模型改名整体下移 10
+      行，属于行号位移；data-dir.ts、getDataDir/getConfigPath 语义、install
+      文档的数据目录表与官方数据目录说明均未变，config.sources 答案不变，保留既有 configuration edition。
+  - topic: custom_agents
+    question_ids:
+      - agents.overrides
+      - agents.limits
+    section_ids:
+      - agents-overrides-limits
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-minimax-code-agents-capabilities
+      - ref-minimax-code-agents-capability-keys
+      - ref-minimax-code-agents-config
+      - ref-minimax-code-agents-model-precedence
+      - ref-minimax-code-agents-tool-ceilings
+      - ref-minimax-code-agents-task-tool
+      - ref-minimax-code-agents-import-noscan
+      - ref-minimax-code-agents-taskchild-ceiling
+      - ref-minimax-code-agents-admission
+      - ref-minimax-code-agents-task-control
+      - ref-minimax-code-doc-feat-slash
+    cross_topic_links: []
+    reason: 本轮 61 个变更文件不含 agent 定义、canonical-tool-policy、subagent-roles 与背景任务生命周期；仅
+      config.ts 中 agents.default 的证据定位下移 10 行。agents.overrides/limits
+      的覆盖、天花板、递归与并发机制不变，保留既有 custom_agents edition。
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.protocol
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-entry
+      - providers-protocol
+      - providers-forwarding-responses
+      - providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-minimax-code-providers-keys
+      - ref-minimax-code-providers-types
+      - ref-minimax-code-providers-reserved
+      - ref-minimax-code-providers-parse
+      - ref-minimax-code-providers-managed-override
+      - ref-minimax-code-providers-authmode
+      - ref-minimax-code-providers-envkey
+      - ref-minimax-code-providers-file-mode
+      - ref-minimax-code-providers-create
+      - ref-minimax-code-providers-default-api
+      - ref-minimax-code-providers-headers
+      - ref-minimax-code-providers-normalize
+      - ref-minimax-code-providers-models-urls
+      - ref-minimax-code-providers-discovery
+      - ref-minimax-code-providers-modelmeta
+      - ref-minimax-code-providers-fallback-limits
+      - ref-minimax-code-providers-fingerprint
+      - ref-minimax-code-providers-wire-headers
+      - ref-minimax-code-providers-retry
+      - ref-minimax-code-providers-refusal-surfaced
+      - ref-minimax-code-providers-empty-tools-omitted
+      - ref-minimax-code-providers-refusal-classifier
+      - ref-minimax-code-providers-refusal-signals
+      - ref-minimax-code-providers-refusal-no-retry
+      - ref-minimax-code-providers-refusal-changelog
+      - ref-minimax-code-providers-refusal-code-suppress
+      - ref-minimax-code-providers-cli
+      - ref-minimax-code-doc-config-layers
+      - ref-minimax-code-doc-feat-providers
+      - ref-minimax-code-doc-custom-providers
+      - ref-minimax-code-doc-ref-provider
+      - ref-minimax-code-doc-faq-providers
+      - ref-minimax-code-readme-byok
+      - ref-minimax-code-examples-providers
+      - ref-minimax-code-providers-formats-20261022
+      - ref-minimax-code-providers-identity-20261022
+      - ref-minimax-code-providers-format-onboarding-20261022
+      - ref-minimax-code-providers-probe-20261022
+      - ref-minimax-code-providers-google-probe-20261022
+      - ref-minimax-code-providers-google-adapter-20261022
+      - ref-minimax-code-providers-google-thinking-20261022
+      - ref-minimax-code-providers-opencode-go-20261022
+      - ref-minimax-code-examples-providers-20261022
+    cross_topic_links:
+      - config.trust
+      - config.defaults
+    reason: 仓库 commit da22f11 在客户端与运行时格式列表新增 google-generative-ai，为连接测试增加 Pi 原生
+      Google 适配器分支（流式、30 秒默认超时、thinking 由 Pi 拥有），并把 OpenCode Go 头覆盖扩到
+      /inference/go；官方 CLI 文档与 README 仍只列三种格式，按来源边界写入新 edition，不建软件版本映射。
+pending_question_ids:
+  - agents.limits
+  - agents.overrides
+  - config.sources
+  - providers.diagnostics
+  - providers.entry
+  - providers.forwarding
+  - providers.protocol
+  - providers.responses
+investigation_notes:
+  - 本轮 triage 分类：maintain；只读观察时间 2026-10-22T12:55:11.429Z，会话
+    4d765ae2-4466-41a5-951d-ac0df68377b4-alDEns。
+  - 按已发布章节引用逐条核对：6 条已发布引用的行定位在本轮提交上不再命中。受影响主题
+    configuration、custom_agents、custom_providers，受影响小节
+    agents-overrides-limits、config-sources、providers-diagnostics、providers-entry、providers-forwarding-responses、providers-protocol。
+  - Git 来源 changed 的 61 个文件中有 8 个被章节引用，逐个比对后确认：docs/installation.md 与 README.md
+    把 npm 默认版本从 0.4.12 更新为 0.6.9
+    并同步数据目录说明，packages/local-runtime-v2/src/service/model-system/connectivity/test-connection.ts
+    改动连接测试的 provider 分支，docs/tui-capabilities.md 与 docs/examples.md 补充说明。
+  - 结论（configuration/config.sources）：data-dir.ts 本轮未改；getDataDir() 的五级解析顺序、
+    getConfigPath() 的 `<data-dir>/config.yaml`、MINIMAX_DATA_DIR 优先于
+    MAVIS_DATA_DIR 均保持原样；docs/installation.md
+    仅在版本号与新数据目录说明上替换（0.4.12→0.6.9），数据目录表仍为 ~/.minimax。config.ts 的引用整体下移 10
+    行，属位置变化。答案不变，保留 minimax-code-cli-configuration-v3，不新建 edition。
+  - 结论（custom_agents/agents.overrides、agents.limits）：变更文件不含 agent 定义、
+    canonical-tool-policy、subagent-roles、background-task 生命周期；能力覆盖/交集、工具天花板、
+    task 子会话屏蔽、准入与停止预算均无改动。答案不变，保留 minimax-code-cli-custom_agents-v2。
+  - 结论（custom_providers）：da22f11 新增第四种 API 格式 google-generative-ai（客户端
+    MCODE_PROVIDER_API_FORMATS 与运行时 MODEL_PROVIDER_APIS 同步），TUI 引导增加该选项； 连接测试对
+    google-generative-ai 改走 Pi 的 completeSimple 流式通道，默认超时 30 秒 （其余 10 秒），并以
+    stopReason/内容判定 provider_error/invalid_response； resolution/model-ref.ts
+    对该格式不注入 thinking 补丁（Pi 拥有 Google 思考参数）； shared/opencode-go-headers.ts 的头覆盖从
+    /zen/go 扩到 /inference/go。 docs/examples.md 新增 Google 端点示例（base URL 写到 API
+    版本、x-goog-api-key）。 官方 CLI 文档（configuration/features/faq 快照）与仓库 README
+    仍列三种格式， 按版本/分发边界并列写入，不建软件版本映射。已新建完整 minimax-code-cli-custom_providers-v3
+    并切换本产品选择。
+  - 引用策略：新 edition 只对发生实质变化的证据新建 reference 与
+    snapshot-minimax-code-repo-20261022（commit da22f11、git_source_file，未保留
+    checkout）； 未改动的源码与官方文档引用沿用原 snapshot，其摘录仍逐字命中对应页面（configuration/features/
+    reference/security 四份文档的引用摘录经比对仍在，faq 仅 Accordion 标记改为引用块）。
+  - 未处理项与理由：npm 0.6.11→0.6.12 只记录身份，未下载包字节，不据此改写任何规则； 本轮未触及的 topic 与 question
+    不重审。

@@ -1,0 +1,73 @@
+schema_version: 2
+audit_id: audit-cline-b11f5d45-0d59-4ba3-935a-569e7008bbcd
+harness_id: cline
+checked_at: "2026-10-14T18:01:56.182Z"
+previous_audit_id: audit-cline-0e842971-a506-4c63-8140-8226cf44cba6
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-cline-84b84535-1539-4f92-9309-5111c87aa6b0
+  - audit-cline-0e842971-a506-4c63-8140-8226cf44cba6
+checks:
+  - source_id: source-cline-repo
+    kind: git_repository
+    checked_at: "2026-10-14T18:01:54.158Z"
+    status: changed
+    baseline: ed469c753a0d7a0d41f906cf3fc75a983cd766ac
+    observed: 789f79e46d3ba579717e8dc8be35fe28af935b06
+    remote_ref: refs/heads/main
+  - source_id: source-cline-npm
+    kind: npm_registry
+    checked_at: "2026-10-14T18:01:54.166Z"
+    status: unchanged
+    baseline: "3.0.71@sha512-THSCuQrVPi5w48tyXaZrdUr4EnPQMMgsQN0moYxODl0LJveOeRytMyHx+WfzCY5NdPi1TzjDozFGn0uNVbK/fg=="
+    observed: "3.0.71@sha512-THSCuQrVPi5w48tyXaZrdUr4EnPQMMgsQN0moYxODl0LJveOeRytMyHx+WfzCY5NdPi1TzjDozFGn0uNVbK/fg=="
+  - source_id: source-cline-docs-skills
+    kind: official_documentation
+    checked_at: "2026-10-14T18:01:54.166Z"
+    status: unchanged
+    baseline: 4bb4766eaef7ed6e33ccaacbe4e367faf48ccf9c204204d14eb29a00d416129f
+    observed: 4bb4766eaef7ed6e33ccaacbe4e367faf48ccf9c204204d14eb29a00d416129f
+    resolved_url: "https://docs.cline.bot/customization/skills.md"
+  - source_id: source-cline-docs-mcp
+    kind: official_documentation
+    checked_at: "2026-10-14T18:01:54.168Z"
+    status: unchanged
+    baseline: 47f5e46c4c92bffae832be15706d2586db4a7c5e3285a56cade5d2e6707d8eb2
+    observed: 47f5e46c4c92bffae832be15706d2586db4a7c5e3285a56cade5d2e6707d8eb2
+    resolved_url: "https://docs.cline.bot/mcp/mcp-overview.md"
+  - source_id: source-cline-docs-plugins
+    kind: official_documentation
+    checked_at: "2026-10-14T18:01:54.436Z"
+    status: changed
+    baseline: 050ba118a6d5cc1e4229803fcc4e0b1cc3bcce20850917ff40d29883b0c87111
+    observed: d1015410d3cc9a1f38764af316aaabeb6d3f91da7cff48466c23cb2401f12c0e
+    resolved_url: "https://docs.cline.bot/sdk/plugins.md"
+  - source_id: source-cline-docs-config
+    kind: official_documentation
+    checked_at: "2026-10-14T18:01:55.355Z"
+    status: unchanged
+    baseline: 76f4d40ede89e8340c4b2ea10c17bc85b1d16fc302bd628c62778161ea05944e
+    observed: 76f4d40ede89e8340c4b2ea10c17bc85b1d16fc302bd628c62778161ea05944e
+    resolved_url: "https://docs.cline.bot/getting-started/config.md"
+  - source_id: source-cline-docs-cli
+    kind: official_documentation
+    checked_at: "2026-10-14T18:01:55.379Z"
+    status: unchanged
+    baseline: 2d46cc4ef4c8b5a45dff7b4233e2b355b8395a5d21f5401b77353e4d2f702f7d
+    observed: 2d46cc4ef4c8b5a45dff7b4233e2b355b8395a5d21f5401b77353e4d2f702f7d
+    resolved_url: "https://docs.cline.bot/cli/cli-reference.md"
+  - source_id: source-cline-docs-install-plugins
+    kind: official_documentation
+    checked_at: "2026-10-14T18:01:55.791Z"
+    status: unchanged
+    baseline: 8f84c96048a852d1d8e8180a601eef66ec1e0d2eb2d236422fe27bbce01fb47a
+    observed: 8f84c96048a852d1d8e8180a601eef66ec1e0d2eb2d236422fe27bbce01fb47a
+    resolved_url: "https://docs.cline.bot/customization/plugins.md"
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "本轮状态：本产品已完成协调者的只读观察与语义 triage，来源证据已固定（Git 工作区已按观察到的 commit 打开并保留），但**本轮没有执行 maintenance 派发**。上述限定范围、问题清单与已固定的来源入口是下一轮可直接接续的工作面，不是已完成结论。review_status 保持 pending，pending_audit_refs 保持不变；不得因本轮无候选产物而视为已结案。"
+  - "maintain。source-cline-repo ed469c75..789f79e4 命中 sdk/packages/core/src/extensions/plugin/plugin-config-loader.ts（+37/-?）、plugin-sandbox.ts（+82）与 extensions/tools/definitions.ts。"
+  - "plugin-config-loader 与 plugin-sandbox 同时改动，指向插件配置加载与沙箱边界，属 plugins.package / plugins.api / plugins.discovery。"
+  - "另命中 source-cline-docs-plugins 官方文档 hash 变化，一并在 native_plugins 主题内判定。"

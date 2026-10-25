@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-policies-doc-key
+harness_id: opencode
+snapshot_id: snapshot-opencode-services-www-src-docs-content-config-20261015
+official_url: https://github.com/anomalyco/opencode/blob/8ffbcc2c81d1ff558618137204c36954797d7a6f/services/www/src/docs/content/config.mdx
+locator:
+  kind: file_lines
+  file: services/www/src/docs/content/config.mdx
+  start: 222
+  end: 236
+excerpt: |-
+  ### Policies
+
+  Allow or deny use of a provider, hard-deny a permission check, or block an MCP
+  server, skill, or plugin, with ordered statements that broader configuration can
+  override.
+
+  ```jsonc
+  {
+    "policies": [
+      { "action": "provider.use", "resource": "*", "effect": "deny" },
+      { "action": "provider.use", "resource": "anthropic", "effect": "allow" },
+      { "action": "tool.use", "resource": "shell:git push *", "effect": "deny" },
+    ],
+  }
+  ```

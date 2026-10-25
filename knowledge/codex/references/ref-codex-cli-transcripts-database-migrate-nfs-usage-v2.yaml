@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codex-cli-transcripts-database-migrate-nfs-usage-v2
+harness_id: codex
+snapshot_id: snapshot-codex-repo-2f3fb111-cli-migrate-nfs-db
+locator:
+  kind: file_lines
+  file: codex-rs/cli/src/migrate_nfs_db.rs
+  start: 36
+  end: 45
+official_url: https://github.com/openai/codex/blob/2f3fb111be71d277c80bd5b96d9019748b921f5a/codex-rs/cli/src/migrate_nfs_db.rs
+excerpt: "#[derive(Debug, Parser)]\n#[command(\n    after_help = \"Stop SQLite clients on every host and keep them stopped through cutover.\\nThe NFS mount must support cross-client POSIX locks (no nolock/local_lock=all).\\nThis command replaces configured databases in place and retains their WAL backups.\"\n)]\npub(crate) struct MigrateNfsDbCommand {\n    /// Use a local directory with space for the database and WAL files.\n    /// The default is the system temporary directory.\n    #[arg(long, default_value_os_t = std::env::temp_dir())]\n    staging_dir: PathBuf,\n}"

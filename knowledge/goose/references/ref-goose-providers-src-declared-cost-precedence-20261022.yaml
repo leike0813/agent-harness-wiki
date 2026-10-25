@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-goose-providers-src-declared-cost-precedence-20261022
+harness_id: goose
+snapshot_id: snapshot-goose-repo-20261022-canonical-cost
+locator:
+  kind: file_lines
+  file: crates/goose/src/providers/canonical_cost.rs
+  start: 3
+  end: 13
+official_url: "https://github.com/block/goose/blob/6835dd45a21a701b017abe38aa4204e18fed9213/crates/goose/src/providers/canonical_cost.rs"
+excerpt: |2-
+  //! Price resolution precedence (highest first):
+  //! 1. provider-reported costs (handled by callers before this module)
+  //! 2. prices the user declared in a custom provider config file — users of
+  //!    custom endpoints (negotiated rates, gateways, self-hosting) know their
+  //!    real prices better than a name-matched catalog entry
+  //! 3. the bundled canonical registry
+  //! 4. prices declared in bundled declarative provider definitions, which only
+  //!    fill registry gaps — they are vendored and may lag registry syncs. A
+  //!    registry price that is unset or zero (e.g. a name-inferred cross-provider
+  //!    match against a free listing) counts as a gap here.

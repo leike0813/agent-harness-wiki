@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kilo-code-mcp-src-oauth-guard
+harness_id: kilo-code
+snapshot_id: snapshot-kilo-code-e08cc-mcp-oauth-fetch
+locator:
+  kind: file_lines
+  file: packages/opencode/src/kilocode/mcp/oauth-fetch.ts
+  start: 45
+  end: 58
+official_url: "https://github.com/Kilo-Org/kilocode"
+excerpt: |-
+  export function oauthGuard(base: BaseFetch, args: OAuthFetchArgs): BaseFetch {
+    return async (input, init) => {
+      const form = init?.method === "POST" ? formBody(init) : undefined
+      if (!form || form.get("grant_type") !== "refresh_token") return base(input, init)
+
+      const refreshToken = form.get("refresh_token") ?? undefined
+      const submittedClientId = form.get("client_id") ?? undefined
+
+      const response = await base(input, init)
+      if (response.ok) return response
+
+      // Inspect a clone so the SDK still parses the original body.
+      const error = await readError(response.clone())
+      if (error !== "invalid_grant" && error !== "invalid_client" && error !== "unauthorized_client") return response

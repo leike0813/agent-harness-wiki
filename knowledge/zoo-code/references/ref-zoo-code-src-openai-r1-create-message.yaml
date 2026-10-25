@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-openai-r1-create-message
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-src-src-api-providers-openai-1d3
+locator:
+  kind: file_lines
+  file: src/api/providers/openai.ts
+  start: 94
+  end: 101
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/1d37994661f43b9105d731dfafe6161ad0c2e97a/src/api/providers/openai.ts"
+excerpt: |2
+  		const modelId = this.options.openAiModelId ?? ""
+  		const enabledR1Format = this.options.openAiR1FormatEnabled ?? false
+  		// Stryker disable next-line LogicalOperator: equivalent. An unset option makes `&&`
+  		// yield undefined, which the parameter default in convertToolsForOpenAI turns back into
+  		// the same strict value as `??`.
+  		const strictToolSchemas = this.options.openAiStrictToolSchemas ?? DEFAULT_OPEN_AI_STRICT_TOOL_SCHEMAS
+  		const isAzureAiInference = this._isAzureAiInference(modelUrl)
+  		const deepseekReasoner = this.usesR1Format(modelId)

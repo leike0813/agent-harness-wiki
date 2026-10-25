@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt3-lifecycle-resume-forks-code
+harness_id: omp
+snapshot_id: snapshot-omp-adc7-src-main-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/main.ts
+  start: 1229
+  end: 1245
+official_url: https://github.com/can1357/oh-my-pi/blob/adc7fed5c9d6837d77b590bc313a705e2b4136b0/packages/coding-agent/src/main.ts#L1229-L1245
+excerpt: "\tif (typeof parsed.resume === \"string\") {\n\t\tconst sessionArg = parsed.resume;\n\t\tif (sessionArg.includes(\"/\") || sessionArg.includes(\"\\\\\") || sessionArg.endsWith(\".jsonl\")) {\n\t\t\tlet manager: SessionManager;\n\t\t\ttry {\n\t\t\t\tmanager = await SessionManager.open(sessionArg, parsed.sessionDir, undefined, { throwIfMissing: true });\n\t\t\t} catch (err) {\n\t\t\t\tif (isEnoent(err) || isEnotdir(err)) {\n\t\t\t\t\tthrow new SessionResolutionError(`Session \"${sessionArg}\" not found.`, SESSION_NOT_FOUND_HINT);\n\t\t\t\t}\n\t\t\t\tthrow err;\n\t\t\t}\n\t\t\t// A copy whose conversation moved to another machine continues as a fork.\n\t\t\treturn await forkIfMovedAway(manager, parsed.sessionDir);\n\t\t}\n\t\tconst match = await resolveResumableSession(sessionArg, cwd, parsed.sessionDir);\n\t\tif (!match) {"

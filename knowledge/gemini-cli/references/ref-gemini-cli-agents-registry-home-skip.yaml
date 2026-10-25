@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-agents-registry-home-skip
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-git-agents-registry
+locator:
+  kind: file_lines
+  file: packages/core/src/agents/registry.ts
+  start: 174
+  end: 181
+official_url: "https://github.com/google-gemini/gemini-cli/blob/09d81bf116b6f0ef084731dc996aa9d56438bb70/packages/core/src/agents/registry.ts"
+excerpt: |-
+  // Load project-level agents: .gemini/agents/ (relative to Project Root)
+  // Skip if the workspace is the user's home directory to avoid loading global agents twice
+  if (!this.config.storage.isWorkspaceHomeDir()) {
+    const folderTrustEnabled = this.config.getFolderTrust();
+    const isTrustedFolder = this.config.isTrustedFolder();
+
+    if (!folderTrustEnabled || isTrustedFolder) {
+      const projectAgentsDir = this.config.storage.getProjectAgentsDir();

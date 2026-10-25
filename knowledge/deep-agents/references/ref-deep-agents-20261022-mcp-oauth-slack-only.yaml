@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deep-agents-20261022-mcp-oauth-slack-only
+harness_id: deep-agents
+snapshot_id: snapshot-deep-agents-20261022-mcp-config-py
+locator:
+  kind: file_lines
+  file: libs/code/deepagents_code/mcp_config.py
+  start: 211
+  end: 217
+official_url: "https://github.com/langchain-ai/deepagents"
+excerpt: |-
+  url = server_config.get("url")
+  host = urlparse(url).hostname if isinstance(url, str) else None
+  if server_config.get("auth") != "oauth" or not (
+      host and (host == "slack.com" or host.endswith(".slack.com"))
+  ):
+      msg = f"{prefix} is supported only for Slack servers with auth: oauth"
+      raise ValueError(msg)

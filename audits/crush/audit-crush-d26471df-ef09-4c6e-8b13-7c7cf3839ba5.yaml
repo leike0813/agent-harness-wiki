@@ -1,0 +1,47 @@
+schema_version: 2
+audit_id: audit-crush-d26471df-ef09-4c6e-8b13-7c7cf3839ba5
+harness_id: crush
+checked_at: 2026-10-12T18:50:23.794Z
+previous_audit_id: audit-crush-06e79d69-4b31-4fa1-a102-425825a9f3a3
+status: changed
+review_status: reviewed
+reviewed_by: crush candidate worker (crush-cli / source-crush-repo df5b024a929d→c446d3f0ddf5)
+reviewed_at: '2026-10-13T00:00:00.000Z'
+pending_audit_refs: []
+checks:
+  - source_id: source-crush-repo
+    kind: git_repository
+    checked_at: 2026-10-12T18:50:22.254Z
+    status: changed
+    baseline: df5b024a929d2eb88b308d0288d97130a90e0c15
+    observed: c446d3f0ddf59089ff43a617dd4f3ee233f01892
+    remote_ref: refs/heads/main
+    changed_paths:
+      - .github/cla-signatures.json
+      - README.md
+      - go.mod
+      - go.sum
+      - internal/agent/tools/mcp/init.go
+      - internal/app/app.go
+  - source_id: source-crush-npm
+    kind: npm_registry
+    checked_at: 2026-10-12T18:50:22.264Z
+    status: unchanged
+    baseline: 0.98.1@sha512-TWjk5My+NLi+iNidiYNde4s05g85sOC97IiBs6aXywuFP2pZ9C+wjih985StTvmY3lJgPd9oKrtgbPRGT2SQ8g==
+    observed: 0.98.1@sha512-TWjk5My+NLi+iNidiYNde4s05g85sOC97IiBs6aXywuFP2pZ9C+wjih985StTvmY3lJgPd9oKrtgbPRGT2SQ8g==
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - '本轮 triage 分类：no_knowledge_impact。固定来源 source-crush-repo，工作区 ws-c446d3f0ddf5-e37b3721-7b51-405d-b506-f3bf872d4543（commit c446d3f0ddf59089ff43a617dd4f3ee233f01892，只读），基线 df5b024a929d2eb88b308d0288d97130a90e0c15；两个 commit 之间只有 6 个路径变化，全部逐条读过 hunk。'
+  - internal/agent/tools/mcp/init.go：唯一 hunk 在 DisableSingle 内，slog.Info 的消息字面量由 "Disabled mcp client" 改为 "Disabled MCP client"（第 728 行）。teardown(name)、updateState(name, StateDisabled, nil, nil, Counts{}) 与 return nil 三行顺序与实参逐字未变，状态机、注册顺序、工具命名与发现路径均无变化。逐行比对 diff --word-diff 后该文件再无第二处改动。
+  - 排除 mcp 主题：章节 mcp-cli-v4 与 12 条引用 init.go 的记录都不引用这条日志文本（grep "Disabled mcp client|Disabled MCP client" 在 chapters/ 与 references/ 中零命中），且全部引用的 locator 都锚在各自的快照 commit（011a9416 等）上，不随 HEAD 漂移。引用记录 ref-crush-code-mcp-local-toggle 覆盖 701-719 行（SetConfigDisabled/SetLocalDisabled），ref-crush-code-mcp-local-disabled-init 覆盖 Initialize 的 338-350 行，两者都停在改动行 728 之外，无需重定位，章节正文也没有描述该日志措辞。
+  - internal/app/app.go：唯一 hunk 是 RunNonInteractive 内第 463 行注释的拼写修正，"intentation" → "indentation"。被注释的逻辑（part := content[readBytes:]、readBytes == 0 时 TrimLeft " \t"）逐字未变。4 条引用该文件的记录（grok-small-model 687-703、subscription-small-model 640-659、mcp-start-local-disabled 158-163、transcripts-shutdown-flush 900-913）行区间都避开 460-466，摘录也不含该注释，无重定位需求。
+  - app.go 与 mcp/init.go 一起核对：mcp.Initialize 的启动参数 localDisabled/forceStart 仍由 app.go 第 158-163 行传入，本轮该调用点未变，"仓库级覆盖优先"的加载链路与 configuration 主题的配置读取/合并入口均无改动，因此不扩到 configuration 及其余六个主题。
+  - README.md：唯一 hunk 在 “NixOS & Home Manager Module Usage via NUR” 一节，"its a home manager" → "it's a home manager"，纯语法修正。全部 README 引用都用 locator kind=document_section 按标题定位，没有任何一条引用该 NUR 小节（grep heading 含 nix/nur 零命中），章节正文也不引用 NUR 段落。
+  - go.mod / go.sum：golang.org/x/net 0.58.0→0.61.0、x/sync 0.23.0→0.24.0、x/sys 0.48.0→0.49.0、x/text 0.41.0→0.43.0、x/crypto 0.55.0→0.58.0、x/term 0.45.0→0.47.0，新引入间接依赖 golang.org/x/mod v0.42.0。只是依赖身份变化，没有任何行为声明；references/ 中没有一条记录以 go.mod/go.sum 为证据文件（grep 零命中），因此不作为章节 impact，也不据此创建版本映射。
+  - .github/cla-signatures.json：仅新增 8 条 CLA 签名，与产品运行时无关，排除。
+  - source-crush-npm 为 unchanged（0.98.1，integrity 相同），本轮不写发行版本映射，也未从仓库 HEAD 造任何 mapping。
+  - 结论：六个变更路径全部为排版、措辞、日志字面量、注释拼写、CLA 签名与依赖版本号变更，无配置键、工具命名约定、过滤默认值、发现路径、注册顺序或加载机制改变；未新建章节 edition、未改 references/snapshots、registry/chapter-current.yaml 保持原选择（mcp→crush-cli-mcp-v4，configuration→crush-cli-configuration-v2）。
+  - 未完成问题：无。pending_audit_refs 保持为空——f2c1632d、20261006t134000z、c5548c87 已在上一轮 audit-crush-06e79d69 中以 reviewed + pending_audit_refs 引用方式关闭，本轮不重复引用也不重新开启。
+  - 高影响判定：不适用。没有来源冲突、没有证据推翻已发布的配置步骤、没有跨主题的关键加载/配置机制改变，因此不需要独立复核；本轮属作者按候选完整自检即可结案的普通更新。
+  - delivery=pr，未运行 ahw publish、chapters:update 或 managed:packages，也未写任何 source workspace 租约。

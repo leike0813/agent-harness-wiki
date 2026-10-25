@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-lt-cf119a-child-usage-recovery
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-cf119a-crates-pa-daemon-src-session-store-child-usage-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_store/child_usage.rs
+  start: 16
+  end: 26
+official_url: https://github.com/PrimeIntellect-ai/prime-agent/blob/cf119a7a8c86a2c86d927cae79ed1eec03b07a91/crates/pa-daemon/src/session_store/child_usage.rs
+excerpt: |
+  /// Attribution-local recovery state. One write can remain unresolved; recovered
+  /// creation acknowledgments are bounded by the attribution rows retained by this
+  /// store and are removed when their own frozen report retries successfully.
+  /// There is no fixed global cap: the normal emitter owns one frozen failed report
+  /// per child and stops at its first failed batch. Dropping that owner prematurely
+  /// can retain its ID until this store is dropped; terminal ownership is separate.
+  #[derive(Debug, Clone, Default)]
+  pub(super) struct ChildUsageRecovery {
+      pub(super) pending: Option<UnconfirmedChildRow>,
+      pub(super) created: HashSet<String>,
+  }
