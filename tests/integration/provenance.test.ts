@@ -104,6 +104,47 @@ afterEach(async () => {
   );
 });
 
+test("a stable observation endpoint accepts new captures and preserves historical provenance", async () => {
+  const root = await metadataCopy();
+  const file = path.join(root, "registry/sources/source-codex-cli-doc.yaml");
+  const source = await readFile(file, "utf8");
+  await writeFile(
+    file,
+    `${source}\nobservation_url: https://example.invalid/stable-codex.md\n`,
+  );
+  expect(
+    (await loadAndValidateDataset({ root, profile: "production" })).ok,
+  ).toBe(true);
+  const snapshotFile = path.join(
+    root,
+    "knowledge/codex/snapshots/snapshot-codex-cli-doc.yaml",
+  );
+  const snapshot = await readFile(snapshotFile, "utf8");
+  const captured = snapshot.replace(
+    /^requested_url:.*$/m,
+    "requested_url: https://example.invalid/stable-codex.md",
+  );
+  await writeFile(snapshotFile, captured);
+  expect(
+    (await loadAndValidateDataset({ root, profile: "production" })).ok,
+  ).toBe(true);
+  await writeFile(
+    snapshotFile,
+    captured.replace(
+      "requested_url: https://example.invalid/stable-codex.md",
+      "requested_url: https://example.invalid/unregistered.md",
+    ),
+  );
+  const rejected = await loadAndValidateDataset({
+    root,
+    profile: "production",
+  });
+  expect(rejected.ok).toBe(false);
+  expect(
+    rejected.diagnostics.some((item) => item.code === "HASH_MISMATCH"),
+  ).toBe(true);
+});
+
 test("production metadata validates without local originals", async () => {
   const root = await metadataCopy();
   const result = await loadAndValidateDataset({ root, profile: "production" });

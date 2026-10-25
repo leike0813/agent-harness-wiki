@@ -11,6 +11,7 @@ import {
 } from "node:fs/promises";
 import path from "node:path";
 import YAML from "yaml";
+import { z } from "zod";
 import { loadAndValidateChapters } from "../validation/chapters.js";
 import {
   upstreamAuditSchema,
@@ -128,7 +129,7 @@ function initialBaseline(
   return snapshot.raw_sha256;
 }
 
-async function priorAudits(
+export async function priorAudits(
   root: string,
   harnessId: string,
 ): Promise<UpstreamAudit[]> {
@@ -210,6 +211,7 @@ async function observe(
   fetchImpl: typeof fetch,
   git: GitRun,
   retainDocuments: boolean,
+  onDocument?: (sourceId: string, bytes: Buffer) => Promise<void>,
 ): Promise<
   Pick<
     Check,
@@ -222,10 +224,11 @@ async function observe(
 > {
   if (source.kind === "official_documentation") {
     const { bytes, resolvedUrl } = await boundedFetch(
-      source.url,
+      source.observation_url ?? source.url,
       8 * 1024 * 1024,
       fetchImpl,
     );
+    await onDocument?.(source.source_id, bytes);
     const observed = createHash("sha256").update(bytes).digest("hex");
     if (observed === baseline || !retainDocuments)
       return { observed, resolved_url: resolvedUrl };
@@ -294,17 +297,8 @@ export function mapAuditImpacts(
   const changed = checks.filter(
     (check) => check.status === "changed" && check.kind !== "npm_registry",
   );
-  const harnessIds = new Set(
-    changed.map(
-      (check) =>
-        dataset.sources.find((source) => source.source_id === check.source_id)
-          ?.harness_id,
-    ),
-  );
-  for (const chapter of dataset.chapters.filter(
-    (item) =>
-      harnessIds.has(item.harness_id) &&
-      dataset.current.some((current) => current.edition_id === item.edition_id),
+  for (const chapter of dataset.chapters.filter((item) =>
+    dataset.current.some((current) => current.edition_id === item.edition_id),
   )) {
     const ownChanges = changed.filter((check) =>
       dataset.sources.some(
@@ -313,27 +307,22 @@ export function mapAuditImpacts(
           source.harness_id === chapter.harness_id,
       ),
     );
-    const shared = ownChanges.some(
-      (check) =>
-        check.kind === "git_repository" &&
-        (check.changed_paths === undefined ||
-          check.changed_paths.some((file) =>
-            /(^|\/)(config|configuration|build|package|feature|flags|loader)(\/|\.|$)/i.test(
-              file,
-            ),
-          )),
-    );
+    if (!ownChanges.length) continue;
     const refs = dataset.source_references.filter((ref) => {
       if (ref.harness_id !== chapter.harness_id) return false;
       const snapshot = dataset.snapshots.find(
         (item) => item.snapshot_id === ref.snapshot_id,
       );
-      return ownChanges.some(
-        (check) =>
-          check.source_id === snapshot?.source_id &&
-          (!check.changed_paths ||
-            !("file" in ref.locator) ||
-            check.changed_paths.includes(ref.locator.file)),
+      const check = ownChanges.find(
+        (item) => item.source_id === snapshot?.source_id,
+      );
+      if (!check) return false;
+      if (check.kind !== "git_repository") return true;
+      const changedPaths = check.changed_paths;
+      return Boolean(
+        changedPaths?.length &&
+        "file" in ref.locator &&
+        changedPaths.includes(ref.locator.file),
       );
     });
     const source_refs = refs
@@ -341,33 +330,11 @@ export function mapAuditImpacts(
       .filter((id) =>
         chapter.sections.some((section) => section.source_refs.includes(id)),
       );
-    const unbounded =
-      shared ||
-      ownChanges.some(
-        (check) =>
-          !dataset.source_references.some((ref) => {
-            const snapshot = dataset.snapshots.find(
-              (item) => item.snapshot_id === ref.snapshot_id,
-            );
-            return (
-              snapshot?.source_id === check.source_id &&
-              (!check.changed_paths ||
-                !("file" in ref.locator) ||
-                check.changed_paths.includes(ref.locator.file))
-            );
-          }),
-      );
-    if (!source_refs.length && !unbounded) continue;
-    const sections = unbounded
-      ? chapter.sections
-      : chapter.sections.filter((section) =>
-          section.source_refs.some((id) => source_refs.includes(id)),
-        );
-    const directlyCited = chapter.questions.filter((question) =>
-      question.answers.some((answer) =>
-        answer.source_refs.some((id) => source_refs.includes(id)),
-      ),
+    if (!source_refs.length) continue;
+    const sections = chapter.sections.filter((section) =>
+      section.source_refs.some((id) => source_refs.includes(id)),
     );
+    const sectionIds = new Set(sections.map((section) => section.section_id));
     const cross_topic_links = dataset.chapters
       .filter(
         (item) =>
@@ -378,25 +345,20 @@ export function mapAuditImpacts(
           ),
       )
       .flatMap((item) => item.questions)
-      .filter(
-        (question) =>
-          unbounded ||
-          question.answers.some((answer) =>
-            answer.source_refs.some((id) => source_refs.includes(id)),
-          ),
+      .filter((question) =>
+        question.answers.some((answer) =>
+          answer.source_refs.some((id) => source_refs.includes(id)),
+        ),
       )
       .map((question) => question.question_id);
     result.push({
       topic: chapter.topic,
-      question_ids: (unbounded || directlyCited.length === 0
-        ? chapter.questions
-        : directlyCited
-      )
+      question_ids: chapter.questions
         .filter((question) =>
-          sections.some((section) =>
-            question.answers.some(
-              (answer) => section.section_id === answer.section_id,
-            ),
+          question.answers.some(
+            (answer) =>
+              sectionIds.has(answer.section_id) &&
+              answer.source_refs.some((id) => source_refs.includes(id)),
           ),
         )
         .map((question) => question.question_id),
@@ -406,7 +368,7 @@ export function mapAuditImpacts(
       ],
       source_refs,
       cross_topic_links,
-      reason: `${ownChanges.map((check) => check.source_id).join(", ")}: ${unbounded ? "shared or unknown impact; assess relevant entrypoints" : "cited source changed"}`,
+      reason: `${ownChanges.map((check) => check.source_id).join(", ")}: cited source changed`,
     });
   }
   return result;
@@ -418,10 +380,14 @@ type ScanOptions = {
   fetchImpl?: typeof fetch;
   git?: GitRun;
   now?: () => Date;
+  baselineBySource?: ReadonlyMap<string, string>;
+  onDocument?: (sourceId: string, bytes: Buffer) => Promise<void>;
+  onAudit?: (audit: UpstreamAudit) => Promise<void>;
+  observationUrls?: ReadonlyMap<string, string>;
 };
 
 /** Candidate signal for semantic triage, not an instruction to dispatch maintenance. */
-export type HarnessCheck = UpstreamAudit & { requires_maintenance: boolean };
+export type HarnessCheck = UpstreamAudit & { requires_triage: boolean };
 
 /** Read-only observations; no originals, audits or checkouts are written. */
 export async function checkHarnesses(
@@ -429,9 +395,7 @@ export async function checkHarnesses(
 ): Promise<HarnessCheck[]> {
   return (await collectHarnesses(input, false)).map((audit) => ({
     ...audit,
-    requires_maintenance:
-      audit.checks.some((check) => check.status !== "unchanged") ||
-      audit.pending_audit_refs.length > 0,
+    requires_triage: audit.checks.some((check) => check.status === "changed"),
   }));
 }
 
@@ -521,19 +485,31 @@ async function collectHarnesses(
         if (!source || source.kind === "fixture_file") continue;
         const checked_at = (input.now ?? (() => new Date()))().toISOString();
         const baseline =
+          input.baselineBySource?.get(sourceId) ??
           [...previous]
             .reverse()
             .flatMap((audit) => audit.checks)
             .find((check) => check.source_id === sourceId && check.observed)
-            ?.observed ?? initialBaseline(dataset, source);
+            ?.observed ??
+          initialBaseline(dataset, source);
         try {
           const result = await observe(
             root,
-            source,
+            source.kind === "official_documentation" &&
+              input.observationUrls?.has(sourceId)
+              ? {
+                  ...source,
+                  observation_url: z
+                    .url()
+                    .refine((url) => url.startsWith("https://"))
+                    .parse(input.observationUrls.get(sourceId)),
+                }
+              : source,
             baseline,
             input.fetchImpl ?? fetch,
             input.git ?? defaultGit,
             retainDocuments,
+            input.onDocument,
           );
           byIndex[index] = {
             source_id: sourceId,
@@ -607,6 +583,7 @@ async function collectHarnesses(
       investigation_notes: [],
     });
     results.push(audit);
+    await input.onAudit?.(audit);
   }
   return results;
 }

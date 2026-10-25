@@ -882,7 +882,9 @@ export async function loadAndValidateDataset(input: {
       } else if (snapshot.kind === "documentation") {
         if (
           source?.kind !== "official_documentation" ||
-          source.url !== snapshot.requested_url ||
+          ![source.url, source.observation_url].includes(
+            snapshot.requested_url,
+          ) ||
           (artifact?.kind === "archived_document" &&
             (artifact.raw_sha256 !== snapshot.raw_sha256 ||
               artifact.extracted_sha256 !== snapshot.extracted_sha256 ||

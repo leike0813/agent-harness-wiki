@@ -1,11 +1,13 @@
 import { randomUUID } from "node:crypto";
 import { realpathSync, rmSync } from "node:fs";
-import { lstat, mkdir, mkdtemp, realpath } from "node:fs/promises";
+import { mkdtemp, realpath } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import Database from "better-sqlite3";
 import * as z from "zod";
 import { ownerAlive, recoverSourceWorkspaces } from "./workspace.js";
+import { openMonitorDatabase } from "./monitor-state.js";
+import { lstat } from "node:fs/promises";
 
 const sessionSchema = z.strictObject({
   id: z.uuid(),
@@ -18,18 +20,7 @@ export type MonitorSession = z.infer<typeof sessionSchema>;
 
 async function runtime(rootInput: string) {
   const root = await realpath(rootInput);
-  const directory = path.join(root, "var/harness-monitor");
-  await mkdir(directory, { recursive: true });
-  if ((await realpath(directory)) !== directory)
-    throw new Error("Monitor runtime contains a symlink.");
-  const file = path.join(directory, "session.sqlite");
-  try {
-    if (!(await lstat(file)).isFile()) throw new Error("Unsafe monitor lock.");
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
-  }
-  const database = new Database(file);
-  database.pragma("busy_timeout = 5000");
+  const { directory, database } = await openMonitorDatabase(root);
   database.exec(
     "CREATE TABLE IF NOT EXISTS session (singleton INTEGER PRIMARY KEY CHECK(singleton = 1), record TEXT NOT NULL)",
   );
@@ -38,17 +29,14 @@ async function runtime(rootInput: string) {
 
 function readSession(
   database: Database.Database,
-  root: string,
+  directory: string,
 ): MonitorSession | undefined {
   const row = database
     .prepare("SELECT record FROM session WHERE singleton = 1")
     .get() as { record: string } | undefined;
   if (!row) return undefined;
   const session = sessionSchema.parse(JSON.parse(row.record));
-  if (
-    session.projectRoot !== root ||
-    session.reportPath !== path.join(root, "var/harness-monitor/latest.json")
-  )
+  if (session.reportPath !== path.join(directory, "latest.json"))
     throw new Error("Monitor lock belongs to another project.");
   if (
     path.dirname(session.tempRoot) !== realpathSync(tmpdir()) ||
@@ -75,6 +63,44 @@ export async function startMonitorSession(
   if (!Number.isSafeInteger(ownerPid) || ownerPid <= 0 || !ownerAlive(ownerPid))
     throw new Error("A live task owner PID is required.");
   const { root, directory, database } = await runtime(rootInput);
+  const localLock = path.join(root, "var/harness-monitor/session.sqlite");
+  if (path.dirname(localLock) !== directory) {
+    try {
+      const info = await lstat(localLock);
+      if (!info.isFile() || info.isSymbolicLink())
+        throw new Error("Unsafe monitor lock.");
+      const previous = new Database(localLock, {
+        readonly: true,
+        fileMustExist: true,
+      });
+      try {
+        const hasSession = previous
+          .prepare(
+            "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'session'",
+          )
+          .get();
+        const row = hasSession
+          ? (previous
+              .prepare("SELECT record FROM session WHERE singleton = 1")
+              .get() as { record: string } | undefined)
+          : undefined;
+        if (
+          row &&
+          ownerAlive(sessionSchema.parse(JSON.parse(row.record)).ownerPid)
+        )
+          throw new Error(
+            "A monitor owner is still active in the worktree-local runtime.",
+          );
+      } finally {
+        previous.close();
+      }
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
+        database.close();
+        throw error;
+      }
+    }
+  }
   const id = randomUUID();
   const tempRoot = await mkdtemp(
     path.join(await realpath(tmpdir()), `ahw-monitor-${id}-`),
@@ -90,7 +116,7 @@ export async function startMonitorSession(
   try {
     database
       .transaction(() => {
-        const prior = readSession(database, root);
+        const prior = readSession(database, directory);
         if (prior && ownerAlive(prior.ownerPid))
           throw new Error("A harness monitor run is already active.");
         // Retain the old ownership record if disposal fails. Keeping this
@@ -124,9 +150,9 @@ export async function finishMonitorSession(
   rootInput: string,
   id: string,
 ): Promise<void> {
-  const { root, database } = await runtime(rootInput);
+  const { directory, database } = await runtime(rootInput);
   try {
-    const session = readSession(database, root);
+    const session = readSession(database, directory);
     if (!session || session.id !== id)
       throw new Error("Monitor session identity differs.");
     // Keep the lease while deleting its owned outputs; another start cannot

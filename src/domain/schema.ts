@@ -174,6 +174,7 @@ export const sourceSchema = z.discriminatedUnion("kind", [
     ...provenance,
     kind: z.literal("official_documentation"),
     url: officialUrl,
+    observation_url: officialUrl.optional(),
   }),
   z.strictObject({
     ...provenance,

@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { writeFile } from "node:fs/promises";
+import { readFile, readdir, writeFile, rename } from "node:fs/promises";
 import path from "node:path";
 import { promisify } from "node:util";
 import { z } from "zod";
@@ -8,7 +8,15 @@ import {
   startMonitorSession,
   type MonitorSession,
 } from "./monitor-session.js";
-import { checkHarnesses } from "./scan.js";
+import { checkHarnesses, priorAudits } from "./scan.js";
+import {
+  MonitorState,
+  monitorWeek,
+  monitorDirectory,
+  type MonitorTask,
+} from "./monitor-state.js";
+import { upstreamAuditSchema } from "../domain/schema.js";
+import { runSourceGit } from "./workspace.js";
 
 const exec = promisify(execFile);
 
@@ -110,6 +118,8 @@ export interface MonitorRunHandoff {
   pull?: MonitorPull;
   session: MonitorSession;
   checksPath: string;
+  tasks: MonitorTask[];
+  documentDirectory: string;
   observation: {
     products: number;
     changed: number;
@@ -130,12 +140,7 @@ async function runGitCommand(args: string[]): Promise<string> {
   return stdout;
 }
 
-/**
- * The session lock lives under each project root, so the main working tree
- * carries a second, unrelated lock. A monitor run also commits and pushes, so
- * running there would pull the maintainer's uncommitted edits into the pull
- * request. A dedicated linked worktree removes both problems at once.
- */
+/** Delivery must not mix the maintainer's working copy into the rolling PR. */
 async function assertDedicatedWorktree(
   root: string,
   git: GitRun,
@@ -151,7 +156,7 @@ async function assertDedicatedWorktree(
     : path.resolve(root, reported);
   if (gitDir === commonDir)
     throw new MonitorRunBlockedError(
-      `Monitor runs require a dedicated linked worktree. ${root} is the main working tree, which keeps its own session lock and would carry uncommitted changes into the pull request. Start the agent session from the dedicated worktree instead.`,
+      `Monitor runs require a dedicated linked worktree. ${root} is the main working tree. Start the agent session from the dedicated worktree instead.`,
     );
 }
 
@@ -285,6 +290,161 @@ async function branchExists(
  * single observation written to disk. The semantic triage stays with the
  * coordinator, which continues from the returned handoff.
  */
+export async function synchronizeMonitorAudits(
+  root: string,
+  state: MonitorState,
+): Promise<void> {
+  const { stdout } = await exec("git", [
+    "-C",
+    root,
+    "worktree",
+    "list",
+    "--porcelain",
+  ]);
+  const roots = stdout
+    .split(/\r?\n/)
+    .filter((line) => line.startsWith("worktree "))
+    .map((line) => line.slice(9));
+  if (!roots.includes(path.resolve(root))) roots.push(path.resolve(root));
+  for (const workspace of roots) {
+    let products: string[];
+    try {
+      products = await readdir(path.join(workspace, "audits"));
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === "ENOENT") continue;
+      throw error;
+    }
+    for (const id of products)
+      state.importAudits(await priorAudits(workspace, id));
+  }
+}
+
+const precheckSchema = z.strictObject({
+  checked_at: z.iso.datetime(),
+  week: z.string(),
+  due: z.boolean(),
+  used: z.number().int().nonnegative(),
+  remaining: z.number().int().nonnegative(),
+  queued: z.number().int().nonnegative(),
+  products: z.array(z.string()),
+  launch: z.boolean(),
+  status: z.enum([
+    "ready",
+    "observed",
+    "empty",
+    "budget_exhausted",
+    "delivery_blocked",
+  ]),
+  diagnostic: z.string().nullable(),
+  blocked_sources: z.number().int().nonnegative(),
+  checks: z.array(upstreamAuditSchema),
+});
+
+/** Daily scheduler entry: observation and queue only, no branch mutation or LLM. */
+export async function precheckMonitorRun(input: {
+  root: string;
+  date?: Date;
+  observe?: typeof checkHarnesses;
+  observationUrls?: ReadonlyMap<string, string>;
+}) {
+  const observationSession = await startMonitorSession(input.root, process.pid);
+  let state: MonitorState | undefined;
+  try {
+    state = await MonitorState.open(input.root);
+    const progress = state;
+    await synchronizeMonitorAudits(input.root, state);
+    const observationBudgetMs = 9 * 60 * 1000;
+    const deadlineAt = Date.now() + observationBudgetMs;
+    const deadline = AbortSignal.timeout(observationBudgetMs);
+    const results = await (input.observe ?? checkHarnesses)({
+      root: input.root,
+      ...(input.observationUrls
+        ? { observationUrls: input.observationUrls }
+        : {}),
+      baselineBySource: state.baselines(),
+      onDocument: (id, bytes) => progress.retainDocument(id, bytes),
+      onAudit: async (audit) => {
+        progress.observe([audit]);
+      },
+      fetchImpl: (url, options) =>
+        fetch(url, {
+          ...options,
+          signal: options?.signal
+            ? AbortSignal.any([options.signal, deadline])
+            : deadline,
+        }),
+      git: (args) => {
+        const remaining = deadlineAt - Date.now();
+        if (remaining <= 0)
+          throw new Error("Daily observation deadline exceeded.");
+        return runSourceGit(args, Math.min(30_000, remaining));
+      },
+    });
+    state.observe(results);
+    const evaluatedAt = input.date ?? new Date();
+    const plan = state.preview(evaluatedAt);
+    const blockedSources = results.reduce(
+      (count, audit) =>
+        count +
+        audit.checks.filter((check) => check.status === "blocked").length,
+      0,
+    );
+    let launch = plan.due && plan.products.length > 0;
+    let diagnostic: string | null = null;
+    if (launch) {
+      try {
+        await assertDedicatedWorktree(input.root, runGitCommand);
+        await assertClean(input.root, runGitCommand);
+      } catch (error) {
+        launch = false;
+        diagnostic = error instanceof Error ? error.message : String(error);
+      }
+    }
+    const result = precheckSchema.parse({
+      checked_at: evaluatedAt.toISOString(),
+      ...plan,
+      launch,
+      status: diagnostic
+        ? "delivery_blocked"
+        : launch
+          ? "ready"
+          : !plan.due
+            ? "observed"
+            : plan.remaining === 0
+              ? "budget_exhausted"
+              : "empty",
+      diagnostic,
+      blocked_sources: blockedSources,
+      checks: results.map((result) => {
+        const audit = { ...result };
+        Reflect.deleteProperty(audit, "requires_triage");
+        return audit;
+      }),
+    });
+    const file = path.join(state.directory, "precheck.json");
+    const temporary = `${file}.${process.pid}.tmp`;
+    await writeFile(temporary, `${JSON.stringify(result)}\n`, { flag: "wx" });
+    await rename(temporary, file);
+    return {
+      checked_at: result.checked_at,
+      week: plan.week,
+      due: plan.due,
+      used: plan.used,
+      remaining: plan.remaining,
+      queued: plan.queued,
+      products: plan.products,
+      launch,
+      status: result.status,
+      diagnostic,
+      blocked_sources: blockedSources,
+      precheckPath: file,
+    };
+  } finally {
+    state?.close();
+    await finishMonitorSession(input.root, observationSession.id);
+  }
+}
+
 export async function startMonitorRun(input: {
   root: string;
   ownerPid: number;
@@ -296,67 +456,99 @@ export async function startMonitorRun(input: {
   const date = input.date ?? new Date();
   const nextBranch = nextMonitorBranch(date);
 
-  await assertDedicatedWorktree(root, git);
-  await assertClean(root, git);
-  // Fetch before deciding: a stale origin/main makes a merged branch look like
-  // undelivered work, and an existing pull request look absent.
-  await git(["-C", root, "fetch", "origin"]);
-
-  const currentBranch = (
-    await git(["-C", root, "rev-parse", "--abbrev-ref", "HEAD"])
-  ).trim();
-  if (currentBranch === "HEAD")
-    throw new MonitorRunBlockedError(
-      "The worktree is in a detached HEAD state; check out a branch before starting a monitor run.",
-    );
-  const [openPulls, merged, unpushed, nextAvailable, commitsAhead] =
-    await Promise.all([
-      openMonitorPulls(),
-      isMergedIntoMain(root, git),
-      hasUnpushedCommits(root, git),
-      // decideMonitorBranch reads this as "the name is free", while
-      // branchExists answers "the name is taken"; the polarity is inverted here
-      // so a fresh round is not blocked for a branch nobody created yet.
-      branchExists(root, nextBranch, git).then((taken) => !taken),
-      git(["-C", root, "rev-list", "--count", "origin/main..HEAD"]).then(
-        (out) => Number(out.trim()),
+  const state = await MonitorState.open(root);
+  let frozen: z.infer<typeof precheckSchema>;
+  try {
+    frozen = precheckSchema.parse(
+      JSON.parse(
+        await readFile(path.join(state.directory, "precheck.json"), "utf8"),
       ),
-    ]);
-  const decision = decideMonitorBranch(
-    {
-      openPulls,
-      currentBranch,
-      currentBranchMerged: merged,
-      hasUnpushedCommits: unpushed,
-    },
-    nextBranch,
-    nextAvailable,
-  );
-  if (decision.action === "blocked")
-    throw new MonitorRunBlockedError(decision.blocker);
-
-  if (decision.action === "create")
-    await git(["-C", root, "checkout", "-b", decision.branch, "origin/main"]);
-  else if (currentBranch !== decision.branch)
-    await git(["-C", root, "checkout", decision.branch]);
-  if (decision.action !== "create") {
-    try {
-      // An ordinary merge only; rebase and force push are never acceptable on a
-      // branch that already has a pull request.
-      await git(["-C", root, "merge", "--no-edit", "origin/main"]);
-    } catch (error) {
+    );
+    const elapsed = date.getTime() - Date.parse(frozen.checked_at);
+    if (
+      !frozen.launch ||
+      !monitorWeek(date).due ||
+      elapsed < 0 ||
+      elapsed > 60 * 60 * 1000
+    )
       throw new MonitorRunBlockedError(
-        `Merging origin/main into ${decision.branch} needs manual resolution: ${error instanceof Error ? error.message : String(error)}`,
+        "No fresh weekly maintenance precheck is ready.",
       );
-    }
+  } finally {
+    state.close();
   }
 
+  await assertDedicatedWorktree(root, git);
+  await assertClean(root, git);
   const session = await startMonitorSession(root, input.ownerPid);
-  const checksPath = path.join(session.tempRoot, "checks.json");
   try {
-    // One observation per round, written to disk: a partially failed source is
-    // reported to the coordinator, and only a missing result blocks the round.
-    const results = await checkHarnesses({ root });
+    // Fetch before deciding: a stale origin/main makes a merged branch look like
+    // undelivered work, and an existing pull request look absent.
+    await git(["-C", root, "fetch", "origin"]);
+
+    const currentBranch = (
+      await git(["-C", root, "rev-parse", "--abbrev-ref", "HEAD"])
+    ).trim();
+    if (currentBranch === "HEAD")
+      throw new MonitorRunBlockedError(
+        "The worktree is in a detached HEAD state; check out a branch before starting a monitor run.",
+      );
+    const [openPulls, merged, unpushed, nextAvailable, commitsAhead] =
+      await Promise.all([
+        openMonitorPulls(),
+        isMergedIntoMain(root, git),
+        hasUnpushedCommits(root, git),
+        // decideMonitorBranch reads this as "the name is free", while
+        // branchExists answers "the name is taken"; the polarity is inverted here
+        // so a fresh round is not blocked for a branch nobody created yet.
+        branchExists(root, nextBranch, git).then((taken) => !taken),
+        git(["-C", root, "rev-list", "--count", "origin/main..HEAD"]).then(
+          (out) => Number(out.trim()),
+        ),
+      ]);
+    const decision = decideMonitorBranch(
+      {
+        openPulls,
+        currentBranch,
+        currentBranchMerged: merged,
+        hasUnpushedCommits: unpushed,
+      },
+      nextBranch,
+      nextAvailable,
+    );
+    if (decision.action === "blocked")
+      throw new MonitorRunBlockedError(decision.blocker);
+
+    if (decision.action === "create")
+      await git(["-C", root, "checkout", "-b", decision.branch, "origin/main"]);
+    else if (currentBranch !== decision.branch)
+      await git(["-C", root, "checkout", decision.branch]);
+    if (decision.action !== "create") {
+      try {
+        // An ordinary merge only; rebase and force push are never acceptable on a
+        // branch that already has a pull request.
+        await git(["-C", root, "merge", "--no-edit", "origin/main"]);
+      } catch (error) {
+        throw new MonitorRunBlockedError(
+          `Merging origin/main into ${decision.branch} needs manual resolution: ${error instanceof Error ? error.message : String(error)}`,
+        );
+      }
+    }
+
+    const checksPath = path.join(session.tempRoot, "checks.json");
+    const progress = await MonitorState.open(root);
+    let tasks: MonitorTask[];
+    try {
+      await synchronizeMonitorAudits(root, progress);
+      tasks = progress.claim(date, session.id);
+    } finally {
+      progress.close();
+    }
+    if (!tasks.length)
+      throw new MonitorRunBlockedError(
+        "No product remains eligible in this weekly budget.",
+      );
+    const results = tasks.map((task) => task.audit);
     await writeFile(
       checksPath,
       `${JSON.stringify(results, null, 2)}\n`,
@@ -374,6 +566,8 @@ export async function startMonitorRun(input: {
       ...(decision.action === "reuse" ? { pull: decision.pr } : {}),
       session,
       checksPath,
+      tasks,
+      documentDirectory: path.join(await monitorDirectory(root), "documents"),
       observation: {
         products: results.length,
         changed: results.filter((result) => result.status === "changed").length,
@@ -383,7 +577,7 @@ export async function startMonitorRun(input: {
       reportPath: session.reportPath,
       skill: ".agents/skills/harness-monitor/SKILL.md",
       nextStep:
-        "Step 1 is complete. Continue at section 2 of this skill, triaging the observation at checksPath.",
+        "Triage only the claimed tasks at checksPath. Record each outcome before finish; no rescan.",
     };
   } catch (error) {
     // Without a usable observation the round cannot triage; release the lock
@@ -397,5 +591,11 @@ export async function finishMonitorRun(
   root: string,
   sessionId: string,
 ): Promise<void> {
+  const state = await MonitorState.open(root);
+  try {
+    state.assertSettled(sessionId);
+  } finally {
+    state.close();
+  }
   await finishMonitorSession(path.resolve(root), sessionId);
 }

@@ -220,9 +220,20 @@ test("maps changed fixed sources to cited question and section IDs", async () =>
       reason: "source-demo-open-doc: cited source changed",
     },
   ]);
-  const broad = mapAuditImpacts(result.dataset, [
+  const unknown = mapAuditImpacts(result.dataset, [
     {
-      source_id: "source-demo-open-doc",
+      source_id: "source-demo-open",
+      kind: "git_repository",
+      checked_at: "2026-09-29T00:00:00Z",
+      status: "changed",
+      observed: "new-commit",
+    },
+  ]);
+  expect(unknown).toEqual([]);
+
+  const unrelated = mapAuditImpacts(result.dataset, [
+    {
+      source_id: "source-demo-open",
       kind: "git_repository",
       checked_at: "2026-09-29T00:00:00Z",
       status: "changed",
@@ -230,10 +241,27 @@ test("maps changed fixed sources to cited question and section IDs", async () =>
       changed_paths: ["src/loader.ts"],
     },
   ]);
-  expect(broad).toHaveLength(8);
-  expect(
-    broad.every((impact) => impact.reason.includes("shared or unknown impact")),
-  ).toBe(true);
+  expect(unrelated).toEqual([]);
+
+  const exact = mapAuditImpacts(result.dataset, [
+    {
+      source_id: "source-demo-open",
+      kind: "git_repository",
+      checked_at: "2026-09-29T00:00:00Z",
+      status: "changed",
+      observed: "new-commit",
+      changed_paths: ["materials/demo-open-cli.txt"],
+    },
+  ]);
+  expect(exact.map((impact) => impact.topic)).toEqual(["mcp", "skills"]);
+  expect(exact.map((impact) => impact.question_ids)).toEqual([
+    ["mcp.transport"],
+    ["skills.discovery"],
+  ]);
+  expect(exact.map((impact) => impact.source_refs)).toEqual([
+    ["ref-demo-open-mcp"],
+    ["ref-demo-open"],
+  ]);
 });
 
 test("lightweight checks report work and pending reviews without persisting state", async () => {
@@ -245,8 +273,20 @@ test("lightweight checks report work and pending reviews without persisting stat
     fetchImpl: fakeFetch(pkg.bytes, pkg.integrity),
     git: async () => `${"a".repeat(40)}\tHEAD\n`,
   };
+  const blockedOnly = (
+    await checkHarnesses({
+      root,
+      harnessIds: ["example"],
+      fetchImpl: fakeFetch(pkg.bytes, pkg.integrity, true, true),
+      git: async () => {
+        throw new Error("offline");
+      },
+    })
+  )[0]!;
+  expect(blockedOnly.status).toBe("blocked");
+  expect(blockedOnly.requires_triage).toBe(false);
   const first = (await checkHarnesses(options))[0]!;
-  expect(first.requires_maintenance).toBe(true);
+  expect(first.requires_triage).toBe(true);
   expect(first.checks.every((check) => !check.candidate_path)).toBe(true);
   await expect(
     readFile(path.join(root, "audits/example", `${first.audit_id}.yaml`)),
@@ -265,7 +305,7 @@ test("lightweight checks report work and pending reviews without persisting stat
   const second = (await checkHarnesses(options))[0]!;
   expect(second.status).toBe("no_change");
   expect(second.pending_audit_refs).toContain(audit.audit_id);
-  expect(second.requires_maintenance).toBe(true);
+  expect(second.requires_triage).toBe(false);
   await record(root, `audits/example/${audit.audit_id}.yaml`, {
     ...audit,
     review_status: "reviewed",
@@ -273,9 +313,69 @@ test("lightweight checks report work and pending reviews without persisting stat
     reviewed_at: "2026-10-03T00:00:00Z",
   });
   const third = (await checkHarnesses(options))[0]!;
-  expect(third.requires_maintenance).toBe(false);
+  expect(third.requires_triage).toBe(false);
   expect(third.pending_audit_refs).toEqual([]);
   expect(await validateAuditLedger(root)).toBe(1);
+});
+
+test("uses supplied baselines and reports observed documents", async () => {
+  const root = await dataset();
+  const pkg = await packageBytes(root);
+  const documents: { sourceId: string; bytes: Buffer }[] = [];
+  const result = (
+    await checkHarnesses({
+      root,
+      harnessIds: ["example"],
+      fetchImpl: fakeFetch(pkg.bytes, pkg.integrity),
+      baselineBySource: new Map([
+        ["source-example-npm", `2.0.0@${pkg.integrity}`],
+        [
+          "source-example-doc",
+          createHash("sha256").update("# Manual\n").digest("hex"),
+        ],
+      ]),
+      onDocument: async (sourceId, bytes) => {
+        documents.push({ sourceId, bytes });
+      },
+    })
+  )[0]!;
+  expect(result.checks.every((check) => check.status === "unchanged")).toBe(
+    true,
+  );
+  expect(result.requires_triage).toBe(false);
+  expect(documents).toHaveLength(1);
+  expect(documents[0]?.sourceId).toBe("source-example-doc");
+  expect(documents[0]?.bytes.toString("utf8")).toBe("# Manual\n");
+});
+
+test("stable observation URLs do not replace the source's historical URL", async () => {
+  const root = await dataset();
+  const pkg = await packageBytes(root);
+  const file = path.join(root, "registry/sources/doc.yaml");
+  const source = YAML.parse(await readFile(file, "utf8"));
+  source.observation_url = "https://example.org/stable.md";
+  await writeFile(file, YAML.stringify(source));
+  const requests: string[] = [];
+  const result = await checkHarnesses({
+    root,
+    harnessIds: ["example"],
+    fetchImpl: (async (input) => {
+      const url = String(input);
+      requests.push(url);
+      return url === source.observation_url
+        ? new Response("# Stable\n")
+        : fakeFetch(pkg.bytes, pkg.integrity)(input);
+    }) as typeof fetch,
+  });
+  expect(requests).toContain(source.observation_url);
+  expect(requests).not.toContain(source.url);
+  expect(
+    result[0]?.checks.find((check) => check.kind === "official_documentation")
+      ?.status,
+  ).toBe("changed");
+  expect(YAML.parse(await readFile(file, "utf8")).url).toBe(
+    "https://example.org/manual.md",
+  );
 });
 
 test("source failures retain baselines while successful observations advance", async () => {

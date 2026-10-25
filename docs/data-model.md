@@ -5,7 +5,7 @@ M1 章节模型的事实源是 Git 中的完整 Markdown 章节版本、来源�
 ## 输入
 
 - `catalog/harnesses.yaml`（`schema_version: 1`）是产品与界面名字的唯一事实源：产品 id、名称、别名、界面（`surface_id`、`kind`、名称）、运行时、界面到运行时的绑定（状态可为 `documented`、`unknown`、`conflict`，`unknown` 是合法的未证实状态），以及登记产品之外的候选产品并集。产品是否 `registered` 只由 registry 中是否存在该产品的 harness 记录决定，不在 catalog 内重复。
-- `registry/harnesses/<product-id>.yaml` 只登记产品 id 与 `source_refs`，不再复制名称、别名或形态；`registry/sources/` 与 `knowledge/<product-id>/{artifacts,snapshots}/` 保留来源身份和固定快照。归档原件不进入 Git 或查询发布。新的 Git 原件记录为 `git_source_file`（`commit`、`file`、`content_sha256`），不保存 checkout 路径；固定提交在项目外的临时 pinned checkout 中读取，读完即回收。既有 `git_checkout` 记录与其保留原件继续可读、可审计。
+- `registry/harnesses/<product-id>.yaml` 只登记产品 id 与 `source_refs`，不再复制名称、别名或形态；`registry/sources/` 与 `knowledge/<product-id>/{artifacts,snapshots}/` 保留来源身份和固定快照。官方文档源可用可选 `observation_url` 指定当前观察入口；扫描读取 `observation_url ?? url`，而 `url` 继续作为来源身份并供历史引用使用。快照 `requested_url` 可以是 `url` 或 `observation_url`，以同时验证新旧已捕获内容。运行副本从 registry 生成 `observation-urls.json`，只覆盖已登记 source ID 的 HTTPS 文档观察入口。Amp 的 `url` 保持 `https://ampcode.com/manual`，观察入口单独设 `https://ampcode.com/docs/markdown`，旧快照与引用不改。归档原件不进入 Git 或查询发布。新的 Git 原件记录为 `git_source_file`（`commit`、`file`、`content_sha256`），不保存 checkout 路径；固定提交在项目外的临时 pinned checkout 中读取，读完即回收。既有 `git_checkout` 记录与其保留原件继续可读、可审计。
 - `knowledge/<product-id>/chapters/<edition-id>.md` 是完整章节版本。Frontmatter 含 `schema_version: 3`、`record_kind`、产品、主题、稳定小节 ID 及其 `surface_ids`，以及每道固定问题的 `answers`：每条 answer 记录 `surface_ids`、主要 `section_id`、`status` 和该答案自己的 `source_refs`。正文含机制说明、问题定位和 `[@reference-id]` 标记。记录中的状态为 `answered | partial | unknown | not_applicable | conflict`；产品已声明但章节没有答案的界面不存状态，查询会把它派生为 `not_investigated`（界面已知但本轮未调查）。缺口和分歧在对应小节明确写出。
 - `knowledge/<product-id>/references/<reference-id>.yaml` 将可展示短摘录、HTTPS 官方链接、文件行号/符号/文档章节定位绑定到一个固定 Snapshot。同一小节引用须属于同一产品；已回答问题须在本问题正文中放置对应标记。
 - `knowledge/<product-id>/mappings/<mapping-id>.yaml` 独立记录精确软件版本、`surface_id`、npm Snapshot、章节版本、范围及每个小节的映射证据。只有全部小节有证据时才能声明整章映射。未知道适用包版本的章节保持来源级知识，不制造版本映射。
@@ -19,11 +19,17 @@ Catalog 的 `references` 单独固定产品身份与界面关系：每条记录�
 
 ## 巡检与临时工作区
 
-巡检的只读观察与 `sources:scan` 共享同一基线和审计目录：`sources:check` 只输出每产品的 `checks`、`pending_audit_refs` 与 `requires_maintenance`，不写审计、不下载包字节、不创建 clone。`requires_maintenance` 和 `impacts` 是待判断的候选，不代表需要改写章节或重审所有主题。父进程固定本轮观察并写 Git 跟踪的审计 YAML 与必要的同名报告；来源有变化而知识无需更新时，清空已解决问题，填写 `reviewed_by`、`reviewed_at` 标为 `reviewed`，在 `investigation_notes` 记录理由。未解决来源和问题保持 blocked/pending，不能通过结案新审计间接关闭它引用的未完成审计。
+`sources:check` 是纯只读入口，只输出每产品的 `checks`、`pending_audit_refs` 与 `requires_triage`，不写审计、缓存、包字节或 clone，也不推进监控状态。`requires_triage` 只在当前观察含 `changed` 时为真；它与 `impacts` 都只是 triage 线索，不直接创建任务。Git 只有 HEAD 变化时不生成章节 impacts；已知 changed path 仅映射精确引用该文件的当前小节。协调者先读取最小入口，再按固定问题扩展，不把宽泛的 config／loader 文件名当作整题影响。
+
+日常观察不写 Git 审计，而进入监控台账。真实 Git worktree 共用 `<git-common-dir>/agent-harness-wiki-monitor/session.sqlite`，独立 dataset 使用 `var/harness-monitor/`。台账按来源保存 `observed`（最新观察）、`processed`（已结算覆盖）、`attempted`（已领取尝试），另存逐日观察、首次待处理时间、任务、周额度与活跃会话。普通 npm 版本前移自动记为无需知识调查，并推进该来源的 processed；它不产生版本映射或章节结论。其他每日观察只更新 observed，不推进 processed。领取任务写入 attempted 并占额度；结算 `completed`／`reviewed_no_impact` 才把 processed 推进到审计覆盖的身份，`waiting_for_integration`、`blocked`、`failed` 保留 attempted，不自动重派。未领取队列按首次待处理时间与 harness ID 排序，新变化不改等待年龄。
+
+每周最多领取 5 个产品，同产品同周至多一个 writer；窄查和失败占额度。每个结果必须绑定原项目 `audits/<harness-id>/` 下可解析的同身份审计。完成与无影响要求审记为 reviewed 或带 `reviewed_by`／`reviewed_at`，`pending_question_ids` 为空且 checks 无 blocked。历史 pending、unknown 与缺失主题保持休眠，只有相关新证据或显式手动重开才恢复；不能借新审计关闭其引用的未完成旧审计。手动维护集成审计后也登记一次结果，但省略 `task_id`，不占自动额度，也不创建 monitor session。
 
 维护候选是临时的单产品 dataset：catalog 只包含该产品及引用，registry 只包含其身份和来源，knowledge、当前章节选择与 audits 也按产品裁剪。`maintenance:candidates` 在候选之外保留基线副本，检查文件路径、记录归属、引用和审计关系，生成与当前真源合并的临时结果及 before/after 清单。合并按产品及产品 × 主题进行，不用裁剪文件覆盖全库 catalog 或选章；基线变化及全局 ID 冲突拒绝相关产品。候选没有发布身份，不供 CLI/MCP 读取。
 
-来源工作区是项目之外的临时 pinned checkout，固定到观察到的精确提交，按长期存活的任务 PID 登记 owner，完成调查和复核后关闭；`monitor:session start` 回收本项目死亡 owner 的残留，`sources:workspace recover` 也可显式回收。临时路径只用于运行上下文，不进入知识真源或 Git 审计。
+来源工作区是项目之外的临时 pinned checkout，固定到观察到的精确提交，按长期存活的任务 PID 登记 owner，完成调查和复核后关闭；会话锁回收本项目死亡 owner 的残留，`sources:workspace recover` 也可显式回收。临时路径只用于运行上下文，不进入知识真源或 Git 审计。预检会保留固定文档比较缓存；`finish` 只释放本轮临时目录和会话锁，台账、缓存与 Git 审计保留。
+
+部署可使用 `scripts/build-monitor.ts` 从当前工作树生成独立 `monitor.mjs`，复制当前两个维护 Skill 与必要文档，不修改调度或专用 worktree。构建结果中的 runtime 与 Skill 路径、hash、原生 SQLite 与 `stateDirectory` 是运行副本身份；专用工作树仍是 `--root` 与知识真源，未跟踪审计不复制、不覆盖。
 
 Git 跟踪的章节版本、来源元数据、审计 YAML 与报告是永久保留的知识与追溯记录，任何清理都不触及它们；官方文档原件按既有保留策略留在忽略归档。源码读取是临时的：记录里只有 `git_source_file` 的提交、文件与内容 hash，checkout 本身和本轮验证输出在 `monitor:session finish` 收尾时清理。巡检不承诺固定峰值占用。
 

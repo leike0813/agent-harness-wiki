@@ -1,71 +1,93 @@
-# 0012 — 每日巡检编排与临时来源工作区
+# 0012 — 每日观察与周度巡检
 
-状态：accepted（启用条件见文末）
-日期：2026-10-03
-对应：PRD §3、§7、§9、§10，OpenSpec `daily-harness-monitor`
+状态：accepted（部署状态见文末）
+日期：2026-10-25
+对应：PRD `3、`7、`9、`10，OpenSpec `reduce-monitor-cost`
 
 ## 背景
 
-上游观察此前只在维护者手动调用 `harness-maintenance` 时发生，调查 Agent 需要自己准备临时 checkout、自己找包字节、自己决定交付方式。观察与采写混在同一次调用里，使得「今天哪些来源变了」和「知识是否值得发布」两个问题无法分开回答，来源原件也会随每次手工调查散落在仓库内外各处。
+来源变化通常不需要每天由模型判断，但错过一次观察会让知识维护延迟数周。原巡检把每日观察、triage、派发和交付塞进同一次 LLM 会话，工作日也为没有调查价值的版本变化付出模型成本，并且临时路径与短期队列无法跨轮可靠保留。
 
-本决定把每日观察固定下来，并把来源读取改成一次性、受管、可回收的临时工作区。调度与知识判断仍由既有 Skill 承担，编排层不重复实现章节语义。
+本决定把“今天看到了什么”和“本周实际处理什么”拆开：每日由脚本观察并保存队列，周日才领取有限产品进入现有维护与 PR 交付流程。
 
-## 调度、工作区与会话
+## 调度与两阶段执行
 
-每日巡检由编排工具侧的固定调度项执行：时刻 02:00，时区 `Asia/Shanghai`，宽限 60 分钟。宽限表示错过的轮次可在窗口内补跑，补跑与正常轮次走同一条流程。
+同一 Orca 自动化每天 02:00（`Asia/Shanghai`）运行 `precheck`。它只观察来源、保存逐日身份、维护队列和本地运行状态，不启动 LLM、不改 Git、不切换分支、不创建源码 checkout。它与维护会话共用同一把锁，避免并发改写台账。
 
-互斥使用项目已有 SQLite 的事务记录 owner PID、报告路径与临时根目录，不引入常驻进程。`monitor:session start` 原子取得运行锁；已有 owner 存活时拒绝启动，owner 已死亡时接管并释放旧临时输出，同时回收本项目已死亡 owner 的源码工作区。正常收尾先显式关闭本轮源码工作区，再用 `monitor:session finish` 释放临时输出和运行锁。
+只有周日 02:00 至 02:59:59 可以启动 Agent，且必须同时满足：fresh precheck 为 `launch: true`、周额度未满、队列有候选、交付工作树是干净的 linked worktree。每周最多调查 5 个产品；窄查与失败都占额度。
 
-巡检在编排工具管理的固定专用 worktree 中运行，该 worktree 不属于主工作区、必须干净。每轮以全新会话启动，不复用上一轮上下文：会话历史里的临时路径、判断过程和失败中间态都不进入下一轮。
+`precheck` 正常可启动退出 0，工作日、空队列或额度耗尽等普通跳过退出 2。周日有候选但专用 worktree 不是 linked 或 dirty 时，仍完成观察并落盘，返回 `status: delivery_blocked` 与说明性 `diagnostic`，不启动 Agent，退出 1。`start` 再次要求 clean，且只消费 60 分钟内的 precheck，不重新观察。
 
-OMP 主会话通过实际运行工作树的 `.omp/config.yml` 中 `modelRoles.default` 选择 `minimax-code-cn/MiniMax-M3.1-Flash-Preview`，此配置也作用于在该工作树启动的其他 OMP 会话，显式 `--model` 启动参数优先。维护与独立复核 Subagent 在原生工具的模型参数中显式选择同一模型。主 Agent 决定维护与复核的并行规模，每产品一个 worker 写入独立候选，共享 catalog 与当前章节选择由主 Agent 合并。
+## 共享台账
 
-## 观察范围与基线
+真实 Git worktree 的台账与锁位于 `<git-common-dir>/agent-harness-wiki-monitor/session.sqlite`；独立 dataset 回退到 `<dataset-root>/var/harness-monitor/`。同步已结算审计时使用 `git worktree list`，并显式包含当前 root，避免当前主工作树的别名不在列表里而漏读历史。
 
-观察范围是 catalog 与 registry 的交集：catalog 中已声明登记、且存在 `registry/harnesses/<product-id>.yaml` 的产品。catalog 候选没有登记来源，不进入本轮。
+台账保存：
 
-同一产品内的多个来源可以并发读取，通过必要性判断的产品在独立候选中并行维护，任一产品失败不影响其他产品继续。观察区分三类身份——登记 Git 的精确 HEAD、登记官方文档的固定内容、登记 npm 的 latest 版本与 integrity——并把未结案的旧审计一并读出。`sources:check` 是只读入口，与 `sources:scan` 共享同一基线和审计目录，不写文件、不下载包字节、不创建 clone；父进程按同一 schema 固定观察与审计，需要保留文档候选时在委派前完成。
+- 每个来源的 `observed`（最新观察）、`processed`（最后一次已结算覆盖）和 `attempted`（本周期已领取尝试）；
+- 每日观察、待处理时间、任务、周额度与活跃 session；
+- 固定文档比较缓存、session 临时目录与报告路径。
 
-## 委派与交付
+普通 npm 版本前移自动记为无需知识调查，并推进该来源的 processed；它不产生版本映射或章节结论。其他每日观察不推进 processed。领取任务写入 attempted；完成或无影响结算才把 processed 推进到审计覆盖的身份。若非 npm 来源观察 A→B→C、实际处理到 C，则一次结算 A→C；结算后出现 D 才重新排队。`waiting_for_integration`、`blocked`、`failed` 保留 attempted，同一身份不自动重派，只有新身份或其他显式重开才进入后续任务。
 
-按产品 id 稳定排序，先检查实际变化、固定问题和现有章节的关系。`requires_maintenance` 与 `impacts` 仅提示候选：单纯 npm 版本变化、无关代码与排版变化可由父进程记录理由并结案审计；配置字段、加载条件、来源定位和版本映射的实质线索触发定向维护。影响不明先检查相关入口，再按证据扩展；来源失败无修复线索只保留 blocked，重复阻塞无新证据不重复派发。旧 pending 只恢复未完成且可执行的问题。
+未领取队列按首次待处理时间和 harness ID 排序，新变化保留原等待年龄，不能长期挤后。`status` 命令只读台账，输出队列、周预算和最近 20 个任务结果，不访问上游。
 
-对每个需要调查的产品至多委派一次，传入已固定的 observation、问题范围、候选 root、原项目根目录与 owner PID、`role=worker`、`delivery=pr`。worker 不重新扫描来源，只编辑自己的候选。`maintenance:candidates prepare/check/plan` 复用已有校验器，裁剪单产品 dataset，在候选外保留基线副本，生成临时聚合数据与 before/after 清单；按产品合并 catalog、来源、章节、审计及产品 × 主题选章，不用裁剪文件覆盖共享真源。基线变化、范围越界和 ID 冲突拒绝相关产品，其他已完成内容继续。父进程用内置编辑工具集成，手动 local 模式统一发布一次；不新增调度框架或依赖。
+## 周度领取、评审与结算
 
-高影响复核由父进程协调，复核 Agent 读取同一候选和固定原件。全部 worker 与 reviewer 确认停止后才集成、发布和清理；等待超时不代表使用者停止。来源工作区以原项目根目录与长期存活的 coordinator PID 登记，任务记录唯一 workspace ID；并行期间只按任务 ID 管理，整轮列表清理放在最后。
+`start` 在取得共享锁后返回原交接单、`tasks`、只含已领取产品的 `checksPath` 与 `documentDirectory`。协调者不得重新扫描，不得把未领取产品纳入本轮 triage。领取即占额度，进程崩溃不会把同一产品在同一周换给另一个 writer。
 
-`delivery=pr` 轮次只做调查、采写、自检与审计：它不切换本地发布指针，不运行 `pnpm ahw publish`，不调用 `harness-binary`，不更新受管二进制。PR 合并到 `main` 后的对外发布由既有发布 CI 处理，不需要维护者再补一步；受管二进制是独立流程，不在巡检范围内，合并后也不会被自动触发。
+每个产品同周至多一个 writer；高影响变化仍按维护 Skill 的条件交给独立 reviewer。全部 worker/reviewer 确认停止后才集成。候选仍按产品隔离，共享 catalog 与章节选择由协调者合并，滚动 PR 与已有发布边界不变。
 
-交付单位是一个持续存在的滚动 PR，分支 `automation/harness-monitor/<UTC 时间戳>`：PR 合并前，后续每日轮次都 fetch `origin`、切回这条已开分支、普通合并 `origin/main` 后继续提交，而不是每天新开一条分支。候选上限落在这个未合并 PR 的整体上：同一个产品 × 主题在 PR 里最多有一个候选，当天的新变化直接修订已有候选，不追加第二个 edition／topic，也没有任何顺延或丢弃。PR 内容始终是该分支与 `main` 的全部差异。合并按普通合并处理，不 force push、不 rebase 已推送分支、不改写 `main` 历史。
+每个产品先写原项目 `audits/<harness-id>/<audit-id>.yaml`，再用 `record` 结算。`completed` 与 `reviewed_no_impact` 要求审计为 reviewed，或带 `reviewed_by`／`reviewed_at` 自检记录；`pending_question_ids` 为空，且来源 checks 不含 blocked。否则拒绝推进 processed。候选失败时先留下阻塞审计，再记 blocked/failed。每个领取任务都有结果后才能 `finish`；它只释放本轮临时目录和锁。
 
-闸门按 `knowledge:validate`、`sources:audit-log`、`git diff --check`、`verify` 顺序执行，本轮完整验证只跑一次，随后在干净生产输入上做在线构建与独立校验。任一闸门失败都不推送，保留本地提交与报告等待维护者处理；本轮无变化时不推送，PR 保持原样等待后续轮次。
+手动维护在最终审计集成后同样运行 `record`，省略 `task_id`。这条路径不启动 monitor session、不占自动 5 产品额度；ID 模式的受管二进制、local 与 PR 交付边界保持不变。
+
+## 观察提示与历史状态
+
+`sources:check` 保持纯只读：不写审计、缓存、包字节或 checkout，也不推进监控状态。候选字段为 `requires_triage`，只在当前观察存在 `changed` 时为真；它不直接创建任务。手动 ID 扫描读取 processed 基线，并写入 Git 审计；每日 precheck 读取 observed 身份并更新本地观察。
+
+Git 只有 HEAD 变化时不生成章节 impacts。已知 changed path 仅映射到当前章节精确引用的文件；宽泛的 config／loader 文件名不扩成整题。协调者先读最小入口，再按证据确定问题范围。
+
+历史 pending、unknown、缺失主题保持休眠。只有相关来源产生可执行证据入口，或维护者显式重开后，才恢复调查；无关变化和重复观察不重派。旧审计不能借新审计标 reviewed 被间接关闭，未完成工作继续可见。
+
+已发布引用的定位和摘录按各自固定 snapshot 复核。上游后来移动行号、改用等价链接，或把人工观察入口迁到官方 `/docs/markdown`，都不改写旧 snapshot/reference，也不单独触发章节修订。
+
+## 运行副本与部署
+
+不把实现提交进专用工作树，也不覆盖其中已有审计。使用 `scripts/build-monitor.ts` 从当前工作树构建新目录：
+
+```sh
+pnpm -s tsx scripts/build-monitor.ts --out <new-runtime-dir> --dataset-root <original-worktree>
+```
+
+输出包含单文件 `monitor.mjs`、当前两个维护 Skill 与必要文档；原生 SQLite 来自已有锁定依赖，不新增安装。该文件没有 shebang，调用使用 `node <runtime-dir>/monitor.mjs`。构建不会修改调度或 worktree。部署前用 `node` 执行 runtime precheck，核对退出码、状态、blocked_sources、precheckPath、hash、Skill 副本与 stateDirectory；通过后才把调度命令换成该 runtime。
 
 ## 临时来源工作区与原件保留
 
-新的 Git 来源读取统一走 `sources:workspace open --source-id --commit --owner-pid`，在项目之外的临时 pinned checkout 中固定到观察到的精确提交，读完 `close`，异常残留由 `sources:workspace recover` 按 owner PID 回收。知识记录只保存 `git_source_file` 的 `commit`、`file` 与 `content_sha256`，不保存 checkout 路径；临时路径不进入任何记录。
+Git 来源通过项目外临时 pinned checkout 读取，按原项目根与长期 owner PID 登记，使用精确提交、文件与内容 hash；任务结束并在复核完成后显式关闭。客户端不复用临时路径作为知识来源。
 
-巡检只承诺三件事的保留：官方文档原件按既有保留策略留在忽略归档，章节文档与来源元数据、审计、报告作为 Git 历史永久保留。源码读取是临时的——读的是哪一次提交由 `git_source_file` 的 `commit`、`file` 与 `content_sha256` 记录，checkout 本身用完即清理；本轮自有来源工作区与验证输出在 `finish` 收尾时清理。巡检不接管二进制与完整日志的保留。catalog 的 Git 快照必须带精确 revision，归档路径可选。
-
-清理只删本轮明确登记的自有对象；目录归属不明、owner PID 不匹配或仍在被使用的对象一律保留并在报告中点名，不用 `rm -rf` 扫目录。巡检每日本身不写入受保护数据，因此不承诺固定的峰值占用。
+官方文档原件继续留在忽略 `archive/` 并长期保留；章节、来源元数据、审计与报告进入 Git。每轮只清理有匹配归属的临时 checkout、临时构建与备份，不删除已有归档、本地发布或归属不明内容。归档原件与二进制不属于监控清理范围。
 
 ## 离线来源审计的状态
 
-离线来源审计对每条记录返回 `verified` 或 `not_retained`。只保留身份元数据的记录（`git_source_file`，以及无归档原件的 Git catalog 引用）报 `not_retained`：这是元数据状态，不是原件字节校验通过，不能被当作已验证原件。应当保留的原件缺失或 hash 不符仍然是错误并中止审计。普通查询与构建在离线状态下不依赖来源原件。
+离线来源审计对每条记录返回 `verified` 或 `not_retained`。只保留身份元数据的记录报 `not_retained`，它只说明按策略未保留原件，不是原件字节校验通过；应保留原件缺失或 hash 不符仍是错误并中止审计。普通查询与构建不依赖忽略原件。
 
 ## 后果
 
-- 「今天哪些来源变了」有固定答案：只读观察，范围为 catalog ∩ registry，基线与手动扫描一致。
-- 章节判断仍由调查与维护 Agent 完成，编排层不做章节语义。一个 PR 可能跨多个产品并持续数日，回退以 PR 为单位而不是以单页为单位。
-- 巡检不改变发布语义：合并到 `main` 后的对外发布由既有发布 CI 推进，受管二进制是独立流程。
-- 临时来源工作区短命，调查可复核性依赖记录下来的 commit 与内容 hash，而不是仓库内的源码副本。
-- `not_retained` 让「未保留原件」与「原件校验通过」在审计输出里可区分，避免把元数据存在当作原件可用。
+- 工作日不再启动模型；最多延迟数天发现需要语义调查的问题，但来源变化与队列不会丢失。
+- 同一份台账跨真实 worktree 共享，崩溃、重复启动与未交付结果不会丢失额度或身份。
+- 周度产量有硬上限，旧队列保留等待年龄，新变化不能无限挤占。
+- 每个结算都有 Git 审计证据；未完成和失败保持可见，不被“本轮无任务”掩盖。
+- 专用 tree 的未提交审计会阻塞周维护交付，日常脚本观察仍可运行；环境阻塞必须保持可见。
 
-## 启用顺序
+## 启用与当前状态
 
-每日调度先注册为禁用状态。启用前完成三项核对：
+本机 Orca 自动化登记 ID 为 `93f32c61-1d0d-4da3-97ac-3861a74af596`，固定工作树为 `/home/joshua/orca/workspaces/agent-harness-wiki/harness-monitor`。2026-10-25 已将同一自动化切换为每日 02:00 脚本预检并回读确认；仅周日满足条件时才启动维护 Agent。运行副本、调度备份与验收结果见 [自动化操作指南](../automations.md)。
 
-1. 巡检依赖的仓库内命令已在 `main` 可用：`monitor:run start`／`finish`、`sources:workspace open`／`close`／`recover`、`maintenance:candidates prepare`／`check`／`plan`。
-2. 专用工作树已同步到当前 `origin/main`，其中确有上述命令。入口命令随代码进入 `main`，工作树停在旧提交时巡检无法启动。
-3. `.omp/config.yml` 选定的主会话模型可用，且 `minimax-code-cn/MiniMax-M3.1-Flash-Preview` 能作为显式模型参数被原生 subagent 工具实际选中。
+专用工作树当前有上一轮遗留的未跟踪审计，本轮保持原样；周日有候选时预检返回 `delivery_blocked`。启用顺序：
 
-三项都通过后手动触发一次巡检，验证 PID 锁、只读观察、必要性判断、隔离并行委派、聚合闸门与推送整条链路，再打开每日调度。链路未验证时保持禁用，不用一次真实调度去试基础设施。模型或命令任一项变更，先停调度，改完按同样顺序复核。
+1. 新命令、台账、runtime 构建与测试通过。
+2. 构建 runtime，核对 hash、Skill、原生依赖、状态目录和 precheck 退出码。
+3. 处理或明确登记未跟踪审计的归属；调度脚本不把它们当成本轮输出。
+4. 将现有自动化预检切换为已验证 runtime，回读每日时间、纯脚本入口与既有模型配置。
+5. 后续真实周维护结果另行记录；交付阻塞不影响日常观察，任何交付闸门失败都不推送并保留台账。

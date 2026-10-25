@@ -15,7 +15,7 @@ description: 调查已登记 harness 的固定来源并维护受影响的产品�
 
 参数：`role=coordinator|worker`（默认 `coordinator`），`delivery=local|pr`（默认 `local`）。
 
-- **ID 模式**：维护者提供一个或多个精确 `harness_id`。coordinator 对每个产品观察全部登记来源和 pending audit。每产品单 writer；不同产品及独立 reviewer 可按 coordinator 决定的任意并行度运行。所有 ID 均须处理，不因某产品失败停止其余产品。
+- **ID 模式**：维护者提供一个或多个精确 `harness_id`。coordinator 对每个产品用共享台账的 processed 基线观察全部登记来源和 pending audit。每产品单 writer；不同产品及独立 reviewer 可按 coordinator 决定的任意并行度运行。所有 ID 均须处理，不因某产品失败停止其余产品。
 - **固定来源模式**：提供固定 Git commit、官方文档快照或精确 npm 版本及要回答的问题。只调查这些问题及必要交叉引用；coordinator 无需 scan。多个产品可并行；同产品的多个问题放在同一 worker 中。
 - **worker 模式**：由 coordinator 给出唯一任务 ID、隔离 candidate root、原项目根目录与长期 owner PID、固定 observation/revision、workspace IDs、问题范围、pending 子集、delivery 与完成标准。worker 不重新扫描；发现新的关联证据时请父进程调整同一任务范围再继续。返回 `changed`、`completed`、`blocked`、`selection`、`audit`、`review`、`workspaceIDs` 及停止确认。任务输入和结果文件在候选根外，仅 dataset 文件在候选根内编辑。
 
@@ -46,6 +46,8 @@ pnpm maintenance:candidates plan --batch <batch> --out <new-temp-merge> [<comple
 - `audits/<id>/<audit-id>.yaml` 及按需同名 `.md`：来源观察、影响、pending 与结论。
 - `archive/`：应长期保留的官方文档/包原件；源码 checkout 不复制到 archive，也不写进候选。
 
+官方文档源的可选 `observation_url` 是当前观察入口；扫描使用 `observation_url ?? url`。`url` 仍是来源身份，快照 `requested_url` 可为 `url` 或 `observation_url`。只迁移观察入口时，不改旧 snapshot/reference；Amp 的 `url` 保持 `https://ampcode.com/manual`，观察入口为 `https://ampcode.com/docs/markdown`。
+
 新 Git 来源记录为 `git_source_file`，仅记精确 `commit`、仓库相对 `file`、`content_sha256`，不记临时路径，离线原件审计为 `not_retained`。官方文档原件记录为 `archived_document` 并带 `archive_path`，原件保留在原项目 archive。候选引用这些稳定身份；不得把源码副本打包进 candidate。
 
 编辑结构前读取 `docs/data-model.md`、`src/domain/chapter.ts` 与 `src/domain/schema.ts` 确认当前 schema；新正式记录用 `record_kind: production`。
@@ -66,7 +68,7 @@ worker 读取候选中的当前章节、selection、registry、references、mapp
 pnpm sources:scan <harness-id>...
 ```
 
-每个产品审计覆盖已登记来源，包含 unchanged 与部分失败。观察只记录身份：npm 是 `version@integrity`，Git HEAD、官方文档内容 hash 各自独立；不下载 npm 包字节。非零退出时仍读取已写出的每产品审计继续处理；数据集/审计结构损坏才停止整个 run。固定来源模式跳过 scan，直接登记/固定给定来源和问题。
+每个产品审计覆盖已登记来源，包含 unchanged 与部分失败。手动 ID 扫描读取共享台账的 processed 基线；普通 npm 版本前移由监控观察自动结案，不产生映射或章节影响。观察只记录身份：npm 是 `version@integrity`，Git HEAD、官方文档内容 hash 各自独立；官方文档取 `observation_url ?? url`。不下载 npm 包字节。非零退出时仍读取已写出的每产品审计继续处理；数据集/审计结构损坏才停止整个 run。固定来源模式跳过 scan，直接登记/固定给定来源和问题。监控 worker 不运行 scan。
 
 新 Git 源码必须通过项目外 pinned source workspace 读取，owner PID 由长期存活的 coordinator 提供：
 
@@ -86,11 +88,11 @@ pnpm -s sources:workspace recover
 对照实际变更内容、章节 source_refs、固定问题、interface/surface、版本映射、pending audits 和来源定位，逐项记录观察证据及影响理由。
 
 - 正常新 npm 版本没有知识问题线索时，只记录身份并结案，不改章节、不造映射，新版本仍未验证。同版本 integrity 改变或版本回退先限定来源一致性调查，不能按普通版本更新结案。
-- 源码提交变化先看 changed paths 和相关调用/配置入口。无关代码与纯排版变化结案，说明排除依据；配置字段、路径、加载顺序、条件或证据定位变化仍需维护。
+- 源码提交变化先看 changed paths 和相关调用/配置入口。Git 只有 HEAD 时 impacts 为空；已知路径只映射精确引用该文件的当前小节，宽泛 config／loader 文件名不扩成整题。无关代码与纯排版变化结案，说明排除依据；配置字段、路径、加载顺序、条件或证据定位变化仍需维护。
 - 固定文档有语义变化时，将段落对应到 question ID、section ID 和 surface；只维护这些问题及必要的 cross-topic link。
 - 共用加载入口、优先级或关键配置机制确实变化时，沿调用关系扩到使用同一入口的问题；在 audit 说明扩展依据，不把它变成全库重审。
 - 影响不明但存在实质变化时，选最小可验证入口，指定最少的一组 question IDs/topic 与待回答问题。没有修复线索的来源失败记 blocked；相同 blocker、无新证据时只更新/保留 pending，不重复相同探查。
-- 读取旧 pending 中未完成问题及尚未定位问题的来源阻塞，只恢复有可执行入口的工作；已完成问题不重开。
+- 历史 pending、unknown 与缺失主题只在相关新证据或显式手动重开时恢复；无关变化和重复观察不重派。不能借新审计标 reviewed 关闭其引用的未完成旧审计。
 
 coordinator 固定上述观察、原件和审计后 prepare。按产品裁剪身份、来源、知识、选择与审计，每产品一个 worker 处理多主题；主 Agent 自行决定 worker/reviewer 并行规模。worker 只编辑自身候选，原项目真源在调查期间保持稳定。
 
@@ -99,6 +101,8 @@ coordinator 固定上述观察、原件和审计后 prepare。按产品裁剪身
 沿章节 frontmatter `source_refs` 和 references 定位受影响问题、小节、跨主题链接及映射。答案和 mapping 按 `surface_id` 限定。已发布或已合入 main 的章节修订须新建完整 edition 并保留旧文件；PR 已有该产品 × 主题的未发布候选时修订那一份。正文按机制分节，用 `{#section-id}` 和 `[@reference-id]` 保持稳定定位。未改小节沿用有效来源与界面范围。
 
 新界面/运行时关系先更新 catalog 身份与 binding；无直接来源证据就保留 `unknown`。新引用固定 snapshot，HTTPS 官方链接、准确短摘录、文件行/符号/文档章节定位齐全，保留已发布引用。引用必须是对应问题和小节的证据，不能只因文件相邻就引用。
+
+引用定位和摘录按各自固定 snapshot 验证。上游后来移动行号、使用等价链接或迁移人工观察入口，不修改旧 snapshot/reference，也不单独触发章节修订；只有固定快照本身不匹配才是错误。
 
 只新增/修正软件版本映射时不改正文；写精确版本、surface、package snapshot、chapter edition、范围和逐小节证据。整章映射需该界面全部小节都有证据，各界面可映射不同版本。源码 HEAD 或无版本官方网页不能单独证明 npm 发行版行为；证据不足时保留 source-level knowledge，不造 mapping。
 
@@ -166,11 +170,23 @@ pnpm ahw publish --release-id <new-id>
 
 `delivery=pr`：candidate 完成审计和 aggregate review 后交回 monitor/coordinator，由其更新滚动 PR；不切换本地指针、不运行 publish 或 managed package。相对已合入 main 的正文必须新建 edition，保留旧 edition；开放 PR 内已存在的同产品 × topic 未发布 edition 则修订那一份，不另起 edition。多个产品/topic 均交付，不遗漏、不顺延。
 
-### 8. 独立受管二进制
+### 8. 手动结果登记
+
+手动维护把最终审计集成到原项目后，coordinator 运行一次：
+
+```sh
+node <runtime-dir>/monitor.mjs --root <original-worktree> record --result <result.json>
+```
+
+开发态可把 runtime 调用换成 `pnpm -s monitor:run`。手动结果省略 `task_id`，payload 包含 `harness_id`、`audit_id`、`outcome` 与 `reason`；`outcome` 只能是 `completed`、`reviewed_no_impact`、`blocked`、`failed` 或 `waiting_for_integration`。审计必须位于原项目 `audits/<harness-id>/` 并可解析。完成与无影响要求审计为 `reviewed` 或带 `reviewed_by`／`reviewed_at`，`pending_question_ids` 为空且 checks 无 blocked。
+
+这条登记不创建 monitor session，也不占自动周额度。候选失败时先写阻塞审计再登记 blocked/failed；未交付候选记 waiting，交付验证后再以同一审计改记 completed。每项有来源观察的 ID 维护都登记结果，未改变能力时可用 reviewed_no_impact。
+
+### 9. 独立受管二进制
 
 仅直接 ID/coordinator 模式且 `delivery=local` 对每个请求 ID 调用一次 `harness-binary`：按现有 package lock 顺序逐产品处理，即使来源 unchanged 或知识 audit-only 也照做。先 `pnpm managed:packages observe <id>` 再 `pnpm managed:packages update <id>` 按 `harness-binary` 契约执行。binary 结果独立报告，不阻断有效知识发布；失败保留已选可运行包集。固定来源模式仅在用户明确要求时执行。worker、reviewer 与 monitor `delivery=pr` 永不执行 binary。
 
-### 9. 来源与最终收尾
+### 10. 来源与最终收尾
 
 只有 owner coordinator 关闭本轮工作区。等所有 worker/reviewer 明确结束并保留完复核证据后，核对：
 
@@ -198,7 +214,7 @@ LLM 负责来源语义、固定问题映射、影响范围、章节写作、tria
 
 ## 成功标准
 
-每项知识变更都能回到固定问题、surface、来源定位和证据；审计精确反映 completed/pending；各产品候选独立校验；高影响结论有独立 review；stale 候选隔离拒绝；只有 coordinator 集成并至多执行一次知识发布。
+每项知识变更都能回到固定问题、surface、来源定位和证据；审计精确反映 completed/pending；各产品候选独立校验；高影响结论有独立 review；stale 候选隔离拒绝；手动结果已登记且不占自动额度；只有 coordinator 集成并至多执行一次知识发布。
 
 ## 参考
 

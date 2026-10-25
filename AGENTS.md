@@ -440,11 +440,15 @@ M0 虚构数据仍位于 `tests/fixtures/datasets/`，不进入正式 `registry/
 
 ### 7.0 每日监控授权
 
-执行 `harness-monitor` 时，允许在专用监控工作树内创建和切换 `automation/harness-monitor/` 分支，普通合并同步 `origin/main`，提交本轮已验证的知识与审计、推送该分支并创建或更新面向 main 的 PR。合并 PR 由维护者手动完成。主 Agent 和原生 Subagent 使用 `minimax-code-cn/MiniMax-M3.1-Flash-Preview`，主 Agent 自行决定维护与复核的并行规模；每个产品由一个 worker 写入独立候选目录，共享 catalog 与当前章节选择由主 Agent 统一合并，高影响变化单独复核。
+每日 02:00（`Asia/Shanghai`）由同一 Orca 自动化运行纯脚本 `precheck`，在共享锁下观察来源、保存逐日快照并维护队列，不启动 LLM、不改 Git。只有周日 02:00 的 60 分钟窗口、预检可启动且仍有额度时才启动 Agent；每周最多调查 5 个产品，窄查与失败都占额度，同产品同周至多一个 writer。预检发现专用工作树非 linked 或 dirty 时返回 `delivery_blocked`，保留观察但不启动 Agent。
 
-扫描器的 `requires_maintenance` 与 `impacts` 仅提示候选，先按固定问题与实际内容判断维护必要性。版本元数据、无关改动和排版变化可结案审计；影响不明先限定入口，来源失败无修复线索时保持 blocked，同一阻塞无新证据不重复派发。手动维护与监控均使用 `maintenance:candidates prepare/check/plan` 隔离产品写入；该工具只生成临时合并数据与 before/after 清单，主 Agent 核对基线后用内置编辑工具集成。所有 worker 与 reviewer 确认停止后才统一集成、发布或清理，超时不代表停止。
+监控台账位于 Git common dir 的 `agent-harness-wiki-monitor/session.sqlite`；独立 dataset 使用 `var/harness-monitor`。台账保存观察、处理与已尝试身份、任务、周额度和会话锁。普通 npm 版本前移自动记为无需知识调查，并推进该来源的处理基线；其他每日观察不推进处理基线。`start` 只消费 60 分钟内已落盘且可启动的 precheck，不重新观察，领取即占额度；协调者只 triage 交接单中的 `tasks`。每个产品的结果必须先写原项目 `audits/<harness-id>/` 下的可解析审计，再用 `record` 结算；`completed`／`reviewed_no_impact` 要求审计已记录自检或复核、无 pending 问题且没有 blocked 来源。`waiting_for_integration` 不重复调查，可在交付后改记 `completed`。所有任务结算后才能 `finish`。
 
-每轮由 `pnpm monitor:run start --owner-pid "$PPID"` 启动：脚本确认专用工作树、工作区干净与滚动分支后取得整轮锁，并完成本轮唯一一次只读观察，协调者从交接单的 `checksPath` 继续 triage；收尾用 `pnpm monitor:run finish <session-id>`。只释放具有匹配归属记录的临时源码、该轮临时构建及本次构建备份。已有归档与本地发布不属于监控清理范围。来源与 PR 流程见 [每日自动化](docs/automations.md)，全局配置和凭据不写入项目。
+执行 `harness-monitor` 时，允许在专用监控工作树内创建和切换 `automation/harness-monitor/` 分支，普通合并同步 `origin/main`，提交本轮已验证的知识与审计、推送该分支并创建或更新面向 main 的 PR。合并 PR 由维护者手动完成。主 Agent 和原生 Subagent 使用 `minimax-code-cn/MiniMax-M3.1-Flash-Preview`，主 Agent 自行决定维护与复核的并行规模；每个产品由一个 worker 写入独立候选目录，高影响变化单独复核。需要避开专用树里未提交审计时，用 `pnpm -s tsx scripts/build-monitor.ts --out <新目录> --dataset-root <原工作树>` 构建本地运行副本；自检和调度使用 `node <runtime-dir>/monitor.mjs --root <原工作树> --observation-urls <runtime-dir>/observation-urls.json precheck`。worker/reviewer 读取副本中的当前 Skill。
+
+`sources:check` 保持纯只读，只把当前 `changed` 泛化为 `requires_triage`，不直接派发。`impacts` 仅提示候选；Git 只有 HEAD 时不产生章节影响，已知路径也只映射精确引用的文件。协调者先按固定问题读取最小入口，不因宽泛的 config／loader 文件名扩大整题。版本元数据、无关改动和排版变化可结案；影响不明先限定入口，来源失败无修复线索时保持 blocked。历史 pending、unknown 与缺失主题只在相关新证据或显式手动重开时恢复，未完成工作不伪结案。
+
+手动维护与监控均使用 `maintenance:candidates prepare/check/plan` 隔离产品写入；该工具只生成临时合并数据与 before/after 清单，主 Agent 核对基线后用内置编辑工具集成。手动维护在最终审计集成后同样用 `record` 结算，省略 `task_id`，不占自动周额度。所有 worker 与 reviewer 确认停止后才统一集成、发布或清理，超时不代表停止。已发布引用按各自固定快照复核；上游后续行号移动或等价链接改写不使旧引用失效，也不单独触发章节维护。已有归档与本地发布不属于监控清理范围。来源与 PR 流程见 [每日自动化](docs/automations.md)，全局配置和凭据不写入项目。
 
 ### 7.1 Domain
 
