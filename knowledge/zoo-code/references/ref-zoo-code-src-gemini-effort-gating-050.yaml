@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-gemini-effort-gating-050
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-src-src-api-transform-reasoning-050
+locator:
+  kind: file_lines
+  file: src/api/transform/reasoning.ts
+  start: 190
+  end: 204
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/050c49ef82693b02a1626a08cf8609a6f7c00223/src/api/transform/reasoning.ts#L190-L204"
+excerpt: "\t// Stored effort selections must not reach models without effort support.\n\tif (!model.supportsReasoningEffort) {\n\t\treturn undefined\n\t}\n\n\t// For effort-based Gemini models, rely directly on the selected effort value.\n\t// We intentionally ignore enableReasoningEffort here so that explicitly chosen\n\t// efforts in the UI (e.g. \"High\" for gemini-3-pro-preview) always translate\n\t// into a thinkingConfig, regardless of legacy boolean flags.\n\tconst selectedEffort = settings.reasoningEffort ?? model.reasoningEffort\n\n\t// Omit unset, disabled, and unknown selections.\n\tif (!isGeminiThinkingLevel(selectedEffort)) {\n\t\treturn undefined\n\t}"

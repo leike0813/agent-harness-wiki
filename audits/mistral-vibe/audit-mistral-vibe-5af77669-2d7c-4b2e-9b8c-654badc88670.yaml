@@ -1,0 +1,90 @@
+schema_version: 2
+audit_id: audit-mistral-vibe-5af77669-2d7c-4b2e-9b8c-654badc88670
+harness_id: mistral-vibe
+checked_at: 2026-11-23T18:02:21.941Z
+previous_audit_id: audit-mistral-vibe-88a19df8-6c2d-4ce4-92d8-011b88d8e6fc
+status: blocked
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-24T14:26:00Z
+pending_audit_refs: []
+checks:
+  - source_id: source-mistral-vibe-repo
+    kind: git_repository
+    checked_at: 2026-11-23T18:02:19.454Z
+    status: unchanged
+    baseline: e76235b203b8965af584e88e69284bc704c31a1f
+    observed: e76235b203b8965af584e88e69284bc704c31a1f
+    remote_ref: refs/heads/main
+  - source_id: source-mistral-vibe-docs-agents
+    kind: official_documentation
+    checked_at: 2026-11-23T18:02:19.463Z
+    status: blocked
+    baseline: 54b511af976dc9bbcd3cd6d9f31e5a600735fa40c528b21801b1bb037aad9d9e
+    error: HTTP source returned 404.
+  - source_id: source-mistral-vibe-docs-api-keys
+    kind: official_documentation
+    checked_at: 2026-11-23T18:02:19.465Z
+    status: blocked
+    baseline: 640bf93e4751d9ea1f6b8a91557ebf2a8e172f103db8c283224950d209c7edba
+    error: HTTP source returned 404.
+  - source_id: source-mistral-vibe-docs-configuration
+    kind: official_documentation
+    checked_at: 2026-11-23T18:02:19.468Z
+    status: blocked
+    baseline: c3de9475bdcb196e6733b3ce75edc10645ccf22ddefc8e563ebc3c85cadb87e2
+    error: HTTP source returned 404.
+  - source_id: source-mistral-vibe-docs-configuration-reference
+    kind: official_documentation
+    checked_at: 2026-11-23T18:02:20.712Z
+    status: blocked
+    baseline: 347ceb5555fa28e471bec21b27c4091998e97460a6e6364a962e10cd8c5fac1c
+    error: HTTP source returned 404.
+  - source_id: source-mistral-vibe-docs-hooks
+    kind: official_documentation
+    checked_at: 2026-11-23T18:02:20.745Z
+    status: blocked
+    baseline: 387181f527f75b41119f77dde4e40670c2a8ca0f808c7b609240f02dc999f5b5
+    error: HTTP source returned 404.
+  - source_id: source-mistral-vibe-docs-mcp-servers
+    kind: official_documentation
+    checked_at: 2026-11-23T18:02:20.787Z
+    status: blocked
+    baseline: 43f78ef4d4d60c3d6e4fed70a884ab13fefa5b4a7f0afccb668637fc6ef5c71f
+    error: HTTP source returned 404.
+  - source_id: source-mistral-vibe-docs-safety
+    kind: official_documentation
+    checked_at: 2026-11-23T18:02:21.021Z
+    status: blocked
+    baseline: b641cc120d3c34bf9395382652ffc06cf7bbc2b1b1d47985129700194215f079
+    error: HTTP source returned 404.
+  - source_id: source-mistral-vibe-docs-skills
+    kind: official_documentation
+    checked_at: 2026-11-23T18:02:21.475Z
+    status: blocked
+    baseline: f127ebd3d382737dc74bbec5a921fe8a6afc515d61dbb2fd69391a21d14ed05d
+    error: HTTP source returned 404.
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：reviewed_no_impact。checks 保持冻结：source-mistral-vibe-repo 未变
+    （e76235b203b8965af584e88e69284bc704c31a1f）；8 个 docs 源按当时的 .md 观察入口记为
+    blocked（HTTP source returned 404）。
+  - 404 的成因是观察入口迁移而非来源消失：后续观察
+    audit-mistral-vibe-2cd4d3e0-76f4-4713-82ab-05e7fb304aea
+    （2026-11-24T14:09:42Z）已用 HTML observation_url 重新取到这 8 个页面（resolved_url 为
+    HTML 页，原件在 archive/mistral-vibe/artifact-source-mistral-vibe-docs-*），该轮
+    checks 因此为 changed。
+  - 引用检查：当前 8 个 mistral-vibe edition 的 section/question answer source_refs 与正文合计
+    87 条 ref（去重 86）中， 没有一条指向这 8 个 docs 源；仓库里 10 条相关 reference 只出现在非当前
+    edition，故不存在需要按新内容复核的已发布结论。
+  - 结论：本轮知识影响为零。status 仍由冻结的 blocked 检查派生为 blocked，schema 校验不允许与 checks 不符的改写；
+    monitor 结果登记要求 checks 无 blocked，可登记的 reviewed_no_impact 结论见
+    audit-mistral-vibe-2cd4d3e0。
+  - 范围限制：本规则只覆盖「章节已引用的来源」；未被引用文档页里的机制变化不会被本条发现。
+  - 本轮审计不引用历史 pending
+    审计（audit-mistral-vibe-21f18606-7f25-4fce-a084-57d2004339d2,
+    audit-mistral-vibe-a1dfa350-8732-4527-893f-bc2f5f0ad076,
+    audit-mistral-vibe-470a3a59-d0b7-455f-bdd8-058e31caccfb,
+    audit-mistral-vibe-88a19df8-6c2d-4ce4-92d8-011b88d8e6fc）：它们保持原状态、保留在各自记录中，本审计的
+    reviewed 状态不会间接关闭它们；previous_audit_id 仍保留链路。

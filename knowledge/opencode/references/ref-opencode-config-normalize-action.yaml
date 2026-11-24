@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-normalize-action
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-v1-config-migrate-20261123
+official_url: https://github.com/anomalyco/opencode/blob/292cb5a164786f73f4f32e5caec0c7aafe98b494/packages/core/src/v1/config/migrate.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/v1/config/migrate.ts
+  start: 28
+  end: 34
+excerpt: |-
+  // Map v1 permission/tool keys onto their renamed v2 tool actions so migrated rules keep matching.
+  export function normalizeAction(action: string) {
+    if (action === "write" || action === "patch" || action === "apply_patch") return "edit"
+    if (action === "task") return "subagent"
+    if (action === "bash") return "shell"
+    return renamedTool(action)
+  }

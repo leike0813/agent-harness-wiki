@@ -1,0 +1,119 @@
+schema_version: 2
+audit_id: audit-pi-cb10e1fd-1551-48c2-bbf4-82715f9e6461
+harness_id: pi
+checked_at: 2026-11-23T18:02:34.325Z
+previous_audit_id: audit-pi-9b5119a5-2286-4d28-b0ce-3d142fc6e2d7
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-24T13:40:56Z
+pending_audit_refs: []
+checks:
+  - source_id: source-pi-npm
+    kind: npm_registry
+    checked_at: 2026-11-23T18:02:32.777Z
+    status: unchanged
+    baseline: 1.6.0@sha512-zX1BVEsshx7A2MRuQ6jfr3RJGWw4Wn+vLq5ZfmlvS1RskhRmByaSZVXH/zcwRrWHO7qPgs98pNCbPOEti/t0fQ==
+    observed: 1.6.0@sha512-zX1BVEsshx7A2MRuQ6jfr3RJGWw4Wn+vLq5ZfmlvS1RskhRmByaSZVXH/zcwRrWHO7qPgs98pNCbPOEti/t0fQ==
+  - source_id: source-pi-npm-legacy
+    kind: npm_registry
+    checked_at: 2026-11-23T18:02:32.778Z
+    status: unchanged
+    baseline: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+    observed: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+  - source_id: source-pi-repo
+    kind: git_repository
+    checked_at: 2026-11-23T18:02:32.779Z
+    status: changed
+    baseline: fb248c7fca2539318f18ceb6534258048cb579c1
+    observed: a588a7bc4d1bc16554ed2a8044fd4be72ce26ec9
+    remote_ref: refs/heads/main
+  - source_id: source-pi-legacy-repo
+    kind: git_repository
+    checked_at: 2026-11-23T18:02:32.789Z
+    status: changed
+    baseline: fb248c7fca2539318f18ceb6534258048cb579c1
+    observed: a588a7bc4d1bc16554ed2a8044fd4be72ce26ec9
+    remote_ref: refs/heads/main
+impacts:
+  - topic: custom_providers
+    question_ids:
+      - providers.metadata
+      - providers.protocol
+    section_ids:
+      - providers-metadata
+      - providers-protocol
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-cp-thinking-level-map-doc
+      - ref-pi-cp-thinking-level-map-field
+      - ref-pi-cp-thinking-levels-code
+      - ref-pi-cp-classifier-api-list
+      - ref-pi-cp-pi-classifier-api
+      - ref-pi-providers-config-models
+      - ref-pi-providers-protocol-api-lists
+    cross_topic_links: []
+    reason: 提交 a588a7bc 纠正了 thinkingLevelMap 的档位可用性描述（xhigh 与 max 改为
+      opt-in、映射成字符串后才出现），并给 KnownClassifierApi 增加 pi-classifier 及其 /classify
+      分类协议；v7 依据旧描述写下的「xhigh 与 max 视为不支持」和四项 classifier API
+      清单因此过时，providers.metadata 与 providers.protocol 两节需要新 edition。
+pending_question_ids: []
+investigation_notes:
+  - 观察时间 2026-11-23T18:02:34.325Z；source-pi-repo 与 source-pi-legacy-repo 同为
+    fb248c7fca2539318f18ceb6534258048cb579c1 →
+    a588a7bc4d1bc16554ed2a8044fd4be72ce26ec9，两个 npm 来源未变。diff 共 67 个改动文件，其中 6
+    个被章节引用。
+  - packages/ai/src/types.ts：KnownClassifierApi 增加 "pi-classifier"（现五项），改变
+    providers.protocol 的协议清单；已按 a588a7bc 固定新
+    artifact/snapshot/reference（content_sha256
+    d610a73267e70f1d28e349e693ba7ea46d097d7d28a117270ecc5296d60c7d93）。
+  - packages/coding-agent/docs/models.md：新增 "Map thinking levels" 一节（114-126
+    行），明确字符串发送、null 隐藏、off 到 high 用 provider 默认值、xhigh 与 max
+    仅在映射为字符串时提供，并给出最小条目示例；据此改写 providers.metadata 并固定 artifact
+    dae214138391725d202ea895adec590c596f1ce588cf9ef22b9f946bbd38cf39。
+  - packages/coding-agent/docs/models-configuration.md：models 与 modelOverrides
+    两行 thinkingLevelMap 描述同步换新；固定 artifact
+    de542ee453cb6f4f04681aba9bc16f79ce1890e3d00d3d2ac0a89c82a31e1123，用于字段表一致性结论。
+  - packages/coding-agent/schemas/models.schema.json：两处 thinkingLevelMap
+    描述（95-97、219-221 行）与 packages/ai/src/providers/model-schema.ts 的
+    ThinkingLevelMapSchema 同源，只是同一描述的生成副本；不另立结论，未单独固定。
+  - packages/ai/src/models.ts：getSupportedThinkingLevels() 对 reasoning=false 只返回
+    off、剔除映射为 null 的级别、xhigh 与 max 仅在 map 中出现时保留；该文件不在本轮 diff
+    内，说明本轮是文档/描述纠错而非行为变更。已固定 artifact
+    37fd44114b7dffc9bfdd52c7c568345ccdf529eb7df6c682fc978c127b5f81d7。
+  - "packages/ai/src/api/pi-classifier.ts（新增）与 pi-classifier.lazy.ts：POST
+    provider baseUrl 下 /classify，请求体 { model, context, options }，200 返回 {
+    answers, usage? }，错误为非 2xx 加 { error: { message, code?, details? } }；已固定
+    artifact 50ea2daa658e06cf78c7e4965a8735d664615c64d3bfe0b3465c92e687ada4f2。"
+  - packages/ai/src/providers/radius.ts 与 radius-config.ts：radius provider 的
+    RadiusModel 扩为 chat 或 ClassifierModel 的 pi-classifier 类型，网关配置新增 classifiers
+    列表；属该协议的消费方，未构成新的用户配置入口。
+  - packages/coding-agent/CHANGELOG.md：两条发布说明，其一为 thinkingLevelMap
+    文档/模式修正（#12281），其二为 AuthStorage 测试时序修复（#12190）。发布说明只作线索，机制结论已由 docs 与
+    models.ts 代码核对，未把 CHANGELOG 当作独立证据。
+  - packages/mcp/CHANGELOG.md：新增「服务器把请求 ID 以字符串回显（"1" 对
+    1）时不再超时」修复（#12205）。核对代码：packages/mcp/src/protocol/jsonrpc.ts 的
+    normalizeOwnRequestId() 只做 ID
+    归一；McpClient.handleResponse()、McpClient.handleProgress() 与
+    StreamableHttpTransport 的请求确认各自调用它。这是响应匹配的互操作修复，未改变 mcp.entry / definition /
+    transport / auth / lifecycle / capabilities / exposure / diagnostics
+    任一答案，mcp 章节不新建 edition。
+  - 其余改动（apps/p2、packages/chord、packages/ai 各 API 与 retry
+    修复及测试）未被任何章节引用，按无关代码排除；packages/ai/CHANGELOG.md
+    的条目均为响应/重试修复，providers.responses 仍按 partial 保留，本轮未扩题。
+  - 候选产物：新 edition pi-custom_providers-v8（旧 v7 保留），registry/chapter-current.yaml
+    指向 v8；新增 5 个 git_source_file artifact/snapshot 与 5 条 reference，均固定
+    a588a7bc。pnpm maintenance:candidates check 通过。
+  - 复核：本轮只纠正文档描述与补一条协议枚举，没有推翻可执行配置步骤，也没有来源冲突（docs 与 models.ts 一致），因此未另请独立
+    reviewer；pending_audit_refs 中的旧审计仍保持未解决，不被本审计关闭。
+  - 本轮审计不引用历史 pending 审计（audit-pi-04bf1025-2be8-4fc0-855b-8d1d86097fcc,
+    audit-pi-20261004t061205z, audit-pi-52367b72-118b-46ea-aad9-61bbba8d807e,
+    audit-pi-20261006t134000z, audit-pi-aef48867-7725-4d37-b22a-2bf0ad420ee3,
+    audit-pi-0de5f9ff-058e-4cfb-aee7-eed7c7ace63d,
+    audit-pi-01dd7db2-1911-4e4a-8ad9-16f568696518,
+    audit-pi-d72f5074-25a9-40ea-8a7e-6555128764e2,
+    audit-pi-e02d933b-58f6-49d6-a597-2105ad14fb10,
+    audit-pi-20fb69b5-ff04-44eb-b398-128c2b38de30,
+    audit-pi-9b5119a5-2286-4d28-b0ce-3d142fc6e2d7）：它们保持原状态、保留在各自记录中，本审计的
+    reviewed 状态不会间接关闭它们；previous_audit_id 仍保留链路。

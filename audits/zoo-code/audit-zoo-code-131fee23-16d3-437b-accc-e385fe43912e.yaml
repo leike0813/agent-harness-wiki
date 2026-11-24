@@ -1,0 +1,90 @@
+schema_version: 2
+audit_id: audit-zoo-code-131fee23-16d3-437b-accc-e385fe43912e
+harness_id: zoo-code
+checked_at: 2026-11-23T18:03:17.824Z
+previous_audit_id: audit-zoo-code-598c5a1a-acf8-4e69-8452-379dab59e2f2
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-24T14:29:32.000Z
+pending_audit_refs: []
+checks:
+  - source_id: source-zoo-code-repo
+    kind: git_repository
+    checked_at: 2026-11-23T18:03:16.447Z
+    status: changed
+    baseline: 410e5ad3d54889147f317abdf265aa59fe087509
+    observed: 050c49ef82693b02a1626a08cf8609a6f7c00223
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs
+    kind: git_repository
+    checked_at: 2026-11-23T18:03:16.458Z
+    status: unchanged
+    baseline: bede2eafef374d82e67446db36e9163c25294ff1
+    observed: bede2eafef374d82e67446db36e9163c25294ff1
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs-site
+    kind: official_documentation
+    checked_at: 2026-11-23T18:03:16.468Z
+    status: unchanged
+    baseline: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    observed: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    resolved_url: https://docs.zoocode.dev/
+impacts:
+  - topic: custom_providers
+    question_ids:
+      - providers.metadata
+    section_ids:
+      - providers-models
+    surface_ids:
+      - vscode
+    source_refs:
+      - ref-zoo-code-src-gemini-effort-fallback-050
+      - ref-zoo-code-src-gemini-effort-gating-050
+      - ref-zoo-code-src-gemini-thinking-levels-050
+    cross_topic_links: []
+    reason: src/api/transform/reasoning.ts 的 getGeminiReasoning 增加 xhigh 等级、无 effort
+      能力模型的早退与未知取值过滤；providers.metadata 需补写 Gemini 推理强度的生效条件。
+pending_question_ids: []
+investigation_notes:
+  - 本轮范围：source-zoo-code-repo `410e5ad3d54889147f317abdf265aa59fe087509` →
+    `050c49ef82693b02a1626a08cf8609a6f7c00223`（5 个提交 / 82 个变更文件）。只读 triage
+    限定在章节确实引用、且本轮发生变更的 4
+    个文件：README.md、src/api/transform/reasoning.ts、src/core/task/Task.ts、src/core/webview/ClineProvider.ts；source-zoo-code-docs
+    与 source-zoo-code-docs-site 均 unchanged。
+  - 纳入 custom_providers：`src/api/transform/reasoning.ts` 的 `getGeminiReasoning`
+    增加三条规则——`GEMINI_THINKING_LEVELS` 增加 `xhigh`（第 37
+    行）；`model.supportsReasoningEffort` 缺失时直接返回 `undefined`，档案里残留的
+    `reasoningEffort` 不再产生 thinking 配置（第 190-193 行）；选择值改用
+    `isGeminiThinkingLevel` 过滤，最终取值（档案值，缺省时取模型默认值）不是五个已知等级之一（含 `disable`
+    与未知字符串）就不发送（第 199-204 行），不在模型能力数组内的选择退回 `model.reasoningEffort`（第 206-219
+    行）。这改变 providers.metadata 的答案（推理强度元数据如何生效），故新建 edition
+    zoo-code-vscode-custom_providers-v7 并在 providers-models 增加一条带三个新引用的条目；新引用固定在
+    artifact-zoo-code-src-src-api-transform-reasoning-050 /
+    snapshot-zoo-code-src-src-api-transform-reasoning-050（`src/api/transform/reasoning.ts`
+    @ 050c49ef，content_sha256 f52fc1cd…，取自 raw.githubusercontent 的字节）。
+  - 不纳入：`src/core/task/Task.ts` 只在 `Task.ask` 调用 `checkAutoApproval` 时多传
+    `autoApprovalContext?.fileTargets`（第 2015
+    行），属审批判定输入修正；已发布章节没有声明该判定读哪些路径，`ref-zoo-code-src-task-reasoning-preserve`
+    固定的 preserveReasoning 段（1d379946 的 6106-6115）与 local_transcripts
+    的持久化引用均不受影响，无题目答案变化。
+  - 不纳入：`src/core/webview/ClineProvider.ts` 仅把 `latestAnnouncementId` 改为
+    `nov-2026-v3.98.2-pass-gemini-responses-fixes`（第 424
+    行），属公告与发布身份层；历史记录、档案写入与转录结论未变。
+  - 不纳入：`README.md` 第 49-55 行把「What is new」换成 v3.98.2（Gemini 3.8 Flash、Gemini 4
+    Carbon/Hydrogen/Neon 与 Gemini `xhigh`、Responses API 支持 OpenAI
+    Compatible、Vertex Gemini 尾模型修复等）。`ref-zoo-code-readme` 固定的是 README 第 1-3
+    行徽章，未被本轮改写，release notes 也未被任何章节引用。其中 Gemini 4 模型表与 `xhigh` 能力落在未被章节引用的
+    `packages/types/src/providers/gemini.ts`、`vertex.ts`、`vercel-ai-gateway.ts`；「Responses
+    API 支持 OpenAI Compatible」在本范围只有
+    README/CHANGELOG/本地化文案，未见对应实现文件，两者都未推翻现有发布结论，留作下一次相关来源变更的观察线索。
+  - 结论与复核：只有 custom_providers 产生知识变化，已按固定问题 providers.metadata、surface vscode 记录
+    impact；没有推翻已发布配置步骤、也没有来源冲突，按普通更新由作者自检（candidate check 通过），无需独立
+    reviewer。pending_audit_refs 保持原有旧审计引用，本轮未派发其未完成问题，也不因本审计标记 reviewed 而视为已解决。
+  - 本轮审计不引用历史 pending 审计（audit-zoo-code-f9720bc5-ced6-4b53-8895-f2f811b13824,
+    audit-zoo-code-583abb97-bedb-4196-abc0-054e4fe26037,
+    audit-zoo-code-fb456d07-a446-4740-9ea5-9bb298d13e00,
+    audit-zoo-code-35f606aa-c413-4130-9154-24ab3bdd00e3,
+    audit-zoo-code-ecb2d7bc-6539-4912-b9e0-f23e6722fb17,
+    audit-zoo-code-598c5a1a-acf8-4e69-8452-379dab59e2f2）：它们保持原状态、保留在各自记录中，本审计的
+    reviewed 状态不会间接关闭它们；previous_audit_id 仍保留链路。

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-policy-source-order
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-managed-policy-20261123
+official_url: https://github.com/anomalyco/opencode/blob/292cb5a164786f73f4f32e5caec0c7aafe98b494/packages/core/src/managed-policy.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/managed-policy.ts
+  start: 9
+  end: 22
+excerpt: |-
+  /** Every policy statement in config, earliest-loaded first so it wins, each with the message a denial shows. */
+  export function statements(entries: readonly Entry[]) {
+    return entries
+      .filter((entry): entry is Document => entry.type === "document")
+      .toReversed()
+      .flatMap((entry) =>
+        (entry.info.policies ?? []).map((policy) => ({
+          ...policy,
+          // An integration document's policies are those of the organization behind its connection.
+          message:
+            entry instanceof ConfigIntegration.Document ? blocked(entry.organization) : "Blocked by configuration policy",
+        })),
+      )
+  }

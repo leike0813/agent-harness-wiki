@@ -1,0 +1,61 @@
+schema_version: 2
+audit_id: audit-kilo-code-2b1f8a00-d9ca-4874-b6ed-1e7cb8e4b3d0
+harness_id: kilo-code
+checked_at: 2026-11-23T18:02:05.375Z
+previous_audit_id: audit-kilo-code-3676d3a8-850b-4b86-a74d-f4c294096994
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-24T14:30:00.000Z
+pending_audit_refs: []
+checks:
+  - source_id: source-kilo-code-repo
+    kind: git_repository
+    checked_at: 2026-11-23T18:02:03.490Z
+    status: changed
+    baseline: 3c674d7e72c5064ba195f0fe5a261171f6340cba
+    observed: bfdec5496922452222223c01b4cc6c89305b0279
+    remote_ref: refs/heads/main
+  - source_id: source-kilo-code-npm
+    kind: npm_registry
+    checked_at: 2026-11-23T18:02:03.499Z
+    status: unchanged
+    baseline: 7.8.32@sha512-lbW+z4wMioOFejeJy0eSEdaYj9BdOt/QUbQMVLFmuaqJSluBSxlmJPSEaHCKrwU/7NVEH1wnA/K1o1Ol9nWz2A==
+    observed: 7.8.32@sha512-lbW+z4wMioOFejeJy0eSEdaYj9BdOt/QUbQMVLFmuaqJSluBSxlmJPSEaHCKrwU/7NVEH1wnA/K1o1Ol9nWz2A==
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "本轮 triage 范围：source-kilo-code-repo 3c674d7e72c5064ba195f0fe5a261171f6340cba
+    → bfdec5496922452222223c01b4cc6c89305b0279（GitHub compare 15 commits、diff
+    122 个文件）。指派文件只有 packages/opencode/src/config/config.ts；该文件在本区间仅一处 hunk（@@
+    -239,17 +239,25 @@，patchJsonc），来自 83a0856619（fix(vscode): remove a saved
+    permission rule from the prompt）；npm 来源未动。"
+  - 'hunk 语义：permission 的标量节点被提升为对象时，只保留有值的 patch 条目（过滤
+    null/undefined）；提升后没有可保留的条目就删除该键。此前会把 { "*": 旧标量, ...patch }
+    原样写回，可能把删除哨兵/空对象留在 JSONC 目标里。'
+  - 固定问题结论：configuration 章节答案不变。文件集合与加载顺序（config.sources）、合并顺序与
+    mergeConfig/mergeProject/instructions 拼接（config-precedence）、环境变量与
+    flag（config.runtime）、项目信任与
+    {env:}/{file:}（config-trust）、默认值与迁移（config-defaults-migration）、诊断入口（config-diagnostics）均未被该
+    hunk 触及。config.overrides 中 permission 标量归一与 null 删除哨兵两处说法在 bfdec549
+    仍成立：patchJsonc 顶层仍把 null 转成 undefined 删除，Config.updateGlobal 第 1167 行仍调用
+    KilocodeConfig.propagateUnset 清理其它全局层。这是设置界面写回权限规则的边界修复（patch 级），不是配置 schema
+    或优先级变化。
+  - 证据边界：章节对 packages/opencode/src/config/config.ts 的各引用（按各自固定快照的行号）只覆盖
+    30-33、69-83、173-174、303、462-479、779-812、897-925、969-1000、1136-1138 行，均不含
+    patchJsonc 区域；未新增 artifact/reference/edition，旧
+    artifact-kilo-code-lt-packages-opencode-src-config-config-ts-20261009（commit
+    974723450caa7c91f140b128e2f2e3b4a932ade8）保持不变。核对用 HEAD 文件
+    sha256=1131b0718bbb9fa793ed6213e3d948b7365343e280f1c7d9dacc597243313998，仅记录、不
+    pin。
+  - 相邻改动不在本章引用范围，未据此改写：packages/opencode/src/kilocode/config/writer.ts
+    含同一写回修复；packages/core/src/v1/config/migrate.ts 的 v1 permission
+    块迁移顺序调整（df8e6396ce）对应旧格式导入，当前 configuration 章节未引用该文件、也未描述 v1 permission
+    块转换，如后续要覆盖该细节需另开范围。
+  - 其余指派外主题（skills、mcp、custom_agents、custom_providers、hooks、native_plugins、local_transcripts）与其它变更文件不在本审计范围；pending_audit_refs
+    中的旧审计保持原状，未借本审计关闭其未完成问题。
+  - 本轮审计不引用历史 pending 审计（audit-kilo-code-7daf232a-2d3e-4dae-b574-57255b32c9ee,
+    audit-kilo-code-a24ae2b5-8893-4cbf-b159-df299f59ffee,
+    audit-kilo-code-a6ddbaed-77d1-4a1e-96d4-d3c0cf16e5cc,
+    audit-kilo-code-3676d3a8-850b-4b86-a74d-f4c294096994）：它们保持原状态、保留在各自记录中，本审计的
+    reviewed 状态不会间接关闭它们；previous_audit_id 仍保留链路。

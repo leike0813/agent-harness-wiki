@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-agy-mcp-cimd-20261124
+harness_id: antigravity
+snapshot_id: snapshot-agy-mcp-doc-20261124
+locator:
+  kind: document_section
+  heading: "Client ID Metadata Document (CIMD)"
+official_url: https://antigravity.google/docs/mcp.md
+excerpt: |-
+  Antigravity publishes its OAuth Client ID Metadata Document at the following URL. In the Antigravity IDE, CIMD support requires version 2.6.0 or later:
+
+  ```text
+  https://antigravity.google/oauth/client-metadata.json
+  ```
+
+  MCP servers and OAuth authorization servers can use CIMD to authenticate Antigravity clients without requiring dynamic client registration or manual per-user `clientId` setup:
+
+  1.  Advertise `"client_id_metadata_document_supported": true`, `"code_challenge_methods_supported": ["S256"]` (PKCE is required), and a non-empty `issuer` in your authorization server metadata (`/.well-known/oauth-authorization-server` or `/.well-known/openid-configuration`).

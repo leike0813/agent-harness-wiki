@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-junie-params-review-json
+harness_id: junie
+snapshot_id: snapshot-junie-docs-params-20261123
+locator:
+  kind: document_section
+  heading: Version control options
+official_url: "https://junie.jetbrains.com/docs/parameters.html"
+excerpt: |-
+  Version control options
+  --review — Start a code review task. Can be combined with a task description.
+  JSON review input also runs the code review issue agent: printf '%s' '{"codeReviewTask":{"description":"Review my changes"}}' | junie --input-format=json
+  The codeReviewTask JSON key accepts the description, review target, diffCommand, allowApprove, and allowHumanMention.
+  allowApprove defaults to true; set it to false to keep the agent's approval verdict while preventing an approval from being issued on the remote pull/merge request.
+  allowHumanMention defaults to true; set it to false to prevent the agent from requesting a human review and mentioning a reviewer on the remote pull/merge request. These fields require a Junie CLI version that supports it.

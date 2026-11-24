@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-session-lock-alive-9a82686
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-session-lock-9a82686
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/persistence/backends/node-fs/sessionLockService.ts
+  start: 221
+  end: 226
+official_url: "https://github.com/MoonshotAI/kimi-code/blob/9a82686b0e91c532f4d49da0bc088a0eac9bdede/packages/agent-core-v2/src/persistence/backends/node-fs/sessionLockService.ts"
+excerpt: |-
+  private alive(holder: SessionLockHolder): boolean {
+    if (holder.hostname !== '' && holder.hostname !== this.hostname) return true;
+    if (!pidAlive(holder.pid)) return false;
+    const bootTime = Date.now() - os.uptime() * 1000;
+    return holder.startedAt >= bootTime;
+  }

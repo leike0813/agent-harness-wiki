@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-cfg9-migration-computer-takeover-code
+harness_id: omp
+snapshot_id: snapshot-omp-e4fe-src-config-settings-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/config/settings.ts
+  start: 4057
+  end: 4065
+official_url: https://github.com/can1357/oh-my-pi/blob/e4fe8782978e19c5de8b8830d050b95e63fc89ca/packages/coding-agent/src/config/settings.ts#L4057-L4065
+excerpt: "\t\t// computer.backgroundFallback became computer.takeover, which added the\n\t\t// opt-in `foreground` and `always` modes. `refuse` carries over; the old\n\t\t// `takeover` is the default `fallback`, so it is dropped.\n\t\tconst computerSettings = isRecord(raw.computer) ? raw.computer : undefined;\n\t\tconst fallback = computerSettings?.backgroundFallback ?? raw[\"computer.backgroundFallback\"];\n\t\tif (fallback === \"refuse\" && computerSettings?.takeover === undefined && raw[\"computer.takeover\"] === undefined) {\n\t\t\tif (computerSettings) computerSettings.takeover = \"refuse\";\n\t\t\telse raw.computer = { takeover: \"refuse\" };\n\t\t}"

@@ -1,0 +1,154 @@
+schema_version: 2
+audit_id: audit-crush-171759be-7e18-4c61-bf2b-dbc5f58aad05
+harness_id: crush
+checked_at: 2026-11-23T18:01:22.288Z
+previous_audit_id: audit-crush-c368bd82-a639-421f-82ad-8d34754990a3
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-24T13:40:56.000Z
+pending_audit_refs: []
+checks:
+  - source_id: source-crush-repo
+    kind: git_repository
+    checked_at: 2026-11-23T18:01:20.637Z
+    status: changed
+    baseline: d63960b5147b94593ff50efefd1afa3fc4aface8
+    observed: ee51fe87bb306a945bf9057edf94f5574b192fd2
+    remote_ref: refs/heads/main
+  - source_id: source-crush-npm
+    kind: npm_registry
+    checked_at: 2026-11-23T18:01:20.646Z
+    status: unchanged
+    baseline: 0.102.0@sha512-skvwLRbIpgEwrfnf9duR1nAreSiEagX21it4PFz+mh12M7D62GRD52UFJ8kAxxhefXyt9dtH/qIJg4jo71kUsg==
+    observed: 0.102.0@sha512-skvwLRbIpgEwrfnf9duR1nAreSiEagX21it4PFz+mh12M7D62GRD52UFJ8kAxxhefXyt9dtH/qIJg4jo71kUsg==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.runtime
+    section_ids:
+      - config-runtime
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-crush-configdoc-crushrc-env-exports
+      - ref-crush-configdoc-crushrc-expansion-once
+    cross_topic_links:
+      - providers.auth
+      - mcp.definition
+    reason: "source-crush-repo ee51fe8: crushrc export now feeds the top-level env
+      object, and crushrc template fields expand exactly once (docs +
+      builder/load/flags changes)"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+    section_ids:
+      - providers-entry
+      - providers-auth
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-crush-configdoc-provider-add-aws-auth-refresh
+      - ref-crush-code-provider-add-aws-auth-refresh
+      - ref-crush-code-provider-add-template-flags
+      - ref-crush-configdoc-crushrc-expansion-once
+      - ref-crush-configdoc-crushrc-env-exports
+    cross_topic_links:
+      - config.runtime
+    reason: provider add gained --aws-auth-refresh (writes aws_auth_refresh), so the
+      published JSON-only field row is incomplete; api-key/base-url/extra-header
+      values are escaped for single expansion
+  - topic: mcp
+    question_ids:
+      - mcp.definition
+    section_ids:
+      - mcp-entry-definition
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-crush-configdoc-crushrc-expansion-once
+      - ref-crush-code-mcp-add-template-flags
+    cross_topic_links:
+      - config.runtime
+    reason: mcp add flags are marked template, so command/args/env/url/headers/oauth
+      credentials expand once in crushrc while JSON values still expand at load
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage：source-crush-repo d63960b5147b94593ff50efefd1afa3fc4aface8 到
+    ee51fe87bb306a945bf9057edf94f5574b192fd2（4 个 commit、42 个路径，diff 由
+    coordinator 提供）；source-crush-npm 维持 0.102.0 且 integrity
+    相同，不造版本映射。按八主题固定问题只记录答案变化：configuration 选
+    crush-cli-configuration-v4、custom_providers 选
+    crush-cli-custom_providers-v4、mcp 选 crush-cli-mcp-v5，其余主题与章节不动。
+  - 引用扫描：artifact 短名单是
+    docs/config/README.md、internal/app/app.go、internal/shell/background.go；逐条核对
+    references/ 的 locator 后，另有 8
+    个本轮变更文件被当前章节引用（internal/shellconfig/{builder,load,flags,provider,mcp}.go、internal/agent/coordinator.go、internal/skills/builtin/crush-config/SKILL.md、internal/ui/model/ui.go）。它们同属本轮
+    diff，全部逐 hunk 读过；只有 shellconfig 的配置入口产生知识变化，其余排除理由见下。
+  - docs/config/README.md：三个语义 hunk。(1) provider add 新增 --aws-auth-refresh
+    CMD，命令在 AWS 凭据过期时执行（仅 Bedrock）；旧表的“仅 JSON”因此不再完整，但 JSON
+    写法仍然有效，属新增等价入口而不是推翻已发布步骤。(2) 新增 Environment variables 小节：crushrc 里 export
+    的变量在启动时进入 Crush 环境，等同 crush.json 顶层 env；只计脚本导出或改动的变量，source
+    进来的导出同样生效，最后一次赋值获胜。(3) Legacy JSON 小节补明 crushrc 的值只由 Bash
+    展开一次，单引号引用的变量保持字面量。新快照
+    snapshot-crush-repo-20261124-docs-config-readme（commit ee51fe8，sha256
+    d1259d92b35a10ff14149428373ec20b4d6c3897c639ef8f2945943dea0f1d69）。旧
+    ref-crush-configdoc-option-max-background-jobs 保持 20261022 快照与 490-497
+    行定位不变：旧快照自洽，本轮插入使其在 HEAD 位移一行不构成旧引用错误。
+  - 'internal/shellconfig/provider.go：providerAddFlags 新增 {name:
+    "--aws-auth-refresh", jsonKey: "aws_auth_refresh", kind: flagString, op:
+    opSet}，并给 --api-key/--base-url/--extra-header 加 template: true。前者证明该 flag 写入
+    aws_auth_refresh（旧 ref-crush-code-provider-builtin 的旗标表不含它，是该行“仅
+    JSON”的证据来源）；后者说明值是转义后写入，加载器不再二次展开。新快照
+    snapshot-crush-repo-20261124-internal-shellconfig-provider-go（sha256
+    fcde43cb617a5385c6bc5ea53dc018c553b6b66714c032ab085b22ab2857ceed），新增
+    ref-crush-code-provider-add-aws-auth-refresh 与
+    ref-crush-code-provider-add-template-flags。'
+  - "internal/shellconfig/flags.go：新增 flagSpec.template 与
+    escapeTemplateValue，转义反斜杠、美元符与反引号，使模板展开只还原字面值；internal/shellconfig/builder.\
+    go 新增 setEnv，把脚本 export 写进顶层 env（值同样转义）；internal/shellconfig/load.go 把
+    Exports: builder.setEnv 传给内嵌 shell。三者是本轮 env
+    导出与单次展开的实现，作为同一机制的代码证据记录；没有章节引用这三个文件，故不为它们单独新建 pin。"
+  - "internal/shellconfig/mcp.go：mcp add 的 --command/--args/--env/--url/--header
+    与 --oauth-client-id/--oauth-client-secret 加 template: true，语义同
+    provider：crushrc 值只由 Bash 展开一次，JSON 值仍在加载时展开。mcp.definition 的变量展开条件因此补一句；新快照
+    snapshot-crush-repo-20261124-internal-shellconfig-mcp-go（sha256
+    6640602989b685d5a66dfa75c4c2ea4dc89aa28ddf051e4a53b44e8a9ad90d50）与
+    ref-crush-code-mcp-add-template-flags。"
+  - internal/agent/coordinator.go：新增 toolProgress pubsub 字段与
+    CoordinatorOptions.ToolProgress，并把它传给 NewBashTool/NewJobOutputTool；这是 TUI
+    实时输出管道，不改变子代理、模型、权限、并发或上下文限制。custom_agents/providers/skills 章节引用该文件的 locator
+    都在 agent 构造或 skill 记录区域，与本轮 hunk 不重叠，答案不变。
+  - internal/app/app.go：RunNonInteractive 拆出 answerPrinter（新文件
+    internal/app/run_output.go），toolProgress 改用 NewCoalescingBroker 并给
+    message/tool-progress 事件加前缀 coalesce key，initCoderAgent 传入
+    ToolProgress。被引用的两处未变：MCP 启动调用（observed 231-239 行，localDisabled 与 forceStart
+    仍传给 mcp.Initialize）与关闭时 Messages.FlushAll（observed 1032-1037
+    行）。mcp.lifecycle 与 transcripts.lifecycle 的答案不变。
+  - internal/shell/background.go：只在 GetOutput 后新增 OutputSeq() 与
+    GetOutputTail(maxBytes) 两个读取辅助，供进度轮询跳过未变化输出；Start/prune/maxJobs
+    上限判断逐字未变（observed 71-77 行）。config.defaults 的 max_background_jobs 默认
+    50、超限报错不排队结论不变。
+  - internal/skills/builtin/crush-config/SKILL.md：把同一批事实补进内置配置技能（--aws-auth-refresh、export
+    进 env、映射表加 export AWS_PROFILE=work 到 env.AWS_PROFILE）。skills
+    章节引用该文件只为内置配置技能的存在与描述，skills.* 问题不涉及这些配置事实，故不改 skills 章节；配置事实已由 docs 与
+    shellconfig 证据进入 configuration/custom_providers。
+  - internal/ui/model/ui.go：新增 pubsub.Event[agenttools.ToolProgress] 分支，把输出写入
+    chat.LiveOutputItem 并可选滚到底部；纯 TUI 呈现，不涉及配置键、hook 事件、插件 API 或 transcript 记录。
+  - 其余 31 个变更路径未被任何当前引用定位，且按 hunk 属测试、日志、事件过滤、run 流式输出、capped buffer、UI
+    渲染、client/proto 与 shellconfig 测试等内部改动，不改变八主题固定问题答案；其中
+    internal/shellconfig/lsp.go 只给 lsp add 旗标加同样的 template 转义，LSP
+    不在八主题内且没有章节引用它。
+  - 高影响判定：没有来源冲突；“仅 JSON”行变为不完整（JSON 路径仍有效，新增等价 CLI
+    入口），不属于新证据推翻已发布配置步骤；单次展开是既有展开表述的细化，并已由新增转义实现支撑。因此不需要独立复核，按普通更新由作者完成候选自检并标
+    reviewed。
+  - 未新建映射（npm 未变）；delivery=pr，未运行 ahw publish、chapters:update 或
+    managed:packages，未创建或关闭 source workspace（workspaceIDs 为空，本轮直接使用 coordinator
+    提供的 diff 与 raw.githubusercontent 内容 hash）。pending_audit_refs 保持原样：旧审计
+    c605cca6/2004ef1a/fe97bf07/c368bd82 仍未结案，本审计不代为关闭。
+  - 本轮审计不引用历史 pending 审计（audit-crush-c605cca6-663b-42e6-aa68-24b9b3ed29eb,
+    audit-crush-2004ef1a-8bfd-4478-bec7-aef5dd27ce16,
+    audit-crush-fe97bf07-b4d2-485c-b16f-93b2357f7a08,
+    audit-crush-c368bd82-a639-421f-82ad-8d34754990a3）：它们保持原状态、保留在各自记录中，本审计的
+    reviewed 状态不会间接关闭它们；previous_audit_id 仍保留链路。

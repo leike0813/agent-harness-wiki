@@ -1,0 +1,145 @@
+schema_version: 2
+audit_id: audit-zed-b76e8881-cb29-4990-a5cc-505972170ed4
+harness_id: zed
+checked_at: 2026-11-23T18:03:16.227Z
+previous_audit_id: audit-zed-7d5156db-6334-4ebe-a783-ef172ef6f316
+status: changed
+review_status: reviewed
+pending_audit_refs: []
+checks:
+  - source_id: source-zed-repo
+    kind: git_repository
+    checked_at: 2026-11-23T18:03:14.219Z
+    status: changed
+    baseline: d31d1074a07b7bbaa43a52fef7847a00dd491baf
+    observed: 6501df15765d66d6c2a2b66b1eb22434ccef3f86
+    remote_ref: refs/heads/main
+  - source_id: source-zed-docs-skills
+    kind: official_documentation
+    checked_at: 2026-11-23T18:03:14.230Z
+    status: unchanged
+    baseline: 764f294ea53ecfe9220c5033ac805a53dc02607b25a85b63001c57343e2b9038
+    observed: 764f294ea53ecfe9220c5033ac805a53dc02607b25a85b63001c57343e2b9038
+    resolved_url: https://zed.dev/docs/ai/skills.md
+  - source_id: source-zed-docs-mcp
+    kind: official_documentation
+    checked_at: 2026-11-23T18:03:14.232Z
+    status: unchanged
+    baseline: 4b63e4863aff99eac69af64220581c36f8becd856cb3d11fb811f038881615bf
+    observed: 4b63e4863aff99eac69af64220581c36f8becd856cb3d11fb811f038881615bf
+    resolved_url: https://zed.dev/docs/ai/mcp.md
+  - source_id: source-zed-docs-agents
+    kind: official_documentation
+    checked_at: 2026-11-23T18:03:14.233Z
+    status: unchanged
+    baseline: 08b1b98333f1b97d44a5da73d3ccb1f19fa3d62ff3ba80f8303b571a2a21b732
+    observed: 08b1b98333f1b97d44a5da73d3ccb1f19fa3d62ff3ba80f8303b571a2a21b732
+    resolved_url: https://zed.dev/docs/ai/external-agents.md
+  - source_id: source-zed-docs-providers
+    kind: official_documentation
+    checked_at: 2026-11-23T18:03:14.810Z
+    status: unchanged
+    baseline: b164ec181d366233ab55bfef5968c6d0f4c068695e5ccd05b1680829108484b0
+    observed: b164ec181d366233ab55bfef5968c6d0f4c068695e5ccd05b1680829108484b0
+    resolved_url: https://zed.dev/docs/ai/use-api-access.md
+  - source_id: source-zed-docs-hooks
+    kind: official_documentation
+    checked_at: 2026-11-23T18:03:14.811Z
+    status: unchanged
+    baseline: d7b3f034a1df1c84bd557109a8a1cb15db3108d779a859b1e55eb1a4f6097e15
+    observed: d7b3f034a1df1c84bd557109a8a1cb15db3108d779a859b1e55eb1a4f6097e15
+    resolved_url: https://zed.dev/docs/tasks.md
+  - source_id: source-zed-docs-plugins
+    kind: official_documentation
+    checked_at: 2026-11-23T18:03:14.866Z
+    status: unchanged
+    baseline: b73ea3ccd7a4fdc3fa2f728f287afba35cd6394c29e3c303441a722cb228b620
+    observed: b73ea3ccd7a4fdc3fa2f728f287afba35cd6394c29e3c303441a722cb228b620
+    resolved_url: https://zed.dev/docs/extensions/developing-extensions.md
+  - source_id: source-zed-docs-config
+    kind: official_documentation
+    checked_at: 2026-11-23T18:03:14.950Z
+    status: unchanged
+    baseline: 55d0915158d7f487aab4b880db87ef2d730c4378459ebc954beec83974618301
+    observed: 55d0915158d7f487aab4b880db87ef2d730c4378459ebc954beec83974618301
+    resolved_url: https://zed.dev/docs/reference/all-settings.md
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：maintain（worker；固定来源 d31d1074a07b7bbaa43a52fef7847a00dd491baf →
+    6501df15765d66d6c2a2b66b1eb22434ccef3f86，GitHub compare
+    ahead_by=28、files=171）。只读 pinned 来源与已下载 compare diff 中六个已引用文件的 hunk，不重扫来源。
+  - 引用链核对：六个文件经 artifact→snapshot→reference→chapter 反查（frontmatter 与正文各查一次），命中只有
+    local_transcripts v1–v4（当前选中 zed-local_transcripts-v4）与
+    zed-zed-skills-v2；configuration、custom_agents、custom_providers、hooks、mcp、native_plugins
+    六章对这批文件零引用，按「不因文件相邻而引用」不扩题。
+  - crates/acp_thread/src/acp_thread.rs（HEAD sha256
+    7966684dbb11e1308d07b0a5ab244506c69bd578965f7f733512cd5c43405771）逐函数判定为内存态/渲染层改动：ContextCompaction::apply_update
+    把 MaybeUndefined::Null 视为 InProgress（新增压缩项也以 InProgress
+    起步）；ToolCall::from_patch/label_text/new_label/update/append_structured_content
+    引入 ToolCallOrigin（AcpV1/AcpV2/Native）决定 label 是否按 Markdown
+    渲染；ToolCallContent 新增
+    Text{fragments,markdown}，prepare_v2/from_v2/from_prepared/update/to_markdown/markdown/text_content
+    把相邻 ACP v2 文本合并成一个 Markdown 文档并保留逐项 annotations/meta；AcpThread 新增 usage_meta
+    并按 MetadataUpdate::V2 打补丁（update_usage/update_token_usage，v1 UsageUpdate 的
+    meta 不再挂到 cost 上）；clear_live_subagent_state 更名 invalidate_live_state 并改用
+    uses_reported_activity() 决定是否 clear_session_state；AcpThread::cancel 在
+    connection.announces_subagents() 且已注册子代理、权限结果为
+    RequestPermissionOutcome::Cancelled 时补发一次 cancel（注释说明 v1 父会话可在自身 prompt
+    响应后继续处理子会话结果，换新 prompt 不等于停止）。以上均不写 threads.db、不改持久化字段；章节在该文件上的两处定位
+    set_draft_prompt（ref-zed-lt-draft-prompt-revision）与
+    register_subagent（ref-zed-lt-register-subagent）本轮零 hunk，答案不变。
+  - crates/acp_thread/src/mention.rs（HEAD sha256
+    5a0063f35f88164e31a2cb65cf1ae6e2152258cd6b464900490d650394dc1871）只有
+    parse_line_range 把 strip_prefix+unwrap_or 换成等价的
+    trim_prefix；L10、L10-L20、L10:L20 解析结果不变，Mention 行区间答案不变。
+  - crates/agent/src/agent.rs（HEAD sha256
+    146604d58b15c036a5d7c4da7789cc5e51369dd05a8b3cd6d6d98f8a039216dd）唯一 hunk 在
+    mod internal_tests（OtherContentBlock payload 的
+    BTreeMap→agent_client_protocol::schema::IndexMap），生产代码零改动；local_transcripts
+    引用的 observe/save、quit-flush、session-delete 与 skills v2 引用的
+    skill_body_resolver_for_project、NativeRetryAction 均未变。
+  - crates/agent/src/thread.rs（HEAD sha256
+    21ad094264418418bcba0aa7fb51881436bedc80bc9b16f988ff224f48fa6432）在
+    user_message_byte_len 与 truncate_user_message_to_byte_budget 增加
+    MessageContent::ReasoningEffort 的零字节/跳过分支，属请求预算处理；持久化三枚举
+    Message/UserMessageContent/AgentMessageContent 与 DbThread 字段、VERSION 未变（本轮
+    changed paths 不含 crates/agent/src/db.rs），transcripts.schema/format/naming
+    不变。
+  - crates/agent_ui/src/threads_archive_view.rs（HEAD sha256
+    08507339270445bde55c5557f74731d4536da68c2b3636a8ae6449690bbfb9a5）归档列表过滤改用
+    session.display_title()（尊重
+    title_override）做模糊匹配与高亮，ProjectPickerDelegate::placeholder_text 同样改用
+    display_title，并新增
+    test_filter_matches_displayed_title；删除/恢复流程（ref-zed-lt-archive-view-delete
+    指向的 delete 路径）未动。显示标题不在 transcripts.archive 已登记答案（归档开关、依赖文件、可移植性）内，答案不变。
+  - 'crates/language_model_core/src/request.rs（HEAD sha256
+    ac896f62482048035617811ca4789202d8f83f18b7e710947684eab1e9c46982）MessageContent
+    新增 ReasoningEffort{model_vendor: LanguageModelVendor, effort: String}（vendor
+    为 anthropic/openai/google/xai 的小写枚举），is_empty()/string_contents()
+    将其视为空。Anthropic completion 用系统消息边界上的该块重放 per-message
+    effort（PER_MESSAGE_EFFORT_BETA_HEADER="mid-conversation-output-config-2026-07-01"、supports_per_message_effort
+    的家族版本切点、system 消息 output_config.effort），其余
+    provider（openai/google/bedrock/mistral/lmstudio/llama_cpp/deepseek/open_router/copilot）只把它归入忽略分支。该变体只存在于请求消息层：HEAD
+    树上除定义与 provider match 外没有构造点（GitHub code search 查 model_vendor 仅命中
+    request.rs 与 anthropic/completion.rs），持久化 DbThread/AgentMessageContent
+    不含它；ref-zed-lt-image-base64 的 LanguageModelImage 内联语义未变，故 providers.* 与
+    transcripts.* 已登记答案均不变。'
+  - 跨主题：custom_providers 章节的证据是设置结构与官方文档，章节自身已写明未签出 language_models
+    请求实现；per-message effort 无用户可写配置键、无章节引用，不新建小节、不造软件版本映射。
+  - 本轮不建立任何版本映射：6501df15 只作来源固定点，不绑定已发布发行包；八条来源 checks 中七个官方文档源均 unchanged。
+  - pending 处理：本审计未派发新问题，pending_question_ids 为空。pending_audit_refs
+    保留的旧审计仍各自携带未完成项（7d5156db 的
+    providers.auth、providers.diagnostics、transcripts.database、transcripts.lifecycle，其证据文件
+    crates/agent/src/db.rs 与 crates/language_model/src/api_key.rs 不在本轮 changed
+    paths；89b88422/ef49024f/da0cce73 的 config.migration、plugins.package 与
+    0a944474 的 plugins.package），本审计不替它们结案，也不据此改写章节。
+  - 独立复核判断：不需要——未推翻任何已发布配置步骤，无来源冲突，无跨主题加载机制变化；新增的 ReasoningEffort 分支无用户可写入口。
+  - 本轮审计不引用历史 pending 审计（audit-zed-89b88422-7e27-4d71-b9a7-29859660749a,
+    audit-zed-ef49024f-c99a-4de2-b967-115b9cb36f65,
+    audit-zed-da0cce73-46f1-4d31-9bc7-aed0c29cace3,
+    audit-zed-0a944474-303c-42b4-b3ff-fb97eedfe2a3,
+    audit-zed-7d5156db-6334-4ebe-a783-ef172ef6f316）：它们保持原状态、保留在各自记录中，本审计的
+    reviewed 状态不会间接关闭它们；previous_audit_id 仍保留链路。
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-24T14:30:58.404Z

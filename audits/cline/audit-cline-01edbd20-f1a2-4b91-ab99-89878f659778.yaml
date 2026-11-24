@@ -1,0 +1,92 @@
+schema_version: 2
+audit_id: audit-cline-01edbd20-f1a2-4b91-ab99-89878f659778
+harness_id: cline
+checked_at: 2026-11-23T18:01:08.534Z
+previous_audit_id: audit-cline-1fbd6330-4a98-4667-98d2-dbd9cb6b0dfd
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-24T14:26:00Z
+pending_audit_refs: []
+checks:
+  - source_id: source-cline-repo
+    kind: git_repository
+    checked_at: 2026-11-23T18:01:06.685Z
+    status: changed
+    baseline: 8075d2e35cf5cad67c24f180c80a05d311b74a3e
+    observed: 34c104e6fc49781cda4adcd73ffdccd8f029fef9
+    remote_ref: refs/heads/main
+  - source_id: source-cline-npm
+    kind: npm_registry
+    checked_at: 2026-11-23T18:01:06.694Z
+    status: unchanged
+    baseline: 3.0.75@sha512-pPS9viwLrFN+gsepAqPo8lVv5wrjp8CzVB9UbRHwV0RbpvsrRSHxtoHoxMN2tvONuOLvTIWiEYPE3h3KWHqV0g==
+    observed: 3.0.75@sha512-pPS9viwLrFN+gsepAqPo8lVv5wrjp8CzVB9UbRHwV0RbpvsrRSHxtoHoxMN2tvONuOLvTIWiEYPE3h3KWHqV0g==
+  - source_id: source-cline-docs-skills
+    kind: official_documentation
+    checked_at: 2026-11-23T18:01:06.695Z
+    status: unchanged
+    baseline: 2237ed38fc4fd43a3078a59779ee27db6e0c0d1c981d79575c18006768d38e48
+    observed: 2237ed38fc4fd43a3078a59779ee27db6e0c0d1c981d79575c18006768d38e48
+    resolved_url: https://docs.cline.bot/customization/skills.md
+  - source_id: source-cline-docs-mcp
+    kind: official_documentation
+    checked_at: 2026-11-23T18:01:06.696Z
+    status: unchanged
+    baseline: 47f5e46c4c92bffae832be15706d2586db4a7c5e3285a56cade5d2e6707d8eb2
+    observed: 47f5e46c4c92bffae832be15706d2586db4a7c5e3285a56cade5d2e6707d8eb2
+    resolved_url: https://docs.cline.bot/mcp/mcp-overview.md
+  - source_id: source-cline-docs-plugins
+    kind: official_documentation
+    checked_at: 2026-11-23T18:01:06.970Z
+    status: unchanged
+    baseline: a0da36ee5f2c63ea46cffdefe4b6c612d2e07414231ba84af225173d16c7dc8a
+    observed: a0da36ee5f2c63ea46cffdefe4b6c612d2e07414231ba84af225173d16c7dc8a
+    resolved_url: https://docs.cline.bot/sdk/plugins.md
+  - source_id: source-cline-docs-config
+    kind: official_documentation
+    checked_at: 2026-11-23T18:01:07.352Z
+    status: unchanged
+    baseline: d413d6b18b22792cec231bcbced76dcfa12653978b0ec890e49039b4d497f7a2
+    observed: d413d6b18b22792cec231bcbced76dcfa12653978b0ec890e49039b4d497f7a2
+    resolved_url: https://docs.cline.bot/getting-started/config.md
+  - source_id: source-cline-docs-cli
+    kind: official_documentation
+    checked_at: 2026-11-23T18:01:07.356Z
+    status: unchanged
+    baseline: 10abb849e6ec1d2bf536c43fea65bd695b7ffd5b22f94f99b394ce56a6c4f509
+    observed: 10abb849e6ec1d2bf536c43fea65bd695b7ffd5b22f94f99b394ce56a6c4f509
+    resolved_url: https://docs.cline.bot/cli/cli-reference.md
+  - source_id: source-cline-docs-install-plugins
+    kind: official_documentation
+    checked_at: 2026-11-23T18:01:07.514Z
+    status: unchanged
+    baseline: 9eeac8b4038cb2ea8e5fcfe5b96c72bdc3277c6e199a0def17c051e110acc163
+    observed: 9eeac8b4038cb2ea8e5fcfe5b96c72bdc3277c6e199a0def17c051e110acc163
+    resolved_url: https://docs.cline.bot/customization/plugins.md
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：reviewed_no_impact。观察冻结为 source-cline-repo
+    8075d2e35cf5cad67c24f180c80a05d311b74a3e →
+    34c104e6fc49781cda4adcd73ffdcc8f029fef9；source-cline-npm 仍是 3.0.75 且
+    integrity 未变；6 个官方文档源（skills、mcp、plugins、config、cli、install-plugins）的
+    baseline 与 observed 哈希逐条相同。
+  - 下载的 compare diff（/tmp/gitdiff/cline--source-cline-repo.diff）的 `diff --git`
+    头集合只有 1 条： `diff --git a/apps/cli/script/postinstall.mjs
+    b/apps/cli/script/postinstall.mjs`，即 1 个改动文件。内容两个 hunk： `@@ -64,9 +64,10 @@`
+    把 packageDir 提到 try 外层，`@@ -106,6 +107,13 @@` 在缓存二进制旁复制
+    THIRD_PARTY_NOTICES.txt。 这是 npm 安装脚本的二进制缓存与许可文件落盘，不改变
+    skills、mcp、hooks、native_plugins、configuration 或 local_transcripts
+    的任何机制，也不影响任何已发布结论的证据定位。
+  - 引用交集检查：knowledge/cline/artifacts 下 37 个 `git_source_file` 类型记录的 file
+    值与该改动路径求交为空； knowledge/cline/references 的 141 个 locator.file 值同样零交集（两侧排序去重后
+    comm -12，输出为空）。 因此没有当前章节小节或答案的证据文件落在本次改动上。
+  - 范围限制：本规则只覆盖「章节已引用的文件」；若同一提交在未被引用的文件里改变了某个机制，本条不会发现。 提交数（coordinator 记为
+    1）未在本地复核，只核对了下载 diff 的头集合与冻结的 baseline/observed SHA。
+  - 本轮审计不引用历史 pending 审计（audit-cline-84b84535-1539-4f92-9309-5111c87aa6b0,
+    audit-cline-0e842971-a506-4c63-8140-8226cf44cba6,
+    audit-cline-b11f5d45-0d59-4ba3-935a-569e7008bbcd,
+    audit-cline-b00e3eee-6c27-4080-a9e1-bbbf86a2887d,
+    audit-cline-1fbd6330-4a98-4667-98d2-dbd9cb6b0dfd）：它们保持原状态、保留在各自记录中，本审计的
+    reviewed 状态不会间接关闭它们；previous_audit_id 仍保留链路。

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-r798-ledger-decision-child-field
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-r798-crates-pa-daemon-src-rlm-ledger-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/rlm_ledger.rs
+  start: 105
+  end: 123
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/798d97032a3ec6d70142cc75c0420cb2b260f194/crates/pa-daemon/src/rlm_ledger.rs"
+excerpt: |-
+  /// The factory run that spawned the child (spawn records written
+  /// before the tag existed read `None`); it survives the tombstone.
+  pub factory: Option<RlmFactoryTag>,
+  /// The Decision API child (`rlm.spawn kind="decision"`): the seeded
+  /// roster row and the wakes replay it from the edge.
+  pub decision_child: bool,
+  }
+
+  /// Inputs for `append_spawn` (validated like a record the reader would refuse to read back).
+  #[derive(Debug, Clone)]
+  pub struct RlmSpawnInput {
+      pub child_id: String,
+      pub parent: String,
+      pub child: String,
+      pub depth: u32,
+      pub name: String,
+      pub factory: Option<RlmFactoryTag>,
+      pub decision_child: bool,
+  }

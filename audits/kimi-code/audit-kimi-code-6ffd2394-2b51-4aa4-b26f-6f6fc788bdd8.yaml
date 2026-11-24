@@ -1,0 +1,934 @@
+schema_version: 2
+audit_id: audit-kimi-code-6ffd2394-2b51-4aa4-b26f-6f6fc788bdd8
+harness_id: kimi-code
+checked_at: 2026-10-24T18:05:40.886Z
+previous_audit_id: audit-kimi-code-a3703458-eda9-4a88-844e-e224b1c75e40
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-kimi-code-93eb5dc0-e41b-49b6-a3db-662389fc6dbf
+  - audit-kimi-code-0e5dd3dc-24fa-419e-bba5-d44fdeb0a493
+  - audit-kimi-code-a3703458-eda9-4a88-844e-e224b1c75e40
+checks:
+  - source_id: source-kimi-code-repo
+    kind: git_repository
+    checked_at: 2026-10-24T18:05:39.336Z
+    status: changed
+    baseline: 759958afdfeb0f8c7d09cb03cbc2cf85b6255e9e
+    observed: 7ccac2b45b8a3481c76f771bb99c043b562de2c5
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-legacy-repo
+    kind: git_repository
+    checked_at: 2026-10-24T18:05:39.345Z
+    status: unchanged
+    baseline: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    observed: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-npm
+    kind: npm_registry
+    checked_at: 2026-10-24T18:05:39.350Z
+    status: changed
+    baseline: 2.3.0@sha512-/70t2bZV5ynYwYn13yjeA0EuQwY2v0UboH+Ks3LW/69+05eDNe29HZlwEg0F4iU0SvA2rWPcDRSfCRj5MqAJrA==
+    observed: 2.3.1@sha512-Ikk41ROPta1eQ6gCXOZd7Ag7fg8B0vawjwA0+MVMi8CphFBbvAz8emr7Lc9cI2dAbBSmvAX16U7Jc/+mPVw7Cg==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.trust
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-overrides
+      - config-defaults
+      - config-trust
+      - config-migration
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kimi-code-agents-locations
+      - ref-kimi-code-cmd-doctor
+      - ref-kimi-code-cmd-flags
+      - ref-kimi-code-cmd-options
+      - ref-kimi-code-cmd-subcommands
+      - ref-kimi-code-config-background
+      - ref-kimi-code-config-doc
+      - ref-kimi-code-config-identity
+      - ref-kimi-code-config-location
+      - ref-kimi-code-config-loop-control
+      - ref-kimi-code-config-models
+      - ref-kimi-code-config-permission
+      - ref-kimi-code-config-project-local
+      - ref-kimi-code-config-secondary
+      - ref-kimi-code-config-subagent
+      - ref-kimi-code-config-swarm
+      - ref-kimi-code-config-thinking
+      - ref-kimi-code-config-top
+      - ref-kimi-code-config-tui
+      - ref-kimi-code-config-watch
+      - ref-kimi-code-data-clearing
+      - ref-kimi-code-data-layout
+      - ref-kimi-code-data-root
+      - ref-kimi-code-data-sessions
+      - ref-kimi-code-env-home
+      - ref-kimi-code-env-logs
+      - ref-kimi-code-env-model
+      - ref-kimi-code-env-switches
+      - ref-kimi-code-mcp-config
+      - ref-kimi-code-migration-doc
+      - ref-kimi-code-migration-what
+      - ref-kimi-code-overrides-cli
+      - ref-kimi-code-overrides-credentials
+      - ref-kimi-code-overrides-doc
+      - ref-kimi-code-overrides-env
+      - ref-kimi-code-overrides-priority
+      - ref-kimi-code-plugins-security
+      - ref-kimi-code-slash-account
+      - ref-kimi-code-slash-builtin-skills
+      - ref-kimi-code-slash-info
+      - ref-kimi-code-slash-session
+      - ref-kimi-code-src-bootstrap
+      - ref-kimi-code-src-deepmerge
+      - ref-kimi-code-src-local-toml
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-kimi-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-entry
+      - agents-format
+      - agents-roles
+      - agents-invocation
+      - agents-overrides
+      - agents-limits
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kimi-code-agents-allowlist-live-refresh-759958a
+      - ref-kimi-code-agents-bind-subagents-applied
+      - ref-kimi-code-agents-bind-subagents-restore
+      - ref-kimi-code-agents-bind-subagents
+      - ref-kimi-code-agents-builtin
+      - ref-kimi-code-agents-changeset-fork-types
+      - ref-kimi-code-agents-doc
+      - ref-kimi-code-agents-fork-parity-discovered-profiles
+      - ref-kimi-code-agents-format
+      - ref-kimi-code-agents-instructions
+      - ref-kimi-code-agents-invoke
+      - ref-kimi-code-agents-locations
+      - ref-kimi-code-agents-permissions
+      - ref-kimi-code-agents-select
+      - ref-kimi-code-agents-storage
+      - ref-kimi-code-agents-subagent-planspawn-allowlist
+      - ref-kimi-code-agents-systemmd
+      - ref-kimi-code-agents-tool-availability-759958a
+      - ref-kimi-code-agents-tool-description-tools-759958a
+      - ref-kimi-code-agents-tool-effective-allowlist
+      - ref-kimi-code-cmd-doctor
+      - ref-kimi-code-cmd-options
+      - ref-kimi-code-config-background
+      - ref-kimi-code-config-models
+      - ref-kimi-code-config-secondary
+      - ref-kimi-code-config-subagent
+      - ref-kimi-code-config-swarm
+      - ref-kimi-code-config-thinking
+      - ref-kimi-code-config-tools
+      - ref-kimi-code-data-sessions
+      - ref-kimi-code-env-switches
+      - ref-kimi-code-plugins-agents
+      - ref-kimi-code-slash-info
+      - ref-kimi-code-src-agent-roots
+      - ref-kimi-code-src-agent-scan
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.trust
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-kimi-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-entry
+      - providers-auth
+      - providers-protocol
+      - providers-models
+      - providers-forwarding
+      - providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kimi-code-cmd-doctor
+      - ref-kimi-code-cmd-provider
+      - ref-kimi-code-config-location
+      - ref-kimi-code-config-loop-control
+      - ref-kimi-code-config-models
+      - ref-kimi-code-config-providers
+      - ref-kimi-code-config-secondary
+      - ref-kimi-code-config-thinking
+      - ref-kimi-code-env-keys
+      - ref-kimi-code-env-logs
+      - ref-kimi-code-env-model
+      - ref-kimi-code-env-proxy
+      - ref-kimi-code-env-switches
+      - ref-kimi-code-mcp-deferred
+      - ref-kimi-code-overrides-credentials
+      - ref-kimi-code-overrides-priority
+      - ref-kimi-code-providers-doc
+      - ref-kimi-code-providers-oauth
+      - ref-kimi-code-providers-types
+      - ref-kimi-code-slash-account
+      - ref-kimi-code-slash-info
+      - ref-kimi-code-src-protocols
+      - ref-kimi-code-src-provider-endpoints
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.trust
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-kimi-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-entry
+      - hooks-events
+      - hooks-io
+      - hooks-order
+      - hooks-conditions
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kimi-code-cmd-doctor
+      - ref-kimi-code-config-permission
+      - ref-kimi-code-config-watch
+      - ref-kimi-code-env-logs
+      - ref-kimi-code-hooks-changeset-shutdown-hint
+      - ref-kimi-code-hooks-config
+      - ref-kimi-code-hooks-doc
+      - ref-kimi-code-hooks-events
+      - ref-kimi-code-hooks-how
+      - ref-kimi-code-hooks-input
+      - ref-kimi-code-hooks-return
+      - ref-kimi-code-hooks-shutdown-force-exit-exitcode
+      - ref-kimi-code-hooks-shutdown-force-exit
+      - ref-kimi-code-hooks-shutdown-hint-constant
+      - ref-kimi-code-hooks-shutdown-hint-render
+      - ref-kimi-code-plugins-hooks
+      - ref-kimi-code-plugins-security
+      - ref-kimi-code-slash-info
+      - ref-kimi-code-slash-session
+      - ref-kimi-code-src-hooks-events
+      - ref-kimi-code-src-hooks-match
+      - ref-kimi-code-src-hooks-schema
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.trust
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-kimi-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-entry
+      - mcp-definition
+      - mcp-lifecycle
+      - mcp-auth
+      - mcp-capabilities
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kimi-code-cmd-doctor
+      - ref-kimi-code-config-mcp-table
+      - ref-kimi-code-config-permission
+      - ref-kimi-code-config-tools
+      - ref-kimi-code-data-files
+      - ref-kimi-code-env-logs
+      - ref-kimi-code-env-switches
+      - ref-kimi-code-mcp-config
+      - ref-kimi-code-mcp-deferred
+      - ref-kimi-code-mcp-doc
+      - ref-kimi-code-mcp-naming
+      - ref-kimi-code-mcp-transports
+      - ref-kimi-code-plugins-mcp
+      - ref-kimi-code-plugins-security
+      - ref-kimi-code-slash-builtin-skills
+      - ref-kimi-code-slash-info
+      - ref-kimi-code-src-mcp-auth-gate
+      - ref-kimi-code-src-mcp-client-interface
+      - ref-kimi-code-src-mcp-discovery
+      - ref-kimi-code-src-mcp-naming
+      - ref-kimi-code-src-mcp-schema-cbd7540
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.trust
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-kimi-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model
+      - plugins-package
+      - plugins-install
+      - plugins-discovery
+      - plugins-api
+      - plugins-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kimi-code-env-logs
+      - ref-kimi-code-env-switches
+      - ref-kimi-code-plugins-agents
+      - ref-kimi-code-plugins-commands
+      - ref-kimi-code-plugins-doc
+      - ref-kimi-code-plugins-hooks
+      - ref-kimi-code-plugins-install
+      - ref-kimi-code-plugins-manifest
+      - ref-kimi-code-plugins-mcp
+      - ref-kimi-code-plugins-official
+      - ref-kimi-code-plugins-security
+      - ref-kimi-code-plugins-skills
+      - ref-kimi-code-slash-info
+      - ref-kimi-code-slash-session
+      - ref-kimi-code-src-plugin-manifest
+      - ref-kimi-code-src-plugin-store
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.trust
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-kimi-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-roots
+      - skills-discovery
+      - skills-format
+      - skills-invocation
+      - skills-conditions
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kimi-code-agents-locations
+      - ref-kimi-code-cmd-doctor
+      - ref-kimi-code-cmd-skills-dirs
+      - ref-kimi-code-config-top
+      - ref-kimi-code-config-watch
+      - ref-kimi-code-env-logs
+      - ref-kimi-code-env-switches
+      - ref-kimi-code-plugins-skills
+      - ref-kimi-code-skills-doc
+      - ref-kimi-code-skills-format
+      - ref-kimi-code-skills-frontmatter
+      - ref-kimi-code-skills-invoking
+      - ref-kimi-code-skills-locations
+      - ref-kimi-code-skills-placeholders
+      - ref-kimi-code-slash-builtin-skills
+      - ref-kimi-code-slash-dynamic
+      - ref-kimi-code-slash-session
+      - ref-kimi-code-src-skill-flat
+      - ref-kimi-code-src-skill-parser-aliases
+      - ref-kimi-code-src-skill-parser-required
+      - ref-kimi-code-src-skill-prompt
+      - ref-kimi-code-src-skill-registry
+      - ref-kimi-code-src-skill-roots-dirs
+      - ref-kimi-code-src-skill-roots-merge
+      - ref-kimi-code-src-skill-roots-resolve
+      - ref-kimi-code-src-skill-scan-depth
+      - ref-kimi-code-src-skill-subskill-name
+      - ref-kimi-code-src-skill-subskill
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.trust
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    reason: "source-kimi-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-recording-scope
+      - transcripts-layout-naming
+      - transcripts-format-schema
+      - transcripts-lifecycle
+      - transcripts-database-index
+      - transcripts-archive-cleanup
+      - transcripts-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kimi-code-lt-doc-clearing-data
+      - ref-kimi-code-lt-doc-clearing-locks-759958a
+      - ref-kimi-code-lt-doc-compact-queue-759958a
+      - ref-kimi-code-lt-doc-compaction
+      - ref-kimi-code-lt-doc-data-root
+      - ref-kimi-code-lt-doc-export-sensitivity
+      - ref-kimi-code-lt-doc-export
+      - ref-kimi-code-lt-doc-fork
+      - ref-kimi-code-lt-doc-layout-index
+      - ref-kimi-code-lt-doc-locks-layout-759958a
+      - ref-kimi-code-lt-doc-log-scopes
+      - ref-kimi-code-lt-doc-resume
+      - ref-kimi-code-lt-doc-session-data
+      - ref-kimi-code-lt-doc-session-lock-env-759958a
+      - ref-kimi-code-lt-doc-session-storage
+      - ref-kimi-code-lt-doc-session-tasks
+      - ref-kimi-code-lt-doc-user-history
+      - ref-kimi-code-lt-src-addressing
+      - ref-kimi-code-lt-src-append-drop-on-close-759958a
+      - ref-kimi-code-lt-src-append-fsync
+      - ref-kimi-code-lt-src-append-stuck-flush-759958a
+      - ref-kimi-code-lt-src-append-write-guard-759958a
+      - ref-kimi-code-lt-src-archive-flag
+      - ref-kimi-code-lt-src-archive-lease-759958a
+      - ref-kimi-code-lt-src-atomic-tmp-rename
+      - ref-kimi-code-lt-src-atomic-write
+      - ref-kimi-code-lt-src-blob-ref-format
+      - ref-kimi-code-lt-src-blob-ref
+      - ref-kimi-code-lt-src-copy-skip
+      - ref-kimi-code-lt-src-db-switch
+      - ref-kimi-code-lt-src-delete-lease-759958a
+      - ref-kimi-code-lt-src-delete
+      - ref-kimi-code-lt-src-export-manifest
+      - ref-kimi-code-lt-src-fork-meta
+      - ref-kimi-code-lt-src-fork-source-lease-759958a
+      - ref-kimi-code-lt-src-index-meta-keys
+      - ref-kimi-code-lt-src-index-scan
+      - ref-kimi-code-lt-src-minidb-dir
+      - ref-kimi-code-lt-src-occupancy-prompt-759958a
+      - ref-kimi-code-lt-src-restore-flag
+      - ref-kimi-code-lt-src-run-gate-hold-759958a
+      - ref-kimi-code-lt-src-session-lock-claim-759958a
+      - ref-kimi-code-lt-src-session-lock-config-759958a
+      - ref-kimi-code-lt-src-session-lock-holds-759958a
+      - ref-kimi-code-lt-src-session-lock-path-759958a
+      - ref-kimi-code-lt-src-session-meta
+      - ref-kimi-code-lt-src-stale-reload-retry-759958a
+      - ref-kimi-code-lt-src-torn-read-loop
+      - ref-kimi-code-lt-src-torn-read
+      - ref-kimi-code-lt-src-wire-lock-guard-759958a
+      - ref-kimi-code-lt-src-wire-manifest-index-759958a
+      - ref-kimi-code-lt-src-wire-manifest-snapshot-759958a
+      - ref-kimi-code-lt-src-wire-migration-missing
+      - ref-kimi-code-lt-src-wire-record
+      - ref-kimi-code-lt-src-wire-repair-rewrite
+      - ref-kimi-code-lt-src-wire-repair
+      - ref-kimi-code-lt-src-wire-types
+      - ref-kimi-code-lt-src-wire-version
+      - ref-kimi-code-lt-src-workdir-slug
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.trust
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.auth
+      - providers.protocol
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-kimi-code-repo: shared or unknown impact; assess relevant
+      entrypoints"
+pending_question_ids:
+  - transcripts.location
+  - transcripts.naming
+  - transcripts.diagnostics
+investigation_notes:
+  - 本轮 triage 分类：maintain；只读观察时间 2026-10-24T18:05:40.886Z，会话
+    057702b2-d935-4f35-a685-ca2fd5b75e89。
+  - 1 个 Git 仓库来源变更（256 个文件）、1 个 npm 来源版本自 2.3.0 前进到 2.3.1。已发布引用落在
+    packages/agent-core-v2/src/persistence/backends/node-fs/sessionLockService.ts
+    与 packages/agent-core-v2/src/persistence/interface/sessionLock.ts
+    的行定位不再命中：新增
+    CLIENT_DISPLAY_NAMES（kimi_code_cli、kimi_code_desktop、kimi_code_vscode）与
+    clientDisplayName 字段，会话占用错误文案改为按客户端显示名区分。
+  - docs/en/configuration/env-vars.md 新增 KIMI_CODE_REGION_MARKER，并把
+    KIMI_CODE_BACKGROUND_MAX_RUNNING_TASKS 的优先级改写为同时覆盖 Tower workers 与
+    reviewers；packages/agent-core-v2/src/agent/profile/profileService.ts 新增
+    planModeAvailable。
+  - 本轮派发
+    transcripts.location、transcripts.naming、transcripts.diagnostics：会话锁的持有方标识、位置与诊断结论直接依赖这些字段。
+  - 本轮派发入口与证据：transcripts.location：cited source file changed at the published
+    locator（packages/agent-core-v2/src/persistence/backends/node-fs/sessionLockService.ts
+    (packages/agent-core-v2/src/persistence/backends/node-fs/sessionLockService.ts:203-231)）；transcripts.naming：cited
+    source file changed at the published
+    locator（packages/agent-core-v2/src/persistence/backends/node-fs/sessionLockService.ts
+    (packages/agent-core-v2/src/persistence/backends/node-fs/sessionLockService.ts:203-231)）；transcripts.diagnostics：cited
+    source file changed at the published
+    locator（packages/agent-core-v2/src/persistence/backends/node-fs/sessionLockService.ts
+    (packages/agent-core-v2/src/persistence/backends/node-fs/sessionLockService.ts:203-231)）。
+  - pending_audit_refs 保持 3 条旧审计引用；本轮未派发其未完成问题，也不据此改写章节，不因本审计标记 reviewed 而视为已解决。

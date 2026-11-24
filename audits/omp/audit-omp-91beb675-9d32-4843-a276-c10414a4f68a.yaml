@@ -1,0 +1,305 @@
+schema_version: 2
+audit_id: audit-omp-91beb675-9d32-4843-a276-c10414a4f68a
+harness_id: omp
+checked_at: 2026-11-23T18:02:24.068Z
+previous_audit_id: audit-omp-2bb2e7b7-3e2b-43c0-9cd5-15f4bcf25162
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-24T13:40:56.000Z
+pending_audit_refs: []
+checks:
+  - source_id: source-omp-npm
+    kind: npm_registry
+    checked_at: 2026-11-23T18:02:22.068Z
+    status: changed
+    baseline: 19.1.0@sha512-HQb+ucNYUuNJDYWKkSXj+yFQ4ao/LlQcTDUSUb0/g9/F5PKToHlVDLbiKnYmdQawtBSv1vT7x4F418Lwd7iLNA==
+    observed: 19.1.1@sha512-x/7xQXQ5F/ga4LTNOCSQs+cggWY1H5EF34+juTPP9QOyoFgfmOFVspXA4cBCp9EH8D967oje/HiCPpoNsWAyhw==
+  - source_id: source-omp-repo
+    kind: git_repository
+    checked_at: 2026-11-23T18:02:22.069Z
+    status: changed
+    baseline: da91f6af1d903a9d3fe9d21e01bc263c36a925d2
+    observed: e4fe8782978e19c5de8b8830d050b95e63fc89ca
+    remote_ref: refs/heads/main
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.defaults
+      - config.migration
+      - config.runtime
+    section_ids:
+      - config-roots
+      - config-defaults
+      - config-migration
+      - config-runtime
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-cfg9-sources-registry-skillshare-doc
+      - ref-omp-cfg9-defaults-computer-takeover-modes-doc
+      - ref-omp-cfg9-defaults-vim-start-doc
+      - ref-omp-cfg9-defaults-vim-show-yank-doc
+      - ref-omp-cfg9-defaults-vim-code
+      - ref-omp-cfg9-migration-computer-takeover-code
+      - ref-omp-cfg9-migration-computer-takeover-doc
+      - ref-omp-cfg9-runtime-offline-flags-doc
+      - ref-omp-cfg9-runtime-model-preset-doc
+    cross_topic_links:
+      - providers.models
+      - providers.forwarding
+    reason: "docs/settings.md 与 packages/coding-agent/src/config/settings.ts 把
+      computer.backgroundFallback 改名为 computer.takeover（默认档 takeover→fallback，新增
+      foreground/always， refuse 保留），并在 #migrateRawSettings 中新增对应迁移；设置注册表新增
+      tui.vimStartMode / tui.vimShowCommand /
+      tui.vimYankToClipboard；docs/cli-reference.md 补文档 --no-judge /
+      --no-spotlight / --offline； CHANGELOG 记录应用模型预设改为先校验 default
+      再写入。config.defaults 的旧表格行因此被替换并新增三行， config.migration
+      新增第三条字段改名，config.runtime 增补运行时路由开关与预设写入原子性；docs/context-files.md 的
+      registry 列表补入 skillshare 与 omp-managed，config.sources 补一句完整 provider
+      表说明（它们只贡献技能， 配置来源顺序不变）。层序、合并规则、来源位置与信任边界在该区间未变，config.overrides / trust /
+      diagnostics 原样保留。"
+  - topic: custom_providers
+    question_ids:
+      - providers.models
+      - providers.auth
+      - providers.metadata
+    section_ids:
+      - providers-schema
+      - providers-credentials
+      - providers-metadata
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-providers6-models-discovery-openrouter-list-doc
+      - ref-omp-providers6-models-discovery-openrouter-doc
+      - ref-omp-providers6-models-pi-native-roster-doc
+      - ref-omp-providers6-models-scope-role-alias-code
+      - ref-omp-providers6-models-acp-workspace-scope-doc
+      - ref-omp-providers6-models-catalog-refresh-doc
+      - ref-omp-providers6-metadata-extended-context-doc
+      - ref-omp-providers6-auth-api-key-binding-doc
+      - ref-omp-providers6-auth-command-env-doc
+    cross_topic_links:
+      - config.runtime
+    reason: "docs/models.md 的 discovery.type 列表新增 openrouter，并新增
+      “OpenRouter-fronting discovery” 一节： 发现读取 OpenRouter 公开名册且不带 provider
+      凭据，请求仍走自己的 baseUrl/api/凭据；同一文件说明 transport: pi-native 的模型列表改由 GET
+      /v1/pi/models 决定。CHANGELOG 记录 models.yml 的 !command 在 macOS/Windows 上能读到
+      ~/.env 与 ~/.omp/agent/.env，以及 ACP 的 --api-key 只绑定 --model 或启动作用域命名的
+      provider、跨 provider 的工作区被拒绝、启动作用域多 provider 直接失败。main.ts 把 modelRoles 加入
+      cfgScopedModelInputs，使 enabledModels 的角色别名随角色变更重新解析；CHANGELOG 另记录快速模型选择器在
+      catalog 超过两小时后后台重跑发现（自定义/扩展 provider 缓存 24 小时，拾取其它会话结果），以及扩展发现的
+      模型在缓存重载后保留其声明的扩展上下文窗口。providers.metadata 因此补一条保留规则，仍为 partial；
+      providers.protocol 的通用 api/端点结论未被推翻，未改。"
+  - topic: mcp
+    question_ids:
+      - mcp.transport
+      - mcp.diagnostics
+    section_ids:
+      - mcp-transports
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-mcp7-transport-era-probe-doc
+      - ref-omp-mcp7-diagnostics-mcp-test-handshake-doc
+    cross_topic_links:
+      - config.defaults
+    reason: docs/mcp-protocol-transports.md 的 Era detection 规则收紧：server/discover
+      结果只有列出 2026-07-28 修订 （或返回现代错误）才判现代纪元，其它 discover 答复回落到
+      initialize；stdio/http/sse 三种探针与 -32020/-32021/-32022 的处理随之写明。CHANGELOG
+      记录只回应 2025-11-25 握手的 Streamable HTTP server 在 /mcp test 里恢复连接而不是 HTTP 400
+      失败。mcp.entry/definition/auth/lifecycle/capabilities/exposure 未改。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.schema
+      - transcripts.lifecycle
+    section_ids:
+      - transcripts-schema-lifecycle
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-lt6-schema-tan-fork-boundary-code
+      - ref-omp-lt6-lifecycle-tan-fork-boundary-write-code
+      - ref-omp-lt6-lifecycle-tan-fork-retention-code
+    cross_topic_links:
+      - config.defaults
+    reason: session-entries.ts 新增核心自有 customType
+      tan-fork-boundary；tan-command-controller.ts 在 /tan 克隆后 立即
+      appendCustomEntry，data 为分叉会话自己的 session id；hindsight/transcript.ts 的
+      retentionStart 只在 header 有 parentSession 时从最后一条匹配 header.id 的边界之后开始
+      retain。transcripts.schema 因此多一个 可定位的 custom 实例，transcripts.lifecycle 多一条
+      /tan 分叉边界与 Hindsight 保留范围。路径、命名、格式、 数据库、归档与清理在该区间无改动。
+  - topic: skills
+    question_ids:
+      - skills.loading
+    section_ids:
+      - skills-loading
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-skills4-loading-plugin-root-doc
+    cross_topic_links:
+      - plugins.discovery
+    reason: CHANGELOG 记录 Claude Code 插件的技能（以及命令与 agent）Markdown 正文解析
+      ${CLAUDE_PLUGIN_ROOT} / ${OMP_PLUGIN_ROOT} 为插件根。skills.loading 增补一句正文读取规则；
+      来源、发现、同名冲突、过滤与调用在该区间未变，docs/context-files.md 新增的 skillshare/omp-managed 两个
+      registry id 早已由 docs/skills.md 记录在 omp-skills-v3 中，不构成答案变化。
+  - topic: custom_agents
+    question_ids:
+      - agents.format
+    section_ids:
+      - agents-format
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-agents4-format-plugin-root-doc
+    cross_topic_links:
+      - skills.loading
+    reason: 同一条 CHANGELOG 记录也覆盖 Claude-format plugin agent：指令正文里的
+      ${CLAUDE_PLUGIN_ROOT} / ${OMP_PLUGIN_ROOT} 在读取时解析为插件根。agents.format
+      增补该正文解析规则； 定义字段、来源顺序、模型路由与运行边界未变（19.1.0 已有的 Claude 工具名映射不在本轮新增范围内）。
+  - topic: native_plugins
+    question_ids:
+      - plugins.api
+    section_ids:
+      - plugins-api
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-omp-plugins4-api-todo-backend-doc
+      - ref-omp-plugins4-api-todo-backend-setting-doc
+    cross_topic_links:
+      - config.defaults
+    reason: CHANGELOG 记录新增扩展点 pi.registerTodoBackend() 与 todo.backend 设置（默认
+      native）：注册的后端接收 主会话每次变化后的完整 todo 列表，并在 /settings → Tools → Todos
+      里可选可配。plugins.api 因此多一个 注册扩展点；清单、安装动作、发现顺序、白名单与生命周期未变，plugins.api
+      仍因权限边界未取证而保持 partial。
+pending_question_ids: []
+investigation_notes:
+  - 范围：source-omp-repo da91f6af1d903a9d3fe9d21e01bc263c36a925d2 到
+    e4fe8782978e19c5de8b8830d050b95e63fc89ca（268 commits / 376 changed
+    paths，GitHub compare diff 已由 coordinator 下载）。只抽取并阅读任务列出的 16 个被引用文件
+    hunk，未重扫来源、未运行产品。npm 19.1.0→19.1.1 只是 version@integrity 身份变化，不造映射、不改章节。
+  - docs/cli-reference.md（e4fe878，sha256
+    efd7f408eb1d9ff007467b7d7277137f004b5cc5c225c427cd7aef96f345556e）：唯一 hunk 在
+    111-116 行的会话/服务选项表，新增 --no-judge、--no-spotlight、--offline 三行。判定为
+    configuration config.runtime 的运行时路由开关（离线不是网络防火墙，MCP 与 web fetch 仍出网），新增
+    ref-omp-cfg9-runtime-offline-flags-doc。
+  - docs/context-files.md（sha256
+    30393c492d558ff204d2f49991410ab664f3161b42985511e033ebaa03ab438c）：两处 hunk 把
+    registry 列表补上 skillshare（omp skill install 安装的 registry 技能）与
+    omp-managed（~/.omp/agent/managed-skills 下的自动学习技能），并改写“不贡献 context files 的
+    provider”段。两者的优先级早由 docs/skills.md 在 omp-skills-v3 记录（skillshare
+    95、omp-managed 5）；配置章节的 provider 顺序表因此补一句完整表说明（它们不提供 settings 能力，顺序不变），新增
+    ref-omp-cfg9-sources-registry-skillshare-doc 并写入 config.sources。
+  - docs/mcp-protocol-transports.md（sha256
+    c6a35481cefe68e36b54410f356d55a7e30669eadb6e3a0dae4addae1c996f9b）：唯一 hunk 在
+    Era detection 段（62-66 行），把“discover 结果或现代错误即现代”收紧为“只有 discover 结果列出
+    2026-07-28 或现代错误才现代，其它 discover 答复回落 initialize”。判定为 mcp.transport
+    的协议纪元规则变化，新增 ref-omp-mcp7-transport-era-probe-doc（locator 56-73 覆盖缓存 7
+    天重查与错误码段）。
+  - "docs/models.md（sha256
+    00c796a8f7b9ecab949001eba7a839cc060656180f15937830194df04ec34bc5）：三个
+    hunk。(a) 325 行 discovery.type 列表新增 openrouter；(b) 328 行 transport: pi-native
+    说明改为模型列表来自 GET /v1/pi/models；(c) 新增 615-636 行 “OpenRouter-fronting
+    discovery” 一节（公开名册、不带凭据、baseUrl/api/凭据与 reasoning: { effort }）。判定为
+    providers.models 的发现种类与模型列表来源变化，新增两个 ref（列表行与机制段）。"
+  - docs/provider-quirks.md（sha256
+    9d8f1f8a2288ff9c1d67706588347fb7cd7a1e5ccd17dd89aab6cc33c51e5237）：唯一 hunk 在
+    Synthetic 的 Auth & usage 段，syntheticUsageProvider
+    从两个限额窗口（synthetic:requests:5h 与 synthetic:usd:7d）改为只报 planWeeklyLimit，并保留
+    synthetic:usd:7d id。这是用量/额度展示，不是 8 个主题的固定问题；本章 providers.diagnostics
+    的可用性判定与请求路径未被触及，不新建 pin、不改章节。
+  - docs/settings.md（sha256
+    f110860675a83c420dd8bd530af3d2da1cecdbb85a7636df10c517fe59448ba7）：五个
+    hunk。(a) 702 行 todo.backend 只补 “/settings → Tools → Todos 选择”，默认 native
+    与语义不变（该键在基线已存在，属既有缺口，不是本轮新增）；(b) 730 行 computer.backgroundFallback 整行改为
+    computer.takeover，默认 fallback，新增 foreground/always；(c) 981 行新增 tree
+    statusLine 片段说明（无预设、需自定义 leftSegments/rightSegments，无新设置键）；(d) 1001-1003 行新增
+    tui.vimStartMode/vimShowCommand/vimYankToClipboard；(e) 1236 行迁移表新增
+    computer.backgroundFallback → computer.takeover。纳入 configuration 的
+    (b)(d)(e)；(a) 只是选择 UI、(c) 是 UI 片段，二者不改变默认值/加载规则，未改写。
+  - packages/coding-agent/CHANGELOG.md（sha256
+    38f1ed8fa33edb21f7dbe14105961ccdd12c052d5faf814bc117ddbd069bd753）：本轮新增
+    Unreleased 与 19.1.1 两段。用作证据的条目：47 行 !command 读 .env（macOS/Windows）、50 行 /mcp
+    test 的 2025-11-25 握手、52 行扩展发现模型的扩展上下文窗口在缓存重载后保留、61 行插件根变量、84 行
+    registerTodoBackend、128 行 ACP 每工作区 enabledModels、129 行 --api-key 绑定、130
+    行模型预设写入原子性、175 行快速模型选择器的后台刷新（内置 provider 重取、自定义/扩展 24
+    小时缓存拾取其它会话结果）。其余条目（shell 内置、Vim 键位、LSP inotify、compaction、selective
+    commit、provider 回放修复等）不在八个主题的固定问题内或只是既有机制的 bug fix，未据此改章。
+  - "packages/coding-agent/src/config/settings.ts（sha256
+    0b3235c84d6e25860ba0aa70de9e91f740b124918de6723aae37ed3d25acb367）：两处语义改动。40\
+    57-4070 行 #migrateRawSettings 新增 computer.backgroundFallback →
+    computer.takeover：仅 refuse 搬运、已有 takeover 不覆盖、旧键删除并在对象变空时删
+    computer；2193-2231 行新增 replaceModelRoles() 与
+    previewModelRoles()（把角色替换写入配置层并同步运行时覆盖；detached preview 不保存不通知）。前者进
+    config.migration，后者的用户可见规则由 CHANGELOG 130 行写入 config.runtime。"
+  - packages/coding-agent/src/main.ts（sha256
+    dfda00ede5dba4da158f74c27ef14e9030459235866bc396f630f1ba5ef3c6c2）：与固定问题相关的是
+    1312-1325 行 cfgScopedModelInputs 新增 modelRoles（enabledModels
+    的角色别名按当前角色解析，角色/provider 顺序变更会重解析设置派生范围，显式 --models 固定）、ACP 会话工厂按
+    session/new 工作区重建 scoped models（648-651、720-740 行）与 --api-key 的 provider
+    绑定（556、591-644、2588-2603 行）。applyStartupScopedModels 是把既有 startup
+    选择逻辑抽出（1565-1660 行），不改变选择规则。providers.models 与 providers.auth 各写入一句。
+  - packages/coding-agent/src/mcp/tool-bridge.ts（sha256
+    40b3bd9e0c6e21b2bca24c889590f22406c8a31a9d15af181caceecefe7a5178）：唯一 hunk 是把
+    MCPProgress 的 type import 从 @oh-my-pi/pi-tui/tools/mcp 改到
+    tools/mcp-progress；formatMCPProgress、MCP_TOOL_NAME_PREFIX、MCPToolDetails
+    的装配与读取未变。纯模块拆分，无知识变化。
+  - "packages/coding-agent/src/modes/settings.ts（sha256
+    fa2026a47626383b88e537b687b7308fc618d453bbd5636df617e512ff2fda42）：新增
+    996、1010、1024 行三个 register() 块（tui.vimShowCommand boolean
+    true、tui.vimYankToClipboard boolean false、tui.vimStartMode enum
+    insert/normal default insert），全部 condition: vimModeEnabled。纳入 configuration
+    config.defaults，新增文档 ref 与代码 ref。"
+  - packages/coding-agent/src/session/history-storage.ts（sha256
+    9ea155a1d87b33bdd7aef22ec7de4253b4874931800241553af808d50cbc71b7）：HistoryFilter
+    新增 TimeWindow，SQL 过滤追加 created_at 的 since/until（Unix 秒），并新增
+    historyFilterParams()/HISTORY_FILTER_PARAMS 统一绑定。只影响查询参数（archive 的
+    since/until 列表），不改 history 表 DDL、写入、路径或保留规则，transcripts.* 答案不变。
+  - packages/coding-agent/src/session/session-entries.ts（sha256
+    f0ea138964bc0ca322bef6dc685051d414da5068e4ab11e8374be27788f299b3）：唯一语义新增是
+    25-26 行 TAN_FORK_BOUNDARY_CUSTOM_TYPE = "tan-fork-boundary" 及其注释“标记 /tan
+    会话继承历史的终点，data 是分叉会话 id”。纳入 local_transcripts transcripts.schema。
+  - packages/coding-agent/src/session/session-index.ts（sha256
+    6a1486d929c2a73a06d726b6eaff208c2701299a5907579eb4b0d7bd7ec685b0）：SessionRecapQuery
+    新增 window，listSessionRecaps 追加 created_at >= / < 两个条件（Unix 秒）。session_recaps
+    的 DDL 与写入未变，只是查询过滤；transcripts.database 的存储与分工结论不变。
+  - "packages/coding-agent/src/session/session-manager.ts（sha256
+    293c86d93e3b3927792b8483f443d4f9229556df2b9292998b4e1d7b74f01686）：新增
+    #withUserTurn 集合与 treePosition()/#computeTreePosition()（按 isUserRequestEntry
+    判断分支是否算 fork，返回 SessionTreePosition {branch, ahead}），并新增 getTreePosition()
+    读取接口。它是 status line 的读模型，不写 journal、不改条目类型、路径或恢复规则；transcripts.* 结论不变。"
+  - packages/coding-agent/src/session/session-tools.ts（sha256
+    1343d87b9ad584a0153d52ce134d4c5efd3f85070efdf296f29155abc6ec96f7）：新增
+    hasNativeTool 选项与 toolCommandHostAvailable()，让 bash 被扩展同名覆盖时 tool commands
+    只在仍有可执行宿主时挂载（activeToolCommands 与 commandTransportActive 两处）。这是工具呈现/挂载条件，不属于
+    skills/mcp/hooks/plugins/config/transcripts/agents/providers 的固定问题，未改章。
+  - 新增 pin：12 个 git_source_file artifact + 对应 source_revision snapshot，全部只记
+    commit e4fe8782978e19c5de8b8830d050b95e63fc89ca、仓库相对 file 与
+    content_sha256（settings.md、models.md、cli-reference.md、mcp-protocol-transports.md、context-files.md、CHANGELOG.md、config/settings.ts、modes/settings.ts、main.ts、session-entries.ts、tan-command-controller.ts、hindsight/transcript.ts）；新增
+    27 条 reference（ref-omp-cfg9- 9 条、ref-omp-providers6- 9 条、ref-omp-mcp7- 2
+    条、ref-omp-lt6- 3 条、ref-omp-skills4- 1 条、ref-omp-agents4- 1
+    条、ref-omp-plugins4- 2 条）。旧 artifact/reference 未改字节。
+  - 章节：新建 7 个完整 edition ——
+    omp-configuration-v9、omp-custom_providers-v6、omp-mcp-v6、omp-local_transcripts-v6、omp-skills-v4、omp-custom_agents-v5、omp-native_plugins-v4；hooks
+    无证据变化，保持 omp-hooks-v3。registry/chapter-current.yaml 切换到新
+    edition。未改任何软件版本映射（源码 HEAD 不能证明 npm 19.1.1 行为）。
+  - 复核判定：computer.backgroundFallback → computer.takeover 是带迁移的改名，旧 takeover
+    的行为由新默认 fallback 保留、refuse
+    原样搬运，没有推翻已发布且仍可用的配置步骤，也没有来源冲突；其余为新增值与新增扩展点。按普通更新的作者自检处理，未推翻已发布配置步骤，因此不需要独立
+    reviewer。
+  - pending 处理：pending_audit_refs 的 5
+    条旧审计仍各自携带未完成问题（config.trust；mcp.auth/diagnostics；providers.metadata/forwarding/responses/diagnostics；skills.extensions/diagnostics；hooks.input/diagnostics；plugins.lifecycle/diagnostics；transcripts.archive/cleanup
+    等），本轮未派发、未改其章节，也不因本审计标 reviewed 视为已解决。pending_question_ids 为空指本审计没有新增未完成问题。
+  - 自检：pnpm -s maintenance:candidates check --candidate
+    /tmp/ahw-batch-4/candidates/omp 通过（exit 0，返回 harness_id=omp 与完整文件清单）。
+  - 本轮审计不引用历史 pending 审计（audit-omp-71dcf159-da19-4fed-bd93-abac67a8ea8a,
+    audit-omp-217604e7-0074-4c26-8e56-ab0ae0b78861,
+    audit-omp-3c1ebdef-b700-4cd2-af36-2d1311be031e,
+    audit-omp-b55d7a06-e2c9-44d8-af3b-b351500278ec,
+    audit-omp-2bb2e7b7-3e2b-43c0-9cd5-15f4bcf25162）：它们保持原状态、保留在各自记录中，本审计的
+    reviewed 状态不会间接关闭它们；previous_audit_id 仍保留链路。

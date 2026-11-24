@@ -1,0 +1,899 @@
+schema_version: 2
+audit_id: audit-pi-9b5119a5-2286-4d28-b0ce-3d142fc6e2d7
+harness_id: pi
+checked_at: 2026-10-24T18:06:26.657Z
+previous_audit_id: audit-pi-20fb69b5-ff04-44eb-b398-128c2b38de30
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-pi-04bf1025-2be8-4fc0-855b-8d1d86097fcc
+  - audit-pi-20261004t061205z
+  - audit-pi-52367b72-118b-46ea-aad9-61bbba8d807e
+  - audit-pi-20261006t134000z
+  - audit-pi-aef48867-7725-4d37-b22a-2bf0ad420ee3
+  - audit-pi-0de5f9ff-058e-4cfb-aee7-eed7c7ace63d
+  - audit-pi-01dd7db2-1911-4e4a-8ad9-16f568696518
+  - audit-pi-d72f5074-25a9-40ea-8a7e-6555128764e2
+  - audit-pi-e02d933b-58f6-49d6-a597-2105ad14fb10
+  - audit-pi-20fb69b5-ff04-44eb-b398-128c2b38de30
+checks:
+  - source_id: source-pi-npm
+    kind: npm_registry
+    checked_at: 2026-10-24T18:06:24.816Z
+    status: unchanged
+    baseline: 1.4.0@sha512-Z41LpZ3yYHSC/UUps6Mr39UMFPwH8elhJBG9DY1P7kuzsE5qSK/6eMj2EHzO5evJRQWLbKSqUMw+4nCNtIyiQg==
+    observed: 1.4.0@sha512-Z41LpZ3yYHSC/UUps6Mr39UMFPwH8elhJBG9DY1P7kuzsE5qSK/6eMj2EHzO5evJRQWLbKSqUMw+4nCNtIyiQg==
+  - source_id: source-pi-npm-legacy
+    kind: npm_registry
+    checked_at: 2026-10-24T18:06:24.816Z
+    status: unchanged
+    baseline: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+    observed: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+  - source_id: source-pi-repo
+    kind: git_repository
+    checked_at: 2026-10-24T18:06:24.817Z
+    status: changed
+    baseline: be14d9732f98fcc33929cf103a92b96afaa6523e
+    observed: 6c2fd73b0c545a4034672cb60e34d53e035dd751
+    remote_ref: refs/heads/main
+  - source_id: source-pi-legacy-repo
+    kind: git_repository
+    checked_at: 2026-10-24T18:06:24.827Z
+    status: changed
+    baseline: be14d9732f98fcc33929cf103a92b96afaa6523e
+    observed: 6c2fd73b0c545a4034672cb60e34d53e035dd751
+    remote_ref: refs/heads/main
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+    section_ids:
+      - config-files
+      - config-defaults
+      - config-overrides
+      - config-runtime
+      - config-migration
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-agent-dir
+      - ref-pi-config-agent-instructions
+      - ref-pi-config-binary-dotenv-autoload-off
+      - ref-pi-config-builtin-extensions
+      - ref-pi-config-builtin-tool-names
+      - ref-pi-config-changelog-schema-publish
+      - ref-pi-config-cli-tools-modifiers
+      - ref-pi-config-cli-tools-reload
+      - ref-pi-config-cli-tools-validation
+      - ref-pi-config-codemode-mode
+      - ref-pi-config-context-files
+      - ref-pi-config-default-tools
+      - ref-pi-config-defaults-schema-generated
+      - ref-pi-config-defaults-table
+      - ref-pi-config-env-dotenv-files
+      - ref-pi-config-legacy-keys-deprecated
+      - ref-pi-config-pattern-tilde-changelog
+      - ref-pi-config-pattern-tilde-code
+      - ref-pi-config-project-dir
+      - ref-pi-config-render-padding-defaults
+      - ref-pi-config-resources
+      - ref-pi-config-retry
+      - ref-pi-config-schema-doc-url
+      - ref-pi-config-schema-generation-paths
+      - ref-pi-config-schema-generator-base
+      - ref-pi-config-schema-url-published
+      - ref-pi-config-settings-schema-source
+      - ref-pi-config-share-destination-accessor
+      - ref-pi-config-share-destination-defaults
+      - ref-pi-config-share-destination-doc
+      - ref-pi-config-share-destination-published
+      - ref-pi-config-share-destination-schema
+      - ref-pi-config-tool-merge
+      - ref-pi-config-trust-grant
+      - ref-pi-config-trust-protected
+      - ref-pi-config-trust-sessiondir
+      - ref-pi-config-trust-setting
+      - ref-pi-config-update-release-prune
+      - ref-pi-config-update-release-retention
+      - ref-pi-migrations-code-run
+      - ref-pi-providers-auth-order
+      - ref-pi-settings-migration
+    cross_topic_links:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.models
+      - providers.metadata
+      - providers.protocol
+      - providers.forwarding
+      - providers.auth
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-pi-repo, source-pi-legacy-repo: shared or unknown impact; assess
+      relevant entrypoints"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-core
+      - agents-definition
+      - agents-invocation
+      - agents-limits
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-trust-protected
+      - ref-pi-readme-philosophy
+      - ref-pi-readme-skips-features
+      - ref-pi-subagent-code-tool-list
+      - ref-pi-subagent-readme-inherit
+      - ref-pi-subagent-readme-trust
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - providers.entry
+      - providers.models
+      - providers.metadata
+      - providers.protocol
+      - providers.forwarding
+      - providers.auth
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-pi-repo, source-pi-legacy-repo: shared or unknown impact; assess
+      relevant entrypoints"
+  - topic: custom_providers
+    question_ids:
+      - providers.entry
+      - providers.models
+      - providers.metadata
+      - providers.protocol
+      - providers.forwarding
+      - providers.auth
+      - providers.responses
+      - providers.diagnostics
+    section_ids:
+      - providers-entry
+      - providers-models
+      - providers-metadata
+      - providers-protocol
+      - providers-forwarding
+      - providers-auth
+      - providers-behavior
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-schema-generation-paths
+      - ref-pi-cp-doc-registration
+      - ref-pi-providers-auth-order
+      - ref-pi-providers-azure-custom-model
+      - ref-pi-providers-azure-deployment-map
+      - ref-pi-providers-azure-id
+      - ref-pi-providers-classifier-context-images
+      - ref-pi-providers-classifier-images-current
+      - ref-pi-providers-classifier-list-current
+      - ref-pi-providers-compat-schema-published
+      - ref-pi-providers-config-model-defaults
+      - ref-pi-providers-config-models
+      - ref-pi-providers-config-provider
+      - ref-pi-providers-config-systemone
+      - ref-pi-providers-entry-compatible
+      - ref-pi-providers-entry-redirect
+      - ref-pi-providers-forwarding-attribution
+      - ref-pi-providers-forwarding-header-order
+      - ref-pi-providers-forwarding-hooks
+      - ref-pi-providers-forwarding-identity
+      - ref-pi-providers-forwarding-user-agent
+      - ref-pi-providers-metadata-classifier-compat
+      - ref-pi-providers-metadata-defaults
+      - ref-pi-providers-metadata-systemone-compat
+      - ref-pi-providers-models-entry
+      - ref-pi-providers-models-proxy
+      - ref-pi-providers-models-schema-url
+      - ref-pi-providers-openrouter-auth
+      - ref-pi-providers-openrouter-changelog
+      - ref-pi-providers-openrouter-code
+      - ref-pi-providers-openrouter-refresh
+      - ref-pi-providers-openrouter-regional
+      - ref-pi-providers-personalized-catalog
+      - ref-pi-providers-protocol-api-lists
+      - ref-pi-providers-protocol-compat-map
+      - ref-pi-providers-protocol-stream-reuse
+      - ref-pi-providers-sampling-fields
+      - ref-pi-providers-sampling-merge
+      - ref-pi-providers-sampling-overrides
+      - ref-pi-providers-sampling-scope
+      - ref-pi-providers-sampling-types
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-pi-repo, source-pi-legacy-repo: shared or unknown impact; assess
+      relevant entrypoints"
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-events
+      - hooks-entry
+      - hooks-input
+      - hooks-output
+      - hooks-order
+      - hooks-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-trust-protected
+      - ref-pi-ext-doc-errors
+      - ref-pi-ext-doc-events
+      - ref-pi-ext-doc-example
+      - ref-pi-ext-doc-lifecycle
+      - ref-pi-ext-doc-project-trust-event
+      - ref-pi-ext-doc-run-order
+      - ref-pi-ext-doc-run-phases
+      - ref-pi-ext-doc-transform-events
+      - ref-pi-ext-doc-user-bash
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.models
+      - providers.metadata
+      - providers.protocol
+      - providers.forwarding
+      - providers.auth
+      - providers.responses
+      - providers.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-pi-repo, source-pi-legacy-repo: shared or unknown impact; assess
+      relevant entrypoints"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-recording-scope
+      - transcripts-storage-layout
+      - transcripts-record-schema
+      - transcripts-lifecycle
+      - transcripts-database-and-index
+      - transcripts-archive-and-cleanup
+      - transcripts-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-lt-archive-export-jsonl
+      - ref-pi-lt-archive-export-share
+      - ref-pi-lt-boundary-published-files
+      - ref-pi-lt-branch-commands
+      - ref-pi-lt-changelog-experimental-removed
+      - ref-pi-lt-cleanup-delete-fallback
+      - ref-pi-lt-cleanup-delete-trash
+      - ref-pi-lt-cleanup-deleting
+      - ref-pi-lt-compaction-thinking-omitted
+      - ref-pi-lt-database-catalog-layout
+      - ref-pi-lt-database-durable-lock
+      - ref-pi-lt-diagnostics-commands
+      - ref-pi-lt-diagnostics-list
+      - ref-pi-lt-diagnostics-missing-cwd
+      - ref-pi-lt-format-append
+      - ref-pi-lt-format-jsonl-tree
+      - ref-pi-lt-format-rewrite-file
+      - ref-pi-lt-format-session-version
+      - ref-pi-lt-lifecycle-auto-compaction
+      - ref-pi-lt-lifecycle-branch-actions
+      - ref-pi-lt-lifecycle-compaction-steps
+      - ref-pi-lt-lifecycle-context-building
+      - ref-pi-lt-lifecycle-continue-resume
+      - ref-pi-lt-lifecycle-first-write
+      - ref-pi-lt-lifecycle-fork-copy
+      - ref-pi-lt-lifecycle-nested-calls
+      - ref-pi-lt-lifecycle-nested-limits
+      - ref-pi-lt-location-agent-dir
+      - ref-pi-lt-location-cli-flags
+      - ref-pi-lt-location-cwd-encoding
+      - ref-pi-lt-location-env-precedence
+      - ref-pi-lt-location-env-vars
+      - ref-pi-lt-location-file-path
+      - ref-pi-lt-location-session-storage
+      - ref-pi-lt-location-sessions-dir
+      - ref-pi-lt-naming-file-name
+      - ref-pi-lt-naming-tree-structure
+      - ref-pi-lt-package-files-published
+      - ref-pi-lt-schema-compaction-boundary
+      - ref-pi-lt-schema-entry-base
+      - ref-pi-lt-schema-image-inline
+      - ref-pi-lt-schema-message-entry
+      - ref-pi-lt-schema-migration-code
+      - ref-pi-lt-schema-session-header
+      - ref-pi-lt-share-destination-code
+      - ref-pi-lt-share-destination-command
+      - ref-pi-lt-share-destination-doc
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.models
+      - providers.metadata
+      - providers.protocol
+      - providers.forwarding
+      - providers.auth
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-pi-repo, source-pi-legacy-repo: shared or unknown impact; assess
+      relevant entrypoints"
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+    section_ids:
+      - mcp-core
+      - mcp-config
+      - mcp-capabilities
+      - mcp-lifecycle
+      - mcp-route
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-builtin-extensions
+      - ref-pi-mcp-capabilities
+      - ref-pi-mcp-changelog-list-json
+      - ref-pi-mcp-changelog-resources-listing
+      - ref-pi-mcp-cli-entry
+      - ref-pi-mcp-cli-tools-keep-mcp
+      - ref-pi-mcp-cli-tools-mcp-pattern-example
+      - ref-pi-mcp-config-files
+      - ref-pi-mcp-config-rules
+      - ref-pi-mcp-diagnostics-inspect
+      - ref-pi-mcp-diagnostics-list
+      - ref-pi-mcp-diagnostics-log
+      - ref-pi-mcp-exposure
+      - ref-pi-mcp-ext-registration
+      - ref-pi-mcp-ext-replaced
+      - ref-pi-mcp-lifecycle-stop
+      - ref-pi-mcp-lifecycle
+      - ref-pi-mcp-list-resources-flag
+      - ref-pi-mcp-login-timeout
+      - ref-pi-mcp-namespace-aliases
+      - ref-pi-mcp-oauth-storage
+      - ref-pi-mcp-permissions
+      - ref-pi-mcp-reaches-tools-activate
+      - ref-pi-mcp-reaches-tools-doc
+      - ref-pi-mcp-reaches-tools-mcp-doc
+      - ref-pi-mcp-reaches-tools-wait
+      - ref-pi-mcp-resource-tools
+      - ref-pi-mcp-resources-not-listed
+      - ref-pi-mcp-send-options
+      - ref-pi-mcp-server-fields
+      - ref-pi-mcp-structured-content
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.models
+      - providers.metadata
+      - providers.protocol
+      - providers.forwarding
+      - providers.auth
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-pi-repo, source-pi-legacy-repo: shared or unknown impact; assess
+      relevant entrypoints"
+  - topic: native_plugins
+    question_ids:
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    section_ids:
+      - plugins-model
+      - plugins-install
+      - plugins-api
+      - plugins-lifecycle
+      - plugins-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-pattern-tilde-changelog
+      - ref-pi-config-pattern-tilde-code
+      - ref-pi-config-trust-protected
+      - ref-pi-packages-doc-dependencies
+      - ref-pi-packages-doc-filter
+      - ref-pi-packages-doc-identity
+      - ref-pi-packages-doc-install
+      - ref-pi-packages-doc-manifest
+      - ref-pi-packages-doc-sources
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.models
+      - providers.metadata
+      - providers.protocol
+      - providers.forwarding
+      - providers.auth
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    reason: "source-pi-repo, source-pi-legacy-repo: shared or unknown impact; assess
+      relevant entrypoints"
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-locations
+      - skills-authoring
+      - skills-extension-fields
+      - skills-loading
+      - skills-invocation
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-config-resources
+      - ref-pi-config-trust-protected
+      - ref-pi-skills-code-name-validation
+      - ref-pi-skills-doc-command-control
+      - ref-pi-skills-doc-frontmatter
+      - ref-pi-skills-doc-loading
+      - ref-pi-skills-doc-locations
+    cross_topic_links:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.migration
+      - config.diagnostics
+      - agents.entry
+      - agents.format
+      - agents.roles
+      - agents.invocation
+      - agents.overrides
+      - agents.limits
+      - agents.diagnostics
+      - providers.entry
+      - providers.models
+      - providers.metadata
+      - providers.protocol
+      - providers.forwarding
+      - providers.auth
+      - providers.responses
+      - providers.diagnostics
+      - hooks.events
+      - hooks.entry
+      - hooks.input
+      - hooks.output
+      - hooks.order
+      - hooks.conditions
+      - hooks.diagnostics
+      - transcripts.scope
+      - transcripts.location
+      - transcripts.naming
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+      - mcp.entry
+      - mcp.definition
+      - mcp.transport
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+      - mcp.diagnostics
+      - plugins.model
+      - plugins.package
+      - plugins.install
+      - plugins.discovery
+      - plugins.api
+      - plugins.lifecycle
+      - plugins.diagnostics
+    reason: "source-pi-repo, source-pi-legacy-repo: shared or unknown impact; assess
+      relevant entrypoints"
+pending_question_ids:
+  - config.sources
+  - config.diagnostics
+  - config.migration
+  - plugins.install
+  - plugins.lifecycle
+  - providers.models
+  - transcripts.lifecycle
+investigation_notes:
+  - 本轮 triage 分类：maintain；只读观察时间 2026-10-24T18:06:26.657Z，会话
+    057702b2-d935-4f35-a685-ca2fd5b75e89。
+  - 2 个 Git 仓库来源变更（同一上游的 169 个文件，两个登记来源指向相同仓库与提交）。已发布引用落在
+    packages/coding-agent/docs/packages.md、packages/coding-agent/src/package-manager-cli.ts、packages/coding-agent/src/core/session-manager.ts
+    与 packages/coding-agent/CHANGELOG.md 的行定位不再命中。
+  - packages/coding-agent/docs/{custom-provider,extensions,message-types,packages,settings}.md
+    与 docs/extensions.md 也在同批变更内，属已发布插件与 provider 章节的证据页。
+  - 本轮派发这七道题。
+  - 本轮派发入口与证据：config.sources：cited source file changed at the published
+    locator（packages/coding-agent/CHANGELOG.md
+    (packages/coding-agent/CHANGELOG.md:12-12)）；config.diagnostics：cited source
+    file changed at the published locator（packages/coding-agent/CHANGELOG.md
+    (packages/coding-agent/CHANGELOG.md:7-7)）；config.migration：cited source file
+    changed at the published
+    locator（packages/coding-agent/src/package-manager-cli.ts
+    (packages/coding-agent/src/package-manager-cli.ts#pruneManagedReleases)）；plugins.install：cited
+    source file changed at the published
+    locator（packages/coding-agent/docs/packages.md
+    (packages/coding-agent/docs/packages.md:9-19)）；plugins.lifecycle：cited
+    source file changed at the published
+    locator（packages/coding-agent/docs/packages.md
+    (packages/coding-agent/docs/packages.md:9-19)）；providers.models：cited source
+    file changed at the published locator（packages/coding-agent/CHANGELOG.md
+    (packages/coding-agent/CHANGELOG.md:16-16)）；transcripts.lifecycle：cited
+    source file changed at the published
+    locator（packages/coding-agent/src/core/session-manager.ts
+    (packages/coding-agent/src/core/session-manager.ts:1846-1862)）。
+  - pending_audit_refs 保持 10 条旧审计引用；本轮未派发其未完成问题，也不据此改写章节，不因本审计标记 reviewed 而视为已解决。

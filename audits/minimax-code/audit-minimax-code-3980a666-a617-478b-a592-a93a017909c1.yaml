@@ -1,0 +1,103 @@
+schema_version: 2
+audit_id: audit-minimax-code-3980a666-a617-478b-a592-a93a017909c1
+harness_id: minimax-code
+checked_at: 2026-10-24T18:06:10.719Z
+previous_audit_id: audit-minimax-code-fea220ba-31c4-42a9-9862-d5961061862d
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-minimax-code-b3c38527-e7ca-469a-8e5c-c66dd0369f4e
+  - audit-minimax-code-d9d125d7-7f5a-43b9-97ac-ee55e8589166
+  - audit-minimax-code-9b58250e-b196-437c-902f-a73a0ca10407
+  - audit-minimax-code-fea220ba-31c4-42a9-9862-d5961061862d
+checks:
+  - source_id: source-minimax-code-repo
+    kind: git_repository
+    checked_at: 2026-10-24T18:06:07.584Z
+    status: unchanged
+    baseline: da22f11c55d4748155d7162c1030414228a00565
+    observed: da22f11c55d4748155d7162c1030414228a00565
+    remote_ref: refs/heads/main
+  - source_id: source-minimax-code-npm
+    kind: npm_registry
+    checked_at: 2026-10-24T18:06:07.592Z
+    status: changed
+    baseline: 0.6.12@sha512-aA4XPl9tYHTrtIS5DLB5DBSdxlcokZJ5BGUT/vSiDWei/tlVV5hIEVTgFhnSB6WM4evfNwOJtfi2fJVPNpJveg==
+    observed: 0.6.13@sha512-qselQlJiXBVhZ8KycWuTHmmMXGHGA9I90CrNUaMOoIBgFTOzIcc4qnV8obpuiD4pcIprQBuqn5nrqsjLNRH4aA==
+  - source_id: source-minimax-code-docs-features
+    kind: official_documentation
+    checked_at: 2026-10-24T18:06:07.593Z
+    status: unchanged
+    baseline: 7f1dca2bf5abcff068e032299c3d43acd2e7d3ba7f4a479a531ef099bda39ccb
+    observed: 7f1dca2bf5abcff068e032299c3d43acd2e7d3ba7f4a479a531ef099bda39ccb
+    resolved_url: https://agent.minimax.io/docs/cli/features.md
+  - source_id: source-minimax-code-docs-configuration
+    kind: official_documentation
+    checked_at: 2026-10-24T18:06:07.594Z
+    status: unchanged
+    baseline: d0ca00164c8ae214b44eafcca3c4d724fb42ded7c62849a25fb00aba83f0e51b
+    observed: d0ca00164c8ae214b44eafcca3c4d724fb42ded7c62849a25fb00aba83f0e51b
+    resolved_url: https://agent.minimax.io/docs/cli/configuration.md
+  - source_id: source-minimax-code-docs-reference
+    kind: official_documentation
+    checked_at: 2026-10-24T18:06:08.696Z
+    status: changed
+    baseline: a72a7c07732d20e75297e1e4a1cbc7d0395134253448812c3a880cbc46452023
+    observed: ac88783be27db0a28f0982f6f2a3d1742153b7c524a797eb7f96f880a74ea72d
+    resolved_url: https://agent.minimax.io/docs/cli/reference.md
+  - source_id: source-minimax-code-docs-security
+    kind: official_documentation
+    checked_at: 2026-10-24T18:06:08.849Z
+    status: unchanged
+    baseline: 741384b2a862fa37a40c9c2d4994c5bc7f2147c03ba7f72b594076f3bd9b6f9b
+    observed: 741384b2a862fa37a40c9c2d4994c5bc7f2147c03ba7f72b594076f3bd9b6f9b
+    resolved_url: https://agent.minimax.io/docs/cli/security.md
+  - source_id: source-minimax-code-docs-faq
+    kind: official_documentation
+    checked_at: 2026-10-24T18:06:08.946Z
+    status: unchanged
+    baseline: 08754e61b49922c8773834b9fa22de051cf4caeaa7353c9d5bb27f63d7ca8ba8
+    observed: 08754e61b49922c8773834b9fa22de051cf4caeaa7353c9d5bb27f63d7ca8ba8
+    resolved_url: https://agent.minimax.io/docs/cli/faq.md
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.runtime
+    section_ids:
+      - config-runtime
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-minimax-code-doc-ref-entry
+    cross_topic_links: []
+    reason: "source-minimax-code-docs-reference: cited source changed"
+  - topic: custom_providers
+    question_ids:
+      - providers.diagnostics
+    section_ids:
+      - providers-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-minimax-code-doc-ref-provider
+    cross_topic_links: []
+    reason: "source-minimax-code-docs-reference: cited source changed"
+  - topic: native_plugins
+    question_ids:
+      - plugins.install
+    section_ids:
+      - plugins-install
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-minimax-code-doc-ref-plugin
+    cross_topic_links: []
+    reason: "source-minimax-code-docs-reference: cited source changed"
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：reviewed_no_knowledge_impact；只读观察时间 2026-10-24T18:06:10.719Z，会话
+    057702b2-d935-4f35-a685-ca2fd5b75e89。
+  - 1 个 npm 来源版本自 0.6.12 前进到 0.6.13、1
+    个官方文档来源变更。已发布引用未在文档来源上产生可归因失效，也没有源码来源登记，因此本轮没有可归因的知识影响线索。
+  - npm 版本前进属纯发布身份变化，未下载或比较包内容。minimax-code 既有 pending 来自更早轮次，未因本轮被推进。
+  - pending_audit_refs 保持 4 条旧审计引用；本轮未派发其未完成问题，也不据此改写章节，不因本审计标记 reviewed 而视为已解决。

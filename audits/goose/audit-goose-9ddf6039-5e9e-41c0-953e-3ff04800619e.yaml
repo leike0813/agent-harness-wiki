@@ -1,0 +1,71 @@
+schema_version: 2
+audit_id: audit-goose-9ddf6039-5e9e-41c0-953e-3ff04800619e
+harness_id: goose
+checked_at: 2026-11-23T18:01:57.442Z
+previous_audit_id: audit-goose-8e59ad32-d639-4d83-a507-a3807ac9401d
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-24T14:26:00Z
+pending_audit_refs: []
+checks:
+  - source_id: source-goose-repo
+    kind: git_repository
+    checked_at: 2026-11-23T18:01:54.515Z
+    status: changed
+    baseline: 36b29113aff691e1a46a21a5c25900824caf9949
+    observed: 059fee25f13fa92be561a7d42cdd04ececef5a98
+    remote_ref: refs/heads/main
+  - source_id: source-goose-npm
+    kind: npm_registry
+    checked_at: 2026-11-23T18:01:54.523Z
+    status: unchanged
+    baseline: 1.60.2@sha512-vmiKD5nz2xc5kogFQCQ+qS1RP/HbKJ9lMLnTWcEjOlX3K7hYij0vII3b/voCRY2AdDVh9zkz+hgoVhwi+6uwnA==
+    observed: 1.60.2@sha512-vmiKD5nz2xc5kogFQCQ+qS1RP/HbKJ9lMLnTWcEjOlX3K7hYij0vII3b/voCRY2AdDVh9zkz+hgoVhwi+6uwnA==
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - 登记结论 reviewed_no_impact（status 仍由 checks 派生）：本轮不新建
+    artifact/reference/edition，不改 registry/chapter-current.yaml。观察冻结为
+    source-goose-repo 36b29113aff691e1a46a21a5c25900824caf9949 →
+    059fee25f13fa92be561a7d42cdd04ececef5a98； source-goose-npm 仍是 1.60.2，版本与
+    integrity 均未变。
+  - 交集检查（零，复算一致）：diff 头集合 81 个文件；44 个 `git_source_file` artifact 的 file 值与 71 个
+    reference locator.file 值分别与这 81 条路径求交，两次结果均为空，且没有任何 locator 指向
+    providers/oauth.rs。
+  - 唯一运行时改动 crates/goose/src/providers/oauth.rs（diff 后像 blob 9eaa0f6a9707，`git
+    hash-object` 与 diff index 一致）： 新文件 38-41 行新增两条硬编码常量
+    `OAUTH_CONNECT_TIMEOUT`=10s、`OAUTH_REQUEST_TIMEOUT`=30s（注释说明 token 请求在
+    `OAUTH_MUTEX` 持有期间进行、每个 provider 请求都在等这把锁），69-71 行把二者挂到
+    `secure_client_for_endpoint` 的 `Client::builder()`（hunk `@@ -61,7 +66,9
+    @@`）。按 `curl -fsSL
+    https://raw.githubusercontent.com/block/goose/059fee25f13fa92be561a7d42cdd04ececef5a98/crates/goose/src/providers/oauth.rs
+    | sha256sum` 得
+    0cb3ef3dcdbd0a86d7b27564bafd17a225129971f0013296cb358b704a14e50e。
+  - 不维护的三条理由：(1) 无第一方可配置旋钮——两条都是 Rust `const`，分派描述中的 env-configurable
+    与源码不符，该文件唯一的 env 读取仍是既有的 `GOOSE_OAUTH_CALLBACK_PORT`（第 440 行，本次 diff
+    未触及）；(2) 不推翻已发布文字——custom_providers-v4 的 pin 6835dd45 中
+    `secure_client_for_endpoint` 仍是裸 `Client::builder()`（该提交无这两条常量，已按 raw 文件核对），
+    故 providers.auth / providers.responses 在其 pin 范围内的陈述继续成立；(3)
+    无固定问题覆盖——providers.auth 问凭据、环境变量、 base URL 的提供方式与示例脱敏，providers.responses
+    问模型请求的流式、工具调用、错误与重试，providers.diagnostics 问四段 可观测性，OAuth/OIDC token
+    客户端超时不改变任一答案。
+  - 影响面仅限内置 provider 的 OAuth/OIDC token 请求（同目录 databricks_oauth
+    示例、gemini_oauth、xai_oauth 等），属实现级； goose 的 MCP OAuth 客户端在
+    `crates/goose/src/oauth/`，本次未改，mcp.auth 不在本产品本轮范围。
+  - 其余 80 个变更文件逐一核对：documentation/docs/oi-kit/** 与 documentation/src/** 为
+    gdk→oi-kit 品牌重命名（该组 42 行 增删全部含 gdk/oi-kit 词元）、generate-acp-docs.js 只改
+    displayed_sidebar、.github/workflows 与 Cargo.lock、
+    ui/package.json、ui/pnpm-lock.yaml 为版本维护，i18n 语言包与桌面端 useFileDrop/ChatInput
+    只改「外部后端仅允许图片附件」 的 UI 行为；均不触达 provider/MCP/agent/hook
+    机制，无新增第一方字段、环境变量或加载顺序变化。
+  - 状态说明：status 由冻结 checks 派生（repo changed、npm unchanged）为 changed，本轮不改
+    status/checks/previous_audit_id/ pending_audit_refs；impacts 与
+    pending_question_ids 保持空（无章节波及）。按 `src/sources/scan.ts` 的 pending 派生规则， 本审计标
+    reviewed 会在下一轮扫描中把 pending_audit_refs 内的旧 pending 视为已处理，该台账级取舍保留给
+    coordinator 决定。
+  - 本轮审计不引用历史 pending 审计（audit-goose-703d225e-c7ce-402d-8f1e-d6a2419b387e,
+    audit-goose-b3b8ec85-01cd-4143-9159-9871989fd17b,
+    audit-goose-0b2f073c-eabc-4c2e-8faa-876cf3eed0e3,
+    audit-goose-8e59ad32-d639-4d83-a507-a3807ac9401d）：它们保持原状态、保留在各自记录中，本审计的
+    reviewed 状态不会间接关闭它们；previous_audit_id 仍保留链路。

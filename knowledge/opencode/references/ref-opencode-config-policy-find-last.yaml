@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-policy-find-last
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-managed-policy-20261123
+official_url: https://github.com/anomalyco/opencode/blob/292cb5a164786f73f4f32e5caec0c7aafe98b494/packages/core/src/managed-policy.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/managed-policy.ts
+  start: 28
+  end: 39
+excerpt: |-
+  /** The statement deciding `action` on `resource`: the last match, since statements are earliest-loaded last. */
+  export function match<Policy extends ConfigPolicy.Info>(
+    policies: readonly Policy[],
+    action: ConfigPolicy.Action,
+    resource: string,
+  ) {
+    return policies.findLast((policy) => policy.action === action && Wildcard.match(resource, policy.resource))
+  }
+
+  export function decision(policies: readonly ConfigPolicy.Info[], action: ConfigPolicy.Action, resource: string) {
+    return match(policies, action, resource)?.effect ?? "allow"
+  }

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-r798-agent-inbox-success-getter
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-r798-crates-pa-core-src-settings-manager-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/manager.rs
+  start: 717
+  end: 726
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/798d97032a3ec6d70142cc75c0420cb2b260f194/crates/pa-core/src/settings/manager.rs"
+excerpt: |-
+  /// How long an idle wake caused only by successful bash completions is
+  /// held (`agentInbox.successHoldMs`; default 30 s). Global scope only.
+  #[must_use]
+  pub fn get_agent_inbox_success_hold_ms(&self) -> u64 {
+      self.global
+          .agent_inbox
+          .as_ref()
+          .and_then(|inbox| inbox.success_hold_ms)
+          .unwrap_or(crate::settings::types::DEFAULT_AGENT_INBOX_SUCCESS_HOLD_MS)
+  }
