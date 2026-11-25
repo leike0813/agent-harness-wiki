@@ -200,6 +200,37 @@ test("transcript chapters must index every fixed question", async () => {
   );
 });
 
+test("compiles and queries chapters whose edition IDs share a prefix", async () => {
+  const root = await copy();
+  const original = await readFile(path.join(root, chapterPath), "utf8");
+  const current = "demo-open-cli-skills-v10";
+  const previous = "demo-open-cli-skills-v1";
+  await writeFile(
+    path.join(root, chapterPath.replace(`${previous}.md`, `${current}.md`)),
+    original.replace(`edition_id: ${previous}`, `edition_id: ${current}`),
+  );
+  await edit(root, "registry/chapter-current.yaml", (text) =>
+    text.replace(`edition_id: ${previous}`, `edition_id: ${current}`),
+  );
+  const { releaseDir } = await build(root, await temp(), "prefix-editions");
+  const service = await QueryService.open({
+    releasesRoot: path.dirname(releaseDir),
+    releaseId: "prefix-editions",
+  });
+  try {
+    const result = service.getTopic({
+      harness: "demo-open-cli",
+      topic: "skills",
+    });
+    expect(result).toMatchObject({
+      edition_id: current,
+      history: expect.arrayContaining([previous]),
+    });
+  } finally {
+    service.close();
+  }
+});
+
 test("builder 6 remains readable with its frozen Markdown and builder 7 compiles current counts", async () => {
   const { releaseDir, manifest } = await build(
     fixture,

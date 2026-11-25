@@ -67,6 +67,9 @@ export type ChapterReleaseManifest = z.infer<
 
 const sort = <T>(xs: T[], key: (x: T) => string): T[] =>
   [...xs].sort((a, b) => (key(a) < key(b) ? -1 : key(a) > key(b) ? 1 : 0));
+// NUL sorts before any ID character, matching SQLite's per-column order.
+const tupleKey = (first: string, second: string): string =>
+  `${first}\0${second}`;
 // Every generated page is compiled as a Vue SFC template, so markup characters
 // and `{{` (for example Go templates in a prompt excerpt) in fixed source text
 // would be evaluated instead of printed. Keep reader-facing text inert.
@@ -107,7 +110,7 @@ export function projectChapters(
     source_references: sort(dataset.source_references, (x) => x.reference_id),
     chapters: sort(dataset.chapters, (x) => x.edition_id),
     mappings: sort(dataset.mappings, (x) => x.mapping_id),
-    current: sort(dataset.current, (x) => `${x.harness_id}|${x.topic}`),
+    current: sort(dataset.current, (x) => tupleKey(x.harness_id, x.topic)),
   };
   return chapterPublishedKnowledgeSchema.parse({
     schema_version: 3,
@@ -735,7 +738,7 @@ export async function verifyChapterRelease(
         .all();
       if (
         canonical(rows) !==
-        canonical(sort(expected, (x) => `${x.chapter_id}|${x.key}`))
+        canonical(sort(expected, (x) => tupleKey(x.chapter_id, x.key)))
       )
         throw new Error(`SQLite ${table} differs from JSON.`);
     }
@@ -753,7 +756,7 @@ export async function verifyChapterRelease(
           evidence_ref: s.evidence_ref,
         })),
       ),
-      (x) => `${x.mapping_id}|${x.section_id}`,
+      (x) => tupleKey(x.mapping_id, x.section_id),
     );
     if (canonical(mappingRows) !== canonical(mappingExpected))
       throw new Error("SQLite mapping sections differ from JSON.");
