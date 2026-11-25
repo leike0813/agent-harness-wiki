@@ -11,7 +11,7 @@ sections:
     source_refs: [ref-warp-byok-routes-20261012, ref-warp-byok-routes-subscription-20261012, ref-warp-endpoint-routes-20261012, ref-warp-byok-enable, ref-warp-endpoint-enable, ref-warp-routers-create, ref-warp-routers-file, ref-warp-endpoint-managed-20261012, ref-warp-byok-team-managed-20261012, ref-warp-byok-local-scope-20261012, ref-warp-byok-platform-charges-20261012, ref-warp-byok-claude-subscription-20261012, ref-warp-allsettings-cloud, ref-warp-allsettings-keys]
   - section_id: providers-auth
     surface_ids: [desktop]
-    source_refs: [ref-warp-byok-local-scope-20261012, ref-warp-endpoint-transit-20261012, ref-warp-endpoint-network, ref-warp-byok-enable, ref-warp-byok-team-managed-20261012, ref-warp-routers-team-keys-20261012]
+    source_refs: [ref-warp-byok-local-scope-20261012, ref-warp-endpoint-transit-20261012, ref-warp-endpoint-network, ref-warp-byok-enable, ref-warp-byok-team-managed-20261012, ref-warp-routers-team-keys-20261012, ref-warp-byok-subscription-routes-20261006]
   - section_id: providers-protocol
     surface_ids: [desktop]
     source_refs: [ref-warp-endpoint-transit-20261012, ref-warp-byok-local-scope-20261012, ref-warp-endpoint-enable, ref-warp-endpoint-features, ref-warp-endpoint-billing-20261012, ref-warp-byok-billing-20261012, ref-warp-byok-inference-usage-20261012]
@@ -23,7 +23,7 @@ sections:
     source_refs: [ref-warp-models-zdr-20261004, ref-warp-models-fable-20261004, ref-warp-byok-local-scope-20261012]
   - section_id: providers-diagnostics
     surface_ids: [desktop]
-    source_refs: [ref-warp-allsettings-cloud, ref-warp-endpoint-enable, ref-warp-byok-enable, ref-warp-byok-fallback-20261012, ref-warp-endpoint-network, ref-warp-routers-usage-20261012, ref-warp-allsettings-agents, ref-warp-endpoint-features, ref-warp-models-fireworks-20261006, ref-warp-models-fireworks-20261004, ref-warp-models-openai-chatgpt-20261006, ref-warp-models-zdr-20261004, ref-warp-models-fable-20261004]
+    source_refs: [ref-warp-allsettings-cloud, ref-warp-endpoint-enable, ref-warp-byok-enable, ref-warp-byok-fallback-20261012, ref-warp-endpoint-network, ref-warp-routers-usage-20261012, ref-warp-allsettings-agents, ref-warp-endpoint-features, ref-warp-models-fireworks-20261006, ref-warp-models-fireworks-20261004, ref-warp-models-openai-chatgpt-20261006, ref-warp-models-zdr-20261004, ref-warp-models-fable-20261004, ref-warp-byok-subscription-routes-20261006]
 questions:
   - question_id: providers.entry
     answers:
@@ -36,7 +36,7 @@ questions:
       - surface_ids: [desktop]
         section_id: providers-auth
         status: partial
-        source_refs: [ref-warp-byok-local-scope-20261012, ref-warp-endpoint-transit-20261012, ref-warp-endpoint-network, ref-warp-byok-team-managed-20261012, ref-warp-routers-team-keys-20261012]
+        source_refs: [ref-warp-byok-local-scope-20261012, ref-warp-endpoint-transit-20261012, ref-warp-endpoint-network, ref-warp-byok-team-managed-20261012, ref-warp-routers-team-keys-20261012, ref-warp-byok-subscription-routes-20261006]
   - question_id: providers.protocol
     answers:
       - surface_ids: [desktop]
@@ -72,7 +72,7 @@ questions:
       - surface_ids: [desktop]
         section_id: providers-diagnostics
         status: answered
-        source_refs: [ref-warp-byok-fallback-20261012, ref-warp-byok-enable, ref-warp-endpoint-network, ref-warp-routers-usage-20261012, ref-warp-models-fireworks-20261006]
+        source_refs: [ref-warp-byok-fallback-20261012, ref-warp-byok-enable, ref-warp-endpoint-network, ref-warp-routers-usage-20261012, ref-warp-models-fireworks-20261006, ref-warp-byok-subscription-routes-20261006]
 ---
 
 ## Provider 与推断（inference）入口 {#providers-entry}
