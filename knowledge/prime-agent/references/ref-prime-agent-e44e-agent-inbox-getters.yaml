@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-agent-inbox-getters
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-settings-manager-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/manager.rs
+  start: 681
+  end: 692
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/settings/manager.rs"
+excerpt: |-
+  /// The agent-inbox kill switch (`agentInbox.enabled`, default on):
+  /// `false` restores direct notice-row steering. Global scope only, so a
+  /// project cannot flip the daemon's delivery route.
+  #[must_use]
+  pub fn get_agent_inbox_enabled(&self) -> bool {
+      self.global
+          .agent_inbox
+          .as_ref()
+          .and_then(|inbox| inbox.enabled)
+          .unwrap_or(true)
+  }

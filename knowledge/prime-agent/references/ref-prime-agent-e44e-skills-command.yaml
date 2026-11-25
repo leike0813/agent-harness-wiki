@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-skills-command
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-command-registry-rs
+locator:
+  kind: file_lines
+  file: crates/pa-cli/src/command_registry.rs
+  start: 300
+  end: 313
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-cli/src/command_registry.rs"
+excerpt: |-
+  CommandSpec::new(
+      &["skills"],
+      "skills [--cwd <dir>] [--json]",
+      "List discovered skills and why each is or is not active",
+  )
+  .description(
+      "Resolves skills the way a fresh root session does and prints each discovered \
+  skill with its state: active, hidden (callable via /skill:<name>), shadowed by another skill, \
+  ignored because a bundled skill has the same name, disabled, invalid, or active as markdown \
+  without its project Python code.",
+  )
+  .options(&[
+      "--cwd <dir>  Resolve for this working directory (default: current)",
+      "--json       Print the skills as JSON",
+  ]),

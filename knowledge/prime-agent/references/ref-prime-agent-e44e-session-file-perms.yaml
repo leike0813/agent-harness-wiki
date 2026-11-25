@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-session-file-perms
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-session-store-write-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_store/write.rs
+  start: 129
+  end: 136
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-daemon/src/session_store/write.rs"
+excerpt: |-
+  let temp = path.with_extension(format!("jsonl.tmp-{}", std::process::id()));
+  {
+      let mut options = fs::OpenOptions::new();
+      options.create(true).write(true).truncate(true);
+      pa_core::platform::perms::set_private_mode(&mut options);
+      let file = options
+          .open(&temp)
+          .with_context(|| format!("create {}", temp.display()))?;

@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-ledger-delete-by-model
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-rlm-ledger-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/rlm_ledger.rs
+  start: 499
+  end: 505
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-daemon/src/rlm_ledger.rs"
+excerpt: |-
+  let mut usage = serde_json::to_value(usage)
+      .with_context(|| "serialize the deleted child usage snapshot")?;
+  // Optional: old readers skip the unknown field (no version bump).
+  if let Some(by_model) = by_model {
+      usage["byModel"] = json!(by_model);
+  }

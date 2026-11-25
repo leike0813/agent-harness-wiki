@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-project-scope-strip
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-settings-manager-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/manager.rs
+  start: 1088
+  end: 1099
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/settings/manager.rs"
+excerpt: |-
+  if scope == SettingsScope::Project {
+      // A repository can supply this file before the user opens it. Keep its
+      // document on disk, but never let it select session storage or executable
+      // settings through an effective settings read.
+      settings.session_dir = None;
+      settings.shell_path = None;
+      settings.shell_command_prefix = None;
+      settings.npm_command = None;
+      settings.packages = None;
+      settings.mcp_servers = None;
+      settings.mcp_catalog_sources = None;
+  }

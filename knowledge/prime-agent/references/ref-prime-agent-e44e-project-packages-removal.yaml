@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-project-packages-removal
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-settings-manager-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/manager.rs
+  start: 124
+  end: 133
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/settings/manager.rs"
+excerpt: |-
+  /// Project package entries remain available for an explicit removal, but
+  /// never participate in session resource resolution or update checks.
+  #[must_use]
+  pub(crate) fn project_packages_for_removal(&self) -> Vec<serde_json::Value> {
+      self.project_raw
+          .as_ref()
+          .and_then(|value| value.get("packages"))
+          .and_then(serde_json::Value::as_array)
+          .cloned()
+          .unwrap_or_default()
+  }

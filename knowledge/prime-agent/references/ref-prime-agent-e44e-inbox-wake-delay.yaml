@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-inbox-wake-delay
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-worker-inbox-router-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/worker/inbox_router.rs
+  start: 37
+  end: 53
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-daemon/src/worker/inbox_router.rs"
+excerpt: |-
+  pub(crate) fn wake_delay(
+      notice: &InboxNotice,
+      engine: Option<&crate::agent_engine::AgentSessionEngine>,
+  ) -> Duration {
+      let settings = match engine {
+          Some(engine) => SettingsManager::create(engine.cwd(), &engine.config.agent_dir),
+          None => SettingsManager::in_memory(&Settings::default()),
+      };
+      let ms = if is_success(notice.class, &notice.meta) {
+          settings.get_agent_inbox_success_hold_ms()
+      } else {
+          settings.get_agent_inbox_idle_debounce_ms()
+      };
+      Duration::from_millis(ms)
+  }

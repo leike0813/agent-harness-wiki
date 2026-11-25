@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-python-cell-timeout-arm
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-session-engine-engine-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session_engine/engine.rs
+  start: 493
+  end: 503
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/session_engine/engine.rs"
+excerpt: |-
+  // The cell wait budget: daemon-backed sessions arm the settings default
+  // (60s, `0` disables); a cell that outlives it auto-backgrounds (it keeps
+  // running; its completion lands in the inbox). Daemonless sessions keep
+  // `await bash()` unbounded by design (#3523), so no budget arms there.
+  let cell_timeout_ms =
+      super::runtime_wiring::arm_cell_timeout_ms(config.daemonless, python_cell_timeout_ms);
+  // The session's cell wake: an embedding-supplied one (the daemon worker
+  // fires it on user/inbox arrivals), else a private never-fired one.
+  let cell_wake = config.cell_wake.clone().unwrap_or_default();

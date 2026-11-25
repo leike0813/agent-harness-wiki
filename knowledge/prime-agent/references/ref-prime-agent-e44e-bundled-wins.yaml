@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-bundled-wins
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-resources-resolution-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/resources/resolution.rs
+  start: 187
+  end: 193
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/resources/resolution.rs"
+excerpt: |-
+  // Skill loading is first-wins by name, and bundled skills win every name
+  // collision: they load ahead of every other source, explicit paths
+  // included. The loser's collision diagnostic names the settings line
+  // that disables the bundled skill.
+  let (builtin_skills, other_skills): (Vec<&ResolvedResource>, Vec<&ResolvedResource>) = resolved
+      .skills
+      .iter()
+      .filter(|resource| resource.enabled())
+      .partition(|resource| resource.metadata.source == MetadataSource::Builtin);

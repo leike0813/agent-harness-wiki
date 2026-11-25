@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-bash-await-one-second
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-system-prompt-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/prompts/system_prompt.rs
+  start: 309
+  end: 316
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/prompts/system_prompt.rs"
+excerpt: |-
+  lines.push(format!(
+      "`await bash(cmd)` waits at most 1 second. If the command is still running, it returns a snapshot: `r.running` is True, `r.exit_code` is None, `r.output` is the output so far, and `r.handle` is the live handle. A completed result has `r.running` False and an integer `r.exit_code`. The command keeps running after a snapshot; end the turn and collect the final result {}.",
+      if agent_inbox {
+          "when its `[inbox …]` notice arrives"
+      } else {
+          "on the `[bash-done]` notification"
+      }
+  ));

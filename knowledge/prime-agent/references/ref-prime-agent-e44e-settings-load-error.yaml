@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-settings-load-error
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-settings-manager-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/manager.rs
+  start: 954
+  end: 960
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/settings/manager.rs"
+excerpt: |-
+  if let Some(message) = &self.global_load_error {
+      self.errors.push(SettingsError {
+          scope: SettingsScope::Global,
+          message: format!(
+              "Global settings not saved: settings file failed to load: {message}"
+          ),
+      });
+      return Ok(());

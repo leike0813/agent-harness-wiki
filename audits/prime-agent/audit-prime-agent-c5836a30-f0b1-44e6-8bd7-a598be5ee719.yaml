@@ -5,15 +5,7 @@ checked_at: 2026-11-25T00:29:19.708Z
 previous_audit_id: audit-prime-agent-1bd8b4ac-4f9a-4667-a5fb-3aa00592865b
 status: changed
 review_status: pending
-pending_audit_refs:
-  - audit-prime-agent-fe998a91-5291-4f0c-8bbc-45887d1f607b
-  - audit-prime-agent-1f7dab30-5252-4281-99c4-6a1fb619a7c2
-  - audit-prime-agent-cf6c932e-dba3-46e7-86c7-83ac66ea49d4
-  - audit-prime-agent-5afda806-f11e-4ece-940b-312b4624acc5
-  - audit-prime-agent-c08789fa-8171-4da2-9dfa-af49c8c52d3f
-  - audit-prime-agent-57fc77b5-3379-4820-8afc-9a1622183cdd
-  - audit-prime-agent-965754de-ea53-4f5a-a0e7-919e812fef18
-  - audit-prime-agent-1bd8b4ac-4f9a-4667-a5fb-3aa00592865b
+pending_audit_refs: []
 checks:
   - source_id: source-prime-agent-repo
     kind: git_repository
@@ -22,6 +14,241 @@ checks:
     baseline: 672085e883c25a8a5f10c77ad8e5d3fb38dd6584
     observed: e44e9ae9dff2f6c410e84edb4a7dce2dea610d54
     remote_ref: refs/heads/main
-impacts: []
-pending_question_ids: []
-investigation_notes: []
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.overrides
+      - config.runtime
+      - config.trust
+      - config.defaults
+      - config.diagnostics
+    section_ids:
+      - config-sources
+      - config-overrides
+      - config-runtime
+      - config-trust-defaults-migration
+      - config-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-e44e-project-scope-strip
+      - ref-prime-agent-e44e-project-packages-removal
+      - ref-prime-agent-e44e-shell-path-scope
+      - ref-prime-agent-e44e-session-dir-scope
+      - ref-prime-agent-e44e-mcp-servers-global
+      - ref-prime-agent-e44e-web-search-provider
+      - ref-prime-agent-e44e-web-search-env
+      - ref-prime-agent-e44e-web-search-field
+      - ref-prime-agent-e44e-engine-websearch-credential
+      - ref-prime-agent-e44e-settings-load-error
+      - ref-prime-agent-e44e-python-cell-timeout-field
+      - ref-prime-agent-e44e-python-cell-timeout-getter
+      - ref-prime-agent-e44e-python-cell-timeout-arm
+      - ref-prime-agent-e44e-cell-auto-background
+      - ref-prime-agent-e44e-agent-inbox-fields
+      - ref-prime-agent-e44e-agent-inbox-getters
+      - ref-prime-agent-e44e-agent-inbox-timers
+      - ref-prime-agent-e44e-inbox-wake-delay
+    cross_topic_links:
+      - agents.limits
+      - skills.conditions
+      - mcp.entry
+    reason: >-
+      项目作用域在加载时剥离 sessionDir/shellPath/shellCommandPrefix/npmCommand/packages/
+      mcpServers/mcpCatalogSources（manager.rs load_scope），项目 packages 只保留给显式移除；
+      这推翻了 v7 的“项目 packages 会在启动时自动安装”和“shellPath 项目覆盖全局”两段旧说明。
+      新增第一方键 pythonCellTimeoutMs（默认 60s，超预算自动转后台而非中断，daemonless 不启用）、
+      agentInbox.enabled/reminderIntervalMs（与已有 idleDebounceMs/successHoldMs 一起四个全局键）、
+      webSearchProvider（serper 默认 / eco，全局只读，SERPER_API_KEY / YOU_API_KEY 覆盖存储凭据）；
+      设置加载失败文案改为 “settings file failed to load”。
+  - topic: custom_agents
+    question_ids:
+      - agents.roles
+      - agents.limits
+    section_ids:
+      - agents-roles
+      - agents-overrides-limits
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-e44e-daemonless-prompt
+      - ref-prime-agent-e44e-print-bash-wake
+      - ref-prime-agent-e44e-bash-await-one-second
+      - ref-prime-agent-e44e-cell-auto-background
+      - ref-prime-agent-e44e-cell-wake
+    cross_topic_links:
+      - config.defaults
+    reason: >-
+      无 daemon 提示文本已从 e41c 的 “background bash() completions do not wake you” 改为
+      “wake you with a queued [bash-done] turn”，print 运行时同时传入 daemonless:true 与
+      bash_notice_wake/on_background_work_settled；v5 引用的两行旧文本与“没有 bash 完成唤醒”
+      的结论不再成立。单元格边界也改变：同一内核只有一个前台单元格，长等待/超预算自动转后台后
+      可再开新单元格并行；await bash() 固定最多等 1 秒并返回 running 快照。
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.collision
+      - skills.diagnostics
+      - skills.loading
+      - skills.invocation
+    section_ids:
+      - skills-roots
+      - skills-loading-invocation
+      - skills-conditions-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-e44e-bundled-wins
+      - ref-prime-agent-e44e-skill-status-bundled
+      - ref-prime-agent-e44e-skills-command
+      - ref-prime-agent-e44e-skill-problems-report
+      - ref-prime-agent-e44e-python-tool-name
+    cross_topic_links:
+      - config.sources
+    reason: >-
+      内置 Skill 的冲突优先级反转：bundled 先加载并赢得所有同名冲突（含显式 --skill 路径），
+      落败方状态为 ignoredForBundled，并提示用全局 skills 的 "-NAME" 关掉内置技能；这推翻了 v1
+      “内置优先级最低、会被覆盖”的答案。新增 prime-agent skills 查询命令、根会话首次启动的
+      skill problem 警告与启动提示行；内核 Python 工具名改为 python_repl（python/ipython 仍为
+      识别别名），v1 的 “ipython 工具”表述已更新。
+  - topic: custom_providers
+    question_ids:
+      - providers.models
+      - providers.metadata
+      - providers.forwarding
+      - providers.responses
+    section_ids:
+      - providers-protocol-models
+      - providers-forwarding-responses
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-e44e-model-input-video
+      - ref-prime-agent-e44e-custom-model-video
+      - ref-prime-agent-e44e-model-video-block
+    cross_topic_links:
+      - config.defaults
+    reason: >-
+      模型 input 能力新增 video（models.json 接受 ["text","image","video"]）；type:"video" 内容块
+      只由 openai-completions 转成 video_url，其它 provider 以文本占位替换；上下文预算按
+      VIDEO_ESTIMATED_TOKENS=32768 估算。v2 的 input 字段只写了 text/image，已补全。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.location
+      - transcripts.format
+      - transcripts.schema
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-storage-layout
+      - transcripts-format-and-writes
+      - transcripts-record-schema
+      - transcripts-index-and-archive
+      - transcripts-cleanup-and-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-e44e-session-file-perms
+      - ref-prime-agent-e44e-custom-timestamp-default
+      - ref-prime-agent-e44e-ipython-state-newest
+      - ref-prime-agent-e44e-ledger-delete-by-model
+      - ref-prime-agent-e44e-sidecar-version-3
+      - ref-prime-agent-e44e-scan-billed-rows
+      - ref-prime-agent-e44e-usage-billed-rows
+    cross_topic_links:
+      - config.defaults
+    reason: >-
+      info sidecar 版本由 2 升到 3：扫描折叠不再单独读 compaction/branch_summary 的 usage，改为对
+      每行折叠通用 billed row（细化/评审/旁问等 agent loop 外模型调用），旧 v2 状态会算错，升级后
+      首次打开冷扫描。会话文件与重写临时文件改为私有权限；custom 行缺 timestamp 时解析填充当前
+      时钟（持久化条目仍保留每份 ipython_state，仅上下文取最新一份）；RLM ledger 的 delete 记录
+      可带 usage.byModel（账本版本仍为 1）。同时清掉 v5 中“自动归档仍在运行”的旧段，统一为
+      8aac 已移除、sessions-archive 仅供遗留恢复。
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.auth
+    section_ids:
+      - mcp-entry
+      - mcp-definition
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-mcp-connecting
+      - ref-prime-agent-mcp-generic
+      - ref-prime-agent-mcp-call
+    cross_topic_links:
+      - config.sources
+    reason: >-
+      保持上一轮处置：已发布 mcp v3 把 /mcp login NAME 写成登录步骤，而观测提交的 /mcp 是纯菜单
+      命令、typed 子命令被移除，登录由 /mcp 视图内部触发；本轮 acp/daemon.rs 与 worker/commands.rs
+      的改动（steer 提示、scoped background-cell abort、pendingBackgroundCompletions）不改变该
+      冲突结论。mcp 章节不新建 edition，mcp.entry/mcp.auth 转为本审计 pending。
+pending_question_ids:
+  - mcp.entry
+  - mcp.auth
+investigation_notes:
+  - "来源与基线：source-prime-agent-repo 观察 672085e883c25a8a5f10c77ad8e5d3fb38dd6584 → e44e9ae9dff2f6c410e84edb4a7dce2dea610d54；按协调者给出的 intersect 列表只提取这 54 个被引用文件的 hunk。上一个语义基线是 798d97032a3ec6d70142cc75c0420cb2b260f194（1bd8b4ac 的 observed），本轮新增差异用 GitHub compare 798d9703...e44e9ae9（33 commits）逐文件核对；更早的 8aac/7e3117ba/783acb5d 区间只在章节现行答案与 e44e9ae9 不一致时回查。"
+  - "证据固定：新增 19 个 git_source_file artifact/snapshot，全部只记 commit=e44e9ae9dff2f6c410e84edb4a7dce2dea610d54、仓库相对 file 与 raw.githubusercontent 取回内容的 sha256；未保留 checkout，也没有把源码复制进候选。新增 25 条 reference 使用 file_lines 定位与 <=800 字符短摘录。"
+  - "章节：新建 configuration v8、custom_agents v6、skills v2、custom_providers v3、local_transcripts v6；旧 edition 全部保留未改，chapter-current 只切这五个主题。hooks v2、native_plugins v1、mcp v3 不变。"
+  - ".changes/decision-api-spawn-kind.md：798 轮已用；本轮无后续改动，不再影响章节。"
+  - "crates/pa-cli/src/command_registry.rs：新增 prime-agent skills [--cwd] [--json] 命令（skills.diagnostics），并移除 prime-agent machine 顶层命令、删除 TS/Rust 迁移文案；machine 子命令未被任何固定问题断言，除 skills 命令外不改配置章节。"
+  - "crates/pa-cli/src/config.rs：get_agent_dir 在 HOME 缺失时不再回落 '.'，新增 require_agent_dir 在命令边界报错；配置来源/路径答案的其余部分未变，不新增章节声明。"
+  - "crates/pa-cli/src/print_runtime.rs：print 仍传 daemonless:true，但补上 cell_wake/on_background_cell 字段与 bash_notice_wake/on_background_work_settled；这是 custom_agents v6 修正“print 无 bash 完成唤醒”的直接证据。"
+  - "crates/pa-core/src/packages/mod.rs：get_bundled_skills_dir 提升为 pub 并导出 DisabledBy，函数体未变；已发布答案不依赖可见性，skills v2 的同名冲突修正改由 resources/resolution.rs 与 skill_status.rs 取证。"
+  - "crates/pa-core/src/platform/shell.rs：仅注释压缩，行为未变，configuration 的 shellPath 校验答案继续有效。"
+  - "crates/pa-core/src/prompts/layers/bash-over-subprocess.md：8aac→e44e 净差异为空（async L1 的限制被 async R3 撤回），configuration 对随包 prompt 规则的引述仍准确。"
+  - "crates/pa-core/src/prompts/layers/core.md：新增 end_turn/inbox.read/inbox.count/session.messages 与 spawn cwd 文案；custom_agents v5 已写入 cwd/kind，固定问题不要求列全 REPL API，本轮不扩写。"
+  - "crates/pa-core/src/prompts/layers/model_prompts.toml 与 crates/pa-core/src/prompts/model_prompts.rs：8aac→e44e 净差异为空，configuration v7 的 model-prompts 证据仍成立。"
+  - "crates/pa-core/src/prompts/system_prompt.rs：daemonless 两行改为“bash 完成以排队 [bash-done] 唤醒”，新增 agent inbox 行、await bash() 1 秒上限与单元格 auto-background 三种分支；custom_agents v6 改 agents-roles/agents-limits，configuration v8 用于 pythonCellTimeoutMs 的语义说明。"
+  - "crates/pa-core/src/refinement/mod.rs：harness_state.json 走 realpath 后加锁/写入、history 追加文件私有权限；属内部持久化细节，不触达任何固定问题。"
+  - "crates/pa-core/src/session/manager.rs：仅 2 行 billed-row sink 接线与 4 行注释；不改变会话文件格式或命名。"
+  - "crates/pa-core/src/session/manager/append.rs：新增 billed_row_sink 回调；追加行格式与落盘顺序未变。"
+  - "crates/pa-core/src/session/manager/ids.rs：只有注释改动，Uuid::now_v7 命名规则不变。"
+  - "crates/pa-core/src/session/manager/lifecycle.rs：3 行净增，均为内部生命周期/注释；transcripts.naming 与 format 答案不变。"
+  - "crates/pa-core/src/session/manager/persist.rs：6 行净增的内部接线；整文件原子重写与 attrs 语义未变。"
+  - "crates/pa-core/src/session/manager/repair.rs：8aac→e44e 净差异为空，967eb13 的尾部修复机制仍是当前行为。"
+  - "crates/pa-core/src/session/mod.rs：上下文只取最新 ipython_state 通知（持久化仍保留每份），并新增 billed_row 模块；local_transcripts v6 写入 format/schema 说明。"
+  - "crates/pa-core/src/session_engine/compaction.rs：video 按 32768 token 估算、保留编排状态的摘要；compaction 阈值答案不变，未改 configuration 的阈值段。"
+  - "crates/pa-core/src/session_engine/decision_api.rs：798 轮新建并已覆盖；8aac→e44e 无净变化。"
+  - "crates/pa-core/src/session_engine/engine.rs：cell_wake/on_background_cell、pythonCellTimeoutMs 读取与 daemonless 不启用、webSearchProvider 凭据解析、mcp_gating 只读全局、skill problems 根会话报告；configuration v8 与 custom_agents v6 分别取证。"
+  - "crates/pa-core/src/session_engine/mod.rs：decision_api/goal billed-row 等模块接线，37/4 行；无固定问题结论变化。"
+  - "crates/pa-core/src/session_engine/rlm_host.rs：factory tag/cwd/decisionChild 等；custom_agents v5 已覆盖 cwd/kind，v6 不再扩写。"
+  - "crates/pa-core/src/settings/interactive_settings.rs：新增 webSearchProvider 与 emojiShortcodes 全局 getter/setter；configuration v8 取 webSearchProvider 的全局作用域。"
+  - "crates/pa-core/src/settings/load.rs：KNOWN_FIELDS 新增 pythonCellTimeoutMs/webSearchProvider/mcpCatalogSources/emojiShortcodes；configuration v8 据此称这些为第一方已知键。"
+  - "crates/pa-core/src/settings/manager.rs：load_scope 剥离项目 sessionDir/shellPath/shellCommandPrefix/npmCommand/packages/mcpServers/mcpCatalogSources；project_packages_for_removal；pythonCellTimeoutMs 与四个 agentInbox getter；加载失败文案改为 failed to load。configuration v8 的 sources/overrides/runtime/trust/defaults/diagnostics 六题都由此改写。"
+  - "crates/pa-core/src/settings/types.rs：新增 WebSearchProvider/Video 无关的 provider 枚举、AgentInboxSettings 四字段、pythonCellTimeoutMs、webSearchProvider、全局作用域注释；configuration v8 的主证据。"
+  - "crates/pa-core/src/tools/output_accumulator.rs：442 行删除为死代码清理，无运行时行为；transcripts.scope/index 答案不受影响。"
+  - "crates/pa-daemon/src/acp/daemon.rs：ACP 普通用户 prompt 改走 Steering 通道、空闲 cancel 用 scoped background_cell abort、hello 能力门；mcp 的 ACP 准入/超时结论未变，mcp 仍 held，不新建 edition。"
+  - "crates/pa-daemon/src/paths.rs：RotatingLog 以私有权限创建；会话目录/账本路径未变，transcripts.location 不另改。"
+  - "crates/pa-daemon/src/rlm_ledger.rs：spawn 记录新增 factory/decisionChild，delete 记录可带 usage.byModel，edges 新增 previously documented fields；local_transcripts v6 补 byModel 的 schema 事实。"
+  - "crates/pa-daemon/src/rlm_ledger/replay.rs：按 decisionChild 重建名册/唤醒、factory 传播；v5 已记录 decisionChild，v6 不另改。"
+  - "crates/pa-daemon/src/saved_session_commands.rs：factory/roster 兼容调整，21/1 行；无固定问题结论变化。"
+  - "crates/pa-daemon/src/session_archive.rs：8aac 已删除；local_transcripts v6 统一写成“自动归档不存在、sessions-archive 仅遗留恢复”。"
+  - "crates/pa-daemon/src/session_catalog.rs：8aac→e44e 净差异为空，index/archive 的 catalog 答案不变。"
+  - "crates/pa-daemon/src/session_export.rs：仅注释压缩，export_html/export_jsonl 答案不变。"
+  - "crates/pa-daemon/src/session_navigation.rs：84/6 行主要是“替换会话仍存活”的测试与队列恢复；不含固定问题所需的格式/路径变化。"
+  - "crates/pa-daemon/src/session_store/child_usage.rs：1 行 set_leaf 接入，归属追加语义未变。"
+  - "crates/pa-daemon/src/session_store/index.rs：branch role counts 与 set_leaf；读取性能/显示统计，不改变 JSONL 格式。"
+  - "crates/pa-daemon/src/session_store/info.rs：折叠改为通用 billed row（compaction/branch_summary 的单独 usage 字段移除）；sidecar v3 的直接原因。"
+  - "crates/pa-daemon/src/session_store/info_sidecar.rs：INFO_SIDECAR_VERSION 2→3；local_transcripts v6 更新并保留“删字段不必升版本”的规则。"
+  - "crates/pa-daemon/src/session_store/read.rs：branch_roles/billed_row_sink 内部接线；文件读取与格式未变。"
+  - "crates/pa-daemon/src/session_store/view.rs：新增 session_messages 角色切片与 branch role 计数；显示层读取，不改变落盘记录。"
+  - "crates/pa-daemon/src/session_store/write.rs：整文件重写临时文件以私有权限创建；local_transcripts v6 在 storage 说明文件权限。"
+  - "crates/pa-daemon/src/session_usage.rs：billed_row_usage、ModelUsageSummary、byModel 捕获；local_transcripts v6 的 database/schema 证据。"
+  - "crates/pa-daemon/src/worker/commands.rs：abort 支持 scope=background_cell、get_state 返回 pendingBackgroundCompletions、窗口化 transcript 分页；mcp held 与内部行为，不改 fixed answers。"
+  - "crates/pa-daemon/src/worker/create.rs：传 factory_child、恢复队列 suspension/forced batch、广播 background_cell_abort 能力；固定问题无对应断言。"
+  - "crates/pa-daemon/src/worker/inbox_router.rs：新文件的 wake_delay 按成功 bash 用 successHoldMs、其它用 idleDebounceMs，并在投递时消费 shown items；configuration v8 的 agentInbox 生效路径。"
+  - "crates/pa-tui/src/client_settings.rs：新增 webSearchProvider/emojiShortcodes 默认与 unavailable setter；harnessRefinements 仍默认 true 且 setter bail，v7 的 TUI 界面说明仍成立。"
+  - "crates/pa-tui/src/session_ui/commands.rs：命令 UI 与 update/factory 文案，7 commits；无固定问题结论变化。"
+  - "crates/pa-types/src/ai/mod.rs：ModelInput 增加 Video、VideoContent 块（仅 OpenAI Completions 发送）、ModelServing、PYTHON_TOOL_NAME=python_repl；configuration/skills/custom_providers/local_transcripts 分别引用。"
+  - "crates/pa-types/src/session.rs：CustomMessage.timestamp 缺省填充 now_millis、tool_started/tool_progress 为既有类型；local_transcripts v6 补时钟默认值。"
+  - "prime-agent-runtime/src/rlm/factory.py：factory 节点/里程碑/结算改动（887 行）；factory.enabled 的失败关闭语义与配置章节的 factory 段未变，固定问题无新增结论。"
+  - "历史 pending 接续（pending_audit_refs 置空、不标 reviewed）：fe998a91 的 local_transcripts 尾修复与包目录符号链接已由 v5 承接；1f7dab30 的 config.sources/diagnostics 与本轮 v8 的 model-prompts/defaults/diagnostics 一致；cf6c932e 的 config.sources/model-prompts 与 custom_agents daemonless 已在 v5/v8 接续；c08789fa 无待办；57fc77b5 的 config.defaults 与 transcripts archive/lifecycle/schema/diagnostics 本轮全部落到 v6/v8；965754de 的 config.defaults/diagnostics（pythonCellTimeoutMs 等）本轮落到 v8；1bd8b4ac 的 mcp.entry/mcp.auth 原样转入本审计 pending，未以 reviewed 关闭。"
+  - "排除：custom_providers 之外的 provider 行为（provider 级默认、thinking 映射等）不在本轮变更；hooks 无被引用的变更文件；native_plugins 只有 packages/mod.rs 的可见性/导出变化与本轮无被引用证据的工具名旧文案，未新建 edition；mcp 冲突保持 held。"
+  - "风险/复核点：配置的“项目作用域剥离 packages/shellPath/sessionDir”是对已发布安全说明的实质更正，证据来自 manager.rs 的 load_scope 与 types.rs 字段注释，属于高影响修订；审计保持 review_status=pending，交由独立复核确认后再由 coordinator 决定是否发布 v8。"
+  - "自检：pnpm -s maintenance:candidates check --candidate /tmp/ahw-batch-15/candidates/prime-agent 通过（章节、引用、审计 ledger、路径归属）。"
+  - "独立复核（2026-11-25，ReviewPrimeAgent）返回 changes_requested，五项已按复核意见修正：1) custom_agents 并行单元格限定为“停在 await 点时可再开新单元格，跑同步代码时内核拒绝”；2) local_transcripts 的归档恢复改为“当前路径仍为暂存→hard_link 发布→删除归档原件，同一语义内联在 session_catalog.rs”，并去掉矛盾的“没有移回原语”；3) configuration 与 skills 移除已死的 `extensions` 键与示例；4) `video` 与 `shellPath` 的语义归属改为“固定来源 e44e9ae 上可用，更早的 798d9703/2626603 已有”。复核确认项目作用域剥离 shellPath/packages/sessionDir 的安全更正成立。mcp 的 /mcp login 冲突仍未解决，审计保持 pending。"

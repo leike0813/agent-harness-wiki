@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-cell-wake
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-session-engine-engine-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session_engine/engine.rs
+  start: 95
+  end: 103
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/session_engine/engine.rs"
+excerpt: |-
+  /// The session's shared cell wake: the embedding fires it to end a
+  /// running cell's wait early when a user message or inbox arrival must
+  /// reach the session. `None` creates a private, never-fired one (cells
+  /// still auto-background at their wait budget).
+  pub cell_wake: Option<Arc<crate::kernel::cell_wake::CellWake>>,
+  /// Receives the late completion of an auto-backgrounded cell; the
+  /// embedding lands it as a notice. `None` drops the outcome (the cell
+  /// still runs on).
+  pub on_background_cell: Option<crate::kernel::shared::BackgroundCellCallback>,

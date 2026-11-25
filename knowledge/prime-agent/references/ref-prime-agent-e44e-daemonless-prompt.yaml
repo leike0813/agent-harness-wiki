@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-daemonless-prompt
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-system-prompt-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/prompts/system_prompt.rs
+  start: 291
+  end: 300
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/prompts/system_prompt.rs"
+excerpt: |-
+  if options.daemonless {
+      lines.push(if options.can_spawn {
+          "This session has no daemon: heartbeats never fire, and background `bash()` completions wake you with a queued `[bash-done]` turn; the run waits for live background commands and your subagents before it exits. Subagent replies and exit notices still wake you."
+              .to_string()
+      } else {
+          "This session has no daemon: `rlm.spawn` is unavailable, heartbeats never fire, and background `bash()` completions wake you with a queued `[bash-done]` turn."
+              .to_string()
+      });
+  }

@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-custom-timestamp-default
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-session-types-rs
+locator:
+  kind: file_lines
+  file: crates/pa-types/src/session.rs
+  start: 105
+  end: 112
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-types/src/session.rs"
+excerpt: |-
+  /// Unix timestamp in milliseconds. An injected row from an external
+  /// client may omit it: the default fills the clock at parse. Field
+  /// defaults apply through the internally tagged enum and the
+  /// `flatten` catch-all.
+  #[serde(default = "now_millis")]
+  pub timestamp: u64,
+  #[serde(flatten)]
+  pub rest: JsonMap,

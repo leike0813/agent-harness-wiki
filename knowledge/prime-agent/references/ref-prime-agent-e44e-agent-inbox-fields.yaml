@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-agent-inbox-fields
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-settings-types-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/types.rs
+  start: 278
+  end: 293
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/settings/types.rs"
+excerpt: |-
+  /// `agentInbox` (the machine-notification inbox): enabled by default;
+  /// `enabled: false` is the kill switch that restores direct notice-row
+  /// steering. `reminderIntervalMs` (default 10 minutes, `0` disables)
+  /// repeats the waiting count while the inbox stays unread.
+  /// `idleDebounceMs` (default 5 s) is the window an idle agent's wake
+  /// waits to cover every notice that arrives in it. `successHoldMs`
+  /// (default 30 s) is how long a wake caused only by successful bash
+  /// completions is held before it delivers.
+  #[derive(Debug, Clone, Default, Serialize, Deserialize)]
+  #[serde(rename_all = "camelCase")]
+  pub struct AgentInboxSettings {
+      pub enabled: Option<bool>,
+      pub reminder_interval_ms: Option<u64>,
+      pub idle_debounce_ms: Option<u64>,
+      pub success_hold_ms: Option<u64>,
+  }
