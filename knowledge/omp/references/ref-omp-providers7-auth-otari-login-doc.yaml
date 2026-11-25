@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-providers7-auth-otari-login-doc
+harness_id: omp
+snapshot_id: snapshot-omp-7f5f-docs-provider-quirks-md
+locator:
+  kind: file_lines
+  file: docs/provider-quirks.md
+  start: 1867
+  end: 1867
+official_url: https://github.com/can1357/oh-my-pi/blob/7f5fdfa3e4c5621cab857de46a8d75fbf3547e70/docs/provider-quirks.md#L1867
+excerpt: |-
+  - **Interactive login**: declared in `packages/catalog/src/compat/rules/auth/otari.kdl` (`login "custom" hook="otari"`) and implemented in `packages/ai/src/registry/oauth/otari.ts` (`loginOtari`). Hosted workspaces are region-local and a key only authenticates in its own region, so login first prompts for the region (1=US `https://api.otari.ai/api/v1`, default; 2=EU `https://eu.api.otari.ai/api/v1`; 3=Custom API root), then validates the pasted key against that endpoint's `/models`, which answers 401 both without a key and with a rejected one (verified 2026-11-02), so the probe bills nothing. When `OTARI_BASE_URL` is set, login validates against it, skips the region prompt, and stores a plain key, so the env keeps driving discovery and requests.

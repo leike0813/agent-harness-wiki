@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt7-schema-model-fallback-code
+harness_id: omp
+snapshot_id: snapshot-omp-7f5f-src-session-entries-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-entries.ts
+  start: 223
+  end: 236
+official_url: https://github.com/can1357/oh-my-pi/blob/7f5fdfa3e4c5621cab857de46a8d75fbf3547e70/packages/coding-agent/src/session/session-entries.ts#L223-L236
+excerpt: |-
+  /** Why a retry fallback moved the session off a model. */
+  export interface ModelFallbackCause {
+  	/** The model the session left, named as in `retry_fallback_applied.from` (`provider/modelId`, plus any `:thinking` level). */
+  	from: string;
+  	/**
+  	 * - `request-error`: a request to `from` failed.
+  	 * - `agent-loop`: the agent loop stopped the turn itself (e.g. an unmet soft tool requirement); no request failed.
+  	 * - `usage-preflight`: usage health moved the request before it was sent.
+  	 * - `missing-credential`: `from`'s provider had no usable credential.
+  	 */
+  	trigger: "request-error" | "agent-loop" | "usage-preflight" | "missing-credential";
+  	/** The failed turn's error, or the usage or credential condition. */
+  	reason?: string;
+  }

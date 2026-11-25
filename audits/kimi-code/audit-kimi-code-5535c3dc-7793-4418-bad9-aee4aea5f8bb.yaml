@@ -1,0 +1,41 @@
+schema_version: 2
+audit_id: audit-kimi-code-5535c3dc-7793-4418-bad9-aee4aea5f8bb
+harness_id: kimi-code
+checked_at: 2026-11-25T00:28:35.379Z
+previous_audit_id: audit-kimi-code-285748b4-2942-4c6a-9827-01d2683d3bb2
+status: blocked
+review_status: pending
+pending_audit_refs:
+  - audit-kimi-code-93eb5dc0-e41b-49b6-a3db-662389fc6dbf
+  - audit-kimi-code-0e5dd3dc-24fa-419e-bba5-d44fdeb0a493
+  - audit-kimi-code-a3703458-eda9-4a88-844e-e224b1c75e40
+  - audit-kimi-code-6ffd2394-2b51-4aa4-b26f-6f6fc788bdd8
+checks:
+  - source_id: source-kimi-code-repo
+    kind: git_repository
+    checked_at: 2026-11-25T00:28:30.285Z
+    status: changed
+    baseline: 9a82686b0e91c532f4d49da0bc088a0eac9bdede
+    observed: 48cdb62bed2f2464d2234607b179132f8aad363d
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-legacy-repo
+    kind: git_repository
+    checked_at: 2026-11-25T00:28:30.296Z
+    status: blocked
+    baseline: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    error: >
+      Command failed: git -c core.hooksPath=/dev/null -c credential.helper= -c
+      protocol.ext.allow=never ls-remote --symref
+      https://github.com/MoonshotAI/kimi-cli.git HEAD
+
+      fatal: unable to access 'https://github.com/MoonshotAI/kimi-cli.git/':
+      GnuTLS, handshake failed: The TLS connection was non-properly terminated.
+  - source_id: source-kimi-code-npm
+    kind: npm_registry
+    checked_at: 2026-11-25T00:28:30.305Z
+    status: unchanged
+    baseline: 2.7.3@sha512-DemrD7fkxAQ5QVQ9THPsitu78N/VVaBrNabWDstleqxpZX8eucrl9//92lzVMJfaxAz83IDM1R/I9jaPCQsH1g==
+    observed: 2.7.3@sha512-DemrD7fkxAQ5QVQ9THPsitu78N/VVaBrNabWDstleqxpZX8eucrl9//92lzVMJfaxAz83IDM1R/I9jaPCQsH1g==
+impacts: []
+pending_question_ids: []
+investigation_notes: []

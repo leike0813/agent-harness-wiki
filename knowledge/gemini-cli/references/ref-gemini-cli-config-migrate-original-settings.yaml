@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-config-migrate-original-settings
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-cfg-settings-08e9a20f
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settings.ts
+  start: 1946
+  end: 1965
+official_url: "https://github.com/google-gemini/gemini-cli/blob/08e9a20f749aefcbda38622ac757899c3d6216e0/packages/cli/src/config/settings.ts"
+excerpt: |2-
+        if (typeof newValue === 'boolean') {
+          // Both exist, trust the new one (preserving any raw placeholder on newKey)
+          if (!(newKey in originalSettings)) {
+            originalSettings[newKey] = newValue;
+          }
+          if (removeDeprecated) {
+            delete settings[oldKey];
+            delete originalSettings[oldKey];
+            modified = true;
+          }
+        } else {
+          // Only old exists, migrate to new (inverted)
+          settings[newKey] = !oldValue;
+          originalSettings[newKey] = !oldValue;
+          if (removeDeprecated) {
+            delete settings[oldKey];
+            delete originalSettings[oldKey];
+          }
+          modified = true;
+        }

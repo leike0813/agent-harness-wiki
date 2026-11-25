@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-history-title-20261125
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-chat-history-screen-20261125
+locator:
+  kind: file_lines
+  file: cli/src/components/chat-history-screen.tsx
+  start: 114
+  end: 129
+official_url: "https://github.com/CodebuffAI/codebuff/blob/286f2517138563f5942a381f063f55254779a366/cli/src/components/chat-history-screen.tsx"
+excerpt: |2-
+          const prompt = padRight(
+            truncateText(chat.title ?? chat.lastPrompt, maxPromptWidth),
+            maxPromptWidth,
+          )
+
+          return {
+            id: chat.chatId,
+            // Combine all columns into label for correct display order: time | msgs | prompt
+            // The full prompt is kept in secondary for search filtering
+            label: `${time}${' '.repeat(LAYOUT.GAP_WIDTH)}${msgs}${' '.repeat(LAYOUT.GAP_WIDTH)}${prompt}`,
+            icon: undefined,
+            // The title and the original prompt, for search
+            secondary: chat.title
+              ? `${chat.title}\n${chat.lastPrompt}`
+              : chat.lastPrompt,
+            hideSecondary: true, // Don't display secondary, only use for filtering

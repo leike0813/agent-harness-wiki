@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-lt-relocate
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/session/saved_sessions.py
+  start: 105
+  end: 133
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      """Move a session no agent is holding, by rewriting where it sits.
+
+      The same two edits :meth:`SessionLogger.relocated_to` makes to a live
+      session, applied to the record instead: ``environment.working_directory``
+      names where the session is working, ``origin_directory`` keeps the place it
+      began so the listing can still find it there.
+  ...
+      Nothing else moves. A detached session holds no trust grant, no harness
+      root and no config layer to re-root -- those are built from this record.
+      The recorded repository and checkout belonged to the old folder, so they
+      are dropped.
+      """

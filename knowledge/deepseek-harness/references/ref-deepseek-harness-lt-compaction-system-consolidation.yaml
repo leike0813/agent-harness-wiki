@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-compaction-system-consolidation
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo-20261125
+locator:
+  kind: file_lines
+  file: docs/subsystems/compaction.md
+  start: 11
+  end: 11
+official_url: "https://github.com/deepseek-ai/deepseek-harness/blob/4b399c39a6d1479cd84ca591b4d7c88e24d38a96/docs/subsystems/compaction.md"
+excerpt: |-
+  All three are **log-only** — they record the lock, summary, selected range, shadowed event seqs, token count, and model call without joining the surface. `SurfaceEventType` is deliberately NOT extended (only message-producing events reach the model), so the summary itself rides on a separate `user/message` with `surfaceOp: { op: 'replace', startSeq, endSeq }`. The next model attempt consolidates current system instructions through ordinary `system/message` replacements.

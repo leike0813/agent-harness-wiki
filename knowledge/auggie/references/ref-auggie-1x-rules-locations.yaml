@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-1x-rules-locations
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-rules-20261125
+locator:
+  kind: document_section
+  heading: Supported Rules Files
+official_url: "https://docs.augmentcode.com/cli/rules.md"
+excerpt: |-
+  Auggie loads rules from these locations:
+  1. **Custom rules** (via the `--rule` flag): a file or directory
+  2. **Workspace rules folder**: `<workspace_root>/.augment/rules/` - Recursively searches `.md` and `.mdc` files
+  3. **User rules folder**: `~/.augment/rules/` - Recursively searches `.md` and `.mdc` files for user-wide rules
+  4. **AGENTS.md or CLAUDE.md**: Loaded from the current directory and every parent directory. In each directory, Auggie loads `AGENTS.md` if it exists and otherwise `CLAUDE.md`
+  5. **Workspace guidelines**: `<workspace_root>/.augment-guidelines`
+  Run `/rules` in interactive mode to see which rules are loaded and their types. Use `--no-rules` to turn off rule discovery.

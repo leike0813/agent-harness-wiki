@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-model-limits-default-20261125
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-byok-20261125
+locator:
+  kind: file_lines
+  file: sdk/src/byok.ts
+  start: 306
+  end: 323
+official_url: "https://github.com/CodebuffAI/codebuff/blob/286f2517138563f5942a381f063f55254779a366/sdk/src/byok.ts"
+excerpt: |2-
+   *
+   * The reservation is at most half the window. The settings form's `max`
+   * offers an output limit of window - 1, which left a budget of 0: the agent
+   * schema then refused every agent of the run before any model call (Cloud,
+   * 2026-11). A prompt plus output over the window is also a request a strict
+   * endpoint refuses. Any valid window keeps a budget of at least 1,843.
+   */
+  export function byokModelLimits(connection: {
+    contextWindow?: number
+    maxOutputTokens?: number
+  }) {
+    const contextWindow = connection.contextWindow ?? BYOK_DEFAULT_CONTEXT_WINDOW
+    const maxOutputTokens =
+      connection.maxOutputTokens ??
+      Math.min(BYOK_DEFAULT_MAX_OUTPUT_TOKENS, Math.floor(contextWindow / 4))
+    if (
+      !Number.isInteger(contextWindow) ||
+      contextWindow < 4096 ||

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-agents-config-limits
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/vibe_schema.py
+  start: 1442
+  end: 1459
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      max_subagents: Annotated[int, WithReplaceMerge()] = Field(
+          default=32,
+          ge=1,
+          description=(
+              "Maximum number of subagents that can be alive at once; a spawn "
+              "beyond this closes the subagent that has waited longest, and fails "
+              "while none is waiting."
+          ),
+      )
+      max_concurrent_subagents: Annotated[int, WithReplaceMerge()] = Field(
+          default=32,
+          ge=1,
+          description=(
+              "Maximum number of subagents running a turn at the same time; "
+              "spawning or messaging beyond this fails until a subagent "
+              "finishes its turn."
+          ),
+      )

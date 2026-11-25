@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-plugin-enablement
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/plugins/_enablement.py
+  start: 31
+  end: 38
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  def is_plugin_enabled(plugin: PluginDescriptor, config: VibeConfigSchema) -> bool:
+      # le-chat decides a library plugin (only those that are on are synced),
+      # so ``disabled_plugins`` naming it cannot turn it off.
+      if is_required_plugin(plugin) or plugin.scope is SkillScope.REMOTE:
+          return True
+      if plugin.name in config.disabled_plugins:
+          return False
+      return plugin.default_enabled or plugin.name in config.enabled_plugins

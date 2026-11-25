@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-1x-settings-files
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-config-20261125
+locator:
+  kind: document_section
+  heading: Settings files
+official_url: "https://docs.augmentcode.com/cli/settings.md"
+excerpt: |-
+  Auggie reads settings from these files, from highest to lowest precedence:
+  1. **Managed settings** (read-only)
+     * `/etc/augment/settings.json` on macOS and Linux
+     * `C:\ProgramData\augment\settings.json` on Windows
+     * Set by organization admins and cannot be overridden by users
+  2. **Local project settings**: `<workspace>/.augment/settings.local.json`
+  3. **Project settings**: `<workspace>/.augment/settings.json`
+  4. **User settings**: `~/.augment/settings.json`
+     * Personal defaults that apply across projects, and the file `/settings` writes to
+  Higher-precedence files override lower-precedence files. Tool permission rules from all files are combined.

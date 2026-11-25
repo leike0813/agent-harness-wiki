@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-cur-configuration-changelog-private-tmp
+harness_id: cursor
+snapshot_id: snapshot-source-cur-cli-changelog-doc-20261125
+locator:
+  kind: file_lines
+  file: cli/changelog.md
+  start: 32
+  end: 32
+official_url: https://cursor.com/docs/cli/changelog.md
+excerpt: |-
+  - **Sandboxed commands can use `/tmp` on Linux.** Set `"privateTmp": true` in [`sandbox.json`](https://cursor.com/docs/reference/sandbox.md), with `readBoundary` set to `"workspace"`, and `/tmp` inside sandboxed commands becomes the workspace's own scratch folder, the same one `$TMPDIR` points to. Tools that write to a literal `/tmp` path stop failing, files stay there for the next command, and other workspaces can't see them. macOS ignores the setting.

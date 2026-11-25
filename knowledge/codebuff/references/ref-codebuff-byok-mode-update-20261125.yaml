@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-mode-update-20261125
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-byok-20261125
+locator:
+  kind: file_lines
+  file: sdk/src/byok.ts
+  start: 970
+  end: 980
+official_url: "https://github.com/CodebuffAI/codebuff/blob/286f2517138563f5942a381f063f55254779a366/sdk/src/byok.ts"
+excerpt: |2-
+          const fields = cleanInput({
+            ...existing,
+            ...patch,
+            contextWindowMode:
+              patch.contextWindowMode ??
+              (patch.contextWindow !== undefined
+                ? 'manual'
+                : byokConnectionLimits(existing).contextWindowMode),
+            credentialRef: patch.credentialRef,
+            apiKey: patch.apiKey,
+          })

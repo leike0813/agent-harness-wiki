@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt7-schema-fallback-anonymizer-code
+harness_id: omp
+snapshot_id: snapshot-omp-7f5f-src-session-anonymizer-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-anonymizer.ts
+  start: 1521
+  end: 1531
+official_url: https://github.com/can1357/oh-my-pi/blob/7f5fdfa3e4c5621cab857de46a8d75fbf3547e70/packages/coding-agent/src/session/session-anonymizer.ts#L1521-L1531
+excerpt: |-
+  	/** A retry fallback's cause: the model it left is named like `model`, and its reason can echo a provider error. */
+  	#fallbackCause(cause: JsonObject, fromTool: boolean): JsonObject {
+  		const out: JsonObject = {};
+  		for (const key in cause) {
+  			const rule = Object.hasOwn(FALLBACK_CAUSE_RULES, key) ? FALLBACK_CAUSE_RULES[key] : undefined;
+  			if (rule === undefined) out[this.placeholder(key)] = this.#opaque(cause[key]);
+  			else out[key] = this.#field(rule, cause[key], cause, key, fromTool);
+  		}
+  		return out;
+  	}

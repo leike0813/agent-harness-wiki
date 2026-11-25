@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-has-default-mode-20261125
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-byok-20261125
+locator:
+  kind: file_lines
+  file: sdk/src/byok.ts
+  start: 345
+  end: 360
+official_url: "https://github.com/CodebuffAI/codebuff/blob/286f2517138563f5942a381f063f55254779a366/sdk/src/byok.ts"
+excerpt: |2-
+  /** Explicit mode wins; absent mode preserves legacy connection behavior. */
+  export function hasDefaultByokLimits(connection: {
+    contextWindow?: number
+    contextWindowMode?: 'auto' | 'manual'
+    maxOutputTokens?: number
+  }): boolean {
+    if (connection.contextWindowMode !== undefined)
+      return connection.contextWindowMode === 'auto'
+    if (connection.contextWindow === undefined) return true
+    return (
+      (connection.contextWindow ?? BYOK_DEFAULT_CONTEXT_WINDOW) ===
+        BYOK_DEFAULT_CONTEXT_WINDOW &&
+      (connection.maxOutputTokens ?? BYOK_DEFAULT_MAX_OUTPUT_TOKENS) ===
+        BYOK_DEFAULT_MAX_OUTPUT_TOKENS
+    )
+  }

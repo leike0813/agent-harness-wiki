@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-limits-mode-20261125
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-byok-20261125
+locator:
+  kind: file_lines
+  file: sdk/src/byok.ts
+  start: 362
+  end: 372
+official_url: "https://github.com/CodebuffAI/codebuff/blob/286f2517138563f5942a381f063f55254779a366/sdk/src/byok.ts"
+excerpt: |2-
+  /** Validate saved limits without treating an Auto placeholder as model capacity. */
+  export function byokConnectionLimits(input: {
+    contextWindow?: number
+    contextWindowMode?: 'auto' | 'manual'
+    maxOutputTokens?: number
+  }) {
+    const contextWindowMode = z.enum(['auto', 'manual']).parse(
+      input.contextWindowMode ?? (hasDefaultByokLimits(input) ? 'auto' : 'manual'),
+    )
+    if (contextWindowMode === 'manual' && input.contextWindow === undefined)
+      throw new Error('Enter a context window for manual limits')

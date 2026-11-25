@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-recent-chat-saved-files-20261125
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-project-files-20261125
+locator:
+  kind: file_lines
+  file: cli/src/project-files.ts
+  start: 72
+  end: 92
+official_url: "https://github.com/CodebuffAI/codebuff/blob/286f2517138563f5942a381f063f55254779a366/cli/src/project-files.ts"
+excerpt: |2-
+  export function getMostRecentChatDir(): string | null {
+    try {
+      const chatsDir = path.join(getProjectDataDir(), 'chats')
+      let best: { dir: string; savedAt: number } | null = null
+      for (const entry of readdirSync(chatsDir, { withFileTypes: true })) {
+        if (!entry.isDirectory()) continue
+        const dir = path.join(chatsDir, entry.name)
+        const savedAt = Math.max(
+          ...['run-state.json', 'chat-messages.json'].map(
+            (file) =>
+              statSync(path.join(dir, file), { throwIfNoEntry: false })
+                ?.mtimeMs ?? 0,
+          ),
+        )
+        if (savedAt > (best?.savedAt ?? 0)) best = { dir, savedAt }
+      }
+      return best?.dir ?? null
+    } catch {
+      return null
+    }
+  }

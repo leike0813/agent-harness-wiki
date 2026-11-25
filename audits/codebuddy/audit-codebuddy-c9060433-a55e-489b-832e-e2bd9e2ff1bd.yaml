@@ -1,0 +1,63 @@
+schema_version: 2
+audit_id: audit-codebuddy-c9060433-a55e-489b-832e-e2bd9e2ff1bd
+harness_id: codebuddy
+checked_at: 2026-11-25T00:28:26.287Z
+previous_audit_id: audit-codebuddy-df829686-4270-4cd6-9b2a-c06baa3f58f4
+status: blocked
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-codebuddy-docs
+    kind: git_repository
+    checked_at: 2026-11-25T00:28:25.330Z
+    status: blocked
+    baseline: 7576ffa88f81540b71d4326cfbca779f78132073
+    observed: 7177f7e009422b0621b9d722c026bc35a8fe9f84
+    remote_ref: refs/heads/main
+    error: >-
+      GitHub compare returned 404 (Not Found), so the changed-path diff for
+      7576ffa88f81540b71d4326cfbca779f78132073..7177f7e009422b0621b9d722c026bc35a8fe9f84
+      was not retained and no file-level delta could be triaged. The registered
+      repository is https://cnb.cool/codebuddy/codebuddy-code.git, not GitHub;
+      the HEAD observation itself succeeded and is kept as observed.
+  - source_id: source-codebuddy-site
+    kind: official_documentation
+    checked_at: 2026-11-25T00:28:25.342Z
+    status: unchanged
+    baseline: 6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b
+    observed: 6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b
+    resolved_url: https://www.codebuddy.cn/llms.txt
+  - source_id: source-codebuddy-npm
+    kind: npm_registry
+    checked_at: 2026-11-25T00:28:25.343Z
+    status: unchanged
+    baseline: 2.186.0@sha512-4SlDzLSwekKiLZ/9jgA1V/Muh446vQ3qpunAWbMLGd8hdM4mnNcdP1TjtS+KYMb8JDVMCD1KPEPTyJYvItDHYg==
+    observed: 2.186.0@sha512-4SlDzLSwekKiLZ/9jgA1V/Muh446vQ3qpunAWbMLGd8hdM4mnNcdP1TjtS+KYMb8JDVMCD1KPEPTyJYvItDHYg==
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - 本轮固定批次里 source-codebuddy-docs 的 GitHub compare 差异为 404（`Not Found`），
+    7576ffa88f81540b71d4326cfbca779f78132073..7177f7e009422b0621b9d722c026bc35a8fe9f84
+    的 changed paths 未取得，批次也没有其他文件级 hunk 可核对；因此本轮不派发 maintenance、不新建
+    快照/引用/章节/映射，也不改 registry/chapter-current.yaml。基线保留在
+    7576ffa88f81540b71d4326cfbca779f78132073，未推进 processed。
+  - 只读核对（不构成发布证据，未写入任何 artifact）：登记仓库是
+    https://cnb.cool/codebuddy/codebuddy-code.git（不是 GitHub）；`git ls-remote` 的
+    refs/heads/main 与审计 observed 一致（7177f7e009422b0621b9d722c026bc35a8fe9f84），
+    baseline 与 observed 两个提交都能从该仓库取得。按这个范围执行 name-status 得到 63 个路径，
+    其中包含 docs/env-vars.md、docs/hooks.md、docs/mcp.md、docs/settings.md、
+    docs/slash-commands.md、docs/sub-agents.md、docs/models.md、docs/plugins.md 等当前章节
+    已引用的页面。因此不能宣告「无被引用文件变化」：批次 intersect 为空是因为差异抓取失败，而不是
+    因为引用文件未变；本轮只是没有取得逐字证据，问题保持未决。
+  - 候选知识面与基线逐字一致（章节、快照、引用、映射、registry 与 selection 均未修改），
+    本轮没有能力结论或版本映射结论。
+  - 历史 pending：本审计不引用
+    audit-codebuddy-9f90f95d-be63-48f2-9d75-f841bcaa2a8f、
+    audit-codebuddy-b2f1e4d2-885e-474a-808f-950b78020684、
+    audit-codebuddy-a717d490-f443-4c2d-bc06-21ce29a2f06a、
+    audit-codebuddy-6af50c11-2c52-43db-93b8-f02a4ade70cd；它们各自保持原有 pending 状态与
+    问题清单，本审计的 pending 状态不会间接关闭它们。previous_audit_id 仍保留链路。
+  - source-codebuddy-site 未变（6041efd96529c902c63c14e21d51505ef4bb9d9e3aeafce9e2e28e0b151c649b），
+    source-codebuddy-npm 未变（2.186.0@sha512-4SlDz…），npm 身份变化本身不计知识影响。
+  - 重试入口：下一轮必须从登记的 cnb.cool 仓库（或 coordinator 的 pinned source workspace）取得
+    7576ffa8..7177f7e0 的文件级差异后再继续；GitHub compare 对该来源不适用。

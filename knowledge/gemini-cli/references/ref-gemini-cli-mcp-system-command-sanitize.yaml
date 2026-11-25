@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-mcp-system-command-sanitize
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-cfg-settings-08e9a20f
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settings.ts
+  start: 1584
+  end: 1598
+official_url: "https://github.com/google-gemini/gemini-cli/blob/08e9a20f749aefcbda38622ac757899c3d6216e0/packages/cli/src/config/settings.ts"
+excerpt: |2-
+    const insecure = findInsecureMcpTarget(
+      tokens[0],
+      tokens.slice(1),
+      undefined,
+      ctx,
+    );
+    if (!insecure) {
+      return;
+    }
+    ctx.settingsErrors.push({
+      message: `Security Warning: Skipping mcp.serverCommand in ${ctx.fileLabel} file '${ctx.settingsFilePath}' due to insecure command path '${insecure.target}': ${insecure.reason}`,
+      path: ctx.settingsFilePath,
+      severity: 'warning',
+    });
+    delete settings.mcp.serverCommand;

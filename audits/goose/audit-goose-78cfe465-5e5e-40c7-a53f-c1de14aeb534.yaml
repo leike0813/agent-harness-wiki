@@ -1,0 +1,86 @@
+schema_version: 2
+audit_id: audit-goose-78cfe465-5e5e-40c7-a53f-c1de14aeb534
+harness_id: goose
+checked_at: 2026-11-25T00:27:57.675Z
+previous_audit_id: audit-goose-9ddf6039-5e9e-41c0-953e-3ff04800619e
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-25T00:39:46Z
+pending_audit_refs: []
+checks:
+  - source_id: source-goose-repo
+    kind: git_repository
+    checked_at: 2026-11-25T00:27:55.925Z
+    status: changed
+    baseline: 059fee25f13fa92be561a7d42cdd04ececef5a98
+    observed: 02acced1e332824cba1ce1aa0e4cd0fcc29c0b55
+    remote_ref: refs/heads/main
+  - source_id: source-goose-npm
+    kind: npm_registry
+    checked_at: 2026-11-25T00:27:55.934Z
+    status: unchanged
+    baseline: 1.60.2@sha512-vmiKD5nz2xc5kogFQCQ+qS1RP/HbKJ9lMLnTWcEjOlX3K7hYij0vII3b/voCRY2AdDVh9zkz+hgoVhwi+6uwnA==
+    observed: 1.60.2@sha512-vmiKD5nz2xc5kogFQCQ+qS1RP/HbKJ9lMLnTWcEjOlX3K7hYij0vII3b/voCRY2AdDVh9zkz+hgoVhwi+6uwnA==
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - 登记结论 reviewed_no_impact（status 仍由 checks 派生）：本轮不新建
+    artifact/reference/edition，不改 registry/chapter-current.yaml。观察冻结为
+    source-goose-repo 059fee25f13fa92be561a7d42cdd04ececef5a98 →
+    02acced1e332824cba1ce1aa0e4cd0fcc29c0b55；source-goose-npm 仍是 1.60.2，版本与
+    integrity 均未变。
+  - 本切片范围：按任务只提取两个交集引用文件的 hunks，即
+    crates/goose-cli/src/cli.rs 与 crates/goose/src/agents/state_machine/session.rs；
+    固定问题限 configuration、local_transcripts、custom_agents。diff 共 54 个文件，其余
+    52 个不在本切片，未据此改写章节或登记 impact。
+  - diff 身份核对：两个文件的 baseline blob（5a38eb4394bf 与 676691654a20）与 HEAD blob
+    （9b2c92182607 与 46957ac505eb）都经 git hash-object 与 diff 的 index 行逐字匹配，
+    确认给定 diff 就是 059fee25 → 02acced1 的变更，不是外来补丁。
+  - crates/goose-cli/src/cli.rs（raw 02acced1 文件 sha256
+    284d42dbb3a22ea77de6a52eed526e9dab58c82ff9331803080232c91ffe5c5a，3187 行）只有两处
+    long_help 文案改写：hunk `@@ -90,7 +90,7 @@`（新文件第 93 行）把 Identifier.name 的
+    long_help 改为 “Specify a session by name. With goose session or goose run, names the new
+    session, or picks the session to resume when used with --resume.”；hunk `@@ -99,7 +99,7 @@`
+    （第 102 行）把 Identifier.session_id 的 long_help 改为 “Specify a session by ID. With
+    goose session or goose run, must be used with --resume.”。两字段的
+    short/long/value_name/alias/help 与 Identifier 的 group（multiple = false）均未改，
+    未新增或删除字段，也未改 conflicts_with；解析、互斥与创建/恢复行为不变，属帮助文字澄清。
+  - cli.rs 引用交集为零：候选内 16 条 reference 的 locator 覆盖 120-147、181-217、211-217、
+    334-353、366-373、403-425、446-457、547-557、558-578、579-585、586-593、728-748、
+    829-838（两次）、935-942、1838-1851，全部在 Identifier 块（85-113）之外；该文件唯一的
+    artifact 是 pinned 到 104ddde5 的 git_source_file 内容哈希，不因 HEAD 行号移动失效。
+    章节正文也没有引用 --name/--session-id 的 long_help 原文，只引用 --no-session 的 long_help。
+  - 固定问题对照：configuration 里引用 cli.rs 的是 config-runtime（120-147 的 debug、
+    max-tool-repetitions、max-turns，334-353 的 provider/model，211-217 的 no-profile）、
+    config-trust（120-147、1838-1851 的 serve）与 config-diagnostics（829-838 的 info）；
+    config.runtime 的其余引用是 GOOSE_* 环境变量与 goose mode 解析，都不涉及 Identifier
+    帮助文案，答案不变；
+    local_transcripts 的 transcripts.naming 落在 transcripts-storage（命名由 sessions.id 的 SQL
+    生成），transcripts.lifecycle 只说 --resume 时按 --name 匹配名称或 ID、--no-session 与
+    --name/--resume/--path 互斥（第 295、410 行），与新文案一致，且未声称 --name 只用于恢复；
+    custom_agents 的 agents.* 与这两个结构无关。
+  - crates/goose/src/agents/state_machine/session.rs（raw 02acced1 文件 sha256
+    bc024a0d4677c9e4ee391ebc5586a22f84324374b47ddc08c290771c02c2ae7d，410 行）只有一处改动：
+    hunk `@@ -171,7 +171,9 @@`（新文件第 174-175 行）把
+    `emit.emit(AgentEvent::Usage(usage.clone()))` 改为
+    `emit.emit(AgentEvent::Usage(usage.as_ref().clone()))`。同批 effects.rs 把
+    RecordUsage(ProviderUsage) 改为 RecordUsage(Box<ProviderUsage>)，ops_llm.rs 与
+    compaction_lifecycle 测试同步改为 Box::new(usage)，属所有权与栈占用的重构。
+  - 语义核对：AgentEvent::Usage 收到的仍是同一个 ProviderUsage 值，as_ref().clone() 只是从
+    Box 取得引用后克隆，不是默认化或丢弃；usage::record（第 139 行）与 EffectUsage::usage
+    （第 251 行）经 Box 的 Deref 读写同一结构。用量记账内容、事件顺序、压缩后的用量重估均未变，
+    因此 transcripts.scope/lifecycle/schema/database 的答案不受影响。
+  - session.rs 引用交集为零：该文件仅 2 条 reference（51-64 的 AppendMessage/ReplaceConversation、
+    65-78 的 CompactConversation），不与 171-179 相交；transcripts.lifecycle 关于追加与压缩后
+    延续的陈述依据这两段，保持有效。
+  - 历史 pending 注记：冻结扫描审计在 pending_audit_refs 列出的
+    audit-goose-703d225e-c7ce-402d-8f1e-d6a2419b387e、
+    audit-goose-b3b8ec85-01cd-4143-9159-9871989fd17b、
+    audit-goose-0b2f073c-eabc-4c2e-8faa-876cf3eed0e3、
+    audit-goose-8e59ad32-d639-4d83-a507-a3807ac9401d 属历史记录；本轮没有重派其中的未完成问题，
+    也没有新证据解决它们。为避免借本审计关闭旧问题，pending_audit_refs 置空并在此保留清单；
+    四条旧审计自身的状态与 pending 问题保持原样。
+  - 结论与 selection：上述三个 topic 的答案与章节均不改，不新增 source_ref、edition、mapping 或
+    artifact；当前选择仍为 goose-cli-configuration-v3、goose-cli-local_transcripts-v1、
+    goose-cli-custom_agents-v4。npm 1.60.2 的版本与 integrity 未变，不产生发行版映射。

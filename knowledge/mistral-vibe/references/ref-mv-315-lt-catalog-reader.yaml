@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-lt-catalog-reader
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_session_catalog.py
+  start: 330
+  end: 339
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+          signature = _file_signature(os.lstat(current_path))
+          cached = self._cache.pointers.get(session_id)
+          if cached is not None and cached.signature == signature:
+              return cached
+          current_value, current_bytes = _read_document_bytes(current_path)
+          current = CurrentPointerV1.model_validate(current_value)
+          if current.session_id != session_id:
+              raise ValueError("CURRENT names another session")
+          if current.store_format_minor > READABLE_STORE_FORMAT_MINOR:
+              raise ValueError("CURRENT requires a newer store reader")

@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-plugin-remote-dir
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/plugins/remote.py
+  start: 88
+  end: 91
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  REMOTE_PLUGINS_DIR = GlobalPath(lambda: VIBE_HOME.path / "remote-plugins")
+  # What library plugins write while they run (``_native``'s data root for the
+  # ``remote`` scope). Keyed by plugin name, so it belongs to one account.
+  REMOTE_PLUGIN_DATA_DIR = GlobalPath(lambda: VIBE_HOME.path / "plugin-data" / "remote")

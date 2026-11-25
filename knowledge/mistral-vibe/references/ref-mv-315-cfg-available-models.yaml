@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-cfg-available-models
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/vibe_schema.py
+  start: 1616
+  end: 1642
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      def available_models(self) -> dict[str, ModelConfig]:
+          if not self.allowed_models:
+              return self.models
+          allowed = {
+              alias: model
+              for alias, model in self.models.items()
+              if self._matches_allowed(model)
+          }
+          if self.origin_of("allowed_models") == "admin":
+              # An administrator's policy must fail closed: an invalid policy must
+              # not allow a user-configured model to run.
+              return allowed
+          # A filter that matches nothing in a non-enforced config degrades to
+          # "allow all" rather than bricking model selection.
+          return allowed or self.models

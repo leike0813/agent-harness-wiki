@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-lt-sparse-warning
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_storage.py
+  start: 1435
+  end: 1446
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  def _warn_unreadable_sparse_positions(session_id: str, unreadable: set[str]) -> None:
+      """Warn once that a load of ``session_id`` dropped positions it could not read."""
+      if not unreadable:
+          return
+      error_types = sorted(unreadable)
+      logger.warning(
+          "Saved Session API history positions of session %s are unreadable "
+          "(%s); dropping them",
+          session_id,
+          ", ".join(error_types),
+          extra={"session_id": session_id, "error_types": error_types},
+      )

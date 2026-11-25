@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-1x-hooks-tool-fields
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-hooks-20261125
+locator:
+  kind: document_section
+  heading: PreToolUse / PostToolUse Events
+official_url: "https://docs.augmentcode.com/cli/hooks.md"
+excerpt: |-
+  | `tool_output` | string? | PostToolUse only | Output returned by the tool (if successful). Use for auditing or providing context to the agent. |
+  | `tool_error` | string? | PostToolUse only | Error message if tool execution failed. Use to detect failures and inject troubleshooting tips. |
+  | `tool_result` | array | PostToolUse only | The tool's raw result content blocks. `tool_output` is the text joined from these blocks. |
+  | `tool_is_error` | boolean | PostToolUse only | `true` if the tool failed. |
+  | `file_changes` | object\[]? | PostToolUse only | File changes for `write` and `edit`. Includes `path`, `changeType`, `content`, and `oldContent`. Changes made by `bash` or other tools are not reported; use `git status` or `git diff` instead. |

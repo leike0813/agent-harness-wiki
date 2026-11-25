@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-hookl-sessionstart-cloud
+harness_id: devin
+snapshot_id: snapshot-devin-cli-hooks-lifecycle-f8e5c1af34f2
+locator:
+  kind: document_section
+  heading: SessionStart
+official_url: "https://docs.devin.ai/cli/extensibility/hooks/lifecycle-hooks.md"
+excerpt: |-
+  Fires when a session starts (`source: startup`) or resumes (`source: resume`). Use this for initialization, logging, or environment setup.
+
+  **Local (CLI and Desktop):** fires before the first turn, and again when you resume a saved session. The agent waits for the hook, and a `block` decision refuses the session.
+
+  **Cloud:** fires once the agent and the session's VM are both up, so the command runs on the VM. Every wake from sleep is a resume, so a hook that should run only once checks `source`. Hooks from a repository's plugins fire as soon as that repository is set up. The hook runs in the background: the agent doesn't wait for it, and its decision is ignored unless it is an organization's `blocking` hook, which gates the session.

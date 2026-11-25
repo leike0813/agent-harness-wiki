@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-lt-archive-flag
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/app_server/_unified_harness_backend_adapter.py
+  start: 5140
+  end: 5149
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+                  metadata = await _persist_unified_session_metadata(
+                      session_dir,
+                      snapshot.snapshot.state.session,
+                      snapshot.cwd,
+                      previous=await asyncio.to_thread(
+                          _read_unified_session_metadata, session_dir
+                      ),
+                      archived_at=archived_at,
+                      pinned_at=None if params.archived else _UNCHANGED,
+                  )

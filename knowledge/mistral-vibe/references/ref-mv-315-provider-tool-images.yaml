@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-provider-tool-images
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 166
+  end: 171
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      # Whether this provider takes images in a tool message, which the OpenAI
+      # Chat Completions spec does not allow (text only). Unset (None), it is on
+      # only for a known endpoint that takes them (`sends_tool_result_images`);
+      # off, a tool result reaches the model with `[Image]` in place of each
+      # image. The `mistral` backend sends tool images whatever this says.
+      tool_result_images: bool | None = None

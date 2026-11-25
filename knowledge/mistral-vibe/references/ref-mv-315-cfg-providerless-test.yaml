@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-cfg-providerless-test
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: tests/core/config/test_vibe_config_schema.py
+  start: 1579
+  end: 1592
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  async def test_models_are_kept_when_none_has_a_configured_provider(
+      tmp_path: Path,
+  ) -> None:
+      """Leaving every model out would fail the whole config, not one session."""
+      toml_path = tmp_path / "config.toml"
+      toml_path.write_text(tomli_w.dumps({"models": [_UNCONFIGURED_MODEL]}))
+
+      with patch.dict(os.environ, {}, clear=True):
+          user = UserConfigLayer(path=toml_path)
+          orchestrator = await ConfigOrchestrator.create(
+              schema=VibeConfigSchema, layers=[user], default_layer_resolver=lambda: user
+          )
+
+      assert list(orchestrator.config.models) == ["my-model"]

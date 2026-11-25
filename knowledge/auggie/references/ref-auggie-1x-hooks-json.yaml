@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-1x-hooks-json
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-hooks-20261125
+locator:
+  kind: document_section
+  heading: Hook Output Reference
+official_url: "https://docs.augmentcode.com/cli/hooks.md"
+excerpt: |-
+  | Field | Type | Description | Destination |
+  | :-: | - | :-: | - |
+  | `systemMessage` | string | Warning or informational message | User |
+  | `permissionDecision` | `"deny"` | Block tool execution | - |
+  | `updatedInput` | object | Fields to change in the tool input before it runs | Tool |
+  `updatedInput` is merged into the original tool input: fields you return replace the originals, and fields you leave out are kept. If several hooks match, each one's changes are applied in order.

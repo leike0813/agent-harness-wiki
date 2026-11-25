@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-hooks-permissionrequest-updated-permissions
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-e3c02d15-core-permission-helpers
+locator:
+  kind: file_lines
+  file: packages/core/src/core/permission-helpers.ts
+  start: 259
+  end: 304
+official_url: https://github.com/QwenLM/qwen-code/blob/e3c02d15dd292425f08b8355df920f66a3e4248b/packages/core/src/core/permission-helpers.ts
+excerpt: |-
+  const HOOK_RULE_SCOPES = new Map<unknown, 'session' | 'project' | 'user'>([
+    ['session', 'session'],
+    ['projectSettings', 'project'],
+    ['localSettings', 'project'],
+    ['userSettings', 'user'],
+  ]);
+
+  /**
+   * Apply the `updatedPermissions` entries an allowing PermissionRequest hook
+   * returned. Only `addRules` entries are applied: `session` adds in-memory
+   * rules, `projectSettings` and `localSettings` persist to the project scope
+   * (where "Always allow" for the project writes), and `userSettings` to the
+   * user scope. Other entries are skipped.
+   */
+  export async function applyPermissionRequestHookUpdates(
+    updates: readonly unknown[],
+    config: Pick<

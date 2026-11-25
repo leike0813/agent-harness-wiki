@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-agents-save-default-model
+harness_id: zed
+snapshot_id: snapshot-zed-agent-thread-rs-2664a0a
+locator:
+  kind: file_lines
+  file: crates/agent/src/thread.rs
+  start: 2258
+  end: 2271
+official_url: "https://github.com/zed-industries/zed/blob/2664a0aa1eae5dabf8f8273c03f88d53061ca7dc/crates/agent/src/thread.rs"
+excerpt: |-
+  pub fn save_default_model(&self, cx: &App) {
+      let Some(model) = self.model() else {
+          return;
+      };
+      let selection = LanguageModelSelection {
+          provider: model.provider_id().0.to_string().into(),
+          model: model.id().0.to_string(),
+          enable_thinking: self.thinking_enabled,
+          effort: self.thinking_effort.clone(),
+          speed: self.speed,
+      };
+      self.write_default(cx, move |settings| {
+          settings.agent.get_or_insert_default().set_model(selection);
+      });

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-agents-closed-name
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_subagents/_controller.py
+  start: 2105
+  end: 2120
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      ) -> SubagentFailure | None:
+          child = state.children.get(agent_name)
+          if child is not None and not _is_closed(child):
+              return failure(
+                  "subagent_name_conflict",
+                  f"Subagent name is already reserved: {agent_name}",
+                  retryable=False,
+              )
+          if child is None and self._closed_log.record(agent_name) is None:
+              return None
+          return failure(
+              "subagent_name_conflict",
+              "Subagent name belongs to a closed subagent; choose another name: "
+              f"{agent_name}",
+              retryable=False,
+          )

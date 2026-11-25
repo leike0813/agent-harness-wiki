@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-model-limits-budget-20261125
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-byok-20261125
+locator:
+  kind: file_lines
+  file: sdk/src/byok.ts
+  start: 329
+  end: 343
+official_url: "https://github.com/CodebuffAI/codebuff/blob/286f2517138563f5942a381f063f55254779a366/sdk/src/byok.ts"
+excerpt: |2-
+      throw new Error(
+        'Choose a context limit of 4096–2000000 tokens and a smaller positive output limit',
+      )
+    }
+    const reservedOutputTokens = Math.min(
+      maxOutputTokens,
+      Math.floor(contextWindow / 2),
+    )
+    return {
+      contextWindow,
+      maxOutputTokens,
+      reservedOutputTokens,
+      maxContextLength: Math.floor((contextWindow - reservedOutputTokens) * 0.9),
+    }
+  }

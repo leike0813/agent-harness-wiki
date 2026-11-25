@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt7-schema-fallback-write-code
+harness_id: omp
+snapshot_id: snapshot-omp-7f5f-src-session-manager-ts
+locator:
+  kind: file_lines
+  file: packages/coding-agent/src/session/session-manager.ts
+  start: 3779
+  end: 3790
+official_url: https://github.com/can1357/oh-my-pi/blob/7f5fdfa3e4c5621cab857de46a8d75fbf3547e70/packages/coding-agent/src/session/session-manager.ts#L3779-L3790
+excerpt: |-
+  	appendModelChange(model: string, role?: string, options?: { fallback?: ModelFallbackCause }): string {
+  		const entry: ModelChangeEntry = {
+  			type: "model_change",
+  			...this.#freshEntryFields(),
+  			model,
+  			role,
+  			resolvedModelIsFallback: options?.fallback !== undefined,
+  			fallback: options?.fallback,
+  		};
+  		this.#recordEntry(entry);
+  		return entry.id;
+  	}

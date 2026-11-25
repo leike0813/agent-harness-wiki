@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-devin-plug-platforms
+harness_id: devin
+snapshot_id: snapshot-devin-cli-plugins-7882f1057ae9
+locator:
+  kind: document_section
+  heading: Platforms
+official_url: "https://docs.devin.ai/cli/extensibility/plugins/overview.md"
+excerpt: |-
+  The optional `platforms` list narrows where a plugin loads. It defaults to
+  everywhere; a plugin loads when any listed value matches the session.
+
+  * `"cloud"`: Devin cloud sessions.
+  * `"local"`: the Devin CLI and Devin Desktop.
+  * `"security"`: Devin for Security sessions (cloud sessions running a code
+    scan). Such a session also counts as `"cloud"`, so cloud plugins load there
+    too, while a plugin listing only `"security"` loads nowhere else.
+
+  ```jsonc theme={null}
+  {
+    "name": "scan-triage",
+    "platforms": ["security"]
+  }
+  ```
+
+  A plugin that a restricted plugin requires inherits its restriction along that
+  path. Unrecognized entries are ignored rather than disabling the plugin.

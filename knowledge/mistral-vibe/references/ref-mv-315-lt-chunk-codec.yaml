@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-lt-chunk-codec
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_storage.py
+  start: 157
+  end: 168
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  # A chunk is named by the digest of its uncompressed canonical bytes whatever its
+  # codec: a pooled chunk is either plain ``<digest>.json`` or gzip-compressed
+  # ``<digest>.json.gz``, so reuse and collection never depend on the codec and a
+  # store holding both still reads.
+  _CHUNK_FILE_PATTERN = re.compile(r"^([0-9a-f]{64})\.json(?:\.gz)?$")
+  _COMPRESSED_CHUNK_SUFFIX = ".json.gz"
+  _PLAIN_CHUNK_SUFFIX = ".json"
+  _GZIP_WBITS = 31
+  # A chunk is unbounded by the document cap: it holds one item past the seal
+  # target, and an item can be large. This ceiling only stops a corrupt or hostile
+  # gzip file from inflating without limit; a plain chunk has no limit at all.
+  _MAX_INFLATED_CHUNK_BYTES = 1024 * 1024 * 1024

@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-cfg-schema-flags
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/vibe_schema.py
+  start: 1213
+  end: 1249
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  experimental_enable_remote_plugins: Annotated[bool, WithReplaceMerge()] = Field(
+      default=False,
+      description=(
+          "Experimental: sync the plugins that are on in your Mistral plugin"
+          " library onto this machine, and load them in sessions."
+      ),
+  )
+  ...
+  enable_model_catalog: Annotated[bool, WithReplaceMerge()] = Field(
+      default=True,
+      description=(
+          "List the models of Mistral's model catalog, fetched from the"
+  ...
+  enable_builtin_models: Annotated[bool, WithReplaceMerge()] = Field(
+      default=True,
+      description=(
+          "Offer the built-in models, Mistral Large 4 and Mistral Medium 3.5,"
+          " when the model catalog lists none. Turn off for a self-hosted"
+  ...
+      ),
+  )

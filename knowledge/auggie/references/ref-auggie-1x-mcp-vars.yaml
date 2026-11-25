@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-1x-mcp-vars
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-integrations-20261125
+locator:
+  kind: document_section
+  heading: Variable Expansion
+official_url: "https://docs.augmentcode.com/cli/integrations.md"
+excerpt: |-
+  MCP server configurations support variable expansion for dynamic values:
+  | Syntax | Expands to |
+  | :- | :- |
+  | `${workspaceFolder}` | The current workspace root path |
+  | `${VAR}` | The value of the environment variable `VAR` |
+  | `${VAR:-default}` | The value of `VAR`, or `default` if it isn't set |
+  | `\${VAR}` | The literal text `${VAR}` |
+  | `~` at the start of `command` or `cwd` | Your home directory |
+  **Supported locations for variable expansion:**
+  * `command`, `args`, `cwd`, and `env` values (for stdio transport)
+  * `url` and `headers` values (for http and sse transports)
+  * If an environment variable isn't set and has no default, Auggie skips that server and reports an error for it
+  * Variable expansion works with both `settings.json` configurations and `--mcp-config` overrides

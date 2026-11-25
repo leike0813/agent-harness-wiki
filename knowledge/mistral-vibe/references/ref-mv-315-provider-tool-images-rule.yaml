@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-provider-tool-images-rule
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/models.py
+  start: 208
+  end: 219
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      @property
+      def sends_tool_result_images(self) -> bool:
+          """Whether tool-result images go in the tool message.
+
+          The provider's ``tool_result_images`` when set, False included;
+          otherwise on only for an endpoint known to take them. Derived on read,
+          so a copy with another ``api_base`` never keeps a stale value.
+          """
+          if self.tool_result_images is not None:
+              return self.tool_result_images
+          host = (urlparse(self.api_base).hostname or "").rstrip(".")
+          return host in _TOOL_RESULT_IMAGE_HOSTS
