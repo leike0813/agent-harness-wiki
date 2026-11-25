@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-locations-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-site-skills-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/services/site/src/docs/content/skills.mdx
+locator:
+  kind: file_lines
+  file: services/site/src/docs/content/skills.mdx
+  start: 40
+  end: 66
+excerpt: |-
+  ## Discovery
+  | Global                | `~/.config/opencode/skills`            |
+  | Global compatibility  | `~/.claude/skills`, `~/.agents/skills` |
+  | Project               | `.opencode/skills`                     |
+  | Project compatibility | `.claude/skills`, `.agents/skills`     |
+  For project sources, OpenCode searches from the current directory up to the project root.
+  - Markdown files must be at the source root, such as `skills/review.md`.
+  - Files named exactly `SKILL.md` can be nested in grouping directories, such as `skills/git-release/SKILL.md`.
+  - A directory containing `SKILL.md` is one skill. OpenCode does not search inside it for more skills.
+  - Hidden files and directories and `node_modules` are skipped.
+  - Search stops six directories below the source root.

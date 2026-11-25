@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-r798-decision-api-refusal
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-r798-crates-pa-core-src-session-engine-decision-api-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session_engine/decision_api.rs
+  start: 166
+  end: 181
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/798d97032a3ec6d70142cc75c0420cb2b260f194/crates/pa-core/src/session_engine/decision_api.rs"
+excerpt: |-
+  /// The actionable refusal when `decisionModel` is unset.
+  fn unconfigured_message() -> String {
+      "decisionModel is not set in settings.json. Set it to the decision model \
+       reference (\"provider/model-id\" or a bare id), e.g. \"prime-inference/clef\"."
+          .to_string()
+  }
+
+  /// The actionable refusal when the configured reference does not resolve to
+  /// an available, authenticated model (the `imageModel` refusal shape).
+  fn unusable_message(reference: &str) -> String {
+      format!(
+          "decisionModel \"{reference}\" could not be resolved to an available, \
+           authenticated model.\n\nFix the decisionModel setting (settings.json) or \
+           authenticate the provider, then retry the decision."
+      )
+  }

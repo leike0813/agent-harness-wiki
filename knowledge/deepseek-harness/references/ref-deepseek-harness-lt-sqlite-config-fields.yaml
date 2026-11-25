@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-sqlite-config-fields
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo-20261125
+locator:
+  kind: file_lines
+  file: packages/session/session-persistence-sqlite/README.md
+  start: 44
+  end: 49
+official_url: "https://github.com/deepseek-ai/deepseek-harness/blob/4b399c39a6d1479cd84ca591b4d7c88e24d38a96/packages/session/session-persistence-sqlite/README.md"
+excerpt: |-
+  | Field | Default | Meaning |
+  |---|---|---|
+  | `root` | Required | Storage root containing the database and any existing JSONL histories. |
+  | `compression` | `zstd` | Encoding of existing JSONL histories and of new SQLite frames: `zstd` stores a frame compressed when that is smaller, `none` stores JSON text. Stored frames decode by their own codec. |
+  | `listConcurrency` | `3` | Concurrent filesystem reads for legacy metadata and routing records. |
+  | `frameEvents` | `64` | Maximum events per stored frame, the unit of compression and of decoding. Larger frames compress slightly better and cost more to decode for a tail read; stored frames keep their written size. |

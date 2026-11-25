@@ -1,0 +1,179 @@
+schema_version: 2
+audit_id: audit-pi-03a473b7-d465-42cf-98cb-52d62f6cb6ca
+harness_id: pi
+checked_at: 2026-11-25T00:27:35.688Z
+previous_audit_id: audit-pi-cb10e1fd-1551-48c2-bbf4-82715f9e6461
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-25T00:50:00.000Z
+pending_audit_refs: []
+checks:
+  - source_id: source-pi-npm
+    kind: npm_registry
+    checked_at: 2026-11-25T00:27:33.940Z
+    status: unchanged
+    baseline: 1.6.0@sha512-zX1BVEsshx7A2MRuQ6jfr3RJGWw4Wn+vLq5ZfmlvS1RskhRmByaSZVXH/zcwRrWHO7qPgs98pNCbPOEti/t0fQ==
+    observed: 1.6.0@sha512-zX1BVEsshx7A2MRuQ6jfr3RJGWw4Wn+vLq5ZfmlvS1RskhRmByaSZVXH/zcwRrWHO7qPgs98pNCbPOEti/t0fQ==
+  - source_id: source-pi-npm-legacy
+    kind: npm_registry
+    checked_at: 2026-11-25T00:27:33.941Z
+    status: unchanged
+    baseline: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+    observed: 0.73.1@sha512-gXQh3SaZmWTfVMc4Ao5+LGbVeKvzyO7tolok0nLsZgq9nGjZx/EEU3NM8C+qUnB4Nvs2rswG5qOVgLzQkq0fHQ==
+  - source_id: source-pi-repo
+    kind: git_repository
+    checked_at: 2026-11-25T00:27:33.942Z
+    status: changed
+    baseline: a588a7bc4d1bc16554ed2a8044fd4be72ce26ec9
+    observed: c11a73bfba1310dc4075ad836254ea87003f409b
+    remote_ref: refs/heads/main
+  - source_id: source-pi-legacy-repo
+    kind: git_repository
+    checked_at: 2026-11-25T00:27:33.951Z
+    status: changed
+    baseline: a588a7bc4d1bc16554ed2a8044fd4be72ce26ec9
+    observed: c11a73bfba1310dc4075ad836254ea87003f409b
+    remote_ref: refs/heads/main
+impacts:
+  - topic: custom_providers
+    question_ids:
+      - providers.models
+      - providers.protocol
+      - providers.forwarding
+      - providers.auth
+    section_ids:
+      - providers-models
+      - providers-protocol
+      - providers-forwarding
+      - providers-auth
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-providers-classifier-copilot-models
+      - ref-pi-providers-classifier-copilot-availability
+      - ref-pi-cp-pi-classifier-response-id
+      - ref-pi-cp-classifier-result-response-id
+      - ref-pi-on-response-coverage
+      - ref-pi-providers-auth-command-retry
+    cross_topic_links:
+      - hooks.events
+    reason: >-
+      提交 c11a73bf 于四处触及已发布答案：docs/models.md 的 GitHub Copilot 分类器行加入
+      gpt-6-luna-decisions，并新增账号计划与 /login 模型目录决定可见性的说明；
+      packages/ai/src/api/pi-classifier.ts 的 200 响应与 packages/ai/src/types.ts 的
+      ClassifierResult 新增可选 responseId，usage 成本在服务报告账单金额时改用该金额；
+      StreamOptions.onResponse 注释明确为每次 HTTP 响应（含 4xx/5xx 与重试的每次尝试）调用；
+      docs/providers.md 说明 auth.json 的 !command 失败后 /login 显示 stored key did not
+      resolve 且可重新输入同一命令重试。因此 providers.models / protocol / forwarding /
+      auth 四节需要新 edition；providers.metadata、providers.responses 与 providers.diagnostics
+      未受影响，缺口保留。
+  - topic: hooks
+    question_ids:
+      - hooks.events
+      - hooks.order
+    section_ids:
+      - hooks-events
+      - hooks-order
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-ext-after-provider-response
+      - ref-pi-ext-after-provider-response-coverage
+      - ref-pi-on-response-coverage
+    cross_topic_links:
+      - providers.forwarding
+    reason: >-
+      docs/extensions.md 把 after_provider_response 从「收到一次响应后、消费流之前」改为按每个
+      HTTP 响应触发：包括 4xx/5xx 错误响应与重试的每次尝试，一次请求可触发多次；成功响应仍在
+      body 流消费前触发。覆盖边界另记为部分 provider 只给空 header 或部分响应，SSE 流内错误与
+      WebSocket 传输不触发。types.ts 的 StreamOptions.onResponse 注释给出同一契约。因此
+      hooks.events 与 hooks.order（重复触发）需要新 edition；hooks.input / output / entry /
+      conditions / diagnostics 未变。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.schema
+    section_ids:
+      - transcripts-record-schema
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-pi-lt-schema-bash-full-output
+    cross_topic_links: []
+    reason: >-
+      docs/message-types.md 的 BashExecutionMessage 新增可选 fullOutputError，说明被截断的完整
+      输出为何没能保存。该消息是 session 的 message 条目角色之一（! 命令与 RPC bash，非 LLM
+      工具结果），因此 transcripts.schema 变更；记录格式、路径、生命周期、归档与删除均未变。
+pending_question_ids: []
+investigation_notes:
+  - >-
+    观察时间 2026-11-25T00:27:35.688Z；source-pi-repo 与 source-pi-legacy-repo 同为
+    a588a7bc4d1bc16554ed2a8044fd4be72ce26ec9 → c11a73bfba1310dc4075ad836254ea87003f409b，
+    两个 npm 来源未变。按冻结 diff 与 /tmp/git-intersect-1125.json 的 11 个被引用文件逐条核对，
+    新 reference 的 content_sha256 均由 c11a73bf 的 raw file 字节计算。
+  - >-
+    packages/ai/src/api/pi-classifier.ts：200 响应体注释与 PiClassifierResponse 类型新增
+    responseId，classify() 只在非空字符串时写入 output.responseId；固定新 artifact
+    7d89b5b260ff8c6a038d8709e66c7c72e82111c2905c2ecba7eab14a31b42cbd。
+  - >-
+    packages/ai/src/types.ts：两处 onResponse 注释改为覆盖错误响应与重试的每次尝试，并声明
+    覆盖程度随 provider/transport 而异；ClassifierResult.usage 的成本改为服务报告账单金额时
+    取该金额，并新增可选 responseId。固定 artifact
+    7a0ee7a69b4117f109d8967ad4622495ccd0005441050e5a9adc0180c10884d3。
+  - >-
+    packages/coding-agent/docs/extensions.md：after_provider_response 的事件顺序行与专节都改为
+    每次 HTTP 响应触发（含错误与重试），并补覆盖边界；另新增「Program Status Kind」一节，
+    ctx.ui.select/confirm/input 可传 blockedKind 指定 OSC 7501 的程序状态。后者是对话框显示
+    选项，八道固定问题没有对应题；v4 的 plugins.api 范围是包清单与资源过滤，hooks.* 也不覆盖
+    UI 对话框 API，因此不新建 edition，仅记此排除。固定 artifact
+    01adbef42a0b9dd8d245b9faa04fb75accbdaeffa0784ca96de5906a2f58f8a1。
+  - >-
+    packages/coding-agent/docs/models.md：GitHub Copilot 行加入 gpt-6-luna-decisions，并新增
+    计划决定可见性、/login 只列账号模型目录、COPILOT_GITHUB_TOKEN 列两个的说明。固定 artifact
+    17addf3bbcfe99c0daa3803c49beedc2f3f8ee796b25ebb3e010ec6d1c8d5f59。
+  - >-
+    packages/coding-agent/docs/providers.md：!command 密钥解析补充 /login 的 stored key did
+    not resolve 显示与重新输入同一命令的重试路径。固定 artifact
+    71c190962e84c4dc08ba6904bd460153ac4c8f91f49d53e5d1d3d86e4132bf63。
+  - >-
+    packages/coding-agent/docs/message-types.md：BashExecutionMessage 新增 fullOutputError；
+    对照 session-format.md 的「message 条目存 AgentMessage」与 message-types.md 的角色联合，
+    该字段属于 transcripts.schema。固定 artifact
+    4dc1befb84d59716cfa561a52c3208cd7b9805409258ae296ecf507c3128e7c6。
+  - >-
+    packages/coding-agent/src/core/session-manager.ts：只有 loadEntriesFromFile() 的扫描方式
+    变化——只对本次 decoder.write() 的新文本找换行，避免超长行按读取块反复重扫；parseSessionEntryLine、
+    迁移、写入与索引逻辑未变，属性能修复，不改变 transcripts.format / schema / lifecycle 的答案。
+    按 CHANGELOG 同一 #12224 条目，该修复还覆盖 RPC 与 llama.cpp 事件的大行重扫。
+  - >-
+    packages/coding-agent/src/modes/interactive/session-share.ts：shareSession() 在
+    fs.mkdtempSync 失败时改为 showError 并返回，避免从编辑器提交处理器抛出崩溃；/share 的上传
+    去向、导出文件与设置均未变，transcripts.archive 无新证据。
+  - >-
+    packages/coding-agent/src/package-manager-cli.ts：getActiveManagedInstallRoot() 新增 WSL
+    下运行 Windows 托管安装的拒绝分支（读 marker.entrypoint.path 的盘符/UNC 形式），属
+    pi update 的安装守卫，不改变任何配置加载、默认值或来源优先级，configuration 无 impact。
+  - >-
+    packages/mcp/CHANGELOG.md：Streamable HTTP SSE 事件分块解析改为增量扫描，修复多 MiB 工具
+    结果上的二次复杂度；packages/mcp 的协议与工具语义未变，mcp 八题答案不受影响，mcp 章节不建
+    edition。
+  - >-
+    packages/coding-agent/CHANGELOG.md：除上述已核对的条目外，compat.supportsStrictMode 的
+    Google 两 API 扩展只出现在 CHANGELOG 行（对应的 models 文档与 schema 不在本轮被引用文件
+    内），未据单条发布说明扩写 providers.metadata；Mistral 默认模型变更属内置目录默认值，
+    不属自定义 provider 配置；Gemini xhigh 映射、会话大文件 RangeError、WSL 更新、粘贴与
+    Mermaid 等条目为缺陷修复或界面细节，均未改变固定问题答案。
+  - >-
+    候选产物：新 edition pi-custom_providers-v9、pi-hooks-v4、pi-local_transcripts-v3（旧版
+    保留），registry/chapter-current.yaml 相应切换；新增 6 个 git_source_file artifact/snapshot
+    与 9 条 reference，均固定 c11a73bf。pnpm maintenance:candidates check 通过。
+  - >-
+    复核：本轮为文档/类型契约的增量澄清，没有推翻可执行配置步骤，也没有来源冲突（docs 与
+    types.ts 一致），故未另请独立 reviewer。pending_audit_refs 置空但历史 pending 审计
+    （audit-pi-04bf1025-2be8-4fc0-855b-8d1d86097fcc, audit-pi-20261004t061205z,
+    audit-pi-52367b72-118b-46ea-aad9-61bbba8d807e, audit-pi-20261006t134000z,
+    audit-pi-aef48867-7725-4d37-b22a-2bf0ad420ee3, audit-pi-0de5f9ff-058e-4cfb-aee7-eed7c7ace63d,
+    audit-pi-01dd7db2-1911-4e4a-8ad9-16f568696518, audit-pi-d72f5074-25a9-40ea-8a7e-6555128764e2,
+    audit-pi-e02d933b-58f6-49d6-a597-2105ad14fb10, audit-pi-20fb69b5-ff04-44eb-b398-128c2b38de30,
+    audit-pi-9b5119a5-2286-4d28-b0ce-3d142fc6e2d7）仍保持未解决、不被本审计关闭；
+    previous_audit_id 保留链路。

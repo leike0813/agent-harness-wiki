@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-settings-general-display-language-schema
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-e3c02d15-cli-settings-schema
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settingsSchema.ts
+  start: 747
+  end: 761
+official_url: https://github.com/QwenLM/qwen-code/blob/e3c02d15dd292425f08b8355df920f66a3e4248b/packages/cli/src/config/settingsSchema.ts
+excerpt: |-
+      displayLanguage: {
+        type: 'enum',
+        label: 'Language: Display Translation',
+        category: 'General',
+        requiresRestart: true,
+        default: 'off',
+        description:
+          "Show the model's replies and opened thoughts translated into this language in the terminal and the Web Shell. " +
+          'The model answers as usual; the stored conversation, what the model reads and copied text keep the original. ' +
+          'Each translated block costs one call to the fast model, or the session model when none is set. ' +
+          'Works without installing anything or turning on experimental features.',
+        showInDialog: true,
+        options: [
+          { value: 'off', label: 'Off' },
+          { value: 'zh-CN', label: 'Simplified Chinese' },

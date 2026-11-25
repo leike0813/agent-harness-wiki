@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-media-blob-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-blob-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/session/blob.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/blob.ts
+  start: 260
+  end: 281
+excerpt: |-
+  /** Reads the `media_blob` flag from the Flag.Service in scope on every call; without one, it is off. */
+  export const enabled = Effect.gen(function* () {
+    const flag = yield* Effect.serviceOption(Flag.Service)
+    if (Option.isNone(flag)) return false
+    return yield* flag.value.enabled("media_blob")
+  })
+  /**
+   * {@link Flag.enabled} for `media_blob` as `session`'s location configures it, where its media is written. Off when
+   * that location can't boot or load its config, which surfaces as defects too, so a broken location never fails the caller.
+   */
+  export const enabledFor = (instances: Instance.Interface, session: SessionSchema.Info): Effect.Effect<boolean> =>
+    Flag.enabled("media_blob").pipe(
+      instances.provide(session),

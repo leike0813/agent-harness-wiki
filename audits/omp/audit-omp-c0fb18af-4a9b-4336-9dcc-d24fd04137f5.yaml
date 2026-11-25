@@ -1,0 +1,224 @@
+schema_version: 2
+audit_id: audit-omp-c0fb18af-4a9b-4336-9dcc-d24fd04137f5
+harness_id: omp
+checked_at: 2026-11-25T00:27:37.896Z
+previous_audit_id: audit-omp-91beb675-9d32-4843-a276-c10414a4f68a
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-omp-npm
+    kind: npm_registry
+    checked_at: 2026-11-25T00:27:35.885Z
+    status: unchanged
+    baseline: 19.1.1@sha512-x/7xQXQ5F/ga4LTNOCSQs+cggWY1H5EF34+juTPP9QOyoFgfmOFVspXA4cBCp9EH8D967oje/HiCPpoNsWAyhw==
+    observed: 19.1.1@sha512-x/7xQXQ5F/ga4LTNOCSQs+cggWY1H5EF34+juTPP9QOyoFgfmOFVspXA4cBCp9EH8D967oje/HiCPpoNsWAyhw==
+  - source_id: source-omp-repo
+    kind: git_repository
+    checked_at: 2026-11-25T00:27:35.886Z
+    status: changed
+    baseline: e4fe8782978e19c5de8b8830d050b95e63fc89ca
+    observed: 7f5fdfa3e4c5621cab857de46a8d75fbf3547e70
+    remote_ref: refs/heads/main
+    changed_paths:
+      - README.md
+      - docs/cli-reference.md
+      - docs/environment-variables.md
+      - docs/provider-quirks.md
+      - docs/providers.md
+      - docs/session-operations-export-share-fork-resume.md
+      - docs/session-switching-and-recent-listing.md
+      - docs/session.md
+      - docs/settings.md
+      - packages/coding-agent/CHANGELOG.md
+      - packages/coding-agent/src/config/settings-ui.ts
+      - packages/coding-agent/src/config/settings.ts
+      - packages/coding-agent/src/main.ts
+      - packages/coding-agent/src/mcp/host/peers.ts
+      - packages/coding-agent/src/mcp/tool-bridge.ts
+      - packages/coding-agent/src/modes/settings.ts
+      - packages/coding-agent/src/session/session-anonymizer.ts
+      - packages/coding-agent/src/session/session-entries.ts
+      - packages/coding-agent/src/session/session-manager.ts
+      - packages/coding-agent/src/session/session-paths.ts
+      - packages/coding-agent/src/session/session-tools.ts
+      - packages/coding-agent/src/task/settings.ts
+      - packages/stats/src/parser.ts
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.runtime
+      - config.defaults
+    section_ids:
+      - config-runtime
+      - config-defaults
+    surface_ids: [cli]
+    source_refs:
+      - ref-omp-cfg10-runtime-offline-list-doc
+      - ref-omp-cfg10-runtime-no-tools-doc
+      - ref-omp-cfg10-runtime-no-tools-code
+      - ref-omp-cfg10-runtime-no-extensions-doc
+      - ref-omp-cfg10-runtime-no-extensions-changelog
+      - ref-omp-cfg10-defaults-eval-tools-doc
+      - ref-omp-cfg10-defaults-eval-tools-changelog
+      - ref-omp-cfg10-defaults-cross-instance-code
+      - ref-omp-cfg10-defaults-cross-instance-changelog
+    cross_topic_links:
+      - agents.limits
+      - mcp.exposure
+      - plugins.discovery
+      - skills.loading
+    reason: "docs/cli-reference.md 把 --no-tools 改为“只保留 --tools 点名的内置工具”并停用 MCP/LSP/扩展/hook/custom tool/memory 等表面，--no-extensions 的关闭范围扩到 custom tool 与 custom command 模块，--offline 的功能清单扩到图像描述/图像提问/技能与 MCP 提示等；docs/settings.md 把 eval.tools.enabled 默认改为 false；task/settings.ts 把 task.crossInstance 默认改为 true。实现侧 main.ts 为 --no-tools 同时设置 restrictToolNames 与 disableExtensionDiscovery。层序、合并与迁移路径未变。"
+  - topic: custom_agents
+    question_ids:
+      - agents.entry
+      - agents.limits
+    section_ids:
+      - agents-discovery
+      - agents-limits
+    surface_ids: [cli]
+    source_refs:
+      - ref-omp-agents-discovery-doc-69e8
+      - ref-omp-cfg10-runtime-no-tools-doc
+      - ref-omp-cfg10-runtime-no-tools-code
+      - ref-omp-cfg10-defaults-cross-instance-code
+      - ref-omp-cfg10-defaults-cross-instance-changelog
+    cross_topic_links:
+      - config.runtime
+    reason: "--no-tools 的受限工具表由子代理继承，且与显式 -e/--hook/--trusted-extension 互斥，扩展包这一 agent 来源在受限会话里为空；task.crossInstance 默认翻转为 true，同目录其它 omp 实例的 agent 可被发现并互发消息。来源顺序、定义字段、模型路由与同名合并规则未变。"
+  - topic: custom_providers
+    question_ids:
+      - providers.auth
+      - providers.responses
+    section_ids:
+      - providers-credentials
+      - providers-runtime
+    surface_ids: [cli]
+    source_refs:
+      - ref-omp-providers7-auth-otari-login-doc
+      - ref-omp-providers7-auth-otari-credential-doc
+      - ref-omp-providers7-auth-otari-env-doc
+      - ref-omp-providers7-responses-agy-refresh-doc
+      - ref-omp-providers-availability-doc-69e8
+    cross_topic_links:
+      - providers.models
+    reason: "docs/provider-quirks.md 与 docs/environment-variables.md 把内置 otari 的登录改为先选区域（US/EU/Custom），US 存 plain key、其它端点存 { token, baseUrl } 复合凭据，存储的 baseUrl 对发现与请求压过 models.yml 覆盖与 OTARI_BASE_URL；docs/providers.md 说明内置 agy 的 OAuth 刷新保留原生会话、broker 凭据重启重载同一会话、旧 checkpoint 需要 fork 时回退 transcript replay。凭据七档顺序与其它 provider 规则未变。"
+  - topic: hooks
+    question_ids:
+      - hooks.input
+      - hooks.conditions
+      - hooks.diagnostics
+    section_ids:
+      - hooks-module
+      - hooks-conditions
+      - hooks-diagnostics
+    surface_ids: [cli]
+    source_refs:
+      - ref-omp-plugins5-api-import-doc
+      - ref-omp-plugins5-api-migration-import-doc
+      - ref-omp-cfg10-runtime-no-tools-doc
+    cross_topic_links:
+      - plugins.api
+      - config.runtime
+    reason: "hook 文件经扩展运行器加载，因此新增的扩展 UI 导入契约适用于 hook：导入旧 pi-tui 包会以点名 import 与迁移章节的错误加载失败；--no-tools 与 --hook/--extension/--trusted-extension 互斥，受限会话不加载 hook。事件清单、handler 顺序与输入输出字段未变。"
+  - topic: mcp
+    question_ids:
+      - mcp.transport
+      - mcp.auth
+      - mcp.exposure
+    section_ids:
+      - mcp-transports
+      - mcp-auth
+      - mcp-capabilities
+    surface_ids: [cli]
+    source_refs:
+      - ref-omp-mcp7-transport-era-probe-doc
+      - ref-omp-mcp-oauth-doc-69e8
+      - ref-omp-mcp-protocol-doc-69e8
+      - ref-omp-mcp-exposure-doc-69e8
+    cross_topic_links:
+      - config.runtime
+    reason: "CHANGELOG 与 src/mcp/host/peers.ts 的 probeStdio() 把 stdio 纪元探针改为 initialize 先、server/discover 后（严格 handshake-era server 不会因首条消息不是 initialize 退出）；HTTP 403 insufficient_scope 新增 step-up 授权并按批准重试一次；非内置工具改为按名字排序排在内置工具之后。docs/mcp-protocol-transports.md 未同步，仍写 discover-first，构成同一 commit 内的来源冲突，主题已 hold（草稿在 /tmp/omp-hold/omp-mcp-v7-draft.md）。"
+  - topic: native_plugins
+    question_ids:
+      - plugins.discovery
+      - plugins.api
+      - plugins.diagnostics
+    section_ids:
+      - plugins-discovery
+      - plugins-api
+      - plugins-diagnostics
+    surface_ids: [cli]
+    source_refs:
+      - ref-omp-plugins5-discovery-no-extensions-changelog
+      - ref-omp-plugins5-api-import-doc
+      - ref-omp-plugins5-api-migration-import-doc
+      - ref-omp-plugins5-api-migration-table-doc
+      - ref-omp-plugins5-api-import-breaking-changelog
+      - ref-omp-plugins5-api-package-root-changelog
+    cross_topic_links:
+      - hooks.input
+      - config.runtime
+    reason: "CHANGELOG 的 breaking change 与 docs/extensions.md 的迁移节把扩展/hook/custom tool 的 UI 改为宿主提供的 @oh-my-pi/pi-tui 节点/JSX（或 rows 对象），导入旧 pi-tui 包直接加载失败；setEditorComponent/getEditorComponent、describeCall/describeResult、ctx.ui.custom 的 overlayOptions、registerComposerShape 的旧形态等入口被移除或换签名，包根不再重导出 pi-tui 组件；--no-extensions 同时停止 custom tool 与 custom command 模块发现。清单、安装动作与白名单未变。"
+  - topic: skills
+    question_ids:
+      - skills.roots
+    section_ids:
+      - skills-locations
+    surface_ids: [cli]
+    source_refs:
+      - ref-omp-skills5-locations-pi-config-dir-changelog
+    cross_topic_links:
+      - plugins.discovery
+    reason: "CHANGELOG 记录设置 PI_CONFIG_DIR 时项目插件 registry 与技能 manifest 仍留在项目的 .omp/ 下，而不是项目相对的用户配置路径副本；这是项目作用域路径规则，来源集合与优先级未变。"
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.schema
+    section_ids:
+      - transcripts-schema-lifecycle
+    surface_ids: [cli]
+    source_refs:
+      - ref-omp-lt7-schema-model-fallback-doc
+      - ref-omp-lt7-schema-model-fallback-example-doc
+      - ref-omp-lt7-schema-model-fallback-code
+      - ref-omp-lt7-schema-fallback-write-code
+      - ref-omp-lt7-schema-fallback-anonymizer-rules-code
+      - ref-omp-lt7-schema-fallback-anonymizer-code
+    cross_topic_links:
+      - providers.responses
+    reason: "docs/session.md、session-entries.ts 与 session-manager.ts 给 model_change 条目新增可选 fallback 原因对象（from、四类 trigger、可选 reason），appendModelChange 按 fallback 是否存在推导 resolvedModelIsFallback；session-anonymizer.ts 对 fallback 的 from/trigger/reason 分别按 identity/enum/error 处理。条目类型全集、路径、格式、数据库、归档与清理未变。"
+pending_question_ids:
+  - mcp.transport
+investigation_notes:
+  - 范围：source-omp-repo e4fe8782978e19c5de8b8830d050b95e63fc89ca 到 7f5fdfa3e4c5621cab857de46a8d75fbf3547e70。只抽取并阅读任务列出的 22 个被引用文件 hunk；另读两个直接关联入口：docs/mcp-protocol-transports.md（确认与 CHANGELOG/代码冲突）与 src/mcp/host/peers.ts（stdio 探针实现）。未重扫来源、未运行产品。npm 19.1.1 的 version@integrity 未变，不造映射、不改章节。
+  - "README.md（sha256 f00258b483e38114f7e30d8c71b8abfb31ecd570e56d8d13db2d16274dcc3ca3）：唯一 hunk 改 pi-tui 包的描述（one component tree, rendered as rows or natively），属包架构文案，不是固定问题。无知识变化。"
+  - "docs/cli-reference.md（sha256 c675b5fd62263d96a1b942593d1f939b421f683ca6a0856901a964df0d623cc5）：三个 hunk。116 行 --offline 的功能清单扩到图像描述、图像提问、技能与 MCP hints、job widgets 与 eval completion()。145 行 --no-tools 从“关闭内置工具”改为“只保留 --tools 点名的内置工具”，停用 MCP/LSP/扩展（含扩展 provider 与 hook）/custom tool/memory/auto-learn/Auto-QA/IRC，子代理继承限制，goal/plan 不可用，且不能与 --extension/--hook/--trusted-extension 组合。167 行 --no-extensions 扩到 custom tool 与 custom command 模块发现。全部归 configuration config.runtime。"
+  - "docs/environment-variables.md（sha256 6e625a71531ef6827e83ddab88090f510f1dc1582df963d3de6b5ca9ec91c23e）：两处 hunk。131-132 行把 OTARI_API_KEY/OTARI_BASE_URL 的说明改为区域登录与复合凭据语义，作为 providers.auth 的文档证据。PI_NOTIFICATIONS 补充通知通道细节并新增 PI_NO_DESKTOP_NOTIFY，属终端桌面通知信号，不在八个固定问题内，未改章。"
+  - "docs/provider-quirks.md（sha256 3cc241f0f32d26f2c8612d7cbb49bf6f3234ed5eca94c746fd17769b649275ae）：四处 hunk。(a) aiand 默认模型改为 moonshotai/kimi-k3，属内置 provider 种子行，不是固定问题；(b) alibaba 状态行路径从 packages/tui 移到 coding-agent，纯实现位置；(c) Otari 的 Auth & usage 重写为交互登录（区域选择、401 校验）、复合凭据（{ token, baseUrl }）与 baseUrl 优先级，归 providers.auth；(d) StepFun 的非聊天 roster 过滤新增 web search (dr-search-api) SKU，属 provider 细节，未改章。"
+  - "docs/providers.md（sha256 9e29584b38b262866ace15d1cb64602136e2a7ee6fd2ae895aca84b5f4c6aaf3）：唯一 hunk 在 Antigravity CLI 节，新增 OAuth 刷新保留原生会话、broker 凭据重启重载同一会话、旧 checkpoint 需要 fork 时回退 transcript replay 一段，归 providers.responses。"
+  - "docs/session-operations-export-share-fork-resume.md（sha256 18827cfe4a6556c1afe25690730ea88510eaa12fe189952e1ed36582c67f4cf8）：唯一 hunk 描述 Tern pane/tab 里的 /fork 落位与 daemon 版本回退，属交互操作位置，不是 transcript 记录机制。无知识变化。"
+  - "docs/session-switching-and-recent-listing.md（sha256 6f5ff792886d1d903c2e454f569488668ddf9ebdfb1daa00f210fcf5643ac733）：两个 hunk 只是把 session-picker / session-selector 的引用从 packages/tui 改到 coding-agent 的新路径，行为未变。无知识变化。"
+  - "docs/session.md（sha256 d73a1b178a1e137ab74c834498f3813ecaceff026c8f622784af6b8466c56a2d）：两处语义 hunk。(a) model_change 新增 fallback 原因对象（from/trigger/reason，四类 trigger）并给出脱敏导出规则，归 local_transcripts transcripts.schema；(b) 角色归属表把 bashExecution/pythonExecution/hookMessage/fileMention 从 pi-tui 改为 coding-agent，属模块所有权，不改记录机制。"
+  - "docs/settings.md（sha256 4ce2d3b350f53b83180fe240fa92f82c740db6b4a0a142f4cc8c6f41e25c9d2b）：唯一 hunk 把 eval.tools.enabled 的默认值从 true 改为 false，归 configuration config.defaults。"
+  - "packages/coding-agent/CHANGELOG.md（sha256 e4571e2385860f05c6c4fbfe9ce1b7fd259e00dc279a8b34062f9b6f9b474d7e）：本轮新增 Unreleased 段。用作证据的条目：7-15 行扩展/hook/custom tool 的 UI 导入 breaking change；20 行 retry fallback 原因；49 行 eval tools 默认关闭；51 行 crossInstance 默认打开；88 行 --no-extensions 范围；108 行 MCP insufficient_scope step-up；113 行 stdio 探针 initialize-first；130 行 PI_CONFIG_DIR 下项目 registry/skill manifest 路径；147 行非内置工具名序；159 行 --offline 清单。其余条目（bash 内置、TUI 修复、图像描述、LSP、daemon 等）不属于八个固定问题或只是既有机制的 bug fix，未改章。"
+  - "packages/coding-agent/src/config/settings-ui.ts（sha256 4c72d5ead0c58b5e77d6e057033216ad8675c8d06d040e5541ecf0a4f631cb7d）：conditions 改用 terminalCapabilities().images 与 nativeRendering()，属 UI 能力探测内部实现，无设置默认值/来源变化。无知识变化。"
+  - "packages/coding-agent/src/config/settings.ts（sha256 6e80d9f965a26c9e2fc1b4b0c021521f66a5c8a94952eabcc44d0f9cfd28c7dd）：仅把 isLightTheme 的 import 从 pi-tui 移到 ../ui/theme/service，迁移与层序逻辑未动。无知识变化。"
+  - "packages/coding-agent/src/main.ts（sha256 9a34099c0a31cdee1619c2cae17145759256053dc34f2a5cbcd9ee3d1550c569）：与固定问题相关的是 1898-1906 行：--no-tools 设置 restrictToolNames 并同时 disableExtensionDiscovery，注释写明被限制的会话不会运行这些工具/扩展工厂；其余 hunk 是主题初始化、启动帧、session picker 与新 UI 模块的搬迁。归 configuration config.runtime（并为 agents.limits / hooks.conditions 提供同一行为的代码证据）。"
+  - "packages/coding-agent/src/mcp/host/peers.ts（sha256 3f0180f6d81d6e74b90bc19207125ef32e2471a25bd1be443623376b5b7c4d32）：probeStdio() 改为先 openLegacySession(initialize)，成功后 250 ms 内问 server/discover；initialize 被拒时才单独发 discover 并按现代错误/结果判定。该文件不在 22 文件清单内，但 CHANGELOG 113 行直接引用该行为，故补读；与 docs/mcp-protocol-transports.md 62-63 行（sha256 c6a35481cefe68e36b54410f356d55a7e30669eadb6e3a0dae4addae1c996f9b，未随本轮更新）冲突。"
+  - "packages/coding-agent/src/mcp/tool-bridge.ts（sha256 55812f0becb5cbd6140d3f6771f7ad20f8fa0e4699c2d9bb0ec3c16b1d85ab46）：470-520 行新增 getStepUpChallenge 与 catch 分支，把 HTTP 403 insufficient_scope 的 WWW-Authenticate 挑战交给 reconnect，批准后重试一次，拒绝/失败返回原拒绝；同时删除 renderCall/renderResult/describeCall/describeResult 覆盖，作为扩展渲染契约变化的旁证。渐进式授权归 mcp.auth（hold），渲染迁移归 plugins.api。"
+  - "packages/coding-agent/src/modes/settings.ts（sha256 b6fb26d6d910c845d079b2bedbf97633abb1a4167adc8ce87e72d9e62c2583f9）：tui.tight 补上 effect（bug fix）、内联图片上限改由常量与 combine effect 驱动、主题/显示偏好 effect 搬移；文档里的默认值未变，且这些键不在本章已取证的默认值表内。无知识变化。"
+  - "packages/coding-agent/src/session/session-anonymizer.ts（sha256 2e9b068a99722cce9ee1239251754cb247e9e86018f1917f835777e05c251cc9）：新增 fallback 规则（FALLBACK_CAUSE_RULES：from=identity、trigger=enum、reason=error）与 #fallbackCause；另把 errorFromAgentLoop 加进 error 脱敏集合。归 transcripts.schema 的脱敏导出规则。"
+  - "packages/coding-agent/src/session/session-entries.ts（sha256 36158fc511685f808ad07c92917aa5bf248b9c8690f296f1f2f19cb4e1fb37a3）：新增 ModelFallbackCause 与 ModelChangeEntry.fallback；其余是 pi-tui → coding-agent 的 import 搬迁。归 transcripts.schema。"
+  - "packages/coding-agent/src/session/session-manager.ts（sha256 50df2b38aeccdcc6e2b148e925eb08aaefea1de9118b342a1d5f745e080df418）：appendModelChange 改为 options.fallback，并据其存在推导 resolvedModelIsFallback；其余为 import 搬迁。归 transcripts.schema。"
+  - "packages/coding-agent/src/session/session-paths.ts（sha256 e33ee5921b35d159278f369f1d20e971be85ac5ac76931fa025c99906ee65198）：只把 getTerminalId 的 import 从 pi-tui 移到 ../utils/ttyid，路径解析未变。无知识变化。"
+  - "packages/coding-agent/src/session/session-tools.ts（sha256 b8305c7c4a3675483a448d3b5dfc5922afed78ec056104a9e8061fe38ba33d3a）：1516 行用 presentationOrder(toolNames, builtInToolNames) 固定非内置工具的呈现顺序；findHintVisible 与 reconcileBuiltinTools(refreshPrompt:false) 只影响 prefix-bound transcript 的提示重建，不是固定问题。工具顺序归 mcp.exposure（hold）。"
+  - "packages/coding-agent/src/task/settings.ts（sha256 1a48dd202e12616a2c49d7af5656febbc97a54b15576c6df31274c69f2f80a75）：cfgTaskCrossInstance 默认值 false→true，注释为“同目录交互实例可发现并互发 agent 消息”；其余为 import 搬迁。归 configuration config.defaults 与 agents.limits。"
+  - "packages/stats/src/parser.ts（sha256 ef10db37177497899a5941652dad31e23775ee99a93cc725875199fc8c72b3e7）：只改注释里的 pi-tui → coding-agent 字样。无知识变化。"
+  - "docs/extensions.md（sha256 9bdc1884613db63ef164817e5c72bc4d0b8abd5d39454b279c94e2e26ea53da6）：不在 22 文件清单内，但它是 native_plugins 与 hooks 当前引用的 docs/extensions.md 的新版本，且 CHANGELOG 的 breaking change 指向其迁移节；补读并新增 refs，用于插件 UI 导入契约与迁移表。"
+  - "docs/mcp-protocol-transports.md（sha256 c6a35481cefe68e36b54410f356d55a7e30669eadb6e3a0dae4addae1c996f9b）：本轮未变。62-63 行仍写 stdio 探针 discover-first，与 CHANGELOG/peers.ts 冲突，是 mcp.transport 保持 pending 的直接原因。"
+  - "上游文案有一处疑似发布错误：CHANGELOG 第 7-8 行与 docs/extensions.md 第 1565 行把新旧包名写成同一个 `@oh-my-pi/pi-tui`（'X was replaced by X'），但同段列出的上游包名是 `@mariozechner/pi-tui` / `@earendil-works/pi-tui`，且 docs 同页第 38 行明确 UI 从 `@oh-my-pi/pi-tui` 取。章节按上下文写成'旧的 pi-tui 包'并保留上游两个具体包名，没有断言被移除包的确切名字；独立复核可一并确认。"
+  - 新增 pin：13 个 git_source_file artifact + 对应 source_revision snapshot，全部只记 commit 7f5fdfa3e4c5621cab857de46a8d75fbf3547e70、仓库相对 file 与 content_sha256（cli-reference、settings、session、provider-quirks、environment-variables、providers、extensions、CHANGELOG、main.ts、task/settings.ts、session-entries.ts、session-anonymizer.ts、session-manager.ts）；新增 26 条 reference（`ref-omp-cfg10-` 9、`ref-omp-providers7-` 4、`ref-omp-lt7-` 6、`ref-omp-plugins5-` 6、`ref-omp-skills5-` 1）。旧 artifact/reference 未改字节。
+  - 章节：新建 7 个完整 edition 并切换 current —— omp-configuration-v10、omp-custom_agents-v6、omp-custom_providers-v7、omp-hooks-v4、omp-local_transcripts-v7、omp-native_plugins-v5、omp-skills-v5。mcp 保持 omp-mcp-v6：stdio 探针的文档/实现冲突需要独立复核，草稿与证据清单在候选外 /tmp/omp-hold/（omp-mcp-v7-draft.md、README.md），未进入 selection。未改任何软件版本映射（源码 HEAD 不能证明 npm 19.1.1 行为）。
+  - "复核判定：mcp.transport 属于同一 commit 内的来源冲突（官方文档仍写 discover-first，代码与 CHANGELOG 为 initialize-first），不能由版本、分发或条件差异解释，按高影响 hold + 待审处理；其余主题是新增值、默认值翻转与 API 迁移，未推翻仍可用的配置步骤，按普通更新的作者自检处理。"
+  - pending 处理：pending_audit_refs 清空，但历史 5 条旧审计（71dcf159、217604e7、3c1ebdef、b55d7a06、2bb2e7b7）仍各自携带未完成问题，本轮未派发、未改其章节，也不因本审计标 reviewed 视为已解决；previous_audit_id 保留链路。
+  - 自检：pnpm -s maintenance:candidates check --candidate /tmp/ahw-batch-11/candidates/omp 通过（exit 0，返回 harness_id=omp 与完整文件清单）。

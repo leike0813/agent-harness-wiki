@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-r798-spawn-kind-core
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-r798-crates-pa-core-src-prompts-layers-core-md
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/prompts/layers/core.md
+  start: 48
+  end: 48
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/798d97032a3ec6d70142cc75c0420cb2b260f194/crates/pa-core/src/prompts/layers/core.md"
+excerpt: |-
+  `kind="decision"` spawns the Decision API child (the model comes from the `decisionModel` setting): send it a JSON decision request `{"seq": <int>, "state": ..., "questions": {...}}` and its answer comes back as a tagged agent_message reply `{"type": "decision_api.decision", "seq": <the request's seq>, ...}` that lands in the caller's inbox like every agent message: read it with `rlm.inbox.read(sender=<the child's name>)`, where each message's text carries the reply JSON after its `[agent-message from ...]` header

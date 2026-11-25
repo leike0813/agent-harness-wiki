@@ -1,0 +1,76 @@
+schema_version: 2
+audit_id: audit-zoo-code-4eb9dff9-f82e-4eeb-a5f2-88cee1b8674d
+harness_id: zoo-code
+checked_at: 2026-11-25T00:27:46.977Z
+previous_audit_id: audit-zoo-code-131fee23-16d3-437b-accc-e385fe43912e
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-25T00:44:39.000Z
+pending_audit_refs: []
+checks:
+  - source_id: source-zoo-code-repo
+    kind: git_repository
+    checked_at: 2026-11-25T00:27:45.562Z
+    status: changed
+    baseline: 050c49ef82693b02a1626a08cf8609a6f7c00223
+    observed: d672d7961a3c553f28f0436364a50481009850e1
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs
+    kind: git_repository
+    checked_at: 2026-11-25T00:27:45.569Z
+    status: unchanged
+    baseline: bede2eafef374d82e67446db36e9163c25294ff1
+    observed: bede2eafef374d82e67446db36e9163c25294ff1
+    remote_ref: refs/heads/main
+  - source_id: source-zoo-code-docs-site
+    kind: official_documentation
+    checked_at: 2026-11-25T00:27:45.575Z
+    status: unchanged
+    baseline: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    observed: cdaf996da6a07d62d05969c56f6821d8ffa54d2f05ba5aa326ecd8e228ae42c7
+    resolved_url: https://docs.zoocode.dev/
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "本轮范围：source-zoo-code-repo `050c49ef82693b02a1626a08cf8609a6f7c00223` →
+    `d672d7961a3c553f28f0436364a50481009850e1`（24 个 changed_paths）。source-zoo-code-docs
+    （bede2eaf…）与 source-zoo-code-docs-site（cdaf996d…）unchanged。"
+  - "逐文件定位：24 个 changed_paths 中，与已登记 reference locator 相交的只有
+    src/core/condense/index.ts（父进程 intersect 结果同此）；其余文件按下面各条的入口与引用范围排除。"
+  - "src/core/condense/index.ts（+21/-8）：新增导出 `getExistingSummaryIds(messages)`，把「收集仍然存在的摘要
+    condenseId」的谓词从 `getEffectiveApiHistory` 与 `cleanupAfterTruncation` 的内联循环原样提取
+    （条件仍是 `msg.isSummary && msg.condenseId`），两个调用点改为调用 helper；truncationId
+    的收集、按 existingSummaryIds 过滤的逻辑与消息顺序都未改。区间内该 helper 的唯一使用点是这两处
+    （测试文件另加两条单测），属行为等价重构。以 raw.githubusercontent 取基线/observed 字节核对：
+    content_sha256 96a90bde… → a6231612…，差异只有 3 个 hunk（新增 helper、两处调用点替换）。"
+  - "比对边界：ref-zoo-code-lt-condense-summary-markers 固定在 d7963fc2db8ff07189e9f22079b15d67ad3a8bfd
+    的 450-468 行（snapshot content_sha256 e1fb931b…，与固定快照仍匹配，不改旧引用）。d7963fc→050c49ef
+    之间的改动（summarizeConversation 改以 `getEffectiveApiHistory(messages)` 求 messagesToSummarize、
+    删除未使用的 outputTokens）在本审计基线之前，不属于本区间；本审计只判断基线→observed 的差异。"
+  - "已发布结论核对：local_transcripts v2 `§transcripts-lifecycle`（transcripts.lifecycle，surface vscode）
+    称压缩不是删除历史，而是追加一条带 `isSummary` 与唯一 `condenseId` 的摘要消息，被替代的旧消息保留在文件里、
+    打上 `condenseParent` 指针，发往 API 前才被过滤，引 ref-zoo-code-lt-condense-summary-markers。observed head
+    中摘要创建点（第 451、461 行）与「Tag ALL messages with condenseParent」循环均在，`getEffectiveApiHistory`
+    仍按现有摘要 ID 隐藏被标记消息；本区间只把同一谓词抽成 helper，该答案不变，故不改章节、不新建 edition、
+    selection 保持 zoo-code-vscode-local_transcripts-v2。"
+  - "不纳入：src/core/context-management/index.ts 及其两个 spec、docs/architecture/tla/CondenseTruncate*
+    属截断候选选择与截断后计数（latest-summary 边界、summary 不作截断候选）。没有任何已登记 reference 的 locator
+    指向该源码文件或 TLA 文档；local_transcripts 只引用 ApiMessage 的 truncationId/truncationParent/
+    isTruncationMarker 字段（来自 task-persistence 引用），不描述截断候选算法，故不扩成题目影响。"
+  - "不纳入：src/package.json 只把 devDependency `ai` 从 7.0.162 升到 7.0.179（第 570 行）；引用该文件的
+    ref-zoo-code-src-extension-activation / extension-config / extension-contrib 分别固定在 activationEvents、
+    contributes 与配置键段，行不重叠，也不受依赖版本影响。package.json、packages/config-eslint/package.json
+    与 pnpm-lock.yaml 是 @ai-sdk/*、@next/eslint-plugin-next 的 override/锁文件版本对齐，不产生运行时行为声明。"
+  - "不纳入：src/core/auto-approval/commands.ts、src/shared/parse-command.ts 与 webview-ui 的
+    command-parser 及其三个 spec 重写了命令解析（占位符、heredoc、命令/进程替换、glob 与 fail-closed
+    通道）。已发布章节没有引用这些文件，也没有固定解析器内部结构；本区间只改变实现与测试，没有章节结论可重答。"
+  - "结论：本轮无知识影响。impacts 保持空数组，没有固定问题需要重答，pending_question_ids 为空；
+    reviewed 由作者自检（候选 check 通过）产生——未推翻已发布配置步骤、没有来源冲突，不需要独立 reviewer。"
+  - "历史 pending：audit-zoo-code-f9720bc5-ced6-4b53-8895-f2f811b13824、
+    audit-zoo-code-583abb97-bedb-4196-abc0-054e4fe26037、
+    audit-zoo-code-fb456d07-a446-4740-9ea5-9bb298d13e00、
+    audit-zoo-code-35f606aa-c413-4130-9154-24ab3bdd00e3、
+    audit-zoo-code-ecb2d7bc-6539-4912-b9e0-f23e6722fb17、
+    audit-zoo-code-598c5a1a-acf8-4e69-8452-379dab59e2f2 保持各自原状态与记录；本审计不再把它们列入
+    pending_audit_refs，也不因 reviewed 间接关闭它们，previous_audit_id 仍保留链路。"

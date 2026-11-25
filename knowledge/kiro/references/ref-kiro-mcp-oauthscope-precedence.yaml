@@ -1,0 +1,11 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kiro-mcp-oauthscope-precedence
+harness_id: kiro
+snapshot_id: snapshot-kiro-docs-mcp-configuration-20261125
+locator:
+  kind: document_section
+  heading: "Scopes"
+official_url: "https://kiro.dev/docs/mcp/configuration.md"
+excerpt: |-
+  Which value Kiro uses when both are set depends on the client. In Kiro CLI V2 sessions, `oauth.oauthScopes` takes priority. In Kiro CLI V3 sessions in Kiro CLI 3.4.0 or later, and in Kiro IDE 1.4.215 or later, top-level `oauthScopes` takes priority. Kiro reads `oauth.oauthScopes`, then `oauth.scopes`, only when top-level `oauthScopes` is not set. In Kiro CLI V3 before 3.4.0, Kiro ignored the nested value. To request the same scopes across clients and versions, set only one of the two. To confirm which value applied, connect the server and check the `scope` parameter in the authorization URL Kiro opens. When neither is specified, Kiro requests a default set of scopes (`openid`, `email`, `profile`, `offline_access`).

@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-experimental-video
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-schema-src-config-experimental-20261123
+official_url: https://github.com/anomalyco/opencode/blob/292cb5a164786f73f4f32e5caec0c7aafe98b494/packages/schema/src/config/experimental.ts
+locator:
+  kind: file_lines
+  file: packages/schema/src/config/experimental.ts
+  start: 28
+  end: 41
+excerpt: |-
+  video_generate: Schema.Union([
+    Schema.Boolean,
+    Schema.Struct({
+      model: ConfigModel.Selection.pipe(optional).annotate({
+        description:
+          "Default model for the generate_video tool when the agent doesn't choose one, as providerID/modelID. Falls back to automatic selection when it isn't available.",
+      }),
+    }),
+  ])
+    .pipe(optional)
+    .annotate({
+      description:
+        "Settings for the generate_video tool, which is offered while a connected provider has a video model.",
+    }),

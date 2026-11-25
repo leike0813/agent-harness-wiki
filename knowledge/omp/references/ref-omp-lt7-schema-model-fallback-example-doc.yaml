@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-omp-lt7-schema-model-fallback-example-doc
+harness_id: omp
+snapshot_id: snapshot-omp-7f5f-docs-session-md
+locator:
+  kind: file_lines
+  file: docs/session.md
+  start: 312
+  end: 328
+official_url: https://github.com/can1357/oh-my-pi/blob/7f5fdfa3e4c5621cab857de46a8d75fbf3547e70/docs/session.md#L312-L328
+excerpt: |-
+  ```json
+  {
+  	"type": "model_change",
+  	"model": "openai/gpt-4o",
+  	"role": "fallback",
+  	"resolvedModelIsFallback": true,
+  	"fallback": {
+  		"from": "anthropic/claude-sonnet-4-5",
+  		"trigger": "agent-loop",
+  		"reason": "Soft tool requirement 'bash' was not satisfied after 3 forced turns; aborting to avoid an unbounded force loop."
+  	}
+  }
+  ```
+
+  Anonymized exports keep `from` with the same model-identity rule as `model`,
+  keep `trigger`, and redact `reason` like `errorMessage`, since a provider error
+  can echo request content.

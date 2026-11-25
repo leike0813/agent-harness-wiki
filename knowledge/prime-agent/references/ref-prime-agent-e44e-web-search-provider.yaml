@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-web-search-provider
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-settings-types-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/types.rs
+  start: 225
+  end: 247
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/settings/types.rs"
+excerpt: |-
+  /// `webSearchProvider`: the service the bundled websearch skill queries.
+  #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
+  #[serde(rename_all = "lowercase")]
+  pub enum WebSearchProvider {
+      #[default]
+      Serper,
+      /// You.com Eco Search.
+      Eco,
+  }
+  impl WebSearchProvider {
+      /// The provider's id: its settings value, its auth-store slot, and the
+      /// kernel's `PRIME_AGENT_WEBSEARCH_PROVIDER` value.
+      #[must_use]
+      pub fn id(self) -> &'static str {
+          match self {
+              WebSearchProvider::Serper => crate::auth::SERPER_CREDENTIAL_ID,
+              WebSearchProvider::Eco => crate::auth::ECO_CREDENTIAL_ID,
+          }
+      }

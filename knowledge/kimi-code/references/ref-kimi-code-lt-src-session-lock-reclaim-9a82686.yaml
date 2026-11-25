@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-lt-src-session-lock-reclaim-9a82686
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-session-lock-9a82686
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/persistence/backends/node-fs/sessionLockService.ts
+  start: 156
+  end: 173
+official_url: "https://github.com/MoonshotAI/kimi-code/blob/9a82686b0e91c532f4d49da0bc088a0eac9bdede/packages/agent-core-v2/src/persistence/backends/node-fs/sessionLockService.ts"
+excerpt: |-
+  private reclaim(lockPath: string, token: string): void {
+    const reclaimPath = `${lockPath}.reclaim`;
+    if (!this.tryPublish(reclaimPath, this.payload(token))) {
+      const current = this.readHolder(reclaimPath);
+      if (current === undefined || !this.alive(current)) this.unlinkSilent(reclaimPath);
+      return;
+    }
+    try {
+      const current = this.readHolder(lockPath);
+      if (
+        current === undefined ||
+        !this.alive(current) ||
+        (current.hostname !== '' && current.hostname !== this.hostname)
+      ) {
+        this.unlinkSilent(lockPath);
+      }
+    } finally {
+      this.unlinkSilent(reclaimPath);

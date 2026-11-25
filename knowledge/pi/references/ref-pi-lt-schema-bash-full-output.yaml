@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-lt-schema-bash-full-output
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261125-docs-message-types-md
+locator:
+  kind: file_lines
+  file: packages/coding-agent/docs/message-types.md
+  start: 205
+  end: 216
+official_url: https://github.com/earendil-works/pi/blob/c11a73bfba1310dc4075ad836254ea87003f409b/packages/coding-agent/docs/message-types.md
+excerpt: |-
+  interface BashExecutionMessage {
+    role: "bashExecution";
+    command: string;
+    output: string;
+    exitCode: number | undefined;
+    cancelled: boolean;
+    truncated: boolean;
+    fullOutputPath?: string;
+    fullOutputError?: string; // why the full output could not be saved, when truncated
+    excludeFromContext?: boolean;
+    timestamp: number;
+  }

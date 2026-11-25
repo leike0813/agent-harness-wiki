@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-cfg-migration-catalog-rename
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/_migration.py
+  start: 379
+  end: 393
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  def _migrate_renamed_enable_model_catalog(data: dict[str, Any]) -> bool:
+      """Rename ``experimental_enable_model_catalog``, keeping only an opt-out.
+
+      The catalog is now on by default, so an old ``true`` asks for nothing.
+      """
+      if "experimental_enable_model_catalog" not in data:
+          return False
+      value = data.pop("experimental_enable_model_catalog")
+      if value is False:
+          data.setdefault("enable_model_catalog", False)
+      return True

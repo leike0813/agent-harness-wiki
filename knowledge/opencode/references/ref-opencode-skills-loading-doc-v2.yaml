@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-loading-doc-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-site-skills-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/services/site/src/docs/content/skills.mdx
+locator:
+  kind: file_lines
+  file: services/site/src/docs/content/skills.mdx
+  start: 185
+  end: 206
+excerpt: |-
+  ## Loading
+  At each model step, OpenCode lists permitted skills that have a description and do not set `opencode/autoinvoke` to `false`. The list includes only the ID, name, and description, not the full Markdown body.
+  The model loads a skill by calling the `skill` tool with its exact ID:
+  { "id": "git-release" }
+  OpenCode then selects the current definition, checks the selected agent's `skill` permission, adds the Markdown body without frontmatter, and provides the base directory plus a sample of up to ten supporting file paths.
+  To load a skill yourself, mention it in your prompt as `@skill-id`.
+  Supporting file contents are not loaded automatically. The file sample covers directory-based `SKILL.md` skills; flat Markdown skills get no list.

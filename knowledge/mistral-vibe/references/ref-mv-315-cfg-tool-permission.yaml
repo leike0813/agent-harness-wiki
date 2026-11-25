@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-cfg-tool-permission
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/vibe_schema.py
+  start: 511
+  end: 524
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  def _reject_unknown_tool_permissions(
+      tools: dict[str, dict[str, Any]],
+  ) -> dict[str, dict[str, Any]]:
+      """Tool settings are otherwise only validated when a session builds them."""
+      for name, settings in tools.items():
+          if "permission" not in settings:
+              continue
+          permission = settings["permission"]
+          if isinstance(permission, str) and permission in ToolPermission:
+              continue
+          allowed = ", ".join(repr(member.value) for member in ToolPermission)
+          raise ValueError(
+              f"tools.{name}: permission {permission!r} is not one of {allowed}."
+          )
+      return tools

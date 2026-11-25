@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-policy-legacy
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-schema-src-config-policy-20261123
+official_url: https://github.com/anomalyco/opencode/blob/292cb5a164786f73f4f32e5caec0c7aafe98b494/packages/schema/src/config/policy.ts
+locator:
+  kind: file_lines
+  file: packages/schema/src/config/policy.ts
+  start: 36
+  end: 43
+excerpt: |-
+  // Before `mcp.use`, `skill.use` and `plugin.use` existed, `integration.use` covered them with a resource prefix.
+  // Every policy source decodes through this schema, so this is the only place that knows the legacy form. Only prefixed
+  // resources convert: a bare `integration.use` `*` keeps its action and now covers providers and accounts.
+  const legacy = new Map<string, Action>([
+    ["mcp", "mcp.use"],
+    ["skill", "skill.use"],
+    ["plugin", "plugin.use"],
+  ])

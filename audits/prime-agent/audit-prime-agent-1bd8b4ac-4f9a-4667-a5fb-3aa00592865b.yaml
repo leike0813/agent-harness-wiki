@@ -1,0 +1,114 @@
+schema_version: 2
+audit_id: audit-prime-agent-1bd8b4ac-4f9a-4667-a5fb-3aa00592865b
+harness_id: prime-agent
+checked_at: 2026-11-23T18:02:35.995Z
+previous_audit_id: audit-prime-agent-965754de-ea53-4f5a-a0e7-919e812fef18
+status: changed
+review_status: pending
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: '2026-11-24T13:40:56.000Z'
+pending_audit_refs:
+  - audit-prime-agent-fe998a91-5291-4f0c-8bbc-45887d1f607b
+  - audit-prime-agent-1f7dab30-5252-4281-99c4-6a1fb619a7c2
+  - audit-prime-agent-cf6c932e-dba3-46e7-86c7-83ac66ea49d4
+  - audit-prime-agent-5afda806-f11e-4ece-940b-312b4624acc5
+  - audit-prime-agent-c08789fa-8171-4da2-9dfa-af49c8c52d3f
+  - audit-prime-agent-57fc77b5-3379-4820-8afc-9a1622183cdd
+  - audit-prime-agent-965754de-ea53-4f5a-a0e7-919e812fef18
+checks:
+  - source_id: source-prime-agent-repo
+    kind: git_repository
+    checked_at: 2026-11-23T18:02:34.515Z
+    status: changed
+    baseline: 783acb5d72a9b23f97fa4a793a67d421b3ec402d
+    observed: 798d97032a3ec6d70142cc75c0420cb2b260f194
+    remote_ref: refs/heads/main
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.defaults
+    section_ids:
+      - config-trust-defaults-migration
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-r798-decision-model-field
+      - ref-prime-agent-r798-settings-known-fields-decision-model
+      - ref-prime-agent-r798-decision-api-gate
+      - ref-prime-agent-r798-decision-model-resolve
+      - ref-prime-agent-r798-decision-api-refusal
+      - ref-prime-agent-r798-decision-request-model
+      - ref-prime-agent-r798-agent-inbox-settings-fields
+      - ref-prime-agent-r798-agent-inbox-defaults
+      - ref-prime-agent-r798-agent-inbox-idle-getter
+      - ref-prime-agent-r798-agent-inbox-success-getter
+      - ref-prime-agent-r798-inbox-wake-delay
+    cross_topic_links:
+      - agents.overrides
+    reason: 新增第一方键 decisionModel（缺失或不可解析即关闭 Decision API）与 agentInbox.idleDebounceMs/successHoldMs 两个默认值（5000/30000 ms，只读全局），既有 decisionApi 移除说明按当前代码更新为扁平键回归。
+  - topic: custom_agents
+    question_ids:
+      - agents.roles
+      - agents.overrides
+    section_ids:
+      - agents-roles
+      - agents-overrides-limits
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-r798-spawn-kind-core
+      - ref-prime-agent-r798-spawn-kind-enum
+      - ref-prime-agent-r798-spawn-kind-values
+      - ref-prime-agent-r798-spawn-kind-model-refused
+      - ref-prime-agent-r798-decision-api-refusal
+      - ref-prime-agent-r798-decision-spawn-visibility
+    cross_topic_links:
+      - config.defaults
+    reason: rlm.spawn 新增 kind="decision" 子 Agent 角色（模型只来自 decisionModel，spawn 内给 model 被拒），回复以 decision_api.decision agent_message 进收件箱，agents 视图不显示但 list_subagents 与 spawn 账本仍列出。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.schema
+    section_ids:
+      - transcripts-record-schema
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-r798-ledger-decision-child-field
+      - ref-prime-agent-r798-ledger-spawn-record-write
+      - ref-prime-agent-r798-ledger-decision-child-parse
+    cross_topic_links:
+      - agents.roles
+    reason: rlm-ledger 的 spawn 记录新增可选 decisionChild 字段（仅 true 时写出，旧记录读 false，账本 v 仍为 1），replay 用它重建 Decision 子的名册行与唤醒。
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.auth
+    section_ids:
+      - mcp-entry
+      - mcp-definition
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-prime-agent-mcp-generic
+      - ref-prime-agent-mcp-connecting
+    cross_topic_links: []
+    reason: 源冲突/推翻旧步骤（跨文件发现，非本轮 diff 新引入）：已发布 mcp v3 把 /mcp login NAME 写成登录入口，而观测提交的 /mcp 已是纯菜单命令、typed 子命令被移除，登录改由 /mcp 视图选择服务内部触发；本轮 .changes 与 OAuth 错误文案也统一指向 /mcp 视图。mcp 主题保持 v3 未改写，留待独立复核。
+pending_question_ids:
+  - mcp.entry
+  - mcp.auth
+investigation_notes:
+  - 观察：source-prime-agent-repo 783acb5d72a9b23f97fa4a793a67d421b3ec402d → 798d97032a3ec6d70142cc75c0420cb2b260f194（15 提交 / 163 文件）。固定来源按该提交的 raw.githubusercontent 文件逐份取 SHA-256 并新增 git_source_file artifact（settings/{types,load,manager}.rs、session_engine/{mod,decision_api,rlm_host}.rs、rlm_ledger{,/replay}.rs、prompts/layers/core.md、.changes/decision-api-spawn-kind.md），artifact 只记 commit/file/content_sha256，未保留 checkout。
+  - "crates/pa-core/src/settings/load.rs：KNOWN_FIELDS 新增 \"decisionModel\"（第 37 行，与 imageModel 相邻）。这是配置键级变化，改写 configuration v7 的 config.defaults；load.rs 的其它内容（按字段独立解析、未知键进 extra）未变。"
+  - "crates/pa-core/src/settings/types.rs：新增 Settings.decision_model（353-356 行：provider/model-id 或裸 id，经模型注册表按 imageModel 方式解析，未设置或不可解析则关闭）与 AgentInboxSettings.idle_debounce_ms/success_hold_ms（291-292 行），常量 DEFAULT_AGENT_INBOX_IDLE_DEBOUNCE_MS=5_000（312 行）、DEFAULT_AGENT_INBOX_SUCCESS_HOLD_MS=30_000（315 行）。在同提交的 types.rs/load.rs 中检索 decision_api/decisionApi 无命中：旧对象段没有被恢复，新增的是扁平键。"
+  - "crates/pa-core/src/settings/manager.rs：新增 get_agent_inbox_idle_debounce_ms（709 行）与 get_agent_inbox_success_hold_ms（720 行），二者都读 self.global 且注释写明与其它 agentInbox 键一样 global scope only；configuration v7 据此声明项目 settings.json 无法覆盖这两个节奏。"
+  - "crates/pa-core/src/session_engine/decision_api.rs（新文件）：decisionModel 是 Decision API 的唯一模型来源——决策请求出现非空 model 会被拒（48-56 行），未设置/不可解析的拒绝点名该设置（166-181 行），resolve_decision_model 在引擎启动时读一次设置、纯空白按未设置处理并保留模型与注册表（251-273 行），凭据每次决策重新解析。configuration v7 与 custom_agents v5 都引用这份证据。"
+  - "crates/pa-core/src/prompts/layers/core.md 第 48 行：rlm.spawn 签名新增 kind，并描述 kind=\"decision\" 的 JSON 请求/decision_api.decision 回复、收件箱读取与唤醒合并；custom_agents v5 在 agents-entry 更新可选项列表，在 agents-roles 增加 Decision 子 Agent 角色。"
+  - "crates/pa-core/src/session_engine/rlm_host.rs：新增 RlmSpawnKind（136-146 行，默认 Subagent、只接受 decision），spawn 解析拒绝其它 kind（697-706 行）并拒绝 kind=\"decision\" 与 model 同时出现（712-719 行）；custom_agents v5 的 agents-overrides-limits 记录这条例外。"
+  - "crates/pa-daemon/src/rlm_ledger.rs：RlmLedgerEdge/RlmSpawnInput 新增 decision_child（108-122 行），append_spawn 仅在 true 时写 decisionChild（403-405 行），记录仍是 \"v\": 1 且旧读者跳过未知字段；rlm_ledger/replay.rs 以 record.get(\"decisionChild\") == Some(true) 解析（114 行），旧记录读 false。local_transcripts v5 在 transcripts-record-schema 增补该第一方记录字段。"
+  - "crates/pa-core/src/packages/mod.rs：唯一改动是 get_bundled_skills_dir 从 pub(crate) 提升为 pub 并加 #[must_use]，函数体未变。新调用点（pa-cli 的 runtime bootstrap 用该目录预装 bundled Python skills 到共享 venv）属内部启动装配；skills 主题已发布的发现/加载/调用答案不依赖该可见性，故无章节修订。"
+  - "crates/pa-core/src/prompts/system_prompt.rs：session_role_section 的 agent inbox 提示句改为“notice 说有等待消息时读取 + 自己的 bash-done 无需回复、无事可做时静默结束轮次”。全章节检索无引用或引述该句（custom_agents 只引 daemonless 两行），不属于固定问题机制变化。"
+  - "crates/pa-core/src/session_engine/mod.rs：仅新增 pub mod decision_api;（第 16 行）。已登记引用 ref-prime-agent-8aac-tool-start-row-write 与 ref-prime-agent-8aac-tool-progress-row-write 指向的工具行写入逻辑在该提交未变，且它们固定在 8aac 快照上，不触发 local_transcripts 修订。"
+  - "crates/pa-daemon/src/acp/daemon.rs：stop_session_work 的 StopSession 命令新增 timeout_ms: None 字段；ACP 路径仍走原有默认与固定 30 秒 REQUEST_TIMEOUT，mcp 章节的 ACP 准入、替换与超时结论不受影响。"
+  - "crates/pa-daemon/src/worker/inbox_router.rs（新调用点）：wake_delay 按通知类别取两个值——成功的 bash 完成用 successHoldMs、其它通知等 idleDebounceMs、心跳不延迟，且每次都 SettingsManager::create 新读设置；configuration v7 据此补上这两个键的生效路径（改动对之后到达的通知即生效）。"
+  - "跨文件发现并标记（不新建 edition）：观测提交的 crates/pa-tui/src/session_ui/auth.rs 写明 /mcp 是纯菜单命令、typed 子命令（login/logout/…）被刻意移除，登录由 /mcp 连接视图内部触发（Enter → McpAuthIntent args=\"login <server>\" → run_mcp_auth_command）；crates/pa-cli/src/mcp_login.rs 只删除了 /mcp logout 的客户端钩子并改写模块文档，crates/pa-core/src/mcp/oauth.rs 与 mcp_login.rs 的错误文案改为 “re-run /mcp and select X”，.changes/mcp-login-guidance-20261120.md 同述。已发布 mcp v3 仍把 /mcp login NAME 写成步骤（mcp-entry 第 93 行、mcp-definition 第 129 行），与当前代码冲突；该 typed 子命令在基线 783acb5d 上已不存在（auth.rs 该处不在本轮 diff 内），属历史已发布步骤与当前来源的冲突，本轮新证据只强化了冲突。按“推翻已发布步骤/来源冲突需独立复核”处理，mcp 保持 v3，pending_question_ids 记 mcp.entry、mcp.auth。"
+  - "其余变更路径不在协调者给出的 intersect 列表（10 个被登记引用文件）内，未被任何已登记 artifact/reference 引用；按证据边界不扩题，也未据 CHANGELOG 或 .changes 单独改写章节。"

@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-mcp-tools-cache-20261124
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-mcp-client-20261124
+locator:
+  kind: file_lines
+  file: common/src/mcp/client.ts
+  start: 175
+  end: 205
+official_url: "https://github.com/CodebuffAI/codebuff/blob/824604239e1e78c67bd4e0f48ea9086382aec9c3/common/src/mcp/client.ts"
+excerpt: |2-
+      const listing = listAllTools(client, ...args)
+      listToolsCache[clientId] = listing
+      // A failed listing is not kept, or one slow start would hide the server's tools for the rest
+      // of the process: the next call asks the server again.
+      listing.catch(() => {
+        if (listToolsCache[clientId] === listing) delete listToolsCache[clientId]
+      })
+    }
+    return listToolsCache[clientId]
+  }
+
+  /** Every page of a server's `tools/list` as one result, with no `nextCursor` (see list-tools.ts). */
+  export async function listAllTools(
+    client: Pick<Client, 'listTools'>,
+    ...[params, options]: Parameters<typeof Client.prototype.listTools>
+  ): ReturnType<typeof Client.prototype.listTools> {
+    return {
+      tools: await listAllMcpTools((cursor) =>

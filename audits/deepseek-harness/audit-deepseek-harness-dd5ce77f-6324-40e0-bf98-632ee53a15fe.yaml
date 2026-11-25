@@ -1,0 +1,288 @@
+schema_version: 2
+audit_id: audit-deepseek-harness-dd5ce77f-6324-40e0-bf98-632ee53a15fe
+harness_id: deepseek-harness
+checked_at: 2026-11-25T00:29:44.386Z
+previous_audit_id: audit-deepseek-harness-0a59457c-645f-4288-8594-8579cfb08ef7
+status: changed
+review_status: pending
+pending_audit_refs: []
+checks:
+  - source_id: source-deepseek-harness-repo
+    kind: git_repository
+    checked_at: 2026-11-25T00:29:43.345Z
+    status: changed
+    baseline: d743267388641bc76f17c45ce8b4c231aed1d32c
+    observed: 4b399c39a6d1479cd84ca591b4d7c88e24d38a96
+    remote_ref: refs/heads/master
+  - source_id: source-deepseek-harness-docs
+    kind: official_documentation
+    checked_at: 2026-11-25T00:29:43.357Z
+    status: changed
+    baseline: 665aa28b1c3a26f36d37e1b4faee68b6ff589139a3b1518a82fe83c0b869812c
+    observed: 2705797fbbd97866b97252cbbbd7df5ceb10d75cc6c3875761749f85614d4141
+    resolved_url: https://deepseek-harness.github.io/deepseek-harness/
+    candidate_path: archive/deepseek-harness/artifact-source-deepseek-harness-docs-2705797fbbd9/source.md
+  - source_id: source-deepseek-harness-npm
+    kind: npm_registry
+    checked_at: 2026-11-25T00:29:43.359Z
+    status: changed
+    baseline: 0.2.0-rc.2@sha512-EAJ3gPNcVt/uv8X19PMm9NkVhWgT7xXNMk0UKCVm+IQ5rpSQOcsMUa0HWlnYYVybKMsccjcRB21vVVsaXQ6IdA==
+    observed: 0.2.2-rc.5@sha512-cNbp12tLYLUTXaVli7zwwMjzmmEVCD1PRldg4oKtXM4+lFYckcaliMS2PU/FoThB4iAN/fKOSID0nrtRZU4Gjw==
+impacts:
+  - topic: local_transcripts
+    question_ids: [transcripts.scope]
+    section_ids: [transcripts-record-scope]
+    surface_ids: [web, desktop, headless, acp, sdk, sdk-minimal]
+    source_refs: [ref-deepseek-harness-lt-catalog-scope, ref-deepseek-harness-lt-jsonl-shipped-default, ref-deepseek-harness-lt-sqlite-provider-summary]
+    cross_topic_links: []
+    reason: "Persistence is now a two-provider seam: shipped profiles still mount JSONL, and an optional first-party SQLite provider exists. The record-scope answer now names both providers and keeps default-format conclusions scoped to JSONL."
+  - topic: local_transcripts
+    question_ids: [transcripts.location]
+    section_ids: [transcripts-storage-layout]
+    surface_ids: [web, desktop, headless, acp, sdk, sdk-minimal]
+    source_refs: [ref-deepseek-harness-lt-base-jsonl-root-row, ref-deepseek-harness-lt-jsonl-list-concurrency, ref-deepseek-harness-lt-sqlite-db-path, ref-deepseek-harness-lt-sqlite-config-fields, ref-deepseek-harness-lt-session-location-snapshot-field]
+    cross_topic_links: [config.defaults]
+    reason: "JSONL gained the listConcurrency field; the SQLite provider stores the log at <root>/.segments/sessions.sqlite; materialized stat/list snapshots now carry location. Locations for shipped profiles are unchanged."
+  - topic: local_transcripts
+    question_ids: [transcripts.naming]
+    section_ids: [transcripts-storage-layout]
+    surface_ids: [web, desktop, headless, acp, sdk, sdk-minimal]
+    source_refs: [ref-deepseek-harness-lt-header-lineage-fields, ref-deepseek-harness-lt-header-parent-session, ref-deepseek-harness-lt-delegation-depth-durable]
+    cross_topic_links: [custom_agents.roles]
+    reason: "parentSession now means the direct creator of a subagent Session; ordinary forks omit it and origin is the subagent classifier. Directory naming is unchanged."
+  - topic: local_transcripts
+    question_ids: [transcripts.format]
+    section_ids: [transcripts-record-format]
+    surface_ids: [web, desktop, headless, acp, sdk, sdk-minimal]
+    source_refs: [ref-deepseek-harness-lt-storage-semantics-contract, ref-deepseek-harness-lt-sqlite-physical-frames, ref-deepseek-harness-lt-persistence-change-team-mode]
+    cross_topic_links: []
+    reason: "The optional SQLite backend stores JSON lines in predecessor-linked Segments/frames (frameEvents=64, zstd by default); required new event types such as team/mode make older readers refuse the log. JSONL remains the shipped encoding."
+  - topic: local_transcripts
+    question_ids: [transcripts.schema]
+    section_ids: [transcripts-record-schema]
+    surface_ids: [web, desktop, headless, acp, sdk, sdk-minimal]
+    source_refs: [ref-deepseek-harness-lt-jsonl-header-line, ref-deepseek-harness-lt-header-cwd-canonical, ref-deepseek-harness-lt-header-parent-session]
+    cross_topic_links: [custom_agents.roles]
+    reason: "Header field semantics changed: cwd is the canonicalized absolute directory, and parentSession is restricted to subagent creators. Field presence rules and the minimal example are unchanged."
+  - topic: local_transcripts
+    question_ids: [transcripts.lifecycle]
+    section_ids: [transcripts-lifecycle]
+    surface_ids: [web, desktop, headless, acp, sdk, sdk-minimal]
+    source_refs: [ref-deepseek-harness-lt-create-session-meta, ref-deepseek-harness-lt-fork-parent-source, ref-deepseek-harness-lt-jsonl-fork-close-wait, ref-deepseek-harness-lt-compaction-system-consolidation, ref-deepseek-harness-lt-header-parent-session]
+    cross_topic_links: [custom_agents.roles]
+    reason: "Fork creation moved from seed alone to parentSource plus inheritedEventCount; JSONL copies the child history and read opens wait for an in-progress writer close; compaction consolidates system instructions through system/message replacements."
+  - topic: local_transcripts
+    question_ids: [transcripts.database]
+    section_ids: [transcripts-index-and-derived-state]
+    surface_ids: [web, desktop, headless, acp, sdk, sdk-minimal]
+    source_refs: [ref-deepseek-harness-lt-persistence-snapshot-fields, ref-deepseek-harness-lt-sqlite-provider-summary, ref-deepseek-harness-lt-sqlite-import-flow, ref-deepseek-harness-lt-sqlite-import-open, ref-deepseek-harness-lt-sqlite-limitations]
+    cross_topic_links: []
+    reason: "The answer was conditional: shipped profiles keep the body in JSONL, while the optional SQLite persistence provider stores the body in sessions.sqlite, imports existing JSONL on first open, keeps stat/list metadata-only, and requires all writers to use SQLite after import."
+  - topic: local_transcripts
+    question_ids: [transcripts.archive]
+    section_ids: [transcripts-archive-and-export]
+    surface_ids: [web, desktop]
+    source_refs: [ref-deepseek-harness-lt-export-command-contract, ref-deepseek-harness-lt-export-markdown-copy, ref-deepseek-harness-lt-export-markdown-session-file, ref-deepseek-harness-lt-export-missing-manifest, ref-deepseek-harness-lt-jsonl-snapshot-location]
+    cross_topic_links: []
+    reason: "Export no longer claims an empty manifest: unreadable attachment objects are skipped and listed in attachments-missing.txt. The Session Header also offers Copy Session as Markdown via /api/session.markdown, including a Session file block when stat reports a materialized artifact."
+  - topic: local_transcripts
+    question_ids: [transcripts.cleanup]
+    section_ids: [transcripts-cleanup]
+    surface_ids: [web, desktop, headless, acp, sdk, sdk-minimal]
+    source_refs: [ref-deepseek-harness-lt-no-deletion-api, ref-deepseek-harness-lt-layout-selection-rule, ref-deepseek-harness-lt-sqlite-limitations]
+    cross_topic_links: []
+    reason: "JSONL still has no deletion API. Under SQLite persistence the retained JSONL is only the imported prefix, all writers must use SQLite, and the first import needs write access; SQLite deletion semantics remain undocumented, so the question stays partial."
+  - topic: local_transcripts
+    question_ids: [transcripts.diagnostics]
+    section_ids: [transcripts-diagnostics]
+    surface_ids: [web, desktop, headless, acp, sdk, sdk-minimal]
+    source_refs: [ref-deepseek-harness-lt-session-location-prose, ref-deepseek-harness-lt-session-location-observational, ref-deepseek-harness-lt-session-location-snapshot-field, ref-deepseek-harness-lt-jsonl-snapshot-location, ref-deepseek-harness-lt-export-markdown-session-file]
+    cross_topic_links: []
+    reason: "SessionLocation is now observational metadata carried by materialized stat/list snapshots (location) and used by Markdown export; it still does not authorize reads. JSONL location.path gives the selected generation path directly."
+  - topic: custom_agents
+    question_ids: [agents.roles]
+    section_ids: [agents-roles]
+    surface_ids: [web, desktop, headless, acp, sdk, sdk-minimal]
+    source_refs: [ref-dsh-custom_agents-agents-roles-e03, ref-dsh-custom_agents-agents-roles-e05, ref-dsh-custom_agents-agents-roles-e06]
+    cross_topic_links: []
+    reason: "Held for independent review: the published roles answer calls Agent Teams experimental/opt-in and describes spawn_teammate. At 4b399c the base bundle mounts agent-team and tool-agent-team, web mounts ui-agent-team, Team members are ordinary subagents, spawn_teammate and the Team-scoped control tools are removed, and /team on|off is replaced by a per-root Session selection."
+  - topic: custom_agents
+    question_ids: [agents.invocation]
+    section_ids: [agents-invocation]
+    surface_ids: [web, desktop, headless, acp, sdk, sdk-minimal]
+    source_refs: [ref-dsh-custom_agents-agents-invocation-e03, ref-dsh-custom_agents-agents-invocation-e06]
+    cross_topic_links: [configuration.defaults]
+    reason: "Held for independent review: subagent tool calls now return started subagent <name>, accept an optional name and an agent_preset allowlist, and list_agents takes no scope argument and lists the whole tree. The published Team creation strategy and tool wording changed accordingly."
+  - topic: custom_agents
+    question_ids: [agents.overrides]
+    section_ids: [agents-overrides]
+    surface_ids: [web, desktop, headless, acp, sdk, sdk-minimal]
+    source_refs: [ref-dsh-custom_agents-agents-overrides-e02, ref-dsh-custom_agents-agents-overrides-e03]
+    cross_topic_links: [configuration.defaults]
+    reason: "Held for independent review: the published per-instance persona and toolFilter options are rejected at load (tool-subagent src/index.ts:150-152 tells users to configure an Agent Preset and select it with agentPreset, spawn only). New options agentPreset and allowedAgentPresets replace them; model/provider permissions remain as published."
+  - topic: custom_agents
+    question_ids: [agents.limits]
+    section_ids: [agents-limits]
+    surface_ids: [web, desktop, headless, acp, sdk, sdk-minimal]
+    source_refs: [ref-dsh-custom_agents-agents-limits-e01, ref-dsh-custom_agents-agents-limits-e05, ref-dsh-custom_agents-agents-limits-e06]
+    cross_topic_links: []
+    reason: "Held for independent review: maxDepth default 1 and maxActiveSubagents 8 are unchanged, but the published Team limits table is overturned: agent-team rejects maxMembers, maxMessageBytes and disposalTimeoutMs at startup, keeps maxTasks 256, and adds defaultEnabled false; tool-agent-team rejects interrupt, freshProvider and forkProvider. wait_agent moved to ordinary subagent controls."
+  - topic: custom_agents
+    question_ids: [agents.diagnostics]
+    section_ids: [agents-observability]
+    surface_ids: [web, desktop, headless, acp, sdk, sdk-minimal]
+    source_refs: [ref-dsh-custom_agents-agents-diagnostics-e02, ref-dsh-custom_agents-agents-diagnostics-e06]
+    cross_topic_links: []
+    reason: "Held for independent review: list_agents now reports the root plus reachable descendants with kind/root/child/diagnostic rows and names, and the parent-owned subagentCatalog projection is read through sessionQuery.observeSession. The published children/descendants switch and listChildren wording no longer match."
+  - topic: configuration
+    question_ids: [config.runtime]
+    section_ids: [config-runtime-inputs]
+    surface_ids: [web, desktop, headless, acp, sdk, sdk-minimal]
+    source_refs: [ref-dsh-configuration-config-runtime-e01, ref-dsh-configuration-config-runtime-e02, ref-dsh-configuration-config-runtime-e04, ref-dsh-configuration-config-runtime-e05]
+    cross_topic_links: []
+    reason: "Held for independent review: the published environment list includes DSH_TOOLS_MODE (native|ptc|both) as a way to select PTC. At 4b399c web/headless/SDK no longer read DSH_TOOLS_MODE; PTC is selected by mounting tool-executor-ptc and disabling tool-executor-native via a patch overlay. Headless also gained --permission-mode, --approval-policy and --add-dir app options."
+  - topic: configuration
+    question_ids: [config.migration]
+    section_ids: [config-migration]
+    surface_ids: [web, desktop, headless, acp, sdk]
+    source_refs: [ref-dsh-configuration-config-migration-e01, ref-dsh-configuration-config-migration-e02, ref-dsh-configuration-config-migration-e03]
+    cross_topic_links: []
+    reason: "Held for independent review: the published answer says there is no general key migration or deprecation system. The new 0.2.1-rc.2 tool-executor upgrade guide documents that dsh-tools rejects the removed mode and maxParallelSubCalls fields at load time and that custom compositions must mount a native or PTC executor. This is a published configuration-key removal with a load-time failure, so the answer needs revision and review."
+  - topic: configuration
+    question_ids: [config.defaults]
+    section_ids: [config-defaults]
+    surface_ids: [web, desktop, headless, acp, sdk, sdk-minimal]
+    source_refs: [ref-dsh-configuration-config-defaults-e01, ref-dsh-configuration-config-defaults-e02, ref-dsh-configuration-config-defaults-e03, ref-dsh-configuration-config-defaults-e04]
+    cross_topic_links: [custom_agents.roles]
+    reason: "Held for independent review: base now mounts tool-executor-native and a disabled tool-executor-ptc and requires an enabled executor at startup; the same layer mounts agent-team (maxTasks 256) and tool-agent-team, disables fs-observation-policy, sets tool-fs applyPatch false, removes tool-working-directory, and adds remote-access, deepseek-auth, cli-account and upstream-skills rows. The sandbox/approval/telemetry examples quoted in the published chapter are unchanged."
+pending_question_ids:
+  - agents.roles
+  - agents.invocation
+  - agents.overrides
+  - agents.limits
+  - agents.diagnostics
+  - config.runtime
+  - config.migration
+  - config.defaults
+investigation_notes:
+  - >-
+    Window and identity: the frozen scan baseline for the Git source was d743267388641bc (2026-10-11), while the observed HEAD is
+    4b399c39a6d1479cd84ca591b4d7c88e24d38a96; the supplied compare diff is therefore wider than this round and also contains files already
+    triaged by the still-pending audits 5ab74160, c748b1d3 and a0af6040. This audit reviewed only the 20 cited files in
+    /tmp/git-intersect-1125.json. The docs source moved from 665aa28b1c3a to 2705797fbbd9; 2705797fbbd9 was already the observed value in
+    audit 0a59457c (2026-11-23, no_change), so the effective docs window is 665aa28->2705797. The retained page is a client-rendered
+    VitePress shell with no extractable documentation text (only the page title), and no deepseek reference cites it; it carries no chapter
+    evidence. The npm identity moved 0.2.0-rc.2 -> 0.2.2-rc.5 (metadata only; no mapping or chapter impact).
+    Historical pending audits remain unclosed; pending_audit_refs is empty per the frozen-task contract and does not close them.
+  - >-
+    apps/desktop/src/project-manager.ts: only PROFILE_TEMPLATES/ProfileTemplate imports moved from dsh-app-boot to dsh-official-bundles.
+    No user-visible configuration, path, or transcript behavior; no impact.
+  - >-
+    docs/persistence-catalog.md: generated catalog adds log-only events action-cards/*, job/registered, job/settled, team/mode and
+    workspace-root/change. The published schema answer already names the generated catalog as the field authority and stays partial; no
+    per-event table was copied into the chapter, so the additive catalog change has no answer impact.
+  - >-
+    docs/subsystems/compaction.md: summary compaction still appends log-only compaction events and replaces surface nodes with a
+    user/message carrying surfaceOp replace; the doc now adds that the next model attempt consolidates current system instructions through
+    ordinary system/message replacements, and compactRegion selects a balanced range excluding the initial system message. The system
+    consolidation sentence was added to transcripts.lifecycle; the region boundary detail is surface policy, not a transcript record
+    property, and was excluded.
+  - >-
+    docs/subsystems/persistence.md: SessionLocation became observational metadata carried by materialized snapshots (location?) and by
+    export; fork creation now takes parentSource {sessionId,endSeq,events} plus inheritedEventCount; the backend section now lists both
+    JSONL and SQLite providers, with SQLite importing JSONL on first open and keeping stat/list metadata-only. All three feed the
+    local_transcripts v2 edition.
+  - >-
+    docs/subsystems/subagent.md: capability flags drop toolFilter and persona and add agentPreset; SubagentActivationSpec flattens the
+    start request, adds name, and dispose() releases only that activation; agent names/rootOf/namesOf/resolveName/capacityOf/waitForTreeWork
+    replace listChildren/list/drainChildren/waitForChildren; sendMessage spans the whole tree; interrupt user authority is {kind:'user'}.
+    These findings are held for independent review under custom_agents.
+  - >-
+    packages/attachment/attachment-local/README.md: the store root remains <DSH_HOME>/attachments/v1 and generic files keep
+    file-objects/<prefix>/<digest>; only image admission defaults (maxImageBytes 20->50 MiB, maxImageDimension 8192->65535) and request
+    image byte limits changed. transcripts.scope already only claims attachment bytes live outside the log, so no impact.
+  - >-
+    packages/bundle/base/cordis.patch.yml: the JSONL persistence row still uses root dshHomePath('sessions'); session-query-sqlite stays
+    at :memory:/never; storage-json stays at dshHomePath('storages'). New rows include remote-access, deepseek-auth, cli-account,
+    agent-team (maxTasks 256), tool-agent-team, upstream-skills, tool-executor-native and a disabled tool-executor-ptc; tool-subagent-control
+    now sets interrupt:false and the list-agents row is gone; fs-observation-policy is disabled and tool-fs sets applyPatch:false. The
+    persistence defaults support the transcripts conclusions; the executor and Team rows are held under configuration/custom_agents.
+  - >-
+    packages/bundle/headless/src/index.ts: assertAdoptable now rejects only origin:'subagent' sessions (ordinary forks are adoptable),
+    uses waitForTreeWork, and Config gains permissionMode and approvalPolicy documented as --permission-mode/--approval-policy with
+    --add-dir checking sandboxPolicy. The transcript log/adoption semantics are unchanged; the CLI options belong to the held configuration
+    evidence.
+  - >-
+    packages/bundle/sdk-minimal/cordis.patch.yml: sessions row still root dshHomePath('sessions') with compression none, so the
+    transcripts encoding warning stands. The overlay adds attachment-local, a restricted tool-fs, token-meter, compaction-basic,
+    image-offload, tool-executor-native and session-checkpoint-policy, and drops tool-working-directory. Compaction now exists in this
+    profile, which is consistent with the chapter's surface-wide lifecycle answer; no location/format change.
+  - >-
+    packages/bundle/web-app/cordis.patch.yml: removes the tools.config.mode DSH_TOOLS_MODE seam, restates session-query-sqlite
+    (:memory:, never), adds mcp-manager/mcp-account, authentication-token, remote-connection, office-kit, workspace-dependencies,
+    skill-office and ui-agent-team, and disables tool-subagent-control in favor of presets. The MCP additions belong to the MCP topic and
+    were excluded by assignment; the tools-mode removal and Team UI are held under configuration/custom_agents.
+  - >-
+    packages/core/agent-loop/src/index.ts: forks now call persistence.create(header,{parentSource}) after snapshotting the constructor
+    events; createStoredSession stores the parent prefix before the child. This corroborates the persistence.md parentSource contract used
+    by transcripts.lifecycle; no independent chapter claim.
+  - >-
+    packages/core/session/src/types.ts: cwd is documented as the canonical absolute directory resolved through the execution-world
+    filesystem; parentSession is documented as the direct creator of a subagent Session with ordinary forks omitting it and origin as the
+    classifier; SessionHeaderMeta is extracted and system/message docs describe source resets. The header semantics changed the schema and
+    naming answers; the system/message description is surface policy covered by compaction, not a transcript record question. TurnEndReasonMap
+    now distinguishes TOOL_ACTIVATION_FAILED from UNKNOWN for a failed tool condition; that payload detail stays delegated to the generated
+    catalog, so transcripts.schema remains partial without an answer change on this point.
+  - >-
+    packages/session-query/session-log-export/README.md and src/archive.ts: the export now offers Copy Session as Markdown via
+    /api/session.markdown, emits a Session file block when persistence metadata reports a materialized artifact, and writes
+    attachments-missing.txt for ATTACHMENT_NOT_FOUND/INVALID_ATTACHMENT_REF while still failing other attachment errors. The command
+    contract (includeDescendants=true, browser-chosen destination) and zip naming are unchanged. transcripts.archive was corrected from
+    "no manifest" and extended with the Markdown path.
+  - >-
+    packages/session/session-persistence-jsonl/README.md, src/index.ts and src/storage.ts: config gains listConcurrency (default 3);
+    stat/list snapshots gain location:{kind:'jsonl',path}; create() copies a supplied parentSource history into the child file; read opens
+    join an in-progress writer close before reading; install() is now a generator effect that keeps live routing and handles through
+    consumer unloads. The seam contract itself is unchanged, so only the new options/observations changed the transcripts answers.
+  - >-
+    packages/util/home-paths/src/index.ts: adds DshHomeCategory and dshPath(category,...) for new files and states that existing top-level
+    entries such as sessions/, profiles/ and .credentials.yaml keep their locations. This confirms that the transcripts root stays
+    $DSH_HOME/sessions; the category API is held under configuration as a developer-facing path change, not a user config key.
+  - >-
+    packages/workspace/workspace/src/index.ts: archiveSession now dispatches workspace/session-archived after durability and
+    workspace/session-unarchiving before removal from the archive set; cwd ENOENT sessions are tracked as missing candidates. Archival
+    still hides rather than moving logs and still drops the pin, so the published archive answer and loss statement stand; the follow-up
+    hooks are plugin-facing and were not added to the transcript reader guidance.
+  - >-
+    scripts/migrate-sessions-to-v4.ts: only import shape (namespace import, brandString, type-only SessionId) changed. Usage, default
+    ~/.dsh/sessions, V4 successor publication without touching the source, per-session isolation and the temp report remain as published;
+    the diagnostics answer is unchanged on this point.
+  - >-
+    Other cited-but-unaffected evidence: packages/bundle/base/cordis.patch.yml removes tool-working-directory and adds remote-access (MCP/
+    remote access surface, outside this assignment), and web-app adds mcp-manager/mcp-account (MCP topic). These are recorded here as
+    excluded rather than silently ignored; the MCP, native_plugins, hooks, skills and custom_providers chapters were not revised in this
+    task.
+  - >-
+    Review packet for the held questions (all at commit 4b399c39a6d1479cd84ca591b4d7c88e24d38a96): custom_agents — (a)
+    packages/subagent/tool-subagent/src/index.ts:150-152 throws "tool-subagent: <field> is no longer supported; configure persona and
+    tool plugins in an Agent Preset and select it with agentPreset (spawn only)" for the published persona/toolFilter options; (b)
+    packages/subagent/tool-subagent/README.md:69 documents agentPreset/allowedAgentPresets as spawn-only replacements; (c)
+    docs/subsystems/subagent.md:30-36 removes the persona/toolFilter capability flags and adds agentPreset, while lines 41-58 flatten
+    SubagentActivationSpec and add the optional name; lines 193-204 add the name/rootOf/namesOf/resolveName model-facing contract; (d)
+    packages/bundle/base/cordis.patch.yml:377-383 mounts agent-team (maxTasks 256) and tool-agent-team, and 397-400 moves interrupt:false to
+    tool-subagent-control; (e) packages/team/agent-team/README.md:54-59 accepts maxTasks/defaultEnabled and rejects
+    maxMembers/maxMessageBytes/disposalTimeoutMs; (f) docs/upgrade-guide/v0.2.1-rc.2/{agent-team-subagents,session-team-mode,
+    subagent-service-methods,subagent-user-controls,subagent-activation-options}/guide.md remove spawn_teammate, /team on|off,
+    listChildren/list/drainChildren, and the nested request field. configuration — (g)
+    docs/upgrade-guide/v0.2.1-rc.2/tool-executor-plugins/guide.md:12 states dsh-tools rejects the removed mode/maxParallelSubCalls fields at
+    load, executors are explicit rows, and web/headless/SDK no longer read DSH_TOOLS_MODE; (h) base cordis.patch.yml:526-535 mounts
+    tool-executor-native and a disabled tool-executor-ptc; (i) packages/bundle/headless/README.md:87-92 documents --permission-mode,
+    --approval-policy and --add-dir. The reviewer should confirm the proposed replacements before any edition is written or selected.
+  - >-
+    Delivery: local_transcripts v2 is selected in registry/chapter-current.yaml; its 21 new references are pinned to
+    snapshot-deepseek-harness-repo-20261125 (commit 4b399c39a6d1479cd84ca591b4d7c88e24d38a96). Each excerpt was rechecked against the
+    raw file fetched at that commit, and the eight file artifacts carry the per-file content sha256. custom_agents and configuration were
+    fully triaged but their editions are held because the overturned findings meet the published-configuration-step review trigger; their
+    questions remain pending in this audit and the v1 editions stay selected. reviewed_by/reviewed_at are intentionally absent because the
+    audit cannot be marked reviewed while those eight questions are pending independent review; the local_transcripts answers were
+    author-checked against the pinned files.

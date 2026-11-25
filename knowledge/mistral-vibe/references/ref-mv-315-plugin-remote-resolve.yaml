@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-plugin-remote-resolve
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/plugins/_native.py
+  start: 736
+  end: 774
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  def resolve(self) -> ResolvedPluginSet:
+      self._issues = []
+      self._unsupported_components = []
+      named = self._named_dirs_by_scope()
+      self._remote_names = frozenset()
+      builtin = self._load_scope(
+          [*named[SkillScope.BUILTIN], *self._builtin_plugin_dirs], SkillScope.BUILTIN
+      )
+      remote = self._without_builtin_names(
+          self._load_scope(
+              [*named[SkillScope.REMOTE], *self._remote_dirs], SkillScope.REMOTE
+          ),
+          builtin,
+      )
+      ...
+      self._remote_names = self._listed_remote_names | {
+          p.descriptor.name for p in remote
+      }
+  ...
+      installed = self._with_status(
+          self._select_by_precedence(project, user, builtin, remote)
+      )

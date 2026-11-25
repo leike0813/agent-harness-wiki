@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-mcp-baseline-tools-9a82686
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-subagent-fork-parity-9a82686
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/test/session/subagent/forkParity.test.ts
+  start: 490
+  end: 493
+official_url: "https://github.com/MoonshotAI/kimi-code/blob/9a82686b0e91c532f4d49da0bc088a0eac9bdede/packages/agent-core-v2/test/session/subagent/forkParity.test.ts"
+excerpt: |-
+  const parentTools = model.requests('main')[1]!.view.tools.map((tool) => tool.name);
+  expect(parentTools).toEqual(timing === 'startup' ? ['mcp__srv__echo', 'Read'] : ['Read']);
+  expect(model.requests('main')[0]!.view.tools.map((tool) => tool.name)).toEqual(parentTools);
+  expect(model.requests('subagent')[0]!.view.tools.map((tool) => tool.name)).toEqual(parentTools);

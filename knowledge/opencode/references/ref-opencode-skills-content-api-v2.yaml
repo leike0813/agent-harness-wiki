@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-content-api-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-skill-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/skill.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/skill.ts
+  start: 129
+  end: 160
+excerpt: |-
+  export interface Interface extends State.Transformable<Editor> {
+    /** The skill's SKILL.md body, loaded when the skill doesn't have it inline. */
+    readonly content: (id: ID) => Effect.Effect<string, LoadError>
+    /** Paths of the skill's virtual files besides SKILL.md. */
+    readonly files: (id: ID) => Effect.Effect<ReadonlyArray<string> | undefined>
+    /**
+     * One file of a skill by its path relative to the skill's folder, loaded when it isn't inline. `SKILL.md` is the
+     * body without frontmatter. Any path that isn't one of the skill's files, unsafe ones included, is not found.
+     */
+    readonly read: (id: ID, file: string) => Effect.Effect<Uint8Array, NotFoundError | FileNotFoundError | LoadError>
+    readonly list: () => Effect.Effect<Info[]>
+  }

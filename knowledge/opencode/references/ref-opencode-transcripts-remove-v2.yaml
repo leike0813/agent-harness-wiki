@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-remove-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/session.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session.ts
+  start: 419
+  end: 433
+excerpt: |-
+  remove: Effect.fn("Session.remove")(function* (sessionID) {
+    yield* result.get(sessionID)
+    yield* execution.interrupt(sessionID)
+    yield* execution.awaitIdle(sessionID)
+    yield* jobs.cancelSession(sessionID)
+    yield* transport.close(sessionID)
+    const children = yield* store.list({ parentID: sessionID })
+    // Delete the parent before its children: an interrupted child settles through the report
+    // path, and a report admitted just before the parent's deletion wakes an execution whose
+    // lifecycle write then fails on the deleted row.
+    yield* environments.clear(sessionID)
+    yield* bus.publish(SessionEvent.Deleted, { sessionID })
+    yield* bus.remove(sessionID)
+    yield* Effect.forEach(children, (child) => result.remove(child.id), { concurrency: 1, discard: true })
+  }),

@@ -1,0 +1,61 @@
+schema_version: 2
+audit_id: audit-amazon-q-c500b034-1a28-468a-aaf4-a2e2c1b3bbcb
+harness_id: amazon-q
+checked_at: 2026-11-25T00:28:22.224Z
+previous_audit_id: audit-amazon-q-8f71f047-0d1f-4e05-a7d9-efaad11097c2
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-25T00:34:30.000Z
+pending_audit_refs: []
+checks:
+  - source_id: source-amazon-q-repo
+    kind: git_repository
+    checked_at: 2026-11-25T00:28:19.292Z
+    status: unchanged
+    baseline: 15cc8f3cd18c4272925ce1c7053268eedff1ea0a
+    observed: 15cc8f3cd18c4272925ce1c7053268eedff1ea0a
+    remote_ref: refs/heads/main
+  - source_id: source-amazon-q-docs-cli
+    kind: official_documentation
+    checked_at: 2026-11-25T00:28:19.304Z
+    status: changed
+    baseline: 09a8e082422df4b20e93e749f7731bdec647fce3bac6cce89c175292df8e6f14
+    observed: 75dd49d5a0945facab44cc7d481a35f578742689adf375c41daf3c93692a4e54
+    resolved_url: https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line.md
+    candidate_path: archive/amazon-q/artifact-source-amazon-q-docs-cli-75dd49d5a094/source.md
+  - source_id: source-amazon-q-docs-mcp
+    kind: official_documentation
+    checked_at: 2026-11-25T00:28:19.306Z
+    status: changed
+    baseline: df7d3378b5f2b9c7b1cba1d5e5b1bf1a6d175e51bc9f819163d2c5d8b2b7940c
+    observed: 0629a56508dfb37ea00930658cfb3bc629b7c5de6f9de122f6831eaaaace4318
+    resolved_url: https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/qdev-mcp.md
+    candidate_path: archive/amazon-q/artifact-source-amazon-q-docs-mcp-0629a56508df/source.md
+  - source_id: source-amazon-q-docs-mcp-cli
+    kind: official_documentation
+    checked_at: 2026-11-25T00:28:19.307Z
+    status: changed
+    baseline: 7a321d06c5eed7e4766fa4d80aa0d573323c5ed75ea1da7dc735f42947a705c4
+    observed: 87b6f73017c3c4e1ab26f58bf80621df639e990ab8ab63334ac579b9214a2dc9
+    resolved_url: https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-mcp-config-CLI.md
+    candidate_path: archive/amazon-q/artifact-source-amazon-q-docs-mcp-cli-87b6f73017c3/source.md
+  - source_id: source-amazon-q-docs-mcp-security
+    kind: official_documentation
+    checked_at: 2026-11-25T00:28:20.012Z
+    status: changed
+    baseline: 06e5cfdad6e1a09adbb5774dc2e58de8ed44184789bd1391de49d79957e0561e
+    observed: 36f3ccd70e726487c9b4617dbac8b93ea71c191471fc2ca9cc71f6818b17dc68
+    resolved_url: https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-mcp-security.md
+    candidate_path: archive/amazon-q/artifact-source-amazon-q-docs-mcp-security-36f3ccd70e72/source.md
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - "本轮 triage 结论 reviewed_no_impact：4 个官方文档来源内容 hash 变化，逐行 diff baseline 与 observed 原件后全部为标记层噪声（删除手动 <a name> 锚点、给代码围栏补语言标签），正文没有增删改；没有任何固定问题答案变化，因此不新建 artifact/snapshot/reference，也不改章节与选章。"
+  - "source-amazon-q-docs-cli：baseline 09a8e082422d → observed 75dd49d5a094；唯一差异是旧第 4 行删除 <a name=\"command-line\"></a>，其余 6 行（标题、The Q CLI has become the Kiro CLI.、Kiro 指南链接）逐字不变。受影响引用 ref-amazon-q-docs-command-line-kiro 继续固定旧 snapshot snapshot-amazon-q-docs-cli（raw_sha256 09a8e082422d），按规则不为上游锚点删除改写旧 snapshot/reference。"
+  - "source-amazon-q-docs-mcp：baseline df7d3378b5f2 → observed 0629a56508df；差异 4 行：旧第 4 行删除 <a name=\"qdev-mcp\"></a>，旧第 89 行（/tools 示例）与旧第 119 行（@fetch 示例）两个 ``` 围栏改为 ```bash。示例命令、解释文字与章节引用的小节内容逐字不变；对应 ref-amazon-q-docs-mcp-tools 等仍固定在旧 snapshot（raw_sha256 df7d3378b5f2），无答案影响。"
+  - "source-amazon-q-docs-mcp-cli：baseline 7a321d06c5ee → observed 87b6f73017c3；差异 2 行：旧第 4 行删除 <a name=\"command-line-mcp-config-CLI\"></a>，旧第 48 行远程 server 示例的 ``` 围栏改为 ```json；JSON 示例内容逐字不变，ref-amazon-q-docs-mcp-cli-remote 固定的 excerpt 与旧 snapshot（raw_sha256 7a321d06c5ee）一致。"
+  - "source-amazon-q-docs-mcp-security：baseline 06e5cfdad6e1 → observed 36f3ccd70e72；唯一差异是旧第 4 行删除 <a name=\"command-line-mcp-security\"></a>，Security considerations / Security model 正文逐字不变，config.trust 等引用无影响。"
+  - "source-amazon-q-repo：commit 15cc8f3cd18c 与上次观察一致，local_transcripts/configuration 的源码级证据不受这批文档变化影响。"
+  - "排除依据：逐题核对本轮 impacts 线索列出的 11 个问题（config.trust、agents.entry、mcp.entry/definition/transport/auth/lifecycle/capabilities/exposure/diagnostics、plugins.api）所依赖的章节正文，均只引用语义段落与示例命令/JSON 内容，不引用手动锚点或围栏语言标记；grep 章节正文未出现 <a name= 或依赖围栏标签的断言。故 impacts 清空、pending_question_ids 清空；status 保持 changed（checks 含 changed，由校验器推导）。"
+  - "基线说明：本轮 baseline 仍是 10 月 processed 哈希，而 2026-11-23 审计 audit-amazon-q-8f71f047 已以相同 observed 哈希记录 unchanged，本轮属于基线推进后的补记，diff 仍是上述标记层差异。pending_audit_refs 保持 []；历史审计（含 audit-amazon-q-38e16f44 记录的 configuration Q_CLI_DATA_DIR 文档漂移、audit-amazon-q-fa837b8d 的历史复核）本轮未触及、未关闭，只有相关新证据或显式手动重开才恢复。"

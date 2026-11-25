@@ -1,0 +1,115 @@
+schema_version: 2
+audit_id: audit-gemini-cli-8b62cd6c-2712-4e89-b8b5-0356c83e4f03
+harness_id: gemini-cli
+checked_at: 2026-11-25T00:27:40.390Z
+previous_audit_id: audit-gemini-cli-d53a178d-c31f-4cbb-b054-1f136bdb2896
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: "2026-11-25T01:00:00.000Z"
+pending_audit_refs: []
+checks:
+  - source_id: source-gemini-cli-repo
+    kind: git_repository
+    checked_at: 2026-11-25T00:27:38.073Z
+    status: changed
+    baseline: 9b6e0265d16bbd29ca51e33c9e0c01dc4cec5e83
+    observed: 08e9a20f749aefcbda38622ac757899c3d6216e0
+    remote_ref: refs/heads/main
+  - source_id: source-gemini-cli-docs
+    kind: official_documentation
+    checked_at: 2026-11-25T00:27:38.082Z
+    status: unchanged
+    baseline: 8e1b4cbe2cd31effa3375aa5d480269ab28bf82c02a42d9b52cbb61e5b248590
+    observed: 8e1b4cbe2cd31effa3375aa5d480269ab28bf82c02a42d9b52cbb61e5b248590
+    resolved_url: https://geminicli.com/docs/cli/skills.md
+  - source_id: source-gemini-cli-npm
+    kind: npm_registry
+    checked_at: 2026-11-25T00:27:38.084Z
+    status: unchanged
+    baseline: 0.71.1@sha512-FYDTjU+9BFPYKBcFS3vCjJol8pFyV0iHVigUNr2wZqk4vYNFgacGB5ubyrySFGM5jWxCK+1EFdcDJiEQjNomaw==
+    observed: 0.71.1@sha512-FYDTjU+9BFPYKBcFS3vCjJol8pFyV0iHVigUNr2wZqk4vYNFgacGB5ubyrySFGM5jWxCK+1EFdcDJiEQjNomaw==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.overrides
+      - config.runtime
+      - config.defaults
+      - config.trust
+      - config.migration
+    section_ids:
+      - config-scope
+      - config-sources-overrides
+      - config-per-key-precedence
+      - config-runtime-defaults
+      - config-trust
+      - config-migration-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-gemini-cli-config-request-timeout-doc
+      - ref-gemini-cli-config-request-timeout-schema
+      - ref-gemini-cli-config-request-timeout-precedence
+      - ref-gemini-cli-config-request-timeout-apply
+      - ref-gemini-cli-config-migrate-original-settings
+      - ref-gemini-cli-config-sandbox-trust
+    cross_topic_links: []
+    reason: >-
+      `08e9a20f` 新增 `model.requestTimeoutMs` 并给出一条新的逐键优先级
+      （`GEMINI_API_HEADERS_TIMEOUT_MS` > 设置 > `DEFAULT_REQUEST_TIMEOUT` 实验
+      flag），影响 config.overrides/runtime/defaults；弃用键自动迁移改写
+      `originalSettings` 的写回方式影响 config.migration；进入沙箱前的文件夹信任解析影响
+      config.trust。旧 edition 保留，新完整 edition `gemini-cli-cli-configuration-v4`
+      已选入当前版本。
+  - topic: mcp
+    question_ids:
+      - mcp.entry
+      - mcp.definition
+      - mcp.auth
+      - mcp.lifecycle
+      - mcp.diagnostics
+    section_ids:
+      - mcp-scope
+      - mcp-entry-definition
+      - mcp-transport-auth
+      - mcp-lifecycle-capabilities
+      - mcp-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-gemini-cli-mcp-doc-allow-private-network
+      - ref-gemini-cli-mcp-allow-private-schema
+      - ref-gemini-cli-mcp-oauth-private-hint
+      - ref-gemini-cli-mcp-oauth-private-literal
+      - ref-gemini-cli-mcp-oauth-private-dns
+      - ref-gemini-cli-mcp-oauth-provider-private
+      - ref-gemini-cli-mcp-system-server-sanitize
+      - ref-gemini-cli-mcp-system-command-sanitize
+      - ref-gemini-cli-mcp-system-block-excluded
+      - ref-gemini-cli-mcp-system-sanitize-scope
+    cross_topic_links:
+      - configuration.sources
+    reason: >-
+      `08e9a20f` 的 MCP 文档/schema/oauth 实现新增 `oauth.allowPrivateNetwork`
+      （默认 false，放行企业私网 OAuth 端点但仍要求 HTTPS 并继续限制
+      link-local/loopback），影响 mcp.auth；`settings.ts` 新增系统 settings 与
+      system-defaults 的 MCP 命令路径安全检查，会删除不安全 server、把名字并入
+      `mcp.excluded` 并从其它作用域删除同名 server，影响 mcp.entry/definition/
+      lifecycle/diagnostics。旧 edition 保留，新完整 edition `gemini-cli-cli-mcp-v2`
+      已选入当前版本。
+pending_question_ids: []
+investigation_notes:
+  - 本轮按提交 08e9a20f749aefcbda38622ac757899c3d6216e0（2026-11-24）的固定内容核对 configuration/mcp/native_plugins 三个主题；compare diff 为 9b6e0265..08e9a20f，包含已被旧 edition 吸收的中间提交，增量以各章已引固定提交为基线核对。
+  - configuration：`docs/reference/configuration.md` 只新增 `model.requestTimeoutMs` 与模型默认数据（auto isPreview、flash contexts），机制变化是前者；默认值文档写 60000，schema default 为 undefined、minimum 1、requiresRestart。
+  - configuration：`packages/core/src/config/config.ts` 的 `getRequestTimeoutMs()` 给出三层优先级（env > setting > 实验 flag），并在构造与 refreshAuth 时写入 `updateGlobalFetchTimeouts`；该文件不在初始 22 文件交集内，但它是声明的唯一实现入口，按同一固定提交补证。
+  - configuration：`packages/cli/src/config/settings.ts` 的 `migrateBoolean`/`migrateDeprecatedSettings` 现在同时更新运行期 settings 与持久化 originalSettings，目标键已存在时不覆盖原始占位符。
+  - configuration：`packages/cli/src/gemini.tsx` 在重新进入沙箱前调用 `resolveFolderTrustForSandbox`，源码注释说明 macOS Seatbelt 不允许沙箱进程访问 trusted folders 文件；仅新增一句信任条件，未改 sandbox 配置字段。
+  - mcp：`docs/tools/mcp-server.md` 与 `settingsSchema.ts`/`schemas/settings.schema.json` 的 `oauth.allowPrivateNetwork` 已在上一条已发布提交 09d81bf1 存在，但 mcp edition 从未引用；本轮按 08e9a20f 补入 mcp.auth 与 definition。
+  - mcp：`oauth-utils.ts` 的 `validateOAuthEndpointUrl` 只在 `allowPrivateNetwork` 为真且地址属于企业私网段时放行，其他私有/保留地址仍抛 OAuthSecurityError；`oauth-provider.ts` 把该值传给授权与 token 端点校验，`oauth-flow.ts` 同为透传。
+  - mcp：`settings.ts` 的 `sanitizeSystemMcpServerMap`/`sanitizeSystemMcpServerCommand`/`blockSkippedSystemMcpServers` 只作用于系统 settings 与 system-defaults；被删除的 server 名会以大小写不敏感方式从 system/user/workspace 各作用域删除并追加到系统 `mcp.excluded`（内存值，不写回文件）。
+  - native_plugins：`extension-manager.ts` 的 `acquireExtensionInstallLock` 让同一扩展的并发安装/更新串行化（15s 过期、约 7s 重试后报 "another installation or update ... already in progress"），`_buildExtension` 跳过 `.lock` 目录；`installOrUpdateExtension` 的安装源、`--ref`、link、uninstall 语义未变。该文件另把 link 源路径传给 consent 渲染器，但渲染器文件不在本轮 22 文件交集内，且"link 是实时符号链接、改动立即生效"已由现有章节记录。综合判断不改变 plugins.install/discovery/diagnostics 的固定问题答案，因此未新建 edition。
+  - native_plugins：`extension.test.ts` 新增的是白名单加载容错测试（c10f094e 的回归），该行为已由未发布的 `gemini-cli-cli-native_plugins-v2` 记录，v2 仍在等待独立复核，本轮不修改、不选入。
+  - 已核对并排除的 cited files：`docs/reference/commands.md`（/stats heatmap，不属八主题）；`packages/cli/src/utils/sessionUtils.ts`（会话排序/显示净化）；`packages/core/package.json`（版本与依赖）；`packages/core/src/agents/registry.ts`（custom_agents 的项目层加载与确认）；`packages/core/src/core/client.ts`、`geminiChat.ts`（provider 请求/重试与历史加固）；`packages/core/src/services/chatRecordingService.ts`（local_transcripts 写入）；`packages/core/src/skills/skillLoader.ts`（skills frontmatter，已由 skills v2 记录）；`packages/core/src/telemetry/sdk.ts`（遥测缓冲上限/错误隔离）；`packages/core/src/utils/fileUtils.ts`（BOM 编码，已由 skills/local_transcripts 记录）；`packages/core/src/utils/paths.ts`（tilde/IDE 目录与 Android 可信路径）；`packages/core/src/utils/oauth-flow.ts`（仅 allowPrivateNetwork 透传）。
+  - "`schemas/settings.schema.json` 的增量是生成的 `requestTimeoutMs`（含 minimum 1）与主题 `active`/`focus` 字段；主题字段属 UI 主题定义，不进入固定问题。"
+  - 历史 pending 审计（cc261cb8、dc9c7fa2、5e25c33c、cede4603）保持未结案；本审计按任务要求清空 pending_audit_refs，不据此关闭或视为解决它们。
+  - 来源仅来自源码提交，npm 0.71.1 与官方文档 hash 未变；未新增软件版本映射，也不声称 0.71.1 已包含本提交行为。

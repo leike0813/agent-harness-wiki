@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-1x-skills-locations
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-skills-20261125
+locator:
+  kind: document_section
+  heading: Skill Locations
+official_url: "https://docs.augmentcode.com/cli/skills.md"
+excerpt: |-
+  | Location | Source | Description |
+  | :- | :- | :- |
+  | `~/.augment/skills/` | User | Available in all workspaces (highest precedence) |
+  | `<workspace>/.augment/skills/` | Workspace | Project-specific skills, can be version controlled |
+  | `~/.claude/skills/` | User | Compatible with Claude Code |
+  | `~/.agents/skills/` | User | Industry-standard location |
+  | `.augment/skills/`, `.claude/skills/`, `.agents/skills/` in the current directory and its parents | Workspace | Searched up to the git repository root |
+  Skills from all locations are loaded and made available to the agent. When multiple skills with the same name exist, the skill from the higher precedence location is used.

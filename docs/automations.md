@@ -16,13 +16,13 @@
 | 当前调度 | 每日 02:00，`Asia/Shanghai` |
 | daily precheck | 已于 2026-10-25 部署并回读确认 |
 | 预检时限 | 调度 600 秒；来源观察 540 秒，逐产品保存结果 |
-| 下一次运行 | 2026-10-26 02:00 |
+| 下一次运行 | 每日 02:00 观察；周日 02:00 窗口按队列领取（切换新运行副本后生效） |
 
 调度预检与 Agent 提示已切换为共享目录下的独立运行副本，保留原工作树、模型参数、fresh-session 和 60 分钟宽限。预检非零退出时 Orca 只记录跳过，不启动 Agent。周日真实 LLM 维护尚未在本次变更中运行。
 
-当前运行副本：`<git-common-dir>/agent-harness-wiki-monitor/runtimes/runtime-0326ad83-8550-4bbd-ab5e-0f1aa3b4b71f/`，入口为 `monitor.mjs`；入口 sha256 为 `3245301867ebb56700c1d8a7347707e9ac04dcc591bfb0cf296ea23a87f2bdac`。同目录的 `automation-before.json` 与 `automation-after.json` 保留调度切换证据。原生 SQLite 使用已有锁定安装，更新依赖后应重建运行副本。
+当前运行副本：`<git-common-dir>/agent-harness-wiki-monitor/runtimes/runtime-f5e2e01f-20261124/`，入口为 `monitor.mjs`；入口 sha256 为 `3bb3546b4b9c4d830155604ea6b2e82e73ace15f4fabd50c02d4f2284745609c`。该副本包含 2026-11-24 修正后的 24 条观察入口（GitHub Copilot 迁移后的 `concepts/customizations` 路径、`code.minimax.io`、Mistral 无 `.md` 后缀页面、Antigravity `getting-started.md` 等）。Orca 调度目前仍指向 `runtime-0326ad83-8550-4bbd-ab5e-0f1aa3b4b71f`，维护者把预检命令切换到上述绝对路径后，新的观察入口才会进入每日巡检。旧目录的 `automation-before.json` 与 `automation-after.json` 保留调度切换证据。原生 SQLite 使用已有锁定安装，更新依赖后应重建运行副本。
 
-本轮验证：194 个单元测试、55 个来源／巡检相关测试、10 个候选隔离测试和 1 个运行副本离线测试通过；55 项中含 9 个已计入单元测试的分支判定用例。类型、lint、格式、schema、编译、673 个生产章节、271 条 Git 审计与 OpenSpec strict 校验通过。修正资源布局后的纯脚本全量观察返回 exit 2、`observed`、`launch: false`，队列 10 个产品、22 个来源失败，没有领取任务或启动 worker；最终运行副本把截止缩为 540 秒，并通过离线回归和调度回读。
+本轮验证（2026-11-24 全量巡检）：50 个产品完成冻结观察，32 个产品结算（13 个 `completed`、14 个 `reviewed_no_impact`、5 个 `blocked`）；知识库 854 个生产章节、552 条 Git 审计；`pnpm verify` 通过（194 个单元测试、269 个集成测试通过、3 个跳过，类型、lint、格式、schema、编译与文档站构建通过）；新运行副本的纯脚本观察返回 exit 2、`observed`、`launch: false`，队列 26 个产品、16 个来源阻塞（13 个是 forgecode 已退役文档，3 个为瞬时网络失败）。在线产物由同一提交另行构建校验。
 
 开发态命令：
 
@@ -142,7 +142,7 @@ pnpm -s monitor:run --root <original-worktree> status
 
 `status` 只读本地台账，不访问上游、不创建任务，也不推进基线。
 
-当前专用工作树存在上一轮遗留的未跟踪审计文件，本次不覆盖、删除或提交。每日观察仍可运行；周日有候选时 precheck 返回 `delivery_blocked`，维护者先处理这些文件的归属，调度不绕过 clean 检查。
+2026-10-24 轮遗留的 81 个未跟踪审计文件已由 2026-11-24 全量巡检恢复进审计链并随当轮提交；专用工作树恢复干净后，周日 precheck 不再因 dirty 返回 `delivery_blocked`。诊断记录：这些文件使 2026-10-25 之后的每个周日启动都停在 `delivery_blocked`，知识因此冻结到 10 月 22 日。恢复后仍需重建运行副本，才能让已修正的 `observation_url` 进入每日观察。
 
 ## 手动维护与交付
 

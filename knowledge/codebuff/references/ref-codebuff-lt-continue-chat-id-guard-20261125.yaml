@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-lt-continue-chat-id-guard-20261125
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-lt-run-state-storage-20261125
+locator:
+  kind: file_lines
+  file: cli/src/utils/run-state-storage.ts
+  start: 574
+  end: 590
+official_url: "https://github.com/CodebuffAI/codebuff/blob/286f2517138563f5942a381f063f55254779a366/cli/src/utils/run-state-storage.ts"
+excerpt: |2-
+  export function resolveRequestedChatDir(
+    chatsDir: string,
+    chatId: string,
+  ): string | null {
+    const id = chatId.trim()
+    if (!id || id === '.' || id === '..' || path.basename(id) !== id) return null
+    if (id.includes('/') || id.includes('\\')) return null
+    const candidateDir = path.join(chatsDir, id)
+    try {
+      if (!fs.statSync(candidateDir).isDirectory()) return null
+      const realChats = fs.realpathSync(chatsDir)
+      if (path.dirname(fs.realpathSync(candidateDir)) !== realChats) return null
+    } catch {
+      return null
+    }
+    return candidateDir
+  }

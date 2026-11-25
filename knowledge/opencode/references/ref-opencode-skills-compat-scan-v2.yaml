@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-compat-scan-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-plugin-compatibility-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/config/plugin/compatibility.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/plugin/compatibility.ts
+  start: 41
+  end: 58
+excerpt: |-
+  const refresh = Effect.fn("ConfigCompatibilityPlugin.refresh")(
+    function* () {
+      yield* FiberMap.clear(watches)
+      const roots = yield* compatibility()
+      const directories = [...roots.claude, ...roots.agents].map((root) => path.join(root, "skills"))
+      const loaded = new Map<Skill.ID, Skill.Info>()
+      for (const directory of directories) {
+        const resolved = yield* fs.realPath(directory).pipe(Effect.orElseSucceed(() => undefined))
+        if (!resolved) continue
+        yield* watch(resolved, "directory")
+        for (const filepath of yield* SkillScan.scan(resolved)) {
+          const parsed = SkillFile.parse(resolved, filepath, content)
+          if (parsed._tag === "Parsed") loaded.set(parsed.skill.id, parsed.skill)
+        }
+      }

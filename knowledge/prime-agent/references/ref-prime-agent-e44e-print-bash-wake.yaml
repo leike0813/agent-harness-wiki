@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-print-bash-wake
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-print-runtime-rs
+locator:
+  kind: file_lines
+  file: crates/pa-cli/src/print_runtime.rs
+  start: 872
+  end: 884
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-cli/src/print_runtime.rs"
+excerpt: |-
+  daemonless: true,
+  model_info: Some(model.clone()),
+  // The kernel boots in the background at creation; a spawned
+  // child boots lazily on first use.
+  prewarm_ipython_kernel: (!matches!(embedding, HeadlessEmbedding::Child(_)))
+      .then_some(true),
+  kernel_ready_gate,
+  // The background-bash wake pair: the completion row's
+  // admission fires it, and the kernel's background settle does
+  // too, so the embedding's parked drive or pump re-checks.
+  bash_notice_wake: Some(Arc::clone(&bash_wake)),
+  on_background_work_settled: Some(bash_wake),

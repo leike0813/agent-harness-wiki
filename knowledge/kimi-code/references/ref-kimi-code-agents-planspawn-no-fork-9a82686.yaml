@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-agents-planspawn-no-fork-9a82686
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-subagent-service-9a82686
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/session/subagent/subagentService.ts
+  start: 87
+  end: 94
+official_url: "https://github.com/MoonshotAI/kimi-code/blob/9a82686b0e91c532f4d49da0bc088a0eac9bdede/packages/agent-core-v2/src/session/subagent/subagentService.ts"
+excerpt: |-
+  async planSpawn(input: SubagentSpawnPlanInput): Promise<SubagentSpawnPlan> {
+    const caller = this.requireCaller(input.callerAgentId);
+    await this.catalog.ready;
+    const own = caller.accessor.get(IAgentLoopService).data();
+    const requestedProfileName =
+      input.profileName !== undefined && input.profileName.length > 0
+        ? input.profileName
+        : DEFAULT_PROFILE_NAME;

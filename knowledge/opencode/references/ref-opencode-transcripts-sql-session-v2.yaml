@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-sql-session-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-sql-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/session/sql.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/sql.ts
+  start: 28
+  end: 84
+excerpt: |-
+  export const SessionTable = sqliteTable(
+    "session_v2",
+    {
+      id: text().$type<SessionSchema.ID>().primaryKey(),
+      parent_id: text().$type<SessionSchema.ID>(),
+      directory: directoryColumn().notNull(),
+      cost: real().notNull().default(0),
+      ...Timestamps,
+      time_busy: integer(),
+      time_idle: integer(),
+      time_viewed: integer(),
+      time_compacting: integer(),
+      time_archived: integer(),
+      time_suspended: integer(),
+      resume_attempts: integer().notNull().default(0),
+    },
+    (table) => [
+      index("session_v2_project_idx").on(table.project_id),
+      index("session_v2_parent_idx").on(table.parent_id),

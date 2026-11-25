@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-cfg-catalog-default
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/_catalog_filter.py
+  start: 260
+  end: 268
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      result: dict[str, Any] = {**catalog, "models": kept}
+      if isinstance(aliases, Mapping):
+          result["catalog_model_aliases"] = {
+              model_id: names for model_id, names in aliases.items() if model_id in kept
+          }
+      if (default := spec.get("default")) is not None and (
+          model_id := resolve("default", default)
+      ) in kept:
+          result["catalog_default_model"] = model_id

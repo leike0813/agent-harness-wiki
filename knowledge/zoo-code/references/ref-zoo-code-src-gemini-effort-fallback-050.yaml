@@ -1,0 +1,12 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zoo-code-src-gemini-effort-fallback-050
+harness_id: zoo-code
+snapshot_id: snapshot-zoo-code-src-src-api-transform-reasoning-050
+locator:
+  kind: file_lines
+  file: src/api/transform/reasoning.ts
+  start: 206
+  end: 219
+official_url: "https://github.com/Zoo-Code-Org/Zoo-Code/blob/050c49ef82693b02a1626a08cf8609a6f7c00223/src/api/transform/reasoning.ts#L206-L219"
+excerpt: "\t// Validate that the selected effort is supported by this specific model.\n\t// e.g. gemini-3-pro-preview only supports [\"low\", \"high\"] — sending\n\t// \"medium\" (carried over from a different model's settings) causes errors.\n\tconst effortToUse =\n\t\tArray.isArray(model.supportsReasoningEffort) && !model.supportsReasoningEffort.includes(selectedEffort)\n\t\t\t? model.reasoningEffort\n\t\t\t: selectedEffort\n\n\t// Accept only known Google GenAI thinking levels.\n\tif (!isGeminiThinkingLevel(effortToUse)) {\n\t\treturn undefined\n\t}\n\n\treturn { thinkingLevel: effortToUse as unknown as GeminiReasoningParams[\"thinkingLevel\"], includeThoughts: true }"

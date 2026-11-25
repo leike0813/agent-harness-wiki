@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-lt-chunk-read
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_storage.py
+  start: 6275
+  end: 6291
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  def _read_pooled_chunk(chunk_root: Path, digest: str) -> bytes:
+      compressed = chunk_root / f"{digest}{_COMPRESSED_CHUNK_SUFFIX}"
+      _reject_symlink(compressed)
+      try:
+          data = compressed.read_bytes()
+      except FileNotFoundError:
+          return _read_document_body(chunk_root / f"{digest}{_PLAIN_CHUNK_SUFFIX}")
+      inflater = zlib.decompressobj(wbits=_GZIP_WBITS)
+      try:
+          body = inflater.decompress(data, _MAX_INFLATED_CHUNK_BYTES + 1)
+      except zlib.error as exc:
+          raise ValueError(f"stored chunk is not valid gzip: {digest}") from exc
+  ...

@@ -1,0 +1,31 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-agents-save-as-defaults
+harness_id: zed
+snapshot_id: snapshot-zed-agent-thread-rs-2664a0a
+locator:
+  kind: file_lines
+  file: crates/agent/src/thread.rs
+  start: 2488
+  end: 2508
+official_url: "https://github.com/zed-industries/zed/blob/2664a0aa1eae5dabf8f8273c03f88d53061ca7dc/crates/agent/src/thread.rs"
+excerpt: |-
+  pub fn save_as_defaults(&mut self, cx: &mut Context<Self>) {
+      if !self.thread_only {
+          return;
+      }
+      self.thread_only = false;
+      self.save_default_model(cx);
+      let enable_thinking = self.thinking_enabled;
+      let effort = self.thinking_effort.clone();
+      let speed = self.speed;
+      self.save_model_options(cx, move |model| {
+          model.enable_thinking = enable_thinking;
+          model.effort = effort.clone();
+          model.speed = speed;
+      });
+      // An automatic downgrade isn't a profile the user chose.
+      if !self.profile_downgraded_for_restricted_workspace {
+          self.save_default_profile(cx);
+      }
+      cx.notify();

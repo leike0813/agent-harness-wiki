@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-lt-store-minor
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_storage.py
+  start: 124
+  end: 147
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  STORE_FORMAT = "mistral.vibe.unified-session-store/v1"
+  # Readers accept minor versions up to READABLE_STORE_FORMAT_MINOR and reject higher
+  # ones.
+  ...
+  # Downgrading after a newer build writes the store is unsupported, except to a
+  # build that already reads that minor (READABLE_STORE_FORMAT_MINOR).
+  STORE_FORMAT_MINOR = 10
+  # 11, read ahead of being written: a generation names a pooled chunk held only
+  # gzip-compressed, which a reader before 11 cannot find. It means that alone, so
+  # this build writes 11 exactly while its generation names such a chunk and 10
+  # once none is left; a reader-breaking change other than gzip chunks takes 12.
+  _GZIP_CHUNKS_MINOR = 11
+  READABLE_STORE_FORMAT_MINOR = _GZIP_CHUNKS_MINOR

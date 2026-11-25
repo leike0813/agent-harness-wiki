@@ -1,0 +1,235 @@
+schema_version: 2
+audit_id: audit-codex-ec499bd9-cc13-4830-8880-47461d0522e8
+harness_id: codex
+checked_at: 2026-11-25T00:27:25.710Z
+previous_audit_id: audit-codex-6c5f3f1a-dd20-4267-8623-a8d7b5dd0947
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-25T00:44:29Z
+pending_audit_refs: []
+checks:
+  - source_id: source-codex-repo
+    kind: git_repository
+    checked_at: 2026-11-25T00:27:23.601Z
+    status: changed
+    baseline: 0c7efeb50d8d44511ee68dc788d550149a63656c
+    observed: b0b0852ee0a9105caa15a93e78287ef78e5f40bd
+    remote_ref: refs/heads/main
+  - source_id: source-codex-cli-doc-learn
+    kind: official_documentation
+    checked_at: 2026-11-25T00:27:23.608Z
+    status: unchanged
+    baseline: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+    observed: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+    resolved_url: https://learn.chatgpt.com/docs/codex/cli.md
+  - source_id: source-codex-cli-npm
+    kind: npm_registry
+    checked_at: 2026-11-25T00:27:23.656Z
+    status: unchanged
+    baseline: 0.172.0@sha512-yHf/6wbw4Zvha2M2ylDhDrU9FgfKLYgV6xSzSjlz3gxQNsiVLkXo+fPGwBqvP0A5geLtZs9wAbq+1v7+ZVWJ0g==
+    observed: 0.172.0@sha512-yHf/6wbw4Zvha2M2ylDhDrU9FgfKLYgV6xSzSjlz3gxQNsiVLkXo+fPGwBqvP0A5geLtZs9wAbq+1v7+ZVWJ0g==
+  - source_id: source-codex-cli-skills-doc-learn
+    kind: official_documentation
+    checked_at: 2026-11-25T00:27:23.658Z
+    status: unchanged
+    baseline: 95b5ef4d0581d9eeeee342ef4718e77ed7574fe9c61ae28e1c2bffa4c6bdb411
+    observed: 95b5ef4d0581d9eeeee342ef4718e77ed7574fe9c61ae28e1c2bffa4c6bdb411
+    resolved_url: https://learn.chatgpt.com/docs/build-skills.md
+  - source_id: source-codex-cli-mcp-doc-learn
+    kind: official_documentation
+    checked_at: 2026-11-25T00:27:24.345Z
+    status: changed
+    baseline: b49326fc03c8848502abece987cb9f5f9fd153ef1369c8d27fb861911f752adf
+    observed: c8f3e1f3dc8a11d61aa3825d4f7f6055ba29dd5ed718143ff035152a0a801d60
+    resolved_url: https://learn.chatgpt.com/docs/extend/mcp.md?surface=cli
+    candidate_path: archive/codex/artifact-source-codex-cli-mcp-doc-learn-c8f3e1f3dc8a/source.md
+  - source_id: source-codex-cli-configuration-doc-learn
+    kind: official_documentation
+    checked_at: 2026-11-25T00:27:24.349Z
+    status: changed
+    baseline: 5dc519915a3c5253e046d1fb9e365a7c588872f1b26f973e656b2961b5242be4
+    observed: 72e59e992e3858fbaf064d6522e517561c268aac8e929659205005d6f0b021c0
+    resolved_url: https://learn.chatgpt.com/docs/config-file/config-reference.md
+    candidate_path: archive/codex/artifact-source-codex-cli-configuration-doc-learn-72e59e992e38/source.md
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.overrides
+      - config.defaults
+      - config.migration
+    section_ids:
+      - config-overrides
+      - config-defaults-migration
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-config-application-network-doc
+      - ref-codex-cli-config-features-prefer-mxc-doc
+      - ref-codex-cli-config-managed-precedence-doc
+      - ref-codex-cli-config-requirements-features-doc
+      - ref-codex-cli-config-requirements-version-doc
+      - ref-codex-cli-config-requirements-windows-allow-mxc-doc
+      - ref-codex-cli-config-network-proxy-doc
+      - ref-codex-cli-config-windows-sandbox-doc
+    cross_topic_links:
+      - mcp.lifecycle
+    reason: >-
+      source-codex-cli-configuration-doc-learn 5dc51991→72e59e99：config.migration
+      的已发布版本门槛（0.138.0/0.137.0）被文档删除，答案变化并写入
+      codex-cli-configuration-v7；network_proxy 的描述删掉版本门并保留
+      [network_proxy] 与别名 [experimental_network]，据此更正同一小节的别名写法；
+      新增的 features.mcp_lazy_stdio_startup 与 mcp_servers.<id>.startup_readiness
+      改写属于 MCP 启动机制，记入 mcp 主题的 cross-topic 链接。source-codex-repo
+      0c7efeb5→b0b0852e 中被引用的 config/src/{types,config_requirements}.rs 与
+      core/src/config/mod.rs 改动为新增键与重构，未触及优先级、合并、Windows
+      allow_mxc/require_mxc 与既有默认值行区间，config.sources/overrides/defaults
+      无答案变化。
+  - topic: mcp
+    question_ids:
+      - mcp.auth
+      - mcp.capabilities
+      - mcp.lifecycle
+    section_ids:
+      - mcp-auth
+      - mcp-lifecycle-exposure
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-mcp-instructions-budget-doc
+      - ref-codex-cli-mcp-oauth-callback-port-doc
+      - ref-codex-cli-mcp-oauth-client-id-doc
+      - ref-codex-cli-mcp-lazy-stdio-startup-doc
+      - ref-codex-cli-mcp-startup-readiness-doc
+      - ref-codex-cli-config-lazy-stdio-key
+    cross_topic_links:
+      - config.defaults
+    reason: >-
+      source-codex-cli-mcp-doc-learn b49326fc→c8f3e1f3 新增按需启动段：
+      可选 stdio server 在已有可用工具清单时可等到第一次工具调用才启动，
+      required server 在 startup_readiness="catalog" 时也可首次使用时启动，
+      无缓存工具清单则随 thread 启动，features.mcp_lazy_stdio_startup=false
+      可改回随 thread 启动；startup_readiness 的 catalog 语义同时改写为
+      "满足该要求"。mcp.lifecycle 的启动时机答案与 mcp.capabilities 的
+      "缓存工具目录满足启动就绪但调用仍需活连接"边界变化，写入
+      codex-cli-mcp-v4。mcp.auth 的 OAuth 段落零改动，结案不受影响。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.cleanup
+    section_ids:
+      - transcripts-recording-scope
+      - transcripts-storage-layout
+      - transcripts-archive-and-cleanup
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-codex-cli-transcripts-history-max-bytes-doc
+      - ref-codex-cli-transcripts-history-persistence-doc
+      - ref-codex-cli-transcripts-sqlite-home-doc
+    cross_topic_links: []
+    reason: >-
+      source-codex-repo 0c7efeb5→b0b0852e：被引用的
+      thread-store/src/local/delete_thread.rs 把 thread_history 行删除移到
+      rollout 文件 unlink 之后，并在删除前新增 history DB 可达性检查；
+      已发布 transcripts.cleanup 的实现顺序（宿主数据清理 → 删除 rollout →
+      删除状态库行）与新实现一致，本轮改动只是把旧实现的先行删除改成符合
+      模块注释与已发布答案的顺序，答案不变；同批 rollout/history/state
+      文件只有 EventMsg 变体匹配改写与 journal 策略重构，未推翻清理结论。
+pending_question_ids: []
+investigation_notes:
+  - >-
+    范围与身份：本轮观察即 checks（配置文档 5dc51991→72e59e99，MCP 文档
+    b49326fc→c8f3e1f3，Git 0c7efeb5→b0b0852e，npm 0.172.0 与 CLI/skills 文档未变）。
+    原件在 archive/codex/artifact-source-codex-cli-configuration-doc-learn-72e59e992e38/source.md
+    与 archive/codex/artifact-source-codex-cli-mcp-doc-learn-c8f3e1f3dc8a/source.md，
+    sha256 与 checks 的 observed 一致；可见文本对比用
+    documents/<sha>.txt 的 diff，两个文档都没有 CDN token、buildId/nonce、
+    "Last modified" 或纯 URL 迁移差异，改动全是正文。
+  - >-
+    source-codex-cli-mcp-doc-learn（2 个 hunk，+7/−1）：其一，Other configuration
+    options 的 startup_readiness 条目把 "satisfy startup while the server
+    connects" 改为 "satisfy that requirement"，并保留 "Tool calls still need a
+    live connection"；其二，同一小节新增整段：默认可选 stdio server 在已有可用
+    工具清单（缓存目录）时可等到第一次工具调用才启动，required stdio server
+    在 startup_readiness="catalog" 时也可首次使用时启动，没有缓存工具清单则
+    thread 启动时启动，features.mcp_lazy_stdio_startup=false 时这些 server
+    随 thread 启动。结论：mcp.lifecycle 启动时机与 mcp.capabilities 的缓存边界
+    变化，写入 codex-cli-mcp-v4；OAuth 与 Supported MCP features 段落零改动，
+    mcp.auth 结案为不受影响。
+  - >-
+    source-codex-cli-configuration-doc-learn（7 个 hunk，+38/−5）：(a) 新增
+    apps.<id>.tools.<tool>.approvals_reviewer（user|auto_review，覆盖 app
+    reviewer，受 managed requirements 约束）——两个已写章节都不覆盖 apps 工具
+    审批审阅者，无已发布答案，排除。(b) mcp_servers.<id>.startup_readiness 描述
+    改写——配置章节未登记该键，机制记入 mcp 主题，config.defaults 仍为 partial，
+    不计 configuration 答案变化。(c) 新增 features.mcp_lazy_stdio_startup
+    （boolean，默认 true）——同一 MCP 机制，配置侧 reference
+    ref-codex-cli-config-lazy-stdio-key 供 mcp 章节引用。(d) 新增
+    otel.headers_helper 与 otel.headers_helper_refresh_interval_ms（用户层与
+    managed 层各一组，默认 1740000 ms，项目设置与 managed exporters 不能用
+    用户层键）——两个章节均未覆盖 otel header helper，排除。(e) 删除 managed
+    permission-profile 版本门槛段（要求 Codex 0.138.0，0.137.0 及更早忽略
+    allowed_permission_profiles 与托管 default_permissions）——config.migration
+    的已发布答案变化，v7 删除该段；旧 snapshot/reference 保持原字节，v5 仍保留
+    该引用与正文，不用删除推断具体版本行为。(f) network_proxy 描述删除
+    "Codex 0.166.0 accepts" 版本门与 "Keep the alias in published policies…"
+    建议，保留 [network_proxy] 及其别名 [experimental_network] 与"每层只用一名"
+    规则——据此把 config-defaults-migration 的别名写法更正为
+    network_proxy（别名 experimental_network）并新增
+    ref-codex-cli-config-network-proxy-doc。
+  - >-
+    source-codex-repo 交集：diff 共 927 个改动文件，与 knowledge/codex/artifacts
+    的 51 个唯一 file: 值求交得 22 个文件。配置相关三处：
+    config/src/types.rs（新增 ImageGenerationSettings、PluginsConfigToml::
+    allows_plugin 改为显式 enabled 优先于 _default）、
+    config/src/config_requirements.rs（新增 gateway 托管 shorthand，
+    requires_remote_config/is_empty 纳入该字段）、
+    core/src/config/mod.rs（删除 deprecated load 辅助函数、新增
+    ImageGenerationSettings::from(&Config)、namespace 常量替换）。这些是新增键
+    与重构：章节引用的 layer 优先级、merge、windows.allow_mxc/require_mxc、
+    include_environment_context_time 与 thread_unload_delay_secs 行区间都没有
+    改动，types.rs 被引用的 locator 也不在 diff 中 → config.sources/overrides/
+    defaults/diagnostics 无答案变化。mcp 章节只引用文档与配置快照，不引用本轮
+    改动文件，git 侧对 mcp 无影响。
+  - >-
+    受限的 transcripts 观察（只为结案 pending 的 transcripts.cleanup）：
+    delete_thread.rs 把 thread_history 行删除从"rollout 文件删除之前"移到之后，
+    并新增 history_db_for_delete 可达性前置检查，注释说明是为了让排队批次不能
+    重建已删行；已发布的清理顺序（宿主数据清理 → 删除 rollout → 删除状态库行）
+    与新实现一致，改动是把旧实现的先行删除改成符合模块注释与已发布答案的顺序，
+    答案不变。同批 history/src/lib.rs 把 RolloutItem::EventMsg 改为带可选
+    metadata 的结构体变体（transcripts.schema 的 payload 级新增，该题不在本轮
+    问题集，现有答案已声明 payload 字段未逐项核对）；state/src/sqlite.rs 抽出
+    journal_mode_policy/prefers_rollback_journal 并从连接选项移除 busy_timeout
+    （打开重试循环未变，不推翻数据库小节的"有界重试"表述）；rollout
+    list/metadata/recorder/lineage 只是 EventMsg 变体匹配改写。这些都不改变
+    transcripts.cleanup 答案，未改该章节。
+  - >-
+    引用与快照处理：新增 artifact artifact-source-codex-cli-configuration-doc-learn-72e59e992e38
+    与 artifact-source-codex-cli-mcp-doc-learn-c8f3e1f3dc8a（archived_document，
+    指向扫描已写出的 source.md），对应 snapshot
+    snapshot-codex-cli-configuration-doc-learn-72e59e992e38 与
+    snapshot-codex-cli-mcp-doc-learn-c8f3e1f3dc8a（version_applicability
+    unknown，source_fetched_at 取观察时刻）；新增 reference
+    ref-codex-cli-mcp-lazy-stdio-startup-doc、ref-codex-cli-mcp-startup-readiness-doc、
+    ref-codex-cli-config-lazy-stdio-key、ref-codex-cli-config-network-proxy-doc。
+    旧 artifact/snapshot/reference 与历史 edition 字节未改。
+  - >-
+    选章：registry/chapter-current.yaml 将 mcp 切到 codex-cli-mcp-v4、configuration
+    切到 codex-cli-configuration-v7。v7 基于当前选中的 v5；codex-cli-configuration-v6
+    （异步压缩默认值）仍保持未选中，等待其历史 pending 审计的独立复核，本轮未修改、
+    未选中、也未把其内容并入 v7。
+  - >-
+    复核与状态：本轮无来源冲突、未推翻已发布配置步骤、无跨主题加载机制改变，
+    不触发高影响独立复核；按协调者指示填 reviewed_by/reviewed_at 并清空
+    pending_question_ids。需要协调者留意的一点：删除 managed
+    permission-profile 版本门槛属于"删除已发布的版本边界陈述"，本轮按文档级
+    版本注记而非配置步骤处理，故未留选章待审；若协调者认定该删除应走独立复核，
+    可拒绝 configuration 的新选章（v7）并回退到 v5，其余 mcp 变更不受影响。
+    本审计不引用历史 pending 审计
+    （audit-codex-1e99ac2e-274d-4179-a6bc-5d7c8dd49f35、
+    audit-codex-911e2546-2762-49cf-a33c-2e59c98062b9、
+    audit-codex-17999352-bfc4-4cd1-93cb-b6eac41ab58c、
+    audit-codex-3a62fe16-ef37-418e-97d4-4b0aa3c0d656、
+    audit-codex-83f26131-3fe4-466c-a969-91ae54c503c4），它们保持各自状态、
+    未被本审计间接结案；previous_audit_id 保留链路。

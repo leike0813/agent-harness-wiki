@@ -1,0 +1,33 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-gemini-cli-mcp-system-block-excluded
+harness_id: gemini-cli
+snapshot_id: snapshot-gemini-cli-cfg-settings-08e9a20f
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settings.ts
+  start: 1615
+  end: 1635
+official_url: "https://github.com/google-gemini/gemini-cli/blob/08e9a20f749aefcbda38622ac757899c3d6216e0/packages/cli/src/config/settings.ts"
+excerpt: |-
+  function blockSkippedSystemMcpServers(
+    skippedServers: string[],
+    allScopes: Settings[],
+    systemSettings: Settings,
+  ): Set<string> {
+    const blockedIds = new Set(
+      skippedServers.map((name) => name.toLowerCase().trim()),
+    );
+    if (blockedIds.size === 0) {
+      return blockedIds;
+    }
+    for (const scopeSettings of allScopes) {
+      stripBlockedMcpServers(scopeSettings, blockedIds);
+    }
+    const existingExcluded = systemSettings.mcp?.excluded ?? [];
+    systemSettings.mcp = {
+      ...systemSettings.mcp,
+      excluded: [...new Set([...existingExcluded, ...skippedServers])],
+    };
+    return blockedIds;
+  }

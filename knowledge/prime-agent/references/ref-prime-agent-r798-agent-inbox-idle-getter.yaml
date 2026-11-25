@@ -1,0 +1,23 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-r798-agent-inbox-idle-getter
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-r798-crates-pa-core-src-settings-manager-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/manager.rs
+  start: 705
+  end: 715
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/798d97032a3ec6d70142cc75c0420cb2b260f194/crates/pa-core/src/settings/manager.rs"
+excerpt: |-
+  /// The idle wake debounce window in milliseconds
+  /// (`agentInbox.idleDebounceMs`; default 5 s). Global scope only, like
+  /// the other `agentInbox` keys.
+  #[must_use]
+  pub fn get_agent_inbox_idle_debounce_ms(&self) -> u64 {
+      self.global
+          .agent_inbox
+          .as_ref()
+          .and_then(|inbox| inbox.idle_debounce_ms)
+          .unwrap_or(crate::settings::types::DEFAULT_AGENT_INBOX_IDLE_DEBOUNCE_MS)
+  }

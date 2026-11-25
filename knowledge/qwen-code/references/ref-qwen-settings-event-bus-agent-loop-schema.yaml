@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-settings-event-bus-agent-loop-schema
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-c134a03e-cli-settings-schema
+locator:
+  kind: file_lines
+  file: packages/cli/src/config/settingsSchema.ts
+  start: 4660
+  end: 4668
+official_url: https://github.com/QwenLM/qwen-code/blob/c134a03e5adf7631069269bb96a65cbf5c90f01a/packages/cli/src/config/settingsSchema.ts
+excerpt: |-
+      eventBusAgentLoop: {
+        type: 'boolean',
+        label: 'Event-Bus Agent Loop',
+        category: 'Experimental',
+        requiresRestart: true,
+        default: undefined as boolean | undefined,
+        unsetToggleValue: true,
+        description:
+          'Run the shared agent loop on the event-bus architecture. Applies to the surfaces that run on the shared agent loop: headless sessions (`-p` and stream-json), ACP sessions (Zed, VS Code, Web Shell, channels), the Ink TUI, OpenTUI and subagents by default; other surfaces keep their current loop internals. When unset, headless sessions run on the kernel, and the other surfaces on the shared loop use its procedural path. `true` selects the kernel, and `false` selects the procedural path, including for headless.

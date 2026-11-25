@@ -1,0 +1,149 @@
+schema_version: 2
+audit_id: audit-kimi-code-285748b4-2942-4c6a-9827-01d2683d3bb2
+harness_id: kimi-code
+checked_at: 2026-11-23T18:02:07.140Z
+previous_audit_id: audit-kimi-code-6ffd2394-2b51-4aa4-b26f-6f6fc788bdd8
+status: changed
+review_status: reviewed
+reviewed_by: "harness-monitor coordinator (20261124T134056Z); independent reviewer ReviewKimiCode (20261124)"
+reviewed_at: 2026-11-24T13:40:56Z
+pending_audit_refs: []
+checks:
+  - source_id: source-kimi-code-repo
+    kind: git_repository
+    checked_at: 2026-11-23T18:02:05.517Z
+    status: changed
+    baseline: e12cad1a4b9b3e7befbb0703a3b8b68a5c6e9fe5
+    observed: 9a82686b0e91c532f4d49da0bc088a0eac9bdede
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-legacy-repo
+    kind: git_repository
+    checked_at: 2026-11-23T18:02:05.528Z
+    status: unchanged
+    baseline: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    observed: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-npm
+    kind: npm_registry
+    checked_at: 2026-11-23T18:02:05.535Z
+    status: changed
+    baseline: 2.7.2@sha512-Eq7512ssQH632Tg7C1LIK10CykToqF2lpBdkFjJ1IjSV86fMjEHpwxuKoo6fjh5XpCbwtKwijB0hTTbyDRLM9w==
+    observed: 2.7.3@sha512-DemrD7fkxAQ5QVQ9THPsitu78N/VVaBrNabWDstleqxpZX8eucrl9//92lzVMJfaxAz83IDM1R/I9jaPCQsH1g==
+impacts:
+  - topic: custom_agents
+    question_ids:
+      - agents.invocation
+      - agents.limits
+    section_ids:
+      - agents-invocation
+      - agents-limits
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kimi-code-agents-changeset-fork-removed-9a82686
+      - ref-kimi-code-agents-planspawn-no-fork-9a82686
+      - ref-kimi-code-agents-select-tools-ungated-9a82686
+    cross_topic_links:
+      - mcp.exposure
+    reason: agentTool.ts 与 subagentService.ts 删除 Agent/AgentSwarm 的 fork
+      参数及其分支，env-vars.md 删除 KIMI_CODE_EXPERIMENTAL_SUBAGENT_FORK 行；Agent 工具的
+      SelectTools 可用性不再依赖 tool-select 开关，只由子 Agent 模型能力决定。已发布的「分叉子 Agent
+      继承绑定列表/首请求与父一致」与「工具选择开关关闭则 SelectTools 不出现」两处结论被推翻。
+  - topic: mcp
+    question_ids:
+      - mcp.definition
+      - mcp.lifecycle
+      - mcp.capabilities
+      - mcp.exposure
+    section_ids:
+      - mcp-definition
+      - mcp-lifecycle
+      - mcp-capabilities
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kimi-code-mcp-dynamic-loading-9a82686
+      - ref-kimi-code-mcp-startup-baseline-9a82686
+      - ref-kimi-code-mcp-session-lease-9a82686
+      - ref-kimi-code-mcp-program-lease-9a82686
+      - ref-kimi-code-mcp-baseline-tools-9a82686
+      - ref-kimi-code-mcp-baseline-shared-9a82686
+      - ref-kimi-code-agents-select-tools-ungated-9a82686
+    cross_topic_links:
+      - config.defaults
+    reason: docs/en/customization/mcp.md 的 Loading tools on demand 改为仅要求模型声明 dynamically_loaded_tools，env-vars.md 删除 KIMI_CODE_EXPERIMENTAL_TOOL_SELECT；sessionLifecycleService 按会话工作目录获取 MCP lease，programMcp 以引用计数在最后一个 lease 释放时停止 server；固定测试显示启动后连接的 MCP 工具不进入该会话的模型请求工具清单。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.schema
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-format-schema
+      - transcripts-archive-cleanup
+      - transcripts-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kimi-code-lt-src-session-lock-claim-9a82686
+      - ref-kimi-code-lt-src-session-lock-reclaim-9a82686
+      - ref-kimi-code-lt-src-session-lock-alive-9a82686
+      - ref-kimi-code-lt-src-session-lock-occupied-9a82686
+      - ref-kimi-code-lt-doc-session-lock-env-9a82686
+      - ref-kimi-code-lt-src-turn-ended-payload-9a82686
+      - ref-kimi-code-lt-src-turn-ended-models-9a82686
+    cross_topic_links:
+      - config.runtime
+    reason: sessionLockService 只在同主机名（或 hostname 为空）时把存活锁视为占用；异主机名锁仅在能取得 .reclaim 互斥文件时被回收，异主机 .reclaim 残留会让两次认领尝试后以 session.occupied 失败；env-vars.md 的 KIMI_CODE_SESSION_LOCK 行新增该行为与跨机器共享告警；wire-manifest.d.ts 的 TurnEndedPayload 新增 replyModel 与 modelSteps。
+pending_question_ids: []
+investigation_notes:
+  - 来源观察：source-kimi-code-repo e12cad1a4b9b3e7befbb0703a3b8b68a5c6e9fe5 →
+    9a82686b0e91c532f4d49da0bc088a0eac9bdede（42 commits / 583
+    files）；source-kimi-code-npm 2.7.2 → 2.7.3
+    仅身份前移（未下载包字节，不产生映射或章节影响）；source-kimi-code-legacy-repo 未变。triage 只读取
+    /tmp/gitdiff/kimi-code--source-kimi-code-repo.diff 中 7 个 cited 文件的
+    hunk，并按需读取同一轮变更的 docs/en/customization/mcp.md 与 3 个 changeset。
+  - docs/en/configuration/env-vars.md：删除 KIMI_CODE_EXPERIMENTAL_SUBAGENT_FORK 与
+    KIMI_CODE_EXPERIMENTAL_TOOL_SELECT 两行；KIMI_CODE_SESSION_LOCK
+    行新增「异主机名锁自动回收」以及跨机器/容器共享会话目录时只允许一个写者或关闭开关的提示。configuration-v2
+    正文不逐项枚举这些开关，config.defaults/config.runtime 的机制答案不变，配置章不新建 edition；受影响结论落在
+    MCP 与 local_transcripts 章。
+  - packages/agent-core-v2/src/agent/tools/agent/agentTool.ts：删除
+    SUBAGENT_FORK_FLAG_ID 分支、agent-fork.md 描述、fork 参数校验与 fork 遥测字段，parameters
+    恒返回完整 schema；SelectTools 只按 dynamically_loaded_tools + tool_use 能力过滤，不再检查
+    TOOL_SELECT_FLAG_ID。判定为 custom_agents 与 mcp 的知识变化。
+  - packages/agent-core-v2/src/session/subagent/subagentService.ts：planSpawn 无
+    fork 分支，requestedProfileName 缺省 DEFAULT_PROFILE_NAME，绑定走
+    resolveSubagentBinding；spawn 恒走 agentLifecycle.create 并继承权限/用户工具。与 agentTool
+    的删除属同一语义变化（agents.invocation/agents.limits）。
+  - packages/agent-core-v2/src/persistence/backends/node-fs/sessionLockService.ts：claim
+    仅在同一 hostname（或空 hostname）且 alive() 时返回 occupied；reclaim 对 hostname
+    非空且不同的锁直接 unlinkSilent；alive() 对异主机仍返回 true，但不再是判定占用的充分条件。判定为
+    transcripts.cleanup/transcripts.diagnostics 的知识变化（跨机共享数据目录不再互斥）。
+  - "packages/agent-core-v2/src/workspace/sessionLifecycle/sessionLifecycleServ\
+    ice.ts：构造函数由注入 IWorkspaceMcpService 改为 acquireMcp():
+    Promise<ProgramMcpLease>；新增 openWorkdir() 在打开会话工作目录时获取 MCP lease，dispose
+    链同时释放 mcp 与 workdir。判定为 mcp.lifecycle 的机制变化；其余 session 创建/恢复流程无答案变化。"
+  - "packages/agent-core-v2/docs/wire-manifest.d.ts：TurnEndedPayload 新增可选
+    replyModel {provider, model} 与 modelSteps[]（step、role:
+    step|subagent、model、provider、isKfc、requestId?）；65 个 durable 记录类型与协议版本未变。判定为
+    transcripts.schema 的增量，该题保持 partial（isKfc 判定来源、turn.prompt/turn.cancel
+    字段仍未固定）。"
+  - packages/agent-core-v2/test/session/subagent/forkParity.test.ts：fork
+    用例移除、describe 改为 btw parity；新增 expectForkBaselineParity 断言启动前连接的 MCP
+    工具进入父子共享的 baselineTools 与请求工具列表，启动后连接则仅注册表可解析而请求列表仍为 ['Read']。作为
+    mcp.lifecycle/exposure 的测试证据；测试重命名本身不计知识变化。
+  - docs/en/customization/mcp.md（同一 existing reference 指向的文档小节）：Loading tools on
+    demand 改为仅要求模型声明 dynamically_loaded_tools，并描述 ToolSelect 解析器移除 deferred
+    顶层条目、初始提醒与 delta、select_tools 注入 system message、无动态加载能力时按普通声明发送。旧
+    ref-kimi-code-mcp-deferred 与其 21406fb 快照保持不动，新 edition 改用
+    ref-kimi-code-mcp-dynamic-loading-9a82686。
+  - 选择：仅 custom_agents、mcp、local_transcripts 新建完整
+    edition（kimi-code-cli-custom_agents-v5、kimi-code-cli-mcp-v4、kimi-code-local_transcripts-v3）并更新
+    registry/chapter-current.yaml。configuration、hooks、skills、custom_providers、native_plugins
+    无固定问题答案变化。排除：内部依赖注入重构、MCP 认证 UI 文案、2.7.3 release notes、测试重命名、依赖与性能改动。
+  - 独立复核：reviewer ReviewKimiCode 返回 changes_requested，5 项均已按指定原文应用。(1) MCP 生命周期改为 program 级引用计数租约：会话工作目录持 lease、最后一个 lease 释放才停 server（新增 ref-kimi-code-mcp-program-lease-9a82686，固定 packages/agent-core-v2/src/program/programMcp.ts:38-53）。(2) 锁的异主机回收限定为能取得 .reclaim 时；异主机 .reclaim 残留被 alive() 视为存活，回收不删除，两次认领尝试后以 session.occupied 失败，需手工删除（新增 ref-kimi-code-lt-src-session-lock-alive-9a82686 与 ref-kimi-code-lt-src-session-lock-occupied-9a82686）。(3) 删除无固定证据的 same-turn select_tools 表述，并补充子 Agent 侧 SelectTools 需同时满足 dynamically_loaded_tools 与 tool_use（ref-kimi-code-agents-select-tools-ungated-9a82686）。(4) turn-ended-models 摘录改为逐字缩进；baseline 共享另加 ref-kimi-code-mcp-baseline-shared-9a82686；layout 节补 reclaim 引用。(5) 本审计 reviewed_by 合并记录该独立复核，覆盖两项高影响触发（tool-select 前置步骤被推翻、跨机锁互斥语义变化），复核后未发现新冲突。
+  - 本轮审计不引用历史 pending 审计（audit-kimi-code-93eb5dc0-e41b-49b6-a3db-662389fc6dbf,
+    audit-kimi-code-0e5dd3dc-24fa-419e-bba5-d44fdeb0a493,
+    audit-kimi-code-a3703458-eda9-4a88-844e-e224b1c75e40,
+    audit-kimi-code-6ffd2394-2b51-4aa4-b26f-6f6fc788bdd8）：它们保持原状态、保留在各自记录中，本审计的
+    reviewed 状态不会间接关闭它们；previous_audit_id 仍保留链路。

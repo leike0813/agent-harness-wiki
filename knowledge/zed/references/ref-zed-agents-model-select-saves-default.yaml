@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-agents-model-select-saves-default
+harness_id: zed
+snapshot_id: snapshot-zed-agent-rs-2664a0a
+locator:
+  kind: file_lines
+  file: crates/agent/src/agent.rs
+  start: 3093
+  end: 3101
+official_url: "https://github.com/zed-industries/zed/blob/2664a0aa1eae5dabf8f8273c03f88d53061ca7dc/crates/agent/src/agent.rs"
+excerpt: |-
+  thread.update(cx, |thread, cx| {
+      thread.set_model(model, cx);
+      thread.set_thinking_effort(effort, cx);
+      thread.set_thinking_enabled(enable_thinking, cx);
+      if let Some(speed) = speed {
+          thread.set_speed(Some(speed), cx);
+      }
+      thread.save_default_model(cx);
+  });

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-qwen-extension-mods-ui-render-model-call
+harness_id: qwen-code
+snapshot_id: snapshot-qwen-code-c134a03e-doc-mods
+locator:
+  kind: file_lines
+  file: docs/users/extension/mods.md
+  start: 1347
+  end: 1362
+official_url: https://github.com/QwenLM/qwen-code/blob/c134a03e5adf7631069269bb96a65cbf5c90f01a/docs/users/extension/mods.md
+excerpt: |-
+  export function register(on) {
+    on(
+      'ui.render',
+      { component: ['AssistantMessage', 'Thinking'] },
+      async ($, e, next) => {
+        if (mostlyChinese(e.props.text)) return next(e);
+        const r = await $.model.complete(
+          {
+            model: 'haiku',
+            system: SYSTEM,
+            prompt: e.props.text,
+            maxTokens: 8192,
+            timeoutMs: 25000,
+          },
+          { signal: next.signal },
+        );

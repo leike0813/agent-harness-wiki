@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-skill-status-bundled
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-skill-status-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/resources/skill_status.rs
+  start: 26
+  end: 32
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/resources/skill_status.rs"
+excerpt: |-
+  /// The bundled skill with the same name wins; `"skills": ["-<name>"]` in
+  /// the global settings file disables it so this one loads.
+  #[serde(rename_all = "camelCase")]
+  IgnoredForBundled {
+      winner_path: String,
+      settings_path: String,
+  },

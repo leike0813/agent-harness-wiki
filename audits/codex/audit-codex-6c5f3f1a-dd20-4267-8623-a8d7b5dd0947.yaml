@@ -1,0 +1,102 @@
+schema_version: 2
+audit_id: audit-codex-6c5f3f1a-dd20-4267-8623-a8d7b5dd0947
+harness_id: codex
+checked_at: 2026-11-23T18:01:13.947Z
+previous_audit_id: audit-codex-83f26131-3fe4-466c-a969-91ae54c503c4
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-24T13:40:56Z
+pending_audit_refs: []
+checks:
+  - source_id: source-codex-repo
+    kind: git_repository
+    checked_at: 2026-11-23T18:01:12.081Z
+    status: changed
+    baseline: 104d2564181d8eb4e67d0c92005f3ab1052051d4
+    observed: 0c7efeb50d8d44511ee68dc788d550149a63656c
+    remote_ref: refs/heads/main
+  - source_id: source-codex-cli-doc-learn
+    kind: official_documentation
+    checked_at: 2026-11-23T18:01:12.089Z
+    status: unchanged
+    baseline: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+    observed: 36066e8647cfa5f6b8ff08678267e256e3434ccfff8eac6532c5ac0ed4daffdd
+    resolved_url: https://learn.chatgpt.com/docs/codex/cli.md
+  - source_id: source-codex-cli-npm
+    kind: npm_registry
+    checked_at: 2026-11-23T18:01:12.091Z
+    status: unchanged
+    baseline: 0.171.0@sha512-1IOFzL2Xg86tLdw6kDo3GoKbkQENgQi7TI6rlEvN132R7ngSw7SNOIQoTcnKzSZZ8kf9N9GynCweSoaFbqk2Eg==
+    observed: 0.171.0@sha512-1IOFzL2Xg86tLdw6kDo3GoKbkQENgQi7TI6rlEvN132R7ngSw7SNOIQoTcnKzSZZ8kf9N9GynCweSoaFbqk2Eg==
+  - source_id: source-codex-cli-skills-doc-learn
+    kind: official_documentation
+    checked_at: 2026-11-23T18:01:12.092Z
+    status: unchanged
+    baseline: 95b5ef4d0581d9eeeee342ef4718e77ed7574fe9c61ae28e1c2bffa4c6bdb411
+    observed: 95b5ef4d0581d9eeeee342ef4718e77ed7574fe9c61ae28e1c2bffa4c6bdb411
+    resolved_url: https://learn.chatgpt.com/docs/build-skills.md
+  - source_id: source-codex-cli-mcp-doc-learn
+    kind: official_documentation
+    checked_at: 2026-11-23T18:01:12.751Z
+    status: unchanged
+    baseline: b49326fc03c8848502abece987cb9f5f9fd153ef1369c8d27fb861911f752adf
+    observed: b49326fc03c8848502abece987cb9f5f9fd153ef1369c8d27fb861911f752adf
+    resolved_url: https://learn.chatgpt.com/docs/extend/mcp.md?surface=cli
+  - source_id: source-codex-cli-configuration-doc-learn
+    kind: official_documentation
+    checked_at: 2026-11-23T18:01:12.861Z
+    status: unchanged
+    baseline: 5dc519915a3c5253e046d1fb9e365a7c588872f1b26f973e656b2961b5242be4
+    observed: 5dc519915a3c5253e046d1fb9e365a7c588872f1b26f973e656b2961b5242be4
+    resolved_url: https://learn.chatgpt.com/docs/config-file/config-reference.md
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - 范围：source-codex-repo 104d2564181d8eb4e67d0c92005f3ab1052051d4 →
+    0c7efeb50d8d44511ee68dc788d550149a63656c（336 个改动文件）。按任务只抽取并检查五个被引用文件的
+    hunk，其余改动文件未读；npm 身份 0.171.0 与 integrity 未变（见 checks）。
+  - codex-rs/core/src/config/mod.rs @ 0c7efeb5（sha256
+    179dcfbe36f7600abdcf10f73c04f0dd9a9fa820c9a79f084bfdfc17b9bac554）：7 个 hunk =
+    MultiAgentV2Config 新增 expose_spawn_agent_service_tier（默认
+    false，resolve_multi_agent_v2_config 从 ConfigToml base 取值后回落默认）+
+    load_config_with_layer_stack 改为返回 BoxFuture 并 .boxed()（纯重构）。当前选择章节对该文件的引用只落在
+    log_dir/sqlite_home（transcripts-storage-layout）、ephemeral（transcripts-recording-scope）、thread_unload_delay
+    与 windows.allow_mxc（config-defaults-migration）等行区间，这些符号在 diff
+    中零改动。新键属于当前任何章节都未覆盖的 features.multi_agent_v2 表，config.defaults 仍为 partial
+    并声明不提供完整默认值清单，因此无答案变化、不改章节。
+  - codex-rs/features/src/feature_configs.rs @ 0c7efeb5（sha256
+    86cfd42fe28db94bef4399baf770905e56e7d441532705aa4415a2486c7c67b5）：唯一 hunk 在
+    MultiAgentV2ConfigToml 增加 Option<bool> expose_spawn_agent_service_tier，注释为
+    Allow V1 and V2 spawn_agent to select a service_tier for one child. Defaults
+    to false. 引用该文件的现有 reference 只有 async_compaction 一条 schema 引用，且只被未选中的
+    codex-cli-configuration-v6 使用；当前 selection 的 configuration-v5 不引用该文件，无答案变化。
+  - codex-rs/history/src/lib.rs @ 0c7efeb5（sha256
+    3c0b3933c6be64f11ed70de604e6ca78196cd9342521d04beb74cdf0210716a9）：2 个 hunk =
+    引入 ThreadSettingsSnapshot + 新增
+    InitialHistory::resumed_thread_settings()，恢复时反向查找匹配 thread_id 的最后一条
+    EventMsg::ThreadSettingsApplied。被引用的 RolloutLine 信封与 RolloutItem
+    变体清单未触碰；该访问器不改变落盘格式或位置，transcripts.format/schema/lifecycle 的现有部分答案不变。
+  - codex-rs/protocol/src/protocol.rs @ 0c7efeb5（sha256
+    3e4cd07b761847bd1a328e3a11dd3c8aad15c949645eb2dcbbe9d57c29cb4754）：唯一 hunk 新增
+    SpawnServiceTierOverride 及 ThreadSettingsSnapshot 上的可选字段
+    spawn_service_tier_override（serde default + skip
+    none）。ThreadSettingsSnapshot 是 EventMsg::ThreadSettingsApplied 的
+    payload；transcripts.schema 现有答案本就声明 EventMsg 保留分支 payload
+    字段未逐项核对（显式缺口），新增可选字段不推翻其中任何结论。SessionMeta 与 HookOutputEntry 引用区间未变，hooks
+    主题无影响。
+  - codex-rs/state/src/sqlite.rs @ 0c7efeb5（sha256
+    7113f95fced87f3b5272e3b084bd13ec183d3c36157a54d06639e5b6ba2fb116）：2 个 hunk 把
+    open_read_write_pool_with_spec 拆成 boxed-future 包装 + open_pool_inner，供运行时与
+    standalone 数据库所有者共享连接池建立与恢复路径；没有表结构、文件路径、journal/busy-retry、维护锁或清理语义变化，引用它的
+    transcripts 数据库与位置小节结论不变。
+  - 结论：五个文件均无固定问题答案变化，impacts 为空；不新增 artifact/reference/章节 edition，不更新
+    registry/chapter-current.yaml，旧 artifact/reference
+    保持原字节。已发布配置步骤未被推翻、无来源冲突，无需独立复核。pending_audit_refs 原样保留，本轮未重开或结案其中问题，历史
+    pending 审计仍由各自记录表达。
+  - 本轮审计不引用历史 pending 审计（audit-codex-1e99ac2e-274d-4179-a6bc-5d7c8dd49f35,
+    audit-codex-911e2546-2762-49cf-a33c-2e59c98062b9,
+    audit-codex-17999352-bfc4-4cd1-93cb-b6eac41ab58c,
+    audit-codex-3a62fe16-ef37-418e-97d4-4b0aa3c0d656,
+    audit-codex-83f26131-3fe4-466c-a969-91ae54c503c4）：它们保持原状态、保留在各自记录中，本审计的
+    reviewed 状态不会间接关闭它们；previous_audit_id 仍保留链路。

@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-pi-cp-thinking-levels-code
+harness_id: pi
+snapshot_id: snapshot-pi-repo-20261123-ai-src-models-ts
+locator:
+  kind: file_lines
+  file: packages/ai/src/models.ts
+  start: 1314
+  end: 1323
+official_url: https://github.com/earendil-works/pi/blob/a588a7bc4d1bc16554ed2a8044fd4be72ce26ec9/packages/ai/src/models.ts
+excerpt: |-
+  export function getSupportedThinkingLevels<TApi extends Api>(model: Model<TApi>): ModelThinkingLevel[] {
+  	if (!model.reasoning) return ["off"];
+
+  	return EXTENDED_THINKING_LEVELS.filter((level) => {
+  		const mapped = model.thinkingLevelMap?.[level];
+  		if (mapped === null) return false;
+  		if (level === "xhigh" || level === "max") return mapped !== undefined;
+  		return true;
+  	});
+  }

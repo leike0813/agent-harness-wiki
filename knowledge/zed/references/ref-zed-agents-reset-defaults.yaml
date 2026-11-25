@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-zed-agents-reset-defaults
+harness_id: zed
+snapshot_id: snapshot-zed-agent-thread-rs-2664a0a
+locator:
+  kind: file_lines
+  file: crates/agent/src/thread.rs
+  start: 2515
+  end: 2536
+official_url: "https://github.com/zed-industries/zed/blob/2664a0aa1eae5dabf8f8273c03f88d53061ca7dc/crates/agent/src/thread.rs"
+excerpt: |-
+  let NewThreadSettings {
+      profile_id,
+      profile_downgraded_for_restricted_workspace,
+      thinking_enabled,
+      thinking_effort,
+      speed,
+  } = NewThreadSettings::get(&self.project, cx);
+  self.set_profile(profile_id, cx);
+  self.profile_downgraded_for_restricted_workspace =
+      profile_downgraded_for_restricted_workspace;
+  self.set_thinking_enabled(thinking_enabled, cx);
+  self.set_thinking_effort(thinking_effort, cx);
+  self.set_speed(speed, cx);
+  // Last, since a new thread doesn't start on its profile's preferred model.
+  self.set_model(model, cx);
+  self.thread_only = false;
+  cx.notify();
+  }

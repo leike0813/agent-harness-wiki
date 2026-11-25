@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-limits-save-20261125
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-byok-20261125
+locator:
+  kind: file_lines
+  file: sdk/src/byok.ts
+  start: 373
+  end: 386
+official_url: "https://github.com/CodebuffAI/codebuff/blob/286f2517138563f5942a381f063f55254779a366/sdk/src/byok.ts"
+excerpt: |2-
+    const limits = byokModelLimits({
+      contextWindow:
+        contextWindowMode === 'auto' ? BYOK_MAX_CONTEXT_WINDOW : input.contextWindow,
+      maxOutputTokens: input.maxOutputTokens,
+    })
+    if (limits.maxOutputTokens > 1_000_000)
+      throw new Error('Choose an output limit of 1–1000000 tokens')
+    return {
+      contextWindowMode,
+      contextWindow:
+        contextWindowMode === 'auto' ? BYOK_DEFAULT_CONTEXT_WINDOW : limits.contextWindow,
+      maxOutputTokens: limits.maxOutputTokens,
+    }
+  }

@@ -1,0 +1,16 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-sqlite-limitations
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo-20261125
+locator:
+  kind: file_lines
+  file: packages/session/session-persistence-sqlite/README.md
+  start: 120
+  end: 123
+official_url: "https://github.com/deepseek-ai/deepseek-harness/blob/4b399c39a6d1479cd84ca591b4d7c88e24d38a96/packages/session/session-persistence-sqlite/README.md"
+excerpt: |-
+  - The first legacy read open writes the SQLite database and requires write access to the storage root.
+  - Retained JSONL files contain the imported prefix and exclude later SQLite events; they cannot restore the latest history on their own.
+  - All processes writing imported Sessions must use the SQLite provider.
+  - SQLite accepts the current Session format; a future event-format upgrade needs its own SQLite history migration.

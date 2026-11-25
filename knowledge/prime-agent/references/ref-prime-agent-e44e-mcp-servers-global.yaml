@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-mcp-servers-global
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-settings-types-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/types.rs
+  start: 371
+  end: 378
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/settings/types.rs"
+excerpt: |-
+  /// Execution reads this from global settings only; project overrides are ignored.
+  pub mcp_servers: Option<serde_json::Map<String, serde_json::Value>>,
+  /// Extra local MCP service-catalog files (~-relative allowed), merged after the
+  /// compiled built-ins; first source wins per id, and no bundled id can be shadowed.
+  /// Read from global settings only, like executable MCP server configuration.
+  pub mcp_catalog_sources: Option<Vec<String>>,

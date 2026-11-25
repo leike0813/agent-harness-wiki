@@ -1,0 +1,199 @@
+schema_version: 2
+audit_id: audit-zed-8e3012d8-c454-4be8-80bf-233735c5880b
+harness_id: zed
+checked_at: 2026-11-25T00:28:19.149Z
+previous_audit_id: audit-zed-b76e8881-cb29-4990-a5cc-505972170ed4
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-25T00:46:36.384Z
+pending_audit_refs: []
+checks:
+  - source_id: source-zed-repo
+    kind: git_repository
+    checked_at: 2026-11-25T00:28:16.348Z
+    status: changed
+    baseline: 6501df15765d66d6c2a2b66b1eb22434ccef3f86
+    observed: 2664a0aa1eae5dabf8f8273c03f88d53061ca7dc
+    remote_ref: refs/heads/main
+  - source_id: source-zed-docs-skills
+    kind: official_documentation
+    checked_at: 2026-11-25T00:28:16.358Z
+    status: unchanged
+    baseline: 764f294ea53ecfe9220c5033ac805a53dc02607b25a85b63001c57343e2b9038
+    observed: 764f294ea53ecfe9220c5033ac805a53dc02607b25a85b63001c57343e2b9038
+    resolved_url: https://zed.dev/docs/ai/skills.md
+  - source_id: source-zed-docs-mcp
+    kind: official_documentation
+    checked_at: 2026-11-25T00:28:16.360Z
+    status: unchanged
+    baseline: 4b63e4863aff99eac69af64220581c36f8becd856cb3d11fb811f038881615bf
+    observed: 4b63e4863aff99eac69af64220581c36f8becd856cb3d11fb811f038881615bf
+    resolved_url: https://zed.dev/docs/ai/mcp.md
+  - source_id: source-zed-docs-agents
+    kind: official_documentation
+    checked_at: 2026-11-25T00:28:16.361Z
+    status: unchanged
+    baseline: 08b1b98333f1b97d44a5da73d3ccb1f19fa3d62ff3ba80f8303b571a2a21b732
+    observed: 08b1b98333f1b97d44a5da73d3ccb1f19fa3d62ff3ba80f8303b571a2a21b732
+    resolved_url: https://zed.dev/docs/ai/external-agents.md
+  - source_id: source-zed-docs-providers
+    kind: official_documentation
+    checked_at: 2026-11-25T00:28:16.898Z
+    status: unchanged
+    baseline: b164ec181d366233ab55bfef5968c6d0f4c068695e5ccd05b1680829108484b0
+    observed: b164ec181d366233ab55bfef5968c6d0f4c068695e5ccd05b1680829108484b0
+    resolved_url: https://zed.dev/docs/ai/use-api-access.md
+  - source_id: source-zed-docs-hooks
+    kind: official_documentation
+    checked_at: 2026-11-25T00:28:16.934Z
+    status: unchanged
+    baseline: d7b3f034a1df1c84bd557109a8a1cb15db3108d779a859b1e55eb1a4f6097e15
+    observed: d7b3f034a1df1c84bd557109a8a1cb15db3108d779a859b1e55eb1a4f6097e15
+    resolved_url: https://zed.dev/docs/tasks.md
+  - source_id: source-zed-docs-plugins
+    kind: official_documentation
+    checked_at: 2026-11-25T00:28:17.052Z
+    status: unchanged
+    baseline: b73ea3ccd7a4fdc3fa2f728f287afba35cd6394c29e3c303441a722cb228b620
+    observed: b73ea3ccd7a4fdc3fa2f728f287afba35cd6394c29e3c303441a722cb228b620
+    resolved_url: https://zed.dev/docs/extensions/developing-extensions.md
+  - source_id: source-zed-docs-config
+    kind: official_documentation
+    checked_at: 2026-11-25T00:28:17.090Z
+    status: unchanged
+    baseline: 55d0915158d7f487aab4b880db87ef2d730c4378459ebc954beec83974618301
+    observed: 55d0915158d7f487aab4b880db87ef2d730c4378459ebc954beec83974618301
+    resolved_url: https://zed.dev/docs/reference/all-settings.md
+impacts:
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.scope
+      - transcripts.schema
+      - transcripts.lifecycle
+    section_ids:
+      - transcripts-scope-and-switch
+      - transcripts-record-schema
+      - transcripts-lifecycle
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-lt-db-thread-settings-flags
+      - ref-zed-lt-thread-only-write-default
+      - ref-zed-lt-streaming-save-key-settings
+      - ref-zed-lt-from-db-settings-flags
+    cross_topic_links:
+      - custom_agents.overrides
+    reason: >-
+      2664a0aa 在 DbThread 增加 thread_only 与
+      profile_downgraded_for_restricted_workspace 两个 serde(default) 持久化布尔字段（写出版本仍为
+      0.3.0），并把它们加入 StreamingSaveKey 与 from_db 还原路径；thread_only 只阻止默认值写回，不改变会话正文
+      落盘。新 edition zed-local_transcripts-v5 在 transcripts-scope-and-switch、
+      transcripts-record-schema、transcripts-lifecycle 三处补写字段、保存判据与恢复语义，其余小节原样保留。
+  - topic: custom_agents
+    question_ids:
+      - agents.overrides
+    section_ids:
+      - agents-invocation-overrides
+    surface_ids:
+      - zed
+    source_refs:
+      - ref-zed-agents-doc-thread-only
+      - ref-zed-agents-model-select-saves-default
+      - ref-zed-agents-save-default-model
+      - ref-zed-agents-write-default
+      - ref-zed-agents-save-as-defaults
+      - ref-zed-agents-reset-defaults
+    cross_topic_links:
+      - local_transcripts.lifecycle
+    reason: >-
+      Zed Agent 的模型/profile 线程内覆盖与默认值持久化成为用户可见机制：选择模型即写入
+      agent.default_model；用次级确认（menu::SecondaryConfirm / Cmd / Ctrl）进入 thread-only
+      后不再写默认；Reset to Defaults（agent::ResetThreadToDefaults）恢复默认
+      profile/模型/思考/速度，Save as Default（agent::SaveThreadAsDefaults）把当前选择写成默认；
+      write_default 对 thread-only 与 subagent 一律跳过，自动降级的 profile 不被 Save as Default
+      写回。新 edition zed-zed-custom_agents-v2 扩写 agents-invocation-overrides，其余小节保留。
+pending_question_ids: []
+investigation_notes:
+  - >-
+    本轮 triage 分类：maintain（worker；固定来源
+    6501df15765d66d6c2a2b66b1eb22434ccef3f86 →
+    2664a0aa1eae5dabf8f8273c03f88d53061ca7dc，下载的 compare diff files=136）。只读
+    /tmp/gitdiff-1125/zed--source-zed-repo.diff 中七个已引用文件的 hunk，并从
+    raw.githubusercontent.com 该提交取回文件计算 sha256；不重扫来源、不扩题。
+  - >-
+    crates/acp_thread/src/acp_thread.rs（HEAD sha256
+    15a29926d0384e09cfabb443f31056d1d32278a07d68757c64cd74f1b6c0d6fb）为终端创建重构：
+    AcpThread::create_terminal 新增 shell 参数，由 NativeThreadEnvironment 统一解析
+    project/remote 默认 shell 后传入；Windows WSL 专用分支取消，Linux/Windows 沙箱与 headless
+    都走同一 ShellBuilder + prepare_sandbox_wrap；SandboxAuthorizationDetails 删除
+    warn_windows_fs，Windows DrvFs 预提示授权函数与测试一并移除。属于沙箱/终端行为，不写
+    threads.db、不改消息/工具持久化；该文件既有引用 set_draft_prompt 与 register_subagent 本轮零
+    hunk，local_transcripts 与 custom_agents 答案均不变。本轮未派发 sandbox 主题，不扩题。
+  - >-
+    crates/agent/src/agent.rs（HEAD sha256
+    8bf69c7082c3381fc07c4424a1746524e1d29e41b1f72526cbcaed63b830b3d6）生产改动两处：
+    NativeAgentModelSelector::select_model 改为在设置模型/思考/速度后调用
+    thread.save_default_model(cx)，替代原先直接 update_settings_file 的写法，并实现
+    AgentModelSelector::mark_thread_only；NativeThreadEnvironment 解析 terminal_shell 并传给
+    create_terminal。新增测试覆盖 thread-only 选择不覆盖待写默认、重载后继续使用被移除模型后的替代模型、
+    hosted 目录变化后继续会话。影响 custom_agents.overrides，不改变 local_transcripts 的持久化格式。
+  - >-
+    crates/agent/src/db.rs（HEAD sha256
+    09d4f23c3ca726d303d86520179b2734c3999fb6c56cd9c0cf714c4de6f55cee）只在 DbThread 增加
+    #[serde(default)] pub thread_only: bool 与
+    pub profile_downgraded_for_restricted_workspace: bool；SharedThread、Default/构造函数与测试夹具
+    补 false。DbThread::VERSION 仍为 0.3.0，threads 表列、data_type、zstd level 3 与 upsert 路径
+    均未变。影响 local_transcripts.scope/schema。
+  - >-
+    crates/agent/src/thread.rs（HEAD sha256
+    ab7f2f096b7bcecdb76a350926eccd04caf14ed786c6dc5dfa89347ddae524ca）新增
+    NewThreadSettings 提取默认 profile/模型思考/速度；Thread 增加 thread_only 字段，
+    StreamingSaveKey 增加 thread_only 与 profile_downgraded_for_restricted_workspace；
+    from_db 从 db_thread 还原这两个字段（此前 profile 降级固定为 false），to_db/save payload
+    同步写入；新增 mark_thread_only、save_default_model/profile、save_model_options、
+    write_default、save_as_defaults、can_reset_to_defaults、reset_to_defaults，统一在
+    write_default 跳过 thread-only 与 subagent；set_speed 改为 Option<Speed>。另有终端 shell
+    名称进入系统提示、Windows DrvFs 警告删除等沙箱改动。影响 local_transcripts.lifecycle 与
+    custom_agents.overrides。
+  - >-
+    crates/agent_ui/src/agent_panel.rs（HEAD sha256
+    524612eb89d525d1b2db70d873cd819ea7e728fca16339139b4681ede0622543）生产改动只有
+    NewThread 时对空草稿调用 reset_empty_thread_only_draft：空且为原生线程的 thread-only 草稿
+    就地 reset_to_defaults，有内容的草稿保持 thread-only；其余为测试。属于 UI 边界行为，官方文档
+    只描述“新线程从默认开始”，未单列该去留规则；不改变章节已发布的入口/覆盖答案，故只在审计记录，
+    不另写小节。
+  - >-
+    crates/agent_ui/src/thread_metadata_store.rs（HEAD sha256
+    19ea4e998d67d81c4f56ed5655146207ce61d366aa27817b294bca98300bd86b）仅测试夹具补上两个新
+    DbThread 字段默认值，无生产代码变化，不构成答案变化。
+  - >-
+    docs/src/ai/agent-panel.md（HEAD sha256
+    1f1aa0ce49cdeb2c4c51a5c7467fed8b64d5ebe67fbb345c7ca25e1615835eb5）在 Changing Models
+    一节新增：选模型会写 agent.default_model；思考/effort/fast 在处于默认模型时一并保存；用
+    menu::SecondaryConfirm（macOS Cmd、Linux/Windows Ctrl）选择模型、profile 或思考强度进入
+    thread-only；选择器旁出现圆点，Reset to Defaults（agent::ResetThreadToDefaults）与 Save as
+    Default（agent::SaveThreadAsDefaults）退出；收藏循环在非 thread-only 时也写默认。旧行
+    38-42、50-52、84-86 的 local_transcripts 文档引用本轮零 hunk，答案不变；新行只作为
+    custom_agents.overrides 证据。configuration 未派发：文档没有新增/改名配置键，只是解释既有
+    agent.default_model/default_profile 的写入时机，故不改 configuration 章节。
+  - >-
+    主题分类：local_transcripts 关注记录内容与保存/恢复判据，custom_agents 关注线程内模型/profile
+    覆盖与默认继承；两侧仅共享同一持久化字段与 write_default 证据，不把任一章节扩成跨主题重审。
+  - >-
+    版本映射：本轮不建立任何版本映射。2664a0aa 只作来源固定点，不绑定已发布发行包；八条来源
+    checks 中七个官方文档源均 unchanged。
+  - >-
+    pending 处理：本审计未派发新问题，pending_question_ids 为空。历史 pending 审计
+    audit-zed-89b88422-7e27-4d71-b9a7-29859660749a、
+    audit-zed-ef49024f-c99a-4de2-b967-115b9cb36f65、
+    audit-zed-da0cce73-46f1-4d31-9bc7-aed0c29cace3、
+    audit-zed-0a944474-303c-42b4-b3ff-fb97eedfe2a3、
+    audit-zed-7d5156db-6334-4ebe-a783-ef172ef6f316 仍各自携带未完成的
+    plugins.package、config.migration、providers.* 与 transcripts.database 等旧问题；本审计
+    pending_audit_refs 置空只表示本轮无新增 pending 依赖，不替这些旧审计结案，也不据此改写它们
+    所在章节。
+  - >-
+    独立复核判断：不需要——未推翻任何已发布配置步骤或清理结论，无来源冲突，无跨主题加载机制
+    改变；新增规则由第一方源码文档与对应实现共同支持。作者已完成逐文件 diff 与章节引用核对，按普通
+    更新记录 reviewed_by/reviewed_at。

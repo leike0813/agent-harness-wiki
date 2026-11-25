@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-web-search-env
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-settings-types-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/types.rs
+  start: 248
+  end: 256
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/settings/types.rs"
+excerpt: |-
+  /// The environment variable whose nonblank value overrides the stored key.
+  #[must_use]
+  pub fn api_key_env(self) -> &'static str {
+      match self {
+          WebSearchProvider::Serper => "SERPER_API_KEY",
+          WebSearchProvider::Eco => "YOU_API_KEY",
+      }
+  }

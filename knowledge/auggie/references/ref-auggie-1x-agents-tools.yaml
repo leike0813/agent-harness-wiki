@@ -1,0 +1,15 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-1x-agents-tools
+harness_id: auggie
+snapshot_id: snapshot-auggie-docs-cli-subagents-20261125
+locator:
+  kind: document_section
+  heading: Tool restrictions
+official_url: "https://docs.augmentcode.com/cli/subagents.md"
+excerpt: |-
+  * **`tools` (allowlist)**: Only the listed built-in tools will be available: `read`, `bash`, `edit`, `write`, `grep`, `find`, `ls`, and `web-fetch`. Setting `tools` also removes all other tools, such as `codebase-retrieval`, `web-search`, integrations, and MCP tools.
+  * **`disabled_tools` (denylist)**: All tools except the listed ones will be available. This works for any tool, including MCP and integration tools.
+  * If both are specified, a tool must be in `tools` and not in `disabled_tools`.
+  * If neither is specified, the subagent has access to all tools the main agent has.
+  * To keep `codebase-retrieval` or other non-built-in tools, use `disabled_tools` instead of `tools`.

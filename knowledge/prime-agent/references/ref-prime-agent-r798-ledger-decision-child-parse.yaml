@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-r798-ledger-decision-child-parse
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-r798-crates-pa-daemon-src-rlm-ledger-replay-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/rlm_ledger/replay.rs
+  start: 109
+  end: 123
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/798d97032a3ec6d70142cc75c0420cb2b260f194/crates/pa-daemon/src/rlm_ledger/replay.rs"
+excerpt: |-
+  // The optional run tag: a malformed one reads as untagged, so
+  // the edge itself survives.
+  let factory = record
+      .get("factory")
+      .and_then(|factory| serde_json::from_value(factory.clone()).ok());
+  let decision_child = record.get("decisionChild") == Some(&json!(true));
+  Ok(Some(LedgerRecord::Spawn {
+      child_id,
+      parent,
+      child,
+      depth: depth as u32,
+      name,
+      factory,
+      decision_child,
+  }))

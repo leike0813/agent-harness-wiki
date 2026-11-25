@@ -1,0 +1,92 @@
+schema_version: 2
+audit_id: audit-qwen-code-dffb912c-7dd2-4f9f-8c14-c34309273e1b
+harness_id: qwen-code
+checked_at: 2026-11-25T00:28:08.034Z
+previous_audit_id: audit-qwen-code-5ced7067-2f1e-4b2d-b9d2-2faff58a322d
+status: changed
+review_status: reviewed
+pending_audit_refs: []
+checks:
+  - source_id: source-qwen-code-repo
+    kind: git_repository
+    checked_at: 2026-11-25T00:28:06.131Z
+    status: changed
+    baseline: c134a03e5adf7631069269bb96a65cbf5c90f01a
+    observed: e3c02d15dd292425f08b8355df920f66a3e4248b
+    remote_ref: refs/heads/main
+  - source_id: source-qwen-code-npm
+    kind: npm_registry
+    checked_at: 2026-11-25T00:28:06.140Z
+    status: unchanged
+    baseline: 0.28.4@sha512-KH4NHC3xZkjhg38kjmrMgSCE07Fiqm2IQE0gVDjobTarjgrhPL6/h4lEOB4EHAPrn0laPCq+9URtAO1EqG7cRQ==
+    observed: 0.28.4@sha512-KH4NHC3xZkjhg38kjmrMgSCE07Fiqm2IQE0gVDjobTarjgrhPL6/h4lEOB4EHAPrn0laPCq+9URtAO1EqG7cRQ==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.defaults
+      - config.overrides
+    section_ids:
+      - config-defaults
+      - config-overrides
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-settings-general-display-language-schema
+      - ref-qwen-settings-general-display-language-doc
+      - ref-qwen-settings-workspace-restricted-display-language
+      - ref-qwen-settings-event-bus-agent-loop-unset-ink-schema
+    cross_topic_links: []
+    reason: >-
+      packages/cli/src/config/settingsSchema.ts adds general.displayLanguage
+      (enum off/zh-CN/en, default 'off', requiresRestart, one fast-model call
+      per translated block, works without experimental.mods) and
+      packages/cli/src/config/settingsUtils.ts adds
+      { section: 'general', key: 'displayLanguage' } to
+      WORKSPACE_RESTRICTED_SETTINGS, so Workspace values are stripped with a
+      warning; docs/users/configuration/settings.md carries the matching row
+      (Ink/OpenTUI/Web Shell, untrusted workspaces, User/System/SystemDefaults
+      only). The same schema now says experimental.eventBusAgentLoop's unset
+      default also puts the Ink TUI on the event-bus kernel (previously only
+      headless), so the unset semantics documented in v7 need updating.
+  - topic: hooks
+    question_ids:
+      - hooks.output
+    section_ids:
+      - hooks-output
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-hooks-permissionrequest-updated-permissions
+      - ref-qwen-hooks-permissionrequest-updated-permissions-apply
+    cross_topic_links:
+      - config.overrides
+    reason: >-
+      packages/core/src/core/permission-helpers.ts adds
+      applyPermissionRequestHookUpdates: an allowing PermissionRequest hook's
+      updatedPermissions are now applied, but only type 'addRules' entries.
+      destination 'session' adds in-memory allow/deny/ask rules;
+      'projectSettings' and 'localSettings' persist to the project scope;
+      'userSettings' persists to the user scope; other entries are skipped
+      with a debug warning, malformed rules are skipped, and standalone
+      session sources skip project-scope writes.
+      packages/core/src/core/coreToolScheduler.ts stores the hook's updates on
+      the allow path and applies them after approval, before tool launch, so
+      the hooks.output answer gains an observable write path.
+pending_question_ids: []
+investigation_notes:
+  - "Observed window: repository c134a03e5adf7631069269bb96a65cbf5c90f01a -> e3c02d15dd292425f08b8355df920f66a3e4248b (Git HEAD, refs/heads/main); npm 0.28.4 unchanged. Candidate diff is limited to the 11 cited files plus new pinned records."
+  - "docs/users/configuration/settings.md: row for general.displayLanguage added; experimental.eventBusAgentLoop row now says unset puts headless sessions and the Ink TUI on the kernel, and false keeps headless and the Ink TUI on the procedural path. Both mapped to configuration; no other settings rows changed in this window."
+  - "docs/users/extension/mods.md: added a paragraph pointing zh-CN/en users to the built-in general.displayLanguage instead of a Mod, and rewrote two regex class/compare literals as \\u4e00-\\u9fff escapes (semantically equivalent example output). No Mod registration point, lifecycle state, or host API changed -> native_plugins untouched."
+  - "packages/cli/src/config/settingsSchema.ts: displayLanguage key added; eventBusAgentLoop description extended to the Ink TUI; review.sandbox enum gains a 'tiered' option (default stays 'off', description/options only). The configuration chapter documents review.* only as an operator-scope exception and does not enumerate review group keys, so review.sandbox 'tiered' changes no published answer and is excluded."
+  - "packages/cli/src/config/settingsUtils.ts: WORKSPACE_RESTRICTED_SETTINGS gains { section: 'general', key: 'displayLanguage' }, which feeds the existing strip/warn/daemon-refusal consumers -> config.overrides updated, config.scope's single-source-of-truth statement unchanged. config.trust is unchanged: trust still gates workspace settings and installed Mods, while displayLanguage's untrusted-workspace effect is a property of the key captured under config.defaults."
+  - "packages/cli/src/config/config.ts: onPersistPermissionRule now loads settings from the call's workspace directory, passes skipLoadEnvironment and skipWorkspaceSettings for user scope, and dedupes against both originalSettings and merged rules before appending. This supports the same approval/hook rule-persistence path; scope resolution and the documented permissions allow/ask/deny merge order are unchanged -> no config answer change (checked function onPersistPermissionRule in loadCliConfig)."
+  - "packages/cli/src/services/interactive-mod-session.ts: create gate changed from settings.merged.experimental?.mods to modsWanted(settings) (= experimental.mods OR general.displayLanguage). packages/cli/src/services/mod-session.ts: allowed() split into permitsMods() plus isTrustedFolder(), installs load only when sources.extensions is true and the folder is trusted, translation-only sessions may run untrusted, and askRow/canTranslateRow accept a translation authorization. Installed third-party Mods still require experimental.mods and workspace trust, so plugins.api/plugins.lifecycle answers are unchanged; display translation is covered under configuration."
+  - "packages/core/src/core/coreToolScheduler.ts: besides the PermissionRequest updatedPermissions path, the diff is cancellation/code-mode execution work (waitForNestedToolSettlement, handoffAfterAbandonment, retired scheduler flags, telemetry session gating, pending nested tool settlement). No hook event list/order, MCP loading/exposure, agent limit, or transcript format change -> only hooks.output updated."
+  - "packages/core/src/services/chatRecordingService.ts: adds getExistingTranscriptPath (read-only resolution of the existing chats/<sessionId>.jsonl), a branch AbortSignal advanced on rewind/reset/branch replacement, and strips runtime-only compaction hints via withoutCompactionTranscriptHint before writing compressed history. Record types, paths, and compression payload shape are unchanged -> local_transcripts untouched."
+  - "packages/core/src/services/sessionService.ts: listSessions gains forCatalog (bounded head/tail catalog reader plus legacy fallback count); the session-index builder streams lines, strips non-artifact bodies, and enforces per-line and retained-estimate caps (ARTIFACT_LIBRARY_MAX_RETAINED_ESTIMATE_BYTES = 128 MiB) while replacing the shared 64 MiB cap with SESSION_TRANSCRIPT_MAX_INDEX_BYTES; fork/UI-telemetry refactors use isLifecycleUiTelemetryEvent. These are read/limit internals, not transcript location/format/schema/cleanup answers -> local_transcripts untouched."
+  - "packages/core/src/utils/jsonl-utils.ts: readLinesWithIntegrityInternal accepts an external fs.ReadStream and arms it with addAbortSignal; the documented records/lines budget checks are unchanged -> ref-qwen-transcripts-jsonl-read-budget stays valid; local_transcripts untouched."
+  - "New records pin commit e3c02d15: git_source_file artifacts for settingsSchema.ts, settingsUtils.ts, docs/users/configuration/settings.md, core/permission-helpers.ts, and core/coreToolScheduler.ts, each with content_sha256 from raw.githubusercontent.com; five source_revision snapshots and six references. Old artifacts, references, mappings, and editions were not modified."
+  - "New editions: qwen-code-cli-configuration-v8 (config-defaults + config-overrides only) and qwen-code-cli-hooks-v4 (hooks-output only); registry/chapter-current.yaml switched these two topics. No high-impact overturn (no published config step removed, no source conflict), so independent review is not required."
+  - "本审计不引用历史 pending 审计（42d06e9b、888916ad、09fdd70c、67a32536、0f50e3fc）：它们各自保持原状态，不因本审计的 reviewed 状态被关闭；previous_audit_id 仍保留链路。"
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-25T00:50:00Z

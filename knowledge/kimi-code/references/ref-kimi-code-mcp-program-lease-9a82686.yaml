@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-mcp-program-lease-9a82686
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-program-mcp-9a82686
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/program/programMcp.ts
+  start: 38
+  end: 53
+official_url: "https://github.com/MoonshotAI/kimi-code/blob/9a82686b0e91c532f4d49da0bc088a0eac9bdede/packages/agent-core-v2/src/program/programMcp.ts"
+excerpt: |-
+  async acquire(): Promise<ProgramMcpLease> {
+    while (this.closing !== undefined) await this.closing;
+    if (this.disposed) throw new Error('program MCP is disposed');
+    const set = (this.current ??= this.open());
+    set.references += 1;
+    let released = false;
+    return {
+      service: set.service,
+      dispose: () => {
+        if (released) return;
+        released = true;
+        set.references -= 1;
+        if (set.references === 0 && this.current === set) this.closing = this.close(set);
+      },
+    };
+  }

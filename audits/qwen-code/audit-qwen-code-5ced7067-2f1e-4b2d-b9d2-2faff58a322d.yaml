@@ -1,0 +1,64 @@
+schema_version: 2
+audit_id: audit-qwen-code-5ced7067-2f1e-4b2d-b9d2-2faff58a322d
+harness_id: qwen-code
+checked_at: 2026-11-23T18:02:44.485Z
+previous_audit_id: audit-qwen-code-0f50e3fc-90e5-4b45-b494-07cb7d8cc6b8
+status: changed
+review_status: reviewed
+pending_audit_refs: []
+checks:
+  - source_id: source-qwen-code-repo
+    kind: git_repository
+    checked_at: 2026-11-23T18:02:42.660Z
+    status: changed
+    baseline: 2ad81c6eb9d262e0f11da287cfd0c7c24e68dbd5
+    observed: c134a03e5adf7631069269bb96a65cbf5c90f01a
+    remote_ref: refs/heads/main
+  - source_id: source-qwen-code-npm
+    kind: npm_registry
+    checked_at: 2026-11-23T18:02:42.669Z
+    status: unchanged
+    baseline: 0.28.4@sha512-KH4NHC3xZkjhg38kjmrMgSCE07Fiqm2IQE0gVDjobTarjgrhPL6/h4lEOB4EHAPrn0laPCq+9URtAO1EqG7cRQ==
+    observed: 0.28.4@sha512-KH4NHC3xZkjhg38kjmrMgSCE07Fiqm2IQE0gVDjobTarjgrhPL6/h4lEOB4EHAPrn0laPCq+9URtAO1EqG7cRQ==
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.defaults
+    section_ids:
+      - config-defaults
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-settings-use-builtin-ripgrep-schema
+      - ref-qwen-settings-event-bus-agent-loop-schema
+    cross_topic_links: []
+    reason: >-
+      packages/cli/src/config/settingsSchema.ts changed within the observed
+      window: tools.useBuiltinRipgrep still defaults to true but now prefers a
+      healthy PATH rg with the bundled binary as fallback; experimental.eventBusAgentLoop
+      defaults to unset (unsetToggleValue) so unset differs from off.
+  - topic: native_plugins
+    question_ids:
+      - plugins.api
+    section_ids:
+      - plugins-api
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-qwen-extension-mods-ui-render-example
+      - ref-qwen-extension-mods-ui-render-model-call
+      - ref-qwen-extension-mods-ui-render-budget
+    cross_topic_links:
+      - providers.models
+    reason: >-
+      docs/users/extension/mods.md added ui.render (AssistantMessage/Thinking)
+      and $.model.complete with fast-model selection and 30 s render / 25 s call
+      bounds, extending the documented Mod runtime API.
+pending_question_ids: []
+investigation_notes:
+  - "Observed window: repository 2ad81c6eb9d262e0f11da287cfd0c7c24e68dbd5 -> c134a03e5adf7631069269bb96a65cbf5c90f01a (25 commits / 592 files); npm 0.28.4 unchanged."
+  - "Cited files triaged: docs/users/configuration/settings.md (two table rows identical to the schema descriptions), packages/cli/src/config/settingsSchema.ts (useBuiltinRipgrep preference change; eventBusAgentLoop unset default), docs/users/extension/mods.md (ui.render + $.model.complete), packages/core/src/core/coreToolScheduler.ts (cancellation-path only: cancelAfterPostProcessing, observeProducerOutput, setPromoteAbortControllerCallback; ACP counterpart movedToBackground) -> no hook/MCP/transcript answer change."
+  - "Kept old artifacts/references/editions untouched; new snapshots pin commit c134a03e with content_sha256 fetched from raw.githubusercontent.com (settingsSchema.ts f50f357c..., mods.md 2b30ac47...)."
+  - "本审计不引用历史 pending 审计（42d06e9b、888916ad、09fdd70c、67a32536、0f50e3fc）：它们保持原状态，本审计的 reviewed 状态不会间接关闭它们；previous_audit_id 仍保留链路。"
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-24T13:40:56Z

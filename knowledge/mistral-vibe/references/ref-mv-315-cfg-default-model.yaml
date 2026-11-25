@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-cfg-default-model
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/vibe_schema.py
+  start: 1603
+  end: 1614
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  def resolve_default_model_alias(self) -> str:
+      # When every model is locked, one of them is the default anyway: its
+      # turn is refused with the upsell, where no default fails the config.
+      available = self.runnable_models() or self.available_models()
+      if self.catalog_default_model in available:
+          return self.catalog_default_model
+      if self.catalog_recommended_model in available:
+          return self.catalog_recommended_model
+      if DEFAULT_ACTIVE_MODEL_CONFIG.alias in available or not available:
+          # If there are no available models, fallback to default
+          return DEFAULT_ACTIVE_MODEL_CONFIG.alias
+      return next(iter(available))

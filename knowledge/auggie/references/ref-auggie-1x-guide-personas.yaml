@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-auggie-1x-guide-personas
+harness_id: auggie
+snapshot_id: snapshot-auggie-repo-1x-guide-20261125
+locator:
+  kind: file_lines
+  file: docs/1.x-preview-guide.md
+  start: 69
+  end: 76
+official_url: "https://github.com/augmentcode/auggie"
+excerpt: |-
+  ### Personas Deprecated & Replaced by Subagents
+  In 0.x, Auggie supported backend-configured "Personas" via the `/persona` slash command and CLI `auggie persona` commands to adjust system prompts and disable certain tools.
+  In 1.x, the separate persona abstraction has been retired in favor of native, standardized customization mechanisms:
+  - **Custom Subagents / Agents**: Define role-specific behaviors, instructions, and dedicated toolsets in `.augment/agents/<name>.md` (workspace) or `~/.augment/agents/<name>.md` (global).
+  - **Custom Rules & Prompts**: Set project guidelines and prompt overrides using `.augment/rules/*.md`, `AGENTS.md`, or `.augment/SYSTEM.md`.
+  - **Tool Permissions**: Restrict or require user confirmation for specific tools via `/permissions` or `.augment/settings.json`.

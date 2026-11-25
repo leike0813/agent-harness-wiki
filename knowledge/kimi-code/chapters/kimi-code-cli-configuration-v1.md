@@ -8,7 +8,7 @@ title: "Kimi Code CLI 的配置机制：来源、优先级、默认值、信任�
 sections:
   - section_id: config-sources
     surface_ids: [cli]
-    source_refs: [ref-kimi-code-config-location, ref-kimi-code-data-root, ref-kimi-code-env-home, ref-kimi-code-src-bootstrap, ref-kimi-code-data-layout, ref-kimi-code-data-sessions, ref-kimi-code-config-project-local, ref-kimi-code-overrides-priority, ref-kimi-code-src-local-toml, ref-kimi-code-config-tui]
+    source_refs: [ref-kimi-code-config-location, ref-kimi-code-data-root, ref-kimi-code-env-home, ref-kimi-code-src-bootstrap, ref-kimi-code-data-layout, ref-kimi-code-data-sessions, ref-kimi-code-config-project-local, ref-kimi-code-overrides-priority, ref-kimi-code-src-local-toml, ref-kimi-code-config-tui, ref-kimi-code-config-doc]
   - section_id: config-overrides
     surface_ids: [cli]
     source_refs: [ref-kimi-code-overrides-doc, ref-kimi-code-overrides-env, ref-kimi-code-overrides-priority, ref-kimi-code-env-switches, ref-kimi-code-src-deepmerge, ref-kimi-code-overrides-credentials, ref-kimi-code-config-models, ref-kimi-code-config-secondary, ref-kimi-code-overrides-cli, ref-kimi-code-cmd-options, ref-kimi-code-cmd-flags, ref-kimi-code-env-model]

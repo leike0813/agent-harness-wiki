@@ -1,0 +1,89 @@
+schema_version: 2
+audit_id: audit-kimi-code-66b4e171-bf29-4855-a9a5-eedf3bfbf567
+harness_id: kimi-code
+checked_at: 2026-11-25T00:37:40.443Z
+previous_audit_id: audit-kimi-code-5535c3dc-7793-4418-bad9-aee4aea5f8bb
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-25T00:39:30Z
+pending_audit_refs: []
+checks:
+  - source_id: source-kimi-code-repo
+    kind: git_repository
+    checked_at: 2026-11-25T00:37:38.454Z
+    status: changed
+    baseline: 9a82686b0e91c532f4d49da0bc088a0eac9bdede
+    observed: 48cdb62bed2f2464d2234607b179132f8aad363d
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-legacy-repo
+    kind: git_repository
+    checked_at: 2026-11-25T00:37:38.463Z
+    status: unchanged
+    baseline: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    observed: 9ab1286b8fe4e6bcd116949a27ce5e0ac3389c82
+    remote_ref: refs/heads/main
+  - source_id: source-kimi-code-npm
+    kind: npm_registry
+    checked_at: 2026-11-25T00:37:38.468Z
+    status: unchanged
+    baseline: 2.7.3@sha512-DemrD7fkxAQ5QVQ9THPsitu78N/VVaBrNabWDstleqxpZX8eucrl9//92lzVMJfaxAz83IDM1R/I9jaPCQsH1g==
+    observed: 2.7.3@sha512-DemrD7fkxAQ5QVQ9THPsitu78N/VVaBrNabWDstleqxpZX8eucrl9//92lzVMJfaxAz83IDM1R/I9jaPCQsH1g==
+impacts:
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.schema
+    section_ids:
+      - transcripts-format-schema
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-kimi-code-lt-src-turn-ended-payload-9a82686
+      - ref-kimi-code-lt-src-turn-ended-models-9a82686
+      - ref-kimi-code-lt-src-turn-ended-loop-end-48cdb62
+    cross_topic_links:
+      - transcripts.lifecycle
+    reason: commit 48cdb62 的 packages/agent-core-v2/docs/wire-manifest.d.ts 给
+      TurnEndedPayload 增加可选 loopEnd（outcome 为 drained 或 idle）。已发布的
+      kimi-code-local_transcripts-v3 把 turn.ended 的可选字段按清单逐项枚举为
+      error/durationMs/stopReason/requestId/replyModel/modelSteps[]，该枚举因此不完整；
+      新建 edition kimi-code-local_transcripts-v4 补入 loopEnd，并把写入条件与两取值差异列入
+      schema 缺口，transcripts.schema 保持 partial。
+pending_question_ids: []
+investigation_notes:
+  - 本轮 triage 分类：maintain。只处理 /tmp/git-intersect-1125.json 列出的 4 个文件在
+    9a82686b..48cdb62 之间的 diff 片段；固定源码从 raw.githubusercontent
+    按 commit 48cdb62bed2f2464d2234607b179132f8aad363d 读取核对，未重扫来源、未重新打开工作区。
+  - "apps/kimi-code/src/tui/kimi-tui.ts：hunk 全部属于 prompt prediction 生命周期（handlePlanToggle
+    不再调用 handlePlanModeChanged、新增 handlePromptPredictionIdle、reset 时补
+    resetLoopLifecycle、updateQueueDisplay 与编辑器替换不再通知 controller），未触及已发布的
+    hooks-v3 引用范围（ref-kimi-code-hooks-shutdown-hint-render 与
+    ref-kimi-code-hooks-shutdown-force-exit-exitcode 固定在 c9f01f07 的 1055-1060、1096-1106
+    行）；无已发布 hooks 答案变化。"
+  - docs/en/customization/mcp.md：新增段落描述同名 deferred 工具 schema 替换——一次公告同时标记旧版本移除与
+    新版本加入，模型须重新调用 select_tools 才能载入当前 schema，重载前的调用被拒绝并提示重选；Kimi Chat
+    Completions 依次发送旧声明、unload 消息与新声明，inline 工具的同名更新仍固定原 schema。已发布
+    mcp-capabilities 关于 deferred 披露、delta 通知与 select_tools 载入的表述仍准确，新增段落是对同一机制的细化而非否定，
+    本轮不新建 mcp edition。
+  - "packages/agent-core-v2/docs/wire-manifest.d.ts：TurnEndedPayload 新增可选 loopEnd
+    {outcome: 'drained' | 'idle'}（963-965 行）；新建
+    artifact-kimi-code-wire-manifest-48cdb62（content_sha256
+    68ea1fd3548e339c20a579b50dc8c5c1b73d206600f608d6f1d3b5b832804d64）、对应 snapshot 与
+    ref-kimi-code-lt-src-turn-ended-loop-end-48cdb62，并新建完整 edition
+    kimi-code-local_transcripts-v4、切换 chapter-current。"
+  - packages/agent-core-v2/test/session/subagent/forkParity.test.ts：createDirectChild 改为先取
+    childContext 再显式 start 子 loop；这是测试启动时序设置，已发布 mcp baseline 断言
+    （ref-kimi-code-mcp-baseline-shared-9a82686 476-477 行、
+    ref-kimi-code-mcp-baseline-tools-9a82686 490-493 行）未变，测试改动不计知识变化。
+  - 排除项：同提交的其它 changeset 与未列入 intersecting 清单的文件不在本轮范围；重构与测试改动按 no-op
+    处理。
+  - 本轮审计不引用历史 pending 审计（audit-kimi-code-93eb5dc0-e41b-49b6-a3db-662389fc6dbf,
+    audit-kimi-code-0e5dd3dc-24fa-419e-bba5-d44fdeb0a493,
+    audit-kimi-code-a3703458-eda9-4a88-844e-e224b1c75e40,
+    audit-kimi-code-6ffd2394-2b51-4aa4-b26f-6f6fc788bdd8）：它们保持原状态、保留在各自记录中，
+    本审计的 reviewed 状态不会间接关闭它们；audit-kimi-code-5535c3dc-7793-4418-bad9-aee4aea5f8bb
+    作为 historical pending 保留（当时 legacy-repo 网络阻塞已由本轮复扫确认为 unchanged），
+    previous_audit_id 仍保留链路。
+  - 交付边界：delivery=pr；未执行 sources:scan、sources:workspace open、pnpm ahw publish、
+    pnpm chapters:update、pnpm managed:packages 或任何 binary 操作；候选以
+    pnpm -s maintenance:candidates check 自检。

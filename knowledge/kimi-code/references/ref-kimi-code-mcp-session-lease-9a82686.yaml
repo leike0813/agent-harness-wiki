@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-kimi-code-mcp-session-lease-9a82686
+harness_id: kimi-code
+snapshot_id: snapshot-kimi-code-session-lifecycle-9a82686
+locator:
+  kind: file_lines
+  file: packages/agent-core-v2/src/workspace/sessionLifecycle/sessionLifecycleService.ts
+  start: 410
+  end: 429
+official_url: "https://github.com/MoonshotAI/kimi-code/blob/9a82686b0e91c532f4d49da0bc088a0eac9bdede/packages/agent-core-v2/src/workspace/sessionLifecycle/sessionLifecycleService.ts"
+excerpt: |-
+  private async openWorkdir(
+    environment: (EnvironmentBinding & { readonly cwd: string }) | undefined,
+    workDir: string,
+  ): Promise<WorkdirWithMcp> {
+    const mcp = await this.acquireMcp();
+    try {
+      const workdir = await this.connectWorkdir(environment, workDir);
+      return {
+        ...workdir,
+        mcp: mcp.service,
+        dispose: () => {
+          mcp.dispose();
+          workdir.dispose();
+        },
+      };
+    } catch (error) {
+      mcp.dispose();
+      throw error;
+    }
+  }

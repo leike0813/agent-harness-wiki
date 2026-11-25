@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-byok-auto-window-note-20261125
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-byok-20261125
+locator:
+  kind: file_lines
+  file: sdk/src/byok.ts
+  start: 569
+  end: 575
+official_url: "https://github.com/CodebuffAI/codebuff/blob/286f2517138563f5942a381f063f55254779a366/sdk/src/byok.ts"
+excerpt: |2-
+   * The provider's own number wins when its `/models` listing reports one
+   * (up to the same maximum as a manually configured window). Otherwise a remote
+   * endpoint gets 128k, which nearly every hosted coding model supports, and a loopback
+   * server keeps the configured default, because a local server's window is
+   * whatever it was launched with. Manual context limits are never replaced.
+   * Auto bounds the output limit to fit the effective window without changing
+   * the saved setting. The credential stays non-enumerable on the copy.

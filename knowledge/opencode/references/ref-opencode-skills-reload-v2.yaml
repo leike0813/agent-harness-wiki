@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-reload-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-plugin-skill-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/config/plugin/skill.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/plugin/skill.ts
+  start: 149
+  end: 176
+excerpt: |-
+  const refresh = Effect.fn("ConfigSkillPlugin.refresh")(
+    function* (file?: string) {
+      yield* FiberMap.clear(watches)
+      const skills = new Map<Skill.ID, Skill.Info>()
+      const current = sources()
+      for (const source of current) {
+        for (const skill of yield* load(source)) skills.set(skill.id, skill)
+      }
+      loaded.skills = Array.from(skills.values())
+      if (file) {
+        yield* Effect.logInfo("skills rescanned", {
+          file,
+          sources: current.map(Skill.Source.key),
+          skills: loaded.skills.map((skill) => skill.id),
+        })
+      }
+  const updates = yield* PubSub.subscribe(changes)
+  yield* Stream.fromSubscription(updates).pipe(
+    Stream.debounce("100 millis"),
+    Stream.runForEach((file) => refresh(file).pipe(Effect.andThen(ctx.skill.reload()))),

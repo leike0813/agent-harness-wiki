@@ -1,0 +1,21 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-python-cell-timeout-getter
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-settings-manager-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/manager.rs
+  start: 671
+  end: 678
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/settings/manager.rs"
+excerpt: |-
+  /// The default time limit for user `python_repl` cells, in
+  /// milliseconds (`0` disables; the default is 60s). Daemonless
+  /// sessions never arm it.
+  #[must_use]
+  pub fn get_python_cell_timeout_ms(&self) -> u64 {
+      self.merged
+          .python_cell_timeout_ms
+          .unwrap_or(crate::settings::types::DEFAULT_PYTHON_CELL_TIMEOUT_MS)
+  }

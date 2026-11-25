@@ -1,0 +1,17 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-fd-plugins-layout-20261125
+harness_id: factory-droid
+snapshot_id: snapshot-source-factory-droid-docs-plugins-20261125
+locator:
+  kind: document_section
+  heading: What plugins contain
+official_url: "https://docs.factory.com/harness/plugins.md"
+excerpt: |-
+  Claude Code plugin layouts are also supported. For a plugin without `.factory-plugin/`, Droid renames Claude Code paths at the plugin root as it copies the plugin into its cache:
+
+  | Claude Code path | Cached as | When the plugin also authors the Droid path |
+  | :--------------- | :-------- | :------------------------------------------ |
+  | `.claude-plugin/` | `.factory-plugin/` | Not applicable. A plugin with `.factory-plugin/` is never renamed. |
+  | `.mcp.json` | `mcp.json` | The plugin's own `mcp.json` wins, and `.mcp.json` keeps its name. |
+  | `agents/` | Files merge into `droids/` | On a name clash the `droids/` file wins. The `agents/` file stays under `agents/`, where Droid does not load it. |

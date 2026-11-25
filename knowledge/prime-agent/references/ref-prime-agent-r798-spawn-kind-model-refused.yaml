@@ -1,0 +1,20 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-r798-spawn-kind-model-refused
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-r798-crates-pa-core-src-session-engine-rlm-host-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session_engine/rlm_host.rs
+  start: 712
+  end: 719
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/798d97032a3ec6d70142cc75c0420cb2b260f194/crates/pa-core/src/session_engine/rlm_host.rs"
+excerpt: |-
+  let model = optional_string_kwarg(&kwargs, "model", OPERATION)?;
+  // A decision child's model comes from the `decisionModel` setting —
+  // the same refusal the decision request path serves — so the pair is
+  // refused here instead of silently dropping the model.
+  if model.is_some() && kind == RlmSpawnKind::Decision {
+      anyhow::bail!(
+          "The decision child's model comes from the decisionModel setting; the spawn carries no \
+           model (got {model:?})."

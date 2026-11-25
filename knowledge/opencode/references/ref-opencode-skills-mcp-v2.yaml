@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-mcp-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-plugin-mcp-skill-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/plugin/mcp-skill.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/plugin/mcp-skill.ts
+  start: 52
+  end: 95
+excerpt: |-
+  for (const skill of state.listed) {
+    if (skill.entry.resources === "dynamic") continue
+    const id = Skill.ID.make(`${skill.server}:${skill.entry.frontmatter.name}`)
+    if (!SkillDiscovery.isSafeSegment(id) || editor.get(id)) continue
+    const files = skill.entry.resources.flatMap((resource) => {
+      const file = resource.uri.startsWith(root) ? resource.uri.slice(root.length) : ""
+      return SkillDiscovery.isSafeRelativePath(file) ? [{ file, digest: resource.digest }] : []
+    })
+    editor.add(
+      {
+        description: skill.entry.frontmatter.description,
+        path: AbsolutePath.make(Skill.uri(id, "SKILL.md")),
+        content: cache.get(`${digest} SKILL.md`)?.body ?? read(skill, id, digest),
+      },

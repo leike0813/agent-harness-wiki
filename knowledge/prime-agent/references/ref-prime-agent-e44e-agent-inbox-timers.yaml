@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-agent-inbox-timers
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-settings-manager-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/settings/manager.rs
+  start: 694
+  end: 726
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/settings/manager.rs"
+excerpt: |-
+  /// The inbox reminder's repeat interval in milliseconds
+  /// (`agentInbox.reminderIntervalMs`; default 10 minutes, `0`
+  /// disables the reminder). Global scope only, so a project cannot
+  /// drive the reminder loop.
+  #[must_use]
+  pub fn get_agent_inbox_reminder_interval_ms(&self) -> u64 {
+      self.global
+          .agent_inbox
+          .as_ref()
+          .and_then(|inbox| inbox.reminder_interval_ms)
+          .unwrap_or(crate::settings::types::DEFAULT_AGENT_INBOX_REMINDER_INTERVAL_MS)
+  }
+  /// The idle wake debounce window in milliseconds
+  /// (`agentInbox.idleDebounceMs`; default 5 s). Global scope only, like
+  /// the other `agentInbox` keys.

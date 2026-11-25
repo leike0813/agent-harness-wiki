@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-sidecar-version-3
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-session-store-info-sidecar-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/session_store/info_sidecar.rs
+  start: 19
+  end: 28
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-daemon/src/session_store/info_sidecar.rs"
+excerpt: |-
+  /// The sidecar format version: a sidecar serves only at exactly this
+  /// version; any other version (an older or a newer build's) is a cold
+  /// scan, the behavior without a sidecar. Bump when an OLD sidecar's state
+  /// would be wrong for this build - a new field or changed fold semantics
+  /// in [`SessionScanAccumulator`](super::info::SessionScanAccumulator) or
+  /// [`UsageScan`](crate::session_usage::UsageScan). Removing a field needs
+  /// no bump: the plain `Deserialize` (no `deny_unknown_fields`) ignores the
+  /// stale key, and the remaining state is exactly what this build's fold
+  /// would have written, so the store stays warm.
+  const INFO_SIDECAR_VERSION: u32 = 3;

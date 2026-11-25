@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-cfg-growthbook-filter
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/layers/growthbook.py
+  start: 111
+  end: 145
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      def set_variants(self, variants: Mapping[str, object]) -> None:
+          """Receive config-scoped variants, not telemetry assignments."""
+          self._variants = dict(variants)
+          # Parsed once per variants, not on every config rebuild, so a dropped
+          # part is logged once.
+          catalog_filter = self._variants.get(ExperimentName.MODEL_CATALOG_FILTER.value)
+          self._catalog_filter = (
+              None
+              if catalog_filter is None
+              else parse_catalog_filter(_as_json_value(catalog_filter))
+          )
+  ...
+          if self._catalog_filter:
+              data[CATALOG_FILTER_KEY] = self._catalog_filter

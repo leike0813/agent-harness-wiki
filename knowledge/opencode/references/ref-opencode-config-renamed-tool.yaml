@@ -1,0 +1,18 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-config-renamed-tool
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-v1-config-migrate-20261123
+official_url: https://github.com/anomalyco/opencode/blob/292cb5a164786f73f4f32e5caec0c7aafe98b494/packages/core/src/v1/config/migrate.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/v1/config/migrate.ts
+  start: 36
+  end: 41
+excerpt: |-
+  // The media tools dropped their experimental prefix after native permission rules could name them.
+  export function renamedTool(action: string) {
+    if (action === "experimental_image_generate") return "generate_image"
+    if (action === "experimental_video_generate") return "generate_video"
+    return action
+  }

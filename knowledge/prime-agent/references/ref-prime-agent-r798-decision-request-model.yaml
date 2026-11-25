@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-r798-decision-request-model
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-r798-crates-pa-core-src-session-engine-decision-api-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/session_engine/decision_api.rs
+  start: 48
+  end: 57
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/798d97032a3ec6d70142cc75c0420cb2b260f194/crates/pa-core/src/session_engine/decision_api.rs"
+excerpt: |-
+  mut request: serde_json::Map<String, Value>,
+  ) -> anyhow::Result<DecisionRequest> {
+      if let Some(model) = request.remove("model") {
+          if !model.is_null() {
+              bail!(
+                  "The decision model comes from the decisionModel setting; the \
+                   request carries no model (got {model})."
+              );
+          }
+      }

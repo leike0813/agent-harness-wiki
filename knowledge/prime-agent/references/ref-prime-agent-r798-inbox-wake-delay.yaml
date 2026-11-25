@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-r798-inbox-wake-delay
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-r798-crates-pa-daemon-src-worker-inbox-router-rs
+locator:
+  kind: file_lines
+  file: crates/pa-daemon/src/worker/inbox_router.rs
+  start: 28
+  end: 40
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/798d97032a3ec6d70142cc75c0420cb2b260f194/crates/pa-daemon/src/worker/inbox_router.rs"
+excerpt: |-
+  /// How long an idle session waits before one arrival's wake row may start
+  /// a turn: a successful bash completion is held
+  /// (`agentInbox.successHoldMs`), anything else waits out the debounce
+  /// window (`agentInbox.idleDebounceMs`); the heartbeat route admits with
+  /// no delay. Without an engine (a bare test core), the defaults.
+  pub(crate) fn wake_delay(
+      notice: &InboxNotice,
+      engine: Option<&crate::agent_engine::AgentSessionEngine>,
+  ) -> Duration {
+      let settings = match engine {
+          Some(engine) => SettingsManager::create(engine.cwd(), &engine.config.agent_dir),
+          None => SettingsManager::in_memory(&Settings::default()),
+      };

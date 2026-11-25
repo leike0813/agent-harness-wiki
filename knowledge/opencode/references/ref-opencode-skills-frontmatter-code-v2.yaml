@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-frontmatter-code-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-plugin-skill-file-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/config/plugin/skill-file.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/plugin/skill-file.ts
+  start: 38
+  end: 62
+excerpt: |-
+  const id =
+    path.dirname(filepath) === directory && path.basename(filepath) !== "SKILL.md"
+      ? path.basename(filepath, ".md")
+      : path.basename(path.dirname(filepath))
+  const opencodeAutoinvoke = metadataBoolean(frontmatter.metadata, "opencode/autoinvoke")
+  const disableModelInvocation = booleanValue(frontmatter["disable-model-invocation"])
+  const autoinvoke = opencodeAutoinvoke ?? (disableModelInvocation ? false : undefined)
+  skill: {
+    id: Skill.ID.make(id),
+    name: Skill.Name.make(frontmatter.name ?? id),
+    path: AbsolutePath.make(filepath),
+    content: markdown.content,
+  }

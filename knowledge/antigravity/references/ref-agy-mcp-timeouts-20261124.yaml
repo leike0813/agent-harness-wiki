@@ -1,0 +1,19 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-agy-mcp-timeouts-20261124
+harness_id: antigravity
+snapshot_id: snapshot-agy-mcp-doc-20261124
+locator:
+  kind: document_section
+  heading: "MCP server timeouts"
+official_url: https://antigravity.google/docs/mcp.md
+excerpt: |-
+  By default, Antigravity waits up to 5 minutes for an MCP server to connect and list its tools, and up to 3 minutes for each tool call. A tool call that runs longer fails with an error that names the server and the limit.
+
+  If a server’s tools need more time, set `timeoutSeconds` in that server’s entry:
+
+  *   A positive value, in seconds, replaces both limits. For example, `600` lets each tool call run for up to 10 minutes.
+  *   A negative value, such as `-1`, turns off both limits.
+  *   `0`, or leaving `timeoutSeconds` unset, keeps the defaults.
+
+  Because the same value limits how long the server has to connect, a small value can stop a slow-starting server from connecting.

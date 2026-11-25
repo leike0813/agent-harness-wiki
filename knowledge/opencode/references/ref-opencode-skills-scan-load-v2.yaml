@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-scan-load-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-plugin-skill-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/config/plugin/skill.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/plugin/skill.ts
+  start: 108
+  end: 147
+excerpt: |-
+  const directories =
+    source.type === "directory" ? [source.path] : yield* discovery.pull(source.url).pipe(
+  const roots = (yield* Effect.forEach(directories, watchDirectory)).flat()
+  for (const directory of directories) {
+    for (const filepath of yield* SkillScan.scan(directory)) {
+      const resolved = yield* fs.realPath(filepath).pipe(Effect.orElseSucceed(() => filepath))
+      if (!roots.some((root) => FSUtil.contains(root, resolved))) yield* watch(resolved, "file")
+      const parsed = SkillFile.parse(directory, filepath, content)
+      if (parsed._tag === "Skipped") {
+        yield* Effect.logDebug("skill file skipped", {
+  yield* Effect.logDebug("skill source loaded", {
+    skills: skills.map((skill) => skill.id),
+  })

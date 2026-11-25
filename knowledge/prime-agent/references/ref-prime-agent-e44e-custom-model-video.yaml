@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-prime-agent-e44e-custom-model-video
+harness_id: prime-agent
+snapshot_id: snapshot-prime-agent-e44e-models-custom-rs
+locator:
+  kind: file_lines
+  file: crates/pa-core/src/models/custom.rs
+  start: 262
+  end: 273
+official_url: "https://github.com/PrimeIntellect-ai/prime-agent/blob/e44e9ae9dff2f6c410e84edb4a7dce2dea610d54/crates/pa-core/src/models/custom.rs"
+excerpt: |-
+  fn model_inputs(values: Option<&Vec<String>>) -> Vec<ModelInput> {
+      values.map_or_else(
+          || vec![ModelInput::Text],
+          |items| {
+              items
+                  .iter()
+                  .map(|item| match item.as_str() {
+                      "image" => ModelInput::Image,
+                      "video" => ModelInput::Video,
+                      _ => ModelInput::Text,
+                  })
+                  .collect()
+          },
+      )
+  }

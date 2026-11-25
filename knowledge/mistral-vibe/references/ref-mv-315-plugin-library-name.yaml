@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-plugin-library-name
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/plugins/_native.py
+  start: 2161
+  end: 2185
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  def _without_library_names(
+      self, local: Sequence[InstalledPlugin]
+  ) -> list[InstalledPlugin]:
+      """A name the user's library lists is the library plugin's, on or off.
+
+      So Work and this machine mean the same plugin by it. A local plugin of
+      that name is not loaded and is reported, until it is renamed.
+      """
+      kept: list[InstalledPlugin] = []
+      for candidate in local:
+          if candidate.descriptor.name in self._remote_names:
+              self._issues.append(
+                  PluginConfigIssue(
+                      ...
+                      code="plugin.name.library_owned",
+                  )
+              )
+              continue
+          kept.append(candidate)
+      return kept

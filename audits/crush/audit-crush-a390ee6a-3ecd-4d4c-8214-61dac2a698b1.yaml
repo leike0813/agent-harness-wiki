@@ -1,0 +1,97 @@
+schema_version: 2
+audit_id: audit-crush-a390ee6a-3ecd-4d4c-8214-61dac2a698b1
+harness_id: crush
+checked_at: 2026-11-25T00:28:52.932Z
+previous_audit_id: audit-crush-171759be-7e18-4c61-bf2b-dbc5f58aad05
+status: changed
+review_status: reviewed
+reviewed_by: harness-monitor coordinator (20261124T134056Z)
+reviewed_at: 2026-11-25T00:40:21.000Z
+pending_audit_refs: []
+checks:
+  - source_id: source-crush-repo
+    kind: git_repository
+    checked_at: 2026-11-25T00:28:51.241Z
+    status: changed
+    baseline: ee51fe87bb306a945bf9057edf94f5574b192fd2
+    observed: 0b0c79e32ada5c1e5ba26180023be740f0530f7b
+    remote_ref: refs/heads/main
+  - source_id: source-crush-npm
+    kind: npm_registry
+    checked_at: 2026-11-25T00:28:51.250Z
+    status: unchanged
+    baseline: 0.102.0@sha512-skvwLRbIpgEwrfnf9duR1nAreSiEagX21it4PFz+mh12M7D62GRD52UFJ8kAxxhefXyt9dtH/qIJg4jo71kUsg==
+    observed: 0.102.0@sha512-skvwLRbIpgEwrfnf9duR1nAreSiEagX21it4PFz+mh12M7D62GRD52UFJ8kAxxhefXyt9dtH/qIJg4jo71kUsg==
+impacts: []
+pending_question_ids: []
+investigation_notes:
+  - >-
+    本轮是固定来源 triage：source-crush-repo 由 ee51fe87bb306a945bf9057edf94f5574b192fd2
+    前进到 0b0c79e32ada5c1e5ba26180023be740f0530f7b，source-crush-npm 维持
+    0.102.0 且 integrity 相同，不造版本映射。coordinator 给出的交叉清单只有 3 个被当前章节引用的
+    文件：internal/cmd/logs.go、internal/cmd/root.go、internal/cmd/session.go。只抽取这 3 个文件的
+    hunk 做语义判断，其余 diff 路径（.github、internal/backend/backend.go、internal/cmd/run.go、
+    internal/cmd/server.go、internal/server/server.go 及测试）未被当前章节引用，按任务边界不扩展。
+    逐题核对 CLI 诊断（config.diagnostics、transcripts.diagnostics）与会话/记录处理
+    （transcripts.naming、transcripts.lifecycle、transcripts.cleanup、transcripts.archive）后，
+    没有一道固定问题的答案需要改写：没有新增/改名/移动配置字段，没有路径、格式、保留期或删除语义变化，
+    也没有推翻已发布步骤。因此 impacts 为空，不新建 git artifact/snapshot/reference，不写新 edition，
+    registry/chapter-current.yaml 的当前选择全部保留。
+  - >-
+    internal/cmd/logs.go：唯一 hunk 在第 61 行，`if useClientServer()` 改为
+    `if useClientServer(cmd)`（observed 0b0c79e，文件 sha256
+    00b6fb48e4789cb63a6226fee3856f2c8b4f0d3b9068f019e113e9cb92e79bd4）。client/server 分支本体
+    （第 62-69 行：追加 clientLogFile(hostURL) 与 serverLogFile(hostURL)）在基线提交已存在，本轮只把
+    触发条件从 CRUSH_CLIENT_SERVER 扩展到显式设置 --host。`crush logs` 的第一个候选文件仍是
+    `<数据目录>/logs/crush.log`，文件不存在时的“Looks like you are not in a crush project. No logs
+    found.”分支未变。已发布答案仍然成立：transcripts.diagnostics 第 4 步说 `crush logs` 读数据目录下
+    `logs/crush.log`、支持 --follow/--tail，config.diagnostics 的日志条目同理；两处都没有声称
+    --host 无效或只读单一文件。旧引用 ref-crush-transcripts-logs-path（snapshot 8da3490，58-66 行）
+    无需改动。
+  - >-
+    internal/cmd/root.go：5 个 hunk。(1) 第 57-62 行新增 spawnedServerEnv 常量
+    `CRUSH_SPAWNED_SERVER`；(2) 第 284-293 行 useClientServer 改为接收 cmd，若 host 旗标被显式设置
+    就返回 true，否则仍读 CRUSH_CLIENT_SERVER；(3) 第 317 行 setupWorkspace 的调用点随之传 cmd；
+    (4) createWorkspaceOnLiveServer 在重试耗尽时由 `fmt.Errorf("failed to create workspace: %v", err)`
+    改为直接 `return nil, err`（第 571 行），只影响错误串前缀；(5) detachedServerCmd 给子进程环境追加
+    spawnedServerEnv=1（第 1253 行）。（observed 0b0c79e，文件 sha256
+    726ab1cc1df7697be1316525a0405e143a12c59ef5903f5cc7e9cfa606b7b1c9）语义判断：--host 从“服务器地址”
+    变成同时开启 client/server 传输，这是 CLI 条件变化，但只选择传输形态；配置来源、优先级、合并、
+    验证与文件落盘逻辑不在这些 hunk 中，config.sources/overrides/runtime/trust 的答案不受影响。
+    configuration 章节原本只把 --host 列为持久旗标、未声明其模式语义，也未文档化 CRUSH_CLIENT_SERVER，
+    所以没有已发布陈述被推翻；spawnedServerEnv 是客户端→服务器的内部标记，不进入任何面向读者的
+    诊断入口；错误串前缀不是章节中的诊断步骤。子进程空闲关闭与 workspace 自动回收的实际开关在
+    internal/cmd/server.go 与 internal/backend/backend.go，属于本轮 3 文件范围之外且未被章节引用，
+    不据此改写章节。旧引用 ref-crush-code-cli-flags（54-80）、ref-crush-code-metrics（905-921）、
+    ref-crush-transcripts-data-dir-flag（55-56）、ref-crush-transcripts-project-bootstrap（291-311）
+    均固定在各自旧快照上，旧快照自洽，不改。
+  - >-
+    internal/cmd/session.go：把原来的 sessionServices 结构拆成 sessionStore 接口与
+    localSessionStore/serverSessionStore 两种实现；sessionSetup 在 client/server 模式且已有服务器
+    应答时经 workspace.ClientWorkspace 读取/修改会话，否则走原有本地路径 config.Init → db.Connect →
+    session.NewService/message.NewService（逐行核对，本地分支语义未变）；resolveSessionID 的参数由
+    session.Service 改为 sessionFinder，查找顺序与匹配规则不变（先 UUID 精确查，再按散列/散列前缀遍历）；
+    rename 在服务器路径下通过 SaveSession 写回标题（注释说明服务器 API 没有 rename）。其余 hunk 只是
+    调用点改为 svc.ListSessions/ListMessages/DeleteSession/RenameSession，以及 outputSessionHuman 的
+    配置参数从 *config.ConfigStore 换成 *config.Config（observed 0b0c79e，文件 sha256
+    d8d983f42431bc4c77226074bbfecb01e3b8052a7ceb3768268671d0bc7f8a78）。语义判断：没有新增/删除
+    子命令或旗标，没有改变会话 ID 形态、JSON 输出字段、删除/保留/归档路径；client/server 路由只在
+    显式启用（CRUSH_CLIENT_SERVER 或 --host）且服务器已运行时生效，默认本地 CLI 行为逐字不变。
+    因此 transcripts.naming（三种 ID 形态与散列前缀）、transcripts.diagnostics（session list/show/last
+    --json、前缀歧义报错、show --json 形态）、transcripts.cleanup/archive（session delete/rename 是官方
+    入口、删除事务与级联）的答案均无需改写。旧引用 session-commands（33-55）、session-json-flags（88-92）、
+    session-mutate-commands（66-83）、session-id-lookup（222-240）、session-show-json（413-427）保持
+    8da3490 快照与旧摘录不变：HEAD 的行位移与函数签名变化不使旧固定快照失效。
+  - >-
+    高影响判定：没有来源冲突，没有新证据推翻已发布配置步骤或跨主题加载机制，也没有改变版本映射
+    （npm 未变）。以上 3 个文件的变化要么是旧机制的新触发条件（--host 开启既有 client/server 传输），
+    要么是内部实现重构；对固定问题的可观察答案没有增量。按普通更新由作者完成候选自检并标 reviewed，
+    无需独立复核；没有新增 mapping，未运行 publish/chapters:update/managed:packages。
+  - >-
+    pending_audit_refs 置空是审计记录自身的引用整理，不代旧审计结案：audit-crush-c605cca6-663b-42e6-aa68-24b9b3ed29eb、
+    audit-crush-2004ef1a-8bfd-4478-bec7-aef5dd27ce16、audit-crush-fe97bf07-b4d2-485c-b16f-93b2357f7a08、
+    audit-crush-c368bd82-a639-421f-82ad-8d34754990a3 仍按各自记录保持 pending，其未完成问题（含
+    config.diagnostics、transcripts.diagnostics/naming/lifecycle/cleanup 等）不在本轮固定问题集合内，
+    本轮 3 个文件也没有为它们提供需要重开的新证据；previous_audit_id 保留到 171759be 的链路。
+    workspaceIDs 为空：直接使用 coordinator 提供的 diff 与 raw.githubusercontent 固定提交内容核对，
+    未创建或关闭 source workspace。

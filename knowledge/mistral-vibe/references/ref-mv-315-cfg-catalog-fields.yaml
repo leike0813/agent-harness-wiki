@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-cfg-catalog-fields
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/config/layers/model_catalog.py
+  start: 30
+  end: 51
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+  _CATALOG_FIELDS = frozenset({
+      "name",
+      "provider",
+      "alias",
+      "display_name",
+      "supports_images",
+      "max_context_length",
+      "temperature",
+      "thinking_levels",
+      "thinking",
+      "auto_compact_threshold",
+      "requires",
+  })
+
+
+  class ModelCatalogLayer(ConfigLayer[RawConfig]):
+      """The fetched model catalog as config, just above the built-in defaults.
+
+      Read-only and session-resolved like the GrowthBook layer: the layer never
+      saves to ``config.toml``, and every layer above the built-in defaults
+      outranks it.
+      """

@@ -1,0 +1,13 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-deepseek-harness-lt-fork-parent-source
+harness_id: deepseek-harness
+snapshot_id: snapshot-deepseek-harness-repo-20261125
+locator:
+  kind: file_lines
+  file: docs/subsystems/persistence.md
+  start: 244
+  end: 244
+official_url: "https://github.com/deepseek-ai/deepseek-harness/blob/4b399c39a6d1479cd84ca591b4d7c88e24d38a96/docs/subsystems/persistence.md"
+excerpt: |-
+  Direct replay uses `ctx.agents.create({ sessionId, seed, meta })`. A fork instead supplies `parentSource: { sessionId, endSeq, events }`, `inheritedEventCount`, and `meta.isSeeded: true`: the parent source names a parent, an exclusive prefix length, and child events continuing at that length. The factory loads and persists the parent prefix before child storage; `SessionPersistence.create()` stores that prefix and the child suffix before returning its writer. Only agent-loop-published Sessions follow the live persistence path. Resuming a persisted Session into a live Agent uses `ctx.agents.resume({ resumeSessionId })`.

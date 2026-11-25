@@ -1,0 +1,30 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-plugin-precedence
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: vibe/core/plugins/_native.py
+  start: 2216
+  end: 2242
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+      A remote plugin never shares a name with a local one
+      (``_without_library_names``) nor a built-in one (``_without_builtin_names``).
+      """
+      project_by_name = {
+          candidate.descriptor.name: candidate for candidate in project
+      }
+      user_by_name = {candidate.descriptor.name: candidate for candidate in user}
+      ...
+      remote_by_name = {candidate.descriptor.name: candidate for candidate in remote}
+      return [
+          project_by_name[name]
+          if name in project_by_name
+          else user_by_name[name]
+          if name in user_by_name
+          else builtin_by_name[name]
+          if name in builtin_by_name
+          else remote_by_name[name]
+  ...

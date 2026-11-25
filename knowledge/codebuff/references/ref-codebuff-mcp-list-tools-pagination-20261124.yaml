@@ -1,0 +1,32 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-codebuff-mcp-list-tools-pagination-20261124
+harness_id: codebuff
+snapshot_id: snapshot-codebuff-mcp-list-tools-20261124
+locator:
+  kind: file_lines
+  file: common/src/mcp/list-tools.ts
+  start: 33
+  end: 52
+official_url: "https://github.com/CodebuffAI/codebuff/blob/824604239e1e78c67bd4e0f48ea9086382aec9c3/common/src/mcp/list-tools.ts"
+excerpt: |2-
+    const first = await listPage(undefined)
+    const tools = [...(first.tools ?? [])]
+    const names = new Set(tools.map((tool) => tool.name))
+    const followed = new Set<string>()
+    let cursor = first.nextCursor
+    for (let page = 1; page < maxPages; page++) {
+      if (!cursor || followed.has(cursor) || tools.length >= maxTools) break
+      followed.add(cursor)
+      const next = await listPage(cursor)
+      let added = 0
+      for (const tool of next.tools ?? []) {
+        if (names.has(tool.name)) continue
+        names.add(tool.name)
+        tools.push(tool)
+        added++
+      }
+      if (added === 0) break
+      cursor = next.nextCursor
+    }
+    return tools.slice(0, Math.max(first.tools?.length ?? 0, maxTools))

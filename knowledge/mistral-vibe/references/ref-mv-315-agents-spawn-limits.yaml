@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-mv-315-agents-spawn-limits
+harness_id: mistral-vibe
+snapshot_id: snapshot-mv-315-repo
+locator:
+  kind: file_lines
+  file: harness/runtimes/python/python/mistralai_vibe_local_harness/vibe/_subagents/_controller.py
+  start: 1044
+  end: 1066
+official_url: "https://github.com/mistralai/mistral-vibe"
+excerpt: |2-
+                  if live_child_count(state) >= self._limits.max_children:
+                      evicted = _longest_waiting_child(state)
+                      if evicted is None:
+                          return error_output(
+                              failure(
+                                  "subagent_child_limit",
+                                  "Subagent child limit reached",
+                                  retryable=True,
+                              )
+                          ), {}
+                  if running_child_count(state) >= self._limits.max_concurrent_turns:
+                      return error_output(
+                          failure(
+                              "subagent_concurrency_limit",
+  ...

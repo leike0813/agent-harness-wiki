@@ -1,0 +1,79 @@
+schema_version: 2
+audit_id: audit-opencode-d3211b54-c07d-479d-ac4b-21d3686fe0bd
+harness_id: opencode
+checked_at: 2026-11-23T18:02:26.293Z
+previous_audit_id: audit-opencode-155bc8d8-d6f6-4113-bd9e-a1d3212f1c2b
+status: changed
+review_status: pending
+pending_audit_refs:
+  - audit-opencode-0f16a4f4-327b-41be-bbbb-d7da9bfdd6c0
+  - audit-opencode-2aa143e4-1b45-4f8f-8bba-c200a6007522
+  - audit-opencode-12691d48-1a45-4b04-bc22-ef7201bd564e
+  - audit-opencode-52ea2a76-9938-44ec-a454-01dfc9e8e3b8
+  - audit-opencode-1a190643-5d32-4b65-930f-ec54bdf330bc
+  - audit-opencode-6b2f4d18-7c05-4e91-a3d6-5f18c02b7e44
+  - audit-opencode-60e50849-c85d-456f-a3dd-90450aee400d
+  - audit-opencode-155bc8d8-d6f6-4113-bd9e-a1d3212f1c2b
+checks:
+  - source_id: source-opencode-npm
+    kind: npm_registry
+    checked_at: 2026-11-23T18:02:24.224Z
+    status: unchanged
+    baseline: 1.19.6@sha512-x0yTvlq3Cyhp3z1IhsNlktLa9M/FSbpMWiDlcGljKMTlBKdHM/um/03JedJa71N2yNlHkOvOPI0H4tbyXuuGwA==
+    observed: 1.19.6@sha512-x0yTvlq3Cyhp3z1IhsNlktLa9M/FSbpMWiDlcGljKMTlBKdHM/um/03JedJa71N2yNlHkOvOPI0H4tbyXuuGwA==
+  - source_id: source-opencode-repo
+    kind: git_repository
+    checked_at: 2026-11-23T18:02:24.225Z
+    status: changed
+    baseline: 62d07aa01de35cc06ec461edb0dff6ee77c77c8a
+    observed: 292cb5a164786f73f4f32e5caec0c7aafe98b494
+    remote_ref: refs/heads/dev
+impacts:
+  - topic: configuration
+    question_ids:
+      - config.sources
+      - config.defaults
+      - config.migration
+    section_ids:
+      - config-sources
+      - config-defaults
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-config-load-order
+      - ref-opencode-config-discovery
+      - ref-opencode-config-api-shape
+      - ref-opencode-config-merge
+      - ref-opencode-config-runtime
+      - ref-opencode-config-vars
+      - ref-opencode-config-schema-keys
+      - ref-opencode-config-defaults
+      - ref-opencode-config-update-key
+      - ref-opencode-config-migration-normalize
+      - ref-opencode-config-migration-cli
+      - ref-opencode-config-skills-key
+    cross_topic_links:
+      - providers.models
+      - agents.overrides
+    reason: >-
+      62d07aa0..292cb5a1 在 packages/schema/src/config/flag.ts 改标志表（移除 video_generate，
+      新增 model_speeds 与 opencode_api，新增 localOnly 一类），在 packages/schema/src/config/experimental.ts
+      改写 video_generate 的 schema 描述，在 packages/core/src/config/normalize.ts 新增 renameTools
+      把原生 permissions / agents.*.permissions 的旧媒体工具名改写成 generate_image / generate_video。
+      独立复核另指出两处已发布表述与固定提交不符：config.ts 的加载数组在 managed policies 之后还有
+      integration 文档层、且 experimental.project_overlay 在 above 之前条件插入；策略权威顺序是
+      macOS 受管偏好 > 系统 opencode.json(c) > 连接的 Console 工作区 > 全局 > 直接 > .opencode，
+      策略 schema 有八个 action。修正后的完整草稿在候选外（/tmp/ahw-opencode-v6-draft），因此本 impact
+      只指向当前已发布 edition v4 的小节与引用；本轮新增的 292cb5a1 证据 ref 列在 investigation_notes。
+pending_question_ids: []
+investigation_notes:
+  - "范围：本轮只处理被引用的四个变更文件（packages/core/src/config/normalize.ts、packages/core/src/session/compaction.ts、packages/core/src/session/projector.ts、packages/schema/src/config/experimental.ts）及判定它们所必需的直接相邻证据（flag.ts、v1/config/migrate.ts、tool/plugin/video-generate.ts、config/plugin/agent.ts、config.ts、managed-policy.ts、schema policy.ts、services/site 的 policies.mdx）。未重扫来源，npm 侧为 unchanged（opencode-ai 1.19.6）。"
+  - "packages/core/src/config/normalize.ts：新增 renameTools 并应用到原生 permissions 与 agents.*.permissions；改名表 renamedTool 本就在 V1 迁移里使用。packages/core/src/config/plugin/agent.ts 对配置插件加载的 agent 文档做同样改写，属同一规则的第二入口。加载顺序、合并顺序与 policies 编码在本范围内逐字未变。"
+  - "packages/schema/src/config/experimental.ts：只有 schema 描述变化（video_generate 工具名、去掉 build 通道默认值句、localOnly 标志不再附加“本地与 dev 默认开启”）。语义变化在 flag.ts 与 tool/plugin/video-generate.ts：video_generate 移出标志表，工具在 models.available([\"video\"]) 非空且 experimental.video_generate !== false 时注册；新增 model_speeds 与 opencode_api，opencode_api 同时进入 optInOnly 与新的 localOnly（发行版强制关闭）。"
+  - "packages/core/src/session/compaction.ts：两处 hunk 是压缩尾部选择的修正——recentStart 不再强制从 user 消息边界开始、按每条消息 +1 token 估算，最新一条自身超过 keep 时也随摘要一起压缩；shrink 重试里 request === shrink.history 时也改走文本。CHANGELOG 记为 bug fix（keep.tokens 之前保留过多近期历史）。章节现有答案（keepID、从 keepID 起在内存拼回 recent 文本、只存一份）不受影响，未改章。"
+  - "packages/core/src/session/projector.ts：唯一 hunk 是把 json 取值从 -> 改为 json_extract，理由为 macOS 12 系统 SQLite 3.37 无法解析 ->；CHANGELOG 记为 macOS 12 上助手消息无法保存的 bug fix。表结构、字段、写入事务与路径未变，transcripts.format/schema/database 的答案不变。"
+  - "包版本：仓库根 package.json 与 packages/*/package.json 由 2.3.0 前进到 2.4.1，但这是 private 单仓版本；登记 npm 来源 opencode-ai 仍为 1.19.6 且 identity 未变。既有审计不记录该单仓版本，也没有任何软件版本映射，本轮不新增映射。"
+  - "独立复核 changes_requested 的处置（2026-11-24）：(1) 加载顺序改为 292cb5a1 的 below/above 数组（config.ts:382-391 为 managedPolicies、integrated、wellknownDocuments、globalSupplementary、explicit、direct、projectSupplementary；:391 的 above=content+managedSettings；:394-403 的 project_overlay 条件插入），引用 ref-opencode-config-load-array、ref-opencode-config-integration-order、ref-opencode-config-overlay-layer；integration 文档在 managed policies 之后、其设置低于远端/用户/项目、其 policies 只低于受管 policies（config.ts:344-345）。(2) 策略权威改为受管偏好 > 系统文件 > Console 工作区 > 全局 > 直接 > .opencode（services/site/src/docs/content/policies.mdx:276-283）；Console 策略作为 ConfigIntegration.Document 进入同一数组、无单独组织参数，statements 反转 + findLast（managed-policy.ts:9-22、28-39），引用 ref-opencode-config-doc-precedence、ref-opencode-config-doc-console、ref-opencode-config-policy-source-order、ref-opencode-config-policy-find-last。(3) action 八值取自 policy.ts:18-27（ref-opencode-config-policy-actions），legacy 前缀迁移取自 :36-43（ref-opencode-config-policy-legacy）。(4) 迁移段补 normalizeAction（migrate.ts:28-34，ref-opencode-config-normalize-action）。旧引用 ref-opencode-config-trust、ref-opencode-config-policies-doc-precedence（packages/web 旧文档树）不再用于正文，记录保持未删。"
+  - "审计结构约束：候选校验要求 impact 的 question/section/source_refs 都能在 topic 的某个 chapter 中找到。v6 已移出候选后，configuration 只剩已发布 v4，因此 impact 只能指向 v4 的 config-sources / config-defaults 与它们的引用；本轮新增的 292cb5a1 证据以 artifact/snapshot/reference 形式留在候选并在此记录，完整正文在 /tmp/ahw-opencode-v6-draft。"
+  - "章节处置：opencode-configuration-v6.md 已移出候选，保存到任务工件目录 /tmp/ahw-opencode-v6-draft/knowledge/opencode/chapters/ 下；registry/chapter-current.yaml 保持 opencode-configuration-v4。v6 引用的 artifact/snapshot/reference 仍留在候选作为本轮证据记录（impact 结构只能指向已发布 v4 的引用，见上一条）。"
+  - "复核状态：review_status 保持 pending，不写 reviewed_by/reviewed_at；等同一独立 reviewer 对修正后的 v6 再复核。pending_audit_refs 的 8 条旧审计及其未完成问题本轮未派发、未改章，也不因本审计存在而视为已解决。"
