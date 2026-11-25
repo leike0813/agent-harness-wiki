@@ -14,15 +14,15 @@
 | 自动化 ID | `93f32c61-1d0d-4da3-97ac-3861a74af596` |
 | 宿主 | `omp` |
 | 当前调度 | 每日 02:00，`Asia/Shanghai` |
-| daily precheck | 已于 2026-10-25 部署并回读确认 |
+| daily precheck | 2026-11-25 切换运行副本并回读确认 |
 | 预检时限 | 调度 600 秒；来源观察 540 秒，逐产品保存结果 |
-| 下一次运行 | 每日 02:00 观察；周日 02:00 窗口按队列领取（切换新运行副本后生效） |
+| 周日任务领取 | 02:00 至 02:59，满足预检与额度条件时启动 |
 
 调度预检与 Agent 提示已切换为共享目录下的独立运行副本，保留原工作树、模型参数、fresh-session 和 60 分钟宽限。预检非零退出时 Orca 只记录跳过，不启动 Agent。周日真实 LLM 维护尚未在本次变更中运行。
 
-当前运行副本：`<git-common-dir>/agent-harness-wiki-monitor/runtimes/runtime-f5e2e01f-20261124/`，入口为 `monitor.mjs`；入口 sha256 为 `3bb3546b4b9c4d830155604ea6b2e82e73ace15f4fabd50c02d4f2284745609c`。该副本包含 2026-11-24 修正后的 24 条观察入口（GitHub Copilot 迁移后的 `concepts/customizations` 路径、`code.minimax.io`、Mistral 无 `.md` 后缀页面、Antigravity `getting-started.md` 等）。Orca 调度目前仍指向 `runtime-0326ad83-8550-4bbd-ab5e-0f1aa3b4b71f`，维护者把预检命令切换到上述绝对路径后，新的观察入口才会进入每日巡检。旧目录的 `automation-before.json` 与 `automation-after.json` 保留调度切换证据。原生 SQLite 使用已有锁定安装，更新依赖后应重建运行副本。
+当前运行副本位于 `<git-common-dir>/agent-harness-wiki-monitor/runtimes/runtime-f5e2e01f-20261124/`。`monitor.mjs` 的 SHA-256 为 `3bb3546b4b9c4d830155604ea6b2e82e73ace15f4fabd50c02d4f2284745609c`。同目录的 `observation-urls.json` 提供 24 条观察入口，`automation-before.json` 与 `automation-after.json` 保存切换前后的 Orca 配置。2026-11-25 切换前直接运行该副本的预检，返回 `observed`、`launch: false` 和退出码 2，记录了 13 个阻塞来源，队列为 16 个产品。原生 SQLite 使用已有锁定安装，更新依赖后应重建运行副本。
 
-本轮验证（2026-11-24 全量巡检）：50 个产品完成冻结观察，32 个产品结算（13 个 `completed`、14 个 `reviewed_no_impact`、5 个 `blocked`）；知识库 854 个生产章节、552 条 Git 审计；`pnpm verify` 通过（194 个单元测试、269 个集成测试通过、3 个跳过，类型、lint、格式、schema、编译与文档站构建通过）；新运行副本的纯脚本观察返回 exit 2、`observed`、`launch: false`，队列 26 个产品、16 个来源阻塞（13 个是 forgecode 已退役文档，3 个为瞬时网络失败）。在线产物由同一提交另行构建校验。
+2026-11-24 至 11-25 的全量巡检收尾时，知识库包含 952 个生产章节和 606 条 Git 审计。`pnpm verify` 通过，其中 194 个单元测试、269 个集成测试通过，3 个集成测试跳过。PR #18 合并后，GitHub Actions 完成 Pages 发布和公开读回验证。[发布记录](https://github.com/leike0813/agent-harness-wiki/actions/runs/45544492388)
 
 开发态命令：
 
@@ -142,7 +142,7 @@ pnpm -s monitor:run --root <original-worktree> status
 
 `status` 只读本地台账，不访问上游、不创建任务，也不推进基线。
 
-2026-10-24 轮遗留的 81 个未跟踪审计文件已由 2026-11-24 全量巡检恢复进审计链并随当轮提交；专用工作树恢复干净后，周日 precheck 不再因 dirty 返回 `delivery_blocked`。诊断记录：这些文件使 2026-10-25 之后的每个周日启动都停在 `delivery_blocked`，知识因此冻结到 10 月 22 日。恢复后仍需重建运行副本，才能让已修正的 `observation_url` 进入每日观察。
+2026-11-24 全量巡检将 10 月 24 日遗留的 81 个未跟踪审计文件纳入审计链，恢复了专用工作树的干净状态。此前这些文件使周日预检返回 `delivery_blocked`。已部署的运行副本从同目录的 `observation-urls.json` 读取修正后的入口。
 
 ## 手动维护与交付
 
