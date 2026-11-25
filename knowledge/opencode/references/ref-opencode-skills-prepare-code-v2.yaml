@@ -1,0 +1,38 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-prepare-code-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-skill-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/skill.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/skill.ts
+  start: 77
+  end: 112
+excerpt: |-
+  export const prepare = Effect.fn("Skill.prepare")(function* (
+    fs: FSUtil.Interface,
+    skill: Info,
+    virtualFiles?: ReadonlyArray<string>,
+  ) {
+    if (isUri(skill.path)) {
+      const directory = uri(skill.id)
+      const files = (virtualFiles ?? [])
+        .filter((file) => file !== "SKILL.md")
+        .toSorted()
+        .slice(0, 10)
+        .map((file) => uri(skill.id, file))
+    const directory = path.dirname(skill.path)
+    const files =
+      path.basename(skill.path) === "SKILL.md"
+        ? (yield* fs.scan("**/*", {
+            cwd: directory,
+            absolute: true,
+            include: "file",
+            dot: true,
+            ignore: FSUtil.ignoreGlobs,
+          }))
+            .filter((file) => path.basename(file) !== "SKILL.md")
+            .toSorted()
+            .slice(0, 10)
+        : []

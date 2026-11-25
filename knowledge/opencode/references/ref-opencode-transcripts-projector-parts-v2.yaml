@@ -1,0 +1,37 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-projector-parts-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-projector-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/session/projector.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/projector.ts
+  start: 818
+  end: 840
+excerpt: |-
+  // Assistant content goes to session_part rows; the message row keeps an empty envelope.
+  const parts = stored.type === "assistant" ? stored.content : []
+  yield* db
+    .insert(SessionMessageTable)
+    .values({
+      id: message.id,
+      session_id: event.data.sessionID,
+      type,
+      seq: event.durable.seq,
+      time_created: timeCreated,
+      data: "content" in data && parts.length > 0 ? { ...data, content: [] } : data,
+    })
+    .run()
+    .pipe(Effect.orDie)
+  const partRows = parts.map((part, ordinal) => ({
+    message_id: message.id,
+    session_id: event.data.sessionID,
+    ordinal,
+    type: part.type,
+    call_id: part.type === "tool" ? part.id : null,
+    time_created: timeCreated,
+    time_updated: event.created,
+    data: SessionHistory.encodePart(part),
+  }))
+  yield* insertParts(db, partRows)

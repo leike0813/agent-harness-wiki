@@ -1,0 +1,27 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-config-key-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-normalize-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/config/normalize.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/normalize.ts
+  start: 253
+  end: 267
+excerpt: |-
+  function normalizeSkills(input: Record<string, unknown>, encoded: Record<string, unknown>, diagnostics: Diagnostic[]) {
+    if (!own(input, "skills")) return
+    if (Array.isArray(input.skills)) {
+      encoded.skills = decodeList(input.skills, Schema.String, ["skills"], diagnostics, decodeEncoded)
+      return
+    }
+    if (!isRecord(input.skills)) {
+      invalid(["skills"], diagnostics)
+      return
+    }
+    encoded.skills = [
+      ...decodeList(input.skills.paths, Schema.String, ["skills", "paths"], diagnostics, decodeEncoded),
+      ...decodeList(input.skills.urls, Schema.String, ["skills", "urls"], diagnostics, decodeEncoded),
+    ]
+  }

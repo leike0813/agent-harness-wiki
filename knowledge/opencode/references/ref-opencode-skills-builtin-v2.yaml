@@ -1,0 +1,29 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-builtin-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-plugin-skill-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/plugin/skill.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/plugin/skill.ts
+  start: 27
+  end: 55
+excerpt: |-
+  editor.add(
+    Skill.Info.make({
+      id: Skill.ID.make("opencode"),
+      name: Skill.Name.make("OpenCode"),
+      path: AbsolutePath.make("skill://opencode/SKILL.md"),
+      content: api ? OpencodeContent.replace(/## \[API\][^]*?(?=## \[Client\])/, apiContent) : OpencodeContent,
+    }),
+    api ? apiFiles : undefined,
+  )
+  editor.add(
+    Skill.Info.make({
+      id: Skill.ID.make("report"),
+      name: Skill.Name.make("Report"),
+      path: AbsolutePath.make("skill://report/SKILL.md"),
+      content: reportContent,
+    }),
+  )

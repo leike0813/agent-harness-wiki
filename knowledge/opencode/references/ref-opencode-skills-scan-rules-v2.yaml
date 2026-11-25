@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-scan-rules-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-config-plugin-skill-scan-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/config/plugin/skill-scan.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/config/plugin/skill-scan.ts
+  start: 5
+  end: 46
+excerpt: |-
+  const MAX_DEPTH = 6
+  export const ignore = [...FSUtil.ignoreGlobs, "**/.*", "**/.*/**"]
+  const queue = [{ directory: root, depth: 0 }]
+    const entries = yield* fs.readDirectoryEntries(item.directory).pipe(Effect.orElseSucceed(() => []))
+      entries.filter((entry) => !entry.name.startsWith(".") && !FSUtil.ignoredDirectories.includes(entry.name)),
+      return fs.stat(target).pipe(
+    const skill = children.find((child) => child.type === "File" && child.name === "SKILL.md")
+    if (skill) {
+      files.push(skill.path)
+      continue
+    }
+    if (item.depth === 0)
+        ...children.filter((child) => child.type === "File" && child.name.endsWith(".md")).map((child) => child.path),
+    if (item.depth < MAX_DEPTH)
+          .filter((child) => child.type === "Directory")
+  return files.toSorted()

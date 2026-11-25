@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-catalog-code-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-skill-discovery-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/skill/discovery.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/skill/discovery.ts
+  start: 60
+  end: 118
+excerpt: |-
+  class IndexSkill extends Schema.Class<IndexSkill>("SkillDiscovery.IndexSkill")({
+    name: Schema.String,
+    version: Schema.optional(Schema.String),
+    files: Schema.Array(Schema.String),
+  })
+  class Index extends Schema.Class<Index>("SkillDiscovery.Index")({
+    skills: Schema.Array(IndexSkill),
+  })
+  const base = url.endsWith("/") ? url : `${url}/`
+  const index = new URL("index.json", new URL(base)).href
+  const sourceRoot = path.resolve(global.cache, "skills", Hash.fast(base))
+  if (!skill.files.includes("SKILL.md") && !skill.files.includes(`${skill.name}.md`)) return []
+  if (resource.origin !== source.origin) return undefined

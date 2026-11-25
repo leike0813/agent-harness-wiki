@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-permissions-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-site-skills-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/services/site/src/docs/content/skills.mdx
+locator:
+  kind: file_lines
+  file: services/site/src/docs/content/skills.mdx
+  start: 208
+  end: 228
+excerpt: |-
+  ## Permissions
+  Use the `skill` action and the skill ID as the resource. Rules run in order, and the last matching rule wins:
+  {
+    "permissions": [
+      { "action": "skill", "resource": "*", "effect": "allow" },
+      { "action": "skill", "resource": "internal-*", "effect": "deny" },
+      { "action": "skill", "resource": "experimental-*", "effect": "ask" },
+    ],
+  }
+  | `allow` | Advertises and loads matching skills without approval |
+  | `ask` | Advertises matching skills and asks before loading them |
+  | `deny` | Hides matching skills from the model and rejects loading |
+  Place the same rules under `agents.<id>.permissions` to apply them only to one agent.

@@ -1,0 +1,28 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-catalog-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-site-skills-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/services/site/src/docs/content/skills.mdx
+locator:
+  kind: file_lines
+  file: services/site/src/docs/content/skills.mdx
+  start: 95
+  end: 119
+excerpt: |-
+  ## Catalogs
+  An HTTP catalog is a base URL with an `index.json` file:
+  {
+    "skills": [
+      {
+        "name": "git-release",
+        "version": "3",
+        "files": ["git-release.md", "references/release-policy.md"]
+      }
+    ]
+  }
+  For that entry, OpenCode downloads each file from `<base-url>/git-release/<file>`.
+  | Paths | Must be safe, relative, and same-origin |
+  | Entry file | Include `SKILL.md` or `<name>.md`, such as `git-release.md` |
+  | Updates | Increment `version` when files change so OpenCode refreshes its cache |
+  Each downloaded skill directory becomes a source root named after the entry, so both `git-release.md` and `SKILL.md` have the ID `git-release`.

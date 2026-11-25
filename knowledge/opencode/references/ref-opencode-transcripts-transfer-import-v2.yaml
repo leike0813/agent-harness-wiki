@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-transfer-import-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-transfer-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/session/transfer.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/transfer.ts
+  start: 96
+  end: 150
+excerpt: |-
+  const split = messages.map((message) => SessionBlob.split(message.data))
+  const media = split.some((row) => row.moved) && (yield* SessionBlob.enabledFor(instances, {
+  if (messages.length > 0) {
+    if (media) yield* Effect.forEach(split, (row) => SessionBlob.save(db, row.blobs), { discard: true })
+    const stored = media ? messages.map((message, i) => ({ ...message, data: split[i]!.data })) : messages
+    for (const batch of DatabaseBatch.insertBatches(SessionMessageTable, stored))
+      yield* db.insert(SessionMessageTable).values(batch).run().pipe(Effect.orDie)
+    if (media) yield* Effect.forEach(stored, (message, i) => SessionBlob.recordHashes(db,
+      { sessionID, messageID: message.id, seq: message.seq },
+      new Set(split[i]!.blobs.map((blob) => blob.hash))), { discard: true })

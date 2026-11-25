@@ -1,0 +1,22 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-db-pragmas-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-database-database-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/database/database.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/database/database.ts
+  start: 43
+  end: 52
+excerpt: |-
+  if (supportsTuningPragmas && !durableObject) {
+    yield* db.run("PRAGMA journal_mode = WAL")
+    yield* db.run("PRAGMA synchronous = NORMAL")
+    yield* db.run("PRAGMA busy_timeout = 5000")
+    yield* db.run("PRAGMA cache_size = -64000")
+  }
+  // Durable Object SQLite always enforces foreign keys and rejects the pragma.
+  if (supportsForeignKeyToggle && !durableObject) yield* db.run("PRAGMA foreign_keys = ON")
+  const semaphore = yield* lock
+  yield* semaphore.withPermit(DatabaseMigration.apply(db, { legacyCredentials }))

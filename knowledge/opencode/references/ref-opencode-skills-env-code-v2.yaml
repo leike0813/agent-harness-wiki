@@ -1,0 +1,25 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-env-code-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-cli-src-server-process-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/cli/src/server-process.ts
+locator:
+  kind: file_lines
+  file: packages/cli/src/server-process.ts
+  start: 122
+  end: 134
+excerpt: |-
+  config: {
+    directory: process.env.OPENCODE_CONFIG_DIR,
+    project: !truthy(
+      process.env.OPENCODE_CONFIG_PROJECT_DISABLE ?? process.env.OPENCODE_DISABLE_PROJECT_CONFIG,
+    ),
+    // Config reads .claude only for skills; CLAUDE.md is gated under instructions.
+    claude: !(
+      truthy(process.env.OPENCODE_DISABLE_CLAUDE_CODE) ||
+      truthy(process.env.OPENCODE_DISABLE_CLAUDE_CODE_SKILLS)
+    ),
+    file: process.env.OPENCODE_CONFIG,
+    content: process.env.OPENCODE_CONFIG_CONTENT,
+  },

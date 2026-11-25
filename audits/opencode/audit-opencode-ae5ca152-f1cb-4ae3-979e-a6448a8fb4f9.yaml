@@ -29,6 +29,192 @@ checks:
     baseline: 3f393d78bfc3f0826b2c7080e57964c235704695
     observed: d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f
     remote_ref: refs/heads/dev
-impacts: []
-pending_question_ids: []
-investigation_notes: []
+impacts:
+  - topic: skills
+    question_ids:
+      - skills.roots
+      - skills.discovery
+      - skills.collision
+      - skills.format
+      - skills.extensions
+      - skills.loading
+      - skills.invocation
+      - skills.conditions
+      - skills.diagnostics
+    section_ids:
+      - skills-locations
+      - skills-authoring
+      - skills-extension-paths
+      - skills-selection
+      - skills-loading
+      - skills-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-skills-locations-v2
+      - ref-opencode-skills-sources-v2
+      - ref-opencode-skills-catalog-v2
+      - ref-opencode-skills-frontmatter-v2
+      - ref-opencode-skills-ids-v2
+      - ref-opencode-skills-precedence-v2
+      - ref-opencode-skills-loading-doc-v2
+      - ref-opencode-skills-permissions-v2
+      - ref-opencode-skills-scan-rules-v2
+      - ref-opencode-skills-scan-load-v2
+      - ref-opencode-skills-reload-v2
+      - ref-opencode-skills-compat-scan-v2
+      - ref-opencode-skills-frontmatter-code-v2
+      - ref-opencode-skills-autoinvoke-code-v2
+      - ref-opencode-skills-prepare-code-v2
+      - ref-opencode-skills-content-api-v2
+      - ref-opencode-skills-permission-gate-v2
+      - ref-opencode-skills-catalog-code-v2
+      - ref-opencode-skills-mcp-v2
+      - ref-opencode-skills-builtin-v2
+      - ref-opencode-skills-file-api-v2
+      - ref-opencode-skills-list-api-v2
+      - ref-opencode-skills-config-key-v2
+      - ref-opencode-skills-legacy-permissions-v2
+      - ref-opencode-skills-env-code-v2
+    cross_topic_links:
+      - mcp.entry
+      - mcp.capabilities
+      - config.defaults
+    reason: >-
+      固定提交 d62d2db9 的技能文档已整体重写，实现也从 SkillV2 迁到新的 Skill/Discovery 服务。
+      文档与代码同时给出这些语义变化：配置 skills 数组的 URL 项按 HTTP catalog（index.json + version）
+      下载并缓存；来源优先级被明确为内置、.claude、.agents、全局、项目、显式配置六层；权限原生写法
+      改为 permissions 规则数组（旧的 permission.skill 仍由归一化层转换）；frontmatter 全部可选且
+      opencode/autoinvoke 优先于 disable-model-invocation；新增内置技能 opencode/report、MCP 技能
+      （<server>:<skill>，受 mcp_skills 标志控制）与按需正文/虚拟文件（skill://、文件接口）；扫描规则、
+      重载去抖与日志入口沿用但定位到新模块。原 skills v4 的“会话权限对象 + 六个位置 + 旧扫描描述”
+      已不足以回答固定问题，新建完整 edition v5 并选择。
+  - topic: local_transcripts
+    question_ids:
+      - transcripts.location
+      - transcripts.format
+      - transcripts.scope
+      - transcripts.lifecycle
+      - transcripts.database
+      - transcripts.archive
+      - transcripts.cleanup
+      - transcripts.diagnostics
+    section_ids:
+      - transcripts-storage-layout
+      - transcripts-record-content
+      - transcripts-session-lifecycle
+      - transcripts-database-layout
+      - transcripts-retention-and-recovery
+      - transcripts-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-transcripts-db-pragmas-v2
+      - ref-opencode-transcripts-sql-session-v2
+      - ref-opencode-transcripts-sql-message-v2
+      - ref-opencode-transcripts-sql-part-v2
+      - ref-opencode-transcripts-sql-inbox-v2
+      - ref-opencode-transcripts-sql-blob-v2
+      - ref-opencode-transcripts-projector-parts-v2
+      - ref-opencode-transcripts-part-rows-v2
+      - ref-opencode-transcripts-media-blob-v2
+      - ref-opencode-transcripts-db-migration-v2
+      - ref-opencode-transcripts-transfer-export-v2
+      - ref-opencode-transcripts-transfer-import-v2
+      - ref-opencode-transcripts-remove-v2
+      - ref-opencode-transcripts-tool-output-marker-v2
+      - ref-opencode-transcripts-cli-session-commands-v2
+    cross_topic_links:
+      - config.defaults
+    reason: >-
+      固定提交 d62d2db9 的会话存储相对 e965774 有实质变化：助手内容片段从消息 JSON 拆到 session_part
+      （experimental.part_rows，默认 true）；session_pending 被删除；排队输入表为 session_inbox；
+      新增 blob/blob_ref 与 media_blob 标志；session_v2 新增 time_busy；打开数据库不再执行 PASSIVE
+      checkpoint；文件库导入旧凭据并收紧权限；session import 只写 session_v2/session_message 并在目标位置
+      按 media_blob 拆媒体；删除顺序改为先父后子并取消后台任务。原 local_transcripts v2 的 V1/V2 混合
+      表述（session_input、part 表恢复、PASSIVE checkpoint、导入三表）与固定提交不符，新建 edition v3。
+  - topic: custom_agents
+    question_ids:
+      - agents.limits
+      - agents.diagnostics
+    section_ids:
+      - agents-limits
+      - agents-diagnostics
+    surface_ids:
+      - cli
+    source_refs:
+      - ref-opencode-agents-depth
+      - ref-opencode-agents-create
+      - ref-opencode-agents-taskperm
+    cross_topic_links:
+      - config.defaults
+      - skills.conditions
+    reason: >-
+      固定提交 d62d2db9 推翻了两处已发布配置/诊断步骤：顶层 subagent_depth 已列入
+      unsupportedTopLevel（归一化时标 unsupported 并忽略），限制改由 experimental.subagent_depth
+      控制（默认 1）；`opencode agent create` 已从命令注册表移除，可用入口是 `debug agents`。同时原生
+      Agent 配置改为 agents 记录（request/color/steps/disabled/permissions 等字段），旧的 agent/mode、
+      permission、tools 仍由 V1 迁移接受；委派工具由 task 改名为 subagent，权限动作为 subagent。
+      这些属于高影响推翻，按流程保持 v3 为当前版本、不写新 edition，需独立复核后再出 v4。
+      v3 的 agents.limits / agents.diagnostics 因此保留为未完成项。
+pending_question_ids:
+  - agents.limits
+  - agents.diagnostics
+investigation_notes:
+  - >-
+    方法与范围：按父进程给的 /tmp/git-intersect-1125.json `opencode` 键，只从
+    /tmp/gitdiff-1125/opencode--source-opencode-repo.diff 抽取这 58 个文件的 hunk；固定基线为
+    3f393d78bfc3，观察为 d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f（refs/heads/dev）。用
+    raw.githubusercontent 取两个提交的同路径文件做定向 diff 以区分“上一轮已覆盖的移动/重命名”和
+    “相对当前 edition 的新语义”；npm 侧 unchanged（opencode-ai 1.19.6 同一 identity），未建立任何软件
+    版本映射，仓库根私有单仓版本也不记。
+  - >-
+    仓库结构变化：packages/opencode 整个包在观察提交已不存在，provider/session/CLI 实现分别迁到
+    packages/core、packages/cli、packages/server；packages/web 的英文文档迁到 services/site/src/docs/content。
+    纯移动、纯改名与旧快照仍匹配的引用不改；只有语义变化才新建 edition 与引用。
+  - >-
+    skills：新建完整 edition opencode-skills-v5 并在候选选择。新增证据引用覆盖站点 skills.mdx（位置、
+    sources、catalog、frontmatter、IDs、precedence、loading、permissions）、新 Skill 服务（skill.ts 的
+    prepare/content/files/read 与 URI）、发现器（skill-scan.ts、config/plugin/skill.ts、
+    compatibility.ts）、发现/解析（skill-file.ts）、指令列表（skill/instructions.ts）、工具门禁
+    （tool/plugin/skill.ts）、协议（groups/skill.ts 的 list 与 file 端点）、catalog 拉取
+    （skill/discovery.ts）、MCP 技能（plugin/mcp-skill.ts）、内置技能（plugin/skill.ts）、旧配置迁移
+    （config/normalize.ts）与环境变量映射（cli/server-process.ts）。固定问题 9 项均 answered，
+    v4 保留为历史版本。
+  - >-
+    local_transcripts：新建完整 edition opencode-local_transcripts-v3 并在候选选择。新增引用覆盖
+    database.ts 的 pragma/凭据导入、migration.ts 的 bootstrap 判定、session/sql.ts 的 session_v2/
+    session_message/session_part/session_inbox/blob/blob_ref、projector 的助手片段写入、experimental.ts
+    的 part_rows、session.ts 的删除顺序、transfer.ts 的导出/导入与媒体拆分、tool-output.ts 的截断提示、
+    commands.ts 的 session 子命令、session/blob.ts 的 media_blob 开关。V1 record-schema 节保留原
+    652c090 结论并明确标注为历史，不再把 session_input/part 表/三表导入写成当前事实。
+  - >-
+    configuration（held）：configuration v6 草稿仍在候选外 /tmp/ahw-opencode-v6-draft，选择保持
+    opencode-configuration-v4，本轮没有写、选或移动 v6。核对 292cb5a1（v6 复核基线）→ d62d2db9 的
+    配置文件：config.ts、config/normalize.ts、config/discovery.ts、managed-policy.ts、
+    schema/config.ts、schema/config/flag.ts（除新增 mcp_skills 描述外）、schema/config/policy.ts、
+    services/site 的 policies.mdx、cli commands.ts、cli config/migrate.ts、config/variable.ts、
+    v1/config/*、config/plugin/compatibility.ts 全部逐字未变，因此 v6 的加载顺序/策略/迁移事实仍成立；
+    唯一新增是 flag.ts 的 mcp_skills 条目，若 v6 的 flag 表列举全部标志，复核时需补这一条。候选内
+    没有新增或修改 configuration edition。
+  - >-
+    custom_agents（held + flag）：固定提交的证据显示顶层 subagent_depth 已不被支持、改由
+    experimental.subagent_depth 提供；`opencode agent create` 已删除、`debug agents` 取而代之；原生
+    agents 记录与 permissions 规则数组、subagent 工具/权限动作也与 v3 的 agent/permission/task 表述
+    不一致。按高影响推翻规则不写 edition、不切换选择，v3 继续作为当前版本；pending_question_ids 记
+    agents.limits 与 agents.diagnostics，待独立复核后再产出 v4。
+  - >-
+    custom_providers：观察提交的原生配置键已是 providers（字段含 package、settings/headers/body、
+    models 的 capabilities/variants/cost 等），旧的 provider 段仍由 normalize 迁移；provider 实现文件
+    已移出本批 cited 文件（packages/opencode 删除、新实现不在 58 个文件内），因此只记录这一原生/旧键
+    分歧，不凭不完整证据改写 v5 的 baseURL/npm/options/超时答案，本轮不建 edition。
+  - >-
+    mcp：native 形状为 { servers, timeout }，旧的 mcp 映射仍由 normalize 迁移；仅有 enabled 的旧条目
+    会被标 unsupported。已发布的 mcp v4 仍描述可用的旧映射，未发现被推翻的配置步骤，本轮不建 edition。
+  - >-
+    native_plugins：native 为 plugins 数组（字符串或 { package, options }），旧 plugin 数组仍由 normalize
+    迁移；hooks 没有本批 cited 文件变化。两者本轮不建 edition，等待聚焦复核。
+  - >-
+    复核状态：review_status 保持 pending，不写 reviewed_by/reviewed_at。pending_audit_refs 保留 9 条旧
+    审计（含 held 的 d3211b54 配置复核与 config.trust 来源冲突），本审计不改写、不关闭它们。新增的
+    artifact/snapshot/reference 都以 d62d2db9 为固定身份，候选 check 通过后再交父进程集成与发布。

@@ -1,0 +1,24 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-precedence-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-site-skills-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/services/site/src/docs/content/skills.mdx
+locator:
+  kind: file_lines
+  file: services/site/src/docs/content/skills.mdx
+  start: 165
+  end: 183
+excerpt: |-
+  ## Precedence
+  Skills are selected by ID. If two sources define `git-release`, the source registered later supplies the skill that OpenCode loads:
+  ~/.config/opencode/skills/git-release/SKILL.md  ← lower precedence
+  .opencode/skills/git-release/SKILL.md           ← loaded
+  Sources are registered from lower to higher precedence:
+  1. Built-in skills
+  2. `.claude/skills`, global first and then from the farthest ancestor toward the current directory
+  3. `.agents/skills`, global first and then from the farthest ancestor toward the current directory
+  4. `~/.config/opencode/skills`
+  5. Project `.opencode/skills`, from the project root toward the current directory
+  6. Explicit `skills` config entries, in config priority and array order
+  Avoid duplicate IDs unless you intend to override an earlier skill.

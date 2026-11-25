@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-tool-output-marker-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-tool-output-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/tool-output.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/tool-output.ts
+  start: 96
+  end: 118
+excerpt: |-
+  const failure = yield* fs.ensureDir(directory).pipe(
+    Effect.andThen(fs.writeFileString(file, text)),
+    Effect.as(undefined),
+    Effect.catch((error) =>
+      Effect.logWarning("failed to save full tool output", { file, cause: error }).pipe(Effect.as(describe(error))),
+    ),
+  )
+  const shownLines = countLines(text.slice(0, end))
+  const lastLineCut =
+    shownLines > 0 && shown.length < text.length && !text.startsWith("\n", shown.length)
+  const range = shownLines === 0 ? "0 lines" : `lines 1-${shownLines}`
+  const marker = `[showing ${range} of ${totalLines}${lastLineCut ? " (last line cut)" : ""}; ${
+    failure === undefined ? `full output saved to ${file}` : `full output could not be saved: ${failure}`
+  }]`

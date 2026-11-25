@@ -1,0 +1,34 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-transcripts-sql-part-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-packages-core-src-session-sql-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/packages/core/src/session/sql.ts
+locator:
+  kind: file_lines
+  file: packages/core/src/session/sql.ts
+  start: 107
+  end: 128
+excerpt: |-
+  export const SessionPartTable = sqliteTable(
+    "session_part",
+    {
+      message_id: text()
+        .$type<SessionMessage.ID>()
+        .notNull()
+        .references(() => SessionMessageTable.id, { onDelete: "cascade" }),
+      session_id: text()
+        .$type<SessionSchema.ID>()
+        .notNull()
+        .references(() => SessionTable.id, { onDelete: "cascade" }),
+      ordinal: integer().notNull(),
+      type: text().$type<SessionMessage.AssistantContent["type"]>().notNull(),
+      call_id: text(),
+      ...Timestamps,
+      data: text({ mode: "json" }).notNull().$type<SessionPartData>(),
+    },
+    (table) => [
+      primaryKey({ columns: [table.message_id, table.ordinal] }),
+      index("session_part_session_message_idx").on(table.session_id, table.message_id, table.ordinal),
+    ],
+  )

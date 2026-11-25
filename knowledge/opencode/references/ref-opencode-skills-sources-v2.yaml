@@ -1,0 +1,26 @@
+schema_version: 2
+record_kind: production
+reference_id: ref-opencode-skills-sources-v2
+harness_id: opencode
+snapshot_id: snapshot-opencode-site-skills-20261125
+official_url: https://github.com/anomalyco/opencode/blob/d62d2db9bcff0fe039567f6666d0d8a5bdf2e96f/services/site/src/docs/content/skills.mdx
+locator:
+  kind: file_lines
+  file: services/site/src/docs/content/skills.mdx
+  start: 68
+  end: 93
+excerpt: |-
+  ## Sources
+  Add more local directories or HTTP catalogs with the `skills` array in any `opencode.json` or `opencode.jsonc`:
+  "skills": [
+    "./team-skills",
+    "~/shared/opencode-skills",
+    "/opt/company-skills",
+    "https://example.com/opencode/skills/",
+  ],
+  | Relative path | From the active OpenCode working directory, not the config file |
+  | `~/` path | From the current user's home directory |
+  | Absolute path | Used as written |
+  | `http://` or `https://` URL | Loaded as an HTTP catalog |
+  Every discovered config file contributes its entries. `skills` arrays are combined rather than replaced.
+  A connected [OpenCode Console](/console) workspace can also share skills.
